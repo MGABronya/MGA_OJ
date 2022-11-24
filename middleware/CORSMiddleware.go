@@ -1,5 +1,5 @@
 // @Title  CORSMiddleware
-// @Description  该中间件用于处理跨域问题
+// @Description  该中间件用于处理跨域题目
 // @Author  MGAronya（张健）
 // @Update  MGAronya（张健）  2022-9-16 0:41
 package middleware
@@ -12,7 +12,7 @@ import (
 )
 
 // @title    CORSMiddleware
-// @description   该中间件用于处理跨域问题
+// @description   该中间件用于处理跨域题目
 // @auth      MGAronya（张健）             2022-9-16 10:19
 // @param     void        void    		  无入参
 // @return    HandlerFunc        gin.HandlerFunc            返回一个响应函数
