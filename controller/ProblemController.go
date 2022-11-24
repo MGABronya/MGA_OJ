@@ -11,9 +11,7 @@ import (
 	"MGA_OJ/response"
 	"MGA_OJ/util"
 	"MGA_OJ/vo"
-	"bufio"
 	"log"
-	"os"
 	"strconv"
 	"strings"
 
@@ -23,7 +21,11 @@ import (
 
 // IProblemController			定义了题目类接口
 type IProblemController interface {
-	Interface.RestInterface // 包含增删查改功能
+	Interface.RestInterface    // 包含增删查改功能
+	Interface.LikeInterface    // 包含点赞功能
+	Interface.CollectInterface // 包含收藏功能
+	Interface.VisitInterface   // 包含游览功能
+	UserList(ctx *gin.Context) // 查看指定用户上传的题目列表
 }
 
 // ProblemController			定义了题目工具类
@@ -113,52 +115,35 @@ func (p ProblemController) Create(ctx *gin.Context) {
 		return
 	}
 
-	// TODO 创建题目目录
-	if err := os.MkdirAll("./test_case/"+strconv.Itoa(int(problem.ID)), os.ModePerm); err != nil {
-		response.Fail(ctx, nil, "题目目录创建失败")
-		return
-	}
-
 	// TODO 存储测试输入
-	if err := os.MkdirAll("./test_case/"+strconv.Itoa(int(problem.ID))+"/input", os.ModePerm); err != nil {
-		response.Fail(ctx, nil, "题目输入测试目录创建失败")
-		return
-	}
 	for i, val := range requestProblem.TestInput {
-		file, err := os.Create("./test_case/" + strconv.Itoa(int(problem.ID)) + "/input/" + strconv.Itoa(i+1) + ".txt")
-		if err != nil {
-			response.Fail(ctx, nil, "题目第"+strconv.Itoa(i+1)+"个输入样例创建失败")
+		// TODO 尝试存入数据库
+		testInput := model.TestInput{
+			ProblemId: problem.ID,
+			Input:     val,
+			Id:        uint(i + 1),
+		}
+		// TODO 插入数据
+		if err := p.DB.Create(&testInput).Error; err != nil {
+			response.Fail(ctx, nil, "题目上传出错，数据验证有误")
 			return
 		}
-		// TODO 及时关闭file句柄
-		defer file.Close()
-		// TODO 写入文件时，使用带缓存的 *Writer
-		write := bufio.NewWriter(file)
-		write.WriteString(val)
-		// TODO Flush将缓存的文件真正写入到文件中
-		write.Flush()
 	}
 
 	// TODO 存储测试输出
-	if err := os.MkdirAll("./test_case/"+strconv.Itoa(int(problem.ID))+"/output", os.ModePerm); err != nil {
-		response.Fail(ctx, nil, "题目输入测试目录创建失败")
-		return
-	}
 	for i, val := range requestProblem.TestOutput {
-		file, err := os.Create("./test_case/" + strconv.Itoa(int(problem.ID)) + "/output/" + strconv.Itoa(i+1) + ".txt")
-		if err != nil {
-			response.Fail(ctx, nil, "题目第"+strconv.Itoa(i+1)+"个输出样例创建失败")
+		// TODO 尝试存入数据库
+		testOutput := model.TestOutput{
+			ProblemId: problem.ID,
+			Output:    val,
+			Id:        uint(i + 1),
+		}
+		// TODO 插入数据
+		if err := p.DB.Create(&testOutput).Error; err != nil {
+			response.Fail(ctx, nil, "题目上传出错，数据验证有误")
 			return
 		}
-		// TODO 及时关闭file句柄
-		defer file.Close()
-		// TODO 写入文件时，使用带缓存的 *Writer
-		write := bufio.NewWriter(file)
-		write.WriteString(val)
-		// TODO Flush将缓存的文件真正写入到文件中
-		write.Flush()
 	}
-
 	// TODO 成功
 	response.Success(ctx, nil, "创建成功")
 }
@@ -238,53 +223,45 @@ func (p ProblemController) Update(ctx *gin.Context) {
 	}
 
 	// TODO 更新题目内容
-	p.DB.Table("problems").Updates(requestProblem)
+	p.DB.Table("problems").Where("id = ?", id).Updates(requestProblem)
 
 	// TODO 查看输入测试是否变化
 	if len(requestProblem.TestInput) != 0 {
 		// TODO 清空原有的测试输入
-		os.RemoveAll("./test_case/" + strconv.Itoa(int(problem.ID)) + "/input")
-		if err := os.MkdirAll("./test_case/"+strconv.Itoa(int(problem.ID))+"/input", os.ModePerm); err != nil {
-			response.Fail(ctx, nil, "题目输入测试目录创建失败")
-			return
-		}
+		p.DB.Where("problem_id = ?", id).Delete(&model.TestInput{})
+		// TODO 存储测试输入
 		for i, val := range requestProblem.TestInput {
-			file, err := os.Create("./test_case/" + strconv.Itoa(int(problem.ID)) + "/input/" + strconv.Itoa(i+1) + ".txt")
-			if err != nil {
-				response.Fail(ctx, nil, "题目第"+strconv.Itoa(i+1)+"个输入样例创建失败")
+			// TODO 尝试存入数据库
+			testInput := model.TestInput{
+				ProblemId: problem.ID,
+				Input:     val,
+				Id:        uint(i + 1),
+			}
+			// TODO 插入数据
+			if err := p.DB.Create(&testInput).Error; err != nil {
+				response.Fail(ctx, nil, "题目上传出错，数据验证有误")
 				return
 			}
-			// TODO 及时关闭file句柄
-			defer file.Close()
-			// TODO 写入文件时，使用带缓存的 *Writer
-			write := bufio.NewWriter(file)
-			write.WriteString(val)
-			// TODO Flush将缓存的文件真正写入到文件中
-			write.Flush()
 		}
 	}
 
 	// TODO 查看输出测试是否变化
 	if len(requestProblem.TestOutput) != 0 {
-		// TODO 清空原有的测试输入
-		os.RemoveAll("./test_case/" + strconv.Itoa(int(problem.ID)) + "/output")
-		if err := os.MkdirAll("./test_case/"+strconv.Itoa(int(problem.ID))+"/output", os.ModePerm); err != nil {
-			response.Fail(ctx, nil, "题目输入测试目录创建失败")
-			return
-		}
+		// TODO 清空原有的测试输出
+		p.DB.Where("problem_id = ?", id).Delete(&model.TestOutput{})
+		// TODO 存储测试输出
 		for i, val := range requestProblem.TestOutput {
-			file, err := os.Create("./test_case/" + strconv.Itoa(int(problem.ID)) + "/output/" + strconv.Itoa(i+1) + ".txt")
-			if err != nil {
-				response.Fail(ctx, nil, "题目第"+strconv.Itoa(i+1)+"个输入样例创建失败")
+			// TODO 尝试存入数据库
+			testOutput := model.TestOutput{
+				ProblemId: problem.ID,
+				Output:    val,
+				Id:        uint(i + 1),
+			}
+			// TODO 插入数据
+			if err := p.DB.Create(&testOutput).Error; err != nil {
+				response.Fail(ctx, nil, "题目上传出错，数据验证有误")
 				return
 			}
-			// TODO 及时关闭file句柄
-			defer file.Close()
-			// TODO 写入文件时，使用带缓存的 *Writer
-			write := bufio.NewWriter(file)
-			write.WriteString(val)
-			// TODO Flush将缓存的文件真正写入到文件中
-			write.Flush()
 		}
 	}
 
@@ -368,6 +345,531 @@ func (p ProblemController) PageList(ctx *gin.Context) {
 	response.Success(ctx, gin.H{"problems": problems, "total": total}, "成功")
 }
 
+// @title    UserList
+// @description   获取指定用户的多篇题目
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (p ProblemController) UserList(ctx *gin.Context) {
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
+
+	// TODO 取出指定用户的id
+	id := ctx.Params.ByName("id")
+
+	// TODO 分页
+	var problems []model.Problem
+
+	// TODO 查找所有分页中可见的条目
+	p.DB.Where("user_id = ?", id).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problems)
+
+	var total int64
+	p.DB.Where("user_id = ?", id).Model(model.Problem{}).Count(&total)
+
+	// TODO 返回数据
+	response.Success(ctx, gin.H{"problems": problems, "total": total}, "成功")
+}
+
+// @title    Like
+// @description   点赞或点踩
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (p ProblemController) Like(ctx *gin.Context) {
+	// TODO 获取path中的id
+	id := ctx.Params.ByName("id")
+
+	// TODO 获取like
+	like, _ := strconv.ParseBool(ctx.Query("like"))
+
+	var problem model.Problem
+
+	// TODO 查看题目是否存在
+	if p.DB.Where("id = ?", id).First(&problem).Error != nil {
+		response.Fail(ctx, nil, "题目不存在")
+		return
+	}
+
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 如果没有点赞或者点踩
+	if p.DB.Where("user_id = ? and problem_id = ?", user.ID, id).Update("like", like).Error != nil {
+		// TODO 插入数据
+		problemLike := model.ProblemLike{
+			ProblemId: problem.ID,
+			UserId:    user.ID,
+			Like:      like,
+		}
+		if err := p.DB.Create(&problemLike).Error; err != nil {
+			response.Fail(ctx, nil, "点赞出错，数据库存储错误")
+			return
+		}
+	}
+
+	response.Success(ctx, nil, "点赞成功")
+}
+
+// @title    CancelLike
+// @description   取消点赞或者点踩
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (p ProblemController) CancelLike(ctx *gin.Context) {
+	// 获取path中的id
+	id := ctx.Params.ByName("id")
+
+	var problem model.Problem
+
+	// TODO 查看题目是否存在
+	if p.DB.Where("id = ?", id).First(&problem).Error != nil {
+		response.Fail(ctx, nil, "题目不存在")
+		return
+	}
+
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 取消点赞或者点踩
+	p.DB.Where("user_id = ? and problem_id = ?", user.ID, id).Delete(&model.ProblemLike{})
+
+	response.Success(ctx, nil, "取消成功")
+}
+
+// @title    LikeNumber
+// @description   点赞或点踩的数量
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (p ProblemController) LikeNumber(ctx *gin.Context) {
+	// TODO 获取path中的id
+	id := ctx.Params.ByName("id")
+
+	// TODO 获取like
+	like, _ := strconv.ParseBool(ctx.Query("like"))
+
+	var problem model.Problem
+
+	// TODO 查看题目是否存在
+	if p.DB.Where("id = ?", id).First(&problem).Error != nil {
+		response.Fail(ctx, nil, "题目不存在")
+		return
+	}
+
+	var total int64
+
+	// TODO 查看点赞或者点踩的数量
+	p.DB.Where("problem_id = ? and like = ?", id, like).Count(&total)
+
+	response.Success(ctx, gin.H{"total": total}, "查看成功")
+}
+
+// @title    LikeList
+// @description   点赞或点踩的列表
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (p ProblemController) LikeList(ctx *gin.Context) {
+	// TODO 获取path中的id
+	id := ctx.Params.ByName("id")
+
+	// TODO 获取like
+	like, _ := strconv.ParseBool(ctx.Query("like"))
+
+	var problem model.Problem
+
+	// TODO 查看题目是否存在
+	if p.DB.Where("id = ?", id).First(&problem).Error != nil {
+		response.Fail(ctx, nil, "题目不存在")
+		return
+	}
+
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
+
+	// TODO 分页
+	var problemLikes []model.ProblemLike
+
+	var total int64
+
+	// TODO 查看点赞或者点踩的数量
+	p.DB.Where("problem_id = ? and like = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemLikes).Count(&total)
+
+	response.Success(ctx, gin.H{"problemLikes": problemLikes, "total": total}, "查看成功")
+}
+
+// @title    LikeShow
+// @description   查看用户点赞状态
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (p ProblemController) LikeShow(ctx *gin.Context) {
+	// 获取path中的id
+	id := ctx.Params.ByName("id")
+
+	var problem model.Problem
+
+	// TODO 查看讨论是否存在
+	if p.DB.Where("id = ?", id).First(&problem).Error != nil {
+		response.Fail(ctx, nil, "讨论不存在")
+		return
+	}
+
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	var problemLike model.ProblemLike
+
+	// TODO 查看点赞状态
+	if p.DB.Where("user_id = ? and problem_id = ?", user.ID, id).First(&problemLike).Error != nil {
+		response.Success(ctx, gin.H{"like": 0}, "暂无状态")
+		return
+	}
+
+	if problemLike.Like {
+		response.Success(ctx, gin.H{"like": 1}, "已点赞")
+	} else {
+		response.Success(ctx, gin.H{"like": -1}, "已点踩")
+	}
+
+}
+
+// @title    Likes
+// @description   查看用户点赞状态
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (p ProblemController) Likes(ctx *gin.Context) {
+
+	// TODO 获取like
+	like, _ := strconv.ParseBool(ctx.Query("like"))
+
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
+
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 分页
+	var problemLikes []model.ProblemLike
+
+	var total int64
+
+	// TODO 查看点赞或者点踩的数量
+	p.DB.Where("user_id = ? and like = ?", user.ID, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemLikes).Count(&total)
+
+	response.Success(ctx, gin.H{"problemLikes": problemLikes, "total": total}, "查看成功")
+}
+
+// @title    Collect
+// @description   收藏
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (p ProblemController) Collect(ctx *gin.Context) {
+	// TODO 获取path中的id
+	id := ctx.Params.ByName("id")
+
+	var problem model.Problem
+
+	// TODO 查看题目是否存在
+	if p.DB.Where("id = ?", id).First(&problem).Error != nil {
+		response.Fail(ctx, nil, "题目不存在")
+		return
+	}
+
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 如果没有收藏
+	if p.DB.Where("user_id = ? and problem_id = ?", user.ID, problem.ID).First(&model.ProblemCollect{}).Error != nil {
+		problemCollect := model.ProblemCollect{
+			ProblemId: problem.ID,
+			UserId:    user.ID,
+		}
+		// TODO 插入数据
+		if err := p.DB.Create(&problemCollect).Error; err != nil {
+			response.Fail(ctx, nil, "收藏出错，数据库存储错误")
+			return
+		}
+	} else {
+		response.Fail(ctx, nil, "已收藏")
+		return
+	}
+
+	response.Success(ctx, nil, "收藏成功")
+}
+
+// @title    CancelCollect
+// @description   取消收藏
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (p ProblemController) CancelCollect(ctx *gin.Context) {
+	// TODO 获取path中的id
+	id := ctx.Params.ByName("id")
+
+	var problem model.Problem
+
+	// TODO 查看题目是否存在
+	if p.DB.Where("id = ?", id).First(&problem).Error != nil {
+		response.Fail(ctx, nil, "题目不存在")
+		return
+	}
+
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 如果没有收藏
+	if p.DB.Where("user_id = ? and problem_id = ?", user.ID, problem.ID).First(&model.ProblemCollect{}).Error != nil {
+		response.Fail(ctx, nil, "未收藏")
+		return
+	} else {
+		p.DB.Where("user_id = ? and problem_id = ?", user.ID, problem.ID).Delete(&model.ProblemCollect{})
+		response.Success(ctx, nil, "取消收藏成功")
+		return
+	}
+}
+
+// @title    CollectShow
+// @description   查看收藏状态
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (p ProblemController) CollectShow(ctx *gin.Context) {
+	// TODO 获取path中的id
+	id := ctx.Params.ByName("id")
+
+	var problem model.Problem
+
+	// TODO 查看题目是否存在
+	if p.DB.Where("id = ?", id).First(&problem).Error != nil {
+		response.Fail(ctx, nil, "题目不存在")
+		return
+	}
+
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 如果没有收藏
+	if p.DB.Where("user_id = ? and problem_id = ?", user.ID, problem.ID).First(&model.ProblemCollect{}).Error != nil {
+		response.Success(ctx, gin.H{"collect": false}, "未收藏")
+		return
+	} else {
+		response.Success(ctx, gin.H{"collect": true}, "已收藏")
+		return
+	}
+}
+
+// @title    CollectList
+// @description   查看收藏用户列表
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (p ProblemController) CollectList(ctx *gin.Context) {
+	// TODO 获取path中的id
+	id := ctx.Params.ByName("id")
+
+	var problem model.Problem
+
+	// TODO 查看题解是否存在
+	if p.DB.Where("id = ?", id).First(&problem).Error != nil {
+		response.Fail(ctx, nil, "题解不存在")
+		return
+	}
+
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
+
+	// TODO 分页
+	var problemCollects []model.ProblemCollect
+
+	var total int64
+
+	// TODO 查看收藏的数量
+	p.DB.Where("problem_id = ?", problem.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemCollects).Count(&total)
+
+	response.Success(ctx, gin.H{"problemCollects": problemCollects, "total": total}, "查看成功")
+}
+
+// @title    CollectNumber
+// @description   查看收藏用户数量
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (p ProblemController) CollectNumber(ctx *gin.Context) {
+	// TODO 获取path中的id
+	id := ctx.Params.ByName("id")
+
+	var problem model.Problem
+
+	// TODO 查看题目是否存在
+	if p.DB.Where("id = ?", id).First(&problem).Error != nil {
+		response.Fail(ctx, nil, "题目不存在")
+		return
+	}
+
+	var total int64
+
+	// TODO 查看收藏的数量
+	p.DB.Where("problem_id = ?", problem.ID).Count(&total)
+
+	response.Success(ctx, gin.H{"total": total}, "查看成功")
+}
+
+// @title    Collects
+// @description   查看用户收藏夹
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (p ProblemController) Collects(ctx *gin.Context) {
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
+
+	// TODO 分页
+	var problemCollects []model.ProblemCollect
+
+	var total int64
+
+	// TODO 查看收藏的数量
+	p.DB.Where("user_id = ?", user.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemCollects).Count(&total)
+
+	response.Success(ctx, gin.H{"problemCollects": problemCollects, "total": total}, "查看成功")
+}
+
+// @title    Visit
+// @description   游览题目
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (p ProblemController) Visit(ctx *gin.Context) {
+	// TODO 获取path中的id
+	id := ctx.Params.ByName("id")
+
+	var problem model.Problem
+
+	// TODO 查看题目是否存在
+	if p.DB.Where("id = ?", id).First(&problem).Error != nil {
+		response.Fail(ctx, nil, "题目不存在")
+		return
+	}
+
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	problemVisit := model.ProblemVisit{
+		ProblemId: problem.ID,
+		UserId:    user.ID,
+	}
+
+	// TODO 插入数据
+	if err := p.DB.Create(&problemVisit).Error; err != nil {
+		response.Fail(ctx, nil, "题目游览上传出错，数据库存储错误")
+		return
+	}
+
+	response.Success(ctx, nil, "题目游览成功")
+}
+
+// @title    VisitNumber
+// @description   游览题目数量
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (p ProblemController) VisitNumber(ctx *gin.Context) {
+	// TODO 获取path中的id
+	id := ctx.Params.ByName("id")
+
+	var problem model.Problem
+
+	// TODO 查看题目是否存在
+	if p.DB.Where("id = ?", id).First(&problem).Error != nil {
+		response.Fail(ctx, nil, "题目不存在")
+		return
+	}
+
+	// TODO 获得游览总数
+	var total int64
+
+	p.DB.Where("problem_id = ?", problem.ID).Count(&total)
+
+	response.Success(ctx, gin.H{"total": total}, "请求题目游览数目成功")
+}
+
+// @title    VisitList
+// @description   游览题目列表
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (p ProblemController) VisitList(ctx *gin.Context) {
+	// TODO 获取path中的id
+	id := ctx.Params.ByName("id")
+
+	var problem model.Problem
+
+	// TODO 查看题目是否存在
+	if p.DB.Where("id = ?", id).First(&problem).Error != nil {
+		response.Fail(ctx, nil, "题目不存在")
+		return
+	}
+
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
+
+	// TODO 分页
+	var problemVisits []model.ProblemVisit
+
+	var total int64
+
+	// TODO 查看收藏的数量
+	p.DB.Where("problem_id = ?", problem.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemVisits).Count(&total)
+
+	response.Success(ctx, gin.H{"problemVisits": problemVisits, "total": total}, "查看成功")
+}
+
+// @title    Visits
+// @description   游览题目列表
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (p ProblemController) Visits(ctx *gin.Context) {
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
+
+	// TODO 分页
+	var problemVisits []model.ProblemVisit
+
+	var total int64
+
+	// TODO 查看收藏的数量
+	p.DB.Where("user_id = ?", user.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemVisits).Count(&total)
+
+	response.Success(ctx, gin.H{"problemVisits": problemVisits, "total": total}, "查看成功")
+}
+
 // @title    NewProblemController
 // @description   新建一个IProblemController
 // @auth      MGAronya（张健）       2022-9-16 12:23
@@ -376,5 +878,9 @@ func (p ProblemController) PageList(ctx *gin.Context) {
 func NewProblemController() IProblemController {
 	db := common.GetDB()
 	db.AutoMigrate(model.Problem{})
+	db.AutoMigrate(model.Case{})
+	db.AutoMigrate(model.ProblemCollect{})
+	db.AutoMigrate(model.ProblemLike{})
+	db.AutoMigrate(model.ProblemVisit{})
 	return ProblemController{DB: db}
 }
