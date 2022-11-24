@@ -25,7 +25,7 @@ type Claims struct {
 // @param     user model.User       接收一个用户
 // @return    string, error         返回该用户的token，或者返回error
 func ReleaseToken(user model.User) (string, error) {
-	expirationTime := time.Now().Add(7 * 24 * time.Hour)
+	expirationTime := time.Now().Add(30 * 24 * time.Hour)
 	claims := &Claims{
 		UserId: user.ID,
 		StandardClaims: jwt.StandardClaims{
