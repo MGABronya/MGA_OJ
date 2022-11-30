@@ -39,5 +39,26 @@ func ThreadRoutes(r *gin.Engine) *gin.Engine {
 	// TODO 查看回复列表
 	threadRoutes.GET("/list/:id", threadController.PageList)
 
+	// TODO 查看指定用户的回复列表
+	threadRoutes.GET("/user/list/:id", threadController.UserList)
+
+	// TODO 点赞、点踩回复
+	threadRoutes.POST("/like/:id", middleware.AuthMiddleware(), threadController.Like)
+
+	// TODO 取消点赞、点踩状态
+	threadRoutes.DELETE("/cancle/like/:id", middleware.AuthMiddleware(), threadController.CancelLike)
+
+	// TODO 查看点赞、点踩数量
+	threadRoutes.GET("/like/number/:id", threadController.LikeNumber)
+
+	// TODO 查看点赞、点踩列表
+	threadRoutes.GET("/like/list/:id", threadController.LikeList)
+
+	// TODO 查看用户当前点赞状态
+	threadRoutes.GET("/like/show/:id", middleware.AuthMiddleware(), threadController.LikeShow)
+
+	// TODO 查看用户点赞、点踩列表
+	threadRoutes.GET("/likes/:id", threadController.Likes)
+
 	return r
 }

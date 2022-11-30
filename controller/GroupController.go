@@ -58,6 +58,7 @@ func (g GroupController) Create(ctx *gin.Context) {
 		Reslong:  requestGroup.Reslong,
 		Resshort: requestGroup.Resshort,
 		LeaderId: user.ID,
+		Auto:     requestGroup.Auto,
 	}
 
 	// TODO 插入数据
@@ -66,14 +67,17 @@ func (g GroupController) Create(ctx *gin.Context) {
 		return
 	}
 
-	for _, v := range requestGroup.Users {
-		userList := model.UserList{
-			GroupId: group.ID,
-			UserId:  v,
-		}
-		if g.DB.Create(&userList).Error != nil {
-			response.Fail(ctx, nil, "用户上传出错，数据验证有误")
-			return
+	// TODO 当用户权限大于2时，才能直接拉人进组
+	if user.Level >= 2 {
+		for _, v := range requestGroup.Users {
+			userList := model.UserList{
+				GroupId: group.ID,
+				UserId:  v,
+			}
+			if g.DB.Create(&userList).Error != nil {
+				response.Fail(ctx, nil, "用户上传出错，数据验证有误")
+				return
+			}
 		}
 	}
 
@@ -119,9 +123,15 @@ func (g GroupController) Update(ctx *gin.Context) {
 	g.DB.Table("groups").Where("id = ?", id).Updates(requestGroup)
 
 	if len(requestGroup.Users) != 0 {
+		// TODO 查看新的用户组是否为超过最大长度
+
 		g.DB.Where("group_id = ?", id).Delete(&model.UserList{})
 		// TODO 插入相关用户
 		for _, v := range requestGroup.Users {
+			if ok, err := CanAddUser(v, group.ID); !ok || err != nil {
+				response.Fail(ctx, nil, "用户无法添加")
+				return
+			}
 			userList := model.UserList{
 				GroupId: group.ID,
 				UserId:  v,
@@ -750,6 +760,26 @@ func (g GroupController) Apply(ctx *gin.Context) {
 		return
 	}
 
+	// TODO 查看用户组是否自动通过申请
+	if group.Auto {
+		if ok, err := CanAddUser(user.ID, group.ID); !ok || err != nil {
+			response.Fail(ctx, nil, "用户无法添加")
+			return
+		}
+		userList := model.UserList{
+			GroupId: group.ID,
+			UserId:  user.ID,
+		}
+		// TODO 插入数据
+		if err := g.DB.Create(&userList).Error; err != nil {
+			response.Fail(ctx, nil, "通过申请出错，数据验证有误")
+			return
+		}
+		// TODO 成功
+		response.Success(ctx, nil, "创建成功")
+		return
+	}
+
 	var groupApply model.GroupApply
 
 	// TODO 查看用户是否已经发送过申请
@@ -815,6 +845,12 @@ func (g GroupController) Consent(ctx *gin.Context) {
 	// TODO 查看当前用户是否为用户组组长
 	if g.DB.Where("id = ? and leader_id = ?", groupApply.GroupId, user.ID).First(&model.Group{}).Error != nil {
 		response.Fail(ctx, nil, "非用户组组长，无法操作")
+		return
+	}
+
+	// TODO 查看用户是否可以添加
+	if ok, err := CanAddUser(groupApply.UserId, groupApply.GroupId); !ok || err != nil {
+		response.Fail(ctx, nil, "用户无法添加")
 		return
 	}
 
@@ -915,6 +951,7 @@ func (g GroupController) Block(ctx *gin.Context) {
 	// TODO 查看当前用户是否已经拉黑
 	if g.DB.Where("user_id = ? and group_id = ?", user_id, group_id).First(&model.GroupBlock{}).Error == nil {
 		response.Fail(ctx, nil, "用户已拉黑")
+		return
 	}
 
 	// TODO 将指定用户放入黑名单
@@ -1065,6 +1102,22 @@ func (g GroupController) AppliedList(ctx *gin.Context) {
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
 
+	// TODO 取出group
+	id := ctx.Params.ByName("id")
+
+	// TODO 查找group
+	var group model.Group
+	if g.DB.Where("id = ?", id).First(&group).Error != nil {
+		response.Fail(ctx, nil, "用户组不存在")
+		return
+	}
+
+	// TODO 查看是否为用户组组长
+	if group.LeaderId != user.ID {
+		response.Fail(ctx, nil, "非用户组组长，无法操作")
+		return
+	}
+
 	// TODO 获取分页参数
 	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
 	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
@@ -1075,7 +1128,7 @@ func (g GroupController) AppliedList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看申请的数量
-	g.DB.Table("group").Table("group_apply").Where("leader_id = ? and group_id = group.id", user.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groupApplys).Count(&total)
+	g.DB.Where("group_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groupApplys).Count(&total)
 
 	response.Success(ctx, gin.H{"groupApplys": groupApplys, "total": total}, "查看成功")
 }
@@ -1129,4 +1182,53 @@ func NewGroupController() IGroupController {
 	db.AutoMigrate(model.GroupLike{})
 	db.AutoMigrate(model.UserList{})
 	return GroupController{DB: db}
+}
+
+// @title    CanAddUser
+// @description   查看用户是否可以加入用户组
+// @auth      MGAronya（张健）       2022-9-16 12:15
+// @param    user_id uint, group_id uint	表示用户和用户组
+// @return   bool, error					返回用户是否可以加入用户组
+func CanAddUser(user_id uint, group_id uint) (bool, error) {
+	// TODO 连接数据库
+	db := common.GetDB()
+
+	// TODO 获取该组参加的表单列表
+	var groupLists []model.GroupList
+	db.Where("group_id = ?", group_id).Find(&groupLists)
+
+	for _, groupList := range groupLists {
+		set_id := groupList.SetId
+		// TODO 获取该表单下的所有组
+		var groupLists []model.GroupList
+		db.Where("set_id = ?", set_id).Find(&groupLists)
+		// TODO 获取该表单
+		var set model.Set
+		if err := db.Where("id = ?", set_id).First(&set).Error; err != nil {
+			return false, err
+		}
+		// TODO 该表单对组员有合法的人数限制
+		if set.PassNum != 0 {
+			var total int64
+			db.Where("group_id = ?", group_id).Model(&model.UserList{}).Count(&total)
+			if total >= int64(set.PassNum) {
+				return false, nil
+			}
+		}
+		// TODO 该表单禁止不同组之间成员重复
+		if set.PassRe {
+			for _, group := range groupLists {
+				var userLists []model.UserList
+				db.Where("group_id = ?", group).Find(&userLists)
+				for _, user := range userLists {
+					if user.UserId == user_id {
+						return false, nil
+					}
+				}
+			}
+		}
+	}
+
+	return true, nil
+
 }

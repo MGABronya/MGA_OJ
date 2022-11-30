@@ -39,5 +39,26 @@ func CommentRoutes(r *gin.Engine) *gin.Engine {
 	// TODO 查看讨论列表
 	commentRoutes.GET("/list/:id", commentController.PageList)
 
+	// TODO 查看指定用户的讨论列表
+	commentRoutes.GET("/user/list/:id", commentController.UserList)
+
+	// TODO 点赞、点踩讨论
+	commentRoutes.POST("/like/:id", middleware.AuthMiddleware(), commentController.Like)
+
+	// TODO 取消点赞、点踩状态
+	commentRoutes.DELETE("/cancle/like/:id", middleware.AuthMiddleware(), commentController.CancelLike)
+
+	// TODO 查看点赞、点踩数量
+	commentRoutes.GET("/like/number/:id", commentController.LikeNumber)
+
+	// TODO 查看点赞、点踩列表
+	commentRoutes.GET("/like/list/:id", commentController.LikeList)
+
+	// TODO 查看用户当前点赞状态
+	commentRoutes.GET("/like/show/:id", middleware.AuthMiddleware(), commentController.LikeShow)
+
+	// TODO 查看用户点赞、点踩列表
+	commentRoutes.GET("/likes/:id", commentController.Likes)
+
 	return r
 }

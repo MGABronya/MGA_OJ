@@ -10,7 +10,10 @@ import (
 	"MGA_OJ/response"
 	"MGA_OJ/util"
 	"MGA_OJ/vo"
+	"fmt"
 	"log"
+	"os"
+	"path"
 
 	"math/rand"
 
@@ -29,6 +32,9 @@ type IUserController interface {
 	Security(ctx *gin.Context)    // 找回密码
 	UpdatePass(ctx *gin.Context)  // 更新密码
 	Info(ctx *gin.Context)        // 返回当前登录的用户
+	Update(ctx *gin.Context)      // 用户的信息更新
+	UpdateIcon(ctx *gin.Context)  // 用户头像更新
+	UpdateLevel(ctx *gin.Context) // 修改用户的等级
 }
 
 // UserController			定义了题目工具类
@@ -251,6 +257,140 @@ func (u UserController) UpdatePass(ctx *gin.Context) {
 func (u UserController) Info(ctx *gin.Context) {
 	user, _ := ctx.Get("user")
 	response.Success(ctx, gin.H{"user": vo.ToUserDto(user.(model.User))}, "查看用户成功")
+}
+
+// @title    Update
+// @description   修改用户的个人信息
+// @auth      MGAronya（张健）       2022-9-16 12:15
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (u UserController) Update(ctx *gin.Context) {
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 获取user
+	var requestUser vo.UserUpdate
+
+	// TODO 数据验证
+	if err := ctx.ShouldBind(&requestUser); err != nil {
+		log.Print(err.Error())
+		response.Fail(ctx, nil, "数据验证错误")
+		return
+	}
+
+	// TODO 查看email是否合法
+	if requestUser.Email != user.Email {
+		// TODO 判断email是否存在
+		if util.IsEmailExist(u.DB, requestUser.Email) {
+			response.Response(ctx, 201, 201, nil, "邮箱已绑定")
+			return
+		}
+
+		// TODO 判断email是否通过验证
+		if !util.IsEmailPass(requestUser.Email, requestUser.Verify) {
+			response.Response(ctx, 201, 201, nil, "邮箱验证码错误")
+			return
+		}
+	}
+
+	user.Address = requestUser.Address
+	user.Blog = requestUser.Blog
+	user.Name = requestUser.Name
+	user.Email = requestUser.Email
+	user.Sex = requestUser.Sex
+
+	// TODO 更新信息
+	u.DB.Save(&user)
+	response.Success(ctx, nil, "用户信息更新成功")
+}
+
+// @title    UpdateIcon
+// @description   个人头像图片上传
+// @auth      MGAronya（张健）       2022-9-16 12:31
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (u UserController) UpdateIcon(ctx *gin.Context) {
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	file, err := ctx.FormFile("file")
+
+	//TODO 数据验证
+	if err != nil {
+		log.Print(err.Error())
+		response.Fail(ctx, nil, "数据验证错误")
+		return
+	}
+
+	extName := path.Ext(file.Filename)
+	allowExtMap := map[string]bool{
+		".jpg":  true,
+		".png":  true,
+		".gif":  true,
+		".jpeg": true,
+	}
+
+	// TODO 格式验证
+	if _, ok := allowExtMap[extName]; !ok {
+		response.Fail(ctx, nil, "文件格式有误")
+		return
+	}
+
+	// TODO 非默认图片，则删除原本地文件
+	if !util.VerifyIconFormat(user.Icon) {
+		if err := os.Remove("./Icon/" + user.Icon); err != nil {
+			// TODO 如果删除失败则输出 file remove Error!
+			fmt.Println("file remove Error!")
+			// TODO 输出错误详细信息
+			fmt.Printf("%s", err)
+		} else {
+			// TODO 如果删除成功则输出 file remove OK!
+			fmt.Print("file remove OK!")
+		}
+	}
+	file.Filename = strconv.Itoa(int(user.ID)) + extName
+
+	// TODO 将文件存入本地
+	ctx.SaveUploadedFile(file, "./Icon/"+file.Filename)
+
+	u.DB.Where("id = ?", user.ID).Take(&user)
+
+	user.Icon = file.Filename
+
+	u.DB.Save(&user)
+
+	response.Success(ctx, gin.H{"Icon": user.Icon}, "更新成功")
+}
+
+// @title    UpdateLevel
+// @description   修改用户的权限等级
+// @auth      MGAronya（张健）       2022-9-16 12:15
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (u UserController) UpdateLevel(ctx *gin.Context) {
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	id := ctx.Params.ByName("id")
+	level, _ := strconv.Atoi(ctx.Params.ByName("level"))
+
+	if user.Level <= level {
+		response.Fail(ctx, nil, "用户权限不足")
+		return
+	}
+
+	// TODO 获取对应用户
+	var usera model.User
+	if u.DB.Where("id = ?", id).First(&usera).Error != nil {
+		response.Fail(ctx, nil, "用户不存在")
+		return
+	}
+
+	usera.Level = level
+
+	// TODO 更新信息
+	u.DB.Save(&user)
+	response.Success(ctx, nil, "用户信息更新成功")
 }
 
 // @title    NewUserController

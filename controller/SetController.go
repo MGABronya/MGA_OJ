@@ -19,13 +19,16 @@ import (
 
 // ISetController			定义了表单类接口
 type ISetController interface {
-	Interface.RestInterface     // 包含增删查改功能
-	Interface.LikeInterface     // 包含点赞功能
-	Interface.CollectInterface  // 包含收藏功能
-	Interface.VisitInterface    // 包含游览功能
-	UserList(ctx *gin.Context)  // 查看指定用户的多篇表单
-	TopicList(ctx *gin.Context) // 查看指定表单的主题列表
-	GroupList(ctx *gin.Context) // 查看指定表单的用户组列表
+	Interface.RestInterface      // 包含增删查改功能
+	Interface.LikeInterface      // 包含点赞功能
+	Interface.CollectInterface   // 包含收藏功能
+	Interface.VisitInterface     // 包含游览功能
+	Interface.ApplyInterface     // 包含申请接口
+	UserList(ctx *gin.Context)   // 查看指定用户的多篇表单
+	TopicList(ctx *gin.Context)  // 查看指定表单的主题列表
+	GroupList(ctx *gin.Context)  // 查看指定表单的用户组列表
+	RankList(ctx *gin.Context)   // 查看表单内的用户排行
+	RankUpdate(ctx *gin.Context) // 更新表单内用户排行
 }
 
 // SetController			定义了表单工具类
@@ -53,11 +56,15 @@ func (s SetController) Create(ctx *gin.Context) {
 
 	// TODO 创建表单
 	set := model.Set{
-		Title:    requestSet.Title,
-		Content:  requestSet.Content,
-		Reslong:  requestSet.Reslong,
-		Resshort: requestSet.Resshort,
-		UserId:   user.ID,
+		Title:      requestSet.Title,
+		Content:    requestSet.Content,
+		Reslong:    requestSet.Reslong,
+		Resshort:   requestSet.Resshort,
+		UserId:     user.ID,
+		AutoUpdate: requestSet.AutoUpdate,
+		AutoPass:   requestSet.AutoPass,
+		PassNum:    requestSet.PassNum,
+		PassRe:     requestSet.PassRe,
 	}
 
 	// TODO 插入数据
@@ -66,9 +73,38 @@ func (s SetController) Create(ctx *gin.Context) {
 		return
 	}
 
+	// TODO 插入相关用户组
+	if user.Level >= 2 {
+		for _, v := range requestSet.Groups {
+			var group model.Group
+			if s.DB.Where("id = ?", v).First(&group).Error != nil {
+				response.Fail(ctx, nil, "用户组不存在")
+				return
+			}
+			if group.LeaderId != user.ID {
+				response.Fail(ctx, nil, "不是该组的组长，不能进行此操作")
+				return
+			}
+			// TODO 查看用户组是否可以合法加入表单
+			if ok, err := CanAddGroup(set.ID, group.ID, set.PassNum, set.PassRe); !ok || err != nil {
+				response.Fail(ctx, nil, "用户组无法合法加入表单")
+				return
+			}
+			groupList := model.GroupList{
+				SetId:   set.ID,
+				GroupId: uint(v),
+			}
+			if s.DB.Create(&groupList).Error != nil {
+				response.Fail(ctx, nil, "用户组上传出错，数据验证有误")
+				return
+			}
+		}
+	}
+
 	// TODO 插入相关主题
 	for _, v := range requestSet.Topics {
-		if s.DB.Where("id = ?", v).First(&model.Topic{}).Error != nil {
+		var topic model.Topic
+		if s.DB.Where("id = ?", v).First(&topic).Error != nil {
 			response.Fail(ctx, nil, "主题不存在")
 			return
 		}
@@ -82,25 +118,10 @@ func (s SetController) Create(ctx *gin.Context) {
 		}
 	}
 
-	// TODO 插入相关用户组
-	for _, v := range requestSet.Groups {
-		var group model.Group
-		if s.DB.Where("id = ?", v).First(&group).Error != nil {
-			response.Fail(ctx, nil, "用户组不存在")
-			return
-		}
-		if group.LeaderId != user.ID {
-			response.Fail(ctx, nil, "不是该组的组长，不能进行此操作")
-			return
-		}
-		groupList := model.GroupList{
-			SetId:   set.ID,
-			GroupId: uint(v),
-		}
-		if s.DB.Create(&groupList).Error != nil {
-			response.Fail(ctx, nil, "用户组上传出错，数据验证有误")
-			return
-		}
+	// TODO 尝试更新
+	if updateRank(set.ID) != nil {
+		response.Fail(ctx, nil, "更新出错")
+		return
 	}
 
 	// TODO 成功
@@ -143,21 +164,57 @@ func (s SetController) Update(ctx *gin.Context) {
 
 	// TODO 创建表单
 	set = model.Set{
-		Title:    requestSet.Title,
-		Content:  requestSet.Content,
-		Reslong:  requestSet.Reslong,
-		Resshort: requestSet.Resshort,
-		UserId:   user.ID,
+		Title:      requestSet.Title,
+		Content:    requestSet.Content,
+		Reslong:    requestSet.Reslong,
+		Resshort:   requestSet.Resshort,
+		AutoUpdate: requestSet.AutoUpdate,
+		AutoPass:   requestSet.AutoPass,
+		PassNum:    requestSet.PassNum,
+		PassRe:     requestSet.PassRe,
+		UserId:     user.ID,
 	}
 
 	// TODO 更新表单内容
 	s.DB.Where("id = ?", id).Updates(set)
 
+	if len(requestSet.Groups) != 0 {
+		s.DB.Where("set_id = ?", id).Delete(&model.GroupList{})
+		// TODO 插入相关用户组
+		for _, v := range requestSet.Groups {
+
+			var group model.Group
+			if s.DB.Where("id = ?", v).First(&group).Error != nil {
+				response.Fail(ctx, nil, "用户组不存在")
+				return
+			}
+			if group.LeaderId != user.ID {
+				response.Fail(ctx, nil, "不是该组的组长，不能进行此操作")
+				return
+			}
+			// TODO 查看用户组是否可以合法加入表单
+			if ok, err := CanAddGroup(set.ID, group.ID, set.PassNum, set.PassRe); !ok || err != nil {
+				response.Fail(ctx, nil, "用户组无法合法加入表单")
+				return
+			}
+
+			groupList := model.GroupList{
+				SetId:   set.ID,
+				GroupId: uint(v),
+			}
+			if s.DB.Create(&groupList).Error != nil {
+				response.Fail(ctx, nil, "用户组上传出错，数据验证有误")
+				return
+			}
+		}
+	}
+
 	if len(requestSet.Topics) != 0 {
 		s.DB.Where("set_id = ?", id).Delete(&model.TopicList{})
 		// TODO 插入相关主题
+		var topic model.Topic
 		for _, v := range requestSet.Topics {
-			if s.DB.Where("id = ?", v).First(&model.Topic{}).Error != nil {
+			if s.DB.Where("id = ?", v).First(&topic).Error != nil {
 				response.Fail(ctx, nil, "主题不存在")
 				return
 			}
@@ -172,28 +229,10 @@ func (s SetController) Update(ctx *gin.Context) {
 		}
 	}
 
-	if len(requestSet.Groups) != 0 {
-		s.DB.Where("set_id = ?", id).Delete(&model.GroupList{})
-		// TODO 插入相关用户组
-		for _, v := range requestSet.Groups {
-			var group model.Group
-			if s.DB.Where("id = ?", v).First(&group).Error != nil {
-				response.Fail(ctx, nil, "用户组不存在")
-				return
-			}
-			if group.LeaderId != user.ID {
-				response.Fail(ctx, nil, "不是该组的组长，不能进行此操作")
-				return
-			}
-			groupList := model.GroupList{
-				SetId:   set.ID,
-				GroupId: uint(v),
-			}
-			if s.DB.Create(&groupList).Error != nil {
-				response.Fail(ctx, nil, "用户组上传出错，数据验证有误")
-				return
-			}
-		}
+	// TODO 尝试更新
+	if updateRank(set.ID) != nil {
+		response.Fail(ctx, nil, "更新出错")
+		return
 	}
 
 	// TODO 成功
@@ -826,7 +865,7 @@ func (s SetController) VisitNumber(ctx *gin.Context) {
 }
 
 // @title    VisitList
-// @description   游览表单列表
+// @description   表单的游览表单列表
 // @auth      MGAronya（张健）       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
@@ -851,14 +890,14 @@ func (s SetController) VisitList(ctx *gin.Context) {
 
 	var total int64
 
-	// TODO 查看收藏的数量
+	// TODO 查看游览的列表
 	s.DB.Where("set_id = ?", set.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setVisits).Count(&total)
 
 	response.Success(ctx, gin.H{"setVisits": setVisits, "total": total}, "查看成功")
 }
 
 // @title    Visits
-// @description   游览表单列表
+// @description   用户的游览表单列表
 // @auth      MGAronya（张健）       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
@@ -876,10 +915,570 @@ func (s SetController) Visits(ctx *gin.Context) {
 
 	var total int64
 
-	// TODO 查看收藏的数量
+	// TODO 查看游览的数量
 	s.DB.Where("user_id = ?", user.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setVisits).Count(&total)
 
 	response.Success(ctx, gin.H{"setVisits": setVisits, "total": total}, "查看成功")
+}
+
+// @title    RankList
+// @description   游览用户排行列表
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (s SetController) RankList(ctx *gin.Context) {
+
+	// TODO 获取id
+	id := ctx.Params.ByName("id")
+
+	var set model.Set
+
+	// TODO 尝试找出set
+	if s.DB.Where("id = ?", id).First(&set).Error != nil {
+		response.Fail(ctx, nil, "表单不存在")
+		return
+	}
+
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
+
+	// TODO 分页
+	var setRanks []model.SetRank
+
+	var total int64
+
+	// TODO 查看排行
+	s.DB.Where("set_id = ?", set.ID).Order("pass desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setRanks).Count(&total)
+
+	response.Success(ctx, gin.H{"setRanks": setRanks, "total": total}, "查看成功")
+}
+
+// @title    RankUpdate
+// @description   更新用户排行
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (s SetController) RankUpdate(ctx *gin.Context) {
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 获取id
+	id := ctx.Params.ByName("id")
+
+	var set model.Set
+
+	// TODO 尝试找出set
+	if s.DB.Where("id = ?", id).First(&set).Error != nil {
+		response.Fail(ctx, nil, "表单不存在")
+		return
+	}
+
+	// TODO 查看是否为创建者
+	if set.UserId != user.ID {
+		response.Fail(ctx, nil, "不是表单创建者")
+		return
+	}
+
+	// TODO 尝试更新
+	if updateRank(set.ID) != nil {
+		response.Fail(ctx, nil, "更新出错")
+		return
+	}
+
+	response.Success(ctx, nil, "更新成功")
+}
+
+// @title    Apply
+// @description   用户组申请加入某个表单
+// @auth      MGAronya（张健）       2022-9-16 12:15
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (s SetController) Apply(ctx *gin.Context) {
+	var requestSetApply vo.SetApplyRequest
+	// TODO 数据验证
+	if err := ctx.ShouldBind(&requestSetApply); err != nil {
+		log.Print(err.Error())
+		response.Fail(ctx, nil, "数据验证错误")
+		return
+	}
+
+	// TODO 获取指定表单
+	id := ctx.Params.ByName("id")
+
+	var set model.Set
+
+	// TODO 查看表单是否存在
+	if s.DB.Where("id = ?", id).First(&set).Error != nil {
+		response.Fail(ctx, nil, "表单不存在")
+		return
+	}
+
+	var group model.Group
+	// TODO 查看用户组是否存在
+	if s.DB.Where("id = ?", requestSetApply.GroupId).First(&group).Error != nil {
+		response.Fail(ctx, nil, "用户组不存在")
+		return
+	}
+
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 查看用户是否是用户组组长
+	if user.ID != group.LeaderId {
+		response.Fail(ctx, nil, "不是用户组组长")
+		return
+	}
+
+	// TODO 查看用户组是否已经加入表单
+	if s.DB.Where("set_id = ? and group_id = ?", set.ID, group.ID).First(&model.GroupList{}).Error == nil {
+		response.Fail(ctx, nil, "已加入表单")
+		return
+	}
+
+	// TODO 查看用户组是否被拉黑
+	if s.DB.Where("set_id = ? and group_id = ?", set.ID, group.ID).First(&model.SetBlock{}).Error != nil {
+		response.Fail(ctx, nil, "用户组已被拉黑")
+		return
+	}
+
+	// TODO 查看用户组是否自动通过申请
+	if set.AutoPass {
+		if ok, err := CanAddGroup(set.ID, group.ID, set.PassNum, set.PassRe); !ok || err != nil {
+			response.Fail(ctx, nil, "用户组不符合要求")
+			return
+		}
+		groupList := model.GroupList{
+			GroupId: group.ID,
+			SetId:   set.ID,
+		}
+		// TODO 插入数据
+		if err := s.DB.Create(&groupList).Error; err != nil {
+			response.Fail(ctx, nil, "通过申请出错，数据验证有误")
+			return
+		}
+		// TODO 成功
+		response.Success(ctx, nil, "创建成功")
+		return
+	}
+
+	var setApply model.SetApply
+
+	// TODO 查看用户组是否已经发送过申请
+	if s.DB.Where("set_id = ? and group_id = ?", set.ID, group.ID).First(&setApply).Error == nil && setApply.Condition {
+		response.Fail(ctx, nil, "已发送过申请")
+		return
+	}
+
+	// TODO 创建表单申请
+	setApply = model.SetApply{
+		SetId:     set.ID,
+		GroupId:   group.ID,
+		Condition: true,
+		Content:   requestSetApply.Content,
+		Reslong:   requestSetApply.Reslong,
+		Resshort:  requestSetApply.Resshort,
+	}
+
+	// TODO 插入数据
+	if err := s.DB.Create(&setApply).Error; err != nil {
+		response.Fail(ctx, nil, "申请出错，数据验证有误")
+		return
+	}
+
+	// TODO 成功
+	response.Success(ctx, nil, "创建成功")
+}
+
+// @title    Consent
+// @description   通过申请
+// @auth      MGAronya（张健）       2022-9-16 12:15
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (s SetController) Consent(ctx *gin.Context) {
+
+	// TODO 获取指定申请
+	id := ctx.Params.ByName("id")
+
+	var setApply model.SetApply
+
+	// TODO 查看申请是否存在
+	if s.DB.Where("id = ?", id).First(&setApply).Error != nil {
+		response.Fail(ctx, nil, "申请不存在")
+		return
+	}
+
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 查看该申请状态
+	if !setApply.Condition {
+		response.Fail(ctx, nil, "该申请已拒绝")
+		return
+	}
+
+	// TODO 查看用户组是否已经加入表单
+	if s.DB.Where("set_id = ? and group_id = ?", setApply.SetId, setApply.GroupId).First(&model.GroupList{}).Error == nil {
+		response.Fail(ctx, nil, "已加入表单")
+		return
+	}
+
+	// TODO 查看当前用户是否为表单创建者
+	if s.DB.Where("id = ? and user_id = ?", setApply.SetId, user.ID).First(&model.Set{}).Error != nil {
+		response.Fail(ctx, nil, "非表单创建者，无法操作")
+		return
+	}
+
+	groupList := model.GroupList{
+		GroupId: setApply.GroupId,
+		SetId:   setApply.SetId,
+	}
+
+	// TODO 插入数据
+	if err := s.DB.Create(&groupList).Error; err != nil {
+		response.Fail(ctx, nil, "通过申请出错，数据验证有误")
+		return
+	}
+
+	// TODO 删除申请
+	s.DB.Delete(&groupList)
+
+	// TODO 成功
+	response.Success(ctx, nil, "创建成功")
+}
+
+// @title    Refuse
+// @description   拒绝申请
+// @auth      MGAronya（张健）       2022-9-16 12:15
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (s SetController) Refuse(ctx *gin.Context) {
+
+	// TODO 获取指定申请
+	id := ctx.Params.ByName("id")
+
+	var setApply model.SetApply
+
+	// TODO 查看申请是否存在
+	if s.DB.Where("id = ?", id).First(&setApply).Error != nil {
+		response.Fail(ctx, nil, "申请不存在")
+		return
+	}
+
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 查看当前用户是否为表单创建者
+	if s.DB.Where("id = ? and set_id = ?", setApply.SetId, user.ID).First(&model.Set{}).Error != nil {
+		response.Fail(ctx, nil, "非表单创建者，无法操作")
+		return
+	}
+
+	setApply.Condition = false
+
+	// TODO 保存更改
+	s.DB.Save(&setApply)
+
+	// TODO 成功
+	response.Success(ctx, nil, "拒绝成功")
+}
+
+// @title    Block
+// @description   拉黑某用户组
+// @auth      MGAronya（张健）       2022-9-16 12:15
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (s SetController) Block(ctx *gin.Context) {
+
+	// TODO 获取指定用户组
+	group_id := ctx.Params.ByName("group")
+
+	var group model.Group
+
+	// TODO 查看用户组是否存在
+	if s.DB.Where("id = ?", group_id).First(&group).Error != nil {
+		response.Fail(ctx, nil, "用户组不存在")
+		return
+	}
+
+	// TODO 获取指定表单
+	set_id := ctx.Params.ByName("set")
+
+	var set model.Set
+
+	// TODO 查看表单是否存在
+	if s.DB.Where("id = ?", set_id).First(&set).Error != nil {
+		response.Fail(ctx, nil, "表单不存在")
+		return
+	}
+
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 查看当前用户是否为表单创建者
+	if set.UserId != user.ID {
+		response.Fail(ctx, nil, "非表单创建者，无法操作")
+		return
+	}
+
+	// TODO 查看当前用户组是否已经拉黑
+	if s.DB.Where("set_id = ? and group_id = ?", set_id, group_id).First(&model.SetBlock{}).Error == nil {
+		response.Fail(ctx, nil, "用户已拉黑")
+		return
+	}
+
+	// TODO 将指定用户放入黑名单
+	setBlock := model.SetBlock{
+		SetId:   set.ID,
+		GroupId: group.ID,
+	}
+
+	if s.DB.Create(&setBlock).Error != nil {
+		response.Fail(ctx, nil, "黑名单入库错误")
+		return
+	}
+
+	// TODO 成功
+	response.Success(ctx, nil, "拉黑成功")
+}
+
+// @title    RemoveBlack
+// @description   移除某用户组的黑名单
+// @auth      MGAronya（张健）       2022-9-16 12:15
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (s SetController) RemoveBlack(ctx *gin.Context) {
+
+	// TODO 获取指定表单
+	set_id := ctx.Params.ByName("set")
+
+	var set model.Set
+
+	// TODO 查看表单是否存在
+	if s.DB.Where("id = ?", set_id).First(&set).Error != nil {
+		response.Fail(ctx, nil, "表单不存在")
+		return
+	}
+
+	// TODO 获取指定用户组
+	group_id := ctx.Params.ByName("group")
+
+	var group model.Group
+
+	// TODO 查看用户组是否存在
+	if s.DB.Where("id = ?", group_id).First(&group).Error != nil {
+		response.Fail(ctx, nil, "用户组不存在")
+		return
+	}
+
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 查看当前用户是否为表单创建者
+	if set.UserId != user.ID {
+		response.Fail(ctx, nil, "非表单创建者，无法操作")
+		return
+	}
+
+	var setBlock model.SetBlock
+
+	// TODO 查看当前用户组是否已经拉黑
+	if s.DB.Where("set_id = ? and group_id = ?", set_id, group_id).First(&setBlock).Error != nil {
+		response.Fail(ctx, nil, "用户组未被拉黑")
+	}
+
+	// TODO 将用户组移除黑名单
+	s.DB.Delete(&setBlock)
+
+	// TODO 成功
+	response.Success(ctx, nil, "移除黑名单成功")
+}
+
+// @title    BlackList
+// @description   查看黑名单
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (s SetController) BlackList(ctx *gin.Context) {
+
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 获取指定表单
+	id := ctx.Params.ByName("id")
+
+	var set model.Set
+
+	// TODO 查看表单是否存在
+	if s.DB.Where("id = ?", id).First(&set).Error != nil {
+		response.Fail(ctx, nil, "用户组不存在")
+		return
+	}
+
+	// TODO 查看当前用户是否为表单创建者
+	if set.UserId != user.ID {
+		response.Fail(ctx, nil, "非表单创建者，无法操作")
+		return
+	}
+
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
+
+	// TODO 分页
+	var setBlocks []model.SetBlock
+
+	var total int64
+
+	// TODO 查看黑名单
+	s.DB.Where("set_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setBlocks).Count(&total)
+
+	response.Success(ctx, gin.H{"setBlocks": setBlocks, "total": total}, "查看成功")
+}
+
+// @title    ApplyingList
+// @description   查看用户组申请列表
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (s SetController) ApplyingList(ctx *gin.Context) {
+
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 获取指定用户组
+	id := ctx.Params.ByName("id")
+
+	var group model.Group
+
+	// TODO 查看用户组是否存在
+	if s.DB.Where("id = ?", id).First(&group).Error != nil {
+		response.Fail(ctx, nil, "用户组不存在")
+		return
+	}
+
+	// TODO 查看是否是用户组的组长
+	if group.LeaderId != user.ID {
+		response.Fail(ctx, nil, "非用户组组长")
+		return
+	}
+
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
+
+	// TODO 分页
+	var setApplys []model.SetApply
+
+	var total int64
+
+	// TODO 查看申请的数量
+	s.DB.Where("group_id = ?", group.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setApplys).Count(&total)
+
+	response.Success(ctx, gin.H{"groupApplys": setApplys, "total": total}, "查看成功")
+}
+
+// @title    AppliedList
+// @description   查看用户组申请列表
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (s SetController) AppliedList(ctx *gin.Context) {
+
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 获取指定用户组
+	id := ctx.Params.ByName("id")
+
+	var set model.Set
+
+	// TODO 查看表单是否存在
+	if s.DB.Where("id = ?", id).First(&set).Error != nil {
+		response.Fail(ctx, nil, "表单不存在")
+		return
+	}
+
+	// TODO 查看是否是表单的创建者
+	if set.UserId != user.ID {
+		response.Fail(ctx, nil, "非表单创建者")
+		return
+	}
+
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
+
+	// TODO 分页
+	var setApplys []model.SetApply
+
+	var total int64
+
+	// TODO 查看申请的数量
+	s.DB.Where("set_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setApplys).Count(&total)
+
+	response.Success(ctx, gin.H{"setApplys": setApplys, "total": total}, "查看成功")
+}
+
+// @title    Quit
+// @description   退出表单
+// @auth      MGAronya（张健）       2022-9-16 12:15
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (s SetController) Quit(ctx *gin.Context) {
+
+	// TODO 获取指定表单
+	set_id := ctx.Params.ByName("set")
+
+	var set model.Set
+
+	// TODO 查看表单是否存在
+	if s.DB.Where("id = ?", set_id).First(&set).Error != nil {
+		response.Fail(ctx, nil, "表单不存在")
+		return
+	}
+
+	// TODO 获取指定表单
+	group_id := ctx.Params.ByName("group")
+
+	var group model.Group
+
+	// TODO 查看用户组是否存在
+	if s.DB.Where("id = ?", group_id).First(&group).Error != nil {
+		response.Fail(ctx, nil, "用户组不存在")
+		return
+	}
+
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 查看是否为用户组组长
+	if user.ID != group.LeaderId {
+		response.Fail(ctx, nil, "非用户组组长，无法操作")
+		return
+	}
+
+	// TODO 查看用户组是否已经加入表单
+	if s.DB.Where("set_id = ? and group_id = ?", set.ID, group.ID).First(&model.GroupList{}).Error != nil {
+		response.Fail(ctx, nil, "未加入表单")
+		return
+	}
+
+	// TODO 在表单中删除用户组
+	s.DB.Where("set_id = ? and group_id = ?", set.ID, group.ID).Delete(&model.GroupList{})
+
+	// TODO 成功
+	response.Success(ctx, nil, "退出成功")
 }
 
 // @title    NewSetController
@@ -895,5 +1494,120 @@ func NewSetController() ISetController {
 	db.AutoMigrate(model.SetVisit{})
 	db.AutoMigrate(model.GroupList{})
 	db.AutoMigrate(model.TopicList{})
+	db.AutoMigrate(model.SetRank{})
+	db.AutoMigrate(model.SetApply{})
+	db.AutoMigrate(model.SetBlock{})
 	return SetController{DB: db}
+}
+
+// @title    updateRank
+// @description   更新一个表单中的用户排行
+// @auth      MGAronya（张健）       2022-9-16 12:23
+// @param    set_id uint		表示表单的id
+// @return   error		返回一个error表示是否出现错误
+func updateRank(set_id uint) error {
+	db := common.GetDB()
+	var set model.Set
+	// TODO 尝试取出对应set
+	err := db.Where("id = ?", set_id).First(&set).Error
+	if err != nil {
+		return err
+	}
+	// TODO 删掉原先的排行
+	db.Where("set_id = ?", set_id).Delete(&model.SetRank{})
+	// TODO 重新建立排行
+	userPass := make(map[uint]uint, 0)
+	// TODO 插入所有成员
+	var groupLists []model.GroupList
+	db.Where("set_id = ?", set_id).Find(&groupLists)
+	for _, group := range groupLists {
+		var userLists []model.UserList
+		db.Where("group_id = ?", group.GroupId).Find(&userLists)
+		for _, user := range userLists {
+			userPass[user.UserId] = 0
+		}
+	}
+	// 搜索所有成员的通过表单内题目数量
+	var topicLists []model.TopicList
+	db.Where("set_id = ?", set_id).Find(&topicLists)
+	for _, topic := range topicLists {
+		var problemLists []model.ProblemList
+		db.Where("topic_id = ?", topic.TopicId).Find(&problemLists)
+		for _, problem := range problemLists {
+			for user := range userPass {
+				if db.Where("user_id = ? and problem_id = ? and condition = Accepted", user, problem.ProblemId).First(&model.Record{}).Error == nil {
+					userPass[user]++
+				}
+			}
+		}
+	}
+	// TODO 将所有记录值放入数据库
+	for user := range userPass {
+		setRank := model.SetRank{
+			UserId: user,
+			Pass:   userPass[user],
+			SetId:  set_id,
+		}
+		if err = db.Create(&setRank).Error; err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+// @title    CanAddGroup
+// @description   更新一个表单中的用户排行
+// @auth      MGAronya（张健）       2022-9-16 12:23
+// @param    set_id uint		表示表单的id
+// @return   error		返回一个error表示是否出现错误
+func CanAddGroup(set_id uint, group_id uint, PassNum uint, PassRe bool) (bool, error) {
+	db := common.GetDB()
+
+	var set model.Set
+	// TODO 尝试取出对应set
+	if err := db.Where("id = ?", set_id).First(&set).Error; err != nil {
+		return false, err
+	}
+
+	var group model.Group
+	// TODO 尝试取出对应group
+	if err := db.Where("id = ?", group_id).First(&group).Error; err != nil {
+		return false, err
+	}
+
+	var userLists []model.UserList
+	db.Where("group_id = ?", group_id).Find(&userLists)
+
+	// TODO 如果组员数量大于限制
+	if int(PassNum) < len(userLists) {
+		return false, nil
+	}
+
+	// TODO 如果没有重复限制
+	if !PassRe {
+		return true, nil
+	}
+
+	var groupLists []model.GroupList
+	db.Where("set_id = ?", set_id).Find(&groupLists)
+
+	userMap := make(map[uint]bool, 0)
+
+	// TODO 将表单内的所有用户填入map
+	for _, group := range groupLists {
+		var userLists []model.UserList
+		db.Where("group_id = ?", group.GroupId).Find(&userLists)
+		for _, user := range userLists {
+			userMap[user.UserId] = true
+		}
+	}
+
+	// TODO 查看成员是否重复
+	for _, user := range userLists {
+		if userMap[user.UserId] {
+			return false, nil
+		}
+	}
+
+	return true, nil
 }

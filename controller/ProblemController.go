@@ -14,6 +14,7 @@ import (
 	"log"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -26,6 +27,7 @@ type IProblemController interface {
 	Interface.CollectInterface // 包含收藏功能
 	Interface.VisitInterface   // 包含游览功能
 	UserList(ctx *gin.Context) // 查看指定用户上传的题目列表
+	TestNum(ctx *gin.Context)  // 查看指定题目的样例数量
 }
 
 // ProblemController			定义了题目工具类
@@ -94,19 +96,20 @@ func (p ProblemController) Create(ctx *gin.Context) {
 
 	// TODO 创建题目
 	problem := model.Problem{
-		Title:        requestProblem.Title,
-		TimeLimit:    requestProblem.TimeLimit,
-		MemoryLimit:  requestProblem.MemoryLimit,
-		Description:  requestProblem.Description,
-		Reslong:      requestProblem.Reslong,
-		Resshort:     requestProblem.Resshort,
-		Input:        requestProblem.Input,
-		Output:       requestProblem.Output,
-		SampleInput:  requestProblem.SampleInput,
-		SampleOutput: requestProblem.SampleOutput,
-		Hint:         requestProblem.Hint,
-		Source:       requestProblem.Source,
-		UserId:       user.ID,
+		Title:         requestProblem.Title,
+		TimeLimit:     requestProblem.TimeLimit,
+		MemoryLimit:   requestProblem.MemoryLimit,
+		Description:   requestProblem.Description,
+		Reslong:       requestProblem.Reslong,
+		Resshort:      requestProblem.Resshort,
+		Input:         requestProblem.Input,
+		Output:        requestProblem.Output,
+		SampleInput:   requestProblem.SampleInput,
+		SampleOutput:  requestProblem.SampleOutput,
+		Hint:          requestProblem.Hint,
+		Source:        requestProblem.Source,
+		UserId:        user.ID,
+		CompetitionId: requestProblem.CompetitionId,
 	}
 
 	// TODO 插入数据
@@ -285,7 +288,69 @@ func (p ProblemController) Show(ctx *gin.Context) {
 		return
 	}
 
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 查看problem的competition
+	if problem.CompetitionId != 0 {
+		var competition model.Competition
+		// TODO 无法找到比赛，则返回题目
+		if p.DB.Where("id = ?", problem.CompetitionId).First(&competition).Error != nil {
+			response.Success(ctx, gin.H{"problem": problem}, "成功")
+			return
+		}
+		// TODO 查看比赛是否已经结束
+		if competition.EndTime.String() <= time.Now().Format("2006-01-02 15:04:05") {
+			response.Success(ctx, gin.H{"problem": problem}, "成功")
+			return
+		}
+		// TODO 查看比赛是否已经开始
+		if competition.StartTime.String() >= time.Now().Format("2006-01-02 15:04:05") {
+			response.Fail(ctx, nil, "题目不存在")
+			return
+		}
+		// TODO 查看用户是否参加了比赛
+		var groupLists []model.GroupList
+		p.DB.Where("set_id = ?", competition.SetId).Find(&groupLists)
+		for _, groupList := range groupLists {
+			var userLists []model.UserList
+			p.DB.Where("group_id = ?", groupList.GroupId).Find(&userLists)
+			for _, userList := range userLists {
+				if userList.UserId == user.ID {
+					response.Success(ctx, gin.H{"problem": problem}, "成功")
+					return
+				}
+			}
+		}
+		// TODO 没有参加比赛
+		response.Fail(ctx, nil, "题目不存在")
+		return
+	}
+
 	response.Success(ctx, gin.H{"problem": problem}, "成功")
+}
+
+// @title    TestNum
+// @description   查看一篇题目的测试样例数量
+// @auth      MGAronya（张健）       2022-9-16 12:19
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (p ProblemController) TestNum(ctx *gin.Context) {
+	// TODO 获取path中的id
+	id := ctx.Params.ByName("id")
+	var problem model.Problem
+
+	// TODO 查看题目是否在数据库中存在
+	if p.DB.Where("id = ?", id).First(&problem).Error != nil {
+		response.Fail(ctx, nil, "题目不存在")
+		return
+	}
+
+	var total int64
+	p.DB.Where("problem_id = ?", id).Model(&model.TestInput{}).Count(&total)
+
+	response.Success(ctx, gin.H{"total": total}, "成功")
 }
 
 // @title    Delete
@@ -332,14 +397,54 @@ func (p ProblemController) PageList(ctx *gin.Context) {
 	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
 	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
 
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 尝试获取所有没有结束的比赛
+	var competitions []model.Competition
+	p.DB.Where("end_time > ?", time.Now()).Find(&competitions)
+
+	// TODO 用于记录没有被用户参加的比赛
+	userNotJoin := make([]uint, 0)
+
+	// TODO 查看哪些比赛没有被用户参加或比赛未开始
+	for _, competition := range competitions {
+		// TODO 查看比赛是否已经开始
+		if competition.StartTime.String() >= time.Now().Format("2006-01-02 15:04:05") {
+			userNotJoin = append(userNotJoin, competition.ID)
+			continue
+		}
+		// TODO 查看用户是否加入比赛
+		ok := false
+		var groupLists []model.GroupList
+		p.DB.Where("set_id = ?", competition.SetId).Find(&groupLists)
+		for _, groupList := range groupLists {
+			var userLists []model.UserList
+			p.DB.Where("group_id = ?", groupList.GroupId).Find(&userLists)
+			for _, userList := range userLists {
+				if user.ID == userList.UserId {
+					ok = true
+					break
+				}
+			}
+			if ok {
+				break
+			}
+		}
+		if !ok {
+			userNotJoin = append(userNotJoin, competition.ID)
+		}
+	}
+
 	// TODO 分页
 	var problems []model.Problem
 
 	// TODO 查找所有分页中可见的条目
-	p.DB.Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problems)
+	p.DB.Where("competition_id not in ?", userNotJoin).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problems)
 
 	var total int64
-	p.DB.Model(model.Problem{}).Count(&total)
+	p.DB.Where("competition_id not in ?", userNotJoin).Model(model.Problem{}).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"problems": problems, "total": total}, "成功")
@@ -355,6 +460,46 @@ func (p ProblemController) UserList(ctx *gin.Context) {
 	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
 	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
 
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 尝试获取所有没有结束的比赛
+	var competitions []model.Competition
+	p.DB.Where("end_time > ?", time.Now()).Find(&competitions)
+
+	// TODO 用于记录没有被用户参加的比赛
+	userNotJoin := make([]uint, 0)
+
+	// TODO 查看哪些比赛没有被用户参加或比赛未开始
+	for _, competition := range competitions {
+		// TODO 查看比赛是否已经开始
+		if competition.StartTime.String() >= time.Now().Format("2006-01-02 15:04:05") {
+			userNotJoin = append(userNotJoin, competition.ID)
+			continue
+		}
+		// TODO 查看用户是否加入比赛
+		ok := false
+		var groupLists []model.GroupList
+		p.DB.Where("set_id = ?", competition.SetId).Find(&groupLists)
+		for _, groupList := range groupLists {
+			var userLists []model.UserList
+			p.DB.Where("group_id = ?", groupList.GroupId).Find(&userLists)
+			for _, userList := range userLists {
+				if user.ID == userList.UserId {
+					ok = true
+					break
+				}
+			}
+			if ok {
+				break
+			}
+		}
+		if !ok {
+			userNotJoin = append(userNotJoin, competition.ID)
+		}
+	}
+
 	// TODO 取出指定用户的id
 	id := ctx.Params.ByName("id")
 
@@ -362,10 +507,10 @@ func (p ProblemController) UserList(ctx *gin.Context) {
 	var problems []model.Problem
 
 	// TODO 查找所有分页中可见的条目
-	p.DB.Where("user_id = ?", id).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problems)
+	p.DB.Where("user_id = ? and competition_id not in ?", id, userNotJoin).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problems)
 
 	var total int64
-	p.DB.Where("user_id = ?", id).Model(model.Problem{}).Count(&total)
+	p.DB.Where("user_id = ? and competition_id not in ?", id, userNotJoin).Model(model.Problem{}).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"problems": problems, "total": total}, "成功")
@@ -878,9 +1023,10 @@ func (p ProblemController) Visits(ctx *gin.Context) {
 func NewProblemController() IProblemController {
 	db := common.GetDB()
 	db.AutoMigrate(model.Problem{})
-	db.AutoMigrate(model.Case{})
 	db.AutoMigrate(model.ProblemCollect{})
 	db.AutoMigrate(model.ProblemLike{})
 	db.AutoMigrate(model.ProblemVisit{})
+	db.AutoMigrate(model.TestInput{})
+	db.AutoMigrate(model.TestOutput{})
 	return ProblemController{DB: db}
 }

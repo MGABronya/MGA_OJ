@@ -39,5 +39,36 @@ func CollectRoute(r *gin.Engine) *gin.Engine {
 	// TODO 挂上题解的回复路由
 	r = routes.ThreadRoutes(r)
 
+	// TODO 挂上文章路由
+	r = routes.ArticleRoutes(r)
+
+	// TODO 挂上文章分类路由
+	r = routes.CategoryRoutes(r)
+
+	// TODO 挂上文章回复路由
+	r = routes.RemarkRoutes(r)
+
+	// TODO 挂上题目主题路由
+	r = routes.TopicRoutes(r)
+
+	// TODO 挂上用户组路由
+	r = routes.GroupRoutes(r)
+
+	// TODO 挂上用户好友路由
+	r = routes.FriendRoutes(r)
+
+	// TODO 挂上表单路由
+	r = routes.SetRoutes(r)
+
+	// TODO 挂上提交路由
+	r = routes.RecordRoutes(r)
+
+	// TODO 挂上比赛路由
+	r = routes.CompetitionRoutes(r)
+
+	// TODO 聊天路由
+
+	// TODO
+
 	return r
 }

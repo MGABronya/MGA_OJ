@@ -39,5 +39,56 @@ func PostRoutes(r *gin.Engine) *gin.Engine {
 	// TODO 查看讨论列表
 	postRoutes.GET("/list/:id", postController.PageList)
 
+	// TODO 查看指定用户的讨论列表
+	postRoutes.GET("/list/:id", postController.UserList)
+
+	// TODO 点赞、点踩讨论
+	postRoutes.POST("/like/:id", middleware.AuthMiddleware(), postController.Like)
+
+	// TODO 取消点赞、点踩状态
+	postRoutes.DELETE("/cancle/like/:id", middleware.AuthMiddleware(), postController.CancelLike)
+
+	// TODO 查看点赞、点踩数量
+	postRoutes.GET("/like/number/:id", postController.LikeNumber)
+
+	// TODO 查看点赞、点踩列表
+	postRoutes.GET("/like/list/:id", postController.LikeList)
+
+	// TODO 查看用户当前点赞状态
+	postRoutes.GET("/like/show/:id", middleware.AuthMiddleware(), postController.LikeShow)
+
+	// TODO 查看用户点赞、点踩列表
+	postRoutes.GET("/likes", middleware.AuthMiddleware(), postController.Likes)
+
+	// TODO 收藏
+	postRoutes.POST("/collect/:id", middleware.AuthMiddleware(), postController.Collect)
+
+	// TODO 取消收藏
+	postRoutes.DELETE("/cancel/collect/:id", middleware.AuthMiddleware(), postController.CancelCollect)
+
+	// TODO 查看收藏状态
+	postRoutes.GET("/collect/show/:id", middleware.AuthMiddleware(), postController.CollectShow)
+
+	// TODO 查看收藏列表
+	postRoutes.GET("/collect/list/:id", postController.CollectList)
+
+	// TODO 查看收藏数量
+	postRoutes.GET("/collect/number/:id", postController.CollectNumber)
+
+	// TODO 查看用户收藏夹
+	postRoutes.GET("/collects", middleware.AuthMiddleware(), postController.Collects)
+
+	// TODO 游览题解
+	postRoutes.POST("/visit/:id", middleware.AuthMiddleware(), postController.Visit)
+
+	// TODO 游览数量
+	postRoutes.GET("/visit/number/:id", postController.VisitNumber)
+
+	// TODO 游览列表
+	postRoutes.GET("/visit/list/:id", postController.VisitList)
+
+	// TODO 指定用户的游览历史
+	postRoutes.GET("/visits/:id", postController.Visits)
+
 	return r
 }
