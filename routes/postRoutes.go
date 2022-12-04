@@ -40,7 +40,7 @@ func PostRoutes(r *gin.Engine) *gin.Engine {
 	postRoutes.GET("/list/:id", postController.PageList)
 
 	// TODO 查看指定用户的讨论列表
-	postRoutes.GET("/list/:id", postController.UserList)
+	postRoutes.GET("/user/list/:id", postController.UserList)
 
 	// TODO 点赞、点踩讨论
 	postRoutes.POST("/like/:id", middleware.AuthMiddleware(), postController.Like)
