@@ -33,5 +33,11 @@ func RecordRoutes(r *gin.Engine) *gin.Engine {
 	// TODO 查看某类特定提交列表
 	recordRoutes.GET("/list", middleware.AuthMiddleware(), recordController.PageList)
 
+	// TODO 查看提交的测试通过情况
+	recordRoutes.GET("/list/case/:id", recordController.CaseList)
+
+	// TODO 查看某个测试的情况
+	recordRoutes.GET("/case/:id", recordController.Case)
+
 	return r
 }
