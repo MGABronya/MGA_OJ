@@ -5,8 +5,8 @@
 package util
 
 import (
-	"MGAOJ/model"
 	"MGA_OJ/common"
+	"MGA_OJ/model"
 	"context"
 	"fmt"
 	"math/rand"
