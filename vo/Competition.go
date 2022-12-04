@@ -15,3 +15,9 @@ type CompetitionRequest struct {
 	EndTime   model.Time `json:"end_time"`   // 终止时间
 	Type      string     `json:"type"`       // 比赛类型
 }
+
+// CompdeitionUpdate		定义比赛更新
+type CompetitionUpdate struct {
+	StartTime model.Time `json:"start_time"` // 起始时间
+	EndTime   model.Time `json:"end_time"`   // 终止时间
+}
