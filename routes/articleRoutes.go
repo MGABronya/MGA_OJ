@@ -42,6 +42,9 @@ func ArticleRoutes(r *gin.Engine) *gin.Engine {
 	// TODO 查看指定用户的文章列表
 	articleRoutes.GET("/user/list/:id", articleController.UserList)
 
+	// TODO 查看指定分类的文章列表
+	articleRoutes.GET("/category/list/:id", articleController.CategoryList)
+
 	// TODO 点赞或点踩文章
 	articleRoutes.POST("/like/:id", middleware.AuthMiddleware(), articleController.Like)
 
