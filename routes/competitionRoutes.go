@@ -39,12 +39,14 @@ func CompetitionRoutes(r *gin.Engine) *gin.Engine {
 	// TODO 查看竞赛列表
 	competitionRoutes.GET("/list/:id", competitionController.PageList)
 
-	// TODO 查看指定用户的竞赛列表
-	competitionRoutes.GET("/user/list/:id", competitionController.UserList)
+	// TODO 查看指定竞赛成员排名
+	competitionRoutes.GET("/member/rank/:competition/:member", competitionController.RankMember)
 
-	// TODO 查看指定竞赛用户打题数量与罚时
+	// TODO 查看指定竞赛成员罚时情况
+	competitionRoutes.GET("/member/show/:competition/:member", competitionController.MemberShow)
 
 	// TODO 查看竞赛排行
+	competitionRoutes.GET("/rank/list/:id", competitionController.RankList)
 
 	return r
 }
