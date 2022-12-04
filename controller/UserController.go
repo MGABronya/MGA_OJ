@@ -10,6 +10,7 @@ import (
 	"MGA_OJ/response"
 	"MGA_OJ/util"
 	"MGA_OJ/vo"
+	"encoding/json"
 	"fmt"
 	"log"
 	"os"
@@ -20,26 +21,32 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-redis/redis/v9"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
 
 // IUserController			定义了用户类接口
 type IUserController interface {
-	Register(ctx *gin.Context)    // 注册
-	Login(ctx *gin.Context)       // 登录
-	VerifyEmail(ctx *gin.Context) // 验证码
-	Security(ctx *gin.Context)    // 找回密码
-	UpdatePass(ctx *gin.Context)  // 更新密码
-	Info(ctx *gin.Context)        // 返回当前登录的用户
-	Update(ctx *gin.Context)      // 用户的信息更新
-	UpdateIcon(ctx *gin.Context)  // 用户头像更新
-	UpdateLevel(ctx *gin.Context) // 修改用户的等级
+	Register(ctx *gin.Context)       // 注册
+	Login(ctx *gin.Context)          // 登录
+	VerifyEmail(ctx *gin.Context)    // 验证码
+	Security(ctx *gin.Context)       // 找回密码
+	UpdatePass(ctx *gin.Context)     // 更新密码
+	Info(ctx *gin.Context)           // 返回当前登录的用户
+	Update(ctx *gin.Context)         // 用户的信息更新
+	UpdateIcon(ctx *gin.Context)     // 用户头像更新
+	UpdateLevel(ctx *gin.Context)    // 修改用户的等级
+	Show(ctx *gin.Context)           // 显示用户的所有信息
+	AcceptNum(ctx *gin.Context)      // 显示用户ac题目数量
+	AcceptRankList(ctx *gin.Context) // 显示用户ac题目的排行列表
+	AcceptRank(ctx *gin.Context)     // 显示用户ac题目的排行
 }
 
 // UserController			定义了题目工具类
 type UserController struct {
-	DB *gorm.DB // 含有一个数据库指针
+	DB    *gorm.DB      // 含有一个数据库指针
+	Redis *redis.Client // 含有一个redis指针
 }
 
 // @title    Register
@@ -134,6 +141,7 @@ func (u UserController) Login(ctx *gin.Context) {
 	}
 	// TODO 判断邮箱是否存在
 	var user model.User
+
 	u.DB.Where("email = ?", email).First(&user)
 	if user.ID == 0 {
 		response.Response(ctx, 201, 201, nil, "用户不存在")
@@ -259,6 +267,41 @@ func (u UserController) Info(ctx *gin.Context) {
 	response.Success(ctx, gin.H{"user": vo.ToUserDto(user.(model.User))}, "查看用户成功")
 }
 
+// @title    Show
+// @description   查看某个用户的信息
+// @auth      MGAronya（张健）       2022-9-16 12:15
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (u UserController) Show(ctx *gin.Context) {
+	id := ctx.Params.ByName("id")
+
+	var user model.User
+
+	// TODO 先看redis中是否存在
+	if ok, _ := u.Redis.HExists(ctx, "User", id).Result(); ok {
+		cate, _ := u.Redis.HGet(ctx, "User", id).Result()
+		if json.Unmarshal([]byte(cate), &user) == nil {
+			response.Success(ctx, gin.H{"user": vo.ToUserDto(user)}, "成功")
+			return
+		} else {
+			// TODO 移除损坏数据
+			u.Redis.HDel(ctx, "User", id)
+		}
+	}
+
+	// TODO 查看用户是否在数据库中存在
+	if u.DB.Where("id = ?", id).First(&user).Error != nil {
+		response.Fail(ctx, nil, "用户不存在")
+		return
+	}
+
+	response.Success(ctx, gin.H{"user": vo.ToUserDto(user)}, "成功")
+
+	// TODO 将用户存入redis供下次使用
+	v, _ := json.Marshal(user)
+	u.Redis.HSet(ctx, "User", id, v)
+}
+
 // @title    Update
 // @description   修改用户的个人信息
 // @auth      MGAronya（张健）       2022-9-16 12:15
@@ -301,6 +344,9 @@ func (u UserController) Update(ctx *gin.Context) {
 
 	// TODO 更新信息
 	u.DB.Save(&user)
+
+	// TODO 移除损坏数据
+	u.Redis.HDel(ctx, "User", fmt.Sprint(user.ID))
 	response.Success(ctx, nil, "用户信息更新成功")
 }
 
@@ -359,6 +405,9 @@ func (u UserController) UpdateIcon(ctx *gin.Context) {
 
 	u.DB.Save(&user)
 
+	// TODO 移除损坏数据
+	u.Redis.HDel(ctx, "User", fmt.Sprint(user.ID))
+
 	response.Success(ctx, gin.H{"Icon": user.Icon}, "更新成功")
 }
 
@@ -390,7 +439,68 @@ func (u UserController) UpdateLevel(ctx *gin.Context) {
 
 	// TODO 更新信息
 	u.DB.Save(&user)
+
+	// TODO 移除损坏数据
+	u.Redis.HDel(ctx, "User", id)
+
 	response.Success(ctx, nil, "用户信息更新成功")
+}
+
+// @title    AcceptNum
+// @description   查看用户ac题目的数量
+// @auth      MGAronya（张健）       2022-9-16 12:15
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (u UserController) AcceptNum(ctx *gin.Context) {
+
+	id := ctx.Params.ByName("id")
+
+	// TODO 获取对应用户
+	var num int64
+	u.DB.Table("records").Select("count(distinct problem_id)").Where("condition = Accepted and user_id = ?", id).First(&num)
+
+	response.Success(ctx, gin.H{"num": num}, "查看ac题目数量成功")
+}
+
+// @title    AcceptRankList
+// @description   查看用户ac题目的数量排行列表
+// @auth      MGAronya（张健）       2022-9-16 12:15
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (u UserController) AcceptRankList(ctx *gin.Context) {
+
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
+
+	// TODO 扫描结果
+	type Result struct {
+		AcceptNum int64 `json:"accept_num"`
+		UserId    uint  `json:"user_id"`
+	}
+	var acceptRanks []Result
+	var total int64
+
+	// TODO 获取排行数据
+	u.DB.Table("records").Select("count(distinct problem_id) as accept_num, user_id").Where("condition = Accepted").Order("accept_num desc").Group("user_id").Offset((pageNum - 1) * pageSize).Limit(pageSize).Scan(&acceptRanks).Count(&total)
+
+	response.Success(ctx, gin.H{"acceptRanks": acceptRanks, "total": total}, "查看用户ac题目的数量排行列表成功")
+}
+
+// @title    AcceptRank
+// @description   查看用户ac题目的数量排行
+// @auth      MGAronya（张健）       2022-9-16 12:15
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (u UserController) AcceptRank(ctx *gin.Context) {
+
+	id := ctx.Params.ByName("id")
+
+	// TODO 获取对应用户
+	var rank int64
+	u.DB.Table("records").Select("rank() over(partition by condition order by count(distinct problem_id) desc)").Where("condition = Accepted and user_id = ?", id).Group("user_id").First(&rank)
+
+	response.Success(ctx, gin.H{"rank": rank}, "查看用户ac题目的数量排行成功")
 }
 
 // @title    NewUserController
@@ -400,6 +510,7 @@ func (u UserController) UpdateLevel(ctx *gin.Context) {
 // @return   IUserController		返回一个IUserController用于调用各种函数
 func NewUserController() IUserController {
 	db := common.GetDB()
+	redis := common.GetRedisClient(0)
 	db.AutoMigrate(model.User{})
-	return UserController{DB: db}
+	return UserController{DB: db, Redis: redis}
 }

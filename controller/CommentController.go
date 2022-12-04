@@ -10,10 +10,12 @@ import (
 	"MGA_OJ/model"
 	"MGA_OJ/response"
 	"MGA_OJ/vo"
+	"encoding/json"
 	"log"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-redis/redis/v9"
 	"gorm.io/gorm"
 )
 
@@ -26,7 +28,8 @@ type ICommentController interface {
 
 // CommentController			定义了讨论工具类
 type CommentController struct {
-	DB *gorm.DB // 含有一个数据库指针
+	DB    *gorm.DB      // 含有一个数据库指针
+	Redis *redis.Client // 含有一个redis指针
 }
 
 // @title    Create
@@ -48,12 +51,30 @@ func (c CommentController) Create(ctx *gin.Context) {
 
 	var problem model.Problem
 
-	// TODO 查看数据库中是否有该题目
+	// TODO 先看redis中是否存在
+	if ok, _ := c.Redis.HExists(ctx, "Problem", id).Result(); ok {
+		cate, _ := c.Redis.HGet(ctx, "Problem", id).Result()
+		if json.Unmarshal([]byte(cate), &problem) == nil {
+			// TODO 跳过数据库搜寻problem过程
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			c.Redis.HDel(ctx, "Problem", id)
+		}
+	}
+
+	// TODO 查看题目是否在数据库中存在
 	if c.DB.Where("id = ?", id).First(&problem).Error != nil {
 		response.Fail(ctx, nil, "题目不存在")
 		return
 	}
+	// TODO 将题目存入redis供下次使用
+	{
+		v, _ := json.Marshal(problem)
+		c.Redis.HSet(ctx, "Problem", id, v)
+	}
 
+leep:
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
@@ -114,6 +135,9 @@ func (c CommentController) Update(ctx *gin.Context) {
 	// TODO 更新讨论内容
 	c.DB.Where("id = ?", id).Updates(requestComment)
 
+	// TODO 移除损坏数据
+	c.Redis.HDel(ctx, "Comment", id)
+
 	// TODO 成功
 	response.Success(ctx, nil, "更新成功")
 }
@@ -128,6 +152,18 @@ func (c CommentController) Show(ctx *gin.Context) {
 	id := ctx.Params.ByName("id")
 	var comment model.Comment
 
+	// TODO 先看redis中是否存在
+	if ok, _ := c.Redis.HExists(ctx, "Comment", id).Result(); ok {
+		cate, _ := c.Redis.HGet(ctx, "Comment", id).Result()
+		if json.Unmarshal([]byte(cate), &comment) == nil {
+			response.Success(ctx, gin.H{"comment": comment}, "成功")
+			return
+		} else {
+			// TODO 移除损坏数据
+			c.Redis.HDel(ctx, "Comment", id)
+		}
+	}
+
 	// TODO 查看讨论是否在数据库中存在
 	if c.DB.Where("id = ?", id).First(&comment).Error != nil {
 		response.Fail(ctx, nil, "讨论不存在")
@@ -135,6 +171,10 @@ func (c CommentController) Show(ctx *gin.Context) {
 	}
 
 	response.Success(ctx, gin.H{"comment": comment}, "成功")
+
+	// TODO 将讨论存入redis供下次使用
+	v, _ := json.Marshal(comment)
+	c.Redis.HSet(ctx, "Comment", id, v)
 }
 
 // @title    Delete
@@ -167,6 +207,9 @@ func (c CommentController) Delete(ctx *gin.Context) {
 
 	// TODO 删除讨论
 	c.DB.Delete(&comment)
+
+	// TODO 移除损坏数据
+	c.Redis.HDel(ctx, "Comment", id)
 
 	response.Success(ctx, nil, "删除成功")
 }
@@ -237,11 +280,28 @@ func (c CommentController) Like(ctx *gin.Context) {
 
 	var comment model.Comment
 
-	// TODO 查看讨论是否存在
+	// TODO 先看redis中是否存在
+	if ok, _ := c.Redis.HExists(ctx, "Comment", id).Result(); ok {
+		cate, _ := c.Redis.HGet(ctx, "Comment", id).Result()
+		if json.Unmarshal([]byte(cate), &comment) == nil {
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			c.Redis.HDel(ctx, "Comment", id)
+		}
+	}
+
+	// TODO 查看讨论是否在数据库中存在
 	if c.DB.Where("id = ?", id).First(&comment).Error != nil {
 		response.Fail(ctx, nil, "讨论不存在")
 		return
 	}
+	{
+		// TODO 将讨论存入redis供下次使用
+		v, _ := json.Marshal(comment)
+		c.Redis.HSet(ctx, "Comment", id, v)
+	}
+leep:
 
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
@@ -273,14 +333,6 @@ func (c CommentController) CancelLike(ctx *gin.Context) {
 	// 获取path中的id
 	id := ctx.Params.ByName("id")
 
-	var comment model.Comment
-
-	// TODO 查看讨论是否存在
-	if c.DB.Where("id = ?", id).First(&comment).Error != nil {
-		response.Fail(ctx, nil, "讨论不存在")
-		return
-	}
-
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
@@ -303,14 +355,6 @@ func (c CommentController) LikeNumber(ctx *gin.Context) {
 	// TODO 获取like
 	like, _ := strconv.ParseBool(ctx.Query("like"))
 
-	var comment model.Comment
-
-	// TODO 查看讨论是否存在
-	if c.DB.Where("id = ?", id).First(&comment).Error != nil {
-		response.Fail(ctx, nil, "讨论不存在")
-		return
-	}
-
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
@@ -330,14 +374,6 @@ func (c CommentController) LikeList(ctx *gin.Context) {
 
 	// TODO 获取like
 	like, _ := strconv.ParseBool(ctx.Query("like"))
-
-	var comment model.Comment
-
-	// TODO 查看讨论是否存在
-	if c.DB.Where("id = ?", id).First(&comment).Error != nil {
-		response.Fail(ctx, nil, "讨论不存在")
-		return
-	}
 
 	// TODO 获取分页参数
 	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
@@ -362,14 +398,6 @@ func (c CommentController) LikeList(ctx *gin.Context) {
 func (c CommentController) LikeShow(ctx *gin.Context) {
 	// 获取path中的id
 	id := ctx.Params.ByName("id")
-
-	var comment model.Comment
-
-	// TODO 查看讨论是否存在
-	if c.DB.Where("id = ?", id).First(&comment).Error != nil {
-		response.Fail(ctx, nil, "讨论不存在")
-		return
-	}
 
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
@@ -408,21 +436,13 @@ func (c CommentController) Likes(ctx *gin.Context) {
 	// TODO 获取指定用户用户
 	id := ctx.Params.ByName("id")
 
-	var user model.User
-
-	// TODO 查看用户是否存在
-	if c.DB.Where("id = ?", id).First(&user).Error != nil {
-		response.Fail(ctx, nil, "用户不存在")
-		return
-	}
-
 	// TODO 分页
 	var commentLikes []model.CommentLike
 
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	c.DB.Where("user_id = ? and like = ?", user.ID, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&commentLikes).Count(&total)
+	c.DB.Where("user_id = ? and like = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&commentLikes).Count(&total)
 
 	response.Success(ctx, gin.H{"commentLikes": commentLikes, "total": total}, "查看成功")
 }

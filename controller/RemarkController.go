@@ -10,10 +10,12 @@ import (
 	"MGA_OJ/model"
 	"MGA_OJ/response"
 	"MGA_OJ/vo"
+	"encoding/json"
 	"log"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-redis/redis/v9"
 	"gorm.io/gorm"
 )
 
@@ -26,7 +28,8 @@ type IRemarkController interface {
 
 // RemarkController			定义了文章的回复工具类
 type RemarkController struct {
-	DB *gorm.DB // 含有一个数据库指针
+	DB    *gorm.DB      // 含有一个数据库指针
+	Redis *redis.Client // 含有一个redis指针
 }
 
 // @title    Create
@@ -48,11 +51,29 @@ func (r RemarkController) Create(ctx *gin.Context) {
 
 	var article model.Article
 
+	// TODO 先尝试在redis中寻找
+	if ok, _ := r.Redis.HExists(ctx, "Article", id).Result(); ok {
+		art, _ := r.Redis.HGet(ctx, "Article", id).Result()
+		if json.Unmarshal([]byte(art), &article) == nil {
+			goto leep
+		} else {
+			// TODO 解码失败，删除字段
+			r.Redis.HDel(ctx, "Article", id)
+		}
+	}
+
+	// TODO 查看文章是否在数据库中存在
 	if r.DB.Where("id = ?", id).First(&article).Error != nil {
 		response.Fail(ctx, nil, "文章不存在")
 		return
 	}
+	{
+		// TODO 将文章存入redis供下次使用
+		v, _ := json.Marshal(article)
+		r.Redis.HSet(ctx, "Article", id, v)
+	}
 
+leep:
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
@@ -113,6 +134,9 @@ func (r RemarkController) Update(ctx *gin.Context) {
 	// TODO 更新文章的回复内容
 	r.DB.Where("id = ?", id).Updates(requestRemark)
 
+	// TODO 移除损坏数据
+	r.Redis.HDel(ctx, "Remark", id)
+
 	// TODO 成功
 	response.Success(ctx, nil, "更新成功")
 }
@@ -127,6 +151,18 @@ func (r RemarkController) Show(ctx *gin.Context) {
 	id := ctx.Params.ByName("id")
 	var remark model.Remark
 
+	// TODO 先看redis中是否存在
+	if ok, _ := r.Redis.HExists(ctx, "Remark", id).Result(); ok {
+		cate, _ := r.Redis.HGet(ctx, "Remark", id).Result()
+		if json.Unmarshal([]byte(cate), &remark) == nil {
+			response.Success(ctx, gin.H{"remark": remark}, "成功")
+			return
+		} else {
+			// TODO 移除损坏数据
+			r.Redis.HDel(ctx, "Remark", id)
+		}
+	}
+
 	// TODO 查看文章的回复是否在数据库中存在
 	if r.DB.Where("id = ?", id).First(&remark).Error != nil {
 		response.Fail(ctx, nil, "文章的回复不存在")
@@ -134,6 +170,10 @@ func (r RemarkController) Show(ctx *gin.Context) {
 	}
 
 	response.Success(ctx, gin.H{"remark": remark}, "成功")
+
+	// TODO 将提交存入redis供下次使用
+	v, _ := json.Marshal(remark)
+	r.Redis.HSet(ctx, "Remark", id, v)
 }
 
 // @title    Delete
@@ -166,6 +206,9 @@ func (r RemarkController) Delete(ctx *gin.Context) {
 
 	// TODO 删除文章的回复
 	r.DB.Delete(&remark)
+
+	// TODO 移除损坏数据
+	r.Redis.HDel(ctx, "Remark", id)
 
 	response.Success(ctx, nil, "删除成功")
 }
@@ -236,12 +279,28 @@ func (r RemarkController) Like(ctx *gin.Context) {
 
 	var remark model.Remark
 
-	// TODO 查看文章是否存在
-	if r.DB.Where("id = ?", id).First(&remark).Error != nil {
-		response.Fail(ctx, nil, "文章不存在")
-		return
+	// TODO 先看redis中是否存在
+	if ok, _ := r.Redis.HExists(ctx, "Remark", id).Result(); ok {
+		cate, _ := r.Redis.HGet(ctx, "Remark", id).Result()
+		if json.Unmarshal([]byte(cate), &remark) == nil {
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			r.Redis.HDel(ctx, "Remark", id)
+		}
 	}
 
+	// TODO 查看文章的回复是否在数据库中存在
+	if r.DB.Where("id = ?", id).First(&remark).Error != nil {
+		response.Fail(ctx, nil, "文章的回复不存在")
+		return
+	}
+	{
+		// TODO 将提交存入redis供下次使用
+		v, _ := json.Marshal(remark)
+		r.Redis.HSet(ctx, "Remark", id, v)
+	}
+leep:
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
@@ -272,14 +331,6 @@ func (r RemarkController) CancelLike(ctx *gin.Context) {
 	// 获取path中的id
 	id := ctx.Params.ByName("id")
 
-	var remark model.Remark
-
-	// TODO 查看题目是否存在
-	if r.DB.Where("id = ?", id).First(&remark).Error != nil {
-		response.Fail(ctx, nil, "文章不存在")
-		return
-	}
-
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
@@ -302,14 +353,6 @@ func (r RemarkController) LikeNumber(ctx *gin.Context) {
 	// TODO 获取like
 	like, _ := strconv.ParseBool(ctx.Query("like"))
 
-	var remark model.Remark
-
-	// TODO 查看题目是否存在
-	if r.DB.Where("id = ?", id).First(&remark).Error != nil {
-		response.Fail(ctx, nil, "文章不存在")
-		return
-	}
-
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
@@ -329,14 +372,6 @@ func (r RemarkController) LikeList(ctx *gin.Context) {
 
 	// TODO 获取like
 	like, _ := strconv.ParseBool(ctx.Query("like"))
-
-	var remark model.Remark
-
-	// TODO 查看题目是否存在
-	if r.DB.Where("id = ?", id).First(&remark).Error != nil {
-		response.Fail(ctx, nil, "文章不存在")
-		return
-	}
 
 	// TODO 获取分页参数
 	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
@@ -361,14 +396,6 @@ func (r RemarkController) LikeList(ctx *gin.Context) {
 func (r RemarkController) LikeShow(ctx *gin.Context) {
 	// 获取path中的id
 	id := ctx.Params.ByName("id")
-
-	var remark model.Remark
-
-	// TODO 查看文章是否存在
-	if r.DB.Where("id = ?", id).First(&remark).Error != nil {
-		response.Fail(ctx, nil, "文章不存在")
-		return
-	}
 
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
@@ -407,21 +434,13 @@ func (r RemarkController) Likes(ctx *gin.Context) {
 	/// TODO 获取指定用户用户
 	id := ctx.Params.ByName("id")
 
-	var user model.User
-
-	// TODO 查看用户是否存在
-	if r.DB.Where("id = ?", id).First(&user).Error != nil {
-		response.Fail(ctx, nil, "用户不存在")
-		return
-	}
-
 	// TODO 分页
 	var remarkLikes []model.RemarkLike
 
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	r.DB.Where("user_id = ? and like = ?", user.ID, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&remarkLikes).Count(&total)
+	r.DB.Where("user_id = ? and like = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&remarkLikes).Count(&total)
 
 	response.Success(ctx, gin.H{"remarkLikes": remarkLikes, "total": total}, "查看成功")
 }
@@ -433,7 +452,8 @@ func (r RemarkController) Likes(ctx *gin.Context) {
 // @return   IRemarkController		返回一个IRemarkController用于调用各种函数
 func NewRemarkController() IRemarkController {
 	db := common.GetDB()
+	redis := common.GetRedisClient(0)
 	db.AutoMigrate(model.Remark{})
 	db.AutoMigrate(model.RemarkLike{})
-	return RemarkController{DB: db}
+	return RemarkController{DB: db, Redis: redis}
 }

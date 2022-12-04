@@ -7,6 +7,7 @@ package middleware
 import (
 	"MGA_OJ/common"
 	"MGA_OJ/model"
+	"encoding/json"
 	"fmt"
 	"strings"
 
@@ -50,13 +51,24 @@ func AuthMiddleware() gin.HandlerFunc {
 		}
 
 		// TODO token通过验证, 获取claims中的UserID
-		userId := claims.UserId
+		id := fmt.Sprint(claims.UserId)
 		DB := common.GetDB()
+		Redis := common.GetRedisClient(0)
 		var user model.User
-		DB.First(&user, userId)
 
-		// TODO 验证用户是否存在
-		if user.ID == 0 {
+		// TODO 先看redis中是否存在
+		if ok, _ := Redis.HExists(ctx, "User", id).Result(); ok {
+			cate, _ := Redis.HGet(ctx, "User", id).Result()
+			if json.Unmarshal([]byte(cate), &user) == nil {
+				goto leep
+			} else {
+				// TODO 移除损坏数据
+				Redis.HDel(ctx, "User", id)
+			}
+		}
+
+		// TODO 查看用户是否在数据库中存在
+		if DB.Where("id = ?", id).First(&user).Error != nil {
 			ctx.JSON(201, gin.H{
 				"code": 201,
 				"msg":  "用户不存在，权限不足",
@@ -65,6 +77,7 @@ func AuthMiddleware() gin.HandlerFunc {
 			return
 		}
 
+	leep:
 		// TODO 用户存在 将user信息写入上下文
 		ctx.Set("user", user)
 

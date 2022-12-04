@@ -10,10 +10,12 @@ import (
 	"MGA_OJ/model"
 	"MGA_OJ/response"
 	"MGA_OJ/vo"
+	"encoding/json"
 	"log"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-redis/redis/v9"
 	"gorm.io/gorm"
 )
 
@@ -28,7 +30,8 @@ type IPostController interface {
 
 // PostController			定义了题解工具类
 type PostController struct {
-	DB *gorm.DB // 含有一个数据库指针
+	DB    *gorm.DB      // 含有一个数据库指针
+	Redis *redis.Client // 含有一个redis指针
 }
 
 // @title    Create
@@ -50,11 +53,30 @@ func (p PostController) Create(ctx *gin.Context) {
 
 	var problem model.Problem
 
-	// TODO 查看数据库中是否有该题目
+	// TODO 先看redis中是否存在
+	if ok, _ := p.Redis.HExists(ctx, "Problem", id).Result(); ok {
+		cate, _ := p.Redis.HGet(ctx, "Problem", id).Result()
+		if json.Unmarshal([]byte(cate), &problem) == nil {
+			// TODO 跳过数据库搜寻problem过程
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			p.Redis.HDel(ctx, "Problem", id)
+		}
+	}
+
+	// TODO 查看题目是否在数据库中存在
 	if p.DB.Where("id = ?", id).First(&problem).Error != nil {
 		response.Fail(ctx, nil, "题目不存在")
 		return
 	}
+	// TODO 将题目存入redis供下次使用
+	{
+		v, _ := json.Marshal(problem)
+		p.Redis.HSet(ctx, "Problem", id, v)
+	}
+
+leep:
 
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
@@ -117,6 +139,9 @@ func (p PostController) Update(ctx *gin.Context) {
 	// TODO 更新题解内容
 	p.DB.Where("id = ?", id).Updates(requestPost)
 
+	// TODO 移除损坏数据
+	p.Redis.HDel(ctx, "Post", id)
+
 	// TODO 成功
 	response.Success(ctx, nil, "更新成功")
 }
@@ -131,6 +156,18 @@ func (p PostController) Show(ctx *gin.Context) {
 	id := ctx.Params.ByName("id")
 	var post model.Post
 
+	// TODO 先看redis中是否存在
+	if ok, _ := p.Redis.HExists(ctx, "Post", id).Result(); ok {
+		cate, _ := p.Redis.HGet(ctx, "Post", id).Result()
+		if json.Unmarshal([]byte(cate), &post) == nil {
+			response.Success(ctx, gin.H{"post": post}, "成功")
+			return
+		} else {
+			// TODO 移除损坏数据
+			p.Redis.HDel(ctx, "Post", id)
+		}
+	}
+
 	// TODO 查看题解是否在数据库中存在
 	if p.DB.Where("id = ?", id).First(&post).Error != nil {
 		response.Fail(ctx, nil, "题解不存在")
@@ -138,6 +175,10 @@ func (p PostController) Show(ctx *gin.Context) {
 	}
 
 	response.Success(ctx, gin.H{"post": post}, "成功")
+
+	// TODO 将题解存入redis供下次使用
+	v, _ := json.Marshal(post)
+	p.Redis.HSet(ctx, "Post", id, v)
 }
 
 // @title    Delete
@@ -170,6 +211,9 @@ func (p PostController) Delete(ctx *gin.Context) {
 
 	// TODO 删除题解
 	p.DB.Delete(&post)
+
+	// TODO 移除损坏数据
+	p.Redis.HDel(ctx, "Post", id)
 
 	response.Success(ctx, nil, "删除成功")
 }
@@ -241,10 +285,28 @@ func (p PostController) Like(ctx *gin.Context) {
 	var post model.Post
 
 	// TODO 查看题解是否存在
+	// TODO 先看redis中是否存在
+	if ok, _ := p.Redis.HExists(ctx, "Post", id).Result(); ok {
+		cate, _ := p.Redis.HGet(ctx, "Post", id).Result()
+		if json.Unmarshal([]byte(cate), &post) == nil {
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			p.Redis.HDel(ctx, "Post", id)
+		}
+	}
+
+	// TODO 查看题解是否在数据库中存在
 	if p.DB.Where("id = ?", id).First(&post).Error != nil {
 		response.Fail(ctx, nil, "题解不存在")
 		return
 	}
+	{
+		// TODO 将题解存入redis供下次使用
+		v, _ := json.Marshal(post)
+		p.Redis.HSet(ctx, "Post", id, v)
+	}
+leep:
 
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
@@ -276,14 +338,6 @@ func (p PostController) CancelLike(ctx *gin.Context) {
 	// 获取path中的id
 	id := ctx.Params.ByName("id")
 
-	var post model.Post
-
-	// TODO 查看题解是否存在
-	if p.DB.Where("id = ?", id).First(&post).Error != nil {
-		response.Fail(ctx, nil, "题解不存在")
-		return
-	}
-
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
@@ -306,14 +360,6 @@ func (p PostController) LikeNumber(ctx *gin.Context) {
 	// TODO 获取like
 	like, _ := strconv.ParseBool(ctx.Query("like"))
 
-	var post model.Post
-
-	// TODO 查看题解是否存在
-	if p.DB.Where("id = ?", id).First(&post).Error != nil {
-		response.Fail(ctx, nil, "题解不存在")
-		return
-	}
-
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
@@ -333,14 +379,6 @@ func (p PostController) LikeList(ctx *gin.Context) {
 
 	// TODO 获取like
 	like, _ := strconv.ParseBool(ctx.Query("like"))
-
-	var post model.Post
-
-	// TODO 查看题解是否存在
-	if p.DB.Where("id = ?", id).First(&post).Error != nil {
-		response.Fail(ctx, nil, "题解不存在")
-		return
-	}
 
 	// TODO 获取分页参数
 	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
@@ -365,14 +403,6 @@ func (p PostController) LikeList(ctx *gin.Context) {
 func (p PostController) LikeShow(ctx *gin.Context) {
 	// 获取path中的id
 	id := ctx.Params.ByName("id")
-
-	var post model.Post
-
-	// TODO 查看讨论是否存在
-	if p.DB.Where("id = ?", id).First(&post).Error != nil {
-		response.Fail(ctx, nil, "题解不存在")
-		return
-	}
 
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
@@ -411,21 +441,13 @@ func (p PostController) Likes(ctx *gin.Context) {
 	// TODO 获取指定用户用户
 	id := ctx.Params.ByName("id")
 
-	var user model.User
-
-	// TODO 查看用户是否存在
-	if p.DB.Where("id = ?", id).First(&user).Error != nil {
-		response.Fail(ctx, nil, "用户不存在")
-		return
-	}
-
 	// TODO 分页
 	var postLikes []model.PostLike
 
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	p.DB.Where("user_id = ? and like = ?", user.ID, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&postLikes).Count(&total)
+	p.DB.Where("user_id = ? and like = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&postLikes).Count(&total)
 
 	response.Success(ctx, gin.H{"postLikes": postLikes, "total": total}, "查看成功")
 }
@@ -442,10 +464,28 @@ func (p PostController) Collect(ctx *gin.Context) {
 	var post model.Post
 
 	// TODO 查看题解是否存在
+	// TODO 先看redis中是否存在
+	if ok, _ := p.Redis.HExists(ctx, "Post", id).Result(); ok {
+		cate, _ := p.Redis.HGet(ctx, "Post", id).Result()
+		if json.Unmarshal([]byte(cate), &post) == nil {
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			p.Redis.HDel(ctx, "Post", id)
+		}
+	}
+
+	// TODO 查看题解是否在数据库中存在
 	if p.DB.Where("id = ?", id).First(&post).Error != nil {
 		response.Fail(ctx, nil, "题解不存在")
 		return
 	}
+	{
+		// TODO 将题解存入redis供下次使用
+		v, _ := json.Marshal(post)
+		p.Redis.HSet(ctx, "Post", id, v)
+	}
+leep:
 
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
@@ -479,24 +519,16 @@ func (p PostController) CancelCollect(ctx *gin.Context) {
 	// TODO 获取path中的id
 	id := ctx.Params.ByName("id")
 
-	var post model.Post
-
-	// TODO 查看题解是否存在
-	if p.DB.Where("id = ?", id).First(&post).Error != nil {
-		response.Fail(ctx, nil, "题解不存在")
-		return
-	}
-
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
 
 	// TODO 如果没有收藏
-	if p.DB.Where("user_id = ? and post_id = ?", user.ID, post.ID).First(&model.PostCollect{}).Error != nil {
+	if p.DB.Where("user_id = ? and post_id = ?", user.ID, id).First(&model.PostCollect{}).Error != nil {
 		response.Fail(ctx, nil, "未收藏")
 		return
 	} else {
-		p.DB.Where("user_id = ? and post_id = ?", user.ID, post.ID).Delete(&model.PostCollect{})
+		p.DB.Where("user_id = ? and post_id = ?", user.ID, id).Delete(&model.PostCollect{})
 		response.Success(ctx, nil, "取消收藏成功")
 		return
 	}
@@ -511,20 +543,12 @@ func (p PostController) CollectShow(ctx *gin.Context) {
 	// TODO 获取path中的id
 	id := ctx.Params.ByName("id")
 
-	var post model.Post
-
-	// TODO 查看题解是否存在
-	if p.DB.Where("id = ?", id).First(&post).Error != nil {
-		response.Fail(ctx, nil, "题解不存在")
-		return
-	}
-
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
 
 	// TODO 如果没有收藏
-	if p.DB.Where("user_id = ? and post_id = ?", user.ID, post.ID).First(&model.PostCollect{}).Error != nil {
+	if p.DB.Where("user_id = ? and post_id = ?", user.ID, id).First(&model.PostCollect{}).Error != nil {
 		response.Success(ctx, gin.H{"collect": false}, "未收藏")
 		return
 	} else {
@@ -542,14 +566,6 @@ func (p PostController) CollectList(ctx *gin.Context) {
 	// TODO 获取path中的id
 	id := ctx.Params.ByName("id")
 
-	var post model.Post
-
-	// TODO 查看题解是否存在
-	if p.DB.Where("id = ?", id).First(&post).Error != nil {
-		response.Fail(ctx, nil, "题解不存在")
-		return
-	}
-
 	// TODO 获取分页参数
 	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
 	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
@@ -560,7 +576,7 @@ func (p PostController) CollectList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看收藏的数量
-	p.DB.Where("post_id = ?", post.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&postCollects).Count(&total)
+	p.DB.Where("post_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&postCollects).Count(&total)
 
 	response.Success(ctx, gin.H{"postCollects": postCollects, "total": total}, "查看成功")
 }
@@ -574,18 +590,10 @@ func (p PostController) CollectNumber(ctx *gin.Context) {
 	// TODO 获取path中的id
 	id := ctx.Params.ByName("id")
 
-	var post model.Post
-
-	// TODO 查看题解是否存在
-	if p.DB.Where("id = ?", id).First(&post).Error != nil {
-		response.Fail(ctx, nil, "题解不存在")
-		return
-	}
-
 	var total int64
 
 	// TODO 查看收藏的数量
-	p.DB.Where("post_id = ?", post.ID).Count(&total)
+	p.DB.Where("post_id = ?", id).Count(&total)
 
 	response.Success(ctx, gin.H{"total": total}, "查看成功")
 }
@@ -600,14 +608,6 @@ func (p PostController) Collects(ctx *gin.Context) {
 	// TODO 获取指定用户用户
 	id := ctx.Params.ByName("id")
 
-	var user model.User
-
-	// TODO 查看用户是否存在
-	if p.DB.Where("id = ?", id).First(&user).Error != nil {
-		response.Fail(ctx, nil, "用户不存在")
-		return
-	}
-
 	// TODO 获取分页参数
 	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
 	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
@@ -618,7 +618,7 @@ func (p PostController) Collects(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看收藏的数量
-	p.DB.Where("user_id = ?", user.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&postCollects).Count(&total)
+	p.DB.Where("user_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&postCollects).Count(&total)
 
 	response.Success(ctx, gin.H{"postCollects": postCollects, "total": total}, "查看成功")
 }
@@ -635,10 +635,28 @@ func (p PostController) Visit(ctx *gin.Context) {
 	var post model.Post
 
 	// TODO 查看题解是否存在
+	// TODO 先看redis中是否存在
+	if ok, _ := p.Redis.HExists(ctx, "Post", id).Result(); ok {
+		cate, _ := p.Redis.HGet(ctx, "Post", id).Result()
+		if json.Unmarshal([]byte(cate), &post) == nil {
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			p.Redis.HDel(ctx, "Post", id)
+		}
+	}
+
+	// TODO 查看题解是否在数据库中存在
 	if p.DB.Where("id = ?", id).First(&post).Error != nil {
 		response.Fail(ctx, nil, "题解不存在")
 		return
 	}
+	{
+		// TODO 将题解存入redis供下次使用
+		v, _ := json.Marshal(post)
+		p.Redis.HSet(ctx, "Post", id, v)
+	}
+leep:
 
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
@@ -667,18 +685,10 @@ func (p PostController) VisitNumber(ctx *gin.Context) {
 	// TODO 获取path中的id
 	id := ctx.Params.ByName("id")
 
-	var post model.Post
-
-	// TODO 查看题解是否存在
-	if p.DB.Where("id = ?", id).First(&post).Error != nil {
-		response.Fail(ctx, nil, "题解不存在")
-		return
-	}
-
 	// TODO 获得游览总数
 	var total int64
 
-	p.DB.Where("post_id = ?", post.ID).Count(&total)
+	p.DB.Where("post_id = ?", id).Count(&total)
 
 	response.Success(ctx, gin.H{"total": total}, "请求题解游览数目成功")
 }
@@ -692,14 +702,6 @@ func (p PostController) VisitList(ctx *gin.Context) {
 	// TODO 获取path中的id
 	id := ctx.Params.ByName("id")
 
-	var post model.Post
-
-	// TODO 查看题解是否存在
-	if p.DB.Where("id = ?", id).First(&post).Error != nil {
-		response.Fail(ctx, nil, "题解不存在")
-		return
-	}
-
 	// TODO 获取分页参数
 	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
 	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
@@ -710,7 +712,7 @@ func (p PostController) VisitList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看收藏的数量
-	p.DB.Where("post_id = ?", post.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&postVisits).Count(&total)
+	p.DB.Where("post_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&postVisits).Count(&total)
 
 	response.Success(ctx, gin.H{"postVisits": postVisits, "total": total}, "查看成功")
 }
@@ -724,14 +726,6 @@ func (p PostController) Visits(ctx *gin.Context) {
 	// TODO 获取指定用户用户
 	id := ctx.Params.ByName("id")
 
-	var user model.User
-
-	// TODO 查看用户是否存在
-	if p.DB.Where("id = ?", id).First(&user).Error != nil {
-		response.Fail(ctx, nil, "用户不存在")
-		return
-	}
-
 	// TODO 获取分页参数
 	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
 	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
@@ -742,7 +736,7 @@ func (p PostController) Visits(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看收藏的数量
-	p.DB.Where("user_id = ?", user.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&postVisits).Count(&total)
+	p.DB.Where("user_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&postVisits).Count(&total)
 
 	response.Success(ctx, gin.H{"postVisits": postVisits, "total": total}, "查看成功")
 }
@@ -754,9 +748,10 @@ func (p PostController) Visits(ctx *gin.Context) {
 // @return   IPostController		返回一个IPostController用于调用各种函数
 func NewPostController() IPostController {
 	db := common.GetDB()
+	redis := common.GetRedisClient(0)
 	db.AutoMigrate(model.Post{})
 	db.AutoMigrate(model.PostCollect{})
 	db.AutoMigrate(model.PostLike{})
 	db.AutoMigrate(model.PostVisit{})
-	return PostController{DB: db}
+	return PostController{DB: db, Redis: redis}
 }

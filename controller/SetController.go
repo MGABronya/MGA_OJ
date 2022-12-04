@@ -10,10 +10,13 @@ import (
 	"MGA_OJ/model"
 	"MGA_OJ/response"
 	"MGA_OJ/vo"
+	"encoding/json"
+	"fmt"
 	"log"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-redis/redis/v9"
 	"gorm.io/gorm"
 )
 
@@ -33,7 +36,8 @@ type ISetController interface {
 
 // SetController			定义了表单工具类
 type SetController struct {
-	DB *gorm.DB // 含有一个数据库指针
+	DB    *gorm.DB      // 含有一个数据库指针
+	Redis *redis.Client // 含有一个redis指针
 }
 
 // @title    Create
@@ -77,10 +81,31 @@ func (s SetController) Create(ctx *gin.Context) {
 	if user.Level >= 2 {
 		for _, v := range requestSet.Groups {
 			var group model.Group
-			if s.DB.Where("id = ?", v).First(&group).Error != nil {
+
+			id := fmt.Sprint(v)
+
+			// TODO 先看redis中是否存在
+			if ok, _ := s.Redis.HExists(ctx, "Group", id).Result(); ok {
+				cate, _ := s.Redis.HGet(ctx, "Group", id).Result()
+				if json.Unmarshal([]byte(cate), &group) == nil {
+					goto leep
+				} else {
+					// TODO 移除损坏数据
+					s.Redis.HDel(ctx, "Group", id)
+				}
+			}
+
+			// TODO 查看用户组是否在数据库中存在
+			if s.DB.Where("id = ?", id).First(&group).Error != nil {
 				response.Fail(ctx, nil, "用户组不存在")
 				return
 			}
+			{
+				// TODO 将用户组存入redis供下次使用
+				v, _ := json.Marshal(group)
+				s.Redis.HSet(ctx, "Group", id, v)
+			}
+		leep:
 			if group.LeaderId != user.ID {
 				response.Fail(ctx, nil, "不是该组的组长，不能进行此操作")
 				return
@@ -104,10 +129,30 @@ func (s SetController) Create(ctx *gin.Context) {
 	// TODO 插入相关主题
 	for _, v := range requestSet.Topics {
 		var topic model.Topic
-		if s.DB.Where("id = ?", v).First(&topic).Error != nil {
+		id := fmt.Sprint(v)
+
+		// TODO 先看redis中是否存在
+		if ok, _ := s.Redis.HExists(ctx, "Topic", id).Result(); ok {
+			cate, _ := s.Redis.HGet(ctx, "Topic", id).Result()
+			if json.Unmarshal([]byte(cate), &topic) == nil {
+				goto leap
+			} else {
+				// TODO 移除损坏数据
+				s.Redis.HDel(ctx, "Topic", id)
+			}
+		}
+
+		// TODO 查看主题是否在数据库中存在
+		if s.DB.Where("id = ?", id).First(&topic).Error != nil {
 			response.Fail(ctx, nil, "主题不存在")
 			return
 		}
+		{
+			// TODO 将用户组存入redis供下次使用
+			v, _ := json.Marshal(topic)
+			s.Redis.HSet(ctx, "Topic", id, v)
+		}
+	leap:
 		topicList := model.TopicList{
 			SetId:   set.ID,
 			TopicId: uint(v),
@@ -178,16 +223,39 @@ func (s SetController) Update(ctx *gin.Context) {
 	// TODO 更新表单内容
 	s.DB.Where("id = ?", id).Updates(set)
 
+	// TODO 移除损坏数据
+	s.Redis.HDel(ctx, "Set", id)
+
 	if len(requestSet.Groups) != 0 {
 		s.DB.Where("set_id = ?", id).Delete(&model.GroupList{})
 		// TODO 插入相关用户组
 		for _, v := range requestSet.Groups {
 
 			var group model.Group
-			if s.DB.Where("id = ?", v).First(&group).Error != nil {
+			id := fmt.Sprint(v)
+
+			// TODO 先看redis中是否存在
+			if ok, _ := s.Redis.HExists(ctx, "Group", id).Result(); ok {
+				cate, _ := s.Redis.HGet(ctx, "Group", id).Result()
+				if json.Unmarshal([]byte(cate), &group) == nil {
+					goto leep
+				} else {
+					// TODO 移除损坏数据
+					s.Redis.HDel(ctx, "Group", id)
+				}
+			}
+
+			// TODO 查看用户组是否在数据库中存在
+			if s.DB.Where("id = ?", id).First(&group).Error != nil {
 				response.Fail(ctx, nil, "用户组不存在")
 				return
 			}
+			{
+				// TODO 将用户组存入redis供下次使用
+				v, _ := json.Marshal(group)
+				s.Redis.HSet(ctx, "Group", id, v)
+			}
+		leep:
 			if group.LeaderId != user.ID {
 				response.Fail(ctx, nil, "不是该组的组长，不能进行此操作")
 				return
@@ -214,10 +282,28 @@ func (s SetController) Update(ctx *gin.Context) {
 		// TODO 插入相关主题
 		var topic model.Topic
 		for _, v := range requestSet.Topics {
-			if s.DB.Where("id = ?", v).First(&topic).Error != nil {
+			// TODO 先看redis中是否存在
+			if ok, _ := s.Redis.HExists(ctx, "Topic", id).Result(); ok {
+				cate, _ := s.Redis.HGet(ctx, "Topic", id).Result()
+				if json.Unmarshal([]byte(cate), &topic) == nil {
+					goto leap
+				} else {
+					// TODO 移除损坏数据
+					s.Redis.HDel(ctx, "Topic", id)
+				}
+			}
+
+			// TODO 查看主题是否在数据库中存在
+			if s.DB.Where("id = ?", id).First(&topic).Error != nil {
 				response.Fail(ctx, nil, "主题不存在")
 				return
 			}
+			{
+				// TODO 将用户组存入redis供下次使用
+				v, _ := json.Marshal(topic)
+				s.Redis.HSet(ctx, "Topic", id, v)
+			}
+		leap:
 			topicList := model.TopicList{
 				SetId:   set.ID,
 				TopicId: uint(v),
@@ -249,6 +335,18 @@ func (s SetController) Show(ctx *gin.Context) {
 	id := ctx.Params.ByName("id")
 	var set model.Set
 
+	// TODO 先看redis中是否存在
+	if ok, _ := s.Redis.HExists(ctx, "Set", id).Result(); ok {
+		cate, _ := s.Redis.HGet(ctx, "Set", id).Result()
+		if json.Unmarshal([]byte(cate), &set) == nil {
+			response.Success(ctx, gin.H{"set": set}, "成功")
+			return
+		} else {
+			// TODO 移除损坏数据
+			s.Redis.HDel(ctx, "Set", id)
+		}
+	}
+
 	// TODO 查看表单是否在数据库中存在
 	if s.DB.Where("id = ?", id).First(&set).Error != nil {
 		response.Fail(ctx, nil, "表单不存在")
@@ -256,6 +354,11 @@ func (s SetController) Show(ctx *gin.Context) {
 	}
 
 	response.Success(ctx, gin.H{"set": set}, "成功")
+
+	// TODO 将提交存入redis供下次使用
+	v, _ := json.Marshal(set)
+	s.Redis.HSet(ctx, "Set", id, v)
+
 }
 
 // @title    Delete
@@ -288,6 +391,9 @@ func (s SetController) Delete(ctx *gin.Context) {
 
 	// TODO 删除表单
 	s.DB.Delete(&set)
+
+	// TODO 移除损坏数据
+	s.Redis.HDel(ctx, "Set", id)
 
 	response.Success(ctx, nil, "删除成功")
 }
@@ -437,11 +543,27 @@ func (s SetController) Like(ctx *gin.Context) {
 	var set model.Set
 
 	// TODO 查看表单是否存在
+	// TODO 先看redis中是否存在
+	if ok, _ := s.Redis.HExists(ctx, "Set", id).Result(); ok {
+		cate, _ := s.Redis.HGet(ctx, "Set", id).Result()
+		if json.Unmarshal([]byte(cate), &set) == nil {
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			s.Redis.HDel(ctx, "Set", id)
+		}
+	}
+	// TODO 查看表单是否在数据库中存在
 	if s.DB.Where("id = ?", id).First(&set).Error != nil {
 		response.Fail(ctx, nil, "表单不存在")
 		return
 	}
-
+	{
+		// TODO 将提交存入redis供下次使用
+		v, _ := json.Marshal(set)
+		s.Redis.HSet(ctx, "Set", id, v)
+	}
+leep:
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
@@ -472,14 +594,6 @@ func (s SetController) CancelLike(ctx *gin.Context) {
 	// 获取path中的id
 	id := ctx.Params.ByName("id")
 
-	var set model.Set
-
-	// TODO 查看表单是否存在
-	if s.DB.Where("id = ?", id).First(&set).Error != nil {
-		response.Fail(ctx, nil, "表单不存在")
-		return
-	}
-
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
@@ -502,14 +616,6 @@ func (s SetController) LikeNumber(ctx *gin.Context) {
 	// TODO 获取like
 	like, _ := strconv.ParseBool(ctx.Query("like"))
 
-	var set model.Set
-
-	// TODO 查看表单是否存在
-	if s.DB.Where("id = ?", id).First(&set).Error != nil {
-		response.Fail(ctx, nil, "表单不存在")
-		return
-	}
-
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
@@ -529,14 +635,6 @@ func (s SetController) LikeList(ctx *gin.Context) {
 
 	// TODO 获取like
 	like, _ := strconv.ParseBool(ctx.Query("like"))
-
-	var set model.Set
-
-	// TODO 查看表单是否存在
-	if s.DB.Where("id = ?", id).First(&set).Error != nil {
-		response.Fail(ctx, nil, "表单不存在")
-		return
-	}
 
 	// TODO 获取分页参数
 	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
@@ -561,14 +659,6 @@ func (s SetController) LikeList(ctx *gin.Context) {
 func (s SetController) LikeShow(ctx *gin.Context) {
 	// 获取path中的id
 	id := ctx.Params.ByName("id")
-
-	var set model.Set
-
-	// TODO 查看讨论是否存在
-	if s.DB.Where("id = ?", id).First(&set).Error != nil {
-		response.Fail(ctx, nil, "讨论不存在")
-		return
-	}
 
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
@@ -631,10 +721,27 @@ func (s SetController) Collect(ctx *gin.Context) {
 	var set model.Set
 
 	// TODO 查看表单是否存在
+	// TODO 先看redis中是否存在
+	if ok, _ := s.Redis.HExists(ctx, "Set", id).Result(); ok {
+		cate, _ := s.Redis.HGet(ctx, "Set", id).Result()
+		if json.Unmarshal([]byte(cate), &set) == nil {
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			s.Redis.HDel(ctx, "Set", id)
+		}
+	}
+	// TODO 查看表单是否在数据库中存在
 	if s.DB.Where("id = ?", id).First(&set).Error != nil {
 		response.Fail(ctx, nil, "表单不存在")
 		return
 	}
+	{
+		// TODO 将提交存入redis供下次使用
+		v, _ := json.Marshal(set)
+		s.Redis.HSet(ctx, "Set", id, v)
+	}
+leep:
 
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
@@ -668,24 +775,16 @@ func (s SetController) CancelCollect(ctx *gin.Context) {
 	// TODO 获取path中的id
 	id := ctx.Params.ByName("id")
 
-	var set model.Set
-
-	// TODO 查看表单是否存在
-	if s.DB.Where("id = ?", id).First(&set).Error != nil {
-		response.Fail(ctx, nil, "表单不存在")
-		return
-	}
-
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
 
 	// TODO 如果没有收藏
-	if s.DB.Where("user_id = ? and set_id = ?", user.ID, set.ID).First(&model.SetCollect{}).Error != nil {
+	if s.DB.Where("user_id = ? and set_id = ?", user.ID, id).First(&model.SetCollect{}).Error != nil {
 		response.Fail(ctx, nil, "未收藏")
 		return
 	} else {
-		s.DB.Where("user_id = ? and set_id = ?", user.ID, set.ID).Delete(&model.SetCollect{})
+		s.DB.Where("user_id = ? and set_id = ?", user.ID, id).Delete(&model.SetCollect{})
 		response.Success(ctx, nil, "取消收藏成功")
 		return
 	}
@@ -700,20 +799,12 @@ func (s SetController) CollectShow(ctx *gin.Context) {
 	// TODO 获取path中的id
 	id := ctx.Params.ByName("id")
 
-	var set model.Set
-
-	// TODO 查看表单是否存在
-	if s.DB.Where("id = ?", id).First(&set).Error != nil {
-		response.Fail(ctx, nil, "表单不存在")
-		return
-	}
-
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
 
 	// TODO 如果没有收藏
-	if s.DB.Where("user_id = ? and set_id = ?", user.ID, set.ID).First(&model.SetCollect{}).Error != nil {
+	if s.DB.Where("user_id = ? and set_id = ?", user.ID, id).First(&model.SetCollect{}).Error != nil {
 		response.Success(ctx, gin.H{"collect": false}, "未收藏")
 		return
 	} else {
@@ -731,14 +822,6 @@ func (s SetController) CollectList(ctx *gin.Context) {
 	// TODO 获取path中的id
 	id := ctx.Params.ByName("id")
 
-	var set model.Set
-
-	// TODO 查看题解是否存在
-	if s.DB.Where("id = ?", id).First(&set).Error != nil {
-		response.Fail(ctx, nil, "题解不存在")
-		return
-	}
-
 	// TODO 获取分页参数
 	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
 	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
@@ -749,7 +832,7 @@ func (s SetController) CollectList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看收藏的数量
-	s.DB.Where("set_id = ?", set.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setCollects).Count(&total)
+	s.DB.Where("set_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setCollects).Count(&total)
 
 	response.Success(ctx, gin.H{"setCollects": setCollects, "total": total}, "查看成功")
 }
@@ -763,18 +846,10 @@ func (s SetController) CollectNumber(ctx *gin.Context) {
 	// TODO 获取path中的id
 	id := ctx.Params.ByName("id")
 
-	var set model.Set
-
-	// TODO 查看表单是否存在
-	if s.DB.Where("id = ?", id).First(&set).Error != nil {
-		response.Fail(ctx, nil, "表单不存在")
-		return
-	}
-
 	var total int64
 
 	// TODO 查看收藏的数量
-	s.DB.Where("set_id = ?", set.ID).Count(&total)
+	s.DB.Where("set_id = ?", id).Count(&total)
 
 	response.Success(ctx, gin.H{"total": total}, "查看成功")
 }
@@ -816,10 +891,27 @@ func (s SetController) Visit(ctx *gin.Context) {
 	var set model.Set
 
 	// TODO 查看表单是否存在
+	// TODO 先看redis中是否存在
+	if ok, _ := s.Redis.HExists(ctx, "Set", id).Result(); ok {
+		cate, _ := s.Redis.HGet(ctx, "Set", id).Result()
+		if json.Unmarshal([]byte(cate), &set) == nil {
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			s.Redis.HDel(ctx, "Set", id)
+		}
+	}
+	// TODO 查看表单是否在数据库中存在
 	if s.DB.Where("id = ?", id).First(&set).Error != nil {
 		response.Fail(ctx, nil, "表单不存在")
 		return
 	}
+	{
+		// TODO 将提交存入redis供下次使用
+		v, _ := json.Marshal(set)
+		s.Redis.HSet(ctx, "Set", id, v)
+	}
+leep:
 
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
@@ -848,18 +940,10 @@ func (s SetController) VisitNumber(ctx *gin.Context) {
 	// TODO 获取path中的id
 	id := ctx.Params.ByName("id")
 
-	var set model.Set
-
-	// TODO 查看表单是否存在
-	if s.DB.Where("id = ?", id).First(&set).Error != nil {
-		response.Fail(ctx, nil, "表单不存在")
-		return
-	}
-
 	// TODO 获得游览总数
 	var total int64
 
-	s.DB.Where("set_id = ?", set.ID).Count(&total)
+	s.DB.Where("set_id = ?", id).Count(&total)
 
 	response.Success(ctx, gin.H{"total": total}, "请求表单游览数目成功")
 }
@@ -873,14 +957,6 @@ func (s SetController) VisitList(ctx *gin.Context) {
 	// TODO 获取path中的id
 	id := ctx.Params.ByName("id")
 
-	var set model.Set
-
-	// TODO 查看表单是否存在
-	if s.DB.Where("id = ?", id).First(&set).Error != nil {
-		response.Fail(ctx, nil, "表单不存在")
-		return
-	}
-
 	// TODO 获取分页参数
 	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
 	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
@@ -891,7 +967,7 @@ func (s SetController) VisitList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看游览的列表
-	s.DB.Where("set_id = ?", set.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setVisits).Count(&total)
+	s.DB.Where("set_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setVisits).Count(&total)
 
 	response.Success(ctx, gin.H{"setVisits": setVisits, "total": total}, "查看成功")
 }
@@ -931,14 +1007,6 @@ func (s SetController) RankList(ctx *gin.Context) {
 	// TODO 获取id
 	id := ctx.Params.ByName("id")
 
-	var set model.Set
-
-	// TODO 尝试找出set
-	if s.DB.Where("id = ?", id).First(&set).Error != nil {
-		response.Fail(ctx, nil, "表单不存在")
-		return
-	}
-
 	// TODO 获取分页参数
 	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
 	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
@@ -949,7 +1017,7 @@ func (s SetController) RankList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看排行
-	s.DB.Where("set_id = ?", set.ID).Order("pass desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setRanks).Count(&total)
+	s.DB.Where("set_id = ?", id).Order("pass desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setRanks).Count(&total)
 
 	response.Success(ctx, gin.H{"setRanks": setRanks, "total": total}, "查看成功")
 }
@@ -970,11 +1038,28 @@ func (s SetController) RankUpdate(ctx *gin.Context) {
 	var set model.Set
 
 	// TODO 尝试找出set
+	// TODO 查看表单是否存在
+	// TODO 先看redis中是否存在
+	if ok, _ := s.Redis.HExists(ctx, "Set", id).Result(); ok {
+		cate, _ := s.Redis.HGet(ctx, "Set", id).Result()
+		if json.Unmarshal([]byte(cate), &set) == nil {
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			s.Redis.HDel(ctx, "Set", id)
+		}
+	}
+	// TODO 查看表单是否在数据库中存在
 	if s.DB.Where("id = ?", id).First(&set).Error != nil {
 		response.Fail(ctx, nil, "表单不存在")
 		return
 	}
-
+	{
+		// TODO 将提交存入redis供下次使用
+		v, _ := json.Marshal(set)
+		s.Redis.HSet(ctx, "Set", id, v)
+	}
+leep:
 	// TODO 查看是否为创建者
 	if set.UserId != user.ID {
 		response.Fail(ctx, nil, "不是表单创建者")
@@ -1010,17 +1095,52 @@ func (s SetController) Apply(ctx *gin.Context) {
 	var set model.Set
 
 	// TODO 查看表单是否存在
+	// TODO 先看redis中是否存在
+	if ok, _ := s.Redis.HExists(ctx, "Set", id).Result(); ok {
+		cate, _ := s.Redis.HGet(ctx, "Set", id).Result()
+		if json.Unmarshal([]byte(cate), &set) == nil {
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			s.Redis.HDel(ctx, "Set", id)
+		}
+	}
+	// TODO 查看表单是否在数据库中存在
 	if s.DB.Where("id = ?", id).First(&set).Error != nil {
 		response.Fail(ctx, nil, "表单不存在")
 		return
 	}
+	{
+		// TODO 将提交存入redis供下次使用
+		v, _ := json.Marshal(set)
+		s.Redis.HSet(ctx, "Set", id, v)
+	}
+leep:
 
 	var group model.Group
-	// TODO 查看用户组是否存在
-	if s.DB.Where("id = ?", requestSetApply.GroupId).First(&group).Error != nil {
+	// TODO 先看redis中是否存在
+	id = fmt.Sprint(requestSetApply.GroupId)
+	if ok, _ := s.Redis.HExists(ctx, "Group", id).Result(); ok {
+		cate, _ := s.Redis.HGet(ctx, "Group", id).Result()
+		if json.Unmarshal([]byte(cate), &group) == nil {
+			goto leap
+		} else {
+			// TODO 移除损坏数据
+			s.Redis.HDel(ctx, "Group", id)
+		}
+	}
+
+	// TODO 查看用户组是否在数据库中存在
+	if s.DB.Where("id = ?", id).First(&group).Error != nil {
 		response.Fail(ctx, nil, "用户组不存在")
 		return
 	}
+	{
+		// TODO 将用户组存入redis供下次使用
+		v, _ := json.Marshal(group)
+		s.Redis.HSet(ctx, "Group", id, v)
+	}
+leap:
 
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
@@ -1200,10 +1320,28 @@ func (s SetController) Block(ctx *gin.Context) {
 	var group model.Group
 
 	// TODO 查看用户组是否存在
-	if s.DB.Where("id = ?", group_id).First(&group).Error != nil {
+	id := fmt.Sprint(group_id)
+	if ok, _ := s.Redis.HExists(ctx, "Group", id).Result(); ok {
+		cate, _ := s.Redis.HGet(ctx, "Group", id).Result()
+		if json.Unmarshal([]byte(cate), &group) == nil {
+			goto leap
+		} else {
+			// TODO 移除损坏数据
+			s.Redis.HDel(ctx, "Group", id)
+		}
+	}
+
+	// TODO 查看用户组是否在数据库中存在
+	if s.DB.Where("id = ?", id).First(&group).Error != nil {
 		response.Fail(ctx, nil, "用户组不存在")
 		return
 	}
+	{
+		// TODO 将用户组存入redis供下次使用
+		v, _ := json.Marshal(group)
+		s.Redis.HSet(ctx, "Group", id, v)
+	}
+leap:
 
 	// TODO 获取指定表单
 	set_id := ctx.Params.ByName("set")
@@ -1211,10 +1349,28 @@ func (s SetController) Block(ctx *gin.Context) {
 	var set model.Set
 
 	// TODO 查看表单是否存在
-	if s.DB.Where("id = ?", set_id).First(&set).Error != nil {
+	// TODO 先看redis中是否存在
+	id = fmt.Sprint(set_id)
+	if ok, _ := s.Redis.HExists(ctx, "Set", id).Result(); ok {
+		cate, _ := s.Redis.HGet(ctx, "Set", id).Result()
+		if json.Unmarshal([]byte(cate), &set) == nil {
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			s.Redis.HDel(ctx, "Set", id)
+		}
+	}
+	// TODO 查看表单是否在数据库中存在
+	if s.DB.Where("id = ?", id).First(&set).Error != nil {
 		response.Fail(ctx, nil, "表单不存在")
 		return
 	}
+	{
+		// TODO 将提交存入redis供下次使用
+		v, _ := json.Marshal(set)
+		s.Redis.HSet(ctx, "Set", id, v)
+	}
+leep:
 
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
@@ -1260,10 +1416,27 @@ func (s SetController) RemoveBlack(ctx *gin.Context) {
 	var set model.Set
 
 	// TODO 查看表单是否存在
-	if s.DB.Where("id = ?", set_id).First(&set).Error != nil {
+	id := fmt.Sprint(set_id)
+	if ok, _ := s.Redis.HExists(ctx, "Set", id).Result(); ok {
+		cate, _ := s.Redis.HGet(ctx, "Set", id).Result()
+		if json.Unmarshal([]byte(cate), &set) == nil {
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			s.Redis.HDel(ctx, "Set", id)
+		}
+	}
+	// TODO 查看表单是否在数据库中存在
+	if s.DB.Where("id = ?", id).First(&set).Error != nil {
 		response.Fail(ctx, nil, "表单不存在")
 		return
 	}
+	{
+		// TODO 将提交存入redis供下次使用
+		v, _ := json.Marshal(set)
+		s.Redis.HSet(ctx, "Set", id, v)
+	}
+leep:
 
 	// TODO 获取指定用户组
 	group_id := ctx.Params.ByName("group")
@@ -1271,10 +1444,28 @@ func (s SetController) RemoveBlack(ctx *gin.Context) {
 	var group model.Group
 
 	// TODO 查看用户组是否存在
-	if s.DB.Where("id = ?", group_id).First(&group).Error != nil {
+	id = fmt.Sprint(group_id)
+	if ok, _ := s.Redis.HExists(ctx, "Group", id).Result(); ok {
+		cate, _ := s.Redis.HGet(ctx, "Group", id).Result()
+		if json.Unmarshal([]byte(cate), &group) == nil {
+			goto leap
+		} else {
+			// TODO 移除损坏数据
+			s.Redis.HDel(ctx, "Group", id)
+		}
+	}
+
+	// TODO 查看用户组是否在数据库中存在
+	if s.DB.Where("id = ?", id).First(&group).Error != nil {
 		response.Fail(ctx, nil, "用户组不存在")
 		return
 	}
+	{
+		// TODO 将用户组存入redis供下次使用
+		v, _ := json.Marshal(group)
+		s.Redis.HSet(ctx, "Group", id, v)
+	}
+leap:
 
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
@@ -1317,10 +1508,26 @@ func (s SetController) BlackList(ctx *gin.Context) {
 	var set model.Set
 
 	// TODO 查看表单是否存在
+	if ok, _ := s.Redis.HExists(ctx, "Set", id).Result(); ok {
+		cate, _ := s.Redis.HGet(ctx, "Set", id).Result()
+		if json.Unmarshal([]byte(cate), &set) == nil {
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			s.Redis.HDel(ctx, "Set", id)
+		}
+	}
+	// TODO 查看表单是否在数据库中存在
 	if s.DB.Where("id = ?", id).First(&set).Error != nil {
-		response.Fail(ctx, nil, "用户组不存在")
+		response.Fail(ctx, nil, "表单不存在")
 		return
 	}
+	{
+		// TODO 将提交存入redis供下次使用
+		v, _ := json.Marshal(set)
+		s.Redis.HSet(ctx, "Set", id, v)
+	}
+leep:
 
 	// TODO 查看当前用户是否为表单创建者
 	if set.UserId != user.ID {
@@ -1360,10 +1567,27 @@ func (s SetController) ApplyingList(ctx *gin.Context) {
 	var group model.Group
 
 	// TODO 查看用户组是否存在
+	if ok, _ := s.Redis.HExists(ctx, "Group", id).Result(); ok {
+		cate, _ := s.Redis.HGet(ctx, "Group", id).Result()
+		if json.Unmarshal([]byte(cate), &group) == nil {
+			goto leap
+		} else {
+			// TODO 移除损坏数据
+			s.Redis.HDel(ctx, "Group", id)
+		}
+	}
+
+	// TODO 查看用户组是否在数据库中存在
 	if s.DB.Where("id = ?", id).First(&group).Error != nil {
 		response.Fail(ctx, nil, "用户组不存在")
 		return
 	}
+	{
+		// TODO 将用户组存入redis供下次使用
+		v, _ := json.Marshal(group)
+		s.Redis.HSet(ctx, "Group", id, v)
+	}
+leap:
 
 	// TODO 查看是否是用户组的组长
 	if group.LeaderId != user.ID {
@@ -1403,10 +1627,26 @@ func (s SetController) AppliedList(ctx *gin.Context) {
 	var set model.Set
 
 	// TODO 查看表单是否存在
+	if ok, _ := s.Redis.HExists(ctx, "Set", id).Result(); ok {
+		cate, _ := s.Redis.HGet(ctx, "Set", id).Result()
+		if json.Unmarshal([]byte(cate), &set) == nil {
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			s.Redis.HDel(ctx, "Set", id)
+		}
+	}
+	// TODO 查看表单是否在数据库中存在
 	if s.DB.Where("id = ?", id).First(&set).Error != nil {
 		response.Fail(ctx, nil, "表单不存在")
 		return
 	}
+	{
+		// TODO 将提交存入redis供下次使用
+		v, _ := json.Marshal(set)
+		s.Redis.HSet(ctx, "Set", id, v)
+	}
+leep:
 
 	// TODO 查看是否是表单的创建者
 	if set.UserId != user.ID {
@@ -1442,10 +1682,27 @@ func (s SetController) Quit(ctx *gin.Context) {
 	var set model.Set
 
 	// TODO 查看表单是否存在
-	if s.DB.Where("id = ?", set_id).First(&set).Error != nil {
+	id := set_id
+	if ok, _ := s.Redis.HExists(ctx, "Set", id).Result(); ok {
+		cate, _ := s.Redis.HGet(ctx, "Set", id).Result()
+		if json.Unmarshal([]byte(cate), &set) == nil {
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			s.Redis.HDel(ctx, "Set", id)
+		}
+	}
+	// TODO 查看表单是否在数据库中存在
+	if s.DB.Where("id = ?", id).First(&set).Error != nil {
 		response.Fail(ctx, nil, "表单不存在")
 		return
 	}
+	{
+		// TODO 将提交存入redis供下次使用
+		v, _ := json.Marshal(set)
+		s.Redis.HSet(ctx, "Set", id, v)
+	}
+leep:
 
 	// TODO 获取指定表单
 	group_id := ctx.Params.ByName("group")
@@ -1453,10 +1710,28 @@ func (s SetController) Quit(ctx *gin.Context) {
 	var group model.Group
 
 	// TODO 查看用户组是否存在
-	if s.DB.Where("id = ?", group_id).First(&group).Error != nil {
+	id = group_id
+	if ok, _ := s.Redis.HExists(ctx, "Group", id).Result(); ok {
+		cate, _ := s.Redis.HGet(ctx, "Group", id).Result()
+		if json.Unmarshal([]byte(cate), &group) == nil {
+			goto leap
+		} else {
+			// TODO 移除损坏数据
+			s.Redis.HDel(ctx, "Group", id)
+		}
+	}
+
+	// TODO 查看用户组是否在数据库中存在
+	if s.DB.Where("id = ?", id).First(&group).Error != nil {
 		response.Fail(ctx, nil, "用户组不存在")
 		return
 	}
+	{
+		// TODO 将用户组存入redis供下次使用
+		v, _ := json.Marshal(group)
+		s.Redis.HSet(ctx, "Group", id, v)
+	}
+leap:
 
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
@@ -1488,6 +1763,7 @@ func (s SetController) Quit(ctx *gin.Context) {
 // @return   ISetController		返回一个ISetController用于调用各种函数
 func NewSetController() ISetController {
 	db := common.GetDB()
+	redis := common.GetRedisClient(0)
 	db.AutoMigrate(model.Set{})
 	db.AutoMigrate(model.SetCollect{})
 	db.AutoMigrate(model.SetLike{})
@@ -1497,7 +1773,7 @@ func NewSetController() ISetController {
 	db.AutoMigrate(model.SetRank{})
 	db.AutoMigrate(model.SetApply{})
 	db.AutoMigrate(model.SetBlock{})
-	return SetController{DB: db}
+	return SetController{DB: db, Redis: redis}
 }
 
 // @title    updateRank
@@ -1507,12 +1783,7 @@ func NewSetController() ISetController {
 // @return   error		返回一个error表示是否出现错误
 func updateRank(set_id uint) error {
 	db := common.GetDB()
-	var set model.Set
-	// TODO 尝试取出对应set
-	err := db.Where("id = ?", set_id).First(&set).Error
-	if err != nil {
-		return err
-	}
+	var err error
 	// TODO 删掉原先的排行
 	db.Where("set_id = ?", set_id).Delete(&model.SetRank{})
 	// TODO 重新建立排行
@@ -1562,18 +1833,6 @@ func updateRank(set_id uint) error {
 // @return   error		返回一个error表示是否出现错误
 func CanAddGroup(set_id uint, group_id uint, PassNum uint, PassRe bool) (bool, error) {
 	db := common.GetDB()
-
-	var set model.Set
-	// TODO 尝试取出对应set
-	if err := db.Where("id = ?", set_id).First(&set).Error; err != nil {
-		return false, err
-	}
-
-	var group model.Group
-	// TODO 尝试取出对应group
-	if err := db.Where("id = ?", group_id).First(&group).Error; err != nil {
-		return false, err
-	}
 
 	var userLists []model.UserList
 	db.Where("group_id = ?", group_id).Find(&userLists)

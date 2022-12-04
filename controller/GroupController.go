@@ -10,10 +10,12 @@ import (
 	"MGA_OJ/model"
 	"MGA_OJ/response"
 	"MGA_OJ/vo"
+	"encoding/json"
 	"log"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-redis/redis/v9"
 	"gorm.io/gorm"
 )
 
@@ -30,7 +32,8 @@ type IGroupController interface {
 
 // GroupController			定义了用户组工具类
 type GroupController struct {
-	DB *gorm.DB // 含有一个数据库指针
+	DB    *gorm.DB      // 含有一个数据库指针
+	Redis *redis.Client // 含有一个redis指针
 }
 
 // @title    Create
@@ -122,6 +125,9 @@ func (g GroupController) Update(ctx *gin.Context) {
 	// TODO 更新用户组内容
 	g.DB.Table("groups").Where("id = ?", id).Updates(requestGroup)
 
+	// TODO 移除损坏数据
+	g.Redis.HDel(ctx, "Group", id)
+
 	if len(requestGroup.Users) != 0 {
 		// TODO 查看新的用户组是否为超过最大长度
 
@@ -157,6 +163,18 @@ func (g GroupController) Show(ctx *gin.Context) {
 	id := ctx.Params.ByName("id")
 	var group model.Group
 
+	// TODO 先看redis中是否存在
+	if ok, _ := g.Redis.HExists(ctx, "Group", id).Result(); ok {
+		cate, _ := g.Redis.HGet(ctx, "Group", id).Result()
+		if json.Unmarshal([]byte(cate), &group) == nil {
+			response.Success(ctx, gin.H{"group": group}, "成功")
+			return
+		} else {
+			// TODO 移除损坏数据
+			g.Redis.HDel(ctx, "Group", id)
+		}
+	}
+
 	// TODO 查看用户组是否在数据库中存在
 	if g.DB.Where("id = ?", id).First(&group).Error != nil {
 		response.Fail(ctx, nil, "用户组不存在")
@@ -164,6 +182,10 @@ func (g GroupController) Show(ctx *gin.Context) {
 	}
 
 	response.Success(ctx, gin.H{"group": group}, "成功")
+
+	// TODO 将用户组存入redis供下次使用
+	v, _ := json.Marshal(group)
+	g.Redis.HSet(ctx, "Group", id, v)
 }
 
 // @title    Delete
@@ -196,6 +218,9 @@ func (g GroupController) Delete(ctx *gin.Context) {
 
 	// TODO 删除用户组
 	g.DB.Delete(&group)
+
+	// TODO 移除损坏数据
+	g.Redis.HDel(ctx, "Group", id)
 
 	response.Success(ctx, nil, "删除成功")
 }
@@ -233,12 +258,6 @@ func (g GroupController) LeaderList(ctx *gin.Context) {
 	// TODO 获取指定用户用户
 	id := ctx.Params.ByName("id")
 
-	// TODO 查看用户是否存在
-	if g.DB.Where("id = ?", id).First(&model.User{}).Error != nil {
-		response.Fail(ctx, nil, "用户不存在")
-		return
-	}
-
 	// TODO 获取分页参数
 	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
 	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
@@ -266,12 +285,6 @@ func (g GroupController) MemberList(ctx *gin.Context) {
 	// TODO 获取指定用户用户
 	id := ctx.Params.ByName("id")
 
-	// TODO 查看用户是否存在
-	if g.DB.Where("id = ?", id).First(&model.User{}).Error != nil {
-		response.Fail(ctx, nil, "用户不存在")
-		return
-	}
-
 	// TODO 获取分页参数
 	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
 	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
@@ -298,12 +311,6 @@ func (g GroupController) UserList(ctx *gin.Context) {
 
 	// TODO 获取指定用户组
 	id := ctx.Params.ByName("id")
-
-	// TODO 查看用户组是否存在
-	if g.DB.Where("id = ?", id).First(&model.Group{}).Error != nil {
-		response.Fail(ctx, nil, "用户组不存在")
-		return
-	}
 
 	// TODO 获取分页参数
 	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
@@ -336,12 +343,28 @@ func (g GroupController) Like(ctx *gin.Context) {
 
 	var group model.Group
 
-	// TODO 查看用户组是否存在
+	// TODO 先看redis中是否存在
+	if ok, _ := g.Redis.HExists(ctx, "Group", id).Result(); ok {
+		cate, _ := g.Redis.HGet(ctx, "Group", id).Result()
+		if json.Unmarshal([]byte(cate), &group) == nil {
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			g.Redis.HDel(ctx, "Group", id)
+		}
+	}
+
+	// TODO 查看用户组是否在数据库中存在
 	if g.DB.Where("id = ?", id).First(&group).Error != nil {
 		response.Fail(ctx, nil, "用户组不存在")
 		return
 	}
-
+	{
+		// TODO 将用户组存入redis供下次使用
+		v, _ := json.Marshal(group)
+		g.Redis.HSet(ctx, "Group", id, v)
+	}
+leep:
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
@@ -372,14 +395,6 @@ func (g GroupController) CancelLike(ctx *gin.Context) {
 	// 获取path中的id
 	id := ctx.Params.ByName("id")
 
-	var group model.Group
-
-	// TODO 查看用户组是否存在
-	if g.DB.Where("id = ?", id).First(&group).Error != nil {
-		response.Fail(ctx, nil, "用户组不存在")
-		return
-	}
-
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
@@ -402,14 +417,6 @@ func (g GroupController) LikeNumber(ctx *gin.Context) {
 	// TODO 获取like
 	like, _ := strconv.ParseBool(ctx.Query("like"))
 
-	var group model.Group
-
-	// TODO 查看用户组是否存在
-	if g.DB.Where("id = ?", id).First(&group).Error != nil {
-		response.Fail(ctx, nil, "用户组不存在")
-		return
-	}
-
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
@@ -429,14 +436,6 @@ func (g GroupController) LikeList(ctx *gin.Context) {
 
 	// TODO 获取like
 	like, _ := strconv.ParseBool(ctx.Query("like"))
-
-	var group model.Group
-
-	// TODO 查看用户组是否存在
-	if g.DB.Where("id = ?", id).First(&group).Error != nil {
-		response.Fail(ctx, nil, "用户组不存在")
-		return
-	}
 
 	// TODO 获取分页参数
 	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
@@ -461,14 +460,6 @@ func (g GroupController) LikeList(ctx *gin.Context) {
 func (g GroupController) LikeShow(ctx *gin.Context) {
 	// 获取path中的id
 	id := ctx.Params.ByName("id")
-
-	var group model.Group
-
-	// TODO 查看讨论是否存在
-	if g.DB.Where("id = ?", id).First(&group).Error != nil {
-		response.Fail(ctx, nil, "用户组不存在")
-		return
-	}
 
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
@@ -507,21 +498,13 @@ func (g GroupController) Likes(ctx *gin.Context) {
 	// TODO 获取指定用户用户
 	id := ctx.Params.ByName("id")
 
-	var user model.User
-
-	// TODO 查看用户是否存在
-	if g.DB.Where("id = ?", id).First(&user).Error != nil {
-		response.Fail(ctx, nil, "用户不存在")
-		return
-	}
-
 	// TODO 分页
 	var groupLikes []model.GroupLike
 
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	g.DB.Where("user_id = ? and like = ?", user.ID, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groupLikes).Count(&total)
+	g.DB.Where("user_id = ? and like = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groupLikes).Count(&total)
 
 	response.Success(ctx, gin.H{"groupLikes": groupLikes, "total": total}, "查看成功")
 }
@@ -538,10 +521,28 @@ func (g GroupController) Collect(ctx *gin.Context) {
 	var group model.Group
 
 	// TODO 查看用户组是否存在
+	// TODO 先看redis中是否存在
+	if ok, _ := g.Redis.HExists(ctx, "Group", id).Result(); ok {
+		cate, _ := g.Redis.HGet(ctx, "Group", id).Result()
+		if json.Unmarshal([]byte(cate), &group) == nil {
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			g.Redis.HDel(ctx, "Group", id)
+		}
+	}
+
+	// TODO 查看用户组是否在数据库中存在
 	if g.DB.Where("id = ?", id).First(&group).Error != nil {
 		response.Fail(ctx, nil, "用户组不存在")
 		return
 	}
+	{
+		// TODO 将用户组存入redis供下次使用
+		v, _ := json.Marshal(group)
+		g.Redis.HSet(ctx, "Group", id, v)
+	}
+leep:
 
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
@@ -575,24 +576,16 @@ func (g GroupController) CancelCollect(ctx *gin.Context) {
 	// TODO 获取path中的id
 	id := ctx.Params.ByName("id")
 
-	var group model.Group
-
-	// TODO 查看用户组是否存在
-	if g.DB.Where("id = ?", id).First(&group).Error != nil {
-		response.Fail(ctx, nil, "用户组不存在")
-		return
-	}
-
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
 
 	// TODO 如果没有收藏
-	if g.DB.Where("user_id = ? and group_id = ?", user.ID, group.ID).First(&model.GroupCollect{}).Error != nil {
+	if g.DB.Where("user_id = ? and group_id = ?", user.ID, id).First(&model.GroupCollect{}).Error != nil {
 		response.Fail(ctx, nil, "未收藏")
 		return
 	} else {
-		g.DB.Where("user_id = ? and group_id = ?", user.ID, group.ID).Delete(&model.GroupCollect{})
+		g.DB.Where("user_id = ? and group_id = ?", user.ID, id).Delete(&model.GroupCollect{})
 		response.Success(ctx, nil, "取消收藏成功")
 		return
 	}
@@ -607,20 +600,12 @@ func (g GroupController) CollectShow(ctx *gin.Context) {
 	// TODO 获取path中的id
 	id := ctx.Params.ByName("id")
 
-	var group model.Group
-
-	// TODO 查看用户组是否存在
-	if g.DB.Where("id = ?", id).First(&group).Error != nil {
-		response.Fail(ctx, nil, "用户组不存在")
-		return
-	}
-
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
 
 	// TODO 如果没有收藏
-	if g.DB.Where("user_id = ? and group_id = ?", user.ID, group.ID).First(&model.GroupCollect{}).Error != nil {
+	if g.DB.Where("user_id = ? and group_id = ?", user.ID, id).First(&model.GroupCollect{}).Error != nil {
 		response.Success(ctx, gin.H{"collect": false}, "未收藏")
 		return
 	} else {
@@ -638,14 +623,6 @@ func (g GroupController) CollectList(ctx *gin.Context) {
 	// TODO 获取path中的id
 	id := ctx.Params.ByName("id")
 
-	var group model.Group
-
-	// TODO 查看用户组是否存在
-	if g.DB.Where("id = ?", id).First(&group).Error != nil {
-		response.Fail(ctx, nil, "用户组不存在")
-		return
-	}
-
 	// TODO 获取分页参数
 	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
 	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
@@ -656,7 +633,7 @@ func (g GroupController) CollectList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看收藏的数量
-	g.DB.Where("group_id = ?", group.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groupCollects).Count(&total)
+	g.DB.Where("group_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groupCollects).Count(&total)
 
 	response.Success(ctx, gin.H{"groupCollects": groupCollects, "total": total}, "查看成功")
 }
@@ -670,18 +647,10 @@ func (g GroupController) CollectNumber(ctx *gin.Context) {
 	// TODO 获取path中的id
 	id := ctx.Params.ByName("id")
 
-	var group model.Group
-
-	// TODO 查看用户组是否存在
-	if g.DB.Where("id = ?", id).First(&group).Error != nil {
-		response.Fail(ctx, nil, "用户组不存在")
-		return
-	}
-
 	var total int64
 
 	// TODO 查看收藏的数量
-	g.DB.Where("group_id = ?", group.ID).Count(&total)
+	g.DB.Where("group_id = ?", id).Count(&total)
 
 	response.Success(ctx, gin.H{"total": total}, "查看成功")
 }
@@ -696,14 +665,6 @@ func (g GroupController) Collects(ctx *gin.Context) {
 	// TODO 获取指定用户用户
 	id := ctx.Params.ByName("id")
 
-	var user model.User
-
-	// TODO 查看用户是否存在
-	if g.DB.Where("id = ?", id).First(&user).Error != nil {
-		response.Fail(ctx, nil, "用户不存在")
-		return
-	}
-
 	// TODO 获取分页参数
 	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
 	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
@@ -714,7 +675,7 @@ func (g GroupController) Collects(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看收藏的数量
-	g.DB.Where("user_id = ?", user.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groupCollects).Count(&total)
+	g.DB.Where("user_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groupCollects).Count(&total)
 
 	response.Success(ctx, gin.H{"groupCollects": groupCollects, "total": total}, "查看成功")
 }
@@ -738,11 +699,28 @@ func (g GroupController) Apply(ctx *gin.Context) {
 
 	var group model.Group
 
-	// TODO 查看用户组是否存在
+	// TODO 先看redis中是否存在
+	if ok, _ := g.Redis.HExists(ctx, "Group", id).Result(); ok {
+		cate, _ := g.Redis.HGet(ctx, "Group", id).Result()
+		if json.Unmarshal([]byte(cate), &group) == nil {
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			g.Redis.HDel(ctx, "Group", id)
+		}
+	}
+
+	// TODO 查看用户组是否在数据库中存在
 	if g.DB.Where("id = ?", id).First(&group).Error != nil {
 		response.Fail(ctx, nil, "用户组不存在")
 		return
 	}
+	{
+		// TODO 将用户组存入redis供下次使用
+		v, _ := json.Marshal(group)
+		g.Redis.HSet(ctx, "Group", id, v)
+	}
+leep:
 
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
@@ -921,23 +899,55 @@ func (g GroupController) Block(ctx *gin.Context) {
 
 	var usera model.User
 
-	// TODO 查看用户是否存在
+	// TODO 先看redis中是否存在
+	if ok, _ := g.Redis.HExists(ctx, "User", user_id).Result(); ok {
+		cate, _ := g.Redis.HGet(ctx, "User", user_id).Result()
+		if json.Unmarshal([]byte(cate), &usera) == nil {
+			goto leap
+		} else {
+			// TODO 移除损坏数据
+			g.Redis.HDel(ctx, "User", user_id)
+		}
+	}
+
+	// TODO 查看用户是否在数据库中存在
 	if g.DB.Where("id = ?", user_id).First(&usera).Error != nil {
 		response.Fail(ctx, nil, "用户不存在")
 		return
 	}
-
+	{
+		// TODO 将用户存入redis供下次使用
+		v, _ := json.Marshal(usera)
+		g.Redis.HSet(ctx, "User", user_id, v)
+	}
+leap:
 	// TODO 获取指定用户组
 	group_id := ctx.Params.ByName("group")
 
 	var group model.Group
 
-	// TODO 查看用户组是否存在
+	// TODO 先看redis中是否存在
+	if ok, _ := g.Redis.HExists(ctx, "Group", group_id).Result(); ok {
+		cate, _ := g.Redis.HGet(ctx, "Group", group_id).Result()
+		if json.Unmarshal([]byte(cate), &group) == nil {
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			g.Redis.HDel(ctx, "Group", group_id)
+		}
+	}
+
+	// TODO 查看用户组是否在数据库中存在
 	if g.DB.Where("id = ?", group_id).First(&group).Error != nil {
 		response.Fail(ctx, nil, "用户组不存在")
 		return
 	}
-
+	{
+		// TODO 将用户组存入redis供下次使用
+		v, _ := json.Marshal(group)
+		g.Redis.HSet(ctx, "Group", group_id, v)
+	}
+leep:
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
@@ -979,24 +989,34 @@ func (g GroupController) RemoveBlack(ctx *gin.Context) {
 	// TODO 获取指定用户
 	user_id := ctx.Params.ByName("user")
 
-	var usera model.User
-
-	// TODO 查看用户是否存在
-	if g.DB.Where("id = ?", user_id).First(&usera).Error != nil {
-		response.Fail(ctx, nil, "用户不存在")
-		return
-	}
-
 	// TODO 获取指定用户组
 	group_id := ctx.Params.ByName("group")
 
 	var group model.Group
 
 	// TODO 查看用户组是否存在
+	// TODO 先看redis中是否存在
+	if ok, _ := g.Redis.HExists(ctx, "Group", group_id).Result(); ok {
+		cate, _ := g.Redis.HGet(ctx, "Group", group_id).Result()
+		if json.Unmarshal([]byte(cate), &group) == nil {
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			g.Redis.HDel(ctx, "Group", group_id)
+		}
+	}
+
+	// TODO 查看用户组是否在数据库中存在
 	if g.DB.Where("id = ?", group_id).First(&group).Error != nil {
 		response.Fail(ctx, nil, "用户组不存在")
 		return
 	}
+	{
+		// TODO 将用户组存入redis供下次使用
+		v, _ := json.Marshal(group)
+		g.Redis.HSet(ctx, "Group", group_id, v)
+	}
+leep:
 
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
@@ -1039,10 +1059,28 @@ func (g GroupController) BlackList(ctx *gin.Context) {
 	var group model.Group
 
 	// TODO 查看用户组是否存在
+	// TODO 先看redis中是否存在
+	if ok, _ := g.Redis.HExists(ctx, "Group", id).Result(); ok {
+		cate, _ := g.Redis.HGet(ctx, "Group", id).Result()
+		if json.Unmarshal([]byte(cate), &group) == nil {
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			g.Redis.HDel(ctx, "Group", id)
+		}
+	}
+
+	// TODO 查看用户组是否在数据库中存在
 	if g.DB.Where("id = ?", id).First(&group).Error != nil {
 		response.Fail(ctx, nil, "用户组不存在")
 		return
 	}
+	{
+		// TODO 将用户组存入redis供下次使用
+		v, _ := json.Marshal(group)
+		g.Redis.HSet(ctx, "Group", id, v)
+	}
+leep:
 
 	// TODO 查看当前用户是否为用户组组长
 	if group.LeaderId != user.ID {
@@ -1107,10 +1145,28 @@ func (g GroupController) AppliedList(ctx *gin.Context) {
 
 	// TODO 查找group
 	var group model.Group
+	// TODO 先看redis中是否存在
+	if ok, _ := g.Redis.HExists(ctx, "Group", id).Result(); ok {
+		cate, _ := g.Redis.HGet(ctx, "Group", id).Result()
+		if json.Unmarshal([]byte(cate), &group) == nil {
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			g.Redis.HDel(ctx, "Group", id)
+		}
+	}
+
+	// TODO 查看用户组是否在数据库中存在
 	if g.DB.Where("id = ?", id).First(&group).Error != nil {
 		response.Fail(ctx, nil, "用户组不存在")
 		return
 	}
+	{
+		// TODO 将用户组存入redis供下次使用
+		v, _ := json.Marshal(group)
+		g.Redis.HSet(ctx, "Group", id, v)
+	}
+leep:
 
 	// TODO 查看是否为用户组组长
 	if group.LeaderId != user.ID {
@@ -1143,26 +1199,18 @@ func (g GroupController) Quit(ctx *gin.Context) {
 	// TODO 获取指定用户组
 	id := ctx.Params.ByName("id")
 
-	var group model.Group
-
-	// TODO 查看用户组是否存在
-	if g.DB.Where("id = ?", id).First(&group).Error != nil {
-		response.Fail(ctx, nil, "用户组不存在")
-		return
-	}
-
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
 
 	// TODO 查看用户是否已经加入用户组
-	if g.DB.Where("user_id = ? and group_id = ?", user.ID, group.ID).First(&model.UserList{}).Error != nil {
+	if g.DB.Where("user_id = ? and group_id = ?", user.ID, id).First(&model.UserList{}).Error != nil {
 		response.Fail(ctx, nil, "未加入用户组")
 		return
 	}
 
 	// TODO 在用户中删除用户
-	g.DB.Where("user_id = ? and group_id = ?", user.ID, group.ID).Delete(&model.UserList{})
+	g.DB.Where("user_id = ? and group_id = ?", user.ID, id).Delete(&model.UserList{})
 
 	// TODO 成功
 	response.Success(ctx, nil, "退出成功")
@@ -1175,13 +1223,14 @@ func (g GroupController) Quit(ctx *gin.Context) {
 // @return   IGroupController		返回一个IGroupController用于调用各种函数
 func NewGroupController() IGroupController {
 	db := common.GetDB()
+	redis := common.GetRedisClient(0)
 	db.AutoMigrate(model.Group{})
 	db.AutoMigrate(model.GroupApply{})
 	db.AutoMigrate(model.GroupBlock{})
 	db.AutoMigrate(model.GroupCollect{})
 	db.AutoMigrate(model.GroupLike{})
 	db.AutoMigrate(model.UserList{})
-	return GroupController{DB: db}
+	return GroupController{DB: db, Redis: redis}
 }
 
 // @title    CanAddUser

@@ -10,10 +10,13 @@ import (
 	"MGA_OJ/model"
 	"MGA_OJ/response"
 	"MGA_OJ/vo"
+	"encoding/json"
+	"fmt"
 	"log"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-redis/redis/v9"
 	"gorm.io/gorm"
 )
 
@@ -29,7 +32,8 @@ type ITopicController interface {
 
 // TopicController			定义了主题工具类
 type TopicController struct {
-	DB *gorm.DB // 含有一个数据库指针
+	DB    *gorm.DB      // 含有一个数据库指针
+	Redis *redis.Client // 含有一个redis指针
 }
 
 // @title    Create
@@ -67,10 +71,31 @@ func (t TopicController) Create(ctx *gin.Context) {
 
 	// TODO 插入相关题目
 	for _, v := range requestTopic.Problems {
-		if t.DB.Where("id = ?", v).First(&model.Problem{}).Error != nil {
-			response.Fail(ctx, nil, "题目上传出错，题目不存在")
+		id := fmt.Sprint(v)
+		var problem model.Problem
+		// TODO 先看redis中是否存在
+		if ok, _ := t.Redis.HExists(ctx, "Problem", id).Result(); ok {
+			cate, _ := t.Redis.HGet(ctx, "Problem", id).Result()
+			if json.Unmarshal([]byte(cate), &problem) == nil {
+				// TODO 跳过数据库搜寻problem过程
+				goto leep
+			} else {
+				// TODO 移除损坏数据
+				t.Redis.HDel(ctx, "Problem", id)
+			}
+		}
+
+		// TODO 查看题目是否在数据库中存在
+		if t.DB.Where("id = ?", id).First(&problem).Error != nil {
+			response.Fail(ctx, nil, "题目不存在")
 			return
 		}
+		// TODO 将题目存入redis供下次使用
+		{
+			v, _ := json.Marshal(problem)
+			t.Redis.HSet(ctx, "Problem", id, v)
+		}
+	leep:
 		problemList := model.ProblemList{
 			TopicId:   topic.ID,
 			ProblemId: v,
@@ -131,14 +156,38 @@ func (t TopicController) Update(ctx *gin.Context) {
 	// TODO 更新主题内容
 	t.DB.Where("id = ?", id).Updates(topic)
 
+	// TODO 移除损坏数据
+	t.Redis.HDel(ctx, "Topic", id)
+
 	if len(requestTopic.Problems) != 0 {
 		t.DB.Where("topic_id = ?", id).Delete(&model.ProblemList{})
 		// TODO 插入相关题目
 		for _, v := range requestTopic.Problems {
-			if t.DB.Where("id = ?", v).First(&model.Problem{}).Error != nil {
-				response.Fail(ctx, nil, "题目上传出错，题目不存在")
+			id := fmt.Sprint(v)
+			var problem model.Problem
+			// TODO 先看redis中是否存在
+			if ok, _ := t.Redis.HExists(ctx, "Problem", id).Result(); ok {
+				cate, _ := t.Redis.HGet(ctx, "Problem", id).Result()
+				if json.Unmarshal([]byte(cate), &problem) == nil {
+					// TODO 跳过数据库搜寻problem过程
+					goto leep
+				} else {
+					// TODO 移除损坏数据
+					t.Redis.HDel(ctx, "Problem", id)
+				}
+			}
+
+			// TODO 查看题目是否在数据库中存在
+			if t.DB.Where("id = ?", id).First(&problem).Error != nil {
+				response.Fail(ctx, nil, "题目不存在")
 				return
 			}
+			// TODO 将题目存入redis供下次使用
+			{
+				v, _ := json.Marshal(problem)
+				t.Redis.HSet(ctx, "Problem", id, v)
+			}
+		leep:
 			problemList := model.ProblemList{
 				TopicId:   topic.ID,
 				ProblemId: v,
@@ -164,6 +213,18 @@ func (t TopicController) Show(ctx *gin.Context) {
 	id := ctx.Params.ByName("id")
 	var topic model.Topic
 
+	// TODO 先看redis中是否存在
+	if ok, _ := t.Redis.HExists(ctx, "Topic", id).Result(); ok {
+		cate, _ := t.Redis.HGet(ctx, "Topic", id).Result()
+		if json.Unmarshal([]byte(cate), &topic) == nil {
+			response.Success(ctx, gin.H{"topic": topic}, "成功")
+			return
+		} else {
+			// TODO 移除损坏数据
+			t.Redis.HDel(ctx, "Topic", id)
+		}
+	}
+
 	// TODO 查看主题是否在数据库中存在
 	if t.DB.Where("id = ?", id).First(&topic).Error != nil {
 		response.Fail(ctx, nil, "主题不存在")
@@ -171,6 +232,10 @@ func (t TopicController) Show(ctx *gin.Context) {
 	}
 
 	response.Success(ctx, gin.H{"topic": topic}, "成功")
+
+	// TODO 将提交存入redis供下次使用
+	v, _ := json.Marshal(topic)
+	t.Redis.HSet(ctx, "Topic", id, v)
 }
 
 // @title    Delete
@@ -203,6 +268,9 @@ func (t TopicController) Delete(ctx *gin.Context) {
 
 	// TODO 删除主题
 	t.DB.Delete(&topic)
+
+	// TODO 移除损坏数据
+	t.Redis.HDel(ctx, "Topic", id)
 
 	response.Success(ctx, nil, "删除成功")
 }
@@ -298,11 +366,28 @@ func (t TopicController) Like(ctx *gin.Context) {
 	var topic model.Topic
 
 	// TODO 查看主题是否存在
+	// TODO 先看redis中是否存在
+	if ok, _ := t.Redis.HExists(ctx, "Topic", id).Result(); ok {
+		cate, _ := t.Redis.HGet(ctx, "Topic", id).Result()
+		if json.Unmarshal([]byte(cate), &topic) == nil {
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			t.Redis.HDel(ctx, "Topic", id)
+		}
+	}
+
+	// TODO 查看主题是否在数据库中存在
 	if t.DB.Where("id = ?", id).First(&topic).Error != nil {
 		response.Fail(ctx, nil, "主题不存在")
 		return
 	}
-
+	{
+		// TODO 将提交存入redis供下次使用
+		v, _ := json.Marshal(topic)
+		t.Redis.HSet(ctx, "Topic", id, v)
+	}
+leep:
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
@@ -333,14 +418,6 @@ func (t TopicController) CancelLike(ctx *gin.Context) {
 	// 获取path中的id
 	id := ctx.Params.ByName("id")
 
-	var topic model.Topic
-
-	// TODO 查看主题是否存在
-	if t.DB.Where("id = ?", id).First(&topic).Error != nil {
-		response.Fail(ctx, nil, "主题不存在")
-		return
-	}
-
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
@@ -363,14 +440,6 @@ func (t TopicController) LikeNumber(ctx *gin.Context) {
 	// TODO 获取like
 	like, _ := strconv.ParseBool(ctx.Query("like"))
 
-	var topic model.Topic
-
-	// TODO 查看主题是否存在
-	if t.DB.Where("id = ?", id).First(&topic).Error != nil {
-		response.Fail(ctx, nil, "主题不存在")
-		return
-	}
-
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
@@ -390,14 +459,6 @@ func (t TopicController) LikeList(ctx *gin.Context) {
 
 	// TODO 获取like
 	like, _ := strconv.ParseBool(ctx.Query("like"))
-
-	var topic model.Topic
-
-	// TODO 查看主题是否存在
-	if t.DB.Where("id = ?", id).First(&topic).Error != nil {
-		response.Fail(ctx, nil, "主题不存在")
-		return
-	}
 
 	// TODO 获取分页参数
 	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
@@ -422,14 +483,6 @@ func (t TopicController) LikeList(ctx *gin.Context) {
 func (t TopicController) LikeShow(ctx *gin.Context) {
 	// 获取path中的id
 	id := ctx.Params.ByName("id")
-
-	var topic model.Topic
-
-	// TODO 查看讨论是否存在
-	if t.DB.Where("id = ?", id).First(&topic).Error != nil {
-		response.Fail(ctx, nil, "讨论不存在")
-		return
-	}
 
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
@@ -492,10 +545,28 @@ func (t TopicController) Collect(ctx *gin.Context) {
 	var topic model.Topic
 
 	// TODO 查看主题是否存在
+	// TODO 先看redis中是否存在
+	if ok, _ := t.Redis.HExists(ctx, "Topic", id).Result(); ok {
+		cate, _ := t.Redis.HGet(ctx, "Topic", id).Result()
+		if json.Unmarshal([]byte(cate), &topic) == nil {
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			t.Redis.HDel(ctx, "Topic", id)
+		}
+	}
+
+	// TODO 查看主题是否在数据库中存在
 	if t.DB.Where("id = ?", id).First(&topic).Error != nil {
 		response.Fail(ctx, nil, "主题不存在")
 		return
 	}
+	{
+		// TODO 将提交存入redis供下次使用
+		v, _ := json.Marshal(topic)
+		t.Redis.HSet(ctx, "Topic", id, v)
+	}
+leep:
 
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
@@ -529,24 +600,16 @@ func (t TopicController) CancelCollect(ctx *gin.Context) {
 	// TODO 获取path中的id
 	id := ctx.Params.ByName("id")
 
-	var topic model.Topic
-
-	// TODO 查看主题是否存在
-	if t.DB.Where("id = ?", id).First(&topic).Error != nil {
-		response.Fail(ctx, nil, "主题不存在")
-		return
-	}
-
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
 
 	// TODO 如果没有收藏
-	if t.DB.Where("user_id = ? and topic_id = ?", user.ID, topic.ID).First(&model.TopicCollect{}).Error != nil {
+	if t.DB.Where("user_id = ? and topic_id = ?", user.ID, id).First(&model.TopicCollect{}).Error != nil {
 		response.Fail(ctx, nil, "未收藏")
 		return
 	} else {
-		t.DB.Where("user_id = ? and topic_id = ?", user.ID, topic.ID).Delete(&model.TopicCollect{})
+		t.DB.Where("user_id = ? and topic_id = ?", user.ID, id).Delete(&model.TopicCollect{})
 		response.Success(ctx, nil, "取消收藏成功")
 		return
 	}
@@ -561,20 +624,12 @@ func (t TopicController) CollectShow(ctx *gin.Context) {
 	// TODO 获取path中的id
 	id := ctx.Params.ByName("id")
 
-	var topic model.Topic
-
-	// TODO 查看主题是否存在
-	if t.DB.Where("id = ?", id).First(&topic).Error != nil {
-		response.Fail(ctx, nil, "主题不存在")
-		return
-	}
-
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
 
 	// TODO 如果没有收藏
-	if t.DB.Where("user_id = ? and topic_id = ?", user.ID, topic.ID).First(&model.TopicCollect{}).Error != nil {
+	if t.DB.Where("user_id = ? and topic_id = ?", user.ID, id).First(&model.TopicCollect{}).Error != nil {
 		response.Success(ctx, gin.H{"collect": false}, "未收藏")
 		return
 	} else {
@@ -592,14 +647,6 @@ func (t TopicController) CollectList(ctx *gin.Context) {
 	// TODO 获取path中的id
 	id := ctx.Params.ByName("id")
 
-	var topic model.Topic
-
-	// TODO 查看题解是否存在
-	if t.DB.Where("id = ?", id).First(&topic).Error != nil {
-		response.Fail(ctx, nil, "题解不存在")
-		return
-	}
-
 	// TODO 获取分页参数
 	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
 	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
@@ -610,7 +657,7 @@ func (t TopicController) CollectList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看收藏的数量
-	t.DB.Where("topic_id = ?", topic.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&topicCollects).Count(&total)
+	t.DB.Where("topic_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&topicCollects).Count(&total)
 
 	response.Success(ctx, gin.H{"topicCollects": topicCollects, "total": total}, "查看成功")
 }
@@ -623,19 +670,10 @@ func (t TopicController) CollectList(ctx *gin.Context) {
 func (t TopicController) CollectNumber(ctx *gin.Context) {
 	// TODO 获取path中的id
 	id := ctx.Params.ByName("id")
-
-	var topic model.Topic
-
-	// TODO 查看主题是否存在
-	if t.DB.Where("id = ?", id).First(&topic).Error != nil {
-		response.Fail(ctx, nil, "主题不存在")
-		return
-	}
-
 	var total int64
 
 	// TODO 查看收藏的数量
-	t.DB.Where("topic_id = ?", topic.ID).Count(&total)
+	t.DB.Where("topic_id = ?", id).Count(&total)
 
 	response.Success(ctx, gin.H{"total": total}, "查看成功")
 }
@@ -677,10 +715,28 @@ func (t TopicController) Visit(ctx *gin.Context) {
 	var topic model.Topic
 
 	// TODO 查看主题是否存在
+	// TODO 先看redis中是否存在
+	if ok, _ := t.Redis.HExists(ctx, "Topic", id).Result(); ok {
+		cate, _ := t.Redis.HGet(ctx, "Topic", id).Result()
+		if json.Unmarshal([]byte(cate), &topic) == nil {
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			t.Redis.HDel(ctx, "Topic", id)
+		}
+	}
+
+	// TODO 查看主题是否在数据库中存在
 	if t.DB.Where("id = ?", id).First(&topic).Error != nil {
 		response.Fail(ctx, nil, "主题不存在")
 		return
 	}
+	{
+		// TODO 将提交存入redis供下次使用
+		v, _ := json.Marshal(topic)
+		t.Redis.HSet(ctx, "Topic", id, v)
+	}
+leep:
 
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
@@ -709,18 +765,10 @@ func (t TopicController) VisitNumber(ctx *gin.Context) {
 	// TODO 获取path中的id
 	id := ctx.Params.ByName("id")
 
-	var topic model.Topic
-
-	// TODO 查看主题是否存在
-	if t.DB.Where("id = ?", id).First(&topic).Error != nil {
-		response.Fail(ctx, nil, "主题不存在")
-		return
-	}
-
 	// TODO 获得游览总数
 	var total int64
 
-	t.DB.Where("topic_id = ?", topic.ID).Count(&total)
+	t.DB.Where("topic_id = ?", id).Count(&total)
 
 	response.Success(ctx, gin.H{"total": total}, "请求主题游览数目成功")
 }
@@ -734,14 +782,6 @@ func (t TopicController) VisitList(ctx *gin.Context) {
 	// TODO 获取path中的id
 	id := ctx.Params.ByName("id")
 
-	var topic model.Topic
-
-	// TODO 查看主题是否存在
-	if t.DB.Where("id = ?", id).First(&topic).Error != nil {
-		response.Fail(ctx, nil, "主题不存在")
-		return
-	}
-
 	// TODO 获取分页参数
 	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
 	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
@@ -752,7 +792,7 @@ func (t TopicController) VisitList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看收藏的数量
-	t.DB.Where("topic_id = ?", topic.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&topicVisits).Count(&total)
+	t.DB.Where("topic_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&topicVisits).Count(&total)
 
 	response.Success(ctx, gin.H{"topicVisits": topicVisits, "total": total}, "查看成功")
 }
@@ -789,10 +829,11 @@ func (t TopicController) Visits(ctx *gin.Context) {
 // @return   ITopicController		返回一个ITopicController用于调用各种函数
 func NewTopicController() ITopicController {
 	db := common.GetDB()
+	redis := common.GetRedisClient(0)
 	db.AutoMigrate(model.Topic{})
 	db.AutoMigrate(model.TopicCollect{})
 	db.AutoMigrate(model.TopicLike{})
 	db.AutoMigrate(model.TopicVisit{})
 	db.AutoMigrate(model.ProblemList{})
-	return TopicController{DB: db}
+	return TopicController{DB: db, Redis: redis}
 }

@@ -10,12 +10,14 @@ import (
 	rabbitMq "MGA_OJ/rabbitMq"
 	"MGA_OJ/response"
 	"MGA_OJ/vo"
+	"encoding/json"
 	"fmt"
 	"log"
 	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-redis/redis/v9"
 	"gorm.io/gorm"
 )
 
@@ -24,11 +26,14 @@ type IRecordController interface {
 	Create(ctx *gin.Context)   // 用户进行提交操作
 	Show(ctx *gin.Context)     // 用户查看指定提交
 	PageList(ctx *gin.Context) // 用户搜索提交列表
+	CaseList(ctx *gin.Context) // 某次提交的具体测试通过情况
+	Case(ctx *gin.Context)     // 某个测试的具体情况
 }
 
 // RecordController			定义了提交工具类
 type RecordController struct {
-	DB *gorm.DB // 含有一个数据库指针
+	DB    *gorm.DB      // 含有一个数据库指针
+	Redis *redis.Client // 含有一个redis指针
 }
 
 var rabbitmq *rabbitMq.RabbitMQ = rabbitMq.NewRabbitMQSimple("MGAronya")
@@ -53,11 +58,64 @@ func (r RecordController) Create(ctx *gin.Context) {
 
 	// TODO 查看当前problem状态
 	var problem model.Problem
+
+	// TODO 先看redis中是否存在
+	if ok, _ := r.Redis.HExists(ctx, "Problem", fmt.Sprint(requestRecord.ProblemId)).Result(); ok {
+		cate, _ := r.Redis.HGet(ctx, "Problem", fmt.Sprint(requestRecord.ProblemId)).Result()
+		if json.Unmarshal([]byte(cate), &problem) == nil {
+			// TODO 跳过数据库搜寻problem过程
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			r.Redis.HDel(ctx, "Problem", fmt.Sprint(requestRecord.ProblemId))
+		}
+	}
+
+	// TODO 查看题目是否在数据库中存在
 	if r.DB.Where("id = ?", requestRecord.ProblemId).First(&problem).Error != nil {
 		response.Fail(ctx, nil, "题目不存在")
 		return
 	}
+	// TODO 将题目存入redis供下次使用
+	{
+		v, _ := json.Marshal(problem)
+		r.Redis.HSet(ctx, "Problem", fmt.Sprint(requestRecord.ProblemId), v)
+	}
 
+leep:
+
+	// TODO 检查比赛是否未开始
+	var competition model.Competition
+
+	// TODO 先看redis中是否存在
+	if ok, _ := r.Redis.HExists(ctx, "Competition", fmt.Sprint(problem.CompetitionId)).Result(); ok {
+		cate, _ := r.Redis.HGet(ctx, "Competition", fmt.Sprint(problem.CompetitionId)).Result()
+		if json.Unmarshal([]byte(cate), &competition) == nil {
+			goto leap
+		} else {
+			// TODO 移除损坏数据
+			r.Redis.HDel(ctx, "Competition", fmt.Sprint(problem.CompetitionId))
+		}
+	}
+
+	// TODO 查看比赛是否在数据库中存在
+	if r.DB.Where("id = ?", problem.CompetitionId).First(&competition).Error != nil {
+		goto leap
+	}
+
+	// TODO 将竞赛存入redis供下次使用
+	{
+		v, _ := json.Marshal(competition)
+		r.Redis.HSet(ctx, "Competition", fmt.Sprint(problem.CompetitionId), v)
+	}
+
+	// TODO 如果比赛未开始
+	if !time.Now().After(time.Time(competition.StartTime)) {
+		response.Fail(ctx, nil, "比赛未开始")
+		return
+	}
+
+leap:
 	// TODO 创建提交
 	record := model.Record{
 		UserId:        user.ID,
@@ -81,6 +139,12 @@ func (r RecordController) Create(ctx *gin.Context) {
 		return
 	}
 
+	{
+		// TODO 将提交存入redis供判题机使用
+		v, _ := json.Marshal(record)
+		r.Redis.HSet(ctx, "Record", fmt.Sprint(record.ID), v)
+	}
+
 	// TODO 成功
 	response.Success(ctx, nil, "提交成功")
 }
@@ -95,12 +159,29 @@ func (r RecordController) Show(ctx *gin.Context) {
 	id := ctx.Params.ByName("id")
 	var record model.Record
 
+	// TODO 先看redis中是否存在
+	if ok, _ := r.Redis.HExists(ctx, "Record", id).Result(); ok {
+		cate, _ := r.Redis.HGet(ctx, "Record", id).Result()
+		if json.Unmarshal([]byte(cate), &record) == nil {
+			// TODO 跳过数据库搜寻过程
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			r.Redis.HDel(ctx, "Record", id)
+		}
+	}
+
 	// TODO 查看提交是否在数据库中存在
 	if r.DB.Where("id = ?", id).First(&record).Error != nil {
 		response.Fail(ctx, nil, "提交不存在")
 		return
 	}
-
+	{
+		// TODO 将提交存入redis供下次使用
+		v, _ := json.Marshal(record)
+		r.Redis.HSet(ctx, "Record", id, v)
+	}
+leep:
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
@@ -109,7 +190,7 @@ func (r RecordController) Show(ctx *gin.Context) {
 	var competition model.Competition
 	if r.DB.Where("id = ?", record.CompetitionId).First(&competition) == nil {
 		// TODO 如果比赛未结束且已经开始
-		if competition.EndTime.String() > time.Now().Format("2006-01-02 15:04:05") && competition.StartTime.String() <= time.Now().Format("2006-01-02 15:04:05") {
+		if !time.Now().After(time.Time(competition.EndTime)) && time.Now().After(time.Time(competition.StartTime)) {
 			// TODO 查看是否有权限查看代码
 			if competition.Type == "Single" {
 				if record.UserId != user.ID {
@@ -210,7 +291,7 @@ func (r RecordController) PageList(ctx *gin.Context) {
 			return
 		}
 		// TODO 如果比赛未结束，且比赛已经开始
-		if competition.EndTime.String() > time.Now().Format("2006-01-02 15:04:05") && competition.StartTime.String() <= time.Now().Format("2006-01-02 15:04:05") {
+		if !time.Now().After(time.Time(competition.EndTime)) && time.Now().After(time.Time(competition.StartTime)) {
 			// TODO 禁止查看代码
 			for i := range records {
 				// TODO 查看是否有权限查看代码
@@ -243,6 +324,73 @@ func (r RecordController) PageList(ctx *gin.Context) {
 	response.Success(ctx, gin.H{"records": records, "total": total}, "成功")
 }
 
+// @title    CaseList
+// @description   查看一篇提交的测试通过情况
+// @auth      MGAronya（张健）       2022-9-16 12:19
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (r RecordController) CaseList(ctx *gin.Context) {
+	// TODO 获取path中的id
+	id := ctx.Params.ByName("id")
+	var record model.Record
+
+	// TODO 先看redis中是否存在
+	if ok, _ := r.Redis.HExists(ctx, "Record", id).Result(); ok {
+		cate, _ := r.Redis.HGet(ctx, "Record", id).Result()
+		if json.Unmarshal([]byte(cate), &record) == nil {
+			// TODO 跳过数据库搜寻过程
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			r.Redis.HDel(ctx, "Record", id)
+		}
+	}
+
+	// TODO 查看提交是否在数据库中存在
+	if r.DB.Where("id = ?", id).First(&record).Error != nil {
+		response.Fail(ctx, nil, "提交不存在")
+		return
+	}
+	{
+		// TODO 将提交存入redis供下次使用
+		v, _ := json.Marshal(record)
+		r.Redis.HSet(ctx, "Record", id, v)
+	}
+leep:
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
+
+	// TODO 分页
+	var cases []model.Case
+
+	var total int64
+
+	// TODO 查找所有分页中可见的条目
+	r.DB.Where("record_id = ?", record.ID).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&cases).Count(&total)
+
+	response.Success(ctx, gin.H{"cases": cases}, "成功")
+}
+
+// @title    Case
+// @description   查看一篇测试通过情况
+// @auth      MGAronya（张健）       2022-9-16 12:19
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (r RecordController) Case(ctx *gin.Context) {
+	// TODO 获取path中的id
+	id := ctx.Params.ByName("id")
+	var cas model.Case
+
+	// TODO 查找所有分页中可见的条目
+	if r.DB.Where("id = ?", id).First(&cas).Error != nil {
+		response.Fail(ctx, nil, "测试不存在")
+		return
+	}
+
+	response.Success(ctx, gin.H{"case": cas}, "成功")
+}
+
 // @title    NewRecordController
 // @description   新建一个IRecordController
 // @auth      MGAronya（张健）       2022-9-16 12:23
@@ -250,7 +398,8 @@ func (r RecordController) PageList(ctx *gin.Context) {
 // @return   IRecordController		返回一个IRecordController用于调用各种函数
 func NewRecordController() IRecordController {
 	db := common.GetDB()
+	redis := common.GetRedisClient(0)
 	db.AutoMigrate(model.Record{})
 	db.AutoMigrate(model.Case{})
-	return RecordController{DB: db}
+	return RecordController{DB: db, Redis: redis}
 }

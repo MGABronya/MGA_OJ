@@ -9,8 +9,11 @@ import (
 	"MGA_OJ/common"
 	"MGA_OJ/model"
 	"MGA_OJ/response"
+	"encoding/json"
 	"log"
 	"strconv"
+
+	"github.com/go-redis/redis/v9"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -23,7 +26,8 @@ type ICategoryController interface {
 
 // CategoryController			定义了分类工具类
 type CategoryController struct {
-	DB *gorm.DB // 含有一个数据库指针
+	DB    *gorm.DB      // 含有一个数据库指针
+	Redis *redis.Client // 含有一个redis指针
 }
 
 // @title    Create
@@ -95,6 +99,9 @@ func (c CategoryController) Update(ctx *gin.Context) {
 	// TODO 更新分类内容
 	c.DB.Where("id = ?", id).Updates(category)
 
+	// TODO 移除损坏数据
+	c.Redis.HDel(ctx, "Category", id)
+
 	// TODO 成功
 	response.Success(ctx, nil, "更新成功")
 }
@@ -109,6 +116,18 @@ func (c CategoryController) Show(ctx *gin.Context) {
 	id := ctx.Params.ByName("id")
 	var category model.Category
 
+	// TODO 先看redis中是否存在
+	if ok, _ := c.Redis.HExists(ctx, "Category", id).Result(); ok {
+		cate, _ := c.Redis.HGet(ctx, "Category", id).Result()
+		if json.Unmarshal([]byte(cate), &category) == nil {
+			response.Success(ctx, gin.H{"category": category}, "成功")
+			return
+		} else {
+			// TODO 移除损坏数据
+			c.Redis.HDel(ctx, "Category", id)
+		}
+	}
+
 	// TODO 查看分类是否在数据库中存在
 	if c.DB.Where("id = ?", id).First(&category).Error != nil {
 		response.Fail(ctx, nil, "分类不存在")
@@ -116,6 +135,10 @@ func (c CategoryController) Show(ctx *gin.Context) {
 	}
 
 	response.Success(ctx, gin.H{"category": category}, "成功")
+
+	// TODO 将分类存入redis供下次使用
+	v, _ := json.Marshal(category)
+	c.Redis.HSet(ctx, "Category", id, v)
 }
 
 // @title    Delete
@@ -148,6 +171,9 @@ func (c CategoryController) Delete(ctx *gin.Context) {
 
 	// TODO 删除分类
 	c.DB.Delete(&category)
+
+	// TODO 移除损坏数据
+	c.Redis.HDel(ctx, "Category", id)
 
 	response.Success(ctx, nil, "删除成功")
 }
@@ -182,6 +208,7 @@ func (c CategoryController) PageList(ctx *gin.Context) {
 // @return   ICategoryController		返回一个ICategoryController用于调用各种函数
 func NewCategoryController() ICategoryController {
 	db := common.GetDB()
+	redis := common.GetRedisClient(0)
 	db.AutoMigrate(model.Category{})
-	return CategoryController{DB: db}
+	return CategoryController{DB: db, Redis: redis}
 }

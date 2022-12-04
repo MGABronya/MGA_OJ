@@ -10,8 +10,11 @@ import (
 	"MGA_OJ/model"
 	"MGA_OJ/response"
 	"MGA_OJ/vo"
+	"encoding/json"
 	"log"
 	"strconv"
+
+	"github.com/go-redis/redis/v9"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -19,16 +22,18 @@ import (
 
 // IArticleController			定义了文章类接口
 type IArticleController interface {
-	Interface.RestInterface    // 包含增删查改功能
-	Interface.LikeInterface    // 包含点赞功能
-	Interface.CollectInterface // 包含收藏功能
-	Interface.VisitInterface   // 包含游览功能
-	UserList(ctx *gin.Context) // 查询指定用户的文章
+	Interface.RestInterface        // 包含增删查改功能
+	Interface.LikeInterface        // 包含点赞功能
+	Interface.CollectInterface     // 包含收藏功能
+	Interface.VisitInterface       // 包含游览功能
+	UserList(ctx *gin.Context)     // 查询指定用户的文章
+	CategoryList(ctx *gin.Context) // 查询某分类的文章
 }
 
 // ArticleController			定义了文章工具类
 type ArticleController struct {
-	DB *gorm.DB // 含有一个数据库指针
+	DB    *gorm.DB      // 含有一个数据库指针
+	Redis *redis.Client // 含有一个redis指针
 }
 
 // @title    Create
@@ -103,7 +108,10 @@ func (a ArticleController) Update(ctx *gin.Context) {
 	}
 
 	// TODO 更新文章内容
-	a.DB.Table("articles").Where("id = ?", id).Updates(requestArticle)
+	a.DB.Model(model.Article{}).Where("id = ?", id).Updates(requestArticle)
+
+	// TODO 解码失败，删除字段
+	a.Redis.HDel(ctx, "Article", id)
 
 	// TODO 成功
 	response.Success(ctx, nil, "更新成功")
@@ -117,7 +125,20 @@ func (a ArticleController) Update(ctx *gin.Context) {
 func (a ArticleController) Show(ctx *gin.Context) {
 	// TODO 获取path中的id
 	id := ctx.Params.ByName("id")
+
 	var article model.Article
+
+	// TODO 先尝试在redis中寻找
+	if ok, _ := a.Redis.HExists(ctx, "Article", id).Result(); ok {
+		art, _ := a.Redis.HGet(ctx, "Article", id).Result()
+		if json.Unmarshal([]byte(art), &article) == nil {
+			response.Success(ctx, gin.H{"article": article}, "成功")
+			return
+		} else {
+			// TODO 解码失败，删除字段
+			a.Redis.HDel(ctx, "Article", id)
+		}
+	}
 
 	// TODO 查看文章是否在数据库中存在
 	if a.DB.Where("id = ?", id).First(&article).Error != nil {
@@ -126,6 +147,10 @@ func (a ArticleController) Show(ctx *gin.Context) {
 	}
 
 	response.Success(ctx, gin.H{"article": article}, "成功")
+
+	// TODO 将文章存入redis供下次使用
+	v, _ := json.Marshal(article)
+	a.Redis.HSet(ctx, "Article", id, v)
 }
 
 // @title    Delete
@@ -158,6 +183,9 @@ func (a ArticleController) Delete(ctx *gin.Context) {
 
 	// TODO 删除文章
 	a.DB.Delete(&article)
+
+	// TODO 解码失败，删除字段
+	a.Redis.HDel(ctx, "Article", id)
 
 	response.Success(ctx, nil, "删除成功")
 }
@@ -195,12 +223,6 @@ func (a ArticleController) UserList(ctx *gin.Context) {
 	// TODO 获取指定用户用户
 	id := ctx.Params.ByName("id")
 
-	// TODO 查看用户是否存在
-	if a.DB.Where("id = ?", id).First(&model.User{}).Error != nil {
-		response.Fail(ctx, nil, "用户不存在")
-		return
-	}
-
 	// TODO 获取分页参数
 	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
 	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
@@ -213,6 +235,33 @@ func (a ArticleController) UserList(ctx *gin.Context) {
 
 	var total int64
 	a.DB.Where("user_id = ?", id).Model(model.Article{}).Count(&total)
+
+	// TODO 返回数据
+	response.Success(ctx, gin.H{"articles": articles, "total": total}, "成功")
+}
+
+// @title    CategoryList
+// @description   获取指定分类的文章
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (a ArticleController) CategoryList(ctx *gin.Context) {
+
+	// TODO 获取指定分类
+	id := ctx.Params.ByName("id")
+
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
+
+	// TODO 分页
+	var articles []model.Article
+
+	// TODO 查找所有分页中可见的条目
+	a.DB.Where("category_id = ?", id).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&articles)
+
+	var total int64
+	a.DB.Where("category_id = ?", id).Model(model.Article{}).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"articles": articles, "total": total}, "成功")
@@ -232,11 +281,28 @@ func (a ArticleController) Like(ctx *gin.Context) {
 
 	var article model.Article
 
-	// TODO 查看文章是否存在
+	// TODO 先尝试在redis中寻找
+	if ok, _ := a.Redis.HExists(ctx, "Article", id).Result(); ok {
+		art, _ := a.Redis.HGet(ctx, "Article", id).Result()
+		if json.Unmarshal([]byte(art), &article) == nil {
+			goto leep
+		} else {
+			// TODO 解码失败，删除字段
+			a.Redis.HDel(ctx, "Article", id)
+		}
+	}
+
+	// TODO 查看文章是否在数据库中存在
 	if a.DB.Where("id = ?", id).First(&article).Error != nil {
 		response.Fail(ctx, nil, "文章不存在")
 		return
 	}
+	{
+		// TODO 将文章存入redis供下次使用
+		v, _ := json.Marshal(article)
+		a.Redis.HSet(ctx, "Article", id, v)
+	}
+leep:
 
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
@@ -268,14 +334,6 @@ func (a ArticleController) CancelLike(ctx *gin.Context) {
 	// 获取path中的id
 	id := ctx.Params.ByName("id")
 
-	var article model.Article
-
-	// TODO 查看文章是否存在
-	if a.DB.Where("id = ?", id).First(&article).Error != nil {
-		response.Fail(ctx, nil, "文章不存在")
-		return
-	}
-
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
@@ -298,14 +356,6 @@ func (a ArticleController) LikeNumber(ctx *gin.Context) {
 	// TODO 获取like
 	like, _ := strconv.ParseBool(ctx.Query("like"))
 
-	var article model.Article
-
-	// TODO 查看文章是否存在
-	if a.DB.Where("id = ?", id).First(&article).Error != nil {
-		response.Fail(ctx, nil, "文章不存在")
-		return
-	}
-
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
@@ -325,14 +375,6 @@ func (a ArticleController) LikeList(ctx *gin.Context) {
 
 	// TODO 获取like
 	like, _ := strconv.ParseBool(ctx.Query("like"))
-
-	var article model.Article
-
-	// TODO 查看文章是否存在
-	if a.DB.Where("id = ?", id).First(&article).Error != nil {
-		response.Fail(ctx, nil, "文章不存在")
-		return
-	}
 
 	// TODO 获取分页参数
 	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
@@ -357,14 +399,6 @@ func (a ArticleController) LikeList(ctx *gin.Context) {
 func (a ArticleController) LikeShow(ctx *gin.Context) {
 	// 获取path中的id
 	id := ctx.Params.ByName("id")
-
-	var article model.Article
-
-	// TODO 查看讨论是否存在
-	if a.DB.Where("id = ?", id).First(&article).Error != nil {
-		response.Fail(ctx, nil, "讨论不存在")
-		return
-	}
 
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
@@ -403,21 +437,13 @@ func (a ArticleController) Likes(ctx *gin.Context) {
 	// TODO 获取指定用户用户
 	id := ctx.Params.ByName("id")
 
-	var user model.User
-
-	// TODO 查看用户是否存在
-	if a.DB.Where("id = ?", id).First(&user).Error != nil {
-		response.Fail(ctx, nil, "用户不存在")
-		return
-	}
-
 	// TODO 分页
 	var articleLikes []model.ArticleLike
 
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	a.DB.Where("user_id = ? and like = ?", user.ID, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&articleLikes).Count(&total)
+	a.DB.Where("user_id = ? and like = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&articleLikes).Count(&total)
 
 	response.Success(ctx, gin.H{"articleLikes": articleLikes, "total": total}, "查看成功")
 }
@@ -433,12 +459,28 @@ func (a ArticleController) Collect(ctx *gin.Context) {
 
 	var article model.Article
 
-	// TODO 查看文章是否存在
+	// TODO 先尝试在redis中寻找
+	if ok, _ := a.Redis.HExists(ctx, "Article", id).Result(); ok {
+		art, _ := a.Redis.HGet(ctx, "Article", id).Result()
+		if json.Unmarshal([]byte(art), &article) == nil {
+			goto leep
+		} else {
+			// TODO 解码失败，删除字段
+			a.Redis.HDel(ctx, "Article", id)
+		}
+	}
+
+	// TODO 查看文章是否在数据库中存在
 	if a.DB.Where("id = ?", id).First(&article).Error != nil {
 		response.Fail(ctx, nil, "文章不存在")
 		return
 	}
-
+	{
+		// TODO 将文章存入redis供下次使用
+		v, _ := json.Marshal(article)
+		a.Redis.HSet(ctx, "Article", id, v)
+	}
+leep:
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
@@ -471,24 +513,16 @@ func (a ArticleController) CancelCollect(ctx *gin.Context) {
 	// TODO 获取path中的id
 	id := ctx.Params.ByName("id")
 
-	var article model.Article
-
-	// TODO 查看文章是否存在
-	if a.DB.Where("id = ?", id).First(&article).Error != nil {
-		response.Fail(ctx, nil, "文章不存在")
-		return
-	}
-
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
 
 	// TODO 如果没有收藏
-	if a.DB.Where("user_id = ? and article_id = ?", user.ID, article.ID).First(&model.ArticleCollect{}).Error != nil {
+	if a.DB.Where("user_id = ? and article_id = ?", user.ID, id).First(&model.ArticleCollect{}).Error != nil {
 		response.Fail(ctx, nil, "未收藏")
 		return
 	} else {
-		a.DB.Where("user_id = ? and article_id = ?", user.ID, article.ID).Delete(&model.ArticleCollect{})
+		a.DB.Where("user_id = ? and article_id = ?", user.ID, id).Delete(&model.ArticleCollect{})
 		response.Success(ctx, nil, "取消收藏成功")
 		return
 	}
@@ -503,20 +537,12 @@ func (a ArticleController) CollectShow(ctx *gin.Context) {
 	// TODO 获取path中的id
 	id := ctx.Params.ByName("id")
 
-	var article model.Article
-
-	// TODO 查看文章是否存在
-	if a.DB.Where("id = ?", id).First(&article).Error != nil {
-		response.Fail(ctx, nil, "文章不存在")
-		return
-	}
-
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
 
 	// TODO 如果没有收藏
-	if a.DB.Where("user_id = ? and article_id = ?", user.ID, article.ID).First(&model.ArticleCollect{}).Error != nil {
+	if a.DB.Where("user_id = ? and article_id = ?", user.ID, id).First(&model.ArticleCollect{}).Error != nil {
 		response.Success(ctx, gin.H{"collect": false}, "未收藏")
 		return
 	} else {
@@ -534,14 +560,6 @@ func (a ArticleController) CollectList(ctx *gin.Context) {
 	// TODO 获取path中的id
 	id := ctx.Params.ByName("id")
 
-	var article model.Article
-
-	// TODO 查看题解是否存在
-	if a.DB.Where("id = ?", id).First(&article).Error != nil {
-		response.Fail(ctx, nil, "题解不存在")
-		return
-	}
-
 	// TODO 获取分页参数
 	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
 	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
@@ -552,7 +570,7 @@ func (a ArticleController) CollectList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看收藏的数量
-	a.DB.Where("article_id = ?", article.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&articleCollects).Count(&total)
+	a.DB.Where("article_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&articleCollects).Count(&total)
 
 	response.Success(ctx, gin.H{"articleCollects": articleCollects, "total": total}, "查看成功")
 }
@@ -566,18 +584,10 @@ func (a ArticleController) CollectNumber(ctx *gin.Context) {
 	// TODO 获取path中的id
 	id := ctx.Params.ByName("id")
 
-	var article model.Article
-
-	// TODO 查看文章是否存在
-	if a.DB.Where("id = ?", id).First(&article).Error != nil {
-		response.Fail(ctx, nil, "文章不存在")
-		return
-	}
-
 	var total int64
 
 	// TODO 查看收藏的数量
-	a.DB.Where("article_id = ?", article.ID).Count(&total)
+	a.DB.Where("article_id = ?", id).Count(&total)
 
 	response.Success(ctx, gin.H{"total": total}, "查看成功")
 }
@@ -591,14 +601,6 @@ func (a ArticleController) Collects(ctx *gin.Context) {
 	// TODO 获取指定用户用户
 	id := ctx.Params.ByName("id")
 
-	var user model.User
-
-	// TODO 查看用户是否存在
-	if a.DB.Where("id = ?", id).First(&user).Error != nil {
-		response.Fail(ctx, nil, "用户不存在")
-		return
-	}
-
 	// TODO 获取分页参数
 	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
 	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
@@ -609,7 +611,7 @@ func (a ArticleController) Collects(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看收藏的数量
-	a.DB.Where("user_id = ?", user.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&articleCollects).Count(&total)
+	a.DB.Where("user_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&articleCollects).Count(&total)
 
 	response.Success(ctx, gin.H{"articleCollects": articleCollects, "total": total}, "查看成功")
 }
@@ -625,11 +627,28 @@ func (a ArticleController) Visit(ctx *gin.Context) {
 
 	var article model.Article
 
-	// TODO 查看文章是否存在
+	// TODO 先尝试在redis中寻找
+	if ok, _ := a.Redis.HExists(ctx, "Article", id).Result(); ok {
+		art, _ := a.Redis.HGet(ctx, "Article", id).Result()
+		if json.Unmarshal([]byte(art), &article) == nil {
+			goto leep
+		} else {
+			// TODO 解码失败，删除字段
+			a.Redis.HDel(ctx, "Article", id)
+		}
+	}
+
+	// TODO 查看文章是否在数据库中存在
 	if a.DB.Where("id = ?", id).First(&article).Error != nil {
 		response.Fail(ctx, nil, "文章不存在")
 		return
 	}
+	{
+		// TODO 将文章存入redis供下次使用
+		v, _ := json.Marshal(article)
+		a.Redis.HSet(ctx, "Article", id, v)
+	}
+leep:
 
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
@@ -658,18 +677,10 @@ func (a ArticleController) VisitNumber(ctx *gin.Context) {
 	// TODO 获取path中的id
 	id := ctx.Params.ByName("id")
 
-	var article model.Article
-
-	// TODO 查看文章是否存在
-	if a.DB.Where("id = ?", id).First(&article).Error != nil {
-		response.Fail(ctx, nil, "文章不存在")
-		return
-	}
-
 	// TODO 获得游览总数
 	var total int64
 
-	a.DB.Where("article_id = ?", article.ID).Count(&total)
+	a.DB.Where("article_id = ?", id).Count(&total)
 
 	response.Success(ctx, gin.H{"total": total}, "请求文章游览数目成功")
 }
@@ -683,14 +694,6 @@ func (a ArticleController) VisitList(ctx *gin.Context) {
 	// TODO 获取path中的id
 	id := ctx.Params.ByName("id")
 
-	var article model.Article
-
-	// TODO 查看文章是否存在
-	if a.DB.Where("id = ?", id).First(&article).Error != nil {
-		response.Fail(ctx, nil, "文章不存在")
-		return
-	}
-
 	// TODO 获取分页参数
 	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
 	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
@@ -701,7 +704,7 @@ func (a ArticleController) VisitList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看收藏的数量
-	a.DB.Where("article_id = ?", article.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&articleVisits).Count(&total)
+	a.DB.Where("article_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&articleVisits).Count(&total)
 
 	response.Success(ctx, gin.H{"articleVisits": articleVisits, "total": total}, "查看成功")
 }
@@ -715,14 +718,6 @@ func (a ArticleController) Visits(ctx *gin.Context) {
 	// TODO 获取指定用户用户
 	id := ctx.Params.ByName("id")
 
-	var user model.User
-
-	// TODO 查看用户是否存在
-	if a.DB.Where("id = ?", id).First(&user).Error != nil {
-		response.Fail(ctx, nil, "用户不存在")
-		return
-	}
-
 	// TODO 获取分页参数
 	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
 	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
@@ -733,7 +728,7 @@ func (a ArticleController) Visits(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看收藏的数量
-	a.DB.Where("user_id = ?", user.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&articleVisits).Count(&total)
+	a.DB.Where("user_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&articleVisits).Count(&total)
 
 	response.Success(ctx, gin.H{"articleVisits": articleVisits, "total": total}, "查看成功")
 }
@@ -745,9 +740,10 @@ func (a ArticleController) Visits(ctx *gin.Context) {
 // @return   IArticleController		返回一个IArticleController用于调用各种函数
 func NewArticleController() IArticleController {
 	db := common.GetDB()
+	redis := common.GetRedisClient(0)
 	db.AutoMigrate(model.Article{})
 	db.AutoMigrate(model.ArticleCollect{})
 	db.AutoMigrate(model.ArticleLike{})
 	db.AutoMigrate(model.ArticleVisit{})
-	return ArticleController{DB: db}
+	return ArticleController{DB: db, Redis: redis}
 }

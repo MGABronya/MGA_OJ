@@ -10,10 +10,12 @@ import (
 	"MGA_OJ/model"
 	"MGA_OJ/response"
 	"MGA_OJ/vo"
+	"encoding/json"
 	"log"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-redis/redis/v9"
 	"gorm.io/gorm"
 )
 
@@ -26,7 +28,8 @@ type IThreadController interface {
 
 // ThreadController			定义了题解的回复工具类
 type ThreadController struct {
-	DB *gorm.DB // 含有一个数据库指针
+	DB    *gorm.DB      // 含有一个数据库指针
+	Redis *redis.Client // 含有一个redis指针
 }
 
 // @title    Create
@@ -48,10 +51,29 @@ func (t ThreadController) Create(ctx *gin.Context) {
 
 	var post model.Post
 
+	// TODO 查看题解是否存在
+	// TODO 先看redis中是否存在
+	if ok, _ := t.Redis.HExists(ctx, "Post", id).Result(); ok {
+		cate, _ := t.Redis.HGet(ctx, "Post", id).Result()
+		if json.Unmarshal([]byte(cate), &post) == nil {
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			t.Redis.HDel(ctx, "Post", id)
+		}
+	}
+
+	// TODO 查看题解是否在数据库中存在
 	if t.DB.Where("id = ?", id).First(&post).Error != nil {
 		response.Fail(ctx, nil, "题解不存在")
 		return
 	}
+	{
+		// TODO 将题解存入redis供下次使用
+		v, _ := json.Marshal(post)
+		t.Redis.HSet(ctx, "Post", id, v)
+	}
+leep:
 
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
@@ -113,6 +135,9 @@ func (t ThreadController) Update(ctx *gin.Context) {
 	// TODO 更新题解的回复内容
 	t.DB.Where("id = ?", id).Updates(requestThread)
 
+	// TODO 移除损坏数据
+	t.Redis.HDel(ctx, "Thread", id)
+
 	// TODO 成功
 	response.Success(ctx, nil, "更新成功")
 }
@@ -127,6 +152,18 @@ func (t ThreadController) Show(ctx *gin.Context) {
 	id := ctx.Params.ByName("id")
 	var thread model.Thread
 
+	// TODO 先看redis中是否存在
+	if ok, _ := t.Redis.HExists(ctx, "Thread", id).Result(); ok {
+		cate, _ := t.Redis.HGet(ctx, "Thread", id).Result()
+		if json.Unmarshal([]byte(cate), &thread) == nil {
+			response.Success(ctx, gin.H{"thread": thread}, "成功")
+			return
+		} else {
+			// TODO 移除损坏数据
+			t.Redis.HDel(ctx, "Thread", id)
+		}
+	}
+
 	// TODO 查看题解的回复是否在数据库中存在
 	if t.DB.Where("id = ?", id).First(&thread).Error != nil {
 		response.Fail(ctx, nil, "题解的回复不存在")
@@ -134,6 +171,10 @@ func (t ThreadController) Show(ctx *gin.Context) {
 	}
 
 	response.Success(ctx, gin.H{"thread": thread}, "成功")
+
+	// TODO 将提交存入redis供下次使用
+	v, _ := json.Marshal(thread)
+	t.Redis.HSet(ctx, "Thread", id, v)
 }
 
 // @title    Delete
@@ -166,6 +207,9 @@ func (t ThreadController) Delete(ctx *gin.Context) {
 
 	// TODO 删除题解的回复
 	t.DB.Delete(&thread)
+
+	// TODO 移除损坏数据
+	t.Redis.HDel(ctx, "Thread", id)
 
 	response.Success(ctx, nil, "删除成功")
 }
@@ -236,11 +280,28 @@ func (t ThreadController) Like(ctx *gin.Context) {
 
 	var thread model.Thread
 
-	// TODO 查看讨论是否存在
+	// TODO 先看redis中是否存在
+	if ok, _ := t.Redis.HExists(ctx, "Thread", id).Result(); ok {
+		cate, _ := t.Redis.HGet(ctx, "Thread", id).Result()
+		if json.Unmarshal([]byte(cate), &thread) == nil {
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			t.Redis.HDel(ctx, "Thread", id)
+		}
+	}
+
+	// TODO 查看题解的回复是否在数据库中存在
 	if t.DB.Where("id = ?", id).First(&thread).Error != nil {
-		response.Fail(ctx, nil, "讨论不存在")
+		response.Fail(ctx, nil, "题解的回复不存在")
 		return
 	}
+	{
+		// TODO 将提交存入redis供下次使用
+		v, _ := json.Marshal(thread)
+		t.Redis.HSet(ctx, "Thread", id, v)
+	}
+leep:
 
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
@@ -272,14 +333,6 @@ func (t ThreadController) CancelLike(ctx *gin.Context) {
 	// 获取path中的id
 	id := ctx.Params.ByName("id")
 
-	var thread model.Thread
-
-	// TODO 查看题目是否存在
-	if t.DB.Where("id = ?", id).First(&thread).Error != nil {
-		response.Fail(ctx, nil, "讨论不存在")
-		return
-	}
-
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
@@ -302,14 +355,6 @@ func (t ThreadController) LikeNumber(ctx *gin.Context) {
 	// TODO 获取like
 	like, _ := strconv.ParseBool(ctx.Query("like"))
 
-	var thread model.Thread
-
-	// TODO 查看题目是否存在
-	if t.DB.Where("id = ?", id).First(&thread).Error != nil {
-		response.Fail(ctx, nil, "讨论不存在")
-		return
-	}
-
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
@@ -329,14 +374,6 @@ func (t ThreadController) LikeList(ctx *gin.Context) {
 
 	// TODO 获取like
 	like, _ := strconv.ParseBool(ctx.Query("like"))
-
-	var thread model.Thread
-
-	// TODO 查看题目是否存在
-	if t.DB.Where("id = ?", id).First(&thread).Error != nil {
-		response.Fail(ctx, nil, "讨论不存在")
-		return
-	}
 
 	// TODO 获取分页参数
 	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
@@ -361,14 +398,6 @@ func (t ThreadController) LikeList(ctx *gin.Context) {
 func (t ThreadController) LikeShow(ctx *gin.Context) {
 	// 获取path中的id
 	id := ctx.Params.ByName("id")
-
-	var thread model.Thread
-
-	// TODO 查看讨论是否存在
-	if t.DB.Where("id = ?", id).First(&thread).Error != nil {
-		response.Fail(ctx, nil, "讨论不存在")
-		return
-	}
 
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
@@ -407,21 +436,13 @@ func (t ThreadController) Likes(ctx *gin.Context) {
 	// TODO 获取指定用户用户
 	id := ctx.Params.ByName("id")
 
-	var user model.User
-
-	// TODO 查看用户是否存在
-	if t.DB.Where("id = ?", id).First(&user).Error != nil {
-		response.Fail(ctx, nil, "用户不存在")
-		return
-	}
-
 	// TODO 分页
 	var threadLikes []model.ThreadLike
 
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	t.DB.Where("user_id = ? and like = ?", user.ID, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&threadLikes).Count(&total)
+	t.DB.Where("user_id = ? and like = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&threadLikes).Count(&total)
 
 	response.Success(ctx, gin.H{"threadLikes": threadLikes, "total": total}, "查看成功")
 }
@@ -433,7 +454,8 @@ func (t ThreadController) Likes(ctx *gin.Context) {
 // @return   IThreadController		返回一个IThreadController用于调用各种函数
 func NewThreadController() IThreadController {
 	db := common.GetDB()
+	redis := common.GetRedisClient(0)
 	db.AutoMigrate(model.Thread{})
 	db.AutoMigrate(model.ThreadLike{})
-	return ThreadController{DB: db}
+	return ThreadController{DB: db, Redis: redis}
 }
