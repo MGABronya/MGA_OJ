@@ -42,6 +42,9 @@ func UserRoutes(r *gin.Engine) *gin.Engine {
 	// TODO 返回当前登录的用户
 	userRoutes.GET("/info", middleware.AuthMiddleware(), userController.Info)
 
+	// TODO 获取某个用户的所有信息
+	userRoutes.GET("/show/:id", userController.Show)
+
 	// TODO 修改用户信息
 	userRoutes.PUT("/update", middleware.AuthMiddleware(), userController.Update)
 
@@ -50,6 +53,15 @@ func UserRoutes(r *gin.Engine) *gin.Engine {
 
 	// TODO 修改用户头像
 	userRoutes.PUT("/update/icon", middleware.AuthMiddleware(), userController.UpdateIcon)
+
+	// TODO 获取某个用户的题目数量排行情况
+	userRoutes.GET("/accept/rank/show/:id", userController.AcceptRank)
+
+	// TODO 获取ac题目数量排行榜
+	userRoutes.GET("/accept/rank/list", userController.AcceptRankList)
+
+	// TODO 获取某个用户的ac题目数量
+	userRoutes.GET("/accept/num/:id", userController.AcceptNum)
 
 	return r
 }
