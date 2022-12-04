@@ -1,4 +1,4 @@
-package rabbitmq
+package rabbitMq
 
 import (
 	"MGA_OJ/Handle"
@@ -7,6 +7,8 @@ import (
 	"MGA_OJ/model"
 	"bufio"
 	"bytes"
+	"context"
+	"encoding/json"
 	"fmt"
 	"io"
 	"log"
@@ -24,9 +26,23 @@ var LanguageMap map[string]Interface.CmdInterface = map[string]Interface.CmdInte
 }
 
 var db *gorm.DB = common.GetDB()
+var ctx context.Context = context.Background()
+var redis *redis.Client = common.GetRedisClient(0)
 
 func Test(msg []byte) {
 	var record model.Record
+
+	// TODO 先看redis中是否存在
+	if ok, _ := redis.HExists(ctx, "Record", string(msg)).Result(); ok {
+		cate, _ := redis.HGet(ctx, "Record", string(msg)).Result()
+		if json.Unmarshal([]byte(cate), &record) == nil {
+			// TODO 跳过数据库搜寻过程
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			redis.HDel(ctx, "Record", string(msg))
+		}
+	}
 
 	// TODO 未能找到提交记录
 	if db.Where("id = ?", msg).First(&record).Error != nil {
@@ -34,6 +50,7 @@ func Test(msg []byte) {
 		return
 	}
 
+leep:
 	// TODO 找到提交记录后，开始判题逻辑
 	if v, ok := LanguageMap[record.Language]; ok {
 		handle(record, v)
@@ -50,15 +67,81 @@ func handle(record model.Record, cmdI Interface.CmdInterface) {
 	var testInputs []model.TestInput
 	var testOutputs []model.TestOutput
 	var problem model.Problem
-	db.Where("problem_id = ?", record.ProblemId).Find(&testInputs).Find(&testOutputs)
 
-	// TODO 没有对应问题
-	if db.Where("id = ?", record.ProblemId).First(problem).Error != nil {
+	// TODO 先看redis中是否存在
+	id := fmt.Sprint(record.ProblemId)
+	if ok, _ := redis.HExists(ctx, "Problem", id).Result(); ok {
+		cate, _ := redis.HGet(ctx, "Problem", id).Result()
+		if json.Unmarshal([]byte(cate), &problem) == nil {
+			// TODO 跳过数据库搜寻problem过程
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			redis.HDel(ctx, "Problem", id)
+		}
+	}
+
+	// TODO 查看题目是否在数据库中存在
+	if db.Where("id = ?", id).First(&problem).Error != nil {
 		record.Condition = "Problem Doesn't Exist"
 		db.Save(&record)
 		return
 	}
+	// TODO 将题目存入redis供下次使用
+	{
+		v, _ := json.Marshal(problem)
+		redis.HSet(ctx, "Problem", id, v)
+	}
 
+leep:
+	// TODO 查找输入
+	if ok, _ := redis.HExists(ctx, "Input", id).Result(); ok {
+		cate, _ := redis.HGet(ctx, "Input", id).Result()
+		if json.Unmarshal([]byte(cate), &testInputs) == nil {
+			// TODO 跳过数据库搜寻testInputs过程
+			goto Input
+		} else {
+			// TODO 移除损坏数据
+			redis.HDel(ctx, "Input", id)
+		}
+	}
+
+	// TODO 查看题目是否在数据库中存在
+	if db.Where("id = ?", id).Find(&testInputs).Error != nil {
+		record.Condition = "Input Doesn't Exist"
+		db.Save(&record)
+		return
+	}
+	// TODO 将题目存入redis供下次使用
+	{
+		v, _ := json.Marshal(testInputs)
+		redis.HSet(ctx, "Input", id, v)
+	}
+Input:
+	// TODO 查找输入
+	if ok, _ := redis.HExists(ctx, "Output", id).Result(); ok {
+		cate, _ := redis.HGet(ctx, "Output", id).Result()
+		if json.Unmarshal([]byte(cate), &testOutputs) == nil {
+			// TODO 跳过数据库搜寻testOutputs过程
+			goto Output
+		} else {
+			// TODO 移除损坏数据
+			redis.HDel(ctx, "Output", id)
+		}
+	}
+
+	// TODO 查看题目是否在数据库中存在
+	if db.Where("id = ?", id).Find(&testOutputs).Error != nil {
+		record.Condition = "Output Doesn't Exist"
+		db.Save(&record)
+		return
+	}
+	// TODO 将题目存入redis供下次使用
+	{
+		v, _ := json.Marshal(testOutputs)
+		redis.HSet(ctx, "Output", id, v)
+	}
+Output:
 	fp, err := os.Create("user-code/" + fmt.Sprint(record.ID) + "." + cmdI.Suffix())
 	// TODO 文件错误
 	if err != nil {
@@ -112,6 +195,40 @@ func handle(record model.Record, cmdI Interface.CmdInterface) {
 		return
 	}
 
+	// TODO 检查比赛是否未开始
+	var competition model.Competition
+
+	// TODO 先看redis中是否存在
+	if ok, _ := redis.HExists(ctx, "Competition", fmt.Sprint(problem.CompetitionId)).Result(); ok {
+		cate, _ := redis.HGet(ctx, "Competition", fmt.Sprint(problem.CompetitionId)).Result()
+		if json.Unmarshal([]byte(cate), &competition) == nil {
+			goto leap
+		} else {
+			// TODO 移除损坏数据
+			redis.HDel(ctx, "Competition", fmt.Sprint(problem.CompetitionId))
+		}
+	}
+
+	// TODO 查看比赛是否在数据库中存在
+	if db.Where("id = ?", problem.CompetitionId).First(&competition).Error != nil {
+		goto leap
+	}
+
+	// TODO 将竞赛存入redis供下次使用
+	{
+		v, _ := json.Marshal(competition)
+		redis.HSet(ctx, "Competition", fmt.Sprint(problem.CompetitionId), v)
+	}
+
+	// TODO 如果比赛未开始
+	if competition.StartTime.After(time.Time(record.CreatedAt)) {
+		record.Condition = "Competition hasn't Started"
+		db.Save(&record)
+		return
+	}
+
+leap:
+
 	for i := 0; i < len(testInputs); i++ {
 		var bm runtime.MemStats
 		runtime.ReadMemStats(&bm)
@@ -148,6 +265,10 @@ func handle(record model.Record, cmdI Interface.CmdInterface) {
 		case <-after:
 			cmd.Process.Kill()
 			record.Condition = "Time Limit Exceeded"
+			// TODO 如果比赛正在进行
+			if record.CreatedAt.After(time.Time(competition.StartTime)) {
+				// TODO 记录罚时
+			}
 			db.Save(&record)
 			return
 		case err = <-done:
@@ -186,17 +307,17 @@ func handle(record model.Record, cmdI Interface.CmdInterface) {
 			db.Save(&record)
 			return
 		}
-
 		// TODO 通过数量+1
 		record.Pass++
 
 		// TODO 数据库插入数据错误
 		if db.Create(&cas).Error != nil {
-			record.Condition = "System Error 5"
+			record.Condition = "System rror 5"
 			db.Save(&record)
 			return
 		}
 	}
+
 	record.Condition = "Accepted"
 	db.Save(&record)
 	return
