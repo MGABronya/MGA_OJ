@@ -19,6 +19,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v9"
+	uuid "github.com/satori/go.uuid"
 	"gorm.io/gorm"
 )
 
@@ -28,6 +29,7 @@ type IProblemController interface {
 	Interface.LikeInterface    // 包含点赞功能
 	Interface.CollectInterface // 包含收藏功能
 	Interface.VisitInterface   // 包含游览功能
+	Interface.LabelInterface   // 包含标签功能
 	UserList(ctx *gin.Context) // 查看指定用户上传的题目列表
 	TestNum(ctx *gin.Context)  // 查看指定题目的样例数量
 }
@@ -319,7 +321,7 @@ leep:
 	user := tuser.(model.User)
 
 	// TODO 查看problem的competition
-	if problem.CompetitionId != 0 {
+	if problem.CompetitionId != (uuid.UUID{}) {
 		var competition model.Competition
 		// TODO 无法找到比赛，则返回题目
 		if p.DB.Where("id = ?", problem.CompetitionId).First(&competition).Error != nil {
@@ -332,7 +334,7 @@ leep:
 			return
 		}
 		// TODO 查看比赛是否已经开始
-		if !time.Now().After(time.Time(competition.StartTime)){
+		if !time.Now().After(time.Time(competition.StartTime)) {
 			response.Fail(ctx, nil, "题目不存在")
 			return
 		}
@@ -435,7 +437,7 @@ func (p ProblemController) PageList(ctx *gin.Context) {
 	p.DB.Where("end_time > ?", time.Now()).Find(&competitions)
 
 	// TODO 用于记录没有被用户参加的比赛
-	userNotJoin := make([]uint, 0)
+	userNotJoin := make([]uuid.UUID, 0)
 
 	// TODO 查看哪些比赛没有被用户参加或比赛未开始
 	for _, competition := range competitions {
@@ -498,12 +500,12 @@ func (p ProblemController) UserList(ctx *gin.Context) {
 	p.DB.Where("end_time > ?", time.Now()).Find(&competitions)
 
 	// TODO 用于记录没有被用户参加的比赛
-	userNotJoin := make([]uint, 0)
+	userNotJoin := make([]uuid.UUID, 0)
 
 	// TODO 查看哪些比赛没有被用户参加或比赛未开始
 	for _, competition := range competitions {
 		// TODO 查看比赛是否已经开始
-		if !time.Now().After(time.Time(competition.StartTime)){
+		if !time.Now().After(time.Time(competition.StartTime)) {
 			userNotJoin = append(userNotJoin, competition.ID)
 			continue
 		}
@@ -1024,6 +1026,172 @@ func (p ProblemController) Visits(ctx *gin.Context) {
 	response.Success(ctx, gin.H{"problemVisits": problemVisits, "total": total}, "查看成功")
 }
 
+// @title    LabelCreate
+// @description   标签创建
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (p ProblemController) LabelCreate(ctx *gin.Context) {
+	// TODO 获取指定题目
+	id := ctx.Params.ByName("id")
+
+	// TODO 获取标签
+	label := ctx.Params.ByName("label")
+
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 查看题目是否存在
+	var problem model.Problem
+
+	// TODO 先尝试在redis中寻找
+	if ok, _ := p.Redis.HExists(ctx, "Problem", id).Result(); ok {
+		art, _ := p.Redis.HGet(ctx, "Problem", id).Result()
+		if json.Unmarshal([]byte(art), &problem) == nil {
+			goto leep
+		} else {
+			// TODO 解码失败，删除字段
+			p.Redis.HDel(ctx, "Problem", id)
+		}
+	}
+
+	// TODO 查看题目是否在数据库中存在
+	if p.DB.Where("id = ?", id).First(&problem).Error != nil {
+		response.Fail(ctx, nil, "题目不存在")
+		return
+	}
+	{
+		// TODO 将题目存入redis供下次使用
+		v, _ := json.Marshal(problem)
+		p.Redis.HSet(ctx, "Problem", id, v)
+	}
+leep:
+
+	// TODO 查看是否为题目作者
+	if problem.UserId != user.ID {
+		response.Fail(ctx, nil, "不是题目作者，请勿非法操作")
+		return
+	}
+
+	// TODO 创建标签
+	problemLabel := model.ProblemLabel{
+		Label:     label,
+		ProblemId: problem.ID,
+	}
+
+	// TODO 插入数据
+	if err := p.DB.Create(&problemLabel).Error; err != nil {
+		response.Fail(ctx, nil, "题目标签上传出错，数据验证有误")
+		return
+	}
+
+	// TODO 解码失败，删除字段
+	p.Redis.HDel(ctx, "ProblemLabel", id)
+
+	// TODO 成功
+	response.Success(ctx, nil, "创建成功")
+}
+
+// @title    LabelDelete
+// @description   标签删除
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (p ProblemController) LabelDelete(ctx *gin.Context) {
+	// TODO 获取指定题目
+	id := ctx.Params.ByName("id")
+
+	// TODO 获取标签
+	label := ctx.Params.ByName("label")
+
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 查看题目是否存在
+	var problem model.Problem
+
+	// TODO 先尝试在redis中寻找
+	if ok, _ := p.Redis.HExists(ctx, "Problem", id).Result(); ok {
+		art, _ := p.Redis.HGet(ctx, "Problem", id).Result()
+		if json.Unmarshal([]byte(art), &problem) == nil {
+			goto leep
+		} else {
+			// TODO 解码失败，删除字段
+			p.Redis.HDel(ctx, "Problem", id)
+		}
+	}
+
+	// TODO 查看题目是否在数据库中存在
+	if p.DB.Where("id = ?", id).First(&problem).Error != nil {
+		response.Fail(ctx, nil, "题目不存在")
+		return
+	}
+	{
+		// TODO 将题目存入redis供下次使用
+		v, _ := json.Marshal(problem)
+		p.Redis.HSet(ctx, "Problem", id, v)
+	}
+leep:
+
+	// TODO 查看是否为题目作者
+	if problem.UserId != user.ID {
+		response.Fail(ctx, nil, "不是题目作者，请勿非法操作")
+		return
+	}
+
+	// TODO 删除题目标签
+	if p.DB.Where("id = ?", label).First(&model.ProblemLabel{}).Error != nil {
+		response.Fail(ctx, nil, "标签不存在")
+		return
+	}
+
+	p.DB.Where("id = ?", label).Delete(&model.ProblemLabel{})
+
+	// TODO 解码失败，删除字段
+	p.Redis.HDel(ctx, "ProblemLabel", id)
+
+	// TODO 成功
+	response.Success(ctx, nil, "删除成功")
+}
+
+// @title    LabelShow
+// @description   标签查看
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (p ProblemController) LabelShow(ctx *gin.Context) {
+	// TODO 获取指定题目
+	id := ctx.Params.ByName("id")
+
+	// TODO 查找数据
+	var problemLabels []model.ProblemLabel
+	// TODO 先尝试在redis中寻找
+	if ok, _ := p.Redis.HExists(ctx, "ProblemLabel", id).Result(); ok {
+		art, _ := p.Redis.HGet(ctx, "ProblemLabel", id).Result()
+		if json.Unmarshal([]byte(art), &problemLabels) == nil {
+			goto leap
+		} else {
+			// TODO 解码失败，删除字段
+			p.Redis.HDel(ctx, "ProblemLabel", id)
+		}
+	}
+
+	// TODO 在数据库中查找
+	p.DB.Where("problem_id = ?", id).Find(&problemLabels)
+	{
+		// TODO 将题目标签存入redis供下次使用
+		v, _ := json.Marshal(problemLabels)
+		p.Redis.HSet(ctx, "ProblemLabel", id, v)
+	}
+
+leap:
+
+	// TODO 成功
+	response.Success(ctx, gin.H{"problemLabels": problemLabels}, "查看成功")
+}
+
 // @title    NewProblemController
 // @description   新建一个IProblemController
 // @auth      MGAronya（张健）       2022-9-16 12:23
@@ -1038,5 +1206,6 @@ func NewProblemController() IProblemController {
 	db.AutoMigrate(model.ProblemVisit{})
 	db.AutoMigrate(model.TestInput{})
 	db.AutoMigrate(model.TestOutput{})
+	db.AutoMigrate(model.ProblemLabel{})
 	return ProblemController{DB: db, Redis: redis}
 }

@@ -5,6 +5,7 @@
 package controller
 
 import (
+	"MGA_OJ/Interface"
 	"MGA_OJ/common"
 	"MGA_OJ/model"
 	"MGA_OJ/response"
@@ -22,12 +23,14 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v9"
+	uuid "github.com/satori/go.uuid"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
 
 // IUserController			定义了用户类接口
 type IUserController interface {
+	Interface.LabelInterface         // 包含标签功能
 	Register(ctx *gin.Context)       // 注册
 	Login(ctx *gin.Context)          // 登录
 	VerifyEmail(ctx *gin.Context)    // 验证码
@@ -84,7 +87,7 @@ func (u UserController) Register(ctx *gin.Context) {
 	}
 
 	// TODO 判断email是否通过验证
-	if !util.IsEmailPass(email, requestUser.Verify) {
+	if !util.IsEmailPass(ctx, email, requestUser.Verify) {
 		response.Response(ctx, 201, 201, nil, "邮箱验证码错误")
 		return
 	}
@@ -143,7 +146,7 @@ func (u UserController) Login(ctx *gin.Context) {
 	var user model.User
 
 	u.DB.Where("email = ?", email).First(&user)
-	if user.ID == 0 {
+	if user.ID == (uuid.UUID{}) {
 		response.Response(ctx, 201, 201, nil, "用户不存在")
 		return
 	}
@@ -183,7 +186,7 @@ func (u UserController) Security(ctx *gin.Context) {
 	}
 
 	// TODO 判断email是否通过验证
-	if !util.IsEmailPass(requestUser.Email, requestUser.Verify) {
+	if !util.IsEmailPass(ctx, requestUser.Email, requestUser.Verify) {
 		response.Response(ctx, 201, 201, nil, "邮箱验证码错误")
 		return
 	}
@@ -212,7 +215,7 @@ func (u UserController) VerifyEmail(ctx *gin.Context) {
 		return
 	}
 	// 验证码存入redis 并设置过期时间5分钟
-	util.SetRedisEmail(email, v)
+	util.SetRedisEmail(ctx, email, v)
 
 	// TODO 返回结果
 	response.Success(ctx, gin.H{"email": email}, "验证码请求成功")
@@ -330,7 +333,7 @@ func (u UserController) Update(ctx *gin.Context) {
 		}
 
 		// TODO 判断email是否通过验证
-		if !util.IsEmailPass(requestUser.Email, requestUser.Verify) {
+		if !util.IsEmailPass(ctx, requestUser.Email, requestUser.Verify) {
 			response.Response(ctx, 201, 201, nil, "邮箱验证码错误")
 			return
 		}
@@ -394,7 +397,7 @@ func (u UserController) UpdateIcon(ctx *gin.Context) {
 			fmt.Print("file remove OK!")
 		}
 	}
-	file.Filename = strconv.Itoa(int(user.ID)) + extName
+	file.Filename = user.ID.String() + extName
 
 	// TODO 将文件存入本地
 	ctx.SaveUploadedFile(file, "./Icon/"+file.Filename)
@@ -503,6 +506,116 @@ func (u UserController) AcceptRank(ctx *gin.Context) {
 	response.Success(ctx, gin.H{"rank": rank}, "查看用户ac题目的数量排行成功")
 }
 
+// @title    LabelCreate
+// @description   标签创建
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (u UserController) LabelCreate(ctx *gin.Context) {
+	// TODO 获取指定用户
+	id := ctx.Params.ByName("id")
+
+	// TODO 获取标签
+	label := ctx.Params.ByName("label")
+
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 创建标签
+	userLabel := model.UserLabel{
+		Label:  label,
+		UserId: user.ID,
+	}
+
+	// TODO 插入数据
+	if err := u.DB.Create(&userLabel).Error; err != nil {
+		response.Fail(ctx, nil, "用户标签上传出错，数据验证有误")
+		return
+	}
+
+	// TODO 解码失败，删除字段
+	u.Redis.HDel(ctx, "UserLabel", id)
+
+	// TODO 成功
+	response.Success(ctx, nil, "创建成功")
+}
+
+// @title    LabelDelete
+// @description   标签删除
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (u UserController) LabelDelete(ctx *gin.Context) {
+	// TODO 获取指定用户
+	id := ctx.Params.ByName("id")
+
+	// TODO 获取标签
+	label := ctx.Params.ByName("label")
+
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 查看是否可以删除标签
+	var userLabel model.UserLabel
+	if u.DB.Where("id = ?", label).First(&userLabel).Error != nil {
+		response.Fail(ctx, nil, "标签不存在")
+		return
+	}
+
+	if userLabel.UserId != user.ID {
+		response.Fail(ctx, nil, "标签不属于你")
+		return
+	}
+
+	// TODO 删除用户标签
+
+	u.DB.Where("id = ?", label).Delete(&model.UserLabel{})
+
+	// TODO 解码失败，删除字段
+	u.Redis.HDel(ctx, "UserLabel", id)
+
+	// TODO 成功
+	response.Success(ctx, nil, "删除成功")
+}
+
+// @title    LabelShow
+// @description   标签查看
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (u UserController) LabelShow(ctx *gin.Context) {
+	// TODO 获取指定用户
+	id := ctx.Params.ByName("id")
+
+	// TODO 查找数据
+	var userLabels []model.UserLabel
+	// TODO 先尝试在redis中寻找
+	if ok, _ := u.Redis.HExists(ctx, "UserLabel", id).Result(); ok {
+		art, _ := u.Redis.HGet(ctx, "UserLabel", id).Result()
+		if json.Unmarshal([]byte(art), &userLabels) == nil {
+			goto leap
+		} else {
+			// TODO 解码失败，删除字段
+			u.Redis.HDel(ctx, "UserLabel", id)
+		}
+	}
+
+	// TODO 在数据库中查找
+	u.DB.Where("user_id = ?", id).Find(&userLabels)
+	{
+		// TODO 将用户标签存入redis供下次使用
+		v, _ := json.Marshal(userLabels)
+		u.Redis.HSet(ctx, "UserLabel", id, v)
+	}
+
+leap:
+
+	// TODO 成功
+	response.Success(ctx, gin.H{"userLabels": userLabels}, "查看成功")
+}
+
 // @title    NewUserController
 // @description   新建一个IUserController
 // @auth      MGAronya（张健）       2022-9-16 12:23
@@ -512,5 +625,6 @@ func NewUserController() IUserController {
 	db := common.GetDB()
 	redis := common.GetRedisClient(0)
 	db.AutoMigrate(model.User{})
+	db.AutoMigrate(model.UserLabel{})
 	return UserController{DB: db, Redis: redis}
 }

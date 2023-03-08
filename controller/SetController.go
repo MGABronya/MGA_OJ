@@ -17,6 +17,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v9"
+	uuid "github.com/satori/go.uuid"
 	"gorm.io/gorm"
 )
 
@@ -27,6 +28,7 @@ type ISetController interface {
 	Interface.CollectInterface   // 包含收藏功能
 	Interface.VisitInterface     // 包含游览功能
 	Interface.ApplyInterface     // 包含申请接口
+	Interface.LabelInterface     // 包含标签接口
 	UserList(ctx *gin.Context)   // 查看指定用户的多篇表单
 	TopicList(ctx *gin.Context)  // 查看指定表单的主题列表
 	GroupList(ctx *gin.Context)  // 查看指定表单的用户组列表
@@ -117,7 +119,7 @@ func (s SetController) Create(ctx *gin.Context) {
 			}
 			groupList := model.GroupList{
 				SetId:   set.ID,
-				GroupId: uint(v),
+				GroupId: v,
 			}
 			if s.DB.Create(&groupList).Error != nil {
 				response.Fail(ctx, nil, "用户组上传出错，数据验证有误")
@@ -155,7 +157,7 @@ func (s SetController) Create(ctx *gin.Context) {
 	leap:
 		topicList := model.TopicList{
 			SetId:   set.ID,
-			TopicId: uint(v),
+			TopicId: v,
 		}
 		if s.DB.Create(&topicList).Error != nil {
 			response.Fail(ctx, nil, "主题上传出错，数据验证有误")
@@ -268,7 +270,7 @@ func (s SetController) Update(ctx *gin.Context) {
 
 			groupList := model.GroupList{
 				SetId:   set.ID,
-				GroupId: uint(v),
+				GroupId: v,
 			}
 			if s.DB.Create(&groupList).Error != nil {
 				response.Fail(ctx, nil, "用户组上传出错，数据验证有误")
@@ -306,7 +308,7 @@ func (s SetController) Update(ctx *gin.Context) {
 		leap:
 			topicList := model.TopicList{
 				SetId:   set.ID,
-				TopicId: uint(v),
+				TopicId: v,
 			}
 			if s.DB.Create(&topicList).Error != nil {
 				response.Fail(ctx, nil, "主题上传出错，数据验证有误")
@@ -1756,6 +1758,172 @@ leap:
 	response.Success(ctx, nil, "退出成功")
 }
 
+// @title    LabelCreate
+// @description   标签创建
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (s SetController) LabelCreate(ctx *gin.Context) {
+	// TODO 获取指定表单
+	id := ctx.Params.ByName("id")
+
+	// TODO 获取标签
+	label := ctx.Params.ByName("label")
+
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 查看表单是否存在
+	var set model.Set
+
+	// TODO 先尝试在redis中寻找
+	if ok, _ := s.Redis.HExists(ctx, "Set", id).Result(); ok {
+		art, _ := s.Redis.HGet(ctx, "Set", id).Result()
+		if json.Unmarshal([]byte(art), &set) == nil {
+			goto leep
+		} else {
+			// TODO 解码失败，删除字段
+			s.Redis.HDel(ctx, "Set", id)
+		}
+	}
+
+	// TODO 查看表单是否在数据库中存在
+	if s.DB.Where("id = ?", id).First(&set).Error != nil {
+		response.Fail(ctx, nil, "表单不存在")
+		return
+	}
+	{
+		// TODO 将表单存入redis供下次使用
+		v, _ := json.Marshal(set)
+		s.Redis.HSet(ctx, "Set", id, v)
+	}
+leep:
+
+	// TODO 查看是否为表单作者
+	if set.UserId != user.ID {
+		response.Fail(ctx, nil, "不是表单作者，请勿非法操作")
+		return
+	}
+
+	// TODO 创建标签
+	setLabel := model.SetLabel{
+		Label: label,
+		SetId: set.ID,
+	}
+
+	// TODO 插入数据
+	if err := s.DB.Create(&setLabel).Error; err != nil {
+		response.Fail(ctx, nil, "表单标签上传出错，数据验证有误")
+		return
+	}
+
+	// TODO 解码失败，删除字段
+	s.Redis.HDel(ctx, "SetLabel", id)
+
+	// TODO 成功
+	response.Success(ctx, nil, "创建成功")
+}
+
+// @title    LabelDelete
+// @description   标签删除
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (s SetController) LabelDelete(ctx *gin.Context) {
+	// TODO 获取指定表单
+	id := ctx.Params.ByName("id")
+
+	// TODO 获取标签
+	label := ctx.Params.ByName("label")
+
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 查看表单是否存在
+	var set model.Set
+
+	// TODO 先尝试在redis中寻找
+	if ok, _ := s.Redis.HExists(ctx, "Set", id).Result(); ok {
+		art, _ := s.Redis.HGet(ctx, "Set", id).Result()
+		if json.Unmarshal([]byte(art), &set) == nil {
+			goto leep
+		} else {
+			// TODO 解码失败，删除字段
+			s.Redis.HDel(ctx, "Set", id)
+		}
+	}
+
+	// TODO 查看表单是否在数据库中存在
+	if s.DB.Where("id = ?", id).First(&set).Error != nil {
+		response.Fail(ctx, nil, "题目不存在")
+		return
+	}
+	{
+		// TODO 将表单存入redis供下次使用
+		v, _ := json.Marshal(set)
+		s.Redis.HSet(ctx, "Set", id, v)
+	}
+leep:
+
+	// TODO 查看是否为表单作者
+	if set.UserId != user.ID {
+		response.Fail(ctx, nil, "不是题目作者，请勿非法操作")
+		return
+	}
+
+	// TODO 删除表单标签
+	if s.DB.Where("id = ?", label).First(&model.SetLabel{}).Error != nil {
+		response.Fail(ctx, nil, "标签不存在")
+		return
+	}
+
+	s.DB.Where("id = ?", label).Delete(&model.SetLabel{})
+
+	// TODO 解码失败，删除字段
+	s.Redis.HDel(ctx, "SetLabel", id)
+
+	// TODO 成功
+	response.Success(ctx, nil, "删除成功")
+}
+
+// @title    LabelShow
+// @description   标签查看
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (s SetController) LabelShow(ctx *gin.Context) {
+	// TODO 获取指定表单
+	id := ctx.Params.ByName("id")
+
+	// TODO 查找数据
+	var setLabels []model.SetLabel
+	// TODO 先尝试在redis中寻找
+	if ok, _ := s.Redis.HExists(ctx, "SetLabel", id).Result(); ok {
+		art, _ := s.Redis.HGet(ctx, "SetLabel", id).Result()
+		if json.Unmarshal([]byte(art), &setLabels) == nil {
+			goto leap
+		} else {
+			// TODO 解码失败，删除字段
+			s.Redis.HDel(ctx, "SetLabel", id)
+		}
+	}
+
+	// TODO 在数据库中查找
+	s.DB.Where("set_id = ?", id).Find(&setLabels)
+	{
+		// TODO 将题目标签存入redis供下次使用
+		v, _ := json.Marshal(setLabels)
+		s.Redis.HSet(ctx, "SetLabel", id, v)
+	}
+
+leap:
+
+	// TODO 成功
+	response.Success(ctx, gin.H{"setLabels": setLabels}, "查看成功")
+}
+
 // @title    NewSetController
 // @description   新建一个ISetController
 // @auth      MGAronya（张健）       2022-9-16 12:23
@@ -1773,21 +1941,22 @@ func NewSetController() ISetController {
 	db.AutoMigrate(model.SetRank{})
 	db.AutoMigrate(model.SetApply{})
 	db.AutoMigrate(model.SetBlock{})
+	db.AutoMigrate(model.SetLabel{})
 	return SetController{DB: db, Redis: redis}
 }
 
 // @title    updateRank
 // @description   更新一个表单中的用户排行
 // @auth      MGAronya（张健）       2022-9-16 12:23
-// @param    set_id uint		表示表单的id
+// @param    set_id uuid.UUID		表示表单的id
 // @return   error		返回一个error表示是否出现错误
-func updateRank(set_id uint) error {
+func updateRank(set_id uuid.UUID) error {
 	db := common.GetDB()
 	var err error
 	// TODO 删掉原先的排行
 	db.Where("set_id = ?", set_id).Delete(&model.SetRank{})
 	// TODO 重新建立排行
-	userPass := make(map[uint]uint, 0)
+	userPass := make(map[uuid.UUID]uint, 0)
 	// TODO 插入所有成员
 	var groupLists []model.GroupList
 	db.Where("set_id = ?", set_id).Find(&groupLists)
@@ -1829,9 +1998,9 @@ func updateRank(set_id uint) error {
 // @title    CanAddGroup
 // @description   更新一个表单中的用户排行
 // @auth      MGAronya（张健）       2022-9-16 12:23
-// @param    set_id uint		表示表单的id
+// @param    set_id uuid.UUID		表示表单的id
 // @return   error		返回一个error表示是否出现错误
-func CanAddGroup(set_id uint, group_id uint, PassNum uint, PassRe bool) (bool, error) {
+func CanAddGroup(set_id uuid.UUID, group_id uuid.UUID, PassNum uint, PassRe bool) (bool, error) {
 	db := common.GetDB()
 
 	var userLists []model.UserList
@@ -1850,7 +2019,7 @@ func CanAddGroup(set_id uint, group_id uint, PassNum uint, PassRe bool) (bool, e
 	var groupLists []model.GroupList
 	db.Where("set_id = ?", set_id).Find(&groupLists)
 
-	userMap := make(map[uint]bool, 0)
+	userMap := make(map[uuid.UUID]bool, 0)
 
 	// TODO 将表单内的所有用户填入map
 	for _, group := range groupLists {

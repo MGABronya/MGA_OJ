@@ -26,6 +26,7 @@ type ITopicController interface {
 	Interface.LikeInterface       // 包含点赞功能
 	Interface.CollectInterface    // 包含收藏功能
 	Interface.VisitInterface      // 包含游览功能
+	Interface.LabelInterface      // 包含标签功能
 	UserList(ctx *gin.Context)    // 查看用户的主题
 	ProblemList(ctx *gin.Context) // 查看主题的题目列表
 }
@@ -822,6 +823,172 @@ func (t TopicController) Visits(ctx *gin.Context) {
 	response.Success(ctx, gin.H{"topicVisits": topicVisits, "total": total}, "查看成功")
 }
 
+// @title    LabelCreate
+// @description   标签创建
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (t TopicController) LabelCreate(ctx *gin.Context) {
+	// TODO 获取指定主题
+	id := ctx.Params.ByName("id")
+
+	// TODO 获取标签
+	label := ctx.Params.ByName("label")
+
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 查看主题是否存在
+	var topic model.Topic
+
+	// TODO 先尝试在redis中寻找
+	if ok, _ := t.Redis.HExists(ctx, "Topic", id).Result(); ok {
+		art, _ := t.Redis.HGet(ctx, "Topic", id).Result()
+		if json.Unmarshal([]byte(art), &topic) == nil {
+			goto leep
+		} else {
+			// TODO 解码失败，删除字段
+			t.Redis.HDel(ctx, "Topic", id)
+		}
+	}
+
+	// TODO 查看主题是否在数据库中存在
+	if t.DB.Where("id = ?", id).First(&topic).Error != nil {
+		response.Fail(ctx, nil, "主题不存在")
+		return
+	}
+	{
+		// TODO 将主题存入redis供下次使用
+		v, _ := json.Marshal(topic)
+		t.Redis.HSet(ctx, "Topic", id, v)
+	}
+leep:
+
+	// TODO 查看是否为主题作者
+	if topic.UserId != user.ID {
+		response.Fail(ctx, nil, "不是主题作者，请勿非法操作")
+		return
+	}
+
+	// TODO 创建标签
+	topicLabel := model.TopicLabel{
+		Label:   label,
+		TopicId: topic.ID,
+	}
+
+	// TODO 插入数据
+	if err := t.DB.Create(&topicLabel).Error; err != nil {
+		response.Fail(ctx, nil, "主题标签上传出错，数据验证有误")
+		return
+	}
+
+	// TODO 解码失败，删除字段
+	t.Redis.HDel(ctx, "TopicLabel", id)
+
+	// TODO 成功
+	response.Success(ctx, nil, "创建成功")
+}
+
+// @title    LabelDelete
+// @description   标签删除
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (t TopicController) LabelDelete(ctx *gin.Context) {
+	// TODO 获取指定主题
+	id := ctx.Params.ByName("id")
+
+	// TODO 获取标签
+	label := ctx.Params.ByName("label")
+
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 查看主题是否存在
+	var topic model.Topic
+
+	// TODO 先尝试在redis中寻找
+	if ok, _ := t.Redis.HExists(ctx, "Topic", id).Result(); ok {
+		art, _ := t.Redis.HGet(ctx, "Topic", id).Result()
+		if json.Unmarshal([]byte(art), &topic) == nil {
+			goto leep
+		} else {
+			// TODO 解码失败，删除字段
+			t.Redis.HDel(ctx, "Topic", id)
+		}
+	}
+
+	// TODO 查看主题是否在数据库中存在
+	if t.DB.Where("id = ?", id).First(&topic).Error != nil {
+		response.Fail(ctx, nil, "主题不存在")
+		return
+	}
+	{
+		// TODO 将主题存入redis供下次使用
+		v, _ := json.Marshal(topic)
+		t.Redis.HSet(ctx, "Topic", id, v)
+	}
+leep:
+
+	// TODO 查看是否为主题作者
+	if topic.UserId != user.ID {
+		response.Fail(ctx, nil, "不是主题作者，请勿非法操作")
+		return
+	}
+
+	// TODO 删除主题标签
+	if t.DB.Where("id = ?", label).First(&model.TopicLabel{}).Error != nil {
+		response.Fail(ctx, nil, "标签不存在")
+		return
+	}
+
+	t.DB.Where("id = ?", label).Delete(&model.TopicLabel{})
+
+	// TODO 解码失败，删除字段
+	t.Redis.HDel(ctx, "TopicLabel", id)
+
+	// TODO 成功
+	response.Success(ctx, nil, "删除成功")
+}
+
+// @title    LabelShow
+// @description   标签查看
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (t TopicController) LabelShow(ctx *gin.Context) {
+	// TODO 获取指定主题
+	id := ctx.Params.ByName("id")
+
+	// TODO 查找数据
+	var topicLabels []model.TopicLabel
+	// TODO 先尝试在redis中寻找
+	if ok, _ := t.Redis.HExists(ctx, "TopicLabel", id).Result(); ok {
+		art, _ := t.Redis.HGet(ctx, "TopicLabel", id).Result()
+		if json.Unmarshal([]byte(art), &topicLabels) == nil {
+			goto leap
+		} else {
+			// TODO 解码失败，删除字段
+			t.Redis.HDel(ctx, "TopicLabel", id)
+		}
+	}
+
+	// TODO 在数据库中查找
+	t.DB.Where("topic_id = ?", id).Find(&topicLabels)
+	{
+		// TODO 将主题标签存入redis供下次使用
+		v, _ := json.Marshal(topicLabels)
+		t.Redis.HSet(ctx, "TopicLabel", id, v)
+	}
+
+leap:
+
+	// TODO 成功
+	response.Success(ctx, gin.H{"topicLabels": topicLabels}, "查看成功")
+}
+
 // @title    NewTopicController
 // @description   新建一个ITopicController
 // @auth      MGAronya（张健）       2022-9-16 12:23
@@ -835,5 +1002,6 @@ func NewTopicController() ITopicController {
 	db.AutoMigrate(model.TopicLike{})
 	db.AutoMigrate(model.TopicVisit{})
 	db.AutoMigrate(model.ProblemList{})
+	db.AutoMigrate(model.TopicLabel{})
 	return TopicController{DB: db, Redis: redis}
 }

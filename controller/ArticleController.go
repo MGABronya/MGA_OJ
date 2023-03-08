@@ -28,6 +28,7 @@ type IArticleController interface {
 	Interface.VisitInterface       // 包含游览功能
 	UserList(ctx *gin.Context)     // 查询指定用户的文章
 	CategoryList(ctx *gin.Context) // 查询某分类的文章
+	Interface.LabelInterface       // 包含标签功能
 }
 
 // ArticleController			定义了文章工具类
@@ -733,6 +734,172 @@ func (a ArticleController) Visits(ctx *gin.Context) {
 	response.Success(ctx, gin.H{"articleVisits": articleVisits, "total": total}, "查看成功")
 }
 
+// @title    LabelCreate
+// @description   标签创建
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (a ArticleController) LabelCreate(ctx *gin.Context) {
+	// TODO 获取指定文章
+	id := ctx.Params.ByName("id")
+
+	// TODO 获取标签
+	label := ctx.Params.ByName("label")
+
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 查看文章是否存在
+	var article model.Article
+
+	// TODO 先尝试在redis中寻找
+	if ok, _ := a.Redis.HExists(ctx, "Article", id).Result(); ok {
+		art, _ := a.Redis.HGet(ctx, "Article", id).Result()
+		if json.Unmarshal([]byte(art), &article) == nil {
+			goto leep
+		} else {
+			// TODO 解码失败，删除字段
+			a.Redis.HDel(ctx, "Article", id)
+		}
+	}
+
+	// TODO 查看文章是否在数据库中存在
+	if a.DB.Where("id = ?", id).First(&article).Error != nil {
+		response.Fail(ctx, nil, "文章不存在")
+		return
+	}
+	{
+		// TODO 将文章存入redis供下次使用
+		v, _ := json.Marshal(article)
+		a.Redis.HSet(ctx, "Article", id, v)
+	}
+leep:
+
+	// TODO 查看是否为文章作者
+	if article.UserId != user.ID {
+		response.Fail(ctx, nil, "不是文章作者，请勿非法操作")
+		return
+	}
+
+	// TODO 创建标签
+	articleLabel := model.ArticleLabel{
+		Label:     label,
+		ArticleId: article.ID,
+	}
+
+	// TODO 插入数据
+	if err := a.DB.Create(&articleLabel).Error; err != nil {
+		response.Fail(ctx, nil, "文章标签上传出错，数据验证有误")
+		return
+	}
+
+	// TODO 解码失败，删除字段
+	a.Redis.HDel(ctx, "ArticleLabel", id)
+
+	// TODO 成功
+	response.Success(ctx, nil, "创建成功")
+}
+
+// @title    LabelDelete
+// @description   标签删除
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (a ArticleController) LabelDelete(ctx *gin.Context) {
+	// TODO 获取指定文章
+	id := ctx.Params.ByName("id")
+
+	// TODO 获取标签
+	label := ctx.Params.ByName("label")
+
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 查看文章是否存在
+	var article model.Article
+
+	// TODO 先尝试在redis中寻找
+	if ok, _ := a.Redis.HExists(ctx, "Article", id).Result(); ok {
+		art, _ := a.Redis.HGet(ctx, "Article", id).Result()
+		if json.Unmarshal([]byte(art), &article) == nil {
+			goto leep
+		} else {
+			// TODO 解码失败，删除字段
+			a.Redis.HDel(ctx, "Article", id)
+		}
+	}
+
+	// TODO 查看文章是否在数据库中存在
+	if a.DB.Where("id = ?", id).First(&article).Error != nil {
+		response.Fail(ctx, nil, "文章不存在")
+		return
+	}
+	{
+		// TODO 将文章存入redis供下次使用
+		v, _ := json.Marshal(article)
+		a.Redis.HSet(ctx, "Article", id, v)
+	}
+leep:
+
+	// TODO 查看是否为文章作者
+	if article.UserId != user.ID {
+		response.Fail(ctx, nil, "不是文章作者，请勿非法操作")
+		return
+	}
+
+	// TODO 删除文章标签
+	if a.DB.Where("id = ?", label).First(&model.ArticleLabel{}).Error != nil {
+		response.Fail(ctx, nil, "标签不存在")
+		return
+	}
+
+	a.DB.Where("id = ?", label).Delete(&model.ArticleLabel{})
+
+	// TODO 解码失败，删除字段
+	a.Redis.HDel(ctx, "ArticleLabel", id)
+
+	// TODO 成功
+	response.Success(ctx, nil, "删除成功")
+}
+
+// @title    LabelShow
+// @description   标签查看
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (a ArticleController) LabelShow(ctx *gin.Context) {
+	// TODO 获取指定文章
+	id := ctx.Params.ByName("id")
+
+	// TODO 查找数据
+	var articleLabels []model.ArticleLabel
+	// TODO 先尝试在redis中寻找
+	if ok, _ := a.Redis.HExists(ctx, "ArticleLabel", id).Result(); ok {
+		art, _ := a.Redis.HGet(ctx, "ArticleLabel", id).Result()
+		if json.Unmarshal([]byte(art), &articleLabels) == nil {
+			goto leap
+		} else {
+			// TODO 解码失败，删除字段
+			a.Redis.HDel(ctx, "ArticleLabel", id)
+		}
+	}
+
+	// TODO 在数据库中查找
+	a.DB.Where("article_id = ?", id).Find(&articleLabels)
+	{
+		// TODO 将文章标签存入redis供下次使用
+		v, _ := json.Marshal(articleLabels)
+		a.Redis.HSet(ctx, "ArticleLabel", id, v)
+	}
+
+leap:
+
+	// TODO 成功
+	response.Success(ctx, gin.H{"articleLabels": articleLabels}, "查看成功")
+}
+
 // @title    NewArticleController
 // @description   新建一个IArticleController
 // @auth      MGAronya（张健）       2022-9-16 12:23
@@ -745,5 +912,6 @@ func NewArticleController() IArticleController {
 	db.AutoMigrate(model.ArticleCollect{})
 	db.AutoMigrate(model.ArticleLike{})
 	db.AutoMigrate(model.ArticleVisit{})
+	db.AutoMigrate(model.ArticleLabel{})
 	return ArticleController{DB: db, Redis: redis}
 }

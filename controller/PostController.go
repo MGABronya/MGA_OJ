@@ -25,6 +25,7 @@ type IPostController interface {
 	Interface.LikeInterface    // 包含点赞功能
 	Interface.CollectInterface // 包含收藏功能
 	Interface.VisitInterface   // 包含游览功能
+	Interface.LabelInterface   // 包含标签功能
 	UserList(ctx *gin.Context) // 查看指定用户的题解
 }
 
@@ -741,6 +742,172 @@ func (p PostController) Visits(ctx *gin.Context) {
 	response.Success(ctx, gin.H{"postVisits": postVisits, "total": total}, "查看成功")
 }
 
+// @title    LabelCreate
+// @description   标签创建
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (p PostController) LabelCreate(ctx *gin.Context) {
+	// TODO 获取指定题解
+	id := ctx.Params.ByName("id")
+
+	// TODO 获取标签
+	label := ctx.Params.ByName("label")
+
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 查看题解是否存在
+	var post model.Post
+
+	// TODO 先尝试在redis中寻找
+	if ok, _ := p.Redis.HExists(ctx, "Post", id).Result(); ok {
+		art, _ := p.Redis.HGet(ctx, "Post", id).Result()
+		if json.Unmarshal([]byte(art), &post) == nil {
+			goto leep
+		} else {
+			// TODO 解码失败，删除字段
+			p.Redis.HDel(ctx, "Post", id)
+		}
+	}
+
+	// TODO 查看题解是否在数据库中存在
+	if p.DB.Where("id = ?", id).First(&post).Error != nil {
+		response.Fail(ctx, nil, "题解不存在")
+		return
+	}
+	{
+		// TODO 将题解存入redis供下次使用
+		v, _ := json.Marshal(post)
+		p.Redis.HSet(ctx, "Post", id, v)
+	}
+leep:
+
+	// TODO 查看是否为题解作者
+	if post.UserId != user.ID {
+		response.Fail(ctx, nil, "不是题解作者，请勿非法操作")
+		return
+	}
+
+	// TODO 创建标签
+	postLabel := model.PostLabel{
+		Label:  label,
+		PostId: post.ID,
+	}
+
+	// TODO 插入数据
+	if err := p.DB.Create(&postLabel).Error; err != nil {
+		response.Fail(ctx, nil, "题解标签上传出错，数据验证有误")
+		return
+	}
+
+	// TODO 解码失败，删除字段
+	p.Redis.HDel(ctx, "PostLabel", id)
+
+	// TODO 成功
+	response.Success(ctx, nil, "创建成功")
+}
+
+// @title    LabelDelete
+// @description   标签删除
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (p PostController) LabelDelete(ctx *gin.Context) {
+	// TODO 获取指定题解
+	id := ctx.Params.ByName("id")
+
+	// TODO 获取标签
+	label := ctx.Params.ByName("label")
+
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 查看题解是否存在
+	var post model.Post
+
+	// TODO 先尝试在redis中寻找
+	if ok, _ := p.Redis.HExists(ctx, "Post", id).Result(); ok {
+		art, _ := p.Redis.HGet(ctx, "Post", id).Result()
+		if json.Unmarshal([]byte(art), &post) == nil {
+			goto leep
+		} else {
+			// TODO 解码失败，删除字段
+			p.Redis.HDel(ctx, "Post", id)
+		}
+	}
+
+	// TODO 查看题解是否在数据库中存在
+	if p.DB.Where("id = ?", id).First(&post).Error != nil {
+		response.Fail(ctx, nil, "题解不存在")
+		return
+	}
+	{
+		// TODO 将题解存入redis供下次使用
+		v, _ := json.Marshal(post)
+		p.Redis.HSet(ctx, "Post", id, v)
+	}
+leep:
+
+	// TODO 查看是否为题解作者
+	if post.UserId != user.ID {
+		response.Fail(ctx, nil, "不是题解作者，请勿非法操作")
+		return
+	}
+
+	// TODO 删除题解标签
+	if p.DB.Where("id = ?", label).First(&model.PostLabel{}).Error != nil {
+		response.Fail(ctx, nil, "标签不存在")
+		return
+	}
+
+	p.DB.Where("id = ?", label).Delete(&model.PostLabel{})
+
+	// TODO 解码失败，删除字段
+	p.Redis.HDel(ctx, "PostLabel", id)
+
+	// TODO 成功
+	response.Success(ctx, nil, "删除成功")
+}
+
+// @title    LabelShow
+// @description   标签查看
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (p PostController) LabelShow(ctx *gin.Context) {
+	// TODO 获取指定题解
+	id := ctx.Params.ByName("id")
+
+	// TODO 查找数据
+	var postLabels []model.PostLabel
+	// TODO 先尝试在redis中寻找
+	if ok, _ := p.Redis.HExists(ctx, "PostLabel", id).Result(); ok {
+		art, _ := p.Redis.HGet(ctx, "PostLabel", id).Result()
+		if json.Unmarshal([]byte(art), &postLabels) == nil {
+			goto leap
+		} else {
+			// TODO 解码失败，删除字段
+			p.Redis.HDel(ctx, "PostLabel", id)
+		}
+	}
+
+	// TODO 在数据库中查找
+	p.DB.Where("post_id = ?", id).Find(&postLabels)
+	{
+		// TODO 将题解标签存入redis供下次使用
+		v, _ := json.Marshal(postLabels)
+		p.Redis.HSet(ctx, "PostLabel", id, v)
+	}
+
+leap:
+
+	// TODO 成功
+	response.Success(ctx, gin.H{"postLabels": postLabels}, "查看成功")
+}
+
 // @title    NewPostController
 // @description   新建一个IPostController
 // @auth      MGAronya（张健）       2022-9-16 12:23
@@ -753,5 +920,6 @@ func NewPostController() IPostController {
 	db.AutoMigrate(model.PostCollect{})
 	db.AutoMigrate(model.PostLike{})
 	db.AutoMigrate(model.PostVisit{})
+	db.AutoMigrate(model.PostLabel{})
 	return PostController{DB: db, Redis: redis}
 }

@@ -13,9 +13,11 @@ import (
 	"encoding/json"
 	"log"
 	"strconv"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v9"
+	uuid "github.com/satori/go.uuid"
 	"gorm.io/gorm"
 )
 
@@ -25,6 +27,7 @@ type IGroupController interface {
 	Interface.ApplyInterface     // 包含请求相关功能
 	Interface.LikeInterface      // 包含点赞功能
 	Interface.CollectInterface   // 包含收藏功能
+	Interface.LabelInterface     // 包含标签功能
 	LeaderList(ctx *gin.Context) // 查询指定用户领导的用户组
 	MemberList(ctx *gin.Context) // 查询指定用户参加的用户组
 	UserList(ctx *gin.Context)   // 查询指定用户组的用户列表
@@ -1216,6 +1219,172 @@ func (g GroupController) Quit(ctx *gin.Context) {
 	response.Success(ctx, nil, "退出成功")
 }
 
+// @title    LabelCreate
+// @description   标签创建
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (g GroupController) LabelCreate(ctx *gin.Context) {
+	// TODO 获取指定用户组
+	id := ctx.Params.ByName("id")
+
+	// TODO 获取标签
+	label := ctx.Params.ByName("label")
+
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 查看用户组是否存在
+	var group model.Group
+
+	// TODO 先尝试在redis中寻找
+	if ok, _ := g.Redis.HExists(ctx, "Group", id).Result(); ok {
+		art, _ := g.Redis.HGet(ctx, "Group", id).Result()
+		if json.Unmarshal([]byte(art), &group) == nil {
+			goto leep
+		} else {
+			// TODO 解码失败，删除字段
+			g.Redis.HDel(ctx, "Group", id)
+		}
+	}
+
+	// TODO 查看用户组是否在数据库中存在
+	if g.DB.Where("id = ?", id).First(&group).Error != nil {
+		response.Fail(ctx, nil, "用户组不存在")
+		return
+	}
+	{
+		// TODO 将用户组存入redis供下次使用
+		v, _ := json.Marshal(group)
+		g.Redis.HSet(ctx, "Group", id, v)
+	}
+leep:
+
+	// TODO 查看是否为用户组作者
+	if group.LeaderId != user.ID {
+		response.Fail(ctx, nil, "不是用户组作者，请勿非法操作")
+		return
+	}
+
+	// TODO 创建标签
+	groupLabel := model.GroupLabel{
+		Label:   label,
+		GroupId: group.ID,
+	}
+
+	// TODO 插入数据
+	if err := g.DB.Create(&groupLabel).Error; err != nil {
+		response.Fail(ctx, nil, "用户组标签上传出错，数据验证有误")
+		return
+	}
+
+	// TODO 解码失败，删除字段
+	g.Redis.HDel(ctx, "GroupLabel", id)
+
+	// TODO 成功
+	response.Success(ctx, nil, "创建成功")
+}
+
+// @title    LabelDelete
+// @description   标签删除
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (g GroupController) LabelDelete(ctx *gin.Context) {
+	// TODO 获取指定用户组
+	id := ctx.Params.ByName("id")
+
+	// TODO 获取标签
+	label := ctx.Params.ByName("label")
+
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 查看用户组是否存在
+	var group model.Group
+
+	// TODO 先尝试在redis中寻找
+	if ok, _ := g.Redis.HExists(ctx, "Group", id).Result(); ok {
+		art, _ := g.Redis.HGet(ctx, "Group", id).Result()
+		if json.Unmarshal([]byte(art), &group) == nil {
+			goto leep
+		} else {
+			// TODO 解码失败，删除字段
+			g.Redis.HDel(ctx, "Group", id)
+		}
+	}
+
+	// TODO 查看用户组是否在数据库中存在
+	if g.DB.Where("id = ?", id).First(&group).Error != nil {
+		response.Fail(ctx, nil, "用户组不存在")
+		return
+	}
+	{
+		// TODO 将用户组存入redis供下次使用
+		v, _ := json.Marshal(group)
+		g.Redis.HSet(ctx, "Group", id, v)
+	}
+leep:
+
+	// TODO 查看是否为用户组作者
+	if group.LeaderId != user.ID {
+		response.Fail(ctx, nil, "不是用户组作者，请勿非法操作")
+		return
+	}
+
+	// TODO 删除用户组标签
+	if g.DB.Where("id = ?", label).First(&model.GroupLabel{}).Error != nil {
+		response.Fail(ctx, nil, "标签不存在")
+		return
+	}
+
+	g.DB.Where("id = ?", label).Delete(&model.GroupLabel{})
+
+	// TODO 解码失败，删除字段
+	g.Redis.HDel(ctx, "GroupLabel", id)
+
+	// TODO 成功
+	response.Success(ctx, nil, "删除成功")
+}
+
+// @title    LabelShow
+// @description   标签查看
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (g GroupController) LabelShow(ctx *gin.Context) {
+	// TODO 获取指定用户组
+	id := ctx.Params.ByName("id")
+
+	// TODO 查找数据
+	var groupLabels []model.GroupLabel
+	// TODO 先尝试在redis中寻找
+	if ok, _ := g.Redis.HExists(ctx, "GroupLabel", id).Result(); ok {
+		art, _ := g.Redis.HGet(ctx, "GroupLabel", id).Result()
+		if json.Unmarshal([]byte(art), &groupLabels) == nil {
+			goto leap
+		} else {
+			// TODO 解码失败，删除字段
+			g.Redis.HDel(ctx, "GroupLabel", id)
+		}
+	}
+
+	// TODO 在数据库中查找
+	g.DB.Where("group_id = ?", id).Find(&groupLabels)
+	{
+		// TODO 将用户组标签存入redis供下次使用
+		v, _ := json.Marshal(groupLabels)
+		g.Redis.HSet(ctx, "GroupLabel", id, v)
+	}
+
+leap:
+
+	// TODO 成功
+	response.Success(ctx, gin.H{"groupLabels": groupLabels}, "查看成功")
+}
+
 // @title    NewGroupController
 // @description   新建一个IGroupController
 // @auth      MGAronya（张健）       2022-9-16 12:23
@@ -1230,15 +1399,16 @@ func NewGroupController() IGroupController {
 	db.AutoMigrate(model.GroupCollect{})
 	db.AutoMigrate(model.GroupLike{})
 	db.AutoMigrate(model.UserList{})
+	db.AutoMigrate(model.GroupLabel{})
 	return GroupController{DB: db, Redis: redis}
 }
 
 // @title    CanAddUser
 // @description   查看用户是否可以加入用户组
 // @auth      MGAronya（张健）       2022-9-16 12:15
-// @param    user_id uint, group_id uint	表示用户和用户组
+// @param    user_id uuid.UUID, group_id uuid.UUID	表示用户和用户组
 // @return   bool, error					返回用户是否可以加入用户组
-func CanAddUser(user_id uint, group_id uint) (bool, error) {
+func CanAddUser(user_id uuid.UUID, group_id uuid.UUID) (bool, error) {
 	// TODO 连接数据库
 	db := common.GetDB()
 
@@ -1274,6 +1444,14 @@ func CanAddUser(user_id uint, group_id uint) (bool, error) {
 						return false, nil
 					}
 				}
+			}
+		}
+		// TODO 表单的比赛不能已经开始
+		var competitions []model.Competition
+		db.Where("set_id = ?", set_id).Find(&competitions)
+		for _, competition := range competitions {
+			if time.Now().After(time.Time(competition.StartTime)) && !time.Now().After(time.Time(competition.EndTime)) {
+				return false, nil
 			}
 		}
 	}
