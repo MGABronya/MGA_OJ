@@ -133,12 +133,13 @@ func (r *RabbitMQ) ConsumeSimple() {
 		false,  // no-wait,列是否阻塞
 		nil,    // args
 	)
+
 	if err != nil {
 		fmt.Println(err)
 	}
 
 	for d := range msgs {
-		// TODO 在管道内放入正在运行时，管道满时这里会阻塞
+		// TODO 在管道内放入正在运行时，道满时这里会阻塞
 		ch <- 1
 
 		// TODO 启用协程处理消息

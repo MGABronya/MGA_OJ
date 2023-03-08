@@ -63,5 +63,14 @@ func UserRoutes(r *gin.Engine) *gin.Engine {
 	// TODO 获取某个用户的ac题目数量
 	userRoutes.GET("/accept/num/:id", userController.AcceptNum)
 
+	// TODO 创建用户标签
+	userRoutes.POST("/label/:label", middleware.AuthMiddleware(), userController.LabelCreate)
+
+	// TODO 删除用户标签
+	userRoutes.DELETE("/label/:label", middleware.AuthMiddleware(), userController.LabelDelete)
+
+	// TODO 查看用户标签
+	userRoutes.GET("/label/:id", userController.LabelShow)
+
 	return r
 }

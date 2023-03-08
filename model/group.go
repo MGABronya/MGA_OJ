@@ -5,18 +5,31 @@
 package model
 
 import (
+	uuid "github.com/satori/go.uuid"
 	"gorm.io/gorm"
 )
 
 // Group			定义用户组
 type Group struct {
-	gorm.Model
-	LeaderId uint   `json:"leader_id" gorm:"type:uint;index:idx_userId;not null"` // 用户外键
-	Title    string `json:"title" gorm:"type:varchar(64);not null"`               // 主题
-	Content  string `json:"content" gorm:"type:text;not null"`                    // 内容
-	Reslong  string `json:"res_long" gorm:"type:text"`                            // 备用长文本
-	Resshort string `json:"res_short" gorm:"type:text"`                           // 备用短文本
-	Auto     bool   `json:"auto" gorm:"type:boolean"`                             // 是否自动通过申请
+	ID        uuid.UUID `json:"id" gorm:"type:char(36);primary_key"`                      // id
+	CreatedAt Time      `json:"created_at" gorm:"type:timestamp"`                         // 创建日期
+	UpdatedAt Time      `json:"updated_at" gorm:"type:timestamp"`                         // 更新日期
+	LeaderId  uuid.UUID `json:"leader_id" gorm:"type:char(36);index:idx_userId;not null"` // 用户外键
+	Title     string    `json:"title" gorm:"type:varchar(64);not null"`                   // 主题
+	Content   string    `json:"content" gorm:"type:text;not null"`                        // 内容
+	Reslong   string    `json:"res_long" gorm:"type:text"`                                // 备用长文本
+	Resshort  string    `json:"res_short" gorm:"type:text"`                               // 备用短文本
+	Auto      bool      `json:"auto" gorm:"type:boolean"`                                 // 是否自动通过申请
+}
+
+// @title    BeforeCreate
+// @description   计算出一个uuid
+// @auth      MGAronya（张健）             2022-9-16 10:19
+// @param     scope *gorm.Scope
+// @return    error
+func (group *Group) BeforeCreate(scope *gorm.DB) error {
+	group.ID = uuid.NewV4()
+	return nil
 }
 
 // @title    BeforDelete
@@ -44,6 +57,9 @@ func (g *Group) BeforDelete(tx *gorm.DB) (err error) {
 
 	// TODO 删除表单相关
 	tx.Delete(&GroupList{})
+
+	// TODO 删除用户组标签
+	tx.Delete(&GroupLabel{})
 
 	return
 }

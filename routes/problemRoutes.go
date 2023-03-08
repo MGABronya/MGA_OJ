@@ -93,5 +93,14 @@ func ProblemRoutes(r *gin.Engine) *gin.Engine {
 	// TODO 游览历史
 	problemRoutes.GET("/visits", middleware.AuthMiddleware(), problemController.Visits)
 
+	// TODO 创建题目标签
+	problemRoutes.POST("/label/:id/:label", middleware.AuthMiddleware(), problemController.LabelCreate)
+
+	// TODO 删除题目标签
+	problemRoutes.DELETE("/label/:id/:label", middleware.AuthMiddleware(), problemController.LabelDelete)
+
+	// TODO 查看题目标签
+	problemRoutes.GET("/label/:id", problemController.LabelShow)
+
 	return r
 }

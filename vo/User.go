@@ -14,7 +14,7 @@ type UserRequest struct {
 	Verify   string `json:"verify"`   // 验证码
 }
 
-// user 		定义用户
+// user 		定义用户更新信息
 type UserUpdate struct {
 	Name    string `json:"name"`    // 用户名称
 	Email   string `json:"email"`   // 邮箱

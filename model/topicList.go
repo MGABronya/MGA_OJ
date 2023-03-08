@@ -4,8 +4,10 @@
 // @Update  MGAronya（张健）  2022-11-16 0:46
 package model
 
+import uuid "github.com/satori/go.uuid"
+
 // TopicList		定义主题列表
 type TopicList struct {
-	SetId   uint `json:"set_id" gorm:"type:uint;index:idx_setId;not null"` // 表单外键
-	TopicId uint `json:"topic_id" gorm:"type:uint;not null"`               // 主题外键
+	SetId   uuid.UUID `json:"set_id" gorm:"type:char(36);index:idx_setId;not null"` // 表单外键
+	TopicId uuid.UUID `json:"topic_id" gorm:"type:char(36);not null"`               // 主题外键
 }

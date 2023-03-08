@@ -115,6 +115,8 @@ leep:
 		return
 	}
 
+	// TODO 查看是否参赛
+
 leap:
 	// TODO 创建提交
 	record := model.Record{

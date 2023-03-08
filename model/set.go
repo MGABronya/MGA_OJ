@@ -5,21 +5,34 @@
 package model
 
 import (
+	uuid "github.com/satori/go.uuid"
 	"gorm.io/gorm"
 )
 
 // Set			定义表单
 type Set struct {
-	gorm.Model
-	UserId     uint   `json:"user_id" gorm:"type:uint;index:idx_userId;not null"` // 用户外键
-	Title      string `json:"title" gorm:"type:varchar(64);not null"`             // 题目
-	Content    string `json:"content" gorm:"type:text;not null"`                  // 内容
-	Reslong    string `json:"res_long" gorm:"type:text"`                          // 备用长文本
-	Resshort   string `json:"res_short" gorm:"type:text"`                         // 备用短文本
-	AutoUpdate bool   `json:"auto_update" gorm:"type:boolean"`                    // 是否每日自动更新排行
-	AutoPass   bool   `json:"auto_pass" gorm:"type:boolean"`                      // 是否自动通过组加入申请
-	PassNum    uint   `json:"pass_num" gorm:"type:uint"`                          // 每组的人数限制
-	PassRe     bool   `json:"pass_re" gorm:"type:boolean"`                        // 每组人员是否可以重复
+	ID         uuid.UUID `json:"id" gorm:"type:char(36);primary_key"`                    // id
+	CreatedAt  Time      `json:"created_at" gorm:"type:timestamp"`                       // 创建日期
+	UpdatedAt  Time      `json:"updated_at" gorm:"type:timestamp"`                       // 更新日期
+	UserId     uuid.UUID `json:"user_id" gorm:"type:char(36);index:idx_userId;not null"` // 用户外键
+	Title      string    `json:"title" gorm:"type:varchar(64);not null"`                 // 题目
+	Content    string    `json:"content" gorm:"type:text;not null"`                      // 内容
+	Reslong    string    `json:"res_long" gorm:"type:text"`                              // 备用长文本
+	Resshort   string    `json:"res_short" gorm:"type:text"`                             // 备用短文本
+	AutoUpdate bool      `json:"auto_update" gorm:"type:boolean"`                        // 是否每日自动更新排行
+	AutoPass   bool      `json:"auto_pass" gorm:"type:boolean"`                          // 是否自动通过组加入申请
+	PassNum    uint      `json:"pass_num" gorm:"type:uint"`                              // 每组的人数限制
+	PassRe     bool      `json:"pass_re" gorm:"type:boolean"`                            // 每组人员是否可以重复
+}
+
+// @title    BeforeCreate
+// @description   计算出一个uuid
+// @auth      MGAronya（张健）             2022-9-16 10:19
+// @param     scope *gorm.Scope
+// @return    error
+func (set *Set) BeforeCreate(scope *gorm.DB) error {
+	set.ID = uuid.NewV4()
+	return nil
 }
 
 // @title    BeforDelete
@@ -47,6 +60,9 @@ func (s *Set) BeforDelete(tx *gorm.DB) (err error) {
 
 	// TODO 删除表单的黑名单
 	tx.Delete(&SetBlock{})
+
+	// TODO 删除表单标签
+	tx.Delete(&SetLabel{})
 
 	return
 }

@@ -90,5 +90,14 @@ func PostRoutes(r *gin.Engine) *gin.Engine {
 	// TODO 指定用户的游览历史
 	postRoutes.GET("/visits/:id", postController.Visits)
 
+	// TODO 创建题解标签
+	postRoutes.POST("/label/:id/:label", middleware.AuthMiddleware(), postController.LabelCreate)
+
+	// TODO 删除题解标签
+	postRoutes.DELETE("/label/:id/:label", middleware.AuthMiddleware(), postController.LabelDelete)
+
+	// TODO 查看题解标签
+	postRoutes.GET("/label/:id", postController.LabelShow)
+
 	return r
 }

@@ -51,3 +51,7 @@ func (t *Time) Scan(v interface{}) error {
 	}
 	return fmt.Errorf("can not convert %v to timestamp", v)
 }
+
+func (t Time) After(p Time) bool {
+	return (time.Time(t)).After(time.Time(p))
+}

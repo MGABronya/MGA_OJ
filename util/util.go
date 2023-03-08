@@ -7,19 +7,20 @@ package util
 import (
 	"MGA_OJ/common"
 	"MGA_OJ/model"
-	"context"
 	"fmt"
 	"math/rand"
 	"net/smtp"
 	"regexp"
 	"time"
 
-	"github.com/go-redis/redis/v9"
+	"github.com/gin-gonic/gin"
 	"github.com/jordan-wright/email"
+	uuid "github.com/satori/go.uuid"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
 
+// Units		定义了单位换算
 var Units = map[string]uint{
 	"mb": 1024,
 	"kb": 1,
@@ -28,197 +29,8 @@ var Units = map[string]uint{
 	"s":  1000,
 }
 
-var ctx context.Context = context.Background()
-
-// @title    GetH
-// @description   在redis中的一个哈希中获取值
-// @auth      MGAronya（张健）       2022-9-16 12:15
-// @param    k int, H string, key string        k表示选用第几个库，H为哈希，key为在H中的key
-// @return   string     	  返回对应的value
-func GetH(k int, H string, key string) string {
-	client := common.GetRedisClient(k)
-	level, _ := client.HGet(ctx, H, key).Result()
-	return level
-}
-
-// @title    SETH
-// @description   在redis中的一个哈希中设置值
-// @auth      MGAronya（张健）       2022-9-16 12:15
-// @param    k int, H string, key string, value string       k表示选用第几个库，H为哈希，key为在H中的key，value为要设置的对应值
-// @return   void
-func SetH(k int, H string, key string, value string) {
-	client := common.GetRedisClient(k)
-	client.HSet(ctx, H, key, value)
-}
-
-// @title    SetS
-// @description   在redis中的一个集合中设置值
-// @auth      MGAronya（张健）       2022-9-16 12:15
-// @param    k int, S string, value string       k表示选用的第几个库，S为集合，value为要设置的对应值
-// @return   void
-func SetS(k int, S string, value string) {
-	client := common.GetRedisClient(k)
-	client.SAdd(ctx, S, value)
-}
-
-// @title    RemS
-// @description   在redis中的一个集合中删除值
-// @auth      MGAronya（张健）       2022-9-16 12:15
-// @param    k int, S string, value string       k表示选用的第几个库，S为集合，value为要删除的对应值
-// @return   void
-func RemS(k int, S string, value string) {
-	client := common.GetRedisClient(k)
-	client.SRem(ctx, S, value)
-}
-
-// @title    IsS
-// @description   在redis中的一个集合中查找某个元素是否存在
-// @auth      MGAronya（张健）       2022-9-16 12:15
-// @param    k int, S string, value string       k表示选用的第几个库，S为集合，value为要查找的对应值
-// @return   bool 表示value是否在S中
-func IsS(k int, S string, value string) bool {
-	client := common.GetRedisClient(k)
-	flag, _ := client.SIsMember(ctx, S, value).Result()
-	return flag
-}
-
-// @title    MembersS
-// @description   在redis中的一个集合中查找所有元素
-// @auth      MGAronya（张健）       2022-9-16 12:15
-// @param    k int, S string      k表示选用的第几个库，S为集合
-// @return   []string		表示该集合的所有元素
-func MembersS(k int, S string) []string {
-	client := common.GetRedisClient(k)
-	es, _ := client.SMembers(ctx, S).Result()
-	return es
-}
-
-// @title    InterS
-// @description   在redis中集合的交集
-// @auth      MGAronya（张健）       2022-9-16 12:15
-// @param    k int, S string      k表示选用的第几个库，keys为集合
-// @return   []string		表示交集中的所有元素
-func InterS(k int, keys ...string) []string {
-	client := common.GetRedisClient(k)
-	es, _ := client.SInter(ctx, keys...).Result()
-	return es
-}
-
-// @title    UnionS
-// @description   在redis中集合的并集
-// @auth      MGAronya（张健）       2022-9-16 12:15
-// @param    k int, S string      k表示选用的第几个库，keys为集合
-// @return   []string		表示并集中的所有元素
-func UnionS(k int, keys ...string) []string {
-	client := common.GetRedisClient(k)
-	es, _ := client.SUnion(ctx, keys...).Result()
-	return es
-}
-
-// @title    CardS
-// @description  查看redis中一个集合中元素的个数
-// @auth      MGAronya（张健）       2022-9-16 12:15
-// @param    k int, Key string      k表示选用的第几个库，Key为要查看的集合
-// @return   int	表示该集合元素的个数
-func CardS(k int, Key string) int {
-	client := common.GetRedisClient(k)
-	cnt, _ := client.SCard(ctx, Key).Result()
-	return int(cnt)
-}
-
-// @title    AddZ
-// @description  设置redis中一个有序集合中一个元素
-// @auth      MGAronya（张健）       2022-9-16 12:15
-// @param    k int, key string, value string, cost float64      k表示选用的第几个库，key为要设置的有序集合，value表示值，cost表示权重
-// @return   int	表示该集合元素的个数
-func AddZ(k int, key string, value string, cost float64) {
-	client := common.GetRedisClient(k)
-	client.ZAdd(ctx, key, redis.Z{Score: cost, Member: value})
-}
-
-// @title    ScoreZ
-// @description  查看redis中一个有序集合中一个元素的权重
-// @auth      MGAronya（张健）       2022-9-16 12:15
-// @param    k int, key string, value string      k表示选用的第几个库，key为要设置的有序集合，value表示值
-// @return   int	表示该集合元素的个数
-func ScoreZ(k int, key string, value string) float64 {
-	client := common.GetRedisClient(k)
-	cost, _ := client.ZScore(ctx, key, value).Result()
-	return cost
-}
-
-// @title    IncrByZ
-// @description  修改redis中一个有序集合中一个元素的权重
-// @auth      MGAronya（张健）       2022-9-16 12:15
-// @param    k int, key string, value string, cost float64      k表示选用的第几个库，key为要设置的有序集合，value表示值，cost表示权重
-// @return   int	表示该集合元素的个数
-func IncrByZ(k int, key string, value string, cost float64) {
-	client := common.GetRedisClient(k)
-	client.ZIncrBy(ctx, key, cost, value)
-}
-
-// @title    RangeZ
-// @description  查询redis中一个有序集合中一个范围重的值
-// @auth      MGAronya（张健）       2022-9-16 12:15
-// @param    k int, key string, left int64, right int64      k表示选用的第几个库，key为要设置的有序集合，查询[left, right]中的值
-// @return   []string	表示该集合范围中的元素
-func RangeZ(k int, key string, left int64, right int64) []string {
-	client := common.GetRedisClient(k)
-	res, _ := client.ZRevRange(ctx, key, left, right).Result()
-	return res
-}
-
-// @title    RangeWithScoreZ
-// @description  查询redis中一个有序集合中一个范围重的值和分数
-// @auth      MGAronya（张健）       2022-9-16 12:15
-// @param    k int, key string, left int64, right int64      k表示选用的第几个库，key为要设置的有序集合，查询[left, right]中的值
-// @return   []redis.Z	表示该集合范围中的元素和分数
-func RangeWithScoreZ(k int, key string, left int64, right int64) []redis.Z {
-	client := common.GetRedisClient(k)
-	res, _ := client.ZRevRangeWithScores(ctx, key, left, right).Result()
-	return res
-}
-
-// @title    CardZ
-// @description  查看redis中一个有序集合中元素的个数
-// @auth      MGAronya（张健）       2022-9-16 12:15
-// @param    k int, key string      k表示选用的第几个库，key为要cx查询的有序集合
-// @return   int	表示该集合元素的个数
-func CardZ(k int, key string) int64 {
-	client := common.GetRedisClient(k)
-	res, _ := client.ZCard(ctx, key).Result()
-	return res
-}
-
-// @title    RemZ
-// @description  移除redis中一个有序集合中一个元素
-// @auth      MGAronya（张健）       2022-9-16 12:15
-// @param    k int, key string, value string      k表示选用的第几个库，key为要设置的有序集合，value表示值
-// @return   int	表示该集合元素的个数
-func RemZ(k int, key string, value string) {
-	client := common.GetRedisClient(k)
-	client.ZRem(ctx, key, value)
-}
-
-// @title    Del
-// @description  删除redis中的一个键
-// @auth      MGAronya（张健）       2022-9-16 12:15
-// @param    k int, Key string      k表示选用的第几个库，Key为要删除的键
-// @return   void, void
-func Del(k int, Key string) {
-	client := common.GetRedisClient(k)
-	client.Del(ctx, Key)
-}
-
-// @title    DelH
-// @description  删除redis中的一个哈希下的键
-// @auth      MGAronya（张健）       2022-9-16 12:15
-// @param    k int, h string, key string      k表示选用的第几个库，h表示哪个哈希表，key为要删除的键
-// @return   void, void
-func DelH(k int, h string, key string) {
-	client := common.GetRedisClient(k)
-	client.HDel(ctx, h, key)
-}
+// timerMap	    定义了当前使用的定时器
+var TimerMap map[uuid.UUID]*time.Timer = make(map[uuid.UUID]*time.Timer)
 
 // @title    RandomString
 // @description   生成一段随机的字符串
@@ -292,7 +104,7 @@ func VerifyIconFormat(Icon string) bool {
 func IsEmailExist(db *gorm.DB, email string) bool {
 	var user model.User
 	db.Where("email = ?", email).First(&user)
-	return user.ID != 0
+	return user.ID != uuid.UUID{}
 }
 
 // @title    isNameExist
@@ -303,7 +115,7 @@ func IsEmailExist(db *gorm.DB, email string) bool {
 func IsNameExist(db *gorm.DB, name string) bool {
 	var user model.User
 	db.Where("name = ?", name).First(&user)
-	return user.ID != 0
+	return user.ID != uuid.UUID{}
 }
 
 // @title    SendEmailValidate
@@ -389,7 +201,7 @@ func SendEmailPass(em []string) string {
 // @auth      MGAronya（张健）       2022-9-16 12:15
 // @param    em []string       接收一个邮箱字符串
 // @return   string, error     返回验证码和error值
-func IsEmailPass(email string, vertify string) bool {
+func IsEmailPass(ctx *gin.Context, email string, vertify string) bool {
 	client := common.GetRedisClient(0)
 	V, err := client.Get(ctx, email).Result()
 	if err != nil {
@@ -403,7 +215,7 @@ func IsEmailPass(email string, vertify string) bool {
 // @auth      MGAronya（张健）       2022-9-16 12:15
 // @param    email string, v string       接收一个邮箱和一个验证码
 // @return   void
-func SetRedisEmail(email string, v string) {
+func SetRedisEmail(ctx *gin.Context, email string, v string) {
 	client := common.GetRedisClient(0)
 
 	client.Set(ctx, email, v, 300*time.Second)

@@ -75,5 +75,14 @@ func GroupRoutes(r *gin.Engine) *gin.Engine {
 	// TODO 用户退出某个用户组
 	groupRoutes.DELETE("/quit/:id", middleware.AuthMiddleware(), groupController.Quit)
 
+	// TODO 创建用户组标签
+	groupRoutes.POST("/label/:id/:label", middleware.AuthMiddleware(), groupController.LabelCreate)
+
+	// TODO 删除用户组标签
+	groupRoutes.DELETE("/label/:id/:label", middleware.AuthMiddleware(), groupController.LabelDelete)
+
+	// TODO 查看用户组标签
+	groupRoutes.GET("/label/:id", groupController.LabelShow)
+
 	return r
 }

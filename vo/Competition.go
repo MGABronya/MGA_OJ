@@ -6,11 +6,13 @@ package vo
 
 import (
 	"MGA_OJ/model"
+
+	uuid "github.com/satori/go.uuid"
 )
 
 // CompetitionRequest		定义比赛
 type CompetitionRequest struct {
-	SetId     uint       `json:"set_id"`     // 表单外键
+	SetId     uuid.UUID  `json:"set_id"`     // 表单外键
 	StartTime model.Time `json:"start_time"` // 起始时间
 	EndTime   model.Time `json:"end_time"`   // 终止时间
 	Type      string     `json:"type"`       // 比赛类型

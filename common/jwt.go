@@ -9,13 +9,14 @@ import (
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
+	uuid "github.com/satori/go.uuid"
 )
 
 var jwtKey = []byte("a_secret_crect")
 
 // Claims			定义了user的token
 type Claims struct {
-	UserId             uint // 用户的id
+	UserId             uuid.UUID // 用户的id
 	jwt.StandardClaims      // usertoken
 }
 

@@ -129,5 +129,14 @@ func SetRoutes(r *gin.Engine) *gin.Engine {
 	// TODO 用户组退出某个表单
 	setRoutes.DELETE("/quit/:set/:group", middleware.AuthMiddleware(), setController.Quit)
 
+	// TODO 创建表单标签
+	setRoutes.POST("/label/:id/:label", middleware.AuthMiddleware(), setController.LabelCreate)
+
+	// TODO 删除表单标签
+	setRoutes.DELETE("/label/:id/:label", middleware.AuthMiddleware(), setController.LabelDelete)
+
+	// TODO 查看表单标签
+	setRoutes.GET("/label/:id", setController.LabelShow)
+
 	return r
 }
