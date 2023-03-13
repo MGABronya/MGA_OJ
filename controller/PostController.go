@@ -929,7 +929,7 @@ func (p PostController) Search(ctx *gin.Context) {
 	var posts []model.Post
 
 	// TODO 模糊匹配
-	p.DB.Where("problem_id = ? and match(title,content,res_long,res_short) against(? in boolean mode)", id, text+"*").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&posts)
+	p.DB.Where("problem_id = ? and match(title,content,res_long,res_short) against(? in boolean mode)", id, text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&posts)
 
 	// TODO 查看查询总数
 	var total int64
@@ -973,7 +973,7 @@ func (p PostController) SearchLabel(ctx *gin.Context) {
 	// TODO 查找对应题解
 	var posts []model.Post
 
-	p.DB.Where("problem_id = ? and id in (?)", id, postIds).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&posts)
+	p.DB.Where("problem_id = ? and id in (?)", id, postIds).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&posts)
 
 	// TODO 查看查询总数
 	var total int64
@@ -1021,7 +1021,7 @@ func (p PostController) SearchWithLabel(ctx *gin.Context) {
 	var posts []model.Post
 
 	// TODO 模糊匹配
-	p.DB.Where("problem_id = ? and id in (?) and match(title,content,res_long,res_short) against(? in boolean mode)", id, postIds, text+"*").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&posts)
+	p.DB.Where("problem_id = ? and id in (?) and match(title,content,res_long,res_short) against(? in boolean mode)", id, postIds, text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&posts)
 
 	// TODO 查看查询总数
 	var total int64

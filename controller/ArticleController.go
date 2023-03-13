@@ -207,7 +207,7 @@ func (a ArticleController) PageList(ctx *gin.Context) {
 	var articles []model.Article
 
 	// TODO 查找所有分页中可见的条目
-	a.DB.Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&articles)
+	a.DB.Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&articles)
 
 	var total int64
 	a.DB.Model(model.Article{}).Count(&total)
@@ -234,7 +234,7 @@ func (a ArticleController) UserList(ctx *gin.Context) {
 	var articles []model.Article
 
 	// TODO 查找所有分页中可见的条目
-	a.DB.Where("user_id = ?", id).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&articles)
+	a.DB.Where("user_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&articles)
 
 	var total int64
 	a.DB.Where("user_id = ?", id).Model(model.Article{}).Count(&total)
@@ -261,7 +261,7 @@ func (a ArticleController) CategoryList(ctx *gin.Context) {
 	var articles []model.Article
 
 	// TODO 查找所有分页中可见的条目
-	a.DB.Where("category_id = ?", id).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&articles)
+	a.DB.Where("category_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&articles)
 
 	var total int64
 	a.DB.Where("category_id = ?", id).Model(model.Article{}).Count(&total)
@@ -918,7 +918,7 @@ func (a ArticleController) Search(ctx *gin.Context) {
 	var articles []model.Article
 
 	// TODO 模糊匹配
-	a.DB.Where("match(title,content,res_long,res_short) against(? in boolean mode)", text+"*").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&articles)
+	a.DB.Where("match(title,content,res_long,res_short) against(? in boolean mode)", text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&articles)
 
 	// TODO 查看查询总数
 	var total int64
@@ -954,7 +954,7 @@ func (a ArticleController) SearchLabel(ctx *gin.Context) {
 	}
 
 	// TODO 进行标签匹配
-	a.DB.Distinct("article_id").Where("label in (?)", requestLabels.Labels).Model(model.ArticleLabel{}).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&articleIds)
+	a.DB.Distinct("article_id").Where("label in (?)", requestLabels.Labels).Model(model.ArticleLabel{}).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&articleIds)
 
 	// TODO 查看查询总数
 	var total int64
@@ -1004,7 +1004,7 @@ func (a ArticleController) SearchWithLabel(ctx *gin.Context) {
 	var articles []model.Article
 
 	// TODO 模糊匹配
-	a.DB.Where("id in (?) and match(title,content,res_long,res_short) against(? in boolean mode)", articleIds, text+"*").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&articles)
+	a.DB.Where("id in (?) and match(title,content,res_long,res_short) against(? in boolean mode)", articleIds, text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&articles)
 
 	// TODO 查看查询总数
 	var total int64

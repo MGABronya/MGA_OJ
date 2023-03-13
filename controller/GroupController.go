@@ -243,7 +243,7 @@ func (g GroupController) PageList(ctx *gin.Context) {
 	var groups []model.Group
 
 	// TODO 查找所有分页中可见的条目
-	g.DB.Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groups)
+	g.DB.Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groups)
 
 	var total int64
 	g.DB.Model(model.Group{}).Count(&total)
@@ -270,7 +270,7 @@ func (g GroupController) LeaderList(ctx *gin.Context) {
 	var groups []model.Group
 
 	// TODO 查找所有分页中可见的条目
-	g.DB.Where("leader_id = ?", id).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groups)
+	g.DB.Where("leader_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groups)
 
 	var total int64
 	g.DB.Where("leader_id = ?", id).Model(model.Group{}).Count(&total)
@@ -297,7 +297,7 @@ func (g GroupController) MemberList(ctx *gin.Context) {
 	var userList []model.UserList
 
 	// TODO 查找所有分页中可见的条目
-	g.DB.Where("user_id = ?", id).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&userList)
+	g.DB.Where("user_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&userList)
 
 	var total int64
 	g.DB.Where("user_id = ?", id).Model(model.UserList{}).Count(&total)
@@ -324,7 +324,7 @@ func (g GroupController) UserList(ctx *gin.Context) {
 	var userList []model.UserList
 
 	// TODO 查找所有分页中可见的条目
-	g.DB.Where("group_id = ?", id).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&userList)
+	g.DB.Where("group_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&userList)
 
 	var total int64
 	g.DB.Where("group_id = ?", id).Model(model.UserList{}).Count(&total)
@@ -1402,7 +1402,7 @@ func (g GroupController) Search(ctx *gin.Context) {
 	var groups []model.Group
 
 	// TODO 模糊匹配
-	g.DB.Where("match(title,content,res_long,res_short) against(? in boolean mode)", text+"*").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groups)
+	g.DB.Where("match(title,content,res_long,res_short) against(? in boolean mode)", text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groups)
 
 	// TODO 查看查询总数
 	var total int64
@@ -1438,7 +1438,7 @@ func (g GroupController) SearchLabel(ctx *gin.Context) {
 	}
 
 	// TODO 进行标签匹配
-	g.DB.Distinct("group_id").Where("label in (?)", requestLabels.Labels).Model(model.GroupLabel{}).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groupIds)
+	g.DB.Distinct("group_id").Where("label in (?)", requestLabels.Labels).Model(model.GroupLabel{}).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groupIds)
 
 	// TODO 查看查询总数
 	var total int64
@@ -1488,7 +1488,7 @@ func (g GroupController) SearchWithLabel(ctx *gin.Context) {
 	var groups []model.Group
 
 	// TODO 模糊匹配
-	g.DB.Where("id in (?) and match(title,content,res_long,res_short) against(? in boolean mode)", groupIds, text+"*").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groups)
+	g.DB.Where("id in (?) and match(title,content,res_long,res_short) against(? in boolean mode)", groupIds, text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groups)
 
 	// TODO 查看查询总数
 	var total int64

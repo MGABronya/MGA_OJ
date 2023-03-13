@@ -84,5 +84,8 @@ func UserRoutes(r *gin.Engine) *gin.Engine {
 	// TODO 按文本和标签交集搜索用户
 	userRoutes.GET("/search/with/label/:text", userController.SearchWithLabel)
 
+	// TODO 查看某一用户分数变化情况
+	userRoutes.GET("/score/change/:id", userController.ScoreChange)
+
 	return r
 }

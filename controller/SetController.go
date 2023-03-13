@@ -415,7 +415,7 @@ func (s SetController) PageList(ctx *gin.Context) {
 	var sets []model.Set
 
 	// TODO 查找所有分页中可见的条目
-	s.DB.Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&sets)
+	s.DB.Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&sets)
 
 	var total int64
 	s.DB.Model(model.Set{}).Count(&total)
@@ -442,7 +442,7 @@ func (s SetController) UserList(ctx *gin.Context) {
 	var sets []model.Set
 
 	// TODO 查找所有分页中可见的条目
-	s.DB.Where("user_id = ?", id).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&sets)
+	s.DB.Where("user_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&sets)
 
 	var total int64
 	s.DB.Model(model.Set{}).Where("user_id = ?", id).Count(&total)
@@ -469,7 +469,7 @@ func (s SetController) TopicList(ctx *gin.Context) {
 	var topicList []model.TopicList
 
 	// TODO 查找所有分页中可见的条目
-	s.DB.Where("set_id = ?", id).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&topicList)
+	s.DB.Where("set_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&topicList)
 
 	var total int64
 	s.DB.Model(model.Set{}).Where("user_id = ?", id).Count(&total)
@@ -496,7 +496,7 @@ func (s SetController) GroupList(ctx *gin.Context) {
 	var groupList []model.GroupList
 
 	// TODO 查找所有分页中可见的条目
-	s.DB.Where("set_id = ?", id).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groupList)
+	s.DB.Where("set_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groupList)
 
 	var total int64
 	s.DB.Model(model.Set{}).Where("user_id = ?", id).Count(&total)
@@ -522,7 +522,7 @@ func (s SetController) ProblemList(ctx *gin.Context) {
 	var problemLists []model.ProblemList
 
 	// TODO 查找所有分页中可见的条目
-	s.DB.Where("set_id = ?", id).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemLists)
+	s.DB.Where("set_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemLists)
 
 	var total int64
 	s.DB.Model(model.Set{}).Where("set_id = ?", id).Count(&total)
@@ -1941,7 +1941,7 @@ func (s SetController) Search(ctx *gin.Context) {
 	var sets []model.Set
 
 	// TODO 模糊匹配
-	s.DB.Where("match(title,content,res_long,res_short) against(? in boolean mode)", text+"*").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&sets)
+	s.DB.Where("match(title,content,res_long,res_short) against(? in boolean mode)", text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&sets)
 
 	// TODO 查看查询总数
 	var total int64
@@ -1977,7 +1977,7 @@ func (s SetController) SearchLabel(ctx *gin.Context) {
 	}
 
 	// TODO 进行标签匹配
-	s.DB.Distinct("set_id").Where("label in (?)", requestLabels.Labels).Model(model.SetLabel{}).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setIds)
+	s.DB.Distinct("set_id").Where("label in (?)", requestLabels.Labels).Model(model.SetLabel{}).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setIds)
 
 	// TODO 查看查询总数
 	var total int64
@@ -2027,7 +2027,7 @@ func (s SetController) SearchWithLabel(ctx *gin.Context) {
 	var sets []model.Set
 
 	// TODO 模糊匹配
-	s.DB.Where("id in (?) and match(title,content,res_long,res_short) against(? in boolean mode)", setIds, text+"*").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&sets)
+	s.DB.Where("id in (?) and match(title,content,res_long,res_short) against(? in boolean mode)", setIds, text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&sets)
 
 	// TODO 查看查询总数
 	var total int64

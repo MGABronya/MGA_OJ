@@ -45,6 +45,7 @@ type IUserController interface {
 	AcceptNum(ctx *gin.Context)      // 显示用户ac题目数量
 	AcceptRankList(ctx *gin.Context) // 显示用户ac题目的排行列表
 	AcceptRank(ctx *gin.Context)     // 显示用户ac题目的排行
+	ScoreChange(ctx *gin.Context)    // 显示用户的分数变化
 }
 
 // UserController			定义了题目工具类
@@ -109,6 +110,7 @@ func (u UserController) Register(ctx *gin.Context) {
 		Email:    email,
 		Password: string(hasedPassword),
 		Icon:     "MGA" + strconv.Itoa(rand.Intn(9)+1) + ".jpg",
+		Score:    1500,
 	}
 	u.DB.Create(&newUser)
 
@@ -633,7 +635,7 @@ func (u UserController) Search(ctx *gin.Context) {
 	var users []model.User
 
 	// TODO 模糊匹配
-	u.DB.Where("match(name) against(? in boolean mode)", text+"*").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&users)
+	u.DB.Where("match(name) against(? in boolean mode)", text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&users)
 
 	// TODO 查看查询总数
 	var total int64
@@ -669,7 +671,7 @@ func (u UserController) SearchLabel(ctx *gin.Context) {
 	}
 
 	// TODO 进行标签匹配
-	u.DB.Distinct("user_id").Where("label in (?)", requestLabels.Labels).Model(model.UserLabel{}).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&userIds)
+	u.DB.Distinct("user_id").Where("label in (?)", requestLabels.Labels).Model(model.UserLabel{}).Limit(pageSize).Find(&userIds)
 
 	// TODO 查看查询总数
 	var total int64
@@ -719,7 +721,7 @@ func (u UserController) SearchWithLabel(ctx *gin.Context) {
 	var users []model.User
 
 	// TODO 模糊匹配
-	u.DB.Where("id in (?) and match(name) against(? in boolean mode)", userIds, text+"*").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&users)
+	u.DB.Where("id in (?) and match(name) against(? in boolean mode)", userIds, text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&users)
 
 	// TODO 查看查询总数
 	var total int64
@@ -727,6 +729,34 @@ func (u UserController) SearchWithLabel(ctx *gin.Context) {
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"users": users, "total": total}, "成功")
+}
+
+// @title    ScoreChange
+// @description   指定用户的分数变化
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (u UserController) ScoreChange(ctx *gin.Context) {
+
+	// TODO 获取用户id
+	id := ctx.Params.ByName("id")
+
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
+
+	// TODO 查找对应用户分数变化
+	var userScoreChanges []model.UserScoreChange
+
+	// TODO 模糊匹配
+	u.DB.Where("user_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&userScoreChanges)
+
+	// TODO 查看查询总数
+	var total int64
+	u.DB.Where("id in (?) and match(name) against(? in boolean mode)", userIds, text+"*").Model(model.User{}).Count(&total)
+
+	// TODO 返回数据
+	response.Success(ctx, gin.H{"userScoreChanges": userScoreChanges, "total": total}, "成功")
 }
 
 // @title    NewUserController
@@ -739,5 +769,7 @@ func NewUserController() IUserController {
 	redis := common.GetRedisClient(0)
 	db.AutoMigrate(model.User{})
 	db.AutoMigrate(model.UserLabel{})
+	db.AutoMigrate(model.UserLabel{})
+	db.AutoMigrate(model.UserScoreChange{})
 	return UserController{DB: db, Redis: redis}
 }

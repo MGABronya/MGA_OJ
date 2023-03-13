@@ -22,6 +22,7 @@ type User struct {
 	Sex       bool      `json:"sex" gorm:"type:boolean"`                                                      // 性别
 	Address   string    `json:"address" gorm:"type:varchar(20)"`                                              // 地址
 	Level     int       `json:"level" gorm:"type:int;not null"`                                               // 用户管理等级
+	Score     float64   `json:"score" gorm:"type:double;not null"`
 }
 
 // @title    BeforeCreate
@@ -32,4 +33,18 @@ type User struct {
 func (user *User) BeforeCreate(scope *gorm.DB) error {
 	user.ID = uuid.NewV4()
 	return nil
+}
+
+// TODO 实现按竞赛分数降序排序
+type  OrderByScoreAsc []User
+
+func (s OrderByScoreAsc) Len() int {
+	return len(s)
+}
+
+func (str OrderByScoreAsc) Swap(i, j int) {
+	str[i], str[j] = str[j], str[i]
+}
+func (s OrderByScoreAsc) Less(i, j int) bool {
+	return s[i].Score < s[j].Score
 }

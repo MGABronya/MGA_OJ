@@ -14,6 +14,7 @@ import (
 	"encoding/json"
 	"log"
 	"math"
+	"sort"
 	"strconv"
 	"time"
 
@@ -120,6 +121,9 @@ func (c CompetitionController) Create(ctx *gin.Context) {
 
 	// TODO 建立比赛开始定时器
 	StartTimer(ctx, c.Redis, c.DB, competition.ID)
+
+	// TODO 等待直至比赛结束
+
 }
 
 // @title    Update
@@ -445,5 +449,50 @@ leap:
 			Penalties: time.Duration((float64(uint(math.Ceil(competitionRankrs[i].Score))) - competitionRankrs[i].Score) * 10000000000),
 		}
 		db.Create(&competitionRank)
+	}
+	// TODO 处理用户分数
+	var users []model.User
+
+	// TODO 用户分数总和
+	var sum float64
+
+	// TODO 按序取出所有用户
+	for i := range competitionRankrs {
+		id := competitionRankrs[i].Member.(uuid.UUID)
+		var user model.User
+		db.Where("id = ?", id).First(&user)
+		users = append(users, user)
+		sum += user.Score
+	}
+
+	// TODO 将用户按原预期排名排序
+	sort.Sort(model.OrderByScoreAsc(users))
+
+	// TODO 遍历比赛结果，计算每个用户的预期排名差
+	for i := range competitionRankrs {
+		id := competitionRankrs[i].Member.(uuid.UUID)
+		for j := range users {
+			if users[j].ID == id {
+				// TODO 计算该用户的期望排名差
+				del := j - i
+				// TODO 查看该用户的参赛次数
+				var fre int64
+				db.Where("user_id = ?", id).Model(model.UserScoreChange{}).Count(&fre)
+				// TODO 查看本次比赛人数
+				total := len(users)
+				// TODO 带入公式计算分数变化
+				scoreChange := util.ScoreChange(float64(fre), sum, float64(del), float64(total))
+
+				// TODO 将分数变化存入数据库
+				userScoreChange := model.UserScoreChange{
+					ScoreChange:   scoreChange,
+					CompetitionId: competition.ID,
+					UserId:        id,
+				}
+				db.Create(&userScoreChange)
+				users[j].Score += scoreChange
+				db.Save(&users[j])
+			}
+		}
 	}
 }

@@ -8,6 +8,7 @@ import (
 	"MGA_OJ/common"
 	"MGA_OJ/model"
 	"fmt"
+	"math"
 	"math/rand"
 	"net/smtp"
 	"regexp"
@@ -219,4 +220,13 @@ func SetRedisEmail(ctx *gin.Context, email string, v string) {
 	client := common.GetRedisClient(0)
 
 	client.Set(ctx, email, v, 300*time.Second)
+}
+
+// @title    ScoreChange
+// @description   用于计算分数变化
+// @auth      MGAronya（张健）       2022-9-16 12:15
+// @param    email string, v string       接收一个邮箱和一个验证码
+// @return   void
+func ScoreChange(fre float64, sum float64, del float64, total float64) float64 {
+	return (0.07/(fre+1) + 0.04) * sum * del * (math.Pow(2, 0.1*total-5)) / (math.Pow(2, 0.1*total-5) + 1) / total
 }

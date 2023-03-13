@@ -473,7 +473,7 @@ func (p ProblemController) PageList(ctx *gin.Context) {
 	var problems []model.Problem
 
 	// TODO 查找所有分页中可见的条目
-	p.DB.Where("competition_id not in ?", userNotJoin).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problems)
+	p.DB.Where("competition_id not in ?", userNotJoin).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problems)
 
 	var total int64
 	p.DB.Where("competition_id not in ?", userNotJoin).Model(model.Problem{}).Count(&total)
@@ -539,7 +539,7 @@ func (p ProblemController) UserList(ctx *gin.Context) {
 	var problems []model.Problem
 
 	// TODO 查找所有分页中可见的条目
-	p.DB.Where("user_id = ? and competition_id not in ?", id, userNotJoin).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problems)
+	p.DB.Where("user_id = ? and competition_id not in ?", id, userNotJoin).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problems)
 
 	var total int64
 	p.DB.Where("user_id = ? and competition_id not in ?", id, userNotJoin).Model(model.Problem{}).Count(&total)
@@ -1209,7 +1209,7 @@ func (p ProblemController) Search(ctx *gin.Context) {
 	var problems []model.Problem
 
 	// TODO 模糊匹配
-	p.DB.Where("match(title,discription,res_long,res_short) against(? in boolean mode)", text+"*").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problems)
+	p.DB.Where("match(title,discription,res_long,res_short) against(? in boolean mode)", text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problems)
 
 	// TODO 查看查询总数
 	var total int64
@@ -1245,7 +1245,7 @@ func (p ProblemController) SearchLabel(ctx *gin.Context) {
 	}
 
 	// TODO 进行标签匹配
-	p.DB.Distinct("problem_id").Where("label in (?)", requestLabels.Labels).Model(model.ProblemLabel{}).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemIds)
+	p.DB.Distinct("problem_id").Where("label in (?)", requestLabels.Labels).Model(model.ProblemLabel{}).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemIds)
 
 	// TODO 查看查询总数
 	var total int64
@@ -1295,7 +1295,7 @@ func (p ProblemController) SearchWithLabel(ctx *gin.Context) {
 	var problems []model.Problem
 
 	// TODO 模糊匹配
-	p.DB.Where("id in (?) and match(title,discription,res_long,res_short) against(? in boolean mode)", problemIds, text+"*").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problems)
+	p.DB.Where("id in (?) and match(title,discription,res_long,res_short) against(? in boolean mode)", problemIds, text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problems)
 
 	// TODO 查看查询总数
 	var total int64

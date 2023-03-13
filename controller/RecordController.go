@@ -283,7 +283,7 @@ func (r RecordController) PageList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查找所有分页中可见的条目
-	db.Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&records).Count(&total)
+	db.Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&records).Count(&total)
 
 	if CompetitionId != "-1" {
 		// TODO 查看比赛是否还在进行
@@ -369,7 +369,7 @@ leep:
 	var total int64
 
 	// TODO 查找所有分页中可见的条目
-	r.DB.Where("record_id = ?", record.ID).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&cases).Count(&total)
+	r.DB.Where("record_id = ?", record.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&cases).Count(&total)
 
 	response.Success(ctx, gin.H{"cases": cases}, "成功")
 }

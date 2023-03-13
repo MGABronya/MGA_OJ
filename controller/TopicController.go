@@ -292,7 +292,7 @@ func (t TopicController) PageList(ctx *gin.Context) {
 	var topics []model.Topic
 
 	// TODO 查找所有分页中可见的条目
-	t.DB.Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&topics)
+	t.DB.Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&topics)
 
 	var total int64
 	t.DB.Model(model.Topic{}).Count(&total)
@@ -319,7 +319,7 @@ func (t TopicController) UserList(ctx *gin.Context) {
 	var topics []model.Topic
 
 	// TODO 查找所有分页中可见的条目
-	t.DB.Where("user_id = ?", id).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&topics)
+	t.DB.Where("user_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&topics)
 
 	var total int64
 	t.DB.Model(model.Topic{}).Where("user_id = ?", id).Count(&total)
@@ -345,7 +345,7 @@ func (t TopicController) ProblemList(ctx *gin.Context) {
 	var problemLists []model.ProblemList
 
 	// TODO 查找所有分页中可见的条目
-	t.DB.Where("topic_id = ?", id).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemLists)
+	t.DB.Where("topic_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemLists)
 
 	var total int64
 	t.DB.Model(model.Topic{}).Where("topic_id = ?", id).Count(&total)
@@ -1007,7 +1007,7 @@ func (t TopicController) Search(ctx *gin.Context) {
 	var topics []model.Topic
 
 	// TODO 模糊匹配
-	t.DB.Where("match(title,content,res_long,res_short) against(? in boolean mode)", text+"*").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&topics)
+	t.DB.Where("match(title,content,res_long,res_short) against(? in boolean mode)", text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&topics)
 
 	// TODO 查看查询总数
 	var total int64
@@ -1043,7 +1043,7 @@ func (t TopicController) SearchLabel(ctx *gin.Context) {
 	}
 
 	// TODO 进行标签匹配
-	t.DB.Distinct("topic_id").Where("label in (?)", requestLabels.Labels).Model(model.TopicLabel{}).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&topicIds)
+	t.DB.Distinct("topic_id").Where("label in (?)", requestLabels.Labels).Model(model.TopicLabel{}).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&topicIds)
 
 	// TODO 查看查询总数
 	var total int64
@@ -1093,7 +1093,7 @@ func (t TopicController) SearchWithLabel(ctx *gin.Context) {
 	var topics []model.Topic
 
 	// TODO 模糊匹配
-	t.DB.Where("id in (?) and match(title,content,res_long,res_short) against(? in boolean mode)", topicIds, text+"*").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&topics)
+	t.DB.Where("id in (?) and match(title,content,res_long,res_short) against(? in boolean mode)", topicIds, text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&topics)
 
 	// TODO 查看查询总数
 	var total int64
