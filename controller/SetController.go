@@ -29,6 +29,7 @@ type ISetController interface {
 	Interface.VisitInterface     // 包含游览功能
 	Interface.ApplyInterface     // 包含申请接口
 	Interface.LabelInterface     // 包含标签接口
+	Interface.SearchInterface    // 包含搜索功能
 	UserList(ctx *gin.Context)   // 查看指定用户的多篇表单
 	TopicList(ctx *gin.Context)  // 查看指定表单的主题列表
 	GroupList(ctx *gin.Context)  // 查看指定表单的用户组列表
@@ -1922,6 +1923,118 @@ leap:
 
 	// TODO 成功
 	response.Success(ctx, gin.H{"setLabels": setLabels}, "查看成功")
+}
+
+// @title    Search
+// @description   文本搜索
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (s SetController) Search(ctx *gin.Context) {
+	// TODO 获取文本
+	text := ctx.Params.ByName("text")
+
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
+
+	var sets []model.Set
+
+	// TODO 模糊匹配
+	s.DB.Where("match(title,content,res_long,res_short) against(? in boolean mode)", text+"*").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&sets)
+
+	// TODO 查看查询总数
+	var total int64
+	s.DB.Where("match(title,content,res_long,res_short) against(? in boolean mode)", text+"*").Model(model.Set{}).Count(&total)
+
+	// TODO 返回数据
+	response.Success(ctx, gin.H{"sets": sets, "total": total}, "成功")
+}
+
+// @title    SearchLabel
+// @description   指定标签的搜索
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (s SetController) SearchLabel(ctx *gin.Context) {
+
+	var requestLabels vo.LabelsRequest
+
+	// TODO 获取标签
+	if err := ctx.ShouldBind(&requestLabels); err != nil {
+		log.Print(err.Error())
+		response.Fail(ctx, nil, "数据验证错误")
+		return
+	}
+
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
+
+	// TODO 通过标签寻找
+	var setIds []struct {
+		SetId uuid.UUID `json:"set_id"` // 题目外键
+	}
+
+	// TODO 进行标签匹配
+	s.DB.Distinct("set_id").Where("label in (?)", requestLabels.Labels).Model(model.SetLabel{}).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setIds)
+
+	// TODO 查看查询总数
+	var total int64
+	s.DB.Distinct("set_id").Where("label in (?)", requestLabels.Labels).Model(model.SetLabel{}).Count(&total)
+
+	// TODO 查找对应表单
+	var sets []model.Set
+
+	s.DB.Where("id in (?)", setIds).Find(&sets)
+
+	// TODO 返回数据
+	response.Success(ctx, gin.H{"sets": sets, "total": total}, "成功")
+}
+
+// @title    SearchWithLabel
+// @description   指定标签与文本的搜索
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (s SetController) SearchWithLabel(ctx *gin.Context) {
+
+	// TODO 获取文本
+	text := ctx.Params.ByName("text")
+
+	var requestLabels vo.LabelsRequest
+
+	// TODO 获取标签
+	if err := ctx.ShouldBind(&requestLabels); err != nil {
+		log.Print(err.Error())
+		response.Fail(ctx, nil, "数据验证错误")
+		return
+	}
+
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
+
+	// TODO 通过标签寻找
+	var setIds []struct {
+		SetId uuid.UUID `json:"set_id"` // 题目外键
+	}
+
+	// TODO 进行标签匹配
+	s.DB.Distinct("set_id").Where("label in (?)", requestLabels.Labels).Model(model.SetLabel{}).Find(&setIds)
+
+	// TODO 查找对应表单
+	var sets []model.Set
+
+	// TODO 模糊匹配
+	s.DB.Where("id in (?) and match(title,content,res_long,res_short) against(? in boolean mode)", setIds, text+"*").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&sets)
+
+	// TODO 查看查询总数
+	var total int64
+	s.DB.Where("id in (?) and match(title,content,res_long,res_short) against(? in boolean mode)", setIds, text+"*").Model(model.Set{}).Count(&total)
+
+	// TODO 返回数据
+	response.Success(ctx, gin.H{"sets": sets, "total": total}, "成功")
 }
 
 // @title    NewSetController

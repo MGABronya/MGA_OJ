@@ -30,6 +30,7 @@ type IProblemController interface {
 	Interface.CollectInterface // 包含收藏功能
 	Interface.VisitInterface   // 包含游览功能
 	Interface.LabelInterface   // 包含标签功能
+	Interface.SearchInterface  // 包含搜索功能
 	UserList(ctx *gin.Context) // 查看指定用户上传的题目列表
 	TestNum(ctx *gin.Context)  // 查看指定题目的样例数量
 }
@@ -339,11 +340,11 @@ leep:
 			return
 		}
 		// TODO 查看用户是否参加了比赛
-		var groupLists []model.GroupList
-		p.DB.Where("set_id = ?", competition.SetId).Find(&groupLists)
-		for _, groupList := range groupLists {
+		var problemLists []model.ProblemList
+		p.DB.Where("set_id = ?", competition.SetId).Find(&problemLists)
+		for _, problemList := range problemLists {
 			var userLists []model.UserList
-			p.DB.Where("group_id = ?", groupList.GroupId).Find(&userLists)
+			p.DB.Where("problem_id = ?", problemList.ProblemId).Find(&userLists)
 			for _, userList := range userLists {
 				if userList.UserId == user.ID {
 					response.Success(ctx, gin.H{"problem": problem}, "成功")
@@ -448,11 +449,11 @@ func (p ProblemController) PageList(ctx *gin.Context) {
 		}
 		// TODO 查看用户是否加入比赛
 		ok := false
-		var groupLists []model.GroupList
-		p.DB.Where("set_id = ?", competition.SetId).Find(&groupLists)
-		for _, groupList := range groupLists {
+		var problemLists []model.ProblemList
+		p.DB.Where("set_id = ?", competition.SetId).Find(&problemLists)
+		for _, problemList := range problemLists {
 			var userLists []model.UserList
-			p.DB.Where("group_id = ?", groupList.GroupId).Find(&userLists)
+			p.DB.Where("problem_id = ?", problemList.ProblemId).Find(&userLists)
 			for _, userList := range userLists {
 				if user.ID == userList.UserId {
 					ok = true
@@ -511,11 +512,11 @@ func (p ProblemController) UserList(ctx *gin.Context) {
 		}
 		// TODO 查看用户是否加入比赛
 		ok := false
-		var groupLists []model.GroupList
-		p.DB.Where("set_id = ?", competition.SetId).Find(&groupLists)
-		for _, groupList := range groupLists {
+		var problemLists []model.ProblemList
+		p.DB.Where("set_id = ?", competition.SetId).Find(&problemLists)
+		for _, problemList := range problemLists {
 			var userLists []model.UserList
-			p.DB.Where("group_id = ?", groupList.GroupId).Find(&userLists)
+			p.DB.Where("problem_id = ?", problemList.ProblemId).Find(&userLists)
 			for _, userList := range userLists {
 				if user.ID == userList.UserId {
 					ok = true
@@ -1190,6 +1191,118 @@ leap:
 
 	// TODO 成功
 	response.Success(ctx, gin.H{"problemLabels": problemLabels}, "查看成功")
+}
+
+// @title    Search
+// @description   文本搜索
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (p ProblemController) Search(ctx *gin.Context) {
+	// TODO 获取文本
+	text := ctx.Params.ByName("text")
+
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
+
+	var problems []model.Problem
+
+	// TODO 模糊匹配
+	p.DB.Where("match(title,discription,res_long,res_short) against(? in boolean mode)", text+"*").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problems)
+
+	// TODO 查看查询总数
+	var total int64
+	p.DB.Where("match(title,discription,res_long,res_short) against(? in boolean mode)", text+"*").Model(model.Problem{}).Count(&total)
+
+	// TODO 返回数据
+	response.Success(ctx, gin.H{"problems": problems, "total": total}, "成功")
+}
+
+// @title    SearchLabel
+// @description   指定标签的搜索
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (p ProblemController) SearchLabel(ctx *gin.Context) {
+
+	var requestLabels vo.LabelsRequest
+
+	// TODO 获取标签
+	if err := ctx.ShouldBind(&requestLabels); err != nil {
+		log.Print(err.Error())
+		response.Fail(ctx, nil, "数据验证错误")
+		return
+	}
+
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
+
+	// TODO 通过标签寻找
+	var problemIds []struct {
+		ProblemId uuid.UUID `json:"problem_id"` // 题目外键
+	}
+
+	// TODO 进行标签匹配
+	p.DB.Distinct("problem_id").Where("label in (?)", requestLabels.Labels).Model(model.ProblemLabel{}).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemIds)
+
+	// TODO 查看查询总数
+	var total int64
+	p.DB.Distinct("problem_id").Where("label in (?)", requestLabels.Labels).Model(model.ProblemLabel{}).Count(&total)
+
+	// TODO 查找对应题目
+	var problems []model.Problem
+
+	p.DB.Where("id in (?)", problemIds).Find(&problems)
+
+	// TODO 返回数据
+	response.Success(ctx, gin.H{"problems": problems, "total": total}, "成功")
+}
+
+// @title    SearchWithLabel
+// @description   指定标签与文本的搜索
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (p ProblemController) SearchWithLabel(ctx *gin.Context) {
+
+	// TODO 获取文本
+	text := ctx.Params.ByName("text")
+
+	var requestLabels vo.LabelsRequest
+
+	// TODO 获取标签
+	if err := ctx.ShouldBind(&requestLabels); err != nil {
+		log.Print(err.Error())
+		response.Fail(ctx, nil, "数据验证错误")
+		return
+	}
+
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
+
+	// TODO 通过标签寻找
+	var problemIds []struct {
+		ProblemId uuid.UUID `json:"problem_id"` // 题目外键
+	}
+
+	// TODO 进行标签匹配
+	p.DB.Distinct("problem_id").Where("label in (?)", requestLabels.Labels).Model(model.ProblemLabel{}).Find(&problemIds)
+
+	// TODO 查找对应题目
+	var problems []model.Problem
+
+	// TODO 模糊匹配
+	p.DB.Where("id in (?) and match(title,discription,res_long,res_short) against(? in boolean mode)", problemIds, text+"*").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problems)
+
+	// TODO 查看查询总数
+	var total int64
+	p.DB.Where("id in (?) and match(title,discription,res_long,res_short) against(? in boolean mode)", problemIds, text+"*").Model(model.Problem{}).Count(&total)
+
+	// TODO 返回数据
+	response.Success(ctx, gin.H{"problems": problems, "total": total}, "成功")
 }
 
 // @title    NewProblemController

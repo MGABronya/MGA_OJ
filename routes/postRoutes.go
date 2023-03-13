@@ -99,5 +99,14 @@ func PostRoutes(r *gin.Engine) *gin.Engine {
 	// TODO 查看题解标签
 	postRoutes.GET("/label/:id", postController.LabelShow)
 
+	// TODO 按文本搜索题解
+	postRoutes.GET("/search/:id/:text", postController.Search)
+
+	// TODO 按标签搜索题解
+	postRoutes.GET("/search/label/:id", postController.SearchLabel)
+
+	// TODO 按文本和标签交集搜索题解
+	postRoutes.GET("/search/with/label/:id/:text", postController.SearchWithLabel)
+
 	return r
 }

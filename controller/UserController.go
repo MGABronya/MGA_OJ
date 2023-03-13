@@ -31,6 +31,7 @@ import (
 // IUserController			定义了用户类接口
 type IUserController interface {
 	Interface.LabelInterface         // 包含标签功能
+	Interface.SearchInterface        // 包含搜索功能
 	Register(ctx *gin.Context)       // 注册
 	Login(ctx *gin.Context)          // 登录
 	VerifyEmail(ctx *gin.Context)    // 验证码
@@ -614,6 +615,118 @@ leap:
 
 	// TODO 成功
 	response.Success(ctx, gin.H{"userLabels": userLabels}, "查看成功")
+}
+
+// @title    Search
+// @description   文本搜索
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (u UserController) Search(ctx *gin.Context) {
+	// TODO 获取文本
+	text := ctx.Params.ByName("text")
+
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
+
+	var users []model.User
+
+	// TODO 模糊匹配
+	u.DB.Where("match(name) against(? in boolean mode)", text+"*").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&users)
+
+	// TODO 查看查询总数
+	var total int64
+	u.DB.Where("match(name) against(? in boolean mode)", text+"*").Model(model.User{}).Count(&total)
+
+	// TODO 返回数据
+	response.Success(ctx, gin.H{"users": users, "total": total}, "成功")
+}
+
+// @title    SearchLabel
+// @description   指定标签的搜索
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (u UserController) SearchLabel(ctx *gin.Context) {
+
+	var requestLabels vo.LabelsRequest
+
+	// TODO 获取标签
+	if err := ctx.ShouldBind(&requestLabels); err != nil {
+		log.Print(err.Error())
+		response.Fail(ctx, nil, "数据验证错误")
+		return
+	}
+
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
+
+	// TODO 通过标签寻找
+	var userIds []struct {
+		UserId uuid.UUID `json:"user_id"` // 题目外键
+	}
+
+	// TODO 进行标签匹配
+	u.DB.Distinct("user_id").Where("label in (?)", requestLabels.Labels).Model(model.UserLabel{}).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&userIds)
+
+	// TODO 查看查询总数
+	var total int64
+	u.DB.Distinct("user_id").Where("label in (?)", requestLabels.Labels).Model(model.UserLabel{}).Count(&total)
+
+	// TODO 查找对应用户
+	var users []model.User
+
+	u.DB.Where("id in (?)", userIds).Find(&users)
+
+	// TODO 返回数据
+	response.Success(ctx, gin.H{"users": users, "total": total}, "成功")
+}
+
+// @title    SearchWithLabel
+// @description   指定标签与文本的搜索
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (u UserController) SearchWithLabel(ctx *gin.Context) {
+
+	// TODO 获取文本
+	text := ctx.Params.ByName("text")
+
+	var requestLabels vo.LabelsRequest
+
+	// TODO 获取标签
+	if err := ctx.ShouldBind(&requestLabels); err != nil {
+		log.Print(err.Error())
+		response.Fail(ctx, nil, "数据验证错误")
+		return
+	}
+
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
+
+	// TODO 通过标签寻找
+	var userIds []struct {
+		UserId uuid.UUID `json:"user_id"` // 题目外键
+	}
+
+	// TODO 进行标签匹配
+	u.DB.Distinct("user_id").Where("label in (?)", requestLabels.Labels).Model(model.UserLabel{}).Find(&userIds)
+
+	// TODO 查找对应用户
+	var users []model.User
+
+	// TODO 模糊匹配
+	u.DB.Where("id in (?) and match(name) against(? in boolean mode)", userIds, text+"*").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&users)
+
+	// TODO 查看查询总数
+	var total int64
+	u.DB.Where("id in (?) and match(name) against(? in boolean mode)", userIds, text+"*").Model(model.User{}).Count(&total)
+
+	// TODO 返回数据
+	response.Success(ctx, gin.H{"users": users, "total": total}, "成功")
 }
 
 // @title    NewUserController

@@ -16,6 +16,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v9"
+	uuid "github.com/satori/go.uuid"
 	"gorm.io/gorm"
 )
 
@@ -26,6 +27,7 @@ type IPostController interface {
 	Interface.CollectInterface // 包含收藏功能
 	Interface.VisitInterface   // 包含游览功能
 	Interface.LabelInterface   // 包含标签功能
+	Interface.SearchInterface  // 包含搜索功能
 	UserList(ctx *gin.Context) // 查看指定用户的题解
 }
 
@@ -906,6 +908,127 @@ leap:
 
 	// TODO 成功
 	response.Success(ctx, gin.H{"postLabels": postLabels}, "查看成功")
+}
+
+// @title    Search
+// @description   文本搜索
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (p PostController) Search(ctx *gin.Context) {
+	// TODO 获取题目id
+	id := ctx.Params.ByName("id")
+
+	// TODO 获取文本
+	text := ctx.Params.ByName("text")
+
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
+
+	var posts []model.Post
+
+	// TODO 模糊匹配
+	p.DB.Where("problem_id = ? and match(title,content,res_long,res_short) against(? in boolean mode)", id, text+"*").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&posts)
+
+	// TODO 查看查询总数
+	var total int64
+	p.DB.Where("problem_id = ? and match(title,content,res_long,res_short) against(? in boolean mode)", id, text+"*").Model(model.Post{}).Count(&total)
+
+	// TODO 返回数据
+	response.Success(ctx, gin.H{"posts": posts, "total": total}, "成功")
+}
+
+// @title    SearchLabel
+// @description   指定标签的搜索
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (p PostController) SearchLabel(ctx *gin.Context) {
+
+	// TODO 获取题目id
+	id := ctx.Params.ByName("id")
+
+	var requestLabels vo.LabelsRequest
+
+	// TODO 获取标签
+	if err := ctx.ShouldBind(&requestLabels); err != nil {
+		log.Print(err.Error())
+		response.Fail(ctx, nil, "数据验证错误")
+		return
+	}
+
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
+
+	// TODO 通过标签寻找
+	var postIds []struct {
+		PostId uuid.UUID `json:"post_id"` // 题解外键
+	}
+
+	// TODO 进行标签匹配
+	p.DB.Distinct("post_id").Where("label in (?)", requestLabels.Labels).Model(model.PostLabel{}).Find(&postIds)
+
+	// TODO 查找对应题解
+	var posts []model.Post
+
+	p.DB.Where("problem_id = ? and id in (?)", id, postIds).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&posts)
+
+	// TODO 查看查询总数
+	var total int64
+	p.DB.Where("problem_id = ? and id in (?)", id, postIds).Model(model.Post{}).Count(&total)
+
+	// TODO 返回数据
+	response.Success(ctx, gin.H{"posts": posts, "total": total}, "成功")
+}
+
+// @title    SearchWithLabel
+// @description   指定标签与文本的搜索
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (p PostController) SearchWithLabel(ctx *gin.Context) {
+
+	// TODO 获取题目id
+	id := ctx.Params.ByName("id")
+
+	// TODO 获取文本
+	text := ctx.Params.ByName("text")
+
+	var requestLabels vo.LabelsRequest
+
+	// TODO 获取标签
+	if err := ctx.ShouldBind(&requestLabels); err != nil {
+		log.Print(err.Error())
+		response.Fail(ctx, nil, "数据验证错误")
+		return
+	}
+
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
+
+	// TODO 通过标签寻找
+	var postIds []struct {
+		PostId uuid.UUID `json:"post_id"` // 题解外键
+	}
+
+	// TODO 进行标签匹配
+	p.DB.Distinct("post_id").Where("label in (?)", requestLabels.Labels).Model(model.PostLabel{}).Find(&postIds)
+
+	// TODO 查找对应题解
+	var posts []model.Post
+
+	// TODO 模糊匹配
+	p.DB.Where("problem_id = ? and id in (?) and match(title,content,res_long,res_short) against(? in boolean mode)", id, postIds, text+"*").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&posts)
+
+	// TODO 查看查询总数
+	var total int64
+	p.DB.Where("problem_id = ? and id in (?) and match(title,content,res_long,res_short) against(? in boolean mode)", id, postIds, text+"*").Model(model.Post{}).Count(&total)
+
+	// TODO 返回数据
+	response.Success(ctx, gin.H{"posts": posts, "total": total}, "成功")
 }
 
 // @title    NewPostController

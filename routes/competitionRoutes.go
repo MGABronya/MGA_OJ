@@ -48,14 +48,5 @@ func CompetitionRoutes(r *gin.Engine) *gin.Engine {
 	// TODO 查看竞赛排行
 	competitionRoutes.GET("/rank/list/:id", competitionController.RankList)
 
-	// TODO 创建竞赛标签
-	competitionRoutes.POST("/label/:id/:label", middleware.AuthMiddleware(), competitionController.LabelCreate)
-
-	// TODO 删除竞赛标签
-	competitionRoutes.DELETE("/label/:id/:label", middleware.AuthMiddleware(), competitionController.LabelDelete)
-
-	// TODO 查看竞赛标签
-	competitionRoutes.GET("/label/:id", competitionController.LabelShow)
-
 	return r
 }

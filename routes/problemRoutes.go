@@ -102,5 +102,14 @@ func ProblemRoutes(r *gin.Engine) *gin.Engine {
 	// TODO 查看题目标签
 	problemRoutes.GET("/label/:id", problemController.LabelShow)
 
+	// TODO 按文本搜索题目
+	problemRoutes.GET("/search/:text", problemController.Search)
+
+	// TODO 按标签搜索题目
+	problemRoutes.GET("/search/label", problemController.SearchLabel)
+
+	// TODO 按文本和标签交集搜索题目
+	problemRoutes.GET("/search/with/label/:text", problemController.SearchWithLabel)
+
 	return r
 }

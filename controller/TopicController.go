@@ -17,6 +17,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v9"
+	uuid "github.com/satori/go.uuid"
 	"gorm.io/gorm"
 )
 
@@ -27,6 +28,7 @@ type ITopicController interface {
 	Interface.CollectInterface    // 包含收藏功能
 	Interface.VisitInterface      // 包含游览功能
 	Interface.LabelInterface      // 包含标签功能
+	Interface.SearchInterface     // 包含搜索功能
 	UserList(ctx *gin.Context)    // 查看用户的主题
 	ProblemList(ctx *gin.Context) // 查看主题的题目列表
 }
@@ -987,6 +989,118 @@ leap:
 
 	// TODO 成功
 	response.Success(ctx, gin.H{"topicLabels": topicLabels}, "查看成功")
+}
+
+// @title    Search
+// @description   文本搜索
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (t TopicController) Search(ctx *gin.Context) {
+	// TODO 获取文本
+	text := ctx.Params.ByName("text")
+
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
+
+	var topics []model.Topic
+
+	// TODO 模糊匹配
+	t.DB.Where("match(title,content,res_long,res_short) against(? in boolean mode)", text+"*").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&topics)
+
+	// TODO 查看查询总数
+	var total int64
+	t.DB.Where("match(title,content,res_long,res_short) against(? in boolean mode)", text+"*").Model(model.Topic{}).Count(&total)
+
+	// TODO 返回数据
+	response.Success(ctx, gin.H{"topics": topics, "total": total}, "成功")
+}
+
+// @title    SearchLabel
+// @description   指定标签的搜索
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (t TopicController) SearchLabel(ctx *gin.Context) {
+
+	var requestLabels vo.LabelsRequest
+
+	// TODO 获取标签
+	if err := ctx.ShouldBind(&requestLabels); err != nil {
+		log.Print(err.Error())
+		response.Fail(ctx, nil, "数据验证错误")
+		return
+	}
+
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
+
+	// TODO 通过标签寻找
+	var topicIds []struct {
+		TopicId uuid.UUID `json:"topic_id"` // 题目外键
+	}
+
+	// TODO 进行标签匹配
+	t.DB.Distinct("topic_id").Where("label in (?)", requestLabels.Labels).Model(model.TopicLabel{}).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&topicIds)
+
+	// TODO 查看查询总数
+	var total int64
+	t.DB.Distinct("topic_id").Where("label in (?)", requestLabels.Labels).Model(model.TopicLabel{}).Count(&total)
+
+	// TODO 查找对应主题
+	var topics []model.Topic
+
+	t.DB.Where("id in (?)", topicIds).Find(&topics)
+
+	// TODO 返回数据
+	response.Success(ctx, gin.H{"topics": topics, "total": total}, "成功")
+}
+
+// @title    SearchWithLabel
+// @description   指定标签与文本的搜索
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (t TopicController) SearchWithLabel(ctx *gin.Context) {
+
+	// TODO 获取文本
+	text := ctx.Params.ByName("text")
+
+	var requestLabels vo.LabelsRequest
+
+	// TODO 获取标签
+	if err := ctx.ShouldBind(&requestLabels); err != nil {
+		log.Print(err.Error())
+		response.Fail(ctx, nil, "数据验证错误")
+		return
+	}
+
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
+
+	// TODO 通过标签寻找
+	var topicIds []struct {
+		TopicId uuid.UUID `json:"topic_id"` // 题目外键
+	}
+
+	// TODO 进行标签匹配
+	t.DB.Distinct("topic_id").Where("label in (?)", requestLabels.Labels).Model(model.TopicLabel{}).Find(&topicIds)
+
+	// TODO 查找对应主题
+	var topics []model.Topic
+
+	// TODO 模糊匹配
+	t.DB.Where("id in (?) and match(title,content,res_long,res_short) against(? in boolean mode)", topicIds, text+"*").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&topics)
+
+	// TODO 查看查询总数
+	var total int64
+	t.DB.Where("id in (?) and match(title,content,res_long,res_short) against(? in boolean mode)", topicIds, text+"*").Model(model.Topic{}).Count(&total)
+
+	// TODO 返回数据
+	response.Success(ctx, gin.H{"topics": topics, "total": total}, "成功")
 }
 
 // @title    NewTopicController

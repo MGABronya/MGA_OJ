@@ -102,5 +102,14 @@ func ArticleRoutes(r *gin.Engine) *gin.Engine {
 	// TODO 查看文章标签
 	articleRoutes.GET("/label/:id", articleController.LabelShow)
 
+	// TODO 按文本搜索文章
+	articleRoutes.GET("/search/:text", articleController.Search)
+
+	// TODO 按标签搜索文章
+	articleRoutes.GET("/search/label", articleController.SearchLabel)
+
+	// TODO 按文本和标签交集搜索文章
+	articleRoutes.GET("/search/with/label/:text", articleController.SearchWithLabel)
+
 	return r
 }

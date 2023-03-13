@@ -28,6 +28,7 @@ type IGroupController interface {
 	Interface.LikeInterface      // 包含点赞功能
 	Interface.CollectInterface   // 包含收藏功能
 	Interface.LabelInterface     // 包含标签功能
+	Interface.SearchInterface    // 包含搜索功能
 	LeaderList(ctx *gin.Context) // 查询指定用户领导的用户组
 	MemberList(ctx *gin.Context) // 查询指定用户参加的用户组
 	UserList(ctx *gin.Context)   // 查询指定用户组的用户列表
@@ -1383,6 +1384,118 @@ leap:
 
 	// TODO 成功
 	response.Success(ctx, gin.H{"groupLabels": groupLabels}, "查看成功")
+}
+
+// @title    Search
+// @description   文本搜索
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (g GroupController) Search(ctx *gin.Context) {
+	// TODO 获取文本
+	text := ctx.Params.ByName("text")
+
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
+
+	var groups []model.Group
+
+	// TODO 模糊匹配
+	g.DB.Where("match(title,content,res_long,res_short) against(? in boolean mode)", text+"*").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groups)
+
+	// TODO 查看查询总数
+	var total int64
+	g.DB.Where("match(title,content,res_long,res_short) against(? in boolean mode)", text+"*").Model(model.Group{}).Count(&total)
+
+	// TODO 返回数据
+	response.Success(ctx, gin.H{"groups": groups, "total": total}, "成功")
+}
+
+// @title    SearchLabel
+// @description   指定标签的搜索
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (g GroupController) SearchLabel(ctx *gin.Context) {
+
+	var requestLabels vo.LabelsRequest
+
+	// TODO 获取标签
+	if err := ctx.ShouldBind(&requestLabels); err != nil {
+		log.Print(err.Error())
+		response.Fail(ctx, nil, "数据验证错误")
+		return
+	}
+
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
+
+	// TODO 通过标签寻找
+	var groupIds []struct {
+		GroupId uuid.UUID `json:"group_id"` // 用户组外键
+	}
+
+	// TODO 进行标签匹配
+	g.DB.Distinct("group_id").Where("label in (?)", requestLabels.Labels).Model(model.GroupLabel{}).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groupIds)
+
+	// TODO 查看查询总数
+	var total int64
+	g.DB.Distinct("group_id").Where("label in (?)", requestLabels.Labels).Model(model.GroupLabel{}).Count(&total)
+
+	// TODO 查找对应用户组
+	var groups []model.Group
+
+	g.DB.Where("id in (?)", groupIds).Find(&groups)
+
+	// TODO 返回数据
+	response.Success(ctx, gin.H{"groups": groups, "total": total}, "成功")
+}
+
+// @title    SearchWithLabel
+// @description   指定标签与文本的搜索
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (g GroupController) SearchWithLabel(ctx *gin.Context) {
+
+	// TODO 获取文本
+	text := ctx.Params.ByName("text")
+
+	var requestLabels vo.LabelsRequest
+
+	// TODO 获取标签
+	if err := ctx.ShouldBind(&requestLabels); err != nil {
+		log.Print(err.Error())
+		response.Fail(ctx, nil, "数据验证错误")
+		return
+	}
+
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
+
+	// TODO 通过标签寻找
+	var groupIds []struct {
+		GroupId uuid.UUID `json:"group_id"` // 用户组外键
+	}
+
+	// TODO 进行标签匹配
+	g.DB.Distinct("group_id").Where("label in (?)", requestLabels.Labels).Model(model.GroupLabel{}).Find(&groupIds)
+
+	// TODO 查找对应用户组
+	var groups []model.Group
+
+	// TODO 模糊匹配
+	g.DB.Where("id in (?) and match(title,content,res_long,res_short) against(? in boolean mode)", groupIds, text+"*").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groups)
+
+	// TODO 查看查询总数
+	var total int64
+	g.DB.Where("id in (?) and match(title,content,res_long,res_short) against(? in boolean mode)", groupIds, text+"*").Model(model.Group{}).Count(&total)
+
+	// TODO 返回数据
+	response.Success(ctx, gin.H{"groups": groups, "total": total}, "成功")
 }
 
 // @title    NewGroupController

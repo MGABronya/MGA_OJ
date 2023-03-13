@@ -84,5 +84,14 @@ func GroupRoutes(r *gin.Engine) *gin.Engine {
 	// TODO 查看用户组标签
 	groupRoutes.GET("/label/:id", groupController.LabelShow)
 
+	// TODO 按文本搜索用户组
+	groupRoutes.GET("/search/:text", groupController.Search)
+
+	// TODO 按标签搜索用户组
+	groupRoutes.GET("/search/label", groupController.SearchLabel)
+
+	// TODO 按文本和标签交集搜索用户组
+	groupRoutes.GET("/search/with/label/:text", groupController.SearchWithLabel)
+
 	return r
 }

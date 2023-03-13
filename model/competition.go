@@ -45,8 +45,5 @@ func (c *Competition) BeforDelete(tx *gorm.DB) (err error) {
 	// TODO 删除比赛排名
 	tx.Delete(&CompetitionRank{})
 
-	// TODO 删除比赛标签
-	tx.Delete(&CompetitionLabel{})
-
 	return
 }

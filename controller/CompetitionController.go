@@ -26,7 +26,6 @@ import (
 // ICompetitionController			定义了比赛类接口
 type ICompetitionController interface {
 	Interface.RestInterface      // 包含增删查改功能
-	Interface.LabelInterface     // 包含标签功能
 	RankList(ctx *gin.Context)   // 获取比赛排名情况
 	RankMember(ctx *gin.Context) // 获取某用户的排名情况
 	MemberShow(ctx *gin.Context) // 获取某成员每道题的罚时情况
@@ -381,172 +380,6 @@ func (c CompetitionController) MemberShow(ctx *gin.Context) {
 	}
 }
 
-// @title    LabelCreate
-// @description   标签创建
-// @auth      MGAronya（张健）       2022-9-16 12:20
-// @param    ctx *gin.Context       接收一个上下文
-// @return   void
-func (c CompetitionController) LabelCreate(ctx *gin.Context) {
-	// TODO 获取指定竞赛
-	id := ctx.Params.ByName("id")
-
-	// TODO 获取标签
-	label := ctx.Params.ByName("label")
-
-	// TODO 获取登录用户
-	tuser, _ := ctx.Get("user")
-	user := tuser.(model.User)
-
-	// TODO 查看竞赛是否存在
-	var competition model.Competition
-
-	// TODO 先尝试在redis中寻找
-	if ok, _ := c.Redis.HExists(ctx, "Competition", id).Result(); ok {
-		art, _ := c.Redis.HGet(ctx, "Competition", id).Result()
-		if json.Unmarshal([]byte(art), &competition) == nil {
-			goto leep
-		} else {
-			// TODO 解码失败，删除字段
-			c.Redis.HDel(ctx, "Competition", id)
-		}
-	}
-
-	// TODO 查看竞赛是否在数据库中存在
-	if c.DB.Where("id = ?", id).First(&competition).Error != nil {
-		response.Fail(ctx, nil, "竞赛不存在")
-		return
-	}
-	{
-		// TODO 将竞赛存入redis供下次使用
-		v, _ := json.Marshal(competition)
-		c.Redis.HSet(ctx, "Competition", id, v)
-	}
-leep:
-
-	// TODO 查看是否为竞赛作者
-	if competition.UserId != user.ID {
-		response.Fail(ctx, nil, "不是竞赛作者，请勿非法操作")
-		return
-	}
-
-	// TODO 创建标签
-	competitionLabel := model.CompetitionLabel{
-		Label:         label,
-		CompetitionId: competition.ID,
-	}
-
-	// TODO 插入数据
-	if err := c.DB.Create(&competitionLabel).Error; err != nil {
-		response.Fail(ctx, nil, "竞赛标签上传出错，数据验证有误")
-		return
-	}
-
-	// TODO 解码失败，删除字段
-	c.Redis.HDel(ctx, "CompetitionLabel", id)
-
-	// TODO 成功
-	response.Success(ctx, nil, "创建成功")
-}
-
-// @title    LabelDelete
-// @description   标签删除
-// @auth      MGAronya（张健）       2022-9-16 12:20
-// @param    ctx *gin.Context       接收一个上下文
-// @return   void
-func (c CompetitionController) LabelDelete(ctx *gin.Context) {
-	// TODO 获取指定竞赛
-	id := ctx.Params.ByName("id")
-
-	// TODO 获取标签
-	label := ctx.Params.ByName("label")
-
-	// TODO 获取登录用户
-	tuser, _ := ctx.Get("user")
-	user := tuser.(model.User)
-
-	// TODO 查看竞赛是否存在
-	var competition model.Competition
-
-	// TODO 先尝试在redis中寻找
-	if ok, _ := c.Redis.HExists(ctx, "Competition", id).Result(); ok {
-		art, _ := c.Redis.HGet(ctx, "Competition", id).Result()
-		if json.Unmarshal([]byte(art), &competition) == nil {
-			goto leep
-		} else {
-			// TODO 解码失败，删除字段
-			c.Redis.HDel(ctx, "Competition", id)
-		}
-	}
-
-	// TODO 查看竞赛是否在数据库中存在
-	if c.DB.Where("id = ?", id).First(&competition).Error != nil {
-		response.Fail(ctx, nil, "竞赛不存在")
-		return
-	}
-	{
-		// TODO 将竞赛存入redis供下次使用
-		v, _ := json.Marshal(competition)
-		c.Redis.HSet(ctx, "Competition", id, v)
-	}
-leep:
-
-	// TODO 查看是否为竞赛作者
-	if competition.UserId != user.ID {
-		response.Fail(ctx, nil, "不是竞赛作者，请勿非法操作")
-		return
-	}
-
-	// TODO 删除竞赛标签
-	if c.DB.Where("id = ?", label).First(&model.CompetitionLabel{}).Error != nil {
-		response.Fail(ctx, nil, "标签不存在")
-		return
-	}
-
-	c.DB.Where("id = ?", label).Delete(&model.CompetitionLabel{})
-
-	// TODO 解码失败，删除字段
-	c.Redis.HDel(ctx, "CompetitionLabel", id)
-
-	// TODO 成功
-	response.Success(ctx, nil, "删除成功")
-}
-
-// @title    LabelShow
-// @description   标签查看
-// @auth      MGAronya（张健）       2022-9-16 12:20
-// @param    ctx *gin.Context       接收一个上下文
-// @return   void
-func (c CompetitionController) LabelShow(ctx *gin.Context) {
-	// TODO 获取指定竞赛
-	id := ctx.Params.ByName("id")
-
-	// TODO 查找数据
-	var competitionLabels []model.CompetitionLabel
-	// TODO 先尝试在redis中寻找
-	if ok, _ := c.Redis.HExists(ctx, "CompetitionLabel", id).Result(); ok {
-		art, _ := c.Redis.HGet(ctx, "CompetitionLabel", id).Result()
-		if json.Unmarshal([]byte(art), &competitionLabels) == nil {
-			goto leap
-		} else {
-			// TODO 解码失败，删除字段
-			c.Redis.HDel(ctx, "CompetitionLabel", id)
-		}
-	}
-
-	// TODO 在数据库中查找
-	c.DB.Where("competition_id = ?", id).Find(&competitionLabels)
-	{
-		// TODO 将竞赛标签存入redis供下次使用
-		v, _ := json.Marshal(competitionLabels)
-		c.Redis.HSet(ctx, "CompetitionLabel", id, v)
-	}
-
-leap:
-
-	// TODO 成功
-	response.Success(ctx, gin.H{"competitionLabels": competitionLabels}, "查看成功")
-}
-
 // @title    NewCompetitionController
 // @description   新建一个ICompetitionController
 // @auth      MGAronya（张健）       2022-9-16 12:23
@@ -558,7 +391,6 @@ func NewCompetitionController() ICompetitionController {
 	db.AutoMigrate(model.Competition{})
 	db.AutoMigrate(model.CompetitionRank{})
 	db.AutoMigrate(model.CompetitionMember{})
-	db.AutoMigrate(model.CompetitionLabel{})
 	return CompetitionController{DB: db, Redis: redis}
 }
 

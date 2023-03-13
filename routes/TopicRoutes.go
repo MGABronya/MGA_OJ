@@ -102,5 +102,14 @@ func TopicRoutes(r *gin.Engine) *gin.Engine {
 	// TODO 查看主题标签
 	topicRoutes.GET("/label/:id", topicController.LabelShow)
 
+	// TODO 按文本搜索主题
+	topicRoutes.GET("/search/:text", topicController.Search)
+
+	// TODO 按标签搜索主题
+	topicRoutes.GET("/search/label", topicController.SearchLabel)
+
+	// TODO 按文本和标签交集搜索主题
+	topicRoutes.GET("/search/with/label/:text", topicController.SearchWithLabel)
+
 	return r
 }

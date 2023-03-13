@@ -15,6 +15,7 @@ import (
 	"strconv"
 
 	"github.com/go-redis/redis/v9"
+	uuid "github.com/satori/go.uuid"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -26,6 +27,7 @@ type IArticleController interface {
 	Interface.LikeInterface        // 包含点赞功能
 	Interface.CollectInterface     // 包含收藏功能
 	Interface.VisitInterface       // 包含游览功能
+	Interface.SearchInterface      // 包含搜索功能
 	UserList(ctx *gin.Context)     // 查询指定用户的文章
 	CategoryList(ctx *gin.Context) // 查询某分类的文章
 	Interface.LabelInterface       // 包含标签功能
@@ -898,6 +900,118 @@ leap:
 
 	// TODO 成功
 	response.Success(ctx, gin.H{"articleLabels": articleLabels}, "查看成功")
+}
+
+// @title    Search
+// @description   文本搜索
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (a ArticleController) Search(ctx *gin.Context) {
+	// TODO 获取文本
+	text := ctx.Params.ByName("text")
+
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
+
+	var articles []model.Article
+
+	// TODO 模糊匹配
+	a.DB.Where("match(title,content,res_long,res_short) against(? in boolean mode)", text+"*").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&articles)
+
+	// TODO 查看查询总数
+	var total int64
+	a.DB.Where("match(title,content,res_long,res_short) against(? in boolean mode)", text+"*").Model(model.Article{}).Count(&total)
+
+	// TODO 返回数据
+	response.Success(ctx, gin.H{"articles": articles, "total": total}, "成功")
+}
+
+// @title    SearchLabel
+// @description   指定标签的搜索
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (a ArticleController) SearchLabel(ctx *gin.Context) {
+
+	var requestLabels vo.LabelsRequest
+
+	// TODO 获取标签
+	if err := ctx.ShouldBind(&requestLabels); err != nil {
+		log.Print(err.Error())
+		response.Fail(ctx, nil, "数据验证错误")
+		return
+	}
+
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
+
+	// TODO 通过标签寻找
+	var articleIds []struct {
+		ArticleId uuid.UUID `json:"article_id"` // 文章外键
+	}
+
+	// TODO 进行标签匹配
+	a.DB.Distinct("article_id").Where("label in (?)", requestLabels.Labels).Model(model.ArticleLabel{}).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&articleIds)
+
+	// TODO 查看查询总数
+	var total int64
+	a.DB.Distinct("article_id").Where("label in (?)", requestLabels.Labels).Model(model.ArticleLabel{}).Count(&total)
+
+	// TODO 查找对应文章
+	var articles []model.Article
+
+	a.DB.Where("id in (?)", articleIds).Find(&articles)
+
+	// TODO 返回数据
+	response.Success(ctx, gin.H{"articles": articles, "total": total}, "成功")
+}
+
+// @title    SearchWithLabel
+// @description   指定标签与文本的搜索
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (a ArticleController) SearchWithLabel(ctx *gin.Context) {
+
+	// TODO 获取文本
+	text := ctx.Params.ByName("text")
+
+	var requestLabels vo.LabelsRequest
+
+	// TODO 获取标签
+	if err := ctx.ShouldBind(&requestLabels); err != nil {
+		log.Print(err.Error())
+		response.Fail(ctx, nil, "数据验证错误")
+		return
+	}
+
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
+
+	// TODO 通过标签寻找
+	var articleIds []struct {
+		ArticleId uuid.UUID `json:"article_id"` // 文章外键
+	}
+
+	// TODO 进行标签匹配
+	a.DB.Distinct("article_id").Where("label in (?)", requestLabels.Labels).Model(model.ArticleLabel{}).Find(&articleIds)
+
+	// TODO 查找对应文章
+	var articles []model.Article
+
+	// TODO 模糊匹配
+	a.DB.Where("id in (?) and match(title,content,res_long,res_short) against(? in boolean mode)", articleIds, text+"*").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&articles)
+
+	// TODO 查看查询总数
+	var total int64
+	a.DB.Where("id in (?) and match(title,content,res_long,res_short) against(? in boolean mode)", articleIds, text+"*").Model(model.Article{}).Count(&total)
+
+	// TODO 返回数据
+	response.Success(ctx, gin.H{"articles": articles, "total": total}, "成功")
 }
 
 // @title    NewArticleController

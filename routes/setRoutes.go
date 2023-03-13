@@ -138,5 +138,14 @@ func SetRoutes(r *gin.Engine) *gin.Engine {
 	// TODO 查看表单标签
 	setRoutes.GET("/label/:id", setController.LabelShow)
 
+	// TODO 按文本搜索表单
+	setRoutes.GET("/search/:text", setController.Search)
+
+	// TODO 按标签搜索表单
+	setRoutes.GET("/search/label", setController.SearchLabel)
+
+	// TODO 按文本和标签交集搜索表单
+	setRoutes.GET("/search/with/label/:text", setController.SearchWithLabel)
+
 	return r
 }
