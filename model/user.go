@@ -34,17 +34,3 @@ func (user *User) BeforeCreate(scope *gorm.DB) error {
 	user.ID = uuid.NewV4()
 	return nil
 }
-
-// TODO 实现按竞赛分数降序排序
-type  OrderByScoreAsc []User
-
-func (s OrderByScoreAsc) Len() int {
-	return len(s)
-}
-
-func (str OrderByScoreAsc) Swap(i, j int) {
-	str[i], str[j] = str[j], str[i]
-}
-func (s OrderByScoreAsc) Less(i, j int) bool {
-	return s[i].Score < s[j].Score
-}

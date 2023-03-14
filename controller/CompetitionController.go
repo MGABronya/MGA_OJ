@@ -431,7 +431,7 @@ leap:
 
 	// TODO 整理比赛结果
 	competitionMemberMap, _ := redis.HGetAll(ctx, "Competition"+competition.ID.String()).Result()
-	competitionRankrs, _ := redis.ZRangeWithScores(ctx, "Competition"+competition.ID.String(), 0, -1).Result()
+	competitionRankrs, _ := redis.ZRevRangeWithScores(ctx, "Competition"+competition.ID.String(), 0, -1).Result()
 
 	// TODO 将具体罚时信息全部读出并存入数据库
 	for i := range competitionMemberMap {
@@ -450,36 +450,123 @@ leap:
 		}
 		db.Create(&competitionRank)
 	}
-	// TODO 处理用户分数
-	var users []model.User
 
 	// TODO 用户分数总和
 	var sum float64
 
-	// TODO 按序取出所有用户
-	for i := range competitionRankrs {
-		id := competitionRankrs[i].Member.(uuid.UUID)
-		var user model.User
-		db.Where("id = ?", id).First(&user)
-		users = append(users, user)
-		sum += user.Score
-	}
+	// TODO 记录分数
+	var scores []float64
 
-	// TODO 将用户按原预期排名排序
-	sort.Sort(model.OrderByScoreAsc(users))
+	// TODO 处理用户分数
+	if competition.Type == "Single" {
 
-	// TODO 遍历比赛结果，计算每个用户的预期排名差
-	for i := range competitionRankrs {
-		id := competitionRankrs[i].Member.(uuid.UUID)
-		for j := range users {
-			if users[j].ID == id {
-				// TODO 计算该用户的期望排名差
-				del := j - i
+		// TODO 用户字典
+		userMap := make(map[uuid.UUID]model.User)
+
+		// TODO 按序取出所有用户
+		for i := range competitionRankrs {
+			id := competitionRankrs[i].Member.(uuid.UUID)
+			var user model.User
+			db.Where("id = ?", id).First(&user)
+			// TODO 存入字典
+			userMap[user.ID] = user
+			// TODO 统计分数
+			scores = append(scores, user.Score)
+			sum += user.Score
+		}
+
+		// TODO 将用户按原预期排名排序
+		sort.Sort(sort.Float64Slice(scores))
+
+		// TODO 遍历比赛结果，计算每个用户的预期排名差
+		for i := range competitionRankrs {
+			id := competitionRankrs[i].Member.(uuid.UUID)
+			// TODO 二分查找实际排名
+			j := sort.Search(len(scores), func(i int) bool {
+				return scores[i] <= userMap[id].Score
+			})
+			// TODO 计算该用户的期望排名差
+			del := j - i
+			// TODO 查看该用户的参赛次数
+			var fre int64
+			db.Where("user_id = ?", id).Model(model.UserScoreChange{}).Count(&fre)
+			// TODO 查看本次比赛人数
+			total := len(scores)
+			// TODO 带入公式计算分数变化
+			scoreChange := util.ScoreChange(float64(fre), sum, float64(del), float64(total))
+
+			// TODO 将分数变化存入数据库
+			userScoreChange := model.UserScoreChange{
+				ScoreChange:   scoreChange,
+				CompetitionId: competition.ID,
+				UserId:        id,
+			}
+			db.Create(&userScoreChange)
+
+			// TODO 将用户信息更新存入数据库
+			var user model.User
+			user = userMap[id]
+			user.Score += scoreChange
+			db.Save(&user)
+			break
+		}
+	} else {
+		groupMap := make(map[uuid.UUID]struct {
+			group model.Group
+			score float64
+		})
+
+		// TODO 用于记录每组的成员
+		groupMembers := make(map[uuid.UUID][]model.User)
+
+		// TODO 依次找出每一个用户
+		for i := range competitionRankrs {
+			id := competitionRankrs[i].Member.(uuid.UUID)
+			// TODO 按序取出所有用户组
+			var group model.Group
+			db.Where("id = ?", id).First(&group)
+			// TODO 取出用户
+			var userLists []model.UserList
+			db.Where("group_id = ?", id).Find(&userLists)
+			// TODO 初始化对应成员组别字典
+			groupMembers[id] = make([]model.User, 0)
+			// TODO 初始化用户组分数
+			scores = append(scores, 0)
+			for j := range userLists {
+				var user model.User
+				db.Where("id = ?", userLists[j].UserId).First(&user)
+				groupMembers[id] = append(groupMembers[id], user)
+				scores[i] += user.Score
+			}
+			// TODO 计算该组的平均分
+			scores[i] /= float64(len(userLists))
+			// TODO 根据组员数微调分数
+			scores[i] *= (float64(len(userLists))*0.005 + 1)
+			sum += scores[i]
+			groupMap[id] = struct {
+				group model.Group
+				score float64
+			}{group, scores[i]}
+		}
+
+		// TODO 排序求出用户组的预期排名
+		sort.Sort(sort.Float64Slice(scores))
+		// TODO 遍历比赛结果，计算每个用户的预期排名差
+		for i := range competitionRankrs {
+			id := competitionRankrs[i].Member.(uuid.UUID)
+			// TODO 二分查找实际排名
+			j := sort.Search(len(scores), func(i int) bool {
+				return scores[i] <= groupMap[id].score
+			})
+			// TODO 计算该用户组的期望排名差
+			del := j - i
+			// TODO 枚举该用户组的所有用户
+			for k := range groupMembers[id] {
 				// TODO 查看该用户的参赛次数
 				var fre int64
-				db.Where("user_id = ?", id).Model(model.UserScoreChange{}).Count(&fre)
-				// TODO 查看本次比赛人数
-				total := len(users)
+				db.Where("user_id = ?", groupMembers[id][k].ID).Model(model.UserScoreChange{}).Count(&fre)
+				// TODO 查看本次比赛组数
+				total := len(scores)
 				// TODO 带入公式计算分数变化
 				scoreChange := util.ScoreChange(float64(fre), sum, float64(del), float64(total))
 
@@ -487,12 +574,17 @@ leap:
 				userScoreChange := model.UserScoreChange{
 					ScoreChange:   scoreChange,
 					CompetitionId: competition.ID,
-					UserId:        id,
+					UserId:        groupMembers[id][k].ID,
 				}
 				db.Create(&userScoreChange)
-				users[j].Score += scoreChange
-				db.Save(&users[j])
+
+				// TODO 将用户信息更新存入数据库
+				var user model.User
+				user = groupMembers[id][k]
+				user.Score += scoreChange
+				db.Save(&user)
 			}
+			break
 		}
 	}
 }

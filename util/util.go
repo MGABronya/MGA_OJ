@@ -228,5 +228,5 @@ func SetRedisEmail(ctx *gin.Context, email string, v string) {
 // @param    email string, v string       接收一个邮箱和一个验证码
 // @return   void
 func ScoreChange(fre float64, sum float64, del float64, total float64) float64 {
-	return (0.07/(fre+1) + 0.04) * sum * del * (math.Pow(2, 0.1*total-5)) / (math.Pow(2, 0.1*total-5) + 1) / total
+	return (0.07/(fre+1) + 0.04) * sum * (math.Pow(2, 10*del-0.5)) / (math.Pow(2, 10*del-0.5) + 1) * (math.Pow(2, 0.1*total-5)) / (math.Pow(2, 0.1*total-5) + 1) / total
 }

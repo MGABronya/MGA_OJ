@@ -667,11 +667,11 @@ func (u UserController) SearchLabel(ctx *gin.Context) {
 
 	// TODO 通过标签寻找
 	var userIds []struct {
-		UserId uuid.UUID `json:"user_id"` // 题目外键
+		UserId uuid.UUID `json:"user_id"` // 用户外键
 	}
 
 	// TODO 进行标签匹配
-	u.DB.Distinct("user_id").Where("label in (?)", requestLabels.Labels).Model(model.UserLabel{}).Limit(pageSize).Find(&userIds)
+	u.DB.Distinct("user_id").Where("label in (?)", requestLabels.Labels).Model(model.UserLabel{}).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&userIds)
 
 	// TODO 查看查询总数
 	var total int64
@@ -748,12 +748,11 @@ func (u UserController) ScoreChange(ctx *gin.Context) {
 	// TODO 查找对应用户分数变化
 	var userScoreChanges []model.UserScoreChange
 
-	// TODO 模糊匹配
 	u.DB.Where("user_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&userScoreChanges)
 
 	// TODO 查看查询总数
 	var total int64
-	u.DB.Where("id in (?) and match(name) against(? in boolean mode)", userIds, text+"*").Model(model.User{}).Count(&total)
+	u.DB.Where("user_id = ?", id).Model(model.UserScoreChange{}).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"userScoreChanges": userScoreChanges, "total": total}, "成功")
