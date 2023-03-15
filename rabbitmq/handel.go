@@ -16,8 +16,9 @@ import (
 	"runtime"
 	"time"
 
+	"github.com/go-redis/redis/v9"
+
 	uuid "github.com/satori/go.uuid"
-	"gorm.io/gorm"
 )
 
 var LanguageMap map[string]Interface.CmdInterface = map[string]Interface.CmdInterface{
@@ -26,18 +27,16 @@ var LanguageMap map[string]Interface.CmdInterface = map[string]Interface.CmdInte
 	"Java":  Handle.NewJava(),
 }
 
-var db *gorm.DB = common.GetDB()
-var ctx context.Context = context.Background()
-
-var redis *redis.Client = common.GetRedisClient(0)
-
 func Test(msg []byte) {
+	db := common.GetDB()
+	ctx := context.Background()
+	cli := common.GetRedisClient(0)
 	var record model.Record
 	// TODO 先看redis中是否存在
-	if ok, _ := redis.HExists(ctx, "Record", string(msg)).Result(); ok {
-		cate, _ := redis.HGet(ctx, "Record", string(msg)).Result()
+	if ok, _ := cli.HExists(ctx, "Record", string(msg)).Result(); ok {
+		cate, _ := cli.HGet(ctx, "Record", string(msg)).Result()
 		// TODO 移除损坏数据
-		redis.HDel(ctx, "Record", string(msg))
+		cli.HDel(ctx, "Record", string(msg))
 		if json.Unmarshal([]byte(cate), &record) == nil {
 			// TODO 跳过数据库搜寻过程
 			goto leep
@@ -61,24 +60,27 @@ leep:
 	}
 	// TODO 将提交存入redis供下次使用
 	v, _ := json.Marshal(record)
-	redis.HSet(ctx, "Record", record.ID, v)
+	cli.HSet(ctx, "Record", record.ID, v)
 }
 
 func handle(record model.Record, cmdI Interface.CmdInterface) {
+	db := common.GetDB()
+	ctx := context.Background()
+	cli := common.GetRedisClient(0)
 	// TODO 从数据库中读出输入输出
 	var testInputs []model.TestInput
 	var testOutputs []model.TestOutput
 	var problem model.Problem
 	// TODO 先看redis中是否存在
 	id := fmt.Sprint(record.ProblemId)
-	if ok, _ := redis.HExists(ctx, "Problem", id).Result(); ok {
-		cate, _ := redis.HGet(ctx, "Problem", id).Result()
+	if ok, _ := cli.HExists(ctx, "Problem", id).Result(); ok {
+		cate, _ := cli.HGet(ctx, "Problem", id).Result()
 		if json.Unmarshal([]byte(cate), &problem) == nil {
 			// TODO 跳过数据库搜寻problem过程
 			goto leep
 		} else {
 			// TODO 移除损坏数据
-			redis.HDel(ctx, "Problem", id)
+			cli.HDel(ctx, "Problem", id)
 		}
 	}
 
@@ -91,7 +93,7 @@ func handle(record model.Record, cmdI Interface.CmdInterface) {
 	// TODO 将题目存入redis供下次使用
 	{
 		v, _ := json.Marshal(problem)
-		redis.HSet(ctx, "Problem", id, v)
+		cli.HSet(ctx, "Problem", id, v)
 	}
 
 leep:
@@ -104,13 +106,13 @@ leep:
 	}
 
 	// TODO 先看redis中是否存在
-	if ok, _ := redis.HExists(ctx, "Competition", fmt.Sprint(problem.CompetitionId)).Result(); ok {
-		cate, _ := redis.HGet(ctx, "Competition", fmt.Sprint(problem.CompetitionId)).Result()
+	if ok, _ := cli.HExists(ctx, "Competition", fmt.Sprint(problem.CompetitionId)).Result(); ok {
+		cate, _ := cli.HGet(ctx, "Competition", fmt.Sprint(problem.CompetitionId)).Result()
 		if json.Unmarshal([]byte(cate), &competition) == nil {
 			goto leap
 		} else {
 			// TODO 移除损坏数据
-			redis.HDel(ctx, "Competition", fmt.Sprint(problem.CompetitionId))
+			cli.HDel(ctx, "Competition", fmt.Sprint(problem.CompetitionId))
 		}
 	}
 
@@ -122,7 +124,7 @@ leep:
 	// TODO 将竞赛存入redis供下次使用
 	{
 		v, _ := json.Marshal(competition)
-		redis.HSet(ctx, "Competition", fmt.Sprint(problem.CompetitionId), v)
+		cli.HSet(ctx, "Competition", fmt.Sprint(problem.CompetitionId), v)
 	}
 
 	// TODO 如果比赛未开始
@@ -134,14 +136,14 @@ leep:
 leap:
 
 	// TODO 查找输入
-	if ok, _ := redis.HExists(ctx, "Input", id).Result(); ok {
-		cate, _ := redis.HGet(ctx, "Input", id).Result()
+	if ok, _ := cli.HExists(ctx, "Input", id).Result(); ok {
+		cate, _ := cli.HGet(ctx, "Input", id).Result()
 		if json.Unmarshal([]byte(cate), &testInputs) == nil {
 			// TODO 跳过数据库搜寻testInputs过程
 			goto Input
 		} else {
 			// TODO 移除损坏数据
-			redis.HDel(ctx, "Input", id)
+			cli.HDel(ctx, "Input", id)
 		}
 	}
 
@@ -154,18 +156,18 @@ leap:
 	// TODO 将题目存入redis供下次使用
 	{
 		v, _ := json.Marshal(testInputs)
-		redis.HSet(ctx, "Input", id, v)
+		cli.HSet(ctx, "Input", id, v)
 	}
 Input:
 	// TODO 查找输入
-	if ok, _ := redis.HExists(ctx, "Output", id).Result(); ok {
-		cate, _ := redis.HGet(ctx, "Output", id).Result()
+	if ok, _ := cli.HExists(ctx, "Output", id).Result(); ok {
+		cate, _ := cli.HGet(ctx, "Output", id).Result()
 		if json.Unmarshal([]byte(cate), &testOutputs) == nil {
 			// TODO 跳过数据库搜寻testOutputs过程
 			goto Output
 		} else {
 			// TODO 移除损坏数据
-			redis.HDel(ctx, "Output", id)
+			cli.HDel(ctx, "Output", id)
 		}
 	}
 
@@ -178,7 +180,7 @@ Input:
 	// TODO 将题目存入redis供下次使用
 	{
 		v, _ := json.Marshal(testOutputs)
-		redis.HSet(ctx, "Output", id, v)
+		cli.HSet(ctx, "Output", id, v)
 	}
 Output:
 	fp, err := os.Create("user-code/" + fmt.Sprint(record.ID) + "." + cmdI.Suffix())
@@ -344,7 +346,7 @@ final:
 		}
 		var competitionMembers []model.CompetitionMember
 		// TODO 在redis中取出成员罚时具体数据
-		cM, err := redis.HGet(ctx, "competition"+record.CompetitionId.String(), TID.String()).Result()
+		cM, err := cli.HGet(ctx, "competition"+record.CompetitionId.String(), TID.String()).Result()
 		if err == nil {
 			json.Unmarshal([]byte(cM), &competitionMembers)
 		}
@@ -366,7 +368,7 @@ final:
 			})
 		}
 		// TODO 在redis中取出通过、罚时情况
-		cR, err := redis.ZScore(ctx, "Competition"+record.CompetitionId.String(), TID.String()).Result()
+		cR, err := cli.ZScore(ctx, "Competition"+record.CompetitionId.String(), TID.String()).Result()
 		if err != nil {
 			cR = 0
 		}
@@ -380,8 +382,8 @@ final:
 			}
 			// TODO 存入redis供下次使用
 			v, _ := json.Marshal(competitionMembers)
-			redis.HSet(ctx, "competition"+record.CompetitionId.String(), TID.String(), v)
-			redis.ZAdd(ctx, "competition"+record.CompetitionId.String(), redis.Z{Score: cR, Member: TID.String()})
+			cli.HSet(ctx, "competition"+record.CompetitionId.String(), TID.String(), v)
+			cli.ZAdd(ctx, "competition"+record.CompetitionId.String(), redis.Z{Score: cR, Member: TID.String()})
 		}
 	}
 	db.Save(&record)

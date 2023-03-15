@@ -1,4 +1,4 @@
-package Test
+package main
 
 import (
 	"MGA_OJ/common"
@@ -31,7 +31,7 @@ func InitConfig() {
 	workDir, _ := os.Getwd()
 	viper.SetConfigName("application")
 	viper.SetConfigType("yml")
-	viper.AddConfigPath(workDir + "/config")
+	viper.AddConfigPath(workDir + "./../config")
 	err := viper.ReadInConfig()
 	// TODO 如果发生错误，终止程序
 	if err != nil {
