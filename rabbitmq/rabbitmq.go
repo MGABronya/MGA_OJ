@@ -12,7 +12,7 @@ const MQURL = "amqp://MGAronya:MGAronya@127.0.0.1:5672/MGAronya"
 
 var max_run int = 2
 
-var ch chan int = make(chan int, max_run)
+var ch chan struct{} = make(chan struct{}, max_run)
 
 // RabbitMQ		定义了rabbitMQ结构体
 type RabbitMQ struct {
@@ -140,12 +140,14 @@ func (r *RabbitMQ) ConsumeSimple() {
 
 	for d := range msgs {
 		// TODO 在管道内放入正在运行时，道满时这里会阻塞
-		ch <- 1
+		ch <- struct{}{}
 
 		// TODO 启用协程处理消息
-		go Test(d.Body)
+		go func(body []byte) {
+			Judge(body)
+			// TODO 完成处理后，从管道中拿出一份处理消息
+			<-ch
+		}(d.Body)
 
-		// TODO 完成处理后，从管道中拿出一份处理消息
-		<-ch
 	}
 }

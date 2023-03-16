@@ -5,6 +5,8 @@
 package util
 
 import (
+	"MGA_OJ/Handle"
+	"MGA_OJ/Interface"
 	"MGA_OJ/common"
 	"MGA_OJ/model"
 	"fmt"
@@ -32,6 +34,13 @@ var Units = map[string]uint{
 
 // timerMap	    定义了当前使用的定时器
 var TimerMap map[uuid.UUID]*time.Timer = make(map[uuid.UUID]*time.Timer)
+
+// LanguageMap			定义语言字典，对应其处理方式
+var LanguageMap map[string]Interface.CmdInterface = map[string]Interface.CmdInterface{
+	"C++":   Handle.NewCppPlusPlus(),
+	"C++11": Handle.NewCppPlusPlus11(),
+	"Java":  Handle.NewJava(),
+}
 
 // @title    RandomString
 // @description   生成一段随机的字符串

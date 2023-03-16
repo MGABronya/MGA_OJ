@@ -1,10 +1,10 @@
 package rabbitMq
 
 import (
-	"MGA_OJ/Handle"
 	"MGA_OJ/Interface"
 	"MGA_OJ/common"
 	"MGA_OJ/model"
+	"MGA_OJ/util"
 	"bufio"
 	"bytes"
 	"context"
@@ -21,13 +21,12 @@ import (
 	uuid "github.com/satori/go.uuid"
 )
 
-var LanguageMap map[string]Interface.CmdInterface = map[string]Interface.CmdInterface{
-	"C++":   Handle.NewCppPlusPlus(),
-	"C++11": Handle.NewCppPlusPlus11(),
-	"Java":  Handle.NewJava(),
-}
-
-func Test(msg []byte) {
+// @title    Judge
+// @description   查看解答是否通过
+// @auth      MGAronya（张健）             2022-9-16 10:49
+// @param     msg []byte			获取消息中间件中的消息
+// @return    void			没有回参
+func Judge(msg []byte) {
 	db := common.GetDB()
 	ctx := context.Background()
 	cli := common.GetRedisClient(0)
@@ -52,7 +51,7 @@ func Test(msg []byte) {
 leep:
 
 	// TODO 找到提交记录后，开始判题逻辑
-	if v, ok := LanguageMap[record.Language]; ok {
+	if v, ok := util.LanguageMap[record.Language]; ok {
 		handle(record, v)
 	} else {
 		record.Condition = "Luanguage Error"
@@ -63,6 +62,11 @@ leep:
 	cli.HSet(ctx, "Record", record.ID, v)
 }
 
+// @title    handle
+// @description   查看解答是否通过
+// @auth      MGAronya（张健）             2022-9-16 10:49
+// @param     record model.Record, cmdI Interface.CmdInterface			提交记录以及判题方法
+// @return    void			没有回参
 func handle(record model.Record, cmdI Interface.CmdInterface) {
 	db := common.GetDB()
 	ctx := context.Background()

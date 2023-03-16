@@ -1,10 +1,9 @@
 package main
 
 import (
-	"MGA_OJ/common"
-	rabbitmq "MGA_OJ/rabbitmq"
 	"os"
 
+	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 )
 
@@ -15,11 +14,13 @@ import (
 // @return    void			没有回参
 func main() {
 	InitConfig()
-	common.InitDB()
-	client0 := common.InitRedis(0)
-	defer client0.Close()
-	RabbitMQ := rabbitmq.NewRabbitMQSimple("MGAronya")
-	RabbitMQ.ConsumeSimple()
+	r := gin.Default()
+	r = CollectRoute(r)
+	port := viper.GetString("server.port")
+	if port != "" {
+		panic(r.Run(":" + port))
+	}
+	panic(r.Run())
 }
 
 // @title    InitConfig
