@@ -10,9 +10,10 @@ import (
 
 // CmdInterface			定义了命 令执行方法
 type CmdInterface interface {
-	Compile(string) *exec.Cmd // 编译
-	Suffix() string           // 后缀
-	Run(string) *exec.Cmd     // 运行
-	TimeMultiplier() uint     // 语言的行时间倍
-	RunUpTime() uint          // 语言运行的启动所需时间
+	Compile(string, string) *exec.Cmd // 编译
+	Suffix() string                   // 后缀
+	Run(string, string) *exec.Cmd     // 运行
+	TimeMultiplier() uint             // 语言的行时间倍
+	RunUpTime() uint                  // 语言运行的启动所需时间
+	Name() string                     // 语言文件名称
 }

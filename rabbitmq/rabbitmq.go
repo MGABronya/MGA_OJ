@@ -1,6 +1,7 @@
 package rabbitMq
 
 import (
+	"MGA_OJ/util"
 	"fmt"
 	"log"
 
@@ -9,10 +10,6 @@ import (
 
 // 连接信息amqp://MGAronya:MGAronya@127.0.0.1:5672/MGAronya这个信息是固定不变的amqp://事固定参数后面两个是用户名密码ip地址端口号Virtual Host
 const MQURL = "amqp://MGAronya:MGAronya@127.0.0.1:5672/MGAronya"
-
-var max_run int = 2
-
-var ch chan struct{} = make(chan struct{}, max_run)
 
 // RabbitMQ		定义了rabbitMQ结构体
 type RabbitMQ struct {
@@ -139,15 +136,11 @@ func (r *RabbitMQ) ConsumeSimple() {
 	}
 
 	for d := range msgs {
-		// TODO 在管道内放入正在运行时，道满时这里会阻塞
-		ch <- struct{}{}
-
+		judge := util.NewJudge()
 		// TODO 启用协程处理消息
-		go func(body []byte) {
-			Judge(body)
-			// TODO 完成处理后，从管道中拿出一份处理消息
-			<-ch
-		}(d.Body)
+		go func(body []byte, judge util.Judge) {
+			judge.Handel(body)
+		}(d.Body, judge)
 
 	}
 }
