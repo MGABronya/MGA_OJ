@@ -67,10 +67,10 @@ func (j Java) RunUpTime() uint {
 }
 
 // @title    NewJava
-// @description   新建一个Java
+// @description   新建一个CmdInterface
 // @auth      MGAronya（张健）       2022-9-16 12:23
 // @param    void
-// @return   Java		返回一个Java用于调用各种函数
+// @return   CmdInterface		返回一个CmdInterface用于调用各种函数
 func NewJava() Interface.CmdInterface {
 	return Java{}
 }

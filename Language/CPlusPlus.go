@@ -67,10 +67,10 @@ func (c CppPlusPlus) RunUpTime() uint {
 }
 
 // @title    NewCppPlusPlus
-// @description   新建一个ICppPlusPlus
+// @description   新建一个CmdInterface
 // @auth      MGAronya（张健）       2022-9-16 12:23
 // @param    void
-// @return   ICppPlusPlus		返回一个ICppPlusPlus用于调用各种函数
+// @return   CmdInterface		返回一个CmdInterface用于调用各种函数
 func NewCppPlusPlus() Interface.CmdInterface {
 	return CppPlusPlus{}
 }
