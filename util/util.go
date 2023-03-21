@@ -24,6 +24,7 @@ import (
 	"path"
 	"regexp"
 	"runtime"
+	"sync"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -57,7 +58,7 @@ var LanguageMap map[string]Interface.CmdInterface = map[string]Interface.CmdInte
 
 // Judge			定义了判断工具类
 type Judge struct {
-	ch    chan int
+	rw    *sync.RWMutex // 含有锁
 	DB    *gorm.DB      // 含有一个数据库指针
 	Redis *redis.Client // 含有一个redis指针
 	ctx   context.Context
@@ -69,6 +70,10 @@ type Judge struct {
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (j Judge) Handel(msg []byte) {
+	// TODO 单核处理，上锁
+	j.rw.Lock()
+	// TODO 确保资源归还
+	defer j.rw.Unlock()
 	var record model.Record
 	// TODO 先看redis中是否存在
 	if ok, _ := j.Redis.HExists(j.ctx, "Record", string(msg)).Result(); ok {
@@ -206,17 +211,13 @@ feep:
 			j.Redis.HSet(j.ctx, "Output", id, v)
 		}
 	Output:
-		// TODO 取出对应资源
-		source := <-j.ch
-		// TODO 确保资源归还
-		defer func() { j.ch <- source }()
 		// TODO 清空当前文件夹
-		dir, err := ioutil.ReadDir("/user-code/" + fmt.Sprint(source))
+		dir, err := ioutil.ReadDir("/user-code/")
 		for _, d := range dir {
-			os.RemoveAll(path.Join([]string{"user-code/" + fmt.Sprint(source), d.Name()}...))
+			os.RemoveAll(path.Join([]string{"user-code/", d.Name()}...))
 		}
 		fileId := cmdI.Name()
-		fp, err := os.Create("user-code/" + fmt.Sprint(source) + "/" + fileId + "." + cmdI.Suffix())
+		fp, err := os.Create("user-code/" + fileId + "." + cmdI.Suffix())
 		// TODO 文件错误
 		if err != nil {
 			// TODO 创建文件失败的原因有：
@@ -238,7 +239,7 @@ feep:
 		write.Flush()
 
 		// TODO 编译
-		cmd := cmdI.Compile("user-code/"+fmt.Sprint(source)+"/", fileId)
+		cmd := cmdI.Compile("user-code/", fileId)
 
 		// TODO 系统错误
 		if err := cmd.Start(); err != nil {
@@ -277,7 +278,7 @@ feep:
 			runtime.ReadMemStats(&bm)
 
 			// TODO 运行可执行文件
-			cmd = cmdI.Run("./user-code/"+fmt.Sprint(source)+"/", fileId)
+			cmd = cmdI.Run("./user-code/", fileId)
 
 			var out, stderr bytes.Buffer
 			cmd.Stderr = &stderr
@@ -439,12 +440,8 @@ exit:
 func NewJudge() Judge {
 	db := common.GetDB()
 	redis := common.GetRedisClient(0)
-	ch := make(chan int, Max_run)
 	ctx := context.Background()
-	for i := 0; i < Max_run; i++ {
-		ch <- i
-	}
-	return Judge{ch: ch, DB: db, Redis: redis, ctx: ctx}
+	return Judge{rw: &sync.RWMutex{}, DB: db, Redis: redis, ctx: ctx}
 }
 
 // @title    RandomString

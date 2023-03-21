@@ -10,7 +10,6 @@ import (
 	"MGA_OJ/vo"
 	"bufio"
 	"bytes"
-	"fmt"
 	"io"
 	"io/ioutil"
 	"log"
@@ -18,6 +17,7 @@ import (
 	"os"
 	"path"
 	"runtime"
+	"sync"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -30,7 +30,7 @@ type ITestController interface {
 
 // TestController			定义了测试工具类
 type TestController struct {
-	ch chan int
+	rw *sync.RWMutex
 }
 
 // @title    Create
@@ -39,6 +39,10 @@ type TestController struct {
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (t TestController) Create(ctx *gin.Context) {
+	// TODO 单核处理，此处上锁
+	t.rw.Lock()
+	// TODO 此处确保资源归还
+	defer t.rw.Unlock()
 	var requestTest vo.TestRequest
 	// TODO 数据验证
 	if err := ctx.ShouldBind(&requestTest); err != nil {
@@ -47,13 +51,9 @@ func (t TestController) Create(ctx *gin.Context) {
 		return
 	}
 	// TODO 进行测试
-	// TODO 在管道内拿出闲置的资源，没有资源时这里会阻塞
-	source := <-t.ch
 
-	output, condition, memory, time := Test(source, requestTest)
+	output, condition, memory, time := Test(requestTest)
 
-	// TODO 完成处理后，归还资源
-	t.ch <- source
 	// TODO 返回测试状态
 	response.Success(ctx, gin.H{"output": output, "condition": condition, "memory": memory, "time": time}, "测试创建成功")
 }
@@ -64,12 +64,7 @@ func (t TestController) Create(ctx *gin.Context) {
 // @param    void
 // @return   ITestController		返回一个ITestController用于调用各种函数
 func NewTestController() ITestController {
-	ch := make(chan int, util.Max_run)
-	// TODO 进行资源的分配
-	for i := 0; i < util.Max_run; i++ {
-		ch <- i
-	}
-	return TestController{ch}
+	return TestController{rw: &sync.RWMutex{}}
 }
 
 // @title    Test
@@ -77,7 +72,7 @@ func NewTestController() ITestController {
 // @auth      MGAronya（张健）             2022-9-16 10:49
 // @param     record model.Record, cmdI Interface.CmdInterface			提交记录以及判题方法
 // @return    void			没有回参
-func Test(source int, requestTest vo.TestRequest) (output string, condition string, memory uint64, spand int64) {
+func Test(requestTest vo.TestRequest) (output string, condition string, memory uint64, spand int64) {
 	// TODO 找出语言对应运行方法
 	// TODO 找到提交记录后，开始判题逻辑
 	cmdI, ok := util.LanguageMap[requestTest.Language]
@@ -86,13 +81,13 @@ func Test(source int, requestTest vo.TestRequest) (output string, condition stri
 		return
 	}
 	// TODO 清空当前文件夹
-	dir, err := ioutil.ReadDir("/user-code/" + fmt.Sprint(source))
+	dir, err := ioutil.ReadDir("/user-code/")
 	for _, d := range dir {
-		os.RemoveAll(path.Join([]string{"user-code/" + fmt.Sprint(source), d.Name()}...))
+		os.RemoveAll(path.Join([]string{"user-code/", d.Name()}...))
 	}
 	// id		定义文件名
 	id := cmdI.Name()
-	fp, err := os.Create("user-code/" + fmt.Sprint(source) + "/" + id + "." + cmdI.Suffix())
+	fp, err := os.Create("user-code/" + id + "." + cmdI.Suffix())
 	// TODO 文件错误
 	if err != nil {
 		// TODO 创建文件失败的原因有：
@@ -113,7 +108,7 @@ func Test(source int, requestTest vo.TestRequest) (output string, condition stri
 	write.Flush()
 
 	// TODO 编译
-	cmd := cmdI.Compile("user-code/"+fmt.Sprint(source)+"/", id)
+	cmd := cmdI.Compile("user-code/", id)
 
 	// TODO 系统错误
 	if err := cmd.Start(); err != nil {
@@ -145,7 +140,7 @@ func Test(source int, requestTest vo.TestRequest) (output string, condition stri
 	runtime.ReadMemStats(&bm)
 
 	// TODO 运行可执行文件
-	cmd = cmdI.Run("./user-code/"+fmt.Sprint(source)+"/", id)
+	cmd = cmdI.Run("./user-code/", id)
 
 	var out, stderr bytes.Buffer
 	cmd.Stderr = &stderr
