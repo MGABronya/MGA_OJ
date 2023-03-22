@@ -1,5 +1,5 @@
-// @Title  Go
-// @Description  该文件提供关于go文件的各种方法
+// @Title  Erlang
+// @Description  该文件提供关于Erlang文件的各种方法
 // @Author  MGAronya（张健）
 // @Update  MGAronya（张健）  2022-9-16 0:33
 package Handle
@@ -9,16 +9,16 @@ import (
 	"os/exec"
 )
 
-// Go			定义了go文件类
-type Go struct{}
+// Erlang			定义了Erlang文件类
+type Erlang struct{}
 
 // @title    Compile
 // @description   获得编译指令
 // @auth      MGAronya（张健）       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
-func (g Go) Compile(path string, ID string) *exec.Cmd {
-	return exec.Command("go", "build", "-o", path, path+ID+".go")
+func (e Erlang) Compile(path string, ID string) *exec.Cmd {
+	return exec.Command("erlc", "-o", path, path+ID+".erl")
 }
 
 // @title    Run
@@ -26,8 +26,8 @@ func (g Go) Compile(path string, ID string) *exec.Cmd {
 // @auth      MGAronya（张健）       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
-func (g Go) Run(path string, ID string) *exec.Cmd {
-	return exec.Command(path + ID)
+func (e Erlang) Run(path string, ID string) *exec.Cmd {
+	return exec.Command("erl", "-noshell", "-pa", path, "-s", ID, "start", "-s", "init", "stop")
 }
 
 // @title    Suffix
@@ -35,17 +35,8 @@ func (g Go) Run(path string, ID string) *exec.Cmd {
 // @auth      MGAronya（张健）       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
-func (g Go) Suffix() string {
-	return "go"
-}
-
-// @title    Name
-// @description   获得文件名
-// @auth      MGAronya（张健）       2022-9-16 12:15
-// @param    ctx *gin.Context       接收一个上下文
-// @return   void
-func (c Go) Name() string {
-	return "main"
+func (e Erlang) Suffix() string {
+	return "erl"
 }
 
 // @title    TimeMultiplier
@@ -53,7 +44,7 @@ func (c Go) Name() string {
 // @auth      MGAronya（张健）       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
-func (c Go) TimeMultiplier() uint {
+func (e Erlang) TimeMultiplier() uint {
 	return 1
 }
 
@@ -62,15 +53,24 @@ func (c Go) TimeMultiplier() uint {
 // @auth      MGAronya（张健）       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
-func (c Go) RunUpTime() uint {
-	return 0
+func (e Erlang) RunUpTime() uint {
+	return 1
 }
 
-// @title    NewGo
+// @title    Name
+// @description   获得文件名
+// @auth      MGAronya（张健）       2022-9-16 12:15
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (e Erlang) Name() string {
+	return "main"
+}
+
+// @title    NewErlang
 // @description   新建一个CmdInterface
 // @auth      MGAronya（张健）       2022-9-16 12:23
 // @param    void
 // @return   CmdInterface		返回一个CmdInterface用于调用各种函数
-func NewGo() Interface.CmdInterface {
-	return Go{}
+func NewErlang() Interface.CmdInterface {
+	return Erlang{}
 }

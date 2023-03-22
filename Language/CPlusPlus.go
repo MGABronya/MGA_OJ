@@ -27,7 +27,7 @@ func (c CppPlusPlus) Compile(path string, ID string) *exec.Cmd {
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CppPlusPlus) Run(path string, ID string) *exec.Cmd {
-	return exec.Command("./" + path + ID)
+	return exec.Command(path + ID)
 }
 
 // @title    Suffix

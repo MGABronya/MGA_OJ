@@ -1,5 +1,5 @@
-// @Title  Go
-// @Description  该文件提供关于go文件的各种方法
+// @Title  Scala
+// @Description  该文件提供关于Scala文件的各种方法
 // @Author  MGAronya（张健）
 // @Update  MGAronya（张健）  2022-9-16 0:33
 package Handle
@@ -9,16 +9,16 @@ import (
 	"os/exec"
 )
 
-// Go			定义了go文件类
-type Go struct{}
+// Scala			定义了Scala文件类
+type Scala struct{}
 
 // @title    Compile
 // @description   获得编译指令
 // @auth      MGAronya（张健）       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
-func (g Go) Compile(path string, ID string) *exec.Cmd {
-	return exec.Command("go", "build", "-o", path, path+ID+".go")
+func (s Scala) Compile(path string, ID string) *exec.Cmd {
+	return exec.Command("scalac", path+ID+".scala", "-d", path)
 }
 
 // @title    Run
@@ -26,8 +26,8 @@ func (g Go) Compile(path string, ID string) *exec.Cmd {
 // @auth      MGAronya（张健）       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
-func (g Go) Run(path string, ID string) *exec.Cmd {
-	return exec.Command(path + ID)
+func (s Scala) Run(path string, ID string) *exec.Cmd {
+	return exec.Command("scala", "-classpath", "./"+path, ID)
 }
 
 // @title    Suffix
@@ -35,8 +35,8 @@ func (g Go) Run(path string, ID string) *exec.Cmd {
 // @auth      MGAronya（张健）       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
-func (g Go) Suffix() string {
-	return "go"
+func (s Scala) Suffix() string {
+	return "scala"
 }
 
 // @title    Name
@@ -44,7 +44,7 @@ func (g Go) Suffix() string {
 // @auth      MGAronya（张健）       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
-func (c Go) Name() string {
+func (s Scala) Name() string {
 	return "main"
 }
 
@@ -53,7 +53,7 @@ func (c Go) Name() string {
 // @auth      MGAronya（张健）       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
-func (c Go) TimeMultiplier() uint {
+func (s Scala) TimeMultiplier() uint {
 	return 1
 }
 
@@ -62,15 +62,15 @@ func (c Go) TimeMultiplier() uint {
 // @auth      MGAronya（张健）       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
-func (c Go) RunUpTime() uint {
-	return 0
+func (s Scala) RunUpTime() uint {
+	return 1
 }
 
-// @title    NewGo
+// @title    NewSwift
 // @description   新建一个CmdInterface
 // @auth      MGAronya（张健）       2022-9-16 12:23
 // @param    void
 // @return   CmdInterface		返回一个CmdInterface用于调用各种函数
-func NewGo() Interface.CmdInterface {
-	return Go{}
+func NewScala() Interface.CmdInterface {
+	return Scala{}
 }

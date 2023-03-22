@@ -27,7 +27,7 @@ func (p Python) Compile(path string, ID string) *exec.Cmd {
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p Python) Run(path string, ID string) *exec.Cmd {
-	return exec.Command("./" + path + "dist/" + ID)
+	return exec.Command(path + "dist/" + ID)
 }
 
 // @title    Suffix

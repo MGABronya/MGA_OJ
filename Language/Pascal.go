@@ -1,5 +1,5 @@
-// @Title  Go
-// @Description  该文件提供关于go文件的各种方法
+// @Title  Pascal
+// @Description  该文件提供关于Pascal文件的各种方法
 // @Author  MGAronya（张健）
 // @Update  MGAronya（张健）  2022-9-16 0:33
 package Handle
@@ -9,16 +9,16 @@ import (
 	"os/exec"
 )
 
-// Go			定义了go文件类
-type Go struct{}
+// Pascal			定义了Pascal文件类
+type Pascal struct{}
 
 // @title    Compile
 // @description   获得编译指令
 // @auth      MGAronya（张健）       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
-func (g Go) Compile(path string, ID string) *exec.Cmd {
-	return exec.Command("go", "build", "-o", path, path+ID+".go")
+func (p Pascal) Compile(path string, ID string) *exec.Cmd {
+	return exec.Command("fpc", path+ID+".pas", "-e"+path+ID)
 }
 
 // @title    Run
@@ -26,7 +26,7 @@ func (g Go) Compile(path string, ID string) *exec.Cmd {
 // @auth      MGAronya（张健）       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
-func (g Go) Run(path string, ID string) *exec.Cmd {
+func (p Pascal) Run(path string, ID string) *exec.Cmd {
 	return exec.Command(path + ID)
 }
 
@@ -35,8 +35,8 @@ func (g Go) Run(path string, ID string) *exec.Cmd {
 // @auth      MGAronya（张健）       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
-func (g Go) Suffix() string {
-	return "go"
+func (p Pascal) Suffix() string {
+	return "pas"
 }
 
 // @title    Name
@@ -44,7 +44,7 @@ func (g Go) Suffix() string {
 // @auth      MGAronya（张健）       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
-func (c Go) Name() string {
+func (p Pascal) Name() string {
 	return "main"
 }
 
@@ -53,7 +53,7 @@ func (c Go) Name() string {
 // @auth      MGAronya（张健）       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
-func (c Go) TimeMultiplier() uint {
+func (p Pascal) TimeMultiplier() uint {
 	return 1
 }
 
@@ -62,15 +62,15 @@ func (c Go) TimeMultiplier() uint {
 // @auth      MGAronya（张健）       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
-func (c Go) RunUpTime() uint {
-	return 0
+func (p Pascal) RunUpTime() uint {
+	return 1
 }
 
-// @title    NewGo
+// @title    NewC
 // @description   新建一个CmdInterface
 // @auth      MGAronya（张健）       2022-9-16 12:23
 // @param    void
 // @return   CmdInterface		返回一个CmdInterface用于调用各种函数
-func NewGo() Interface.CmdInterface {
-	return Go{}
+func NewPascal() Interface.CmdInterface {
+	return Pascal{}
 }

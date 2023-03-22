@@ -18,7 +18,7 @@ type JavaScript struct{}
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (j JavaScript) Compile(path string, ID string) *exec.Cmd {
-	return exec.Command("g++", path+ID+".cpp", "-o", path+ID)
+	return exec.Command("clear")
 }
 
 // @title    Run
@@ -27,7 +27,7 @@ func (j JavaScript) Compile(path string, ID string) *exec.Cmd {
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (j JavaScript) Run(path string, ID string) *exec.Cmd {
-	return exec.Command("./" + path + ID)
+	return exec.Command("node", path+ID+".js")
 }
 
 // @title    Suffix
@@ -36,7 +36,7 @@ func (j JavaScript) Run(path string, ID string) *exec.Cmd {
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (j JavaScript) Suffix() string {
-	return "cpp"
+	return "js"
 }
 
 // @title    Name

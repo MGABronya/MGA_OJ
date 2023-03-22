@@ -87,7 +87,7 @@ func Test(requestTest vo.TestRequest) (output string, condition string, memory u
 	}
 	// id		定义文件名
 	id := cmdI.Name()
-	fp, err := os.Create("user-code/" + id + "." + cmdI.Suffix())
+	fp, err := os.Create("./user-code/" + id + "." + cmdI.Suffix())
 	// TODO 文件错误
 	if err != nil {
 		// TODO 创建文件失败的原因有：
@@ -108,7 +108,7 @@ func Test(requestTest vo.TestRequest) (output string, condition string, memory u
 	write.Flush()
 
 	// TODO 编译
-	cmd := cmdI.Compile("user-code/", id)
+	cmd := cmdI.Compile("./user-code/", id)
 
 	// TODO 系统错误
 	if err := cmd.Start(); err != nil {

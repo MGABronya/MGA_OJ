@@ -1,5 +1,5 @@
-// @Title  Go
-// @Description  该文件提供关于go文件的各种方法
+// @Title  Rust
+// @Description  该文件提供关于Rust文件的各种方法
 // @Author  MGAronya（张健）
 // @Update  MGAronya（张健）  2022-9-16 0:33
 package Handle
@@ -9,16 +9,16 @@ import (
 	"os/exec"
 )
 
-// Go			定义了go文件类
-type Go struct{}
+// Rust			定义了Rust文件类
+type Rust struct{}
 
 // @title    Compile
 // @description   获得编译指令
 // @auth      MGAronya（张健）       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
-func (g Go) Compile(path string, ID string) *exec.Cmd {
-	return exec.Command("go", "build", "-o", path, path+ID+".go")
+func (r Rust) Compile(path string, ID string) *exec.Cmd {
+	return exec.Command("rustc", path+ID+" .rs", "-o", path+ID)
 }
 
 // @title    Run
@@ -26,8 +26,8 @@ func (g Go) Compile(path string, ID string) *exec.Cmd {
 // @auth      MGAronya（张健）       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
-func (g Go) Run(path string, ID string) *exec.Cmd {
-	return exec.Command(path + ID)
+func (r Rust) Run(path string, ID string) *exec.Cmd {
+	return exec.Command(path + ID + ".rs")
 }
 
 // @title    Suffix
@@ -35,8 +35,8 @@ func (g Go) Run(path string, ID string) *exec.Cmd {
 // @auth      MGAronya（张健）       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
-func (g Go) Suffix() string {
-	return "go"
+func (r Rust) Suffix() string {
+	return "rs"
 }
 
 // @title    Name
@@ -44,7 +44,7 @@ func (g Go) Suffix() string {
 // @auth      MGAronya（张健）       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
-func (c Go) Name() string {
+func (r Rust) Name() string {
 	return "main"
 }
 
@@ -53,7 +53,7 @@ func (c Go) Name() string {
 // @auth      MGAronya（张健）       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
-func (c Go) TimeMultiplier() uint {
+func (r Rust) TimeMultiplier() uint {
 	return 1
 }
 
@@ -62,15 +62,15 @@ func (c Go) TimeMultiplier() uint {
 // @auth      MGAronya（张健）       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
-func (c Go) RunUpTime() uint {
-	return 0
+func (r Rust) RunUpTime() uint {
+	return 1
 }
 
-// @title    NewGo
+// @title    NewRust
 // @description   新建一个CmdInterface
 // @auth      MGAronya（张健）       2022-9-16 12:23
 // @param    void
 // @return   CmdInterface		返回一个CmdInterface用于调用各种函数
-func NewGo() Interface.CmdInterface {
-	return Go{}
+func NewRust() Interface.CmdInterface {
+	return Rust{}
 }
