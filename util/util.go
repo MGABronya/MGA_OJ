@@ -298,6 +298,8 @@ feep:
 				goto exit
 			}
 			io.WriteString(stdinPipe, testInputs[i].Input)
+			// TODO 关闭管道制造EOF信息
+			stdinPipe.Close()
 			now := time.Now().UnixMilli()
 			// TODO 系统错误
 			if err := cmd.Start(); err != nil {

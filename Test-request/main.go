@@ -6,15 +6,15 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"sync"
-	"time"
 )
 
-var url = "http://test_oj.mgaronya.com/test/create"
+var url = "http://43.138.251.173:1003/test/create"
+
+//"http://test_oj.mgaronya.com/test/create"
 
 func main() {
 	// 执行17 * 100次hello world
-	start := time.Now()
+	/*start := time.Now()
 	var wg sync.WaitGroup
 	for i := 0; i < 100; i++ {
 		wg.Add(1)
@@ -25,7 +25,15 @@ func main() {
 	}
 	wg.Wait()
 	//2m10.4980861s
-	fmt.Print(time.Since(start))
+	fmt.Print(time.Since(start))*/
+	code := `#include <stdio.h>
+	int main(){
+		int n;
+		while(scanf("%d",&n) != EOF);
+		return 0;
+	}
+	`
+	TestRun("C", code, "\n", 100, 100)
 }
 
 // TODO 进行hello world测试

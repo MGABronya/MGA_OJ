@@ -145,6 +145,8 @@ func Test(requestTest vo.TestRequest) (output string, condition string, memory u
 		return
 	}
 	io.WriteString(stdinPipe, requestTest.Input)
+	// TODO 关闭管道制造EOF信息
+	stdinPipe.Close()
 	now := time.Now().UnixMilli()
 	// TODO 系统错误
 	if err := cmd.Start(); err != nil {
