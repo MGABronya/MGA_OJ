@@ -54,7 +54,16 @@ func (j JavaScript) Name() string {
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (j JavaScript) TimeMultiplier() uint {
-	return 1
+	return 3
+}
+
+// @title    MemoryMultiplier
+// @description   运行内存倍率
+// @auth      MGAronya（张健）       2022-9-16 12:15
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (j JavaScript) MemoryMultiplier() uint {
+	return 3
 }
 
 // @title    RunUpTime
@@ -63,7 +72,7 @@ func (j JavaScript) TimeMultiplier() uint {
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (j JavaScript) RunUpTime() uint {
-	return 1
+	return 64
 }
 
 // @title    NewJavaScript

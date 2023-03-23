@@ -13,7 +13,8 @@ type CmdInterface interface {
 	Compile(string, string) *exec.Cmd // 编译
 	Suffix() string                   // 后缀
 	Run(string, string) *exec.Cmd     // 运行
-	TimeMultiplier() uint             // 语言的行时间倍
+	TimeMultiplier() uint             // 语言的运行时间倍
+	MemoryMultiplier() uint           // 语言的运行内存倍
 	RunUpTime() uint                  // 语言运行的启动所需时间
 	Name() string                     // 语言文件名称
 }

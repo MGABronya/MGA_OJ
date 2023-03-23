@@ -45,7 +45,16 @@ func (e Erlang) Suffix() string {
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (e Erlang) TimeMultiplier() uint {
-	return 1
+	return 3
+}
+
+// @title    MemoryMultiplier
+// @description   运行内存倍率
+// @auth      MGAronya（张健）       2022-9-16 12:15
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (e Erlang) MemoryMultiplier() uint {
+	return 2
 }
 
 // @title    RunUpTime
@@ -54,7 +63,7 @@ func (e Erlang) TimeMultiplier() uint {
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (e Erlang) RunUpTime() uint {
-	return 1
+	return 1200
 }
 
 // @title    Name

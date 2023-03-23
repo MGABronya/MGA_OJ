@@ -15,13 +15,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"math"
 	"math/rand"
 	"net/smtp"
 	"os"
-	"path"
 	"regexp"
 	"runtime"
 	"sync"
@@ -51,9 +49,23 @@ var TimerMap map[uuid.UUID]*time.Timer = make(map[uuid.UUID]*time.Timer)
 
 // LanguageMap			定义语言字典，对应其处理方式
 var LanguageMap map[string]Interface.CmdInterface = map[string]Interface.CmdInterface{
-	"C++":   Handle.NewCppPlusPlus(),
-	"C++11": Handle.NewCppPlusPlus11(),
-	"Java":  Handle.NewJava(),
+	"C":          Handle.NewC(),
+	"C#":         Handle.NewCs(),
+	"C++":        Handle.NewCppPlusPlus(),
+	"C++11":      Handle.NewCppPlusPlus11(),
+	"Erlang":     Handle.NewErlang(),
+	"Go":         Handle.NewGo(),
+	"Java":       Handle.NewJava(),
+	"JavaScript": Handle.NewJavaScript(),
+	"Kotlin":     Handle.NewKotlin(),
+	"Pascal":     Handle.NewPascal(),
+	"PHP":        Handle.NewPHP(),
+	"Python":     Handle.NewPython(),
+	"Racket":     Handle.NewRacket(),
+	"Ruby":       Handle.NewRuby(),
+	"Rust":       Handle.NewRust(),
+	"Scala":      Handle.NewScala(),
+	"Swift":      Handle.NewSwift(),
 }
 
 // Judge			定义了判断工具类
@@ -211,11 +223,6 @@ feep:
 			j.Redis.HSet(j.ctx, "Output", id, v)
 		}
 	Output:
-		// TODO 清空当前文件夹
-		dir, err := ioutil.ReadDir("/user-code/")
-		for _, d := range dir {
-			os.RemoveAll(path.Join([]string{"user-code/", d.Name()}...))
-		}
 		fileId := cmdI.Name()
 		fp, err := os.Create("user-code/" + fileId + "." + cmdI.Suffix())
 		// TODO 文件错误
@@ -336,7 +343,7 @@ feep:
 				goto final
 			}
 			// TODO 超出内存限制
-			if cas.Memory > problem.MemoryLimit {
+			if cas.Memory > problem.MemoryLimit*cmdI.MemoryMultiplier() {
 				record.Condition = "Memory Limit Exceeded"
 				flag = false
 				goto final

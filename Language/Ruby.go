@@ -54,7 +54,16 @@ func (r Ruby) Name() string {
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (r Ruby) TimeMultiplier() uint {
-	return 1
+	return 3
+}
+
+// @title    MemoryMultiplier
+// @description   运行内存倍率
+// @auth      MGAronya（张健）       2022-9-16 12:15
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (r Ruby) MemoryMultiplier() uint {
+	return 3
 }
 
 // @title    RunUpTime
@@ -63,7 +72,7 @@ func (r Ruby) TimeMultiplier() uint {
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (r Ruby) RunUpTime() uint {
-	return 1
+	return 56
 }
 
 // @title    NewRuby

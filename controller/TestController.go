@@ -11,11 +11,9 @@ import (
 	"bufio"
 	"bytes"
 	"io"
-	"io/ioutil"
 	"log"
 	"math"
 	"os"
-	"path"
 	"runtime"
 	"sync"
 	"time"
@@ -79,11 +77,6 @@ func Test(requestTest vo.TestRequest) (output string, condition string, memory u
 	if !ok {
 		condition = "Luanguage Error"
 		return
-	}
-	// TODO 清空当前文件夹
-	dir, err := ioutil.ReadDir("/user-code/")
-	for _, d := range dir {
-		os.RemoveAll(path.Join([]string{"user-code/", d.Name()}...))
 	}
 	// id		定义文件名
 	id := cmdI.Name()
@@ -163,7 +156,7 @@ func Test(requestTest vo.TestRequest) (output string, condition string, memory u
 	go func() { done <- cmd.Wait() }()
 
 	// 设定超时时间，并select它
-	after = time.After(time.Duration(20000*cmdI.TimeMultiplier()+cmdI.RunUpTime()) * time.Millisecond)
+	after = time.After(time.Duration(requestTest.TimeLimit*cmdI.TimeMultiplier()+cmdI.RunUpTime()) * time.Millisecond)
 	select {
 	// TODO 运行超时
 	case <-after:
@@ -185,6 +178,12 @@ func Test(requestTest vo.TestRequest) (output string, condition string, memory u
 	var em runtime.MemStats
 	runtime.ReadMemStats(&em)
 	memory = em.Alloc/1024 - bm.Alloc/1024
+
+	// TODO 超出内存限制
+	if memory > uint64(requestTest.MemoryLimit*cmdI.MemoryMultiplier()) {
+		condition = "Memory Limit Exceeded"
+		return
+	}
 
 	condition = "ok"
 	output = out.String()

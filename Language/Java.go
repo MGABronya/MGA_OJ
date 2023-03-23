@@ -54,7 +54,16 @@ func (j Java) Name() string {
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (j Java) TimeMultiplier() uint {
-	return 2
+	return 3
+}
+
+// @title    MemoryMultiplier
+// @description   运行内存倍率
+// @auth      MGAronya（张健）       2022-9-16 12:15
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (j Java) MemoryMultiplier() uint {
+	return 3
 }
 
 // @title    RunUpTime
@@ -63,7 +72,7 @@ func (j Java) TimeMultiplier() uint {
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (j Java) RunUpTime() uint {
-	return 64
+	return 52
 }
 
 // @title    NewJava

@@ -44,7 +44,7 @@ func (g Go) Suffix() string {
 // @auth      MGAronya（张健）       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
-func (c Go) Name() string {
+func (g Go) Name() string {
 	return "main"
 }
 
@@ -53,8 +53,17 @@ func (c Go) Name() string {
 // @auth      MGAronya（张健）       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
-func (c Go) TimeMultiplier() uint {
-	return 1
+func (g Go) TimeMultiplier() uint {
+	return 2
+}
+
+// @title    MemoryMultiplier
+// @description   运行内存倍率
+// @auth      MGAronya（张健）       2022-9-16 12:15
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (g Go) MemoryMultiplier() uint {
+	return 2
 }
 
 // @title    RunUpTime
@@ -62,8 +71,8 @@ func (c Go) TimeMultiplier() uint {
 // @auth      MGAronya（张健）       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
-func (c Go) RunUpTime() uint {
-	return 0
+func (g Go) RunUpTime() uint {
+	return 4
 }
 
 // @title    NewGo

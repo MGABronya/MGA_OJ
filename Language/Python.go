@@ -18,7 +18,7 @@ type Python struct{}
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p Python) Compile(path string, ID string) *exec.Cmd {
-	return exec.Command("pyinstaller", "-F", path+ID+".py", "--workpath", path, "--distpath", path+"dist/")
+	return exec.Command("clear")
 }
 
 // @title    Run
@@ -27,7 +27,7 @@ func (p Python) Compile(path string, ID string) *exec.Cmd {
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p Python) Run(path string, ID string) *exec.Cmd {
-	return exec.Command(path + "dist/" + ID)
+	return exec.Command("python", path+ID+".py")
 }
 
 // @title    Suffix
@@ -54,7 +54,16 @@ func (p Python) Name() string {
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p Python) TimeMultiplier() uint {
-	return 1
+	return 2
+}
+
+// @title    MemoryMultiplier
+// @description   运行内存倍率
+// @auth      MGAronya（张健）       2022-9-16 12:15
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (p Python) MemoryMultiplier() uint {
+	return 2
 }
 
 // @title    RunUpTime
@@ -63,7 +72,7 @@ func (p Python) TimeMultiplier() uint {
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p Python) RunUpTime() uint {
-	return 0
+	return 8
 }
 
 // @title    NewPython

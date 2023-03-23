@@ -48,13 +48,22 @@ func (c CppPlusPlus11) TimeMultiplier() uint {
 	return 1
 }
 
+// @title    MemoryMultiplier
+// @description   运行内存倍率
+// @auth      MGAronya（张健）       2022-9-16 12:15
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (c CppPlusPlus11) MemoryMultiplier() uint {
+	return 1
+}
+
 // @title    RunUpTime
 // @description   运行启动时间
 // @auth      MGAronya（张健）       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CppPlusPlus11) RunUpTime() uint {
-	return 1
+	return 4
 }
 
 // @title    Name
