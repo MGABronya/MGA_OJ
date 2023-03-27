@@ -650,3 +650,16 @@ func SetRedisEmail(ctx *gin.Context, email string, v string) {
 func ScoreChange(fre float64, sum float64, del float64, total float64) float64 {
 	return (0.07/(fre+1) + 0.04) * sum * (math.Pow(2, 10*del-0.5)) / (math.Pow(2, 10*del-0.5) + 1) * (math.Pow(2, 0.1*total-5)) / (math.Pow(2, 0.1*total-5) + 1) / total
 }
+
+// @title    StringMerge
+// @description   用于字符串的合并
+// @auth      MGAronya（张健）       2022-9-16 12:15
+// @param    a string, b string       接收两个字符串
+// @return   string			返回合并结果
+func StringMerge(a string, b string) string {
+	if a > b {
+		return a + b
+	} else {
+		return b + a
+	}
+}

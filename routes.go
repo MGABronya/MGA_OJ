@@ -66,9 +66,11 @@ func CollectRoute(r *gin.Engine) *gin.Engine {
 	// TODO 挂上比赛路由
 	r = routes.CompetitionRoutes(r)
 
-	// TODO 聊天路由
+	// TODO 留言板路由
+	r = routes.MessageRoutes(r)
 
-	// TODO
+	// TODO 私信路由
+	r = routes.LetterRoutes(r)
 
 	return r
 }

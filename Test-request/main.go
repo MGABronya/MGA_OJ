@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-var url = "http://43.138.251.173:1003/test/create"
+var url = "http://43.139.97.161:1003/test/create"
 
 //"http://test_oj.mgaronya.com/test/create"
 
@@ -33,7 +33,7 @@ func main() {
 		return 0;
 	}
 	`
-	TestRun("C", code, "\n", 100, 100)
+	TestRun("C", code, "\n", 1000, 1000)
 }
 
 // TODO 进行hello world测试
