@@ -5,6 +5,7 @@
 package controller
 
 import (
+	"MGA_OJ/Interface"
 	"MGA_OJ/common"
 	"MGA_OJ/model"
 	"MGA_OJ/response"
@@ -13,7 +14,7 @@ import (
 	"encoding/json"
 	"log"
 	"sort"
-	"time"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v9"
@@ -23,13 +24,9 @@ import (
 
 // ILetterController			定义了私信类接口
 type ILetterController interface {
-	Send(ctx *gin.Context)        // 发送私信
-	LinkList(ctx *gin.Context)    // 列出连接列表
-	ChatList(ctx *gin.Context)    // 列出聊天列表
-	Receive(ctx *gin.Context)     // 建立实时接收
-	ReceiveLink(ctx *gin.Context) // 建立连接实时接收
-	RemoveLink(ctx *gin.Context)  // 移除某个连接
-	Read(ctx *gin.Context)        // 已读
+	Interface.MassageInterface // 包含了信息交流相关方法
+	Read(ctx *gin.Context)     // 已读
+	Interface.BlockInterface   // 包含了黑名单相关方法
 }
 
 // LetterController			定义了私信工具类
@@ -61,9 +58,32 @@ func (l LetterController) Send(ctx *gin.Context) {
 
 	var userb model.User
 
-	// TODO 查看用户是否存在
+	// TODO 先看redis中是否存在
+	if ok, _ := l.Redis.HExists(ctx, "User", id).Result(); ok {
+		cate, _ := l.Redis.HGet(ctx, "User", id).Result()
+		if json.Unmarshal([]byte(cate), &userb) == nil {
+			goto leap
+		} else {
+			// TODO 移除损坏数据
+			l.Redis.HDel(ctx, "User", id)
+		}
+	}
+
+	// TODO 查看用户是否在数据库中存在
 	if l.DB.Where("id = ?", id).First(&userb).Error != nil {
-		response.Fail(ctx, nil, "指定用户不存在")
+		response.Fail(ctx, nil, "用户不存在")
+		return
+	}
+	{
+		// TODO 将用户存入redis供下次使用
+		v, _ := json.Marshal(userb)
+		l.Redis.HSet(ctx, "User", id, v)
+	}
+leap:
+
+	// TODO 查看当前用户是否已经拉黑
+	if l.DB.Where("usera_id = ? and userb_id = ?", id, user.ID).First(&model.LetterBlock{}).Error == nil {
+		response.Fail(ctx, nil, "已被拉黑")
 		return
 	}
 
@@ -110,7 +130,7 @@ func (l LetterController) LinkList(ctx *gin.Context) {
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
 
-	var letters []model.Letter
+	var letterLinks []model.LetterLink
 
 	// TODO 查找所有条目
 	lets, _ := l.Redis.HGetAll(ctx, "LetterLink"+user.ID.String()).Result()
@@ -119,14 +139,17 @@ func (l LetterController) LinkList(ctx *gin.Context) {
 		var letter model.Letter
 		v, _ := l.Redis.HGet(ctx, "Letters", lets[i]).Result()
 		json.Unmarshal([]byte(v), &letter)
-		letters = append(letters, letter)
+		letterLinks = append(letterLinks, model.LetterLink{
+			Letter: letter,
+			Unread: len(l.Redis.Subscribe(ctx, "LetterChan"+util.StringMerge(letter.UserId.String(), letter.Author.String())).Channel()),
+		})
 	}
 
 	// TODO 根据是否已读和时间排序
-	sort.Sort(model.LetterSlice(letters))
+	sort.Sort(model.LetterSlice(letterLinks))
 
 	// TODO 返回数据
-	response.Success(ctx, gin.H{"letters": letters}, "成功")
+	response.Success(ctx, gin.H{"letterLinks": letterLinks}, "成功")
 }
 
 // @title    ChatList
@@ -145,11 +168,28 @@ func (l LetterController) ChatList(ctx *gin.Context) {
 
 	var userb model.User
 
-	// TODO 查看用户是否存在
+	// TODO 先看redis中是否存在
+	if ok, _ := l.Redis.HExists(ctx, "User", id).Result(); ok {
+		cate, _ := l.Redis.HGet(ctx, "User", id).Result()
+		if json.Unmarshal([]byte(cate), &userb) == nil {
+			goto leap
+		} else {
+			// TODO 移除损坏数据
+			l.Redis.HDel(ctx, "User", id)
+		}
+	}
+
+	// TODO 查看用户是否在数据库中存在
 	if l.DB.Where("id = ?", id).First(&userb).Error != nil {
-		response.Fail(ctx, nil, "指定用户不存在")
+		response.Fail(ctx, nil, "用户不存在")
 		return
 	}
+	{
+		// TODO 将用户存入redis供下次使用
+		v, _ := json.Marshal(userb)
+		l.Redis.HSet(ctx, "User", id, v)
+	}
+leap:
 	var letters []model.Letter
 
 	lets, _ := l.Redis.LRange(ctx, "LetterList"+util.StringMerge(user.ID.String(), userb.ID.String()), 0, -1).Result()
@@ -163,7 +203,7 @@ func (l LetterController) ChatList(ctx *gin.Context) {
 	}
 
 	// TODO 返回数据
-	response.Success(ctx, gin.H{"letter": letters}, "成功")
+	response.Success(ctx, gin.H{"letters": letters}, "成功")
 }
 
 // @title    RemoveLink
@@ -181,12 +221,28 @@ func (l LetterController) RemoveLink(ctx *gin.Context) {
 
 	var userb model.User
 
-	// TODO 查看用户是否存在
-	if l.DB.Where("id = ?", id).First(&userb).Error != nil {
-		response.Fail(ctx, nil, "指定用户不存在")
-		return
+	// TODO 先看redis中是否存在
+	if ok, _ := l.Redis.HExists(ctx, "User", id).Result(); ok {
+		cate, _ := l.Redis.HGet(ctx, "User", id).Result()
+		if json.Unmarshal([]byte(cate), &userb) == nil {
+			goto leap
+		} else {
+			// TODO 移除损坏数据
+			l.Redis.HDel(ctx, "User", id)
+		}
 	}
 
+	// TODO 查看用户是否在数据库中存在
+	if l.DB.Where("id = ?", id).First(&userb).Error != nil {
+		response.Fail(ctx, nil, "用户不存在")
+		return
+	}
+	{
+		// TODO 将用户存入redis供下次使用
+		v, _ := json.Marshal(userb)
+		l.Redis.HSet(ctx, "User", id, v)
+	}
+leap:
 	// TODO 删除指定条目
 	l.Redis.HDel(ctx, "LetterLink"+user.ID.String(), userb.ID.String()).Result()
 
@@ -210,11 +266,28 @@ func (l LetterController) Receive(ctx *gin.Context) {
 
 	var userb model.User
 
-	// TODO 查看用户是否存在
+	// TODO 先看redis中是否存在
+	if ok, _ := l.Redis.HExists(ctx, "User", id).Result(); ok {
+		cate, _ := l.Redis.HGet(ctx, "User", id).Result()
+		if json.Unmarshal([]byte(cate), &userb) == nil {
+			goto leap
+		} else {
+			// TODO 移除损坏数据
+			l.Redis.HDel(ctx, "User", id)
+		}
+	}
+
+	// TODO 查看用户是否在数据库中存在
 	if l.DB.Where("id = ?", id).First(&userb).Error != nil {
-		response.Fail(ctx, nil, "指定用户不存在")
+		response.Fail(ctx, nil, "用户不存在")
 		return
 	}
+	{
+		// TODO 将用户存入redis供下次使用
+		v, _ := json.Marshal(userb)
+		l.Redis.HSet(ctx, "User", id, v)
+	}
+leap:
 
 	// TODO 订阅消息
 	pubSub := l.Redis.Subscribe(ctx, "LetterChan"+util.StringMerge(user.ID.String(), userb.ID.String()))
@@ -222,13 +295,7 @@ func (l LetterController) Receive(ctx *gin.Context) {
 	// TODO 获得消息管道
 	ch := pubSub.Channel()
 
-	// 设定超时时间，并select它
-	after := time.After(time.Duration(time.Minute))
-	select {
-	// TODO 等待超时
-	case <-after:
-		return
-	case msg := <-ch:
+	for msg := range ch {
 		var letter model.Letter
 		v, _ := l.Redis.HGet(ctx, "Letters", msg.Payload).Result()
 		json.Unmarshal([]byte(v), &letter)
@@ -250,22 +317,12 @@ func (l LetterController) ReceiveLink(ctx *gin.Context) {
 
 	// TODO 订阅消息
 	pubSub := l.Redis.Subscribe(ctx, "LetterLinkChan"+user.ID.String())
-	pubSub.Close()
+	defer pubSub.Close()
 	// TODO 获得消息管道
 	ch := pubSub.Channel()
 
 	// TODO 监听消息
 	for msg := range ch {
-		response.Success(ctx, gin.H{"user": msg.Payload}, "新的连接请求")
-	}
-
-	// 设定超时时间，并select它
-	after := time.After(time.Duration(time.Minute))
-	select {
-	// TODO 等待超时
-	case <-after:
-		return
-	case msg := <-ch:
 		response.Success(ctx, gin.H{"user": msg.Payload}, "新的连接请求")
 	}
 
@@ -306,6 +363,144 @@ func (l LetterController) Read(ctx *gin.Context) {
 
 	// TODO 成功
 	response.Success(ctx, nil, "已读成功")
+}
+
+// @title    Block
+// @description   拉黑某用户
+// @auth      MGAronya（张健）       2022-9-16 12:15
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (l LetterController) Block(ctx *gin.Context) {
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 获取指定用户
+	id := ctx.Params.ByName("id")
+
+	var userb model.User
+
+	// TODO 先看redis中是否存在
+	if ok, _ := l.Redis.HExists(ctx, "User", id).Result(); ok {
+		cate, _ := l.Redis.HGet(ctx, "User", id).Result()
+		if json.Unmarshal([]byte(cate), &userb) == nil {
+			goto leap
+		} else {
+			// TODO 移除损坏数据
+			l.Redis.HDel(ctx, "User", id)
+		}
+	}
+
+	// TODO 查看用户是否在数据库中存在
+	if l.DB.Where("id = ?", id).First(&userb).Error != nil {
+		response.Fail(ctx, nil, "用户不存在")
+		return
+	}
+	{
+		// TODO 将用户存入redis供下次使用
+		v, _ := json.Marshal(userb)
+		l.Redis.HSet(ctx, "User", id, v)
+	}
+leap:
+
+	// TODO 查看当前用户是否已经拉黑
+	if l.DB.Where("usera_id = ? and userb_id = ?", user.ID, id).First(&model.LetterBlock{}).Error == nil {
+		response.Fail(ctx, nil, "用户已拉黑")
+		return
+	}
+
+	// TODO 将指定用户放入黑名单
+	letterBlock := model.LetterBlock{
+		UseraId: user.ID,
+		UserbId: userb.ID,
+	}
+
+	if l.DB.Create(&letterBlock).Error != nil {
+		response.Fail(ctx, nil, "黑名单入库错误")
+		return
+	}
+
+	// TODO 成功
+	response.Success(ctx, nil, "拉黑成功")
+}
+
+// @title    RemoveBlack
+// @description   移除某用户的黑名单
+// @auth      MGAronya（张健）       2022-9-16 12:15
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (l LetterController) RemoveBlack(ctx *gin.Context) {
+
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 获取指定用户
+	id := ctx.Params.ByName("id")
+
+	var userb model.User
+
+	// TODO 先看redis中是否存在
+	if ok, _ := l.Redis.HExists(ctx, "User", id).Result(); ok {
+		cate, _ := l.Redis.HGet(ctx, "User", id).Result()
+		if json.Unmarshal([]byte(cate), &userb) == nil {
+			goto leap
+		} else {
+			// TODO 移除损坏数据
+			l.Redis.HDel(ctx, "User", id)
+		}
+	}
+
+	// TODO 查看用户是否在数据库中存在
+	if l.DB.Where("id = ?", id).First(&userb).Error != nil {
+		response.Fail(ctx, nil, "用户不存在")
+		return
+	}
+	{
+		// TODO 将用户存入redis供下次使用
+		v, _ := json.Marshal(userb)
+		l.Redis.HSet(ctx, "User", id, v)
+	}
+leap:
+	var letterBlock model.LetterBlock
+
+	// TODO 查看当前用户是否已经拉黑
+	if l.DB.Where("usera_id = ? and userb_id = ?", user.ID, id).First(&letterBlock).Error != nil {
+		response.Fail(ctx, nil, "用户未被拉黑")
+		return
+	}
+
+	// TODO 将用户移除黑名单
+	l.DB.Delete(&letterBlock)
+
+	// TODO 成功
+	response.Success(ctx, nil, "移除黑名单成功")
+}
+
+// @title    BlackList
+// @description   查看黑名单
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (l LetterController) BlackList(ctx *gin.Context) {
+
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
+
+	// TODO 分页
+	var letterBlocks []model.LetterBlock
+
+	var total int64
+
+	// TODO 查看黑名单
+	l.DB.Where("usera_id = ?", user.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&letterBlocks).Count(&total)
+
+	response.Success(ctx, gin.H{"letterBlocks": letterBlocks, "total": total}, "查看成功")
 }
 
 // @title    NewLetterController

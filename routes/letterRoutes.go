@@ -39,5 +39,20 @@ func LetterRoutes(r *gin.Engine) *gin.Engine {
 	// TODO 已读
 	letterRoutes.PUT("/read/:id", middleware.AuthMiddleware(), letterController.Read)
 
+	// TODO 订阅私信
+	letterRoutes.GET("/receive/:id", middleware.AuthMiddleware(), letterController.Receive)
+
+	// TODO 订阅连接
+	letterRoutes.GET("/receivelink/:id", middleware.AuthMiddleware(), letterController.ReceiveLink)
+
+	// TODO 用户拉黑某用户
+	letterRoutes.POST("/block/:id", middleware.AuthMiddleware(), letterController.Block)
+
+	// TODO 移除某用户的黑名单
+	letterRoutes.DELETE("/remove/black/:id", middleware.AuthMiddleware(), letterController.RemoveBlack)
+
+	// TODO 查看黑名单
+	letterRoutes.GET("/black/list", middleware.AuthMiddleware(), letterController.BlackList)
+
 	return r
 }

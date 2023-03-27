@@ -20,17 +20,23 @@ type Letter struct {
 	Read      bool      `json:"read" gorm:"type:boolean"`                               // 是否已读
 }
 
+// LetterLink			定义私信连接
+type LetterLink struct {
+	Letter Letter
+	Unread int
+}
+
 // TODO 用于给letter排序
-type LetterSlice []Letter
+type LetterSlice []LetterLink
 
 func (l LetterSlice) Len() int { return len(l) }
 func (l LetterSlice) Less(i, j int) bool {
-	if l[i].Read && l[j].Read || !l[i].Read && !l[j].Read {
+	if l[i].Letter.Read && l[j].Letter.Read || !l[i].Letter.Read && !l[j].Letter.Read {
 		// TODO 最近优先
-		return l[i].CreatedAt.After(l[j].CreatedAt)
+		return l[i].Letter.CreatedAt.After(l[j].Letter.CreatedAt)
 	} else {
 		// TODO 未读优先
-		return !l[i].Read
+		return !l[i].Letter.Read
 	}
 }
 func (l LetterSlice) Swap(i, j int) { l[i], l[j] = l[j], l[i] }

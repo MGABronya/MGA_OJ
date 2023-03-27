@@ -28,6 +28,7 @@ type ISetController interface {
 	Interface.CollectInterface   // 包含收藏功能
 	Interface.VisitInterface     // 包含游览功能
 	Interface.ApplyInterface     // 包含申请接口
+	Interface.BlockInterface     // 包含黑名单相关功能
 	Interface.LabelInterface     // 包含标签接口
 	Interface.SearchInterface    // 包含搜索功能
 	UserList(ctx *gin.Context)   // 查看指定用户的多篇表单

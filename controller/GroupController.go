@@ -25,6 +25,7 @@ import (
 type IGroupController interface {
 	Interface.RestInterface      // 包含增删查改功能
 	Interface.ApplyInterface     // 包含请求相关功能
+	Interface.BlockInterface     // 包含黑名单相关功能
 	Interface.LikeInterface      // 包含点赞功能
 	Interface.CollectInterface   // 包含收藏功能
 	Interface.LabelInterface     // 包含标签功能
@@ -87,6 +88,12 @@ func (g GroupController) Create(ctx *gin.Context) {
 			}
 		}
 	}
+
+	// TODO 将自己加入用户组
+	g.DB.Create(&model.UserList{
+		UserId:  user.ID,
+		GroupId: group.ID,
+	})
 
 	// TODO 成功
 	response.Success(ctx, nil, "创建成功")

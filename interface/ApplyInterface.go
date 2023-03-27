@@ -13,8 +13,5 @@ type ApplyInterface interface {
 	Apply(ctx *gin.Context)        // 发出请求
 	Consent(ctx *gin.Context)      // 通过请求
 	Refuse(ctx *gin.Context)       // 拒绝申请
-	Block(ctx *gin.Context  )       // 拉黑某用
-	BlackList(ctx *gin.Context)    // 查看黑名单
-	RemoveBlack(ctx *gin.Context)  // 移除黑名单
 	Quit(ctx *gin.Context)         // 退出/删除
 }

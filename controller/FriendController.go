@@ -20,6 +20,7 @@ import (
 // IFriendController			定义了好友类接口
 type IFriendController interface {
 	Interface.ApplyInterface // 包含请求相关功能
+	Interface.BlockInterface // 包含黑名单相关功能
 }
 
 // FriendController			定义了好友工具类
