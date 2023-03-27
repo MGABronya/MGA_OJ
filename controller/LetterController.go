@@ -13,6 +13,7 @@ import (
 	"encoding/json"
 	"log"
 	"sort"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v9"
@@ -217,15 +218,21 @@ func (l LetterController) Receive(ctx *gin.Context) {
 
 	// TODO 订阅消息
 	pubSub := l.Redis.Subscribe(ctx, "LetterChan"+util.StringMerge(user.ID.String(), userb.ID.String()))
-
+	defer pubSub.Close()
 	// TODO 获得消息管道
 	ch := pubSub.Channel()
 
-	// TODO 监听消息
-	for msg := range ch {
+	// 设定超时时间，并select它
+	after := time.After(time.Duration(time.Minute))
+	select {
+	// TODO 等待超时
+	case <-after:
+		return
+	case msg := <-ch:
 		var letter model.Letter
 		v, _ := l.Redis.HGet(ctx, "Letters", msg.Payload).Result()
 		json.Unmarshal([]byte(v), &letter)
+		response.Success(ctx, gin.H{"letter": letter}, "新消息")
 	}
 
 }
@@ -243,13 +250,23 @@ func (l LetterController) ReceiveLink(ctx *gin.Context) {
 
 	// TODO 订阅消息
 	pubSub := l.Redis.Subscribe(ctx, "LetterLinkChan"+user.ID.String())
-
+	pubSub.Close()
 	// TODO 获得消息管道
 	ch := pubSub.Channel()
 
 	// TODO 监听消息
 	for msg := range ch {
-		msg.Payload
+		response.Success(ctx, gin.H{"user": msg.Payload}, "新的连接请求")
+	}
+
+	// 设定超时时间，并select它
+	after := time.After(time.Duration(time.Minute))
+	select {
+	// TODO 等待超时
+	case <-after:
+		return
+	case msg := <-ch:
+		response.Success(ctx, gin.H{"user": msg.Payload}, "新的连接请求")
 	}
 
 }
