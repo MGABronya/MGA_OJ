@@ -75,5 +75,8 @@ func CollectRoute(r *gin.Engine) *gin.Engine {
 	// TODO 群聊路由
 	r = routes.ChatRoutes(r)
 
+	// TODO 特判路由
+	r = routes.SpecialRoutes(r)
+
 	return r
 }

@@ -134,7 +134,14 @@ func (g GroupController) Update(ctx *gin.Context) {
 	}
 
 	// TODO 更新用户组内容
-	g.DB.Table("groups").Where("id = ?", id).Updates(requestGroup)
+	g.DB.Model(&group).Updates(model.Group{
+		Title:    requestGroup.Title,
+		Content:  requestGroup.Content,
+		Reslong:  requestGroup.Reslong,
+		Resshort: requestGroup.Resshort,
+	})
+	// TODO 单独更新auto
+	g.DB.Model(&group).Update("auto", requestGroup.Auto)
 
 	// TODO 移除损坏数据
 	g.Redis.HDel(ctx, "Group", id)

@@ -1,4 +1,4 @@
-package main
+package test
 
 import (
 	"bytes"
@@ -8,11 +8,18 @@ import (
 	"net/http"
 )
 
-var url = "http://43.139.97.161:1003/test/create"
+var url = "http://test_oj.mgaronya.com/test/create"
 
 //"http://test_oj.mgaronya.com/test/create"
 
-func main() {
+type Data struct {
+	condition string `json:"condition"`
+	memory    uint   `json:"memory"`
+	output    string `json:"output"`
+	time      uint   `json:"time"`
+}
+
+func test_oj() {
 	// 执行17 * 100次hello world
 	/*start := time.Now()
 	var wg sync.WaitGroup
@@ -213,6 +220,33 @@ func TestRun(language string, code string, input string, memorylimit uint, timel
 		return
 	}
 	fmt.Println(language + ":" + string(body))
+}
+
+func JudgeRun(language string, code string, input string, memorylimit uint, timelimit uint) string {
+	data := make(map[string]interface{})
+	var body []byte
+	data["language"] = language
+	data["code"] = code
+	data["input"] = input
+	data["memory_limit"] = memorylimit
+	data["time_limit"] = timelimit
+	bytesData, _ := json.Marshal(data)
+	resp, err := http.Post(url, "application/json", bytes.NewReader(bytesData))
+	if err != nil {
+		return "TestMachine no response"
+	}
+	body, err = ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return "TestMachine Error"
+	}
+	var result map[string]interface{}
+	json.Unmarshal(body, &result)
+
+	d, ok := result["data"].(Data)
+	if !ok || d.condition != "ok" {
+		return "Wrong Answer"
+	}
+	return "ok"
 }
 
 /*

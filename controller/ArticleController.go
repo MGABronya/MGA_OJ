@@ -82,7 +82,7 @@ func (a ArticleController) Create(ctx *gin.Context) {
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (a ArticleController) Update(ctx *gin.Context) {
-	var requestArticle vo.ArticleRequest
+	var requestArticle model.Article
 	// TODO 数据验证
 	if err := ctx.ShouldBind(&requestArticle); err != nil {
 		log.Print(err.Error())

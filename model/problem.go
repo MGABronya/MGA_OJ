@@ -28,6 +28,7 @@ type Problem struct {
 	Hint          string    `json:"hint" gorm:"type:text"`                                                 // 提示
 	Source        string    `json:"source" gorm:"type:varchar(64)"`                                        // 来源
 	CompetitionId uuid.UUID `json:"competition_id" gorm:"type:char(36);index:idx_competitionId;not null"`  // 比赛外键
+	SpecialJudge  uuid.UUID `json:"special_judge_id" gorm:"type:char(36);"`                                // 特判外键
 }
 
 // @title    BeforeCreate
@@ -46,6 +47,9 @@ func (problem *Problem) BeforeCreate(scope *gorm.DB) error {
 // @param    tx *gorm.DB       接收一个数据库指针
 // @return   err error		   返回一个错误信息
 func (p *Problem) BeforDelete(tx *gorm.DB) (err error) {
+	// TODO 删除特判代码
+	tx.Delete(&SpecialJudge{}, p.SpecialJudge)
+
 	tx = tx.Where("problem_id = ?", p.ID)
 
 	// TODO 删除题目收藏

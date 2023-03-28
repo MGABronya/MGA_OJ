@@ -27,4 +27,5 @@ type ProblemRequest struct {
 	Hint          string    `json:"hint"`           // 提示
 	CompetitionId uuid.UUID `json:"competition_id"` // 比赛外键
 	Source        string    `json:"source"`         // 来源
+	SpecialJudge  uuid.UUID `json:"special_judge"`  // 特判
 }

@@ -132,7 +132,7 @@ func (c CompetitionController) Create(ctx *gin.Context) {
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CompetitionController) Update(ctx *gin.Context) {
-	var competitionUpdate vo.CompetitionUpdate
+	var competitionUpdate model.Competition
 	// TODO 数据验证
 	if err := ctx.ShouldBind(&competitionUpdate); err != nil {
 		log.Print(err.Error())

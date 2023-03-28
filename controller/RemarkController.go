@@ -103,7 +103,7 @@ leep:
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (r RemarkController) Update(ctx *gin.Context) {
-	var requestRemark vo.RemarkRequest
+	var requestRemark model.Remark
 	// TODO 数据验证
 	if err := ctx.ShouldBind(&requestRemark); err != nil {
 		log.Print(err.Error())

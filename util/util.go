@@ -7,6 +7,7 @@ package util
 import (
 	"MGA_OJ/Interface"
 	Handle "MGA_OJ/Language"
+	TQ "MGA_OJ/Test-request"
 	"MGA_OJ/common"
 	"MGA_OJ/model"
 	"bufio"
@@ -351,7 +352,17 @@ feep:
 				goto final
 			}
 			// TODO 答案错误
-			if out.String() != testOutputs[i].Output {
+			var specalJudge model.SpecialJudge
+			// TODO 查看特判是否存在
+			if j.DB.Where("id = ?", problem.SpecialJudge).First(&specalJudge).Error != nil {
+				// TODO 进行特判
+				res := TQ.JudgeRun(specalJudge.Language, specalJudge.Code, testInputs[i].Input+"\n"+out.String(), problem.MemoryLimit*5, problem.TimeLimit*5)
+				if res != "ok" {
+					record.Condition = res
+					flag = false
+					goto final
+				}
+			} else if out.String() != testOutputs[i].Output {
 				record.Condition = "Wrong Answer"
 				flag = false
 				goto final

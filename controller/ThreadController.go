@@ -104,7 +104,7 @@ leep:
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (t ThreadController) Update(ctx *gin.Context) {
-	var requestThread vo.ThreadRequest
+	var requestThread model.Thread
 	// TODO 数据验证
 	if err := ctx.ShouldBind(&requestThread); err != nil {
 		log.Print(err.Error())

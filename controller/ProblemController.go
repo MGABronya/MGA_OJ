@@ -116,6 +116,7 @@ func (p ProblemController) Create(ctx *gin.Context) {
 		Source:        requestProblem.Source,
 		UserId:        user.ID,
 		CompetitionId: requestProblem.CompetitionId,
+		SpecialJudge:  requestProblem.SpecialJudge,
 	}
 
 	// TODO 插入数据
@@ -232,7 +233,22 @@ func (p ProblemController) Update(ctx *gin.Context) {
 	}
 
 	// TODO 更新题目内容
-	p.DB.Table("problems").Where("id = ?", id).Updates(requestProblem)
+	p.DB.Table("problems").Where("id = ?", id).Updates(model.Problem{
+		TimeLimit:     requestProblem.TimeLimit,
+		MemoryLimit:   requestProblem.MemoryLimit,
+		Title:         requestProblem.Title,
+		Description:   requestProblem.Description,
+		Reslong:       requestProblem.Reslong,
+		Resshort:      requestProblem.Resshort,
+		Input:         requestProblem.Input,
+		Output:        requestProblem.Output,
+		SampleInput:   requestProblem.SampleInput,
+		SampleOutput:  requestProblem.SampleOutput,
+		Hint:          requestProblem.Hint,
+		Source:        requestProblem.Source,
+		CompetitionId: requestProblem.CompetitionId,
+		SpecialJudge:  requestProblem.SpecialJudge,
+	})
 
 	// TODO 移除损坏数据
 	p.Redis.HDel(ctx, "Problem", id)
