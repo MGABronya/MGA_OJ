@@ -114,7 +114,7 @@ leap:
 	l.Redis.HSet(ctx, "LetterLink"+userb.ID.String(), user.ID.String(), letter.ID.String())
 
 	// TODO 将连接请求放入频道
-	l.Redis.Publish(ctx, "LetterLinkChan"+userb.ID.String(), user.ID.String())
+	l.Redis.Publish(ctx, "LetterLinkChan"+userb.ID.String(), letter.ID.String())
 
 	// TODO 成功
 	response.Success(ctx, nil, "创建成功")
@@ -130,7 +130,7 @@ func (l LetterController) LinkList(ctx *gin.Context) {
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
 
-	var letterLinks []model.LetterLink
+	var letters []model.Letter
 
 	// TODO 查找所有条目
 	lets, _ := l.Redis.HGetAll(ctx, "LetterLink"+user.ID.String()).Result()
@@ -139,17 +139,14 @@ func (l LetterController) LinkList(ctx *gin.Context) {
 		var letter model.Letter
 		v, _ := l.Redis.HGet(ctx, "Letters", lets[i]).Result()
 		json.Unmarshal([]byte(v), &letter)
-		letterLinks = append(letterLinks, model.LetterLink{
-			Letter: letter,
-			Unread: len(l.Redis.Subscribe(ctx, "LetterChan"+util.StringMerge(letter.UserId.String(), letter.Author.String())).Channel()),
-		})
+		letters = append(letters, letter)
 	}
 
 	// TODO 根据是否已读和时间排序
-	sort.Sort(model.LetterSlice(letterLinks))
+	sort.Sort(model.LetterSlice(letters))
 
 	// TODO 返回数据
-	response.Success(ctx, gin.H{"letterLinks": letterLinks}, "成功")
+	response.Success(ctx, gin.H{"letters": letters}, "成功")
 }
 
 // @title    ChatList
@@ -323,7 +320,10 @@ func (l LetterController) ReceiveLink(ctx *gin.Context) {
 
 	// TODO 监听消息
 	for msg := range ch {
-		response.Success(ctx, gin.H{"user": msg.Payload}, "新的连接请求")
+		var letter model.Letter
+		v, _ := l.Redis.HGet(ctx, "Letters", msg.Payload).Result()
+		json.Unmarshal([]byte(v), &letter)
+		response.Success(ctx, gin.H{"letter": letter}, "新的连接请求")
 	}
 
 }

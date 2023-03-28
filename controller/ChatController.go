@@ -104,16 +104,19 @@ leep:
 	// TODO 将chat存入redis数据库
 	c.Redis.LPush(ctx, "ChatList"+group.ID.String(), v)
 
-	// TODO 将chat放入连接库
-	c.Redis.HSet(ctx, "ChatLink"+group.ID.String(), user.ID.String(), v)
-
 	// TODO 查找该组的成员
 	var userLists []model.UserList
 	c.DB.Where("group_id = ?", group.ID).Find(&userLists)
 
-	// TODO 将连接请求放入频道
 	for i := range userLists {
-		c.Redis.Publish(ctx, "ChatLinkChan"+userLists[i].GroupId.String(), v)
+		// TODO 跳过自己
+		if user.ID == userLists[i].UserId {
+			continue
+		}
+		// TODO 将连接请求放入频道
+		c.Redis.Publish(ctx, "ChatLinkChan"+userLists[i].UserId.String(), v)
+		// TODO 将chat放入连接库
+		c.Redis.HSet(ctx, "ChatLink"+userLists[i].UserId.String(), group.ID.String(), v)
 	}
 
 	// TODO 成功
@@ -130,7 +133,7 @@ func (c ChatController) LinkList(ctx *gin.Context) {
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
 
-	var chats []model.ChatLink
+	var chats []model.Chat
 
 	// TODO 查找所有条目
 	cats, _ := c.Redis.HGetAll(ctx, "ChatLink"+user.ID.String()).Result()
@@ -138,10 +141,7 @@ func (c ChatController) LinkList(ctx *gin.Context) {
 	for i := range cats {
 		var chat model.Chat
 		json.Unmarshal([]byte(cats[i]), &chat)
-		chats = append(chats, model.ChatLink{
-			Chat:   chat,
-			Unread: len(c.Redis.Subscribe(ctx, "ChatChan"+chat.GroupId.String()).Channel()),
-		})
+		chats = append(chats, chat)
 	}
 
 	// TODO 根据是否已读和时间排序
@@ -338,7 +338,9 @@ func (c ChatController) ReceiveLink(ctx *gin.Context) {
 
 	// TODO 监听消息
 	for msg := range ch {
-		response.Success(ctx, gin.H{"group": msg.Payload}, "新的连接请求")
+		var chat model.Chat
+		json.Unmarshal([]byte(msg.Payload), &chat)
+		response.Success(ctx, gin.H{"chat": chat}, "新的连接请求")
 	}
 
 }

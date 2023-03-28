@@ -19,21 +19,11 @@ type Chat struct {
 	Resshort  string    `json:"res_short" gorm:"type:text"`                               // 备用短文本
 }
 
-// ChatLink			定义群聊连接
-type ChatLink struct {
-	Chat   Chat
-	Unread int
-}
-
 // TODO 用于给chat排序
-type ChatSlice []ChatLink
+type ChatSlice []Chat
 
 func (c ChatSlice) Len() int { return len(c) }
 func (c ChatSlice) Less(i, j int) bool {
-	if c[i].Unread == 0 && c[j].Unread == 0 || c[i].Unread != 0 && c[j].Unread != 0 {
-		return c[i].Chat.CreatedAt.After(c[j].Chat.CreatedAt)
-	} else {
-		return c[i].Unread != 0
-	}
+	return c[i].CreatedAt.After(c[j].CreatedAt)
 }
 func (c ChatSlice) Swap(i, j int) { c[i], c[j] = c[j], c[i] }
