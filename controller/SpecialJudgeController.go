@@ -104,9 +104,9 @@ func (s SpecialJudgeController) Update(ctx *gin.Context) {
 // @auth      MGAronya（张健）       2022-9-16 12:23
 // @param    void
 // @return   ISpecialJudgeController		返回一个ISpecialJudgeController用于调用各种函数
-func NewSpecialJudgeController() IArticleController {
+func NewSpecialJudgeController() ISpecialJudgeController {
 	db := common.GetDB()
 	redis := common.GetRedisClient(0)
 	db.AutoMigrate(model.SpecialJudge{})
-	return ArticleController{DB: db, Redis: redis}
+	return SpecialJudgeController{DB: db, Redis: redis}
 }
