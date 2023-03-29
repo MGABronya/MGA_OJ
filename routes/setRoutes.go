@@ -147,5 +147,8 @@ func SetRoutes(r *gin.Engine) *gin.Engine {
 	// TODO 按文本和标签交集搜索表单
 	setRoutes.GET("/search/with/label/:text", setController.SearchWithLabel)
 
+	// TODO 查看某用户在某表单在哪一组中
+	setRoutes.GET("/user/group/:user/:set", setController.UserGroup)
+
 	return r
 }

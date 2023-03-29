@@ -14,6 +14,7 @@ import (
 	"fmt"
 	"log"
 	"strconv"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v9"
@@ -36,6 +37,7 @@ type ISetController interface {
 	GroupList(ctx *gin.Context)  // 查看指定表单的用户组列表
 	RankList(ctx *gin.Context)   // 查看表单内的用户排行
 	RankUpdate(ctx *gin.Context) // 更新表单内用户排行
+	UserGroup(ctx *gin.Context)  // 查看用户在哪个用户组中
 }
 
 // SetController			定义了表单工具类
@@ -2038,6 +2040,36 @@ func (s SetController) SearchWithLabel(ctx *gin.Context) {
 	response.Success(ctx, gin.H{"sets": sets, "total": total}, "成功")
 }
 
+// @title    UserGroup
+// @description   查看某用户在某表单在哪一组中
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (s SetController) UserGroup(ctx *gin.Context) {
+
+	// TODO 获取指定用户id
+	user_id := ctx.Params.ByName("user")
+
+	// TODO 获取指定表单id
+	set_id := ctx.Params.ByName("set")
+
+	// TODO 获取指定表单下的组
+	var groupLists []model.GroupList
+	s.DB.Where("set_id = ?", set_id).Find(&groupLists)
+
+	groups := make([]uuid.UUID, 0)
+
+	// TODO 检查这些组下是否包含了指定用户
+	for _, groupList := range groupLists {
+		if s.DB.Where("user_id = ? and group_id = ?", user_id, groupList.GroupId).First(&model.UserList{}).Error == nil {
+			groups = append(groups, groupList.GroupId)
+		}
+	}
+
+	// TODO 返回数据
+	response.Success(ctx, gin.H{"groups": groups}, "成功")
+}
+
 // @title    NewSetController
 // @description   新建一个ISetController
 // @auth      MGAronya（张健）       2022-9-16 12:23
@@ -2110,7 +2142,7 @@ func updateRank(set_id uuid.UUID) error {
 }
 
 // @title    CanAddGroup
-// @description   更新一个表单中的用户排行
+// @description   返回是否可以添加一个用户组
 // @auth      MGAronya（张健）       2022-9-16 12:23
 // @param    set_id uuid.UUID		表示表单的id
 // @return   error		返回一个error表示是否出现错误
@@ -2120,13 +2152,23 @@ func CanAddGroup(set_id uuid.UUID, group_id uuid.UUID, PassNum uint, PassRe bool
 	var userLists []model.UserList
 	db.Where("group_id = ?", group_id).Find(&userLists)
 
+	// TODO 查看引用该表单的比赛是否有正在进行的
+	var competitions []model.Competition
+	db.Where("set_id = ?", set_id).Find(&competitions)
+
+	for _, competition := range competitions {
+		if time.Now().After(time.Time(competition.StartTime)) && !time.Now().After(time.Time(competition.EndTime)) {
+			return false, nil
+		}
+	}
+
 	// TODO 如果组员数量大于限制
 	if int(PassNum) < len(userLists) {
 		return false, nil
 	}
 
 	// TODO 如果没有重复限制
-	if !PassRe {
+	if PassRe {
 		return true, nil
 	}
 
@@ -2139,8 +2181,17 @@ func CanAddGroup(set_id uuid.UUID, group_id uuid.UUID, PassNum uint, PassRe bool
 	for _, group := range groupLists {
 		var userLists []model.UserList
 		db.Where("group_id = ?", group.GroupId).Find(&userLists)
-		for _, user := range userLists {
-			userMap[user.UserId] = true
+		for _, userList := range userLists {
+			userMap[userList.UserId] = true
+		}
+	}
+
+	// TODO 将表单内所有候选人存入map
+	for _, competition := range competitions {
+		var matchs []model.Match
+		db.Where("competition_id = ?", competition.ID).Find(&matchs)
+		for _, match := range matchs {
+			userMap[match.UserId] = true
 		}
 	}
 

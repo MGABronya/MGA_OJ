@@ -113,7 +113,6 @@ func (r RejudgeController) Do(ctx *gin.Context) {
 		}
 	}
 	response.Success(ctx, nil, "已全部重新提交")
-	return
 }
 
 // @title    CompetitionDelete
@@ -144,7 +143,6 @@ func (r RejudgeController) CompetitionDelete(ctx *gin.Context) {
 	r.Redis.Del(ctx, "Competition"+id)
 
 	response.Success(ctx, nil, "清除完成")
-	return
 }
 
 // @title    CompetitionScore
@@ -204,7 +202,6 @@ leap:
 	CompetitionFinish(ctx, r.Redis, r.DB, competition)
 
 	response.Success(ctx, nil, "重新计算完成")
-	return
 }
 
 // @title    NewRejudgeController

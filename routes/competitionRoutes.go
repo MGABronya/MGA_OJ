@@ -48,5 +48,14 @@ func CompetitionRoutes(r *gin.Engine) *gin.Engine {
 	// TODO 查看竞赛排行
 	competitionRoutes.GET("/rank/list/:id", competitionController.RankList)
 
+	// TODO 进行滚榜
+	competitionRoutes.GET("/rolling/list/:id", competitionController.RollingList)
+
+	// TODO 进行随机匹配
+	competitionRoutes.POST("/match/:id", competitionController.Match)
+
+	// TODO 取消随机匹配
+	competitionRoutes.DELETE("/unmatch/:id", competitionController.UnMatch)
+
 	return r
 }

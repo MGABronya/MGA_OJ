@@ -1561,8 +1561,16 @@ func CanAddUser(user_id uuid.UUID, group_id uuid.UUID) (bool, error) {
 				return false, nil
 			}
 		}
+		// TODO 表单的比赛不能已经开始
+		var competitions []model.Competition
+		db.Where("set_id = ?", set_id).Find(&competitions)
+		for _, competition := range competitions {
+			if time.Now().After(time.Time(competition.StartTime)) && !time.Now().After(time.Time(competition.EndTime)) {
+				return false, nil
+			}
+		}
 		// TODO 该表单禁止不同组之间成员重复
-		if set.PassRe {
+		if !set.PassRe {
 			for _, group := range groupLists {
 				var userLists []model.UserList
 				db.Where("group_id = ?", group).Find(&userLists)
@@ -1572,13 +1580,11 @@ func CanAddUser(user_id uuid.UUID, group_id uuid.UUID) (bool, error) {
 					}
 				}
 			}
-		}
-		// TODO 表单的比赛不能已经开始
-		var competitions []model.Competition
-		db.Where("set_id = ?", set_id).Find(&competitions)
-		for _, competition := range competitions {
-			if time.Now().After(time.Time(competition.StartTime)) && !time.Now().After(time.Time(competition.EndTime)) {
-				return false, nil
+			// TODO 不能在比赛的候选人中
+			for _, competition := range competitions {
+				if db.Where("competition_id = ? and user_id = ?", competition.ID, user_id).First(&model.Match{}).Error != nil {
+					return false, nil
+				}
 			}
 		}
 	}

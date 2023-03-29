@@ -14,6 +14,7 @@ import (
 	"encoding/json"
 	"log"
 	"math"
+	"math/rand"
 	"net/http"
 	"sort"
 	"strconv"
@@ -33,6 +34,8 @@ type ICompetitionController interface {
 	RankMember(ctx *gin.Context)  // 获取某用户的排名情况
 	MemberShow(ctx *gin.Context)  // 获取某成员每道题的罚时情况
 	RollingList(ctx *gin.Context) // 滚榜监听
+	Match(ctx *gin.Context)       // 对某场比赛进行随机匹配
+	UnMatch(ctx *gin.Context)     // 取消随机匹配
 }
 
 // CompetitionController			定义了比赛工具类
@@ -456,6 +459,140 @@ leep:
 	}
 }
 
+// @title    Match
+// @description   随机匹配
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (c CompetitionController) Match(ctx *gin.Context) {
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+	// TODO 获取指定比赛
+	id := ctx.Params.ByName("id")
+
+	var competition model.Competition
+
+	// TODO 查看比赛是否存在
+	// TODO 先看redis中是否存在
+	if ok, _ := c.Redis.HExists(ctx, "Competition", id).Result(); ok {
+		cate, _ := c.Redis.HGet(ctx, "Competition", id).Result()
+		if json.Unmarshal([]byte(cate), &competition) == nil {
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			c.Redis.HDel(ctx, "Competition", id)
+		}
+	}
+
+	// TODO 查看比赛是否在数据库中存在
+	if c.DB.Where("id = ?", id).First(&competition).Error != nil {
+		response.Fail(ctx, nil, "比赛不存在")
+		return
+	}
+	{
+		// TODO 将用户组存入redis供下次使用
+		v, _ := json.Marshal(competition)
+		c.Redis.HSet(ctx, "Competition", id, v)
+	}
+leep:
+
+	// TODO 查看比赛是否已经开始
+	if time.Now().After(time.Time(competition.StartTime)) {
+		response.Fail(ctx, nil, "比赛已开始")
+		return
+	}
+
+	// TODO 查看比赛是否是组队比赛
+	if competition.Type != "Group" {
+		response.Fail(ctx, nil, "比赛不是组队比赛")
+		return
+	}
+
+	// TODO 取出表单
+	var set model.Set
+	c.DB.Where("id = ?", competition.SetId).First(&set)
+
+	// TODO 建立临时组
+	var group = model.Group{
+		Title:    user.Name + "临时组，勿扰",
+		LeaderId: user.ID,
+	}
+	c.DB.Create(&group)
+	var userList = model.UserList{
+		GroupId: group.ID,
+		UserId:  user.ID,
+	}
+	c.DB.Create(&userList)
+	// TODO 查看是否可以加入比赛组
+	if flag, err := CanAddGroup(competition.SetId, group.ID, set.PassNum, set.PassRe); err != nil || !flag {
+		response.Fail(ctx, nil, "无法加入比赛")
+		return
+	}
+	// TODO 删除临时组
+	c.DB.Delete(&group)
+	// TODO 加入候选状态
+	var match = model.Match{
+		UserId:        user.ID,
+		CompetitionId: competition.ID,
+	}
+	c.DB.Create(&match)
+}
+
+// @title    Unmatch
+// @description   取消随机匹配
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (c CompetitionController) UnMatch(ctx *gin.Context) {
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+	// TODO 获取指定比赛
+	id := ctx.Params.ByName("id")
+
+	var competition model.Competition
+
+	// TODO 查看比赛是否存在
+	// TODO 先看redis中是否存在
+	if ok, _ := c.Redis.HExists(ctx, "Competition", id).Result(); ok {
+		cate, _ := c.Redis.HGet(ctx, "Competition", id).Result()
+		if json.Unmarshal([]byte(cate), &competition) == nil {
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			c.Redis.HDel(ctx, "Competition", id)
+		}
+	}
+
+	// TODO 查看比赛是否在数据库中存在
+	if c.DB.Where("id = ?", id).First(&competition).Error != nil {
+		response.Fail(ctx, nil, "比赛不存在")
+		return
+	}
+	{
+		// TODO 将用户组存入redis供下次使用
+		v, _ := json.Marshal(competition)
+		c.Redis.HSet(ctx, "Competition", id, v)
+	}
+leep:
+
+	// TODO 查看比赛是否已经开始
+	if time.Now().After(time.Time(competition.StartTime)) {
+		response.Fail(ctx, nil, "比赛已开始")
+		return
+	}
+
+	// TODO 查看比赛是否是组队比赛
+	if competition.Type != "Group" {
+		response.Fail(ctx, nil, "比赛不是组队比赛")
+		return
+	}
+
+	// TODO 移出候选状态
+	c.DB.Where("competition_id = ? and user_id = ?", competition.ID, user.ID).Delete(&model.Match{})
+}
+
 // @title    NewCompetitionController
 // @description   新建一个ICompetitionController
 // @auth      MGAronya（张健）       2022-9-16 12:23
@@ -472,6 +609,7 @@ func NewCompetitionController() ICompetitionController {
 	db.AutoMigrate(model.Competition{})
 	db.AutoMigrate(model.CompetitionRank{})
 	db.AutoMigrate(model.CompetitionMember{})
+	db.AutoMigrate(model.Match{})
 	return CompetitionController{DB: db, Redis: redis, UpGrader: upGrader}
 }
 
@@ -499,6 +637,9 @@ leap:
 	// TODO 等待比赛开始
 	<-util.TimerMap[competition.ID].C
 	// TODO 比赛初始事项
+
+	// TODO 如果有比赛存在候选人，进行随机匹配
+	CompetitionMatch(ctx, db, competition)
 
 	// TODO 创建比赛结束定时器
 	util.TimerMap[competition.ID] = time.NewTimer(time.Time(competition.EndTime).Sub(time.Now()))
@@ -673,5 +814,73 @@ func CompetitionFinish(ctx *gin.Context, redis *redis.Client, db *gorm.DB, compe
 			}
 			break
 		}
+	}
+}
+
+// @title    CompetitionMatch
+// @description   进行随机匹配
+// @auth      MGAronya（张健）       2022-9-16 12:23
+// @param    competition 		对应比赛
+// @return   void
+func CompetitionMatch(ctx *gin.Context, db *gorm.DB, competition model.Competition) {
+	// TODO 查看competition类型
+	if competition.Type != "Group" {
+		return
+	}
+
+	// TODO 查找对应set
+	var set model.Set
+	db.Where("id = ?", competition.SetId).First(&set)
+
+	// TODO 取出待选人
+	var matchs []model.Match
+	db.Where("competition_id = ?", competition.ID).Find(&matchs)
+
+	// TODO 删除候选人
+	db.Where("competition_id = ?", competition.ID).Delete(&model.Match{})
+
+	var users []model.User
+	for _, match := range matchs {
+		var user model.User
+		db.Where("id = ?", match.UserId).First(&user)
+		users = append(users, user)
+	}
+
+	// TODO 打乱users
+	rand.Seed(time.Now().UnixNano())
+	rand.Shuffle(len(users), func(i, j int) {
+		users[i], users[j] = users[j], users[i]
+	})
+
+	// TODO 计算需要分几组
+	n := math.Ceil(float64(int(len(users))) / float64(set.PassNum))
+
+	index := 0
+
+	// TODO 分配组的创建
+	groups := make([]model.Group, 0)
+	for i := 0; i < int(n); i++ {
+		var group = model.Group{
+			Title:    set.Title + "-" + users[index].Name + " Group",
+			Content:  "随机匹配组",
+			LeaderId: users[index].ID,
+		}
+		db.Create(&group)
+		groups = append(groups, group)
+		var userList = model.UserList{
+			GroupId: group.ID,
+			UserId:  users[index].ID,
+		}
+		db.Create(&userList)
+		index++
+	}
+	// TODO 进行分配
+	for index < len(users) {
+		var userList = model.UserList{
+			GroupId: groups[index%int(n)].ID,
+			UserId:  users[index].ID,
+		}
+		db.Create(&userList)
+		index++
 	}
 }
