@@ -22,7 +22,7 @@ type User struct {
 	Sex       bool      `json:"sex" gorm:"type:boolean"`                                                      // 性别
 	Address   string    `json:"address" gorm:"type:varchar(20)"`                                              // 地址
 	Level     int       `json:"level" gorm:"type:int;not null"`                                               // 用户管理等级
-	Score     float64   `json:"score" gorm:"type:double;not null"`
+	Score     float64   `json:"score" gorm:"type:double;not null"`                                            // 竞赛分
 }
 
 // @title    BeforeCreate

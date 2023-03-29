@@ -243,7 +243,13 @@ func JudgeRun(language string, code string, input string, memorylimit uint, time
 	json.Unmarshal(body, &result)
 
 	d, ok := result["data"].(Data)
-	if !ok || d.condition != "ok" {
+	if !ok {
+		return "Wrong Answer"
+	}
+	if d.condition != "ok" {
+		return d.condition
+	}
+	if d.output != "ok" {
 		return "Wrong Answer"
 	}
 	return "ok"

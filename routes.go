@@ -78,5 +78,8 @@ func CollectRoute(r *gin.Engine) *gin.Engine {
 	// TODO 特判路由
 	r = routes.SpecialRoutes(r)
 
+	// TODO 重判路由
+	r = routes.RejudgeRoutes(r)
+
 	return r
 }

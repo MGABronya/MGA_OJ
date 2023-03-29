@@ -5,10 +5,13 @@
 package controller
 
 import (
+	TQ "MGA_OJ/Test-request"
 	"MGA_OJ/common"
 	"MGA_OJ/model"
 	"MGA_OJ/response"
+	"MGA_OJ/vo"
 	"log"
+	"time"
 
 	"github.com/go-redis/redis/v9"
 
@@ -18,8 +21,8 @@ import (
 
 // ISpecialJudgeController			定义了特判类接口
 type ISpecialJudgeController interface {
-	Create(ctx *gin.Context)
-	Update(ctx *gin.Context)
+	Create(ctx *gin.Context) // 创建
+	Update(ctx *gin.Context) // 更新
 }
 
 // SpecialJudgeController			定义了特判工具类
@@ -34,9 +37,9 @@ type SpecialJudgeController struct {
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (s SpecialJudgeController) Create(ctx *gin.Context) {
-	var specialJudge model.SpecialJudge
+	var specialJudgeRequest vo.SpecialJudgeRequest
 	// TODO 数据验证
-	if err := ctx.ShouldBind(&specialJudge); err != nil {
+	if err := ctx.ShouldBind(&specialJudgeRequest); err != nil {
 		log.Print(err.Error())
 		response.Fail(ctx, nil, "数据验证错误")
 		return
@@ -46,8 +49,24 @@ func (s SpecialJudgeController) Create(ctx *gin.Context) {
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
 
-	specialJudge.UserId = user.ID
+	// TODO 取出用户权限
+	if user.Level < 2 {
+		response.Fail(ctx, nil, "用户权限不足")
+		return
+	}
 
+	// TODO 测试运行情况
+	test := TQ.JudgeRun(specialJudgeRequest.Language, specialJudgeRequest.Code, specialJudgeRequest.Input, 1024*256, uint(time.Second*30))
+
+	// TODO 查看测试情况
+	if test != "ok" {
+		// TODO 测试不通过
+		response.Fail(ctx, gin.H{"test": test}, "测试不通过")
+	}
+	var specialJudge model.SpecialJudge
+	specialJudge.Code = specialJudgeRequest.Code
+	specialJudge.Language = specialJudgeRequest.Language
+	specialJudge.UserId = user.ID
 	// TODO 插入数据
 	if err := s.DB.Create(&specialJudge).Error; err != nil {
 		response.Fail(ctx, nil, "特判上传出错，数据验证有误")
@@ -75,6 +94,12 @@ func (s SpecialJudgeController) Update(ctx *gin.Context) {
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
+
+	// TODO 取出用户权限
+	if user.Level < 2 {
+		response.Fail(ctx, nil, "用户权限不足")
+		return
+	}
 
 	// TODO 查找对应特判
 	id := ctx.Params.ByName("id")

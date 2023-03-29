@@ -30,6 +30,7 @@ type ICompetitionController interface {
 	RankList(ctx *gin.Context)   // 获取比赛排名情况
 	RankMember(ctx *gin.Context) // 获取某用户的排名情况
 	MemberShow(ctx *gin.Context) // 获取某成员每道题的罚时情况
+	//RollingList(ctx *gin.Context) // 滚榜监听
 }
 
 // CompetitionController			定义了比赛工具类
@@ -303,7 +304,7 @@ func (c CompetitionController) RankList(ctx *gin.Context) {
 	var err error
 
 	// TODO 查找所有分页中可见的条目
-	mems, err := c.Redis.ZRevRangeWithScores(ctx, "Competition"+id, int64(pageNum)*int64(pageSize), int64(pageNum)*int64(pageSize)+int64(pageSize)-1).Result()
+	mems, err := c.Redis.ZRevRangeWithScores(ctx, "Competition"+id, int64(pageNum-1)*int64(pageSize), int64(pageNum-1)*int64(pageSize)+int64(pageSize)-1).Result()
 
 	if err != nil {
 		// TODO 尝试从数据库中找出相关数据
@@ -430,7 +431,17 @@ leap:
 	<-util.TimerMap[competition.ID].C
 
 	// TODO 整理比赛结果
-	competitionMemberMap, _ := redis.HGetAll(ctx, "Competition"+competition.ID.String()).Result()
+	CompetitionFinish(ctx, redis, db, competition)
+}
+
+// @title    CompetitionFinish
+// @description   整理比赛结果
+// @auth      MGAronya（张健）       2022-9-16 12:23
+// @param    competition 		对应比赛
+// @return   void
+func CompetitionFinish(ctx *gin.Context, redis *redis.Client, db *gorm.DB, competition model.Competition) {
+	// TODO 整理比赛结果
+	competitionMemberMap, _ := redis.HGetAll(ctx, "competition"+competition.ID.String()).Result()
 	competitionRankrs, _ := redis.ZRevRangeWithScores(ctx, "Competition"+competition.ID.String(), 0, -1).Result()
 
 	// TODO 将具体罚时信息全部读出并存入数据库

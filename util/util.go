@@ -383,7 +383,7 @@ feep:
 			record.Condition = "Accepted"
 		}
 		// TODO 查看是否为比赛提交,且比赛已经开始
-		if competition.ID != (uuid.UUID{}) && time.Now().After(time.Time(competition.StartTime)) {
+		if competition.ID != (uuid.UUID{}) && record.CreatedAt.After(competition.StartTime) {
 			var TID uuid.UUID
 			if competition.Type == "Single" {
 				TID = record.UserId
@@ -428,8 +428,8 @@ feep:
 			}
 			// TODO 如果先前没有通过该题，则记录罚时
 			if competitionMembers[k].Condition != "Accepted" {
-				competitionMembers[k].Penalties += time.Now().Sub(time.Time(competition.StartTime))
-				cR -= float64(time.Now().Sub(time.Time(competition.StartTime))) / 10000000000
+				competitionMembers[k].Penalties += time.Time(record.CreatedAt).Sub(time.Time(competition.StartTime))
+				cR -= float64(time.Time(record.CreatedAt).Sub(time.Time(competition.StartTime))) / 10000000000
 				competitionMembers[k].Condition = record.Condition
 				if flag {
 					cR++
@@ -437,7 +437,7 @@ feep:
 				// TODO 存入redis供下次使用
 				v, _ := json.Marshal(competitionMembers)
 				j.Redis.HSet(j.ctx, "competition"+record.CompetitionId.String(), TID.String(), v)
-				j.Redis.ZAdd(j.ctx, "competition"+record.CompetitionId.String(), redis.Z{Score: cR, Member: TID.String()})
+				j.Redis.ZAdd(j.ctx, "Competition"+record.CompetitionId.String(), redis.Z{Score: cR, Member: TID.String()})
 			}
 		}
 		j.DB.Save(&record)

@@ -13,11 +13,13 @@ import (
 	"MGA_OJ/vo"
 	"encoding/json"
 	"log"
+	"net/http"
 	"sort"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v9"
+	"github.com/gorilla/websocket"
 	uuid "github.com/satori/go.uuid"
 	"gorm.io/gorm"
 )
@@ -31,8 +33,9 @@ type ILetterController interface {
 
 // LetterController			定义了私信工具类
 type LetterController struct {
-	DB    *gorm.DB      // 含有一个数据库指针
-	Redis *redis.Client // 含有一个redis指针
+	DB       *gorm.DB            // 含有一个数据库指针
+	Redis    *redis.Client       // 含有一个redis指针
+	UpGrader *websocket.Upgrader // 用于持久化连接
 }
 
 // @title    Send
@@ -292,13 +295,26 @@ leap:
 	// TODO 获得消息管道
 	ch := pubSub.Channel()
 
+	// TODO 升级get请求为webSocket协议
+	ws, err := l.UpGrader.Upgrade(ctx.Writer, ctx.Request, nil)
+	if err != nil {
+		return
+	}
+	defer ws.Close()
+	// TODO 监听消息
 	for msg := range ch {
+		// TODO 读取ws中的数据
+		_, _, err := ws.ReadMessage()
+		// TODO 断开连接
+		if err != nil {
+			break
+		}
 		var letter model.Letter
 		v, _ := l.Redis.HGet(ctx, "Letters", msg.Payload).Result()
 		json.Unmarshal([]byte(v), &letter)
-		response.Success(ctx, gin.H{"letter": letter}, "新消息")
+		// TODO 写入ws数据
+		ws.WriteJSON(letter)
 	}
-
 }
 
 // @title    ReceiveLink
@@ -318,14 +334,26 @@ func (l LetterController) ReceiveLink(ctx *gin.Context) {
 	// TODO 获得消息管道
 	ch := pubSub.Channel()
 
+	// TODO 升级get请求为webSocket协议
+	ws, err := l.UpGrader.Upgrade(ctx.Writer, ctx.Request, nil)
+	if err != nil {
+		return
+	}
+	defer ws.Close()
 	// TODO 监听消息
 	for msg := range ch {
+		// TODO 读取ws中的数据
+		_, _, err := ws.ReadMessage()
+		// TODO 断开连接
+		if err != nil {
+			break
+		}
 		var letter model.Letter
 		v, _ := l.Redis.HGet(ctx, "Letters", msg.Payload).Result()
 		json.Unmarshal([]byte(v), &letter)
-		response.Success(ctx, gin.H{"letter": letter}, "新的连接请求")
+		// TODO 写入ws数据
+		ws.WriteJSON(letter)
 	}
-
 }
 
 // @title    Read
@@ -511,5 +539,10 @@ func (l LetterController) BlackList(ctx *gin.Context) {
 func NewLetterController() ILetterController {
 	db := common.GetDB()
 	redis := common.GetRedisClient(0)
-	return LetterController{DB: db, Redis: redis}
+	upGrader := &websocket.Upgrader{
+		CheckOrigin: func(r *http.Request) bool {
+			return true
+		},
+	}
+	return LetterController{DB: db, Redis: redis, UpGrader: upGrader}
 }

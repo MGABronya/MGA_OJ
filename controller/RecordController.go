@@ -18,6 +18,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v9"
+	uuid "github.com/satori/go.uuid"
 	"gorm.io/gorm"
 )
 
@@ -90,7 +91,7 @@ leep:
 	if ok, _ := r.Redis.HExists(ctx, "Competition", fmt.Sprint(problem.CompetitionId)).Result(); ok {
 		cate, _ := r.Redis.HGet(ctx, "Competition", fmt.Sprint(problem.CompetitionId)).Result()
 		if json.Unmarshal([]byte(cate), &competition) == nil {
-			goto leap
+			goto leaf
 		} else {
 			// TODO 移除损坏数据
 			r.Redis.HDel(ctx, "Competition", fmt.Sprint(problem.CompetitionId))
@@ -108,10 +109,19 @@ leep:
 		r.Redis.HSet(ctx, "Competition", fmt.Sprint(problem.CompetitionId), v)
 	}
 
+leaf:
 	// TODO 如果比赛未开始
 	if !time.Now().After(time.Time(competition.StartTime)) {
 		response.Fail(ctx, nil, "比赛未开始")
 		return
+	}
+
+	// TODO 比赛已经结束
+	if !time.Now().After(time.Time(competition.EndTime)) {
+		problem.CompetitionId = uuid.UUID{}
+		r.DB.Save(&problem)
+		// TODO 移除损坏数据
+		r.Redis.HDel(ctx, "Problem", fmt.Sprint(requestRecord.ProblemId))
 	}
 
 	// TODO 查看是否参赛

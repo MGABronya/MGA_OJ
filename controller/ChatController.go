@@ -13,10 +13,12 @@ import (
 	"MGA_OJ/vo"
 	"encoding/json"
 	"log"
+	"net/http"
 	"sort"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v9"
+	"github.com/gorilla/websocket"
 	uuid "github.com/satori/go.uuid"
 	"gorm.io/gorm"
 )
@@ -28,8 +30,9 @@ type IChatController interface {
 
 // ChatController			定义了群聊工具类
 type ChatController struct {
-	DB    *gorm.DB      // 含有一个数据库指针
-	Redis *redis.Client // 含有一个redis指针
+	DB       *gorm.DB            // 含有一个数据库指针
+	Redis    *redis.Client       // 含有一个redis指针
+	UpGrader *websocket.Upgrader // 用于持久化连接
 }
 
 // @title    Send
@@ -310,11 +313,24 @@ leep:
 	// TODO 获得消息管道
 	ch := pubSub.Channel()
 
-	// 设定超时时间，并select它
+	// TODO 升级get请求为webSocket协议
+	ws, err := c.UpGrader.Upgrade(ctx.Writer, ctx.Request, nil)
+	if err != nil {
+		return
+	}
+	defer ws.Close()
+	// TODO 监听消息
 	for msg := range ch {
+		// TODO 读取ws中的数据
+		_, _, err := ws.ReadMessage()
+		// TODO 断开连接
+		if err != nil {
+			break
+		}
 		var chat model.Chat
 		json.Unmarshal([]byte(msg.Payload), &chat)
-		response.Success(ctx, gin.H{"chat": chat}, "新消息")
+		// TODO 写入ws数据
+		ws.WriteJSON(chat)
 	}
 
 }
@@ -336,11 +352,24 @@ func (c ChatController) ReceiveLink(ctx *gin.Context) {
 	// TODO 获得消息管道
 	ch := pubSub.Channel()
 
+	// TODO 升级get请求为webSocket协议
+	ws, err := c.UpGrader.Upgrade(ctx.Writer, ctx.Request, nil)
+	if err != nil {
+		return
+	}
+	defer ws.Close()
 	// TODO 监听消息
 	for msg := range ch {
+		// TODO 读取ws中的数据
+		_, _, err := ws.ReadMessage()
+		// TODO 断开连接
+		if err != nil {
+			break
+		}
 		var chat model.Chat
 		json.Unmarshal([]byte(msg.Payload), &chat)
-		response.Success(ctx, gin.H{"chat": chat}, "新的连接请求")
+		// TODO 写入ws数据
+		ws.WriteJSON(chat)
 	}
 
 }
@@ -353,5 +382,10 @@ func (c ChatController) ReceiveLink(ctx *gin.Context) {
 func NewChatController() IChatController {
 	db := common.GetDB()
 	redis := common.GetRedisClient(0)
-	return ChatController{DB: db, Redis: redis}
+	upGrader := &websocket.Upgrader{
+		CheckOrigin: func(r *http.Request) bool {
+			return true
+		},
+	}
+	return ChatController{DB: db, Redis: redis, UpGrader: upGrader}
 }
