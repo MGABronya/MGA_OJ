@@ -14,29 +14,32 @@ import (
 	"encoding/json"
 	"log"
 	"math"
+	"net/http"
 	"sort"
 	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v9"
+	"github.com/gorilla/websocket"
 	uuid "github.com/satori/go.uuid"
 	"gorm.io/gorm"
 )
 
 // ICompetitionController			定义了比赛类接口
 type ICompetitionController interface {
-	Interface.RestInterface      // 包含增删查改功能
-	RankList(ctx *gin.Context)   // 获取比赛排名情况
-	RankMember(ctx *gin.Context) // 获取某用户的排名情况
-	MemberShow(ctx *gin.Context) // 获取某成员每道题的罚时情况
-	//RollingList(ctx *gin.Context) // 滚榜监听
+	Interface.RestInterface       // 包含增删查改功能
+	RankList(ctx *gin.Context)    // 获取比赛排名情况
+	RankMember(ctx *gin.Context)  // 获取某用户的排名情况
+	MemberShow(ctx *gin.Context)  // 获取某成员每道题的罚时情况
+	RollingList(ctx *gin.Context) // 滚榜监听
 }
 
 // CompetitionController			定义了比赛工具类
 type CompetitionController struct {
-	DB    *gorm.DB      // 含有一个数据库指针
-	Redis *redis.Client // 含有一个redis指针
+	DB       *gorm.DB            // 含有一个数据库指针
+	Redis    *redis.Client       // 含有一个redis指针
+	UpGrader *websocket.Upgrader // 用于持久化连接
 }
 
 // @title    Create
@@ -385,6 +388,74 @@ func (c CompetitionController) MemberShow(ctx *gin.Context) {
 	}
 }
 
+// @title    RollingList
+// @description   监听滚榜
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (c CompetitionController) RollingList(ctx *gin.Context) {
+	// TODO 获取指定比赛
+	id := ctx.Params.ByName("id")
+
+	var competition model.Competition
+
+	// TODO 查看比赛是否存在
+	// TODO 先看redis中是否存在
+	if ok, _ := c.Redis.HExists(ctx, "Competition", id).Result(); ok {
+		cate, _ := c.Redis.HGet(ctx, "Competition", id).Result()
+		if json.Unmarshal([]byte(cate), &competition) == nil {
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			c.Redis.HDel(ctx, "Competition", id)
+		}
+	}
+
+	// TODO 查看比赛是否在数据库中存在
+	if c.DB.Where("id = ?", id).First(&competition).Error != nil {
+		response.Fail(ctx, nil, "比赛不存在")
+		return
+	}
+	{
+		// TODO 将用户组存入redis供下次使用
+		v, _ := json.Marshal(competition)
+		c.Redis.HSet(ctx, "Competition", id, v)
+	}
+leep:
+
+	// TODO 查看比赛是否在进行中
+	if !time.Now().After(time.Time(competition.StartTime)) || time.Now().After(time.Time(competition.EndTime)) {
+		response.Fail(ctx, nil, "比赛不在进行中")
+		return
+	}
+
+	// TODO 订阅消息
+	pubSub := c.Redis.Subscribe(ctx, "CompetitionChan"+id)
+	defer pubSub.Close()
+	// TODO 获得消息管道
+	ch := pubSub.Channel()
+
+	// TODO 升级get请求为webSocket协议
+	ws, err := c.UpGrader.Upgrade(ctx.Writer, ctx.Request, nil)
+	if err != nil {
+		return
+	}
+	defer ws.Close()
+	// TODO 监听消息
+	for msg := range ch {
+		// TODO 读取ws中的数据
+		_, _, err := ws.ReadMessage()
+		// TODO 断开连接
+		if err != nil {
+			break
+		}
+		var rk vo.RankList
+		json.Unmarshal([]byte(msg.Payload), &rk)
+		// TODO 写入ws数据
+		ws.WriteJSON(rk)
+	}
+}
+
 // @title    NewCompetitionController
 // @description   新建一个ICompetitionController
 // @auth      MGAronya（张健）       2022-9-16 12:23
@@ -393,10 +464,15 @@ func (c CompetitionController) MemberShow(ctx *gin.Context) {
 func NewCompetitionController() ICompetitionController {
 	db := common.GetDB()
 	redis := common.GetRedisClient(0)
+	upGrader := &websocket.Upgrader{
+		CheckOrigin: func(r *http.Request) bool {
+			return true
+		},
+	}
 	db.AutoMigrate(model.Competition{})
 	db.AutoMigrate(model.CompetitionRank{})
 	db.AutoMigrate(model.CompetitionMember{})
-	return CompetitionController{DB: db, Redis: redis}
+	return CompetitionController{DB: db, Redis: redis, UpGrader: upGrader}
 }
 
 // @title    StartTimer

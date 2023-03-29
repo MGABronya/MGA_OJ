@@ -9,7 +9,6 @@ import (
 	"MGA_OJ/common"
 	"MGA_OJ/model"
 	"MGA_OJ/response"
-	"MGA_OJ/util"
 	"MGA_OJ/vo"
 	"encoding/json"
 	"log"
@@ -308,7 +307,7 @@ leep:
 	}
 
 	// TODO 订阅消息
-	pubSub := c.Redis.Subscribe(ctx, "ChatChan"+util.StringMerge(user.ID.String(), group.ID.String()))
+	pubSub := c.Redis.Subscribe(ctx, "ChatChan"+group.ID.String())
 	defer pubSub.Close()
 	// TODO 获得消息管道
 	ch := pubSub.Channel()

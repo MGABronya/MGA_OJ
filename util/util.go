@@ -10,6 +10,7 @@ import (
 	TQ "MGA_OJ/Test-request"
 	"MGA_OJ/common"
 	"MGA_OJ/model"
+	"MGA_OJ/vo"
 	"bufio"
 	"bytes"
 	"context"
@@ -431,8 +432,16 @@ feep:
 				competitionMembers[k].Penalties += time.Time(record.CreatedAt).Sub(time.Time(competition.StartTime))
 				cR -= float64(time.Time(record.CreatedAt).Sub(time.Time(competition.StartTime))) / 10000000000
 				competitionMembers[k].Condition = record.Condition
+				// TODO 如果此次为第一次通过
 				if flag {
 					cR++
+					// TODO 发布订阅用于滚榜
+					rankList := vo.RankList{
+						MemberId: TID,
+					}
+					// TODO 将ranklist打包
+					v, _ := json.Marshal(rankList)
+					j.Redis.Publish(j.ctx, "CompetitionChan"+competition.ID.String(), v)
 				}
 				// TODO 存入redis供下次使用
 				v, _ := json.Marshal(competitionMembers)
