@@ -23,6 +23,7 @@ import (
 type ICommentController interface {
 	Interface.RestInterface    // 包含增删查改功能
 	Interface.LikeInterface    // 包含点赞功能
+	Interface.HotInterface     // 包含热度功能
 	UserList(ctx *gin.Context) // 查看指定用户的讨论
 }
 
@@ -93,6 +94,8 @@ leep:
 		response.Fail(ctx, nil, "讨论上传出错，数据库存储错误")
 		return
 	}
+	// TODO 创建热度
+	c.Redis.ZAdd(ctx, "CommentHot"+problem.ID.String(), redis.Z{Member: comment.ID.String(), Score: 100})
 
 	// TODO 成功
 	response.Success(ctx, gin.H{"comment": comment}, "创建成功")
@@ -211,6 +214,9 @@ func (c CommentController) Delete(ctx *gin.Context) {
 	// TODO 移除损坏数据
 	c.Redis.HDel(ctx, "Comment", id)
 
+	// TODO 移除热度
+	c.Redis.ZRem(ctx, "CommentHot"+comment.ProblemId.String(), comment.ID.String())
+
 	response.Success(ctx, nil, "删除成功")
 }
 
@@ -235,6 +241,32 @@ func (c CommentController) PageList(ctx *gin.Context) {
 
 	var total int64
 	c.DB.Where("problem_id = ?", id).Model(model.Comment{}).Count(&total)
+
+	// TODO 返回数据
+	response.Success(ctx, gin.H{"comments": comments, "total": total}, "成功")
+}
+
+// @title    HotRanking
+// @description   根据热度排行获取多篇讨论
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (c CommentController) HotRanking(ctx *gin.Context) {
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
+
+	// TODO 获取path中的id
+	id := ctx.Params.ByName("id")
+	// TODO 查找所有分页中可见的条目
+	comments, err := c.Redis.ZRevRangeWithScores(ctx, "CommentHot"+id, int64(pageNum-1)*int64(pageSize), int64(pageNum-1)*int64(pageSize)+int64(pageSize)-1).Result()
+
+	if err != nil {
+		response.Fail(ctx, nil, "获取失败")
+	}
+
+	// TODO 将redis中的数据取出
+	total, _ := c.Redis.ZCard(ctx, "Comment"+id).Result()
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"comments": comments, "total": total}, "成功")
@@ -307,8 +339,9 @@ leep:
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
 
+	var commentLike model.CommentLike
 	// TODO 如果没有点赞或者点踩
-	if c.DB.Where("user_id = ? and comment_id = ?", user.ID, id).Update("like", like).Error != nil {
+	if c.DB.Where("user_id = ? and comment_id = ?", user.ID, id).First(&commentLike).Error != nil {
 		// TODO 插入数据
 		commentLike := model.CommentLike{
 			CommentId: comment.ID,
@@ -319,6 +352,25 @@ leep:
 			response.Fail(ctx, nil, "点赞出错，数据库存储错误")
 			return
 		}
+		// TODO 热度计算
+		if like {
+			c.Redis.ZIncrBy(ctx, "CommentHot"+comment.ProblemId.String(), 10.0, comment.ID.String())
+		} else {
+			c.Redis.ZIncrBy(ctx, "CommentHot"+comment.ProblemId.String(), -10.0, comment.ID.String())
+		}
+	} else {
+		// TODO 热度计算
+		if commentLike.Like {
+			c.Redis.ZIncrBy(ctx, "CommentHot"+comment.ProblemId.String(), -10.0, comment.ID.String())
+		} else {
+			c.Redis.ZIncrBy(ctx, "CommentHot"+comment.ProblemId.String(), 10.0, comment.ID.String())
+		}
+		if like {
+			c.Redis.ZIncrBy(ctx, "CommentHot"+comment.ProblemId.String(), 10.0, comment.ID.String())
+		} else {
+			c.Redis.ZIncrBy(ctx, "CommentHot"+comment.ProblemId.String(), -10.0, comment.ID.String())
+		}
+		c.DB.Where("user_id = ? and comment_id = ?", user.ID, id).Model(&model.CommentLike{}).Update("like", like)
 	}
 
 	response.Success(ctx, nil, "点赞成功")
@@ -337,9 +389,47 @@ func (c CommentController) CancelLike(ctx *gin.Context) {
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
 
+	var comment model.Comment
+
+	// TODO 先看redis中是否存在
+	if ok, _ := c.Redis.HExists(ctx, "Comment", id).Result(); ok {
+		cate, _ := c.Redis.HGet(ctx, "Comment", id).Result()
+		if json.Unmarshal([]byte(cate), &comment) == nil {
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			c.Redis.HDel(ctx, "Comment", id)
+		}
+	}
+
+	// TODO 查看讨论是否在数据库中存在
+	if c.DB.Where("id = ?", id).First(&comment).Error != nil {
+		response.Fail(ctx, nil, "讨论不存在")
+		return
+	}
+	{
+		// TODO 将讨论存入redis供下次使用
+		v, _ := json.Marshal(comment)
+		c.Redis.HSet(ctx, "Comment", id, v)
+	}
+leep:
+
+	// TODO 查看是否已经点赞或者点踩
+	var commentLike model.CommentLike
+	if c.DB.Where("user_id = ? and comment_id = ?", user.ID, id).First(&commentLike).Error != nil {
+		response.Fail(ctx, nil, "未点赞或点踩")
+		return
+	}
+
+	// TODO 热度计算
+	if commentLike.Like {
+		c.Redis.ZIncrBy(ctx, "CommentHot"+comment.ProblemId.String(), -10.0, commentLike.CommentId.String())
+	} else {
+		c.Redis.ZIncrBy(ctx, "CommentHot"+comment.ProblemId.String(), 10.0, commentLike.CommentId.String())
+	}
+
 	// TODO 取消点赞或者点踩
 	c.DB.Where("user_id = ? and comment_id = ?", user.ID, id).Delete(&model.CommentLike{})
-
 	response.Success(ctx, nil, "取消成功")
 }
 

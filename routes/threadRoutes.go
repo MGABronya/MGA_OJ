@@ -60,5 +60,8 @@ func ThreadRoutes(r *gin.Engine) *gin.Engine {
 	// TODO 查看用户点赞、点踩列表
 	threadRoutes.GET("/likes/:id", threadController.Likes)
 
+	// TODO 获取题解回复热度排行
+	threadRoutes.GET("/hot/rank/:id", threadController.HotRanking)
+
 	return r
 }

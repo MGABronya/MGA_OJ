@@ -32,6 +32,7 @@ type ISetController interface {
 	Interface.BlockInterface     // 包含黑名单相关功能
 	Interface.LabelInterface     // 包含标签接口
 	Interface.SearchInterface    // 包含搜索功能
+	Interface.HotInterface       // 包含热度功能
 	UserList(ctx *gin.Context)   // 查看指定用户的多篇表单
 	TopicList(ctx *gin.Context)  // 查看指定表单的主题列表
 	GroupList(ctx *gin.Context)  // 查看指定表单的用户组列表
@@ -174,6 +175,9 @@ func (s SetController) Create(ctx *gin.Context) {
 		response.Fail(ctx, nil, "更新出错")
 		return
 	}
+
+	// TODO 创建热度
+	s.Redis.ZAdd(ctx, "SetHot", redis.Z{Member: set.ID.String(), Score: 100})
 
 	// TODO 成功
 	response.Success(ctx, nil, "创建成功")
@@ -401,6 +405,9 @@ func (s SetController) Delete(ctx *gin.Context) {
 	// TODO 移除损坏数据
 	s.Redis.HDel(ctx, "Set", id)
 
+	// TODO 移除热度
+	s.Redis.ZRem(ctx, "SetHot", set.ID.String())
+
 	response.Success(ctx, nil, "删除成功")
 }
 
@@ -534,6 +541,30 @@ func (s SetController) ProblemList(ctx *gin.Context) {
 	response.Success(ctx, gin.H{"problemLists": problemLists, "total": total}, "成功")
 }
 
+// @title    HotRanking
+// @description   根据热度排行获取多篇讨论
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (s SetController) HotRanking(ctx *gin.Context) {
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
+
+	// TODO 查找所有分页中可见的条目
+	sets, err := s.Redis.ZRevRangeWithScores(ctx, "SetHot", int64(pageNum-1)*int64(pageSize), int64(pageNum-1)*int64(pageSize)+int64(pageSize)-1).Result()
+
+	if err != nil {
+		response.Fail(ctx, nil, "获取失败")
+	}
+
+	// TODO 将redis中的数据取出
+	total, _ := s.Redis.ZCard(ctx, "SetHot").Result()
+
+	// TODO 返回数据
+	response.Success(ctx, gin.H{"sets": sets, "total": total}, "成功")
+}
+
 // @title    Like
 // @description   点赞或点踩
 // @auth      MGAronya（张健）       2022-9-16 12:20
@@ -574,10 +605,11 @@ leep:
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
 
+	var setLike model.SetLike
 	// TODO 如果没有点赞或者点踩
-	if s.DB.Where("user_id = ? and set_id = ?", user.ID, id).Update("like", like).Error != nil {
+	if s.DB.Where("user_id = ? and set_id = ?", user.ID, id).First(&setLike).Error != nil {
 		// TODO 插入数据
-		setLike := model.SetLike{
+		setLike = model.SetLike{
 			SetId:  set.ID,
 			UserId: user.ID,
 			Like:   like,
@@ -586,6 +618,25 @@ leep:
 			response.Fail(ctx, nil, "点赞出错，数据库存储错误")
 			return
 		}
+		// TODO 热度计算
+		if like {
+			s.Redis.ZIncrBy(ctx, "SetHot", 10.0, set.ID.String())
+		} else {
+			s.Redis.ZIncrBy(ctx, "SetHot", -10.0, set.ID.String())
+		}
+	} else {
+		// TODO 热度计算
+		if setLike.Like {
+			s.Redis.ZIncrBy(ctx, "SetHot", -10.0, set.ID.String())
+		} else {
+			s.Redis.ZIncrBy(ctx, "SetHot", 10.0, set.ID.String())
+		}
+		if like {
+			s.Redis.ZIncrBy(ctx, "SetHot", 10.0, set.ID.String())
+		} else {
+			s.Redis.ZIncrBy(ctx, "SetHot", -10.0, set.ID.String())
+		}
+		s.DB.Where("user_id = ? and set_id = ?", user.ID, id).Model(&model.SetLike{}).Update("like", like)
 	}
 
 	response.Success(ctx, nil, "点赞成功")
@@ -603,6 +654,20 @@ func (s SetController) CancelLike(ctx *gin.Context) {
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
+
+	// TODO 查看是否已经点赞或者点踩
+	var setLike model.SetLike
+	if s.DB.Where("user_id = ? and set_id = ?", user.ID, id).First(&setLike).Error != nil {
+		response.Fail(ctx, nil, "未点赞或点踩")
+		return
+	}
+
+	// TODO 热度计算
+	if setLike.Like {
+		s.Redis.ZIncrBy(ctx, "SetHot", -10.0, setLike.SetId.String())
+	} else {
+		s.Redis.ZIncrBy(ctx, "SetHot", 10.0, setLike.SetId.String())
+	}
 
 	// TODO 取消点赞或者点踩
 	s.DB.Where("user_id = ? and set_id = ?", user.ID, id).Delete(&model.SetLike{})
@@ -769,6 +834,9 @@ leep:
 		return
 	}
 
+	// TODO 热度计算
+	s.Redis.ZIncrBy(ctx, "SetHot", 50.0, set.ID.String())
+
 	response.Success(ctx, nil, "收藏成功")
 }
 
@@ -788,11 +856,11 @@ func (s SetController) CancelCollect(ctx *gin.Context) {
 	// TODO 如果没有收藏
 	if s.DB.Where("user_id = ? and set_id = ?", user.ID, id).First(&model.SetCollect{}).Error != nil {
 		response.Fail(ctx, nil, "未收藏")
-		return
 	} else {
 		s.DB.Where("user_id = ? and set_id = ?", user.ID, id).Delete(&model.SetCollect{})
 		response.Success(ctx, nil, "取消收藏成功")
-		return
+		// TODO 热度计算
+		s.Redis.ZIncrBy(ctx, "SetHot", -50.0, id)
 	}
 }
 
@@ -932,6 +1000,20 @@ leep:
 	if err := s.DB.Create(&setVisit).Error; err != nil {
 		response.Fail(ctx, nil, "表单游览上传出错，数据库存储错误")
 		return
+	}
+
+	// TODO 获取阅读人数
+	last, _ := s.Redis.PFCount(ctx, "SetVisit", id).Result()
+
+	// TODO 添加入阅读库
+	s.Redis.PFAdd(ctx, "SetVisit", id)
+
+	// TODO 获取新的阅读人数
+	new, _ := s.Redis.PFCount(ctx, "SetVisit", id).Result()
+
+	// TODO 如果阅读人数有增加
+	if new > last {
+		s.Redis.ZIncrBy(ctx, "SetHot", 1.0, id)
 	}
 
 	response.Success(ctx, nil, "表单游览成功")

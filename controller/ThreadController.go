@@ -23,6 +23,7 @@ import (
 type IThreadController interface {
 	Interface.RestInterface    // 包含增删查改功能
 	Interface.LikeInterface    // 包含点赞功能
+	Interface.HotInterface     // 包含热度功能
 	UserList(ctx *gin.Context) // 指定用户的题解回复
 }
 
@@ -80,7 +81,7 @@ leep:
 	user := tuser.(model.User)
 
 	// TODO 创建题解的回复
-	var Thread = model.Thread{
+	var thread = model.Thread{
 		UserId:   user.ID,
 		PostId:   post.ID,
 		Content:  requestThread.Content,
@@ -89,13 +90,16 @@ leep:
 	}
 
 	// TODO 插入数据
-	if err := t.DB.Create(&Thread).Error; err != nil {
+	if err := t.DB.Create(&thread).Error; err != nil {
 		response.Fail(ctx, nil, "题解的回复上传出错，数据库存储错误")
 		return
 	}
 
+	// TODO 创建热度
+	t.Redis.ZAdd(ctx, "ThreadHot"+post.ID.String(), redis.Z{Member: thread.ID.String(), Score: 100})
+
 	// TODO 成功
-	response.Success(ctx, gin.H{"Thread": Thread}, "创建成功")
+	response.Success(ctx, gin.H{"thread": thread}, "创建成功")
 }
 
 // @title    Update
@@ -211,6 +215,9 @@ func (t ThreadController) Delete(ctx *gin.Context) {
 	// TODO 移除损坏数据
 	t.Redis.HDel(ctx, "Thread", id)
 
+	// TODO 移除热度
+	t.Redis.ZRem(ctx, "ThreadHot"+thread.PostId.String(), thread.ID.String())
+
 	response.Success(ctx, nil, "删除成功")
 }
 
@@ -266,6 +273,32 @@ func (t ThreadController) UserList(ctx *gin.Context) {
 	response.Success(ctx, gin.H{"threads": threads, "total": total}, "成功")
 }
 
+// @title    HotRanking
+// @description   根据热度排行获取多篇讨论
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (t ThreadController) HotRanking(ctx *gin.Context) {
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
+
+	// TODO 获取path中的id
+	id := ctx.Params.ByName("id")
+	// TODO 查找所有分页中可见的条目
+	threads, err := t.Redis.ZRevRangeWithScores(ctx, "ThreadHot"+id, int64(pageNum-1)*int64(pageSize), int64(pageNum-1)*int64(pageSize)+int64(pageSize)-1).Result()
+
+	if err != nil {
+		response.Fail(ctx, nil, "获取失败")
+	}
+
+	// TODO 将redis中的数据取出
+	total, _ := t.Redis.ZCard(ctx, "ThreadHot"+id).Result()
+
+	// TODO 返回数据
+	response.Success(ctx, gin.H{"threads": threads, "total": total}, "成功")
+}
+
 // @title    Like
 // @description   点赞或点踩
 // @auth      MGAronya（张健）       2022-9-16 12:20
@@ -307,10 +340,11 @@ leep:
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
 
+	var threadLike model.ThreadLike
 	// TODO 如果没有点赞或者点踩
-	if t.DB.Where("user_id = ? and thread_id = ?", user.ID, id).Update("like", like).Error != nil {
+	if t.DB.Where("user_id = ? and thread_id = ?", user.ID, id).First(&threadLike).Error != nil {
 		// TODO 插入数据
-		threadLike := model.ThreadLike{
+		threadLike = model.ThreadLike{
 			ThreadId: thread.ID,
 			UserId:   user.ID,
 			Like:     like,
@@ -319,6 +353,25 @@ leep:
 			response.Fail(ctx, nil, "点赞出错，数据库存储错误")
 			return
 		}
+		// TODO 热度计算
+		if like {
+			t.Redis.ZIncrBy(ctx, "ThreadHot"+thread.PostId.String(), 10.0, thread.ID.String())
+		} else {
+			t.Redis.ZIncrBy(ctx, "ThreadHot"+thread.PostId.String(), -10.0, thread.ID.String())
+		}
+	} else {
+		// TODO 热度计算
+		if threadLike.Like {
+			t.Redis.ZIncrBy(ctx, "ThreadHot"+thread.PostId.String(), -10.0, thread.ID.String())
+		} else {
+			t.Redis.ZIncrBy(ctx, "ThreadHot"+thread.PostId.String(), 10.0, thread.ID.String())
+		}
+		if like {
+			t.Redis.ZIncrBy(ctx, "ThreadHot"+thread.PostId.String(), 10.0, thread.ID.String())
+		} else {
+			t.Redis.ZIncrBy(ctx, "ThreadHot"+thread.PostId.String(), -10.0, thread.ID.String())
+		}
+		t.DB.Where("user_id = ? and thread_id = ?", user.ID, id).Model(&model.ThreadLike{}).Update("like", like)
 	}
 
 	response.Success(ctx, nil, "点赞成功")
@@ -336,6 +389,44 @@ func (t ThreadController) CancelLike(ctx *gin.Context) {
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
+
+	var thread model.Thread
+
+	// TODO 先看redis中是否存在
+	if ok, _ := t.Redis.HExists(ctx, "Thread", id).Result(); ok {
+		cate, _ := t.Redis.HGet(ctx, "Thread", id).Result()
+		if json.Unmarshal([]byte(cate), &thread) == nil {
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			t.Redis.HDel(ctx, "Thread", id)
+		}
+	}
+
+	// TODO 查看题解的回复是否在数据库中存在
+	if t.DB.Where("id = ?", id).First(&thread).Error != nil {
+		response.Fail(ctx, nil, "题解的回复不存在")
+		return
+	}
+	{
+		// TODO 将提交存入redis供下次使用
+		v, _ := json.Marshal(thread)
+		t.Redis.HSet(ctx, "Thread", id, v)
+	}
+leep:
+	// TODO 查看是否已经点赞或者点踩
+	var threadLike model.ThreadLike
+	if t.DB.Where("user_id = ? and thread_id = ?", user.ID, id).First(&threadLike).Error != nil {
+		response.Fail(ctx, nil, "未点赞或点踩")
+		return
+	}
+
+	// TODO 热度计算
+	if threadLike.Like {
+		t.Redis.ZIncrBy(ctx, "ThreadHot"+thread.PostId.String(), -10.0, thread.ID.String())
+	} else {
+		t.Redis.ZIncrBy(ctx, "ThreadHot"+thread.PostId.String(), 10.0, thread.ID.String())
+	}
 
 	// TODO 取消点赞或者点踩
 	t.DB.Where("user_id = ? and thread_id = ?", user.ID, id).Delete(&model.ThreadLike{})

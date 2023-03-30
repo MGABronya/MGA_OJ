@@ -28,6 +28,7 @@ type IArticleController interface {
 	Interface.CollectInterface     // 包含收藏功能
 	Interface.VisitInterface       // 包含游览功能
 	Interface.SearchInterface      // 包含搜索功能
+	Interface.HotInterface         // 包含热度功能
 	UserList(ctx *gin.Context)     // 查询指定用户的文章
 	CategoryList(ctx *gin.Context) // 查询某分类的文章
 	Interface.LabelInterface       // 包含标签功能
@@ -71,6 +72,7 @@ func (a ArticleController) Create(ctx *gin.Context) {
 		response.Fail(ctx, nil, "文章上传出错，数据验证有误")
 		return
 	}
+	a.Redis.ZAdd(ctx, "ArticleHot", redis.Z{Member: article.ID.String(), Score: 100.0})
 
 	// TODO 成功
 	response.Success(ctx, nil, "创建成功")
@@ -189,6 +191,8 @@ func (a ArticleController) Delete(ctx *gin.Context) {
 
 	// TODO 解码失败，删除字段
 	a.Redis.HDel(ctx, "Article", id)
+	// TODO 删除热度
+	a.Redis.ZRem(ctx, "ArticleHot", article.ID.String())
 
 	response.Success(ctx, nil, "删除成功")
 }
@@ -270,6 +274,30 @@ func (a ArticleController) CategoryList(ctx *gin.Context) {
 	response.Success(ctx, gin.H{"articles": articles, "total": total}, "成功")
 }
 
+// @title    HotRanking
+// @description   按热度排行获取多篇文章
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (a ArticleController) HotRanking(ctx *gin.Context) {
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
+
+	// TODO 查找所有分页中可见的条目
+	articles, err := a.Redis.ZRevRangeWithScores(ctx, "ArticleHot", int64(pageNum-1)*int64(pageSize), int64(pageNum-1)*int64(pageSize)+int64(pageSize)-1).Result()
+
+	if err != nil {
+		response.Fail(ctx, nil, "获取失败")
+	}
+
+	// TODO 将redis中的数据取出
+	total, _ := a.Redis.ZCard(ctx, "ArticleHot").Result()
+
+	// TODO 返回数据
+	response.Success(ctx, gin.H{"articles": articles, "total": total}, "成功")
+}
+
 // @title    Like
 // @description   点赞或点踩
 // @auth      MGAronya（张健）       2022-9-16 12:20
@@ -311,10 +339,11 @@ leep:
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
 
+	var articleLike model.ArticleLike
 	// TODO 如果没有点赞或者点踩
-	if a.DB.Where("user_id = ? and article_id = ?", user.ID, id).Update("like", like).Error != nil {
+	if a.DB.Where("user_id = ? and article_id = ?", user.ID, id).First(&articleLike).Error != nil {
 		// TODO 插入数据
-		articleLike := model.ArticleLike{
+		articleLike = model.ArticleLike{
 			ArticleId: article.ID,
 			UserId:    user.ID,
 			Like:      like,
@@ -323,6 +352,25 @@ leep:
 			response.Fail(ctx, nil, "点赞出错，数据库存储错误")
 			return
 		}
+		// TODO 热度计算
+		if like {
+			a.Redis.ZIncrBy(ctx, "ArticleHot", 10.0, article.ID.String())
+		} else {
+			a.Redis.ZIncrBy(ctx, "ArticleHot", -10.0, article.ID.String())
+		}
+	} else {
+		// TODO 热度计算
+		if articleLike.Like {
+			a.Redis.ZIncrBy(ctx, "ArticleHot", -10.0, article.ID.String())
+		} else {
+			a.Redis.ZIncrBy(ctx, "ArticleHot", 10.0, article.ID.String())
+		}
+		if like {
+			a.Redis.ZIncrBy(ctx, "ArticleHot", 10.0, article.ID.String())
+		} else {
+			a.Redis.ZIncrBy(ctx, "ArticleHot", -10.0, article.ID.String())
+		}
+		a.DB.Where("user_id = ? and article_id = ?", user.ID, id).Model(&model.ArticleLike{}).Update("like", like)
 	}
 
 	response.Success(ctx, nil, "点赞成功")
@@ -340,6 +388,20 @@ func (a ArticleController) CancelLike(ctx *gin.Context) {
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
+
+	// TODO 查看是否已经点赞或者点踩
+	var articleLike model.ArticleLike
+	if a.DB.Where("user_id = ? and article_id = ?", user.ID, id).First(&articleLike).Error != nil {
+		response.Fail(ctx, nil, "未点赞或点踩")
+		return
+	}
+
+	// TODO 热度计算
+	if articleLike.Like {
+		a.Redis.ZIncrBy(ctx, "ArticleHot", -10.0, articleLike.ArticleId.String())
+	} else {
+		a.Redis.ZIncrBy(ctx, "ArticleHot", 10.0, articleLike.ArticleId.String())
+	}
 
 	// TODO 取消点赞或者点踩
 	a.DB.Where("user_id = ? and article_id = ?", user.ID, id).Delete(&model.ArticleLike{})
@@ -504,6 +566,9 @@ leep:
 		return
 	}
 
+	// TODO 热度计算
+	a.Redis.ZIncrBy(ctx, "ArticleHot", 50.0, article.ID.String())
+
 	response.Success(ctx, nil, "收藏成功")
 }
 
@@ -523,11 +588,11 @@ func (a ArticleController) CancelCollect(ctx *gin.Context) {
 	// TODO 如果没有收藏
 	if a.DB.Where("user_id = ? and article_id = ?", user.ID, id).First(&model.ArticleCollect{}).Error != nil {
 		response.Fail(ctx, nil, "未收藏")
-		return
 	} else {
 		a.DB.Where("user_id = ? and article_id = ?", user.ID, id).Delete(&model.ArticleCollect{})
 		response.Success(ctx, nil, "取消收藏成功")
-		return
+		// TODO 热度计算
+		a.Redis.ZIncrBy(ctx, "ArticleHot", -50.0, id)
 	}
 }
 
@@ -668,6 +733,20 @@ leep:
 		return
 	}
 
+	// TODO 获取阅读人数
+	last, _ := a.Redis.PFCount(ctx, "ArticleVisit", id).Result()
+
+	// TODO 添加入阅读库
+	a.Redis.PFAdd(ctx, "ArticleVisit", id)
+
+	// TODO 获取新的阅读人数
+	new, _ := a.Redis.PFCount(ctx, "ArticleVisit", id).Result()
+
+	// TODO 如果阅读人数有增加
+	if new > last {
+		a.Redis.ZIncrBy(ctx, "ArticleHot", 1.0, id)
+	}
+
 	response.Success(ctx, nil, "文章游览成功")
 }
 
@@ -680,10 +759,8 @@ func (a ArticleController) VisitNumber(ctx *gin.Context) {
 	// TODO 获取path中的id
 	id := ctx.Params.ByName("id")
 
-	// TODO 获得游览总数
-	var total int64
-
-	a.DB.Where("article_id = ?", id).Count(&total)
+	// TODO 获取阅读人数
+	total, _ := a.Redis.PFCount(ctx, "ArticleVisit", id).Result()
 
 	response.Success(ctx, gin.H{"total": total}, "请求文章游览数目成功")
 }

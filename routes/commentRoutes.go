@@ -60,5 +60,8 @@ func CommentRoutes(r *gin.Engine) *gin.Engine {
 	// TODO 查看用户点赞、点踩列表
 	commentRoutes.GET("/likes/:id", commentController.Likes)
 
+	// TODO 获取讨论热度排行
+	commentRoutes.GET("/hot/rank/:id", commentController.HotRanking)
+
 	return r
 }

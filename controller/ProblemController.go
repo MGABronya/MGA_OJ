@@ -974,6 +974,9 @@ leep:
 		return
 	}
 
+	// TODO 添加入阅读库
+	p.Redis.PFAdd(ctx, "ProblemVisit", id)
+
 	response.Success(ctx, nil, "题目游览成功")
 }
 
@@ -986,10 +989,8 @@ func (p ProblemController) VisitNumber(ctx *gin.Context) {
 	// TODO 获取path中的id
 	id := ctx.Params.ByName("id")
 
-	// TODO 获得游览总数
-	var total int64
-
-	p.DB.Where("problem_id = ?", id).Count(&total)
+	// TODO 获取阅读人数
+	total, _ := p.Redis.PFCount(ctx, "ProblemVisit", id).Result()
 
 	response.Success(ctx, gin.H{"total": total}, "请求题目游览数目成功")
 }

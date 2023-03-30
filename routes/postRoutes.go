@@ -108,5 +108,8 @@ func PostRoutes(r *gin.Engine) *gin.Engine {
 	// TODO 按文本和标签交集搜索题解
 	postRoutes.GET("/search/with/label/:id/:text", postController.SearchWithLabel)
 
+	// TODO 获取题解热度排行
+	postRoutes.GET("/hot/rank/:id", postController.HotRanking)
+
 	return r
 }

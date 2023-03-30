@@ -150,5 +150,8 @@ func SetRoutes(r *gin.Engine) *gin.Engine {
 	// TODO 查看某用户在某表单在哪一组中
 	setRoutes.GET("/user/group/:user/:set", setController.UserGroup)
 
+	// TODO 获取表单热度排行
+	setRoutes.GET("/hot/rank", setController.HotRanking)
+
 	return r
 }
