@@ -13,6 +13,7 @@ import (
 	"encoding/json"
 	"log"
 	"strconv"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v9"
@@ -102,7 +103,7 @@ leep:
 		return
 	}
 	// TODO 创建热度
-	p.Redis.ZAdd(ctx, "PostHot"+problem.ID.String(), redis.Z{Member: post.ID.String(), Score: 100})
+	p.Redis.ZAdd(ctx, "PostHot"+problem.ID.String(), redis.Z{Member: post.ID.String(), Score: 100 + float64(time.Now().Unix()/86400)})
 
 	// TODO 成功
 	response.Success(ctx, gin.H{"post": post}, "创建成功")
@@ -142,8 +143,15 @@ func (p PostController) Update(ctx *gin.Context) {
 		return
 	}
 
+	postUpdate := model.Post{
+		Title:    requestPost.Title,
+		Content:  requestPost.Content,
+		Reslong:  requestPost.Reslong,
+		Resshort: requestPost.Resshort,
+	}
+
 	// TODO 更新题解内容
-	p.DB.Where("id = ?", id).Updates(requestPost)
+	p.DB.Where("id = ?", id).Updates(postUpdate)
 
 	// TODO 移除损坏数据
 	p.Redis.HDel(ctx, "Post", id)
@@ -296,6 +304,10 @@ func (p PostController) HotRanking(ctx *gin.Context) {
 
 	if err != nil {
 		response.Fail(ctx, nil, "获取失败")
+	}
+
+	for i := range posts {
+		posts[i].Score -= float64(time.Now().Unix() / 86400)
 	}
 
 	// TODO 将redis中的数据取出

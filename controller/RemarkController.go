@@ -13,6 +13,7 @@ import (
 	"encoding/json"
 	"log"
 	"strconv"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v9"
@@ -95,7 +96,7 @@ leep:
 	}
 
 	// TODO 创建热度
-	r.Redis.ZAdd(ctx, "RemarkHot"+article.ID.String(), redis.Z{Member: remark.ID.String(), Score: 100})
+	r.Redis.ZAdd(ctx, "RemarkHot"+article.ID.String(), redis.Z{Member: remark.ID.String(), Score: 100 + float64(time.Now().Unix()/86400)})
 
 	// TODO 成功
 	response.Success(ctx, gin.H{"remark": remark}, "创建成功")
@@ -107,7 +108,7 @@ leep:
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (r RemarkController) Update(ctx *gin.Context) {
-	var requestRemark model.Remark
+	var requestRemark vo.RemarkRequest
 	// TODO 数据验证
 	if err := ctx.ShouldBind(&requestRemark); err != nil {
 		log.Print(err.Error())
@@ -135,8 +136,14 @@ func (r RemarkController) Update(ctx *gin.Context) {
 		return
 	}
 
+	remarkUpdate := model.Remark{
+		Content:  requestRemark.Content,
+		Reslong:  requestRemark.Reslong,
+		Resshort: requestRemark.Resshort,
+	}
+
 	// TODO 更新文章的回复内容
-	r.DB.Where("id = ?", id).Updates(requestRemark)
+	r.DB.Where("id = ?", id).Updates(remarkUpdate)
 
 	// TODO 移除损坏数据
 	r.Redis.HDel(ctx, "Remark", id)
@@ -289,6 +296,10 @@ func (r RemarkController) HotRanking(ctx *gin.Context) {
 
 	if err != nil {
 		response.Fail(ctx, nil, "获取失败")
+	}
+
+	for i := range remarks {
+		remarks[i].Score -= float64(time.Now().Unix() / 86400)
 	}
 
 	// TODO 将redis中的数据取出

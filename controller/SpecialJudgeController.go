@@ -63,10 +63,12 @@ func (s SpecialJudgeController) Create(ctx *gin.Context) {
 		// TODO 测试不通过
 		response.Fail(ctx, gin.H{"test": test}, "测试不通过")
 	}
-	var specialJudge model.SpecialJudge
-	specialJudge.Code = specialJudgeRequest.Code
-	specialJudge.Language = specialJudgeRequest.Language
-	specialJudge.UserId = user.ID
+
+	specialJudge := model.SpecialJudge{
+		Language: specialJudgeRequest.Language,
+		Code:     specialJudgeRequest.Code,
+		UserId:   user.ID,
+	}
 	// TODO 插入数据
 	if err := s.DB.Create(&specialJudge).Error; err != nil {
 		response.Fail(ctx, nil, "特判上传出错，数据验证有误")
@@ -83,9 +85,9 @@ func (s SpecialJudgeController) Create(ctx *gin.Context) {
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (s SpecialJudgeController) Update(ctx *gin.Context) {
-	var specialJudgeUpdate model.SpecialJudge
+	var specialJudgeRequest vo.SpecialJudgeRequest
 	// TODO 数据验证
-	if err := ctx.ShouldBind(&specialJudgeUpdate); err != nil {
+	if err := ctx.ShouldBind(&specialJudgeRequest); err != nil {
 		log.Print(err.Error())
 		response.Fail(ctx, nil, "数据验证错误")
 		return
@@ -115,6 +117,20 @@ func (s SpecialJudgeController) Update(ctx *gin.Context) {
 	if user.ID != specialJudge.UserId {
 		response.Fail(ctx, nil, "不是特判作者，无法修改特判")
 		return
+	}
+
+	// TODO 测试运行情况
+	test := TQ.JudgeRun(specialJudgeRequest.Language, specialJudgeRequest.Code, specialJudgeRequest.Input, 1024*256, uint(time.Second*30))
+
+	// TODO 查看测试情况
+	if test != "ok" {
+		// TODO 测试不通过
+		response.Fail(ctx, gin.H{"test": test}, "测试不通过")
+	}
+
+	specialJudgeUpdate := model.SpecialJudge{
+		Language: specialJudgeRequest.Language,
+		Code:     specialJudgeRequest.Code,
 	}
 
 	// TODO 更新特判内容

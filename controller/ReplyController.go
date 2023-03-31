@@ -13,6 +13,7 @@ import (
 	"encoding/json"
 	"log"
 	"strconv"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v9"
@@ -94,7 +95,7 @@ leep:
 	}
 
 	// TODO 创建热度
-	r.Redis.ZAdd(ctx, "ReplyHot"+comment.ID.String(), redis.Z{Member: reply.ID.String(), Score: 100})
+	r.Redis.ZAdd(ctx, "ReplyHot"+comment.ID.String(), redis.Z{Member: reply.ID.String(), Score: 100 + float64(time.Now().Unix()/86400)})
 
 	// TODO 成功
 	response.Success(ctx, gin.H{"reply": reply}, "创建成功")
@@ -106,7 +107,7 @@ leep:
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (r ReplyController) Update(ctx *gin.Context) {
-	var requestReply model.Reply
+	var requestReply vo.ReplyRequest
 	// TODO 数据验证
 	if err := ctx.ShouldBind(&requestReply); err != nil {
 		log.Print(err.Error())
@@ -134,8 +135,14 @@ func (r ReplyController) Update(ctx *gin.Context) {
 		return
 	}
 
+	replyUpdate := model.Reply{
+		Content:  requestReply.Content,
+		Reslong:  requestReply.Reslong,
+		Resshort: requestReply.Resshort,
+	}
+
 	// TODO 更新讨论的回复内容
-	r.DB.Where("id = ?", id).Updates(requestReply)
+	r.DB.Where("id = ?", id).Updates(replyUpdate)
 
 	// TODO 移除损坏数据
 	r.Redis.HDel(ctx, "Reply", id)
@@ -288,6 +295,10 @@ func (r ReplyController) HotRanking(ctx *gin.Context) {
 
 	if err != nil {
 		response.Fail(ctx, nil, "获取失败")
+	}
+
+	for i := range replys {
+		replys[i].Score -= float64(time.Now().Unix() / 86400)
 	}
 
 	// TODO 将redis中的数据取出

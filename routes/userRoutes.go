@@ -75,9 +75,6 @@ func UserRoutes(r *gin.Engine) *gin.Engine {
 	// TODO 按文本搜索用户
 	userRoutes.GET("/search/:text", userController.Search)
 
-	// TODO 按文本搜索用户
-	userRoutes.GET("/search/:text", userController.Search)
-
 	// TODO 按标签搜索用户
 	userRoutes.GET("/search/label", userController.SearchLabel)
 

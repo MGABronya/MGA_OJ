@@ -139,9 +139,9 @@ func (c CompetitionController) Create(ctx *gin.Context) {
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CompetitionController) Update(ctx *gin.Context) {
-	var competitionUpdate model.Competition
+	var competitionRequest vo.CompetitionRequest
 	// TODO 数据验证
-	if err := ctx.ShouldBind(&competitionUpdate); err != nil {
+	if err := ctx.ShouldBind(&competitionRequest); err != nil {
 		log.Print(err.Error())
 		response.Fail(ctx, nil, "数据验证错误")
 		return
@@ -158,15 +158,15 @@ func (c CompetitionController) Update(ctx *gin.Context) {
 	}
 
 	// TODO 验证起始时间与终止时间是否合法
-	if competitionUpdate.StartTime.After(competitionUpdate.EndTime) {
+	if competitionRequest.StartTime.After(competitionRequest.EndTime) {
 		response.Fail(ctx, nil, "起始时间大于了终止时间")
 		return
 	}
-	if time.Now().After(time.Time(competitionUpdate.StartTime)) {
+	if time.Now().After(time.Time(competitionRequest.StartTime)) {
 		response.Fail(ctx, nil, "起始时间大于了当前时间")
 		return
 	}
-	if time.Time(competitionUpdate.EndTime).After(time.Now().Add(35 * 24 * time.Hour)) {
+	if time.Time(competitionRequest.EndTime).After(time.Now().Add(35 * 24 * time.Hour)) {
 		response.Fail(ctx, nil, "终止时间不可设置为35日后")
 		return
 	}
@@ -184,6 +184,13 @@ func (c CompetitionController) Update(ctx *gin.Context) {
 	if time.Now().After(time.Time(competition.StartTime)) {
 		response.Fail(ctx, nil, "比赛已经进行")
 		return
+	}
+
+	competitionUpdate := model.Competition{
+		SetId:     competitionRequest.SetId,
+		StartTime: competitionRequest.StartTime,
+		EndTime:   competitionRequest.EndTime,
+		Type:      competitionRequest.Type,
 	}
 
 	// TODO 更新比赛内容

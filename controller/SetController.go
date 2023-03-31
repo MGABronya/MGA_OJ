@@ -177,7 +177,7 @@ func (s SetController) Create(ctx *gin.Context) {
 	}
 
 	// TODO 创建热度
-	s.Redis.ZAdd(ctx, "SetHot", redis.Z{Member: set.ID.String(), Score: 100})
+	s.Redis.ZAdd(ctx, "SetHot", redis.Z{Member: set.ID.String(), Score: 100 + float64(time.Now().Unix()/86400)})
 
 	// TODO 成功
 	response.Success(ctx, nil, "创建成功")
@@ -556,6 +556,10 @@ func (s SetController) HotRanking(ctx *gin.Context) {
 
 	if err != nil {
 		response.Fail(ctx, nil, "获取失败")
+	}
+
+	for i := range sets {
+		sets[i].Score -= float64(time.Now().Unix() / 86400)
 	}
 
 	// TODO 将redis中的数据取出

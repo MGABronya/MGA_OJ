@@ -13,6 +13,7 @@ import (
 	"encoding/json"
 	"log"
 	"strconv"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v9"
@@ -95,7 +96,7 @@ leep:
 		return
 	}
 	// TODO 创建热度
-	c.Redis.ZAdd(ctx, "CommentHot"+problem.ID.String(), redis.Z{Member: comment.ID.String(), Score: 100})
+	c.Redis.ZAdd(ctx, "CommentHot"+problem.ID.String(), redis.Z{Member: comment.ID.String(), Score: 100 + float64(time.Now().Unix()/86400)})
 
 	// TODO 成功
 	response.Success(ctx, gin.H{"comment": comment}, "创建成功")
@@ -263,6 +264,10 @@ func (c CommentController) HotRanking(ctx *gin.Context) {
 
 	if err != nil {
 		response.Fail(ctx, nil, "获取失败")
+	}
+
+	for i := range comments {
+		comments[i].Score -= float64(time.Now().Unix() / 86400)
 	}
 
 	// TODO 将redis中的数据取出

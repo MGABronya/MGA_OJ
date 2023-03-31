@@ -1,7 +1,6 @@
 package rabbitMq
 
 import (
-	"MGA_OJ/util"
 	"fmt"
 	"log"
 
@@ -136,9 +135,9 @@ func (r *RabbitMQ) ConsumeSimple() {
 	}
 
 	for d := range msgs {
-		judge := util.NewJudge()
+		judge := NewJudge()
 		// TODO 启用协程处理消息
-		go func(body []byte, judge util.Judge) {
+		go func(body []byte, judge Judge) {
 			judge.Handel(body)
 		}(d.Body, judge)
 

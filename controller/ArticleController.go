@@ -13,6 +13,7 @@ import (
 	"encoding/json"
 	"log"
 	"strconv"
+	"time"
 
 	"github.com/go-redis/redis/v9"
 	uuid "github.com/satori/go.uuid"
@@ -60,11 +61,12 @@ func (a ArticleController) Create(ctx *gin.Context) {
 
 	// TODO 创建文章
 	article := model.Article{
-		Title:    requestArticle.Title,
-		Content:  requestArticle.Content,
-		Reslong:  requestArticle.Reslong,
-		Resshort: requestArticle.Resshort,
-		UserId:   user.ID,
+		Title:      requestArticle.Title,
+		Content:    requestArticle.Content,
+		Reslong:    requestArticle.Reslong,
+		Resshort:   requestArticle.Resshort,
+		UserId:     user.ID,
+		CategoryId: requestArticle.CategoryId,
 	}
 
 	// TODO 插入数据
@@ -72,7 +74,8 @@ func (a ArticleController) Create(ctx *gin.Context) {
 		response.Fail(ctx, nil, "文章上传出错，数据验证有误")
 		return
 	}
-	a.Redis.ZAdd(ctx, "ArticleHot", redis.Z{Member: article.ID.String(), Score: 100.0})
+	time.Now().Unix()
+	a.Redis.ZAdd(ctx, "ArticleHot", redis.Z{Member: article.ID.String(), Score: 100 + float64(time.Now().Unix()/86400)})
 
 	// TODO 成功
 	response.Success(ctx, nil, "创建成功")
@@ -84,7 +87,7 @@ func (a ArticleController) Create(ctx *gin.Context) {
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (a ArticleController) Update(ctx *gin.Context) {
-	var requestArticle model.Article
+	var requestArticle vo.ArticleRequest
 	// TODO 数据验证
 	if err := ctx.ShouldBind(&requestArticle); err != nil {
 		log.Print(err.Error())
@@ -112,8 +115,17 @@ func (a ArticleController) Update(ctx *gin.Context) {
 		return
 	}
 
+	// TODO 新建文章
+	articleUpdate := model.Article{
+		Title:      requestArticle.Title,
+		Content:    requestArticle.Content,
+		Reslong:    requestArticle.Reslong,
+		Resshort:   requestArticle.Resshort,
+		CategoryId: requestArticle.CategoryId,
+	}
+
 	// TODO 更新文章内容
-	a.DB.Model(model.Article{}).Where("id = ?", id).Updates(requestArticle)
+	a.DB.Model(model.Article{}).Where("id = ?", id).Updates(articleUpdate)
 
 	// TODO 解码失败，删除字段
 	a.Redis.HDel(ctx, "Article", id)
@@ -289,6 +301,10 @@ func (a ArticleController) HotRanking(ctx *gin.Context) {
 
 	if err != nil {
 		response.Fail(ctx, nil, "获取失败")
+	}
+
+	for i := range articles {
+		articles[i].Score -= float64(time.Now().Unix() / 86400)
 	}
 
 	// TODO 将redis中的数据取出
@@ -783,7 +799,7 @@ func (a ArticleController) VisitList(ctx *gin.Context) {
 
 	var total int64
 
-	// TODO 查看收藏的数量
+	// TODO 查看游览的数量
 	a.DB.Where("article_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&articleVisits).Count(&total)
 
 	response.Success(ctx, gin.H{"articleVisits": articleVisits, "total": total}, "查看成功")

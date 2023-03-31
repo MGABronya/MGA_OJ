@@ -13,6 +13,7 @@ import (
 	"encoding/json"
 	"log"
 	"strconv"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v9"
@@ -96,7 +97,7 @@ leep:
 	}
 
 	// TODO 创建热度
-	t.Redis.ZAdd(ctx, "ThreadHot"+post.ID.String(), redis.Z{Member: thread.ID.String(), Score: 100})
+	t.Redis.ZAdd(ctx, "ThreadHot"+post.ID.String(), redis.Z{Member: thread.ID.String(), Score: 100 + float64(time.Now().Unix()/86400)})
 
 	// TODO 成功
 	response.Success(ctx, gin.H{"thread": thread}, "创建成功")
@@ -108,7 +109,7 @@ leep:
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (t ThreadController) Update(ctx *gin.Context) {
-	var requestThread model.Thread
+	var requestThread vo.ThreadRequest
 	// TODO 数据验证
 	if err := ctx.ShouldBind(&requestThread); err != nil {
 		log.Print(err.Error())
@@ -136,8 +137,14 @@ func (t ThreadController) Update(ctx *gin.Context) {
 		return
 	}
 
+	threadUpdate := model.Thread{
+		Content:  requestThread.Content,
+		Reslong:  requestThread.Reslong,
+		Resshort: requestThread.Resshort,
+	}
+
 	// TODO 更新题解的回复内容
-	t.DB.Where("id = ?", id).Updates(requestThread)
+	t.DB.Where("id = ?", id).Updates(threadUpdate)
 
 	// TODO 移除损坏数据
 	t.Redis.HDel(ctx, "Thread", id)
@@ -290,6 +297,10 @@ func (t ThreadController) HotRanking(ctx *gin.Context) {
 
 	if err != nil {
 		response.Fail(ctx, nil, "获取失败")
+	}
+
+	for i := range threads {
+		threads[i].Score -= float64(time.Now().Unix() / 86400)
 	}
 
 	// TODO 将redis中的数据取出
