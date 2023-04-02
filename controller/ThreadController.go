@@ -460,7 +460,7 @@ func (t ThreadController) LikeNumber(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	t.DB.Where("thread_id = ? and like = ?", id, like).Count(&total)
+	t.DB.Where("thread_id = ? and like = ?", id, like).Model(model.ThreadLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"total": total}, "查看成功")
 }
@@ -487,7 +487,9 @@ func (t ThreadController) LikeList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	t.DB.Where("thread_id = ? and like = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&threadLikes).Count(&total)
+	t.DB.Where("thread_id = ? and like = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&threadLikes)
+
+	t.DB.Where("thread_id = ? and like = ?", id, like).Model(model.ThreadLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"threadLikes": threadLikes, "total": total}, "查看成功")
 }
@@ -522,7 +524,7 @@ func (t ThreadController) LikeShow(ctx *gin.Context) {
 }
 
 // @title    Likes
-// @description   查看用户点赞状态
+// @description   查看用户点赞列表
 // @auth      MGAronya（张健）       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
@@ -544,7 +546,9 @@ func (t ThreadController) Likes(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	t.DB.Where("user_id = ? and like = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&threadLikes).Count(&total)
+	t.DB.Where("user_id = ? and like = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&threadLikes)
+
+	t.DB.Where("user_id = ? and like = ?", id, like).Model(model.ThreadLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"threadLikes": threadLikes, "total": total}, "查看成功")
 }

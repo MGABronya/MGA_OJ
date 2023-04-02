@@ -30,6 +30,7 @@ type IGroupController interface {
 	Interface.CollectInterface   // 包含收藏功能
 	Interface.LabelInterface     // 包含标签功能
 	Interface.SearchInterface    // 包含搜索功能
+	Interface.HotInterface       // 包含热度功能
 	LeaderList(ctx *gin.Context) // 查询指定用户领导的用户组
 	MemberList(ctx *gin.Context) // 查询指定用户参加的用户组
 	UserList(ctx *gin.Context)   // 查询指定用户组的用户列表
@@ -94,6 +95,8 @@ func (g GroupController) Create(ctx *gin.Context) {
 		UserId:  user.ID,
 		GroupId: group.ID,
 	})
+
+	g.Redis.ZAdd(ctx, "GroupHot", redis.Z{Member: group.ID.String(), Score: 300 + float64(time.Now().Unix()/86400)})
 
 	// TODO 成功
 	response.Success(ctx, nil, "创建成功")
@@ -347,6 +350,34 @@ func (g GroupController) UserList(ctx *gin.Context) {
 	response.Success(ctx, gin.H{"userList": userList, "total": total}, "成功")
 }
 
+// @title    HotRanking
+// @description   按热度排行获取多篇文章
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (g GroupController) HotRanking(ctx *gin.Context) {
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
+
+	// TODO 查找所有分页中可见的条目
+	groups, err := g.Redis.ZRevRangeWithScores(ctx, "GroupHot", int64(pageNum-1)*int64(pageSize), int64(pageNum-1)*int64(pageSize)+int64(pageSize)-1).Result()
+
+	if err != nil {
+		response.Fail(ctx, nil, "获取失败")
+	}
+
+	for i := range groups {
+		groups[i].Score -= float64(time.Now().Unix() / 86400)
+	}
+
+	// TODO 将redis中的数据取出
+	total, _ := g.Redis.ZCard(ctx, "GroupHot").Result()
+
+	// TODO 返回数据
+	response.Success(ctx, gin.H{"groups": groups, "total": total}, "成功")
+}
+
 // @title    Like
 // @description   点赞或点踩
 // @auth      MGAronya（张健）       2022-9-16 12:20
@@ -387,10 +418,11 @@ leep:
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
 
+	var groupLike model.GroupLike
 	// TODO 如果没有点赞或者点踩
-	if g.DB.Where("user_id = ? and group_id = ?", user.ID, id).Update("like", like).Error != nil {
+	if g.DB.Where("user_id = ? and group_id = ?", user.ID, id).First(&groupLike).Error != nil {
 		// TODO 插入数据
-		groupLike := model.GroupLike{
+		groupLike = model.GroupLike{
 			GroupId: group.ID,
 			UserId:  user.ID,
 			Like:    like,
@@ -399,6 +431,25 @@ leep:
 			response.Fail(ctx, nil, "点赞出错，数据库存储错误")
 			return
 		}
+		// TODO 热度计算
+		if like {
+			g.Redis.ZIncrBy(ctx, "GroupHot", 10.0, group.ID.String())
+		} else {
+			g.Redis.ZIncrBy(ctx, "GroupHot", -10.0, group.ID.String())
+		}
+	} else {
+		// TODO 热度计算
+		if groupLike.Like {
+			g.Redis.ZIncrBy(ctx, "GroupHot", -10.0, group.ID.String())
+		} else {
+			g.Redis.ZIncrBy(ctx, "GroupHot", 10.0, group.ID.String())
+		}
+		if like {
+			g.Redis.ZIncrBy(ctx, "GroupHot", 10.0, group.ID.String())
+		} else {
+			g.Redis.ZIncrBy(ctx, "GroupHot", -10.0, group.ID.String())
+		}
+		g.DB.Where("user_id = ? and group_id = ?", user.ID, id).Model(&model.GroupLike{}).Update("like", like)
 	}
 
 	response.Success(ctx, nil, "点赞成功")
@@ -416,6 +467,20 @@ func (g GroupController) CancelLike(ctx *gin.Context) {
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
+
+	// TODO 查看是否已经点赞或者点踩
+	var groupLike model.GroupLike
+	if g.DB.Where("user_id = ? and group_id = ?", user.ID, id).First(&groupLike).Error != nil {
+		response.Fail(ctx, nil, "未点赞或点踩")
+		return
+	}
+
+	// TODO 热度计算
+	if groupLike.Like {
+		g.Redis.ZIncrBy(ctx, "GroupHot", -10.0, groupLike.GroupId.String())
+	} else {
+		g.Redis.ZIncrBy(ctx, "GroupHot", 10.0, groupLike.GroupId.String())
+	}
 
 	// TODO 取消点赞或者点踩
 	g.DB.Where("user_id = ? and group_id = ?", user.ID, id).Delete(&model.GroupLike{})
@@ -438,7 +503,7 @@ func (g GroupController) LikeNumber(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	g.DB.Where("group_id = ? and like = ?", id, like).Count(&total)
+	g.DB.Where("group_id = ? and like = ?", id, like).Model(model.GroupLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"total": total}, "查看成功")
 }
@@ -465,7 +530,9 @@ func (g GroupController) LikeList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	g.DB.Where("group_id = ? and like = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groupLikes).Count(&total)
+	g.DB.Where("group_id = ? and like = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groupLikes)
+
+	g.DB.Where("group_id = ? and like = ?", id, like).Model(model.GroupLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"groupLikes": groupLikes, "total": total}, "查看成功")
 }
@@ -522,7 +589,9 @@ func (g GroupController) Likes(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	g.DB.Where("user_id = ? and like = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groupLikes).Count(&total)
+	g.DB.Where("user_id = ? and like = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groupLikes)
+
+	g.DB.Where("user_id = ? and like = ?", id, like).Model(model.GroupLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"groupLikes": groupLikes, "total": total}, "查看成功")
 }
@@ -582,6 +651,9 @@ leep:
 		return
 	}
 
+	// TODO 热度计算
+	g.Redis.ZIncrBy(ctx, "GroupHot", 50.0, group.ID.String())
+
 	response.Success(ctx, nil, "收藏成功")
 }
 
@@ -601,11 +673,11 @@ func (g GroupController) CancelCollect(ctx *gin.Context) {
 	// TODO 如果没有收藏
 	if g.DB.Where("user_id = ? and group_id = ?", user.ID, id).First(&model.GroupCollect{}).Error != nil {
 		response.Fail(ctx, nil, "未收藏")
-		return
 	} else {
 		g.DB.Where("user_id = ? and group_id = ?", user.ID, id).Delete(&model.GroupCollect{})
+		// TODO 热度计算
+		g.Redis.ZIncrBy(ctx, "GroupHot", -50.0, id)
 		response.Success(ctx, nil, "取消收藏成功")
-		return
 	}
 }
 
@@ -651,7 +723,9 @@ func (g GroupController) CollectList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看收藏的数量
-	g.DB.Where("group_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groupCollects).Count(&total)
+	g.DB.Where("group_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groupCollects)
+
+	g.DB.Where("group_id = ?", id).Model(model.GroupCollect{}).Count(&total)
 
 	response.Success(ctx, gin.H{"groupCollects": groupCollects, "total": total}, "查看成功")
 }
@@ -668,7 +742,7 @@ func (g GroupController) CollectNumber(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看收藏的数量
-	g.DB.Where("group_id = ?", id).Count(&total)
+	g.DB.Where("group_id = ?", id).Model(model.GroupCollect{}).Count(&total)
 
 	response.Success(ctx, gin.H{"total": total}, "查看成功")
 }
@@ -693,7 +767,9 @@ func (g GroupController) Collects(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看收藏的数量
-	g.DB.Where("user_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groupCollects).Count(&total)
+	g.DB.Where("user_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groupCollects)
+
+	g.DB.Where("user_id = ?", id).Model(model.GroupCollect{}).Count(&total)
 
 	response.Success(ctx, gin.H{"groupCollects": groupCollects, "total": total}, "查看成功")
 }
@@ -1116,7 +1192,9 @@ leep:
 	var total int64
 
 	// TODO 查看黑名单
-	g.DB.Where("group_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groupBlocks).Count(&total)
+	g.DB.Where("group_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groupBlocks)
+
+	g.DB.Where("group_id = ?", id).Model(model.GroupBlock{}).Count(&total)
 
 	response.Success(ctx, gin.H{"groupBlocks": groupBlocks, "total": total}, "查看成功")
 }
@@ -1142,7 +1220,9 @@ func (g GroupController) ApplyingList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看申请的数量
-	g.DB.Where("user_id = ?", user.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groupApplys).Count(&total)
+	g.DB.Where("user_id = ?", user.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groupApplys)
+
+	g.DB.Where("user_id = ?", user.ID).Model(model.GroupApply{}).Count(&total)
 
 	response.Success(ctx, gin.H{"groupApplys": groupApplys, "total": total}, "查看成功")
 }
@@ -1202,7 +1282,9 @@ leep:
 	var total int64
 
 	// TODO 查看申请的数量
-	g.DB.Where("group_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groupApplys).Count(&total)
+	g.DB.Where("group_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groupApplys)
+
+	g.DB.Where("group_id = ?", id).Model(model.GroupApply{}).Count(&total)
 
 	response.Success(ctx, gin.H{"groupApplys": groupApplys, "total": total}, "查看成功")
 }

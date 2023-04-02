@@ -58,7 +58,7 @@ func PostRoutes(r *gin.Engine) *gin.Engine {
 	postRoutes.GET("/like/show/:id", middleware.AuthMiddleware(), postController.LikeShow)
 
 	// TODO 查看用户点赞、点踩列表
-	postRoutes.GET("/likes", middleware.AuthMiddleware(), postController.Likes)
+	postRoutes.GET("/likes/:id", postController.Likes)
 
 	// TODO 收藏
 	postRoutes.POST("/collect/:id", middleware.AuthMiddleware(), postController.Collect)
@@ -75,8 +75,8 @@ func PostRoutes(r *gin.Engine) *gin.Engine {
 	// TODO 查看收藏数量
 	postRoutes.GET("/collect/number/:id", postController.CollectNumber)
 
-	// TODO 查看用户收藏夹
-	postRoutes.GET("/collects", middleware.AuthMiddleware(), postController.Collects)
+	// TODO 查看指定用户收藏夹
+	postRoutes.GET("/collects/:id", postController.Collects)
 
 	// TODO 游览题解
 	postRoutes.POST("/visit/:id", middleware.AuthMiddleware(), postController.Visit)

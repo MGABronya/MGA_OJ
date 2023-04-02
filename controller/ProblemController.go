@@ -659,7 +659,7 @@ func (p ProblemController) LikeNumber(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	p.DB.Where("problem_id = ? and like = ?", id, like).Count(&total)
+	p.DB.Where("problem_id = ? and like = ?", id, like).Model(model.ProblemLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"total": total}, "查看成功")
 }
@@ -686,7 +686,9 @@ func (p ProblemController) LikeList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	p.DB.Where("problem_id = ? and like = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemLikes).Count(&total)
+	p.DB.Where("problem_id = ? and like = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemLikes)
+
+	p.DB.Where("problem_id = ? and like = ?", id, like).Model(model.ProblemLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"problemLikes": problemLikes, "total": total}, "查看成功")
 }
@@ -734,9 +736,8 @@ func (p ProblemController) Likes(ctx *gin.Context) {
 	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
 	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
 
-	// TODO 获取登录用户
-	tuser, _ := ctx.Get("user")
-	user := tuser.(model.User)
+	// TODO 获取指定用户用户
+	id := ctx.Params.ByName("id")
 
 	// TODO 分页
 	var problemLikes []model.ProblemLike
@@ -744,7 +745,9 @@ func (p ProblemController) Likes(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	p.DB.Where("user_id = ? and like = ?", user.ID, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemLikes).Count(&total)
+	p.DB.Where("user_id = ? and like = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemLikes)
+
+	p.DB.Where("user_id = ? and like = ?", id, like).Model(model.ProblemLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"problemLikes": problemLikes, "total": total}, "查看成功")
 }
@@ -875,7 +878,9 @@ func (p ProblemController) CollectList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看收藏的数量
-	p.DB.Where("problem_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemCollects).Count(&total)
+	p.DB.Where("problem_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemCollects)
+
+	p.DB.Where("problem_id = ?", id).Model(model.ProblemCollect{}).Count(&total)
 
 	response.Success(ctx, gin.H{"problemCollects": problemCollects, "total": total}, "查看成功")
 }
@@ -892,7 +897,7 @@ func (p ProblemController) CollectNumber(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看收藏的数量
-	p.DB.Where("problem_id = ?", id).Count(&total)
+	p.DB.Where("problem_id = ?", id).Model(model.ProblemCollect{}).Count(&total)
 
 	response.Success(ctx, gin.H{"total": total}, "查看成功")
 }
@@ -903,9 +908,8 @@ func (p ProblemController) CollectNumber(ctx *gin.Context) {
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemController) Collects(ctx *gin.Context) {
-	// TODO 获取登录用户
-	tuser, _ := ctx.Get("user")
-	user := tuser.(model.User)
+	// TODO 获取指定用户用户
+	id := ctx.Params.ByName("id")
 
 	// TODO 获取分页参数
 	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
@@ -917,7 +921,9 @@ func (p ProblemController) Collects(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看收藏的数量
-	p.DB.Where("user_id = ?", user.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemCollects).Count(&total)
+	p.DB.Where("user_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemCollects)
+
+	p.DB.Where("user_id = ?", id).Model(model.ProblemCollect{}).Count(&total)
 
 	response.Success(ctx, gin.H{"problemCollects": problemCollects, "total": total}, "查看成功")
 }
@@ -1014,7 +1020,9 @@ func (p ProblemController) VisitList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看收藏的数量
-	p.DB.Where("problem_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemVisits).Count(&total)
+	p.DB.Where("problem_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemVisits)
+
+	p.DB.Where("problem_id = ?", id).Model(model.ProblemVisit{}).Count(&total)
 
 	response.Success(ctx, gin.H{"problemVisits": problemVisits, "total": total}, "查看成功")
 }
@@ -1039,7 +1047,9 @@ func (p ProblemController) Visits(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看收藏的数量
-	p.DB.Where("user_id = ?", user.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemVisits).Count(&total)
+	p.DB.Where("user_id = ?", user.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemVisits)
+
+	p.DB.Where("user_id = ?", user.ID).Model(model.ProblemVisit{}).Count(&total)
 
 	response.Success(ctx, gin.H{"problemVisits": problemVisits, "total": total}, "查看成功")
 }

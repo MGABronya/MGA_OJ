@@ -79,11 +79,12 @@ func (f FriendController) Apply(ctx *gin.Context) {
 
 	// TODO 创建好友申请
 	friendApply = model.FriendApply{
-		UserId:   user.ID,
-		FriendId: friend.ID,
-		Content:  requestFriendApply.Content,
-		Reslong:  requestFriendApply.Reslong,
-		Resshort: requestFriendApply.Resshort,
+		UserId:    user.ID,
+		FriendId:  friend.ID,
+		Content:   requestFriendApply.Content,
+		Reslong:   requestFriendApply.Reslong,
+		Resshort:  requestFriendApply.Resshort,
+		Condition: true,
 	}
 
 	// TODO 插入数据
@@ -93,7 +94,7 @@ func (f FriendController) Apply(ctx *gin.Context) {
 	}
 
 	// TODO 成功
-	response.Success(ctx, nil, "创建成功")
+	response.Success(ctx, nil, "申请成功")
 }
 
 // @title    Consent
@@ -145,7 +146,7 @@ func (f FriendController) Consent(ctx *gin.Context) {
 	f.DB.Delete(&friendApply)
 
 	// TODO 成功
-	response.Success(ctx, nil, "创建成功")
+	response.Success(ctx, nil, "通过成功")
 }
 
 // @title    ApplyingList
@@ -169,7 +170,9 @@ func (f FriendController) ApplyingList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看申请的数量
-	f.DB.Where("user_id = ?", user.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&friendApplys).Count(&total)
+	f.DB.Where("user_id = ?", user.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&friendApplys)
+
+	f.DB.Where("user_id = ?", user.ID).Model(model.FriendApply{}).Count(&total)
 
 	response.Success(ctx, gin.H{"friendApplys": friendApplys, "total": total}, "查看成功")
 }
@@ -195,7 +198,9 @@ func (f FriendController) AppliedList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看申请的数量
-	f.DB.Where("friend_id = ?", user.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&friendApplys).Count(&total)
+	f.DB.Where("friend_id = ?", user.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&friendApplys)
+
+	f.DB.Where("friend_id = ?", user.ID).Model(model.FriendApply{}).Count(&total)
 
 	response.Success(ctx, gin.H{"friendApplys": friendApplys, "total": total}, "查看成功")
 }
@@ -364,7 +369,9 @@ func (f FriendController) BlackList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看黑名单
-	f.DB.Where("owner_id = ?", user.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&friendBlocks).Count(&total)
+	f.DB.Where("owner_id = ?", user.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&friendBlocks)
+
+	f.DB.Where("owner_id = ?", user.ID).Model(model.FriendBlock{}).Count(&total)
 
 	response.Success(ctx, gin.H{"friendBlocks": friendBlocks, "total": total}, "查看成功")
 }

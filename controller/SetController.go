@@ -694,7 +694,7 @@ func (s SetController) LikeNumber(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	s.DB.Where("set_id = ? and like = ?", id, like).Count(&total)
+	s.DB.Where("set_id = ? and like = ?", id, like).Model(model.SetLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"total": total}, "查看成功")
 }
@@ -721,7 +721,9 @@ func (s SetController) LikeList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	s.DB.Where("set_id = ? and like = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setLikes).Count(&total)
+	s.DB.Where("set_id = ? and like = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setLikes)
+
+	s.DB.Where("set_id = ? and like = ?", id, like).Model(model.SetLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"setLikes": setLikes, "total": total}, "查看成功")
 }
@@ -756,7 +758,7 @@ func (s SetController) LikeShow(ctx *gin.Context) {
 }
 
 // @title    Likes
-// @description   查看用户点赞状态
+// @description   查看用户点赞列表
 // @auth      MGAronya（张健）       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
@@ -769,9 +771,8 @@ func (s SetController) Likes(ctx *gin.Context) {
 	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
 	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
 
-	// TODO 获取登录用户
-	tuser, _ := ctx.Get("user")
-	user := tuser.(model.User)
+	// TODO 获取指定用户用户
+	id := ctx.Params.ByName("id")
 
 	// TODO 分页
 	var setLikes []model.SetLike
@@ -779,7 +780,9 @@ func (s SetController) Likes(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	s.DB.Where("user_id = ? and like = ?", user.ID, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setLikes).Count(&total)
+	s.DB.Where("user_id = ? and like = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setLikes)
+
+	s.DB.Where("user_id = ? and like = ?", id, like).Model(model.SetLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"setLikes": setLikes, "total": total}, "查看成功")
 }
@@ -910,7 +913,9 @@ func (s SetController) CollectList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看收藏的数量
-	s.DB.Where("set_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setCollects).Count(&total)
+	s.DB.Where("set_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setCollects)
+
+	s.DB.Where("set_id = ?", id).Model(model.SetCollect{}).Count(&total)
 
 	response.Success(ctx, gin.H{"setCollects": setCollects, "total": total}, "查看成功")
 }
@@ -927,7 +932,7 @@ func (s SetController) CollectNumber(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看收藏的数量
-	s.DB.Where("set_id = ?", id).Count(&total)
+	s.DB.Where("set_id = ?", id).Model(model.SetCollect{}).Count(&total)
 
 	response.Success(ctx, gin.H{"total": total}, "查看成功")
 }
@@ -938,9 +943,8 @@ func (s SetController) CollectNumber(ctx *gin.Context) {
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (s SetController) Collects(ctx *gin.Context) {
-	// TODO 获取登录用户
-	tuser, _ := ctx.Get("user")
-	user := tuser.(model.User)
+	// TODO 获取指定用户用户
+	id := ctx.Params.ByName("id")
 
 	// TODO 获取分页参数
 	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
@@ -952,7 +956,7 @@ func (s SetController) Collects(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看收藏的数量
-	s.DB.Where("user_id = ?", user.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setCollects).Count(&total)
+	s.DB.Where("user_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setCollects).Count(&total)
 
 	response.Success(ctx, gin.H{"setCollects": setCollects, "total": total}, "查看成功")
 }
@@ -1032,10 +1036,8 @@ func (s SetController) VisitNumber(ctx *gin.Context) {
 	// TODO 获取path中的id
 	id := ctx.Params.ByName("id")
 
-	// TODO 获得游览总数
-	var total int64
-
-	s.DB.Where("set_id = ?", id).Count(&total)
+	// TODO 获取阅读人数
+	total, _ := s.Redis.PFCount(ctx, "SetVisit", id).Result()
 
 	response.Success(ctx, gin.H{"total": total}, "请求表单游览数目成功")
 }
@@ -1059,7 +1061,9 @@ func (s SetController) VisitList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看游览的列表
-	s.DB.Where("set_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setVisits).Count(&total)
+	s.DB.Where("set_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setVisits)
+
+	s.DB.Where("set_id = ?", id).Model(model.SetVisit{}).Count(&total)
 
 	response.Success(ctx, gin.H{"setVisits": setVisits, "total": total}, "查看成功")
 }
@@ -1084,7 +1088,9 @@ func (s SetController) Visits(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看游览的数量
-	s.DB.Where("user_id = ?", user.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setVisits).Count(&total)
+	s.DB.Where("user_id = ?", user.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setVisits)
+
+	s.DB.Where("user_id = ?", user.ID).Model(model.SetVisit{}).Count(&total)
 
 	response.Success(ctx, gin.H{"setVisits": setVisits, "total": total}, "查看成功")
 }
@@ -1109,7 +1115,9 @@ func (s SetController) RankList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看排行
-	s.DB.Where("set_id = ?", id).Order("pass desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setRanks).Count(&total)
+	s.DB.Where("set_id = ?", id).Order("pass desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setRanks)
+
+	s.DB.Where("set_id = ?", id).Model(model.SetRank{}).Count(&total)
 
 	response.Success(ctx, gin.H{"setRanks": setRanks, "total": total}, "查看成功")
 }
@@ -1637,7 +1645,9 @@ leep:
 	var total int64
 
 	// TODO 查看黑名单
-	s.DB.Where("set_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setBlocks).Count(&total)
+	s.DB.Where("set_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setBlocks)
+
+	s.DB.Where("set_id = ?", id).Model(model.SetBlock{}).Count(&total)
 
 	response.Success(ctx, gin.H{"setBlocks": setBlocks, "total": total}, "查看成功")
 }
@@ -1697,7 +1707,9 @@ leap:
 	var total int64
 
 	// TODO 查看申请的数量
-	s.DB.Where("group_id = ?", group.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setApplys).Count(&total)
+	s.DB.Where("group_id = ?", group.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setApplys)
+
+	s.DB.Where("group_id = ?", group.ID).Model(model.SetApply{}).Count(&total)
 
 	response.Success(ctx, gin.H{"groupApplys": setApplys, "total": total}, "查看成功")
 }
@@ -1756,7 +1768,9 @@ leep:
 	var total int64
 
 	// TODO 查看申请的数量
-	s.DB.Where("set_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setApplys).Count(&total)
+	s.DB.Where("set_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setApplys)
+
+	s.DB.Where("set_id = ?", id).Model(model.SetApply{}).Count(&total)
 
 	response.Success(ctx, gin.H{"setApplys": setApplys, "total": total}, "查看成功")
 }

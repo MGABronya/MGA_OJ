@@ -526,7 +526,9 @@ func (l LetterController) BlackList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看黑名单
-	l.DB.Where("usera_id = ?", user.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&letterBlocks).Count(&total)
+	l.DB.Where("usera_id = ?", user.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&letterBlocks)
+
+	l.DB.Where("usera_id = ?", user.ID).Model(model.LetterBlock{}).Count(&total)
 
 	response.Success(ctx, gin.H{"letterBlocks": letterBlocks, "total": total}, "查看成功")
 }

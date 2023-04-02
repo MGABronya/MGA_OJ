@@ -37,7 +37,7 @@ func CompetitionRoutes(r *gin.Engine) *gin.Engine {
 	competitionRoutes.DELETE("/delete/:id", middleware.AuthMiddleware(), competitionController.Delete)
 
 	// TODO 查看竞赛列表
-	competitionRoutes.GET("/list/:id", competitionController.PageList)
+	competitionRoutes.GET("/list", competitionController.PageList)
 
 	// TODO 查看指定竞赛成员排名
 	competitionRoutes.GET("/member/rank/:competition/:member", competitionController.RankMember)

@@ -98,6 +98,11 @@ func (c CompetitionController) Create(ctx *gin.Context) {
 		Type:      competitionRequest.Type,
 	}
 
+	if competition.Type != "Single" && competition.Type != "Group" {
+		response.Fail(ctx, nil, "比赛类型有误")
+		return
+	}
+
 	// TODO 插入数据
 	if err := c.DB.Create(&competition).Error; err != nil {
 		response.Fail(ctx, nil, "比赛上传出错，数据库存储错误")
@@ -191,6 +196,11 @@ func (c CompetitionController) Update(ctx *gin.Context) {
 		StartTime: competitionRequest.StartTime,
 		EndTime:   competitionRequest.EndTime,
 		Type:      competitionRequest.Type,
+	}
+
+	if competitionUpdate.Type != "Single" && competitionUpdate.Type != "Group" && competitionUpdate.Type != "" {
+		response.Fail(ctx, nil, "比赛类型有误")
+		return
 	}
 
 	// TODO 更新比赛内容
@@ -544,6 +554,7 @@ leep:
 		CompetitionId: competition.ID,
 	}
 	c.DB.Create(&match)
+	response.Success(ctx, nil, "进入匹配组成功")
 }
 
 // @title    Unmatch

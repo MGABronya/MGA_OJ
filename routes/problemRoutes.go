@@ -61,7 +61,7 @@ func ProblemRoutes(r *gin.Engine) *gin.Engine {
 	problemRoutes.GET("/like/show/:id", middleware.AuthMiddleware(), problemController.LikeShow)
 
 	// TODO 查看用户点赞、点踩列表
-	problemRoutes.GET("/likes", middleware.AuthMiddleware(), problemController.Likes)
+	problemRoutes.GET("/likes/:id", problemController.Likes)
 
 	// TODO 收藏
 	problemRoutes.POST("/collect/:id", middleware.AuthMiddleware(), problemController.Collect)
@@ -79,7 +79,7 @@ func ProblemRoutes(r *gin.Engine) *gin.Engine {
 	problemRoutes.GET("/collect/number/:id", problemController.CollectNumber)
 
 	// TODO 查看用户收藏夹
-	problemRoutes.GET("/collects", middleware.AuthMiddleware(), problemController.Collects)
+	problemRoutes.GET("/collects/:id", problemController.Collects)
 
 	// TODO 游览题目
 	problemRoutes.POST("/visit/:id", middleware.AuthMiddleware(), problemController.Visit)

@@ -43,7 +43,7 @@ func (l LevelController) Update(ctx *gin.Context) {
 	// TODO 获取指定等级
 	level, err := strconv.Atoi(ctx.Params.ByName("level"))
 
-	if err != nil {
+	if err != nil || level < 0 {
 		response.Fail(ctx, nil, "权限等级有误")
 		return
 	}

@@ -75,6 +75,42 @@ func GroupRoutes(r *gin.Engine) *gin.Engine {
 	// TODO 用户退出某个用户组
 	groupRoutes.DELETE("/quit/:id", middleware.AuthMiddleware(), groupController.Quit)
 
+	// TODO 点赞或点踩
+	groupRoutes.POST("/like/:id", middleware.AuthMiddleware(), groupController.Like)
+
+	// TODO 取消点赞、点踩状态
+	groupRoutes.DELETE("/cancle/like/:id", middleware.AuthMiddleware(), groupController.CancelLike)
+
+	// TODO 查看点赞、点踩数量
+	groupRoutes.GET("/like/number/:id", groupController.LikeNumber)
+
+	// TODO 查看点赞、点踩列表
+	groupRoutes.GET("/like/list/:id", groupController.LikeList)
+
+	// TODO 查看用户点赞、点踩列表
+	groupRoutes.GET("/likes/:id", groupController.Likes)
+
+	// TODO 查看用户当前点赞状态
+	groupRoutes.GET("/like/show/:id", middleware.AuthMiddleware(), groupController.LikeShow)
+
+	// TODO 收藏
+	groupRoutes.POST("/collect/:id", middleware.AuthMiddleware(), groupController.Collect)
+
+	// TODO 取消收藏
+	groupRoutes.DELETE("/cancel/collect/:id", middleware.AuthMiddleware(), groupController.CancelCollect)
+
+	// TODO 查看收藏状态
+	groupRoutes.GET("/collect/show/:id", middleware.AuthMiddleware(), groupController.CollectShow)
+
+	// TODO 查看收藏列表
+	groupRoutes.GET("/collect/list/:id", groupController.CollectList)
+
+	// TODO 查看收藏数量
+	groupRoutes.GET("/collect/number/:id", groupController.CollectNumber)
+
+	// TODO 查看用户收藏夹
+	groupRoutes.GET("/collects/:id", groupController.Collects)
+
 	// TODO 创建用户组标签
 	groupRoutes.POST("/label/:id/:label", middleware.AuthMiddleware(), groupController.LabelCreate)
 
@@ -92,6 +128,9 @@ func GroupRoutes(r *gin.Engine) *gin.Engine {
 
 	// TODO 按文本和标签交集搜索用户组
 	groupRoutes.GET("/search/with/label/:text", groupController.SearchWithLabel)
+
+	// TODO 获取文章热度排行
+	groupRoutes.GET("/hot/rank", groupController.HotRanking)
 
 	return r
 }

@@ -469,7 +469,7 @@ func (p PostController) LikeNumber(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	p.DB.Where("post_id = ? and like = ?", id, like).Count(&total)
+	p.DB.Where("post_id = ? and like = ?", id, like).Model(model.PostLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"total": total}, "查看成功")
 }
@@ -496,7 +496,8 @@ func (p PostController) LikeList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	p.DB.Where("post_id = ? and like = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&postLikes).Count(&total)
+	p.DB.Where("post_id = ? and like = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&postLikes)
+	p.DB.Where("post_id = ? and like = ?", id, like).Model(model.PostLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"postLikes": postLikes, "total": total}, "查看成功")
 }
@@ -531,7 +532,7 @@ func (p PostController) LikeShow(ctx *gin.Context) {
 }
 
 // @title    Likes
-// @description   查看用户点赞状态
+// @description   查看指定用户点赞列表
 // @auth      MGAronya（张健）       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
@@ -553,7 +554,9 @@ func (p PostController) Likes(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	p.DB.Where("user_id = ? and like = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&postLikes).Count(&total)
+	p.DB.Where("user_id = ? and like = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&postLikes)
+
+	p.DB.Where("user_id = ? and like = ?", id, like).Model(model.PostLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"postLikes": postLikes, "total": total}, "查看成功")
 }
@@ -711,7 +714,9 @@ func (p PostController) CollectList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看收藏的数量
-	p.DB.Where("post_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&postCollects).Count(&total)
+	p.DB.Where("post_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&postCollects)
+
+	p.DB.Where("post_id = ?", id).Model(model.PostCollect{}).Count(&total)
 
 	response.Success(ctx, gin.H{"postCollects": postCollects, "total": total}, "查看成功")
 }
@@ -728,7 +733,7 @@ func (p PostController) CollectNumber(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看收藏的数量
-	p.DB.Where("post_id = ?", id).Count(&total)
+	p.DB.Where("post_id = ?", id).Model(model.PostCollect{}).Count(&total)
 
 	response.Success(ctx, gin.H{"total": total}, "查看成功")
 }
@@ -753,7 +758,9 @@ func (p PostController) Collects(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看收藏的数量
-	p.DB.Where("user_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&postCollects).Count(&total)
+	p.DB.Where("user_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&postCollects)
+
+	p.DB.Where("user_id = ?", id).Model(model.PostCollect{}).Count(&total)
 
 	response.Success(ctx, gin.H{"postCollects": postCollects, "total": total}, "查看成功")
 }
@@ -859,7 +866,9 @@ func (p PostController) VisitList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看收藏的数量
-	p.DB.Where("post_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&postVisits).Count(&total)
+	p.DB.Where("post_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&postVisits)
+
+	p.DB.Where("post_id = ?", id).Model(model.PostVisit{}).Count(&total)
 
 	response.Success(ctx, gin.H{"postVisits": postVisits, "total": total}, "查看成功")
 }
@@ -883,7 +892,9 @@ func (p PostController) Visits(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看收藏的数量
-	p.DB.Where("user_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&postVisits).Count(&total)
+	p.DB.Where("user_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&postVisits)
+
+	p.DB.Where("user_id = ?", id).Model(model.PostVisit{}).Count(&total)
 
 	response.Success(ctx, gin.H{"postVisits": postVisits, "total": total}, "查看成功")
 }

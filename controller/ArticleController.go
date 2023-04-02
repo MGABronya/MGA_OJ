@@ -74,7 +74,7 @@ func (a ArticleController) Create(ctx *gin.Context) {
 		response.Fail(ctx, nil, "文章上传出错，数据验证有误")
 		return
 	}
-	time.Now().Unix()
+
 	a.Redis.ZAdd(ctx, "ArticleHot", redis.Z{Member: article.ID.String(), Score: 100 + float64(time.Now().Unix()/86400)})
 
 	// TODO 成功
@@ -440,7 +440,7 @@ func (a ArticleController) LikeNumber(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	a.DB.Where("article_id = ? and like = ?", id, like).Count(&total)
+	a.DB.Where("article_id = ? and like = ?", id, like).Model(model.ArticleLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"total": total}, "查看成功")
 }
@@ -467,8 +467,9 @@ func (a ArticleController) LikeList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	a.DB.Where("article_id = ? and like = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&articleLikes).Count(&total)
+	a.DB.Where("article_id = ? and like = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&articleLikes)
 
+	a.DB.Where("article_id = ? and like = ?", id, like).Model(model.ArticleLike{}).Count(&total)
 	response.Success(ctx, gin.H{"articleLikes": articleLikes, "total": total}, "查看成功")
 }
 
@@ -524,7 +525,7 @@ func (a ArticleController) Likes(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	a.DB.Where("user_id = ? and like = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&articleLikes).Count(&total)
+	a.DB.Where("user_id = ? and like = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&articleLikes)
 
 	response.Success(ctx, gin.H{"articleLikes": articleLikes, "total": total}, "查看成功")
 }
@@ -654,7 +655,9 @@ func (a ArticleController) CollectList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看收藏的数量
-	a.DB.Where("article_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&articleCollects).Count(&total)
+	a.DB.Where("article_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&articleCollects)
+
+	a.DB.Where("article_id = ?", id).Model(model.ArticleCollect{}).Count(&total)
 
 	response.Success(ctx, gin.H{"articleCollects": articleCollects, "total": total}, "查看成功")
 }
@@ -671,7 +674,7 @@ func (a ArticleController) CollectNumber(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看收藏的数量
-	a.DB.Where("article_id = ?", id).Count(&total)
+	a.DB.Where("article_id = ?", id).Model(model.ArticleCollect{}).Count(&total)
 
 	response.Success(ctx, gin.H{"total": total}, "查看成功")
 }
@@ -695,7 +698,9 @@ func (a ArticleController) Collects(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看收藏的数量
-	a.DB.Where("user_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&articleCollects).Count(&total)
+	a.DB.Where("user_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&articleCollects)
+
+	a.DB.Where("user_id = ?", id).Model(model.ArticleCollect{}).Count(&total)
 
 	response.Success(ctx, gin.H{"articleCollects": articleCollects, "total": total}, "查看成功")
 }
@@ -824,7 +829,9 @@ func (a ArticleController) Visits(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看收藏的数量
-	a.DB.Where("user_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&articleVisits).Count(&total)
+	a.DB.Where("user_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&articleVisits)
+
+	a.DB.Where("user_id = ?", id).Model(model.ArticleVisit{}).Count(&total)
 
 	response.Success(ctx, gin.H{"articleVisits": articleVisits, "total": total}, "查看成功")
 }

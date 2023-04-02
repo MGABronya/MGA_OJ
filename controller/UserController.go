@@ -488,7 +488,7 @@ func (u UserController) AcceptRankList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 获取排行数据
-	u.DB.Table("records").Select("count(distinct problem_id) as accept_num, user_id").Where("condition = Accepted").Order("accept_num desc").Group("user_id").Offset((pageNum - 1) * pageSize).Limit(pageSize).Scan(&acceptRanks).Count(&total)
+	u.DB.Table("records").Select("count(distinct problem_id) as accept_num, user_id").Where("condition = Accepted").Order("accept_num desc").Group("user_id").Count(&total).Offset((pageNum - 1) * pageSize).Limit(pageSize).Scan(&acceptRanks)
 
 	response.Success(ctx, gin.H{"acceptRanks": acceptRanks, "total": total}, "查看用户ac题目的数量排行列表成功")
 }

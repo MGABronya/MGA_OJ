@@ -11,7 +11,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// @title    LetterRoutes
+// @title    LevelRoutes
 // @description   给gin引擎挂上权限相关的路由监听
 // @auth      MGAronya（张健）             2022-9-16 10:52
 // @param     r *gin.Engine			gin引擎

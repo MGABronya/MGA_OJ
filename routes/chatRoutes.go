@@ -34,7 +34,7 @@ func ChatRoutes(r *gin.Engine) *gin.Engine {
 	chatRoutes.GET("/list/:id", middleware.AuthMiddleware(), chatController.ChatList)
 
 	// TODO 移除指定连接
-	chatRoutes.GET("/remove/link/:id", middleware.AuthMiddleware(), chatController.RemoveLink)
+	chatRoutes.DELETE("/remove/link/:id", middleware.AuthMiddleware(), chatController.RemoveLink)
 
 	// TODO 建立实时接收
 	chatRoutes.GET("/receive/:id", middleware.AuthMiddleware(), chatController.Receive)

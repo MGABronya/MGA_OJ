@@ -70,7 +70,7 @@ func SetRoutes(r *gin.Engine) *gin.Engine {
 	setRoutes.GET("/like/show/:id", middleware.AuthMiddleware(), setController.LikeShow)
 
 	// TODO 查看用户点赞、点踩列表
-	setRoutes.GET("/likes", middleware.AuthMiddleware(), setController.Likes)
+	setRoutes.GET("/likes/:id", setController.Likes)
 
 	// TODO 收藏
 	setRoutes.POST("/collect/:id", middleware.AuthMiddleware(), setController.Collect)
@@ -88,7 +88,7 @@ func SetRoutes(r *gin.Engine) *gin.Engine {
 	setRoutes.GET("/collect/number/:id", setController.CollectNumber)
 
 	// TODO 查看用户收藏夹
-	setRoutes.GET("/collects", middleware.AuthMiddleware(), setController.Collects)
+	setRoutes.GET("/collects/:id", setController.Collects)
 
 	// TODO 游览表单
 	setRoutes.POST("/visit/:id", middleware.AuthMiddleware(), setController.Visit)

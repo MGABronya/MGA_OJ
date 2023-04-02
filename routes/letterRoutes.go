@@ -31,10 +31,10 @@ func LetterRoutes(r *gin.Engine) *gin.Engine {
 	letterRoutes.GET("/link/list", middleware.AuthMiddleware(), letterController.LinkList)
 
 	// TODO 列出聊天列表
-	letterRoutes.GET("/chat/list/:id", middleware.AuthMiddleware(), letterController.ChatList)
+	letterRoutes.GET("/list/:id", middleware.AuthMiddleware(), letterController.ChatList)
 
 	// TODO 移除指定连接
-	letterRoutes.GET("/remove/link/:id", middleware.AuthMiddleware(), letterController.RemoveLink)
+	letterRoutes.DELETE("/remove/link/:id", middleware.AuthMiddleware(), letterController.RemoveLink)
 
 	// TODO 已读
 	letterRoutes.PUT("/read/:id", middleware.AuthMiddleware(), letterController.Read)
@@ -43,15 +43,15 @@ func LetterRoutes(r *gin.Engine) *gin.Engine {
 	letterRoutes.GET("/receive/:id", middleware.AuthMiddleware(), letterController.Receive)
 
 	// TODO 订阅连接
-	letterRoutes.GET("/receivelink/:id", middleware.AuthMiddleware(), letterController.ReceiveLink)
+	letterRoutes.GET("/receivelink", middleware.AuthMiddleware(), letterController.ReceiveLink)
 
-	// TODO 用户拉黑某用户
+	// TODO 用户私信拉黑某用户
 	letterRoutes.POST("/block/:id", middleware.AuthMiddleware(), letterController.Block)
 
-	// TODO 移除某用户的黑名单
+	// TODO 移除某用户私信的黑名单
 	letterRoutes.DELETE("/remove/black/:id", middleware.AuthMiddleware(), letterController.RemoveBlack)
 
-	// TODO 查看黑名单
+	// TODO 查看私信黑名单
 	letterRoutes.GET("/black/list", middleware.AuthMiddleware(), letterController.BlackList)
 
 	return r
