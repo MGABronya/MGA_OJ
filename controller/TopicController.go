@@ -14,6 +14,7 @@ import (
 	"fmt"
 	"log"
 	"strconv"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v9"
@@ -29,6 +30,7 @@ type ITopicController interface {
 	Interface.VisitInterface      // 包含游览功能
 	Interface.LabelInterface      // 包含标签功能
 	Interface.SearchInterface     // 包含搜索功能
+	Interface.HotInterface        // 包含热度功能
 	UserList(ctx *gin.Context)    // 查看用户的主题
 	ProblemList(ctx *gin.Context) // 查看主题的题目列表
 }
@@ -108,6 +110,9 @@ func (t TopicController) Create(ctx *gin.Context) {
 			return
 		}
 	}
+
+	// TODO 创建热度
+	t.Redis.ZAdd(ctx, "TopicHot", redis.Z{Member: topic.ID.String(), Score: 100 + float64(time.Now().Unix()/86400)})
 
 	// TODO 成功
 	response.Success(ctx, nil, "创建成功")
@@ -269,11 +274,33 @@ func (t TopicController) Delete(ctx *gin.Context) {
 		return
 	}
 
+	var total int64
+
+	// TODO 查看点赞的数量
+	t.DB.Where("topic_id = ? and like = true", id).Model(model.TopicLike{}).Count(&total)
+	t.Redis.ZIncrBy(ctx, "UserLike", -float64(total), topic.UserId.String())
+
+	// TODO 查看点踩的数量
+	t.DB.Where("topic_id = ? and like = false", id).Model(model.TopicLike{}).Count(&total)
+	t.Redis.ZIncrBy(ctx, "UserUnLike", -float64(total), topic.UserId.String())
+
+	// TODO 查看收藏的数量
+	t.DB.Where("topic_id = ?", id).Model(model.TopicLike{}).Count(&total)
+	t.Redis.ZIncrBy(ctx, "UserCollect", -float64(total), topic.UserId.String())
+
+	// TODO 获取阅读人数
+	total, _ = t.Redis.PFCount(ctx, "TopicVisit"+id).Result()
+	t.Redis.ZIncrBy(ctx, "UserVisit", -float64(total), topic.UserId.String())
+	t.Redis.Del(ctx, "TopicVisit"+id)
+
 	// TODO 删除主题
 	t.DB.Delete(&topic)
 
 	// TODO 移除损坏数据
 	t.Redis.HDel(ctx, "Topic", id)
+
+	// TODO 移除热度
+	t.Redis.ZRem(ctx, "TopicHot", topic.ID.String())
 
 	response.Success(ctx, nil, "删除成功")
 }
@@ -345,13 +372,41 @@ func (t TopicController) ProblemList(ctx *gin.Context) {
 	var problemLists []model.ProblemList
 
 	// TODO 查找所有分页中可见的条目
-	t.DB.Where("topic_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemLists)
+	t.DB.Where("topic_id = ?", id).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemLists)
 
 	var total int64
 	t.DB.Model(model.Topic{}).Where("topic_id = ?", id).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"problemLists": problemLists, "total": total}, "成功")
+}
+
+// @title    HotRanking
+// @description   根据热度排行获取多篇主题
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (t TopicController) HotRanking(ctx *gin.Context) {
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
+
+	// TODO 查找所有分页中可见的条目
+	topics, err := t.Redis.ZRevRangeWithScores(ctx, "TopicdHot", int64(pageNum-1)*int64(pageSize), int64(pageNum-1)*int64(pageSize)+int64(pageSize)-1).Result()
+
+	if err != nil {
+		response.Fail(ctx, nil, "获取失败")
+	}
+
+	for i := range topics {
+		topics[i].Score -= float64(time.Now().Unix() / 86400)
+	}
+
+	// TODO 将redis中的数据取出
+	total, _ := t.Redis.ZCard(ctx, "TopicdHot").Result()
+
+	// TODO 返回数据
+	response.Success(ctx, gin.H{"topics": topics, "total": total}, "成功")
 }
 
 // @title    Like
@@ -395,10 +450,11 @@ leep:
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
 
+	var topicLike model.TopicLike
 	// TODO 如果没有点赞或者点踩
-	if t.DB.Where("user_id = ? and topic_id = ?", user.ID, id).Update("like", like).Error != nil {
+	if t.DB.Where("user_id = ? and topic_id = ?", user.ID, id).First(&topicLike).Error != nil {
 		// TODO 插入数据
-		topicLike := model.TopicLike{
+		topicLike = model.TopicLike{
 			TopicId: topic.ID,
 			UserId:  user.ID,
 			Like:    like,
@@ -407,6 +463,25 @@ leep:
 			response.Fail(ctx, nil, "点赞出错，数据库存储错误")
 			return
 		}
+	} else {
+		// TODO 热度计算
+		if topicLike.Like {
+			t.Redis.ZIncrBy(ctx, "TopicHot", -10.0, topic.ID.String())
+			t.Redis.ZIncrBy(ctx, "UserLike", -1, topic.UserId.String())
+		} else {
+			t.Redis.ZIncrBy(ctx, "TopicHot", 10.0, topic.ID.String())
+			t.Redis.ZIncrBy(ctx, "UserUnLike", -1, topic.UserId.String())
+		}
+		t.DB.Where("user_id = ? and topic_id = ?", user.ID, id).Model(&model.TopicLike{}).Update("like", like)
+	}
+
+	// TODO 热度计算
+	if like {
+		t.Redis.ZIncrBy(ctx, "TopicHot", 10.0, topic.ID.String())
+		t.Redis.ZIncrBy(ctx, "UserLike", 1, topic.UserId.String())
+	} else {
+		t.Redis.ZIncrBy(ctx, "TopicHot", -10.0, topic.ID.String())
+		t.Redis.ZIncrBy(ctx, "UserUnLike", 1, topic.UserId.String())
 	}
 
 	response.Success(ctx, nil, "点赞成功")
@@ -418,12 +493,54 @@ leep:
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (t TopicController) CancelLike(ctx *gin.Context) {
-	// 获取path中的id
+	// TODO 获取path中的id
 	id := ctx.Params.ByName("id")
+
+	var topic model.Topic
+
+	// TODO 查看主题是否存在
+	// TODO 先看redis中是否存在
+	if ok, _ := t.Redis.HExists(ctx, "Topic", id).Result(); ok {
+		cate, _ := t.Redis.HGet(ctx, "Topic", id).Result()
+		if json.Unmarshal([]byte(cate), &topic) == nil {
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			t.Redis.HDel(ctx, "Topic", id)
+		}
+	}
+
+	// TODO 查看主题是否在数据库中存在
+	if t.DB.Where("id = ?", id).First(&topic).Error != nil {
+		response.Fail(ctx, nil, "主题不存在")
+		return
+	}
+	{
+		// TODO 将提交存入redis供下次使用
+		v, _ := json.Marshal(topic)
+		t.Redis.HSet(ctx, "Topic", id, v)
+	}
+leep:
 
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
+
+	// TODO 查看是否已经点赞或者点踩
+	var topicLike model.TopicLike
+	if t.DB.Where("user_id = ? and topic_id = ?", user.ID, id).First(&topicLike).Error != nil {
+		response.Fail(ctx, nil, "未点赞或点踩")
+		return
+	}
+
+	// TODO 热度计算
+	if topicLike.Like {
+		t.Redis.ZIncrBy(ctx, "TopicHot", -10.0, topic.ID.String())
+		t.Redis.ZIncrBy(ctx, "UserLike", -1, topic.UserId.String())
+	} else {
+		t.Redis.ZIncrBy(ctx, "TopicHot", 10.0, topic.ID.String())
+		t.Redis.ZIncrBy(ctx, "UserUnLike", -1, topic.UserId.String())
+	}
 
 	// TODO 取消点赞或者点踩
 	t.DB.Where("user_id = ? and topic_id = ?", user.ID, id).Delete(&model.TopicLike{})
@@ -593,6 +710,12 @@ leep:
 		return
 	}
 
+	// TODO 热度计算
+	t.Redis.ZIncrBy(ctx, "TopicHot", 50.0, topic.ID.String())
+
+	// TODO 存储入库
+	t.Redis.ZIncrBy(ctx, "UserCollect", 1, topic.UserId.String())
+
 	response.Success(ctx, nil, "收藏成功")
 }
 
@@ -609,14 +732,44 @@ func (t TopicController) CancelCollect(ctx *gin.Context) {
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
 
+	var topic model.Topic
+
+	// TODO 查看主题是否存在
+	// TODO 先看redis中是否存在
+	if ok, _ := t.Redis.HExists(ctx, "Topic", id).Result(); ok {
+		cate, _ := t.Redis.HGet(ctx, "Topic", id).Result()
+		if json.Unmarshal([]byte(cate), &topic) == nil {
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			t.Redis.HDel(ctx, "Topic", id)
+		}
+	}
+
+	// TODO 查看主题是否在数据库中存在
+	if t.DB.Where("id = ?", id).First(&topic).Error != nil {
+		response.Fail(ctx, nil, "主题不存在")
+		return
+	}
+	{
+		// TODO 将提交存入redis供下次使用
+		v, _ := json.Marshal(topic)
+		t.Redis.HSet(ctx, "Topic", id, v)
+	}
+leep:
+
 	// TODO 如果没有收藏
 	if t.DB.Where("user_id = ? and topic_id = ?", user.ID, id).First(&model.TopicCollect{}).Error != nil {
 		response.Fail(ctx, nil, "未收藏")
-		return
 	} else {
 		t.DB.Where("user_id = ? and topic_id = ?", user.ID, id).Delete(&model.TopicCollect{})
+
 		response.Success(ctx, nil, "取消收藏成功")
-		return
+		// TODO 热度计算
+		t.Redis.ZIncrBy(ctx, "topicHot", -50.0, id)
+
+		// TODO 存储入库
+		t.Redis.ZIncrBy(ctx, "UserCollect", -1, topic.UserId.String())
 	}
 }
 
@@ -761,8 +914,20 @@ leep:
 		return
 	}
 
+	// TODO 获取阅读人数
+	last, _ := t.Redis.PFCount(ctx, "TopicVisit"+id).Result()
+
 	// TODO 添加入阅读库
-	t.Redis.PFAdd(ctx, "TopicVisit", id)
+	t.Redis.PFAdd(ctx, "TopicVisit"+id, user.ID.String())
+
+	// TODO 获取新的阅读人数
+	new, _ := t.Redis.PFCount(ctx, "TopicVisit"+id).Result()
+	t.Redis.ZIncrBy(ctx, "UserVisit", 1.0, topic.UserId.String())
+
+	// TODO 如果阅读人数有增加
+	if new > last {
+		t.Redis.ZIncrBy(ctx, "TopicHot", 1.0, id)
+	}
 
 	response.Success(ctx, nil, "主题游览成功")
 }
@@ -777,7 +942,7 @@ func (t TopicController) VisitNumber(ctx *gin.Context) {
 	id := ctx.Params.ByName("id")
 
 	// TODO 获取阅读人数
-	total, _ := t.Redis.PFCount(ctx, "TopicVisit", id).Result()
+	total, _ := t.Redis.PFCount(ctx, "TopicVisit"+id).Result()
 
 	response.Success(ctx, gin.H{"total": total}, "请求主题游览数目成功")
 }

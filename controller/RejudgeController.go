@@ -48,13 +48,14 @@ func (r RejudgeController) Do(ctx *gin.Context) {
 		return
 	}
 
-	problem_id := ctx.Params.ByName("problem")
-	user_id := ctx.Params.ByName("user")
-	competition_id := ctx.Params.ByName("competition")
-	start_time := ctx.Params.ByName("start")
-	end_time := ctx.Params.ByName("end")
-	language := ctx.Params.ByName("language")
-	condition := ctx.Params.ByName("condition")
+	// TODO 获取查询条件
+	problem_id := ctx.DefaultQuery("problem_id", "")
+	user_id := ctx.DefaultQuery("user_id", "")
+	competition_id := ctx.DefaultQuery("competition_id", "")
+	start_time := ctx.DefaultQuery("start_time", "")
+	end_time := ctx.DefaultQuery("end_time", "")
+	language := ctx.DefaultQuery("language", "")
+	condition := ctx.DefaultQuery("condition", "")
 
 	db := common.GetDB()
 

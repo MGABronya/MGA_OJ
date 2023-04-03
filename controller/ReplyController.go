@@ -214,6 +214,16 @@ func (r ReplyController) Delete(ctx *gin.Context) {
 		return
 	}
 
+	var total int64
+
+	// TODO 查看点赞的数量
+	r.DB.Where("reply_id = ? and like = true", id).Model(model.ReplyLike{}).Count(&total)
+	r.Redis.ZIncrBy(ctx, "UserLike", -float64(total), reply.UserId.String())
+
+	// TODO 查看点踩的数量
+	r.DB.Where("reply_id = ? and like = false", id).Model(model.ReplyLike{}).Count(&total)
+	r.Redis.ZIncrBy(ctx, "UserUnLike", -float64(total), reply.UserId.String())
+
 	// TODO 删除讨论的回复
 	r.DB.Delete(&reply)
 
@@ -362,25 +372,24 @@ leep:
 			response.Fail(ctx, nil, "点赞出错，数据库存储错误")
 			return
 		}
-		// TODO 热度计算
-		if like {
-			r.Redis.ZIncrBy(ctx, "ReplyHot"+reply.CommentId.String(), 10.0, reply.ID.String())
-		} else {
-			r.Redis.ZIncrBy(ctx, "ReplyHot"+reply.CommentId.String(), -10.0, reply.ID.String())
-		}
 	} else {
 		// TODO 热度计算
 		if replyLike.Like {
 			r.Redis.ZIncrBy(ctx, "ReplyHot"+reply.CommentId.String(), -10.0, reply.ID.String())
+			r.Redis.ZIncrBy(ctx, "UserLike", -1, reply.UserId.String())
 		} else {
 			r.Redis.ZIncrBy(ctx, "ReplyHot"+reply.CommentId.String(), 10.0, reply.ID.String())
-		}
-		if like {
-			r.Redis.ZIncrBy(ctx, "ReplyHot"+reply.CommentId.String(), 10.0, reply.ID.String())
-		} else {
-			r.Redis.ZIncrBy(ctx, "ReplyHot"+reply.CommentId.String(), -10.0, reply.ID.String())
+			r.Redis.ZIncrBy(ctx, "UserUnLike", -1, reply.UserId.String())
 		}
 		r.DB.Where("user_id = ? and reply_id = ?", user.ID, id).Model(&model.ReplyLike{}).Update("like", like)
+	}
+	// TODO 热度计算
+	if like {
+		r.Redis.ZIncrBy(ctx, "ReplyHot"+reply.CommentId.String(), 10.0, reply.ID.String())
+		r.Redis.ZIncrBy(ctx, "UserLike", 1, reply.UserId.String())
+	} else {
+		r.Redis.ZIncrBy(ctx, "ReplyHot"+reply.CommentId.String(), -10.0, reply.ID.String())
+		r.Redis.ZIncrBy(ctx, "UserUnLike", 1, reply.UserId.String())
 	}
 
 	response.Success(ctx, nil, "点赞成功")
@@ -435,8 +444,10 @@ leep:
 	// TODO 热度计算
 	if replyLike.Like {
 		r.Redis.ZIncrBy(ctx, "ReplyHot"+reply.CommentId.String(), -10.0, reply.ID.String())
+		r.Redis.ZIncrBy(ctx, "UserLike", -1, reply.UserId.String())
 	} else {
 		r.Redis.ZIncrBy(ctx, "ReplyHot"+reply.CommentId.String(), 10.0, reply.ID.String())
+		r.Redis.ZIncrBy(ctx, "UserUnLike", -1, reply.UserId.String())
 	}
 
 	// TODO 取消点赞或者点踩

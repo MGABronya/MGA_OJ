@@ -84,5 +84,20 @@ func UserRoutes(r *gin.Engine) *gin.Engine {
 	// TODO 查看某一用户分数变化情况
 	userRoutes.GET("/score/change/:id", userController.ScoreChange)
 
+	// TODO 查看某一用户今日热度数据
+	//userRoutes.GET("/hot/:id", userController.Hot)
+
+	// TODO 查看今日点赞榜单
+	//userRoutes.GET("/like/rank", userController.LikeRank)
+
+	// TODO 查看今日点踩榜单
+	//userRoutes.GET("/unlike/rank", userController.UnLikeRank)
+
+	// TODO 查看今日收藏榜单
+	//userRoutes.GET("/collect/rank", userController.CollectRank)
+
+	// TODO 查看今日游览榜单
+	//userRoutes.GET("/visit/rank", userController.VisitRank)
+
 	return r
 }

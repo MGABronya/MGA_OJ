@@ -111,5 +111,8 @@ func ProblemRoutes(r *gin.Engine) *gin.Engine {
 	// TODO 按文本和标签交集搜索题目
 	problemRoutes.GET("/search/with/label/:text", problemController.SearchWithLabel)
 
+	// TODO 获取题目热度排行
+	problemRoutes.GET("/hot/rank/:id", problemController.HotRanking)
+
 	return r
 }

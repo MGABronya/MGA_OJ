@@ -327,7 +327,7 @@ feep:
 
 			// TODO 数据库插入数据错误
 			if j.DB.Create(&cas).Error != nil {
-				record.Condition = "System rror 5"
+				record.Condition = "System error 5"
 				j.DB.Save(&record)
 				return
 			}

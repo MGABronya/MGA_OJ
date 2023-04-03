@@ -237,6 +237,20 @@ func (g GroupController) Delete(ctx *gin.Context) {
 		return
 	}
 
+	var total int64
+
+	// TODO 查看点赞的数量
+	g.DB.Where("group_id = ? and like = true", id).Model(model.GroupLike{}).Count(&total)
+	g.Redis.ZIncrBy(ctx, "UserLike", -float64(total), group.LeaderId.String())
+
+	// TODO 查看点踩的数量
+	g.DB.Where("group_id = ? and like = false", id).Model(model.GroupLike{}).Count(&total)
+	g.Redis.ZIncrBy(ctx, "UserUnLike", -float64(total), group.LeaderId.String())
+
+	// TODO 查看收藏的数量
+	g.DB.Where("group_id = ?", id).Model(model.GroupCollect{}).Count(&total)
+	g.Redis.ZIncrBy(ctx, "UserCollect", -float64(total), group.LeaderId.String())
+
 	// TODO 删除用户组
 	g.DB.Delete(&group)
 
@@ -314,7 +328,7 @@ func (g GroupController) MemberList(ctx *gin.Context) {
 	var userList []model.UserList
 
 	// TODO 查找所有分页中可见的条目
-	g.DB.Where("user_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&userList)
+	g.DB.Where("user_id = ?", id).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&userList)
 
 	var total int64
 	g.DB.Where("user_id = ?", id).Model(model.UserList{}).Count(&total)
@@ -341,7 +355,7 @@ func (g GroupController) UserList(ctx *gin.Context) {
 	var userList []model.UserList
 
 	// TODO 查找所有分页中可见的条目
-	g.DB.Where("group_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&userList)
+	g.DB.Where("group_id = ?", id).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&userList)
 
 	var total int64
 	g.DB.Where("group_id = ?", id).Model(model.UserList{}).Count(&total)
@@ -431,25 +445,23 @@ leep:
 			response.Fail(ctx, nil, "点赞出错，数据库存储错误")
 			return
 		}
-		// TODO 热度计算
-		if like {
-			g.Redis.ZIncrBy(ctx, "GroupHot", 10.0, group.ID.String())
-		} else {
-			g.Redis.ZIncrBy(ctx, "GroupHot", -10.0, group.ID.String())
-		}
 	} else {
 		// TODO 热度计算
 		if groupLike.Like {
 			g.Redis.ZIncrBy(ctx, "GroupHot", -10.0, group.ID.String())
+			g.Redis.ZIncrBy(ctx, "UserLike", -1, group.LeaderId.String())
 		} else {
 			g.Redis.ZIncrBy(ctx, "GroupHot", 10.0, group.ID.String())
-		}
-		if like {
-			g.Redis.ZIncrBy(ctx, "GroupHot", 10.0, group.ID.String())
-		} else {
-			g.Redis.ZIncrBy(ctx, "GroupHot", -10.0, group.ID.String())
+			g.Redis.ZIncrBy(ctx, "UserUnLike", -1, group.LeaderId.String())
 		}
 		g.DB.Where("user_id = ? and group_id = ?", user.ID, id).Model(&model.GroupLike{}).Update("like", like)
+	}
+	if like {
+		g.Redis.ZIncrBy(ctx, "GroupHot", 10.0, group.ID.String())
+		g.Redis.ZIncrBy(ctx, "UserLike", 1, group.LeaderId.String())
+	} else {
+		g.Redis.ZIncrBy(ctx, "GroupHot", -10.0, group.ID.String())
+		g.Redis.ZIncrBy(ctx, "UserUnLike", 1, group.LeaderId.String())
 	}
 
 	response.Success(ctx, nil, "点赞成功")
@@ -468,6 +480,31 @@ func (g GroupController) CancelLike(ctx *gin.Context) {
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
 
+	var group model.Group
+
+	// TODO 先看redis中是否存在
+	if ok, _ := g.Redis.HExists(ctx, "Group", id).Result(); ok {
+		cate, _ := g.Redis.HGet(ctx, "Group", id).Result()
+		if json.Unmarshal([]byte(cate), &group) == nil {
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			g.Redis.HDel(ctx, "Group", id)
+		}
+	}
+
+	// TODO 查看用户组是否在数据库中存在
+	if g.DB.Where("id = ?", id).First(&group).Error != nil {
+		response.Fail(ctx, nil, "用户组不存在")
+		return
+	}
+	{
+		// TODO 将用户组存入redis供下次使用
+		v, _ := json.Marshal(group)
+		g.Redis.HSet(ctx, "Group", id, v)
+	}
+leep:
+
 	// TODO 查看是否已经点赞或者点踩
 	var groupLike model.GroupLike
 	if g.DB.Where("user_id = ? and group_id = ?", user.ID, id).First(&groupLike).Error != nil {
@@ -478,8 +515,10 @@ func (g GroupController) CancelLike(ctx *gin.Context) {
 	// TODO 热度计算
 	if groupLike.Like {
 		g.Redis.ZIncrBy(ctx, "GroupHot", -10.0, groupLike.GroupId.String())
+		g.Redis.ZIncrBy(ctx, "UserLike", -1, group.LeaderId.String())
 	} else {
 		g.Redis.ZIncrBy(ctx, "GroupHot", 10.0, groupLike.GroupId.String())
+		g.Redis.ZIncrBy(ctx, "UserUnLike", -1, group.LeaderId.String())
 	}
 
 	// TODO 取消点赞或者点踩
@@ -654,6 +693,9 @@ leep:
 	// TODO 热度计算
 	g.Redis.ZIncrBy(ctx, "GroupHot", 50.0, group.ID.String())
 
+	// TODO 存储入库
+	g.Redis.ZIncrBy(ctx, "UserCollect", 1, group.LeaderId.String())
+
 	response.Success(ctx, nil, "收藏成功")
 }
 
@@ -666,6 +708,32 @@ func (g GroupController) CancelCollect(ctx *gin.Context) {
 	// TODO 获取path中的id
 	id := ctx.Params.ByName("id")
 
+	var group model.Group
+
+	// TODO 查看用户组是否存在
+	// TODO 先看redis中是否存在
+	if ok, _ := g.Redis.HExists(ctx, "Group", id).Result(); ok {
+		cate, _ := g.Redis.HGet(ctx, "Group", id).Result()
+		if json.Unmarshal([]byte(cate), &group) == nil {
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			g.Redis.HDel(ctx, "Group", id)
+		}
+	}
+
+	// TODO 查看用户组是否在数据库中存在
+	if g.DB.Where("id = ?", id).First(&group).Error != nil {
+		response.Fail(ctx, nil, "用户组不存在")
+		return
+	}
+	{
+		// TODO 将用户组存入redis供下次使用
+		v, _ := json.Marshal(group)
+		g.Redis.HSet(ctx, "Group", id, v)
+	}
+leep:
+
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
@@ -677,6 +745,8 @@ func (g GroupController) CancelCollect(ctx *gin.Context) {
 		g.DB.Where("user_id = ? and group_id = ?", user.ID, id).Delete(&model.GroupCollect{})
 		// TODO 热度计算
 		g.Redis.ZIncrBy(ctx, "GroupHot", -50.0, id)
+		// TODO 删除存储入库
+		g.Redis.ZIncrBy(ctx, "UserCollect", -1, group.LeaderId.String())
 		response.Success(ctx, nil, "取消收藏成功")
 	}
 }

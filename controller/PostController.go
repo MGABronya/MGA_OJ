@@ -223,6 +223,25 @@ func (p PostController) Delete(ctx *gin.Context) {
 		return
 	}
 
+	var total int64
+
+	// TODO 查看点赞的数量
+	p.DB.Where("post_id = ? and like = true", id).Model(model.PostLike{}).Count(&total)
+	p.Redis.ZIncrBy(ctx, "UserLike", -float64(total), post.UserId.String())
+
+	// TODO 查看点踩的数量
+	p.DB.Where("post_id = ? and like = false", id).Model(model.PostLike{}).Count(&total)
+	p.Redis.ZIncrBy(ctx, "UserUnLike", -float64(total), post.UserId.String())
+
+	// TODO 查看收藏的数量
+	p.DB.Where("post_id = ?", id).Model(model.PostCollect{}).Count(&total)
+	p.Redis.ZIncrBy(ctx, "UserCollect", -float64(total), post.UserId.String())
+
+	// TODO 获取阅读人数
+	total, _ = p.Redis.PFCount(ctx, "PostVisit"+id).Result()
+	p.Redis.ZIncrBy(ctx, "UserVisit", -float64(total), post.UserId.String())
+	p.Redis.Del(ctx, "PostVisit"+id)
+
 	// TODO 删除题解
 	p.DB.Delete(&post)
 
@@ -372,25 +391,23 @@ leep:
 			response.Fail(ctx, nil, "点赞出错，数据库存储错误")
 			return
 		}
-		// TODO 热度计算
-		if like {
-			p.Redis.ZIncrBy(ctx, "PostHot"+post.ProblemId.String(), 10.0, post.ID.String())
-		} else {
-			p.Redis.ZIncrBy(ctx, "PostHot"+post.ProblemId.String(), -10.0, post.ID.String())
-		}
 	} else {
 		// TODO 热度计算
 		if postLike.Like {
 			p.Redis.ZIncrBy(ctx, "PostHot"+post.ProblemId.String(), -10.0, post.ID.String())
+			p.Redis.ZIncrBy(ctx, "UserLike", -1, post.UserId.String())
 		} else {
 			p.Redis.ZIncrBy(ctx, "PostHot"+post.ProblemId.String(), 10.0, post.ID.String())
-		}
-		if like {
-			p.Redis.ZIncrBy(ctx, "PostHot"+post.ProblemId.String(), 10.0, post.ID.String())
-		} else {
-			p.Redis.ZIncrBy(ctx, "PostHot"+post.ProblemId.String(), -10.0, post.ID.String())
+			p.Redis.ZIncrBy(ctx, "UserUnLike", -1, post.UserId.String())
 		}
 		p.DB.Where("user_id = ? and post_id = ?", user.ID, id).Model(&model.PostLike{}).Update("like", like)
+	}
+	if like {
+		p.Redis.ZIncrBy(ctx, "PostHot"+post.ProblemId.String(), 10.0, post.ID.String())
+		p.Redis.ZIncrBy(ctx, "UserLike", 1, post.UserId.String())
+	} else {
+		p.Redis.ZIncrBy(ctx, "PostHot"+post.ProblemId.String(), -10.0, post.ID.String())
+		p.Redis.ZIncrBy(ctx, "UserUnLike", 1, post.UserId.String())
 	}
 
 	response.Success(ctx, nil, "点赞成功")
@@ -444,8 +461,10 @@ leep:
 	// TODO 热度计算
 	if postLike.Like {
 		p.Redis.ZIncrBy(ctx, "PostHot"+post.ProblemId.String(), -10.0, post.ID.String())
+		p.Redis.ZIncrBy(ctx, "UserLike", -1, post.UserId.String())
 	} else {
 		p.Redis.ZIncrBy(ctx, "PostHot"+post.ProblemId.String(), 10.0, post.ID.String())
+		p.Redis.ZIncrBy(ctx, "UserUnLike", -1, post.UserId.String())
 	}
 
 	// TODO 取消点赞或者点踩
@@ -616,6 +635,9 @@ leep:
 		return
 	}
 
+	// TODO 存储入库
+	p.Redis.ZIncrBy(ctx, "UserCollect", 1, post.UserId.String())
+
 	p.Redis.ZIncrBy(ctx, "PostHot"+post.ProblemId.String(), 50.0, post.ID.String())
 
 	response.Success(ctx, nil, "收藏成功")
@@ -662,13 +684,13 @@ leep:
 	// TODO 如果没有收藏
 	if p.DB.Where("user_id = ? and post_id = ?", user.ID, id).First(&model.PostCollect{}).Error != nil {
 		response.Fail(ctx, nil, "未收藏")
-		return
 	} else {
 		p.DB.Where("user_id = ? and post_id = ?", user.ID, id).Delete(&model.PostCollect{})
 		// TODO 热度处理
 		p.Redis.ZIncrBy(ctx, "PostHot"+post.ProblemId.String(), -50.0, post.ID.String())
+		// TODO 删除存储入库
+		p.Redis.ZIncrBy(ctx, "UserCollect", -1, post.UserId.String())
 		response.Success(ctx, nil, "取消收藏成功")
-		return
 	}
 }
 
@@ -816,17 +838,18 @@ leep:
 	}
 
 	// TODO 获取阅读人数
-	last, _ := p.Redis.PFCount(ctx, "PostVisit", id).Result()
+	last, _ := p.Redis.PFCount(ctx, "PostVisit"+id).Result()
 
 	// TODO 添加入阅读库
-	p.Redis.PFAdd(ctx, "PostVisit", id)
+	p.Redis.PFAdd(ctx, "PostVisit"+id, user.ID.String())
 
 	// TODO 获取新的阅读人数
-	new, _ := p.Redis.PFCount(ctx, "PostVisit", id).Result()
+	new, _ := p.Redis.PFCount(ctx, "PostVisit"+id).Result()
 
 	// TODO 如果阅读人数有增加
 	if new > last {
 		p.Redis.ZIncrBy(ctx, "PostHot"+post.ProblemId.String(), 1.0, post.ID.String())
+		p.Redis.ZIncrBy(ctx, "UserVisit", 1.0, post.UserId.String())
 	}
 
 	response.Success(ctx, nil, "题解游览成功")
@@ -842,7 +865,7 @@ func (p PostController) VisitNumber(ctx *gin.Context) {
 	id := ctx.Params.ByName("id")
 
 	// TODO 获取阅读人数
-	total, _ := p.Redis.PFCount(ctx, "PostVisit", id).Result()
+	total, _ := p.Redis.PFCount(ctx, "PostVisit"+id).Result()
 
 	response.Success(ctx, gin.H{"total": total}, "请求题解游览数目成功")
 }

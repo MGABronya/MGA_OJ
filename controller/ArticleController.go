@@ -198,6 +198,25 @@ func (a ArticleController) Delete(ctx *gin.Context) {
 		return
 	}
 
+	var total int64
+
+	// TODO 查看点赞的数量
+	a.DB.Where("article_id = ? and like = true", id).Model(model.ArticleLike{}).Count(&total)
+	a.Redis.ZIncrBy(ctx, "UserLike", -float64(total), article.UserId.String())
+
+	// TODO 查看点踩的数量
+	a.DB.Where("article_id = ? and like = false", id).Model(model.ArticleLike{}).Count(&total)
+	a.Redis.ZIncrBy(ctx, "UserUnLike", -float64(total), article.UserId.String())
+
+	// TODO 查看收藏的数量
+	a.DB.Where("article_id = ?", id).Model(model.ArticleCollect{}).Count(&total)
+	a.Redis.ZIncrBy(ctx, "UserCollect", -float64(total), article.UserId.String())
+
+	// TODO 获取阅读人数
+	total, _ = a.Redis.PFCount(ctx, "ArticleVisit"+id).Result()
+	a.Redis.ZIncrBy(ctx, "UserVisit", -float64(total), article.UserId.String())
+	a.Redis.Del(ctx, "ArticleVisit"+id)
+
 	// TODO 删除文章
 	a.DB.Delete(&article)
 
@@ -368,25 +387,25 @@ leep:
 			response.Fail(ctx, nil, "点赞出错，数据库存储错误")
 			return
 		}
-		// TODO 热度计算
-		if like {
-			a.Redis.ZIncrBy(ctx, "ArticleHot", 10.0, article.ID.String())
-		} else {
-			a.Redis.ZIncrBy(ctx, "ArticleHot", -10.0, article.ID.String())
-		}
 	} else {
 		// TODO 热度计算
 		if articleLike.Like {
 			a.Redis.ZIncrBy(ctx, "ArticleHot", -10.0, article.ID.String())
+			a.Redis.ZIncrBy(ctx, "UserLike", -1, article.UserId.String())
 		} else {
 			a.Redis.ZIncrBy(ctx, "ArticleHot", 10.0, article.ID.String())
-		}
-		if like {
-			a.Redis.ZIncrBy(ctx, "ArticleHot", 10.0, article.ID.String())
-		} else {
-			a.Redis.ZIncrBy(ctx, "ArticleHot", -10.0, article.ID.String())
+			a.Redis.ZIncrBy(ctx, "UserUnLike", -1, article.UserId.String())
 		}
 		a.DB.Where("user_id = ? and article_id = ?", user.ID, id).Model(&model.ArticleLike{}).Update("like", like)
+	}
+
+	// TODO 热度计算
+	if like {
+		a.Redis.ZIncrBy(ctx, "ArticleHot", 10.0, article.ID.String())
+		a.Redis.ZIncrBy(ctx, "UserLike", 1, article.UserId.String())
+	} else {
+		a.Redis.ZIncrBy(ctx, "ArticleHot", -10.0, article.ID.String())
+		a.Redis.ZIncrBy(ctx, "UserUnLike", 1, article.UserId.String())
 	}
 
 	response.Success(ctx, nil, "点赞成功")
@@ -405,6 +424,31 @@ func (a ArticleController) CancelLike(ctx *gin.Context) {
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
 
+	var article model.Article
+
+	// TODO 先尝试在redis中寻找
+	if ok, _ := a.Redis.HExists(ctx, "Article", id).Result(); ok {
+		art, _ := a.Redis.HGet(ctx, "Article", id).Result()
+		if json.Unmarshal([]byte(art), &article) == nil {
+			goto leep
+		} else {
+			// TODO 解码失败，删除字段
+			a.Redis.HDel(ctx, "Article", id)
+		}
+	}
+
+	// TODO 查看文章是否在数据库中存在
+	if a.DB.Where("id = ?", id).First(&article).Error != nil {
+		response.Fail(ctx, nil, "文章不存在")
+		return
+	}
+	{
+		// TODO 将文章存入redis供下次使用
+		v, _ := json.Marshal(article)
+		a.Redis.HSet(ctx, "Article", id, v)
+	}
+leep:
+
 	// TODO 查看是否已经点赞或者点踩
 	var articleLike model.ArticleLike
 	if a.DB.Where("user_id = ? and article_id = ?", user.ID, id).First(&articleLike).Error != nil {
@@ -414,9 +458,11 @@ func (a ArticleController) CancelLike(ctx *gin.Context) {
 
 	// TODO 热度计算
 	if articleLike.Like {
-		a.Redis.ZIncrBy(ctx, "ArticleHot", -10.0, articleLike.ArticleId.String())
+		a.Redis.ZIncrBy(ctx, "ArticleHot", -10.0, article.ID.String())
+		a.Redis.ZIncrBy(ctx, "UserLike", -1, article.UserId.String())
 	} else {
-		a.Redis.ZIncrBy(ctx, "ArticleHot", 10.0, articleLike.ArticleId.String())
+		a.Redis.ZIncrBy(ctx, "ArticleHot", 10.0, article.ID.String())
+		a.Redis.ZIncrBy(ctx, "UserUnLike", -1, article.UserId.String())
 	}
 
 	// TODO 取消点赞或者点踩
@@ -585,6 +631,7 @@ leep:
 
 	// TODO 热度计算
 	a.Redis.ZIncrBy(ctx, "ArticleHot", 50.0, article.ID.String())
+	a.Redis.ZIncrBy(ctx, "UserCollect", 1, article.UserId.String())
 
 	response.Success(ctx, nil, "收藏成功")
 }
@@ -598,6 +645,31 @@ func (a ArticleController) CancelCollect(ctx *gin.Context) {
 	// TODO 获取path中的id
 	id := ctx.Params.ByName("id")
 
+	var article model.Article
+
+	// TODO 先尝试在redis中寻找
+	if ok, _ := a.Redis.HExists(ctx, "Article", id).Result(); ok {
+		art, _ := a.Redis.HGet(ctx, "Article", id).Result()
+		if json.Unmarshal([]byte(art), &article) == nil {
+			goto leep
+		} else {
+			// TODO 解码失败，删除字段
+			a.Redis.HDel(ctx, "Article", id)
+		}
+	}
+
+	// TODO 查看文章是否在数据库中存在
+	if a.DB.Where("id = ?", id).First(&article).Error != nil {
+		response.Fail(ctx, nil, "文章不存在")
+		return
+	}
+	{
+		// TODO 将文章存入redis供下次使用
+		v, _ := json.Marshal(article)
+		a.Redis.HSet(ctx, "Article", id, v)
+	}
+leep:
+
 	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
@@ -610,6 +682,8 @@ func (a ArticleController) CancelCollect(ctx *gin.Context) {
 		response.Success(ctx, nil, "取消收藏成功")
 		// TODO 热度计算
 		a.Redis.ZIncrBy(ctx, "ArticleHot", -50.0, id)
+		// TODO 删除存储入库
+		a.Redis.ZIncrBy(ctx, "UserCollect", -1, article.UserId.String())
 	}
 }
 
@@ -755,17 +829,18 @@ leep:
 	}
 
 	// TODO 获取阅读人数
-	last, _ := a.Redis.PFCount(ctx, "ArticleVisit", id).Result()
+	last, _ := a.Redis.PFCount(ctx, "ArticleVisit"+id).Result()
 
 	// TODO 添加入阅读库
-	a.Redis.PFAdd(ctx, "ArticleVisit", id)
+	a.Redis.PFAdd(ctx, "UserVisit"+article.UserId.String(), user.ID.String())
 
 	// TODO 获取新的阅读人数
-	new, _ := a.Redis.PFCount(ctx, "ArticleVisit", id).Result()
+	new, _ := a.Redis.PFCount(ctx, "ArticleVisit"+id).Result()
 
 	// TODO 如果阅读人数有增加
 	if new > last {
 		a.Redis.ZIncrBy(ctx, "ArticleHot", 1.0, id)
+		a.Redis.ZIncrBy(ctx, "UserVisit", 1.0, article.UserId.String())
 	}
 
 	response.Success(ctx, nil, "文章游览成功")
@@ -781,7 +856,7 @@ func (a ArticleController) VisitNumber(ctx *gin.Context) {
 	id := ctx.Params.ByName("id")
 
 	// TODO 获取阅读人数
-	total, _ := a.Redis.PFCount(ctx, "ArticleVisit", id).Result()
+	total, _ := a.Redis.PFCount(ctx, "ArticleVisit"+id).Result()
 
 	response.Success(ctx, gin.H{"total": total}, "请求文章游览数目成功")
 }

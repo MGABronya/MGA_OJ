@@ -25,9 +25,9 @@ func RejudgeRoutes(r *gin.Engine) *gin.Engine {
 	rejudgeController := controller.NewRejudgeController()
 
 	// TODO 进行重判
-	rejudgeRoutes.PUT("/do/:problem/:competition/:user/:start/:end/:language/:condition", middleware.AuthMiddleware(), rejudgeController.Do)
+	rejudgeRoutes.PUT("/do", middleware.AuthMiddleware(), rejudgeController.Do)
 
-	// TODO 对某场比赛进行清空
+	// TODO 对某场比赛结果进行清空
 	rejudgeRoutes.DELETE("/competiton/delete/:id", middleware.AuthMiddleware(), rejudgeController.CompetitionDelete)
 
 	// TODO 对某场比赛结果重新进行分数统计

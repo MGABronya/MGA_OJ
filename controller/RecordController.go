@@ -253,7 +253,7 @@ func (r RecordController) PageList(ctx *gin.Context) {
 	Condition := ctx.DefaultQuery("condition", "")
 	PassLow := ctx.DefaultQuery("pass_low", "")
 	PassTop := ctx.DefaultQuery("pass_top", "")
-	CompetitionId := ctx.DefaultQuery("competition_id", "0")
+	CompetitionId := ctx.DefaultQuery("competition_id", "")
 
 	db := common.GetDB()
 

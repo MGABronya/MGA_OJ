@@ -46,6 +46,11 @@ type IUserController interface {
 	AcceptRankList(ctx *gin.Context) // 显示用户ac题目的排行列表
 	AcceptRank(ctx *gin.Context)     // 显示用户ac题目的排行
 	ScoreChange(ctx *gin.Context)    // 显示用户的分数变化
+	//Hot(ctx *gin.Context)            // 显示用户今日热度数据
+	//LikeRank(ctx *gin.Context)       // 点赞榜单
+	//UnLikeRank(ctx *gin.Context)     // 点踩榜单
+	//CollectRank(ctx *gin.Context)    // 收藏榜单
+	//VisitRank(ctx *gin.Context)      // 游览榜单
 }
 
 // UserController			定义了题目工具类
@@ -106,11 +111,16 @@ func (u UserController) Register(ctx *gin.Context) {
 		return
 	}
 	newUser := model.User{
-		Name:     name,
-		Email:    email,
-		Password: string(hasedPassword),
-		Icon:     "MGA" + strconv.Itoa(rand.Intn(9)+1) + ".jpg",
-		Score:    1500,
+		Name:       name,
+		Email:      email,
+		Password:   string(hasedPassword),
+		Icon:       "MGA" + strconv.Itoa(rand.Intn(9)+1) + ".jpg",
+		Score:      1500,
+		LikeNum:    0,
+		UnLikeNum:  0,
+		CollectNum: 0,
+		VisitNum:   0,
+		Level:      0,
 	}
 	u.DB.Create(&newUser)
 
@@ -423,33 +433,63 @@ func (u UserController) UpdateIcon(ctx *gin.Context) {
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (u UserController) UpdateLevel(ctx *gin.Context) {
+	// TODO 获取登录用户
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
 
-	id := ctx.Params.ByName("id")
-	level, _ := strconv.Atoi(ctx.Params.ByName("level"))
+	// TODO 获取指定等级
+	level, err := strconv.Atoi(ctx.Params.ByName("level"))
 
-	if user.Level <= level {
-		response.Fail(ctx, nil, "用户权限不足")
+	if err != nil || level < 0 {
+		response.Fail(ctx, nil, "权限等级有误")
 		return
 	}
 
-	// TODO 获取对应用户
-	var usera model.User
-	if u.DB.Where("id = ?", id).First(&usera).Error != nil {
+	if level >= user.Level {
+		response.Fail(ctx, nil, "权限等级大于等于了你的权限等级")
+		return
+	}
+
+	// TODO 获取指定用户
+	id := ctx.Params.ByName("id")
+
+	var userb model.User
+
+	// TODO 先看redis中是否存在
+	if ok, _ := u.Redis.HExists(ctx, "User", id).Result(); ok {
+		cate, _ := u.Redis.HGet(ctx, "User", id).Result()
+		if json.Unmarshal([]byte(cate), &userb) == nil {
+			goto leap
+		} else {
+			// TODO 移除损坏数据
+			u.Redis.HDel(ctx, "User", id)
+		}
+	}
+
+	// TODO 查看用户是否在数据库中存在
+	if u.DB.Where("id = ?", id).First(&userb).Error != nil {
 		response.Fail(ctx, nil, "用户不存在")
 		return
 	}
+	{
+		// TODO 将用户存入redis供下次使用
+		v, _ := json.Marshal(userb)
+		u.Redis.HSet(ctx, "User", id, v)
+	}
+leap:
 
-	usera.Level = level
+	// TODO 查看指定用户的等级
+	if userb.Level >= user.Level {
+		response.Fail(ctx, nil, "无法修改该用户的权限等级")
+		return
+	}
 
-	// TODO 更新信息
-	u.DB.Save(&user)
+	// TODO 更新
+	userb.Level = level
+	u.DB.Save(&userb)
 
-	// TODO 移除损坏数据
-	u.Redis.HDel(ctx, "User", id)
-
-	response.Success(ctx, nil, "用户信息更新成功")
+	// TODO 成功
+	response.Success(ctx, nil, "创建成功")
 }
 
 // @title    AcceptNum
@@ -682,8 +722,14 @@ func (u UserController) SearchLabel(ctx *gin.Context) {
 
 	u.DB.Where("id in (?)", userIds).Find(&users)
 
+	var dtoUsers []vo.UserDto
+
+	for i := range users {
+		dtoUsers = append(dtoUsers, vo.ToUserDto(users[i]))
+	}
+
 	// TODO 返回数据
-	response.Success(ctx, gin.H{"users": users, "total": total}, "成功")
+	response.Success(ctx, gin.H{"users": dtoUsers, "total": total}, "成功")
 }
 
 // @title    SearchWithLabel
@@ -727,8 +773,14 @@ func (u UserController) SearchWithLabel(ctx *gin.Context) {
 	var total int64
 	u.DB.Where("id in (?) and match(name) against(? in boolean mode)", userIds, text+"*").Model(model.User{}).Count(&total)
 
+	var dtoUsers []vo.UserDto
+
+	for i := range users {
+		dtoUsers = append(dtoUsers, vo.ToUserDto(users[i]))
+	}
+
 	// TODO 返回数据
-	response.Success(ctx, gin.H{"users": users, "total": total}, "成功")
+	response.Success(ctx, gin.H{"users": dtoUsers, "total": total}, "成功")
 }
 
 // @title    ScoreChange
