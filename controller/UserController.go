@@ -764,13 +764,13 @@ func (u UserController) Hot(ctx *gin.Context) {
 	// TODO 获取用户id
 	id := ctx.Params.ByName("id")
 
-	visitNum, _ := u.Redis.ZScore(ctx, "UserVisit", id).Result()
+	VisitNum, _ := u.Redis.ZScore(ctx, "UserVisit", id).Result()
 	LikeNum, _ := u.Redis.ZScore(ctx, "UserLike", id).Result()
 	UnLikeNum, _ := u.Redis.ZScore(ctx, "UserUnLike", id).Result()
 	CollectNum, _ := u.Redis.ZScore(ctx, "UserCollect", id).Result()
 
 	// TODO 返回数据
-	response.Success(ctx, gin.H{"visitNum": visitNum, "LikeNum": LikeNum, "UnLikeNum": UnLikeNum, "CollectNum": CollectNum}, "成功")
+	response.Success(ctx, gin.H{"VisitNum": VisitNum, "LikeNum": LikeNum, "UnLikeNum": UnLikeNum, "CollectNum": CollectNum}, "成功")
 }
 
 // @title    LikeRank
@@ -779,11 +779,15 @@ func (u UserController) Hot(ctx *gin.Context) {
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (u UserController) LikeRank(ctx *gin.Context) {
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
 
-	users, _ := u.Redis.ZRangeWithScores(ctx, "UserLike", 0, -1).Result()
+	users, _ := u.Redis.ZRevRangeWithScores(ctx, "UserLike", int64(pageNum-1)*int64(pageSize), int64(pageNum-1)*int64(pageSize)+int64(pageSize)-1).Result()
 
+	total, _ := u.Redis.ZCard(ctx, "UserLike").Result()
 	// TODO 返回数据
-	response.Success(ctx, gin.H{"users": users}, "成功")
+	response.Success(ctx, gin.H{"users": users, "total": total}, "成功")
 }
 
 // @title    UnLikeRank
@@ -793,10 +797,15 @@ func (u UserController) LikeRank(ctx *gin.Context) {
 // @return   void
 func (u UserController) UnLikeRank(ctx *gin.Context) {
 
-	users, _ := u.Redis.ZRangeWithScores(ctx, "UserUnLike", 0, -1).Result()
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
 
+	users, _ := u.Redis.ZRevRangeWithScores(ctx, "UserUnLike", int64(pageNum-1)*int64(pageSize), int64(pageNum-1)*int64(pageSize)+int64(pageSize)-1).Result()
+
+	total, _ := u.Redis.ZCard(ctx, "UserUnLike").Result()
 	// TODO 返回数据
-	response.Success(ctx, gin.H{"users": users}, "成功")
+	response.Success(ctx, gin.H{"users": users, "total": total}, "成功")
 }
 
 // @title    CollectRank
@@ -806,10 +815,15 @@ func (u UserController) UnLikeRank(ctx *gin.Context) {
 // @return   void
 func (u UserController) CollectRank(ctx *gin.Context) {
 
-	users, _ := u.Redis.ZRangeWithScores(ctx, "UserCollect", 0, -1).Result()
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
 
+	users, _ := u.Redis.ZRevRangeWithScores(ctx, "UserCollect", int64(pageNum-1)*int64(pageSize), int64(pageNum-1)*int64(pageSize)+int64(pageSize)-1).Result()
+
+	total, _ := u.Redis.ZCard(ctx, "UserCollect").Result()
 	// TODO 返回数据
-	response.Success(ctx, gin.H{"users": users}, "成功")
+	response.Success(ctx, gin.H{"users": users, "total": total}, "成功")
 }
 
 // @title    VisitRank
@@ -819,10 +833,15 @@ func (u UserController) CollectRank(ctx *gin.Context) {
 // @return   void
 func (u UserController) VisitRank(ctx *gin.Context) {
 
-	users, _ := u.Redis.ZRangeWithScores(ctx, "UserVisit", 0, -1).Result()
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
 
+	users, _ := u.Redis.ZRevRangeWithScores(ctx, "UserVisit", int64(pageNum-1)*int64(pageSize), int64(pageNum-1)*int64(pageSize)+int64(pageSize)-1).Result()
+
+	total, _ := u.Redis.ZCard(ctx, "UserVisit").Result()
 	// TODO 返回数据
-	response.Success(ctx, gin.H{"users": users}, "成功")
+	response.Success(ctx, gin.H{"users": users, "total": total}, "成功")
 }
 
 // @title    NewUserController
