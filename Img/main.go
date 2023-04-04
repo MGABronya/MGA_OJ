@@ -1,6 +1,7 @@
 package main
 
 import (
+	"MGA_OJ/selfInspection"
 	"MGA_OJ/util"
 	"os"
 
@@ -16,7 +17,8 @@ import (
 func main() {
 	// TODO 打印MGAronya字符串
 	util.MgaronyaPrint()
-	// TODO 打印部署须知
+	// TODO 自检程序启动
+	selfInspection.ImgInspection()
 	InitConfig()
 	r := gin.Default()
 	r = CollectRoute(r)

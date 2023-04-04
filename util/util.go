@@ -14,6 +14,7 @@ import (
 	"math"
 	"math/rand"
 	"net/smtp"
+	"os"
 	"regexp"
 	"time"
 
@@ -227,6 +228,25 @@ _\/\\\\\\________/\\\\\\_        ___/\\\//////////__        ___/\\\\\\\\\\\\\__ 
 // @return    无
 func MgaronyaPrint() {
 	log.Println(MgaronyaString[rand.New(rand.NewSource(time.Now().UnixNano())).Int()%10])
+}
+
+// @title    FileExit
+// @description   查看某一文件是否存在
+// @auth      MGAronya（张健）             2022-9-16 10:29
+// @param     path string		文件以及路径
+// @return    bool				表示是否存在文件
+func FileExit(path string) bool {
+	finfo, err := os.Stat(path)
+	return err != nil && !finfo.IsDir()
+}
+
+// @title    ConfigExit
+// @description   查看配置是否存在
+// @auth      MGAronya（张健）             2022-9-16 10:29
+// @param     无
+// @return    bool				表示是否存在文件
+func ConfigExit() bool {
+	return FileExit("./config/application.yml")
 }
 
 // @title    RandomString
