@@ -14,8 +14,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
-	"os"
-	"path"
 
 	"math/rand"
 
@@ -39,21 +37,20 @@ type IUserController interface {
 	UpdatePass(ctx *gin.Context)     // 更新密码
 	Info(ctx *gin.Context)           // 返回当前登录的用户
 	Update(ctx *gin.Context)         // 用户的信息更新
-	UpdateIcon(ctx *gin.Context)     // 用户头像更新
 	UpdateLevel(ctx *gin.Context)    // 修改用户的等级
 	Show(ctx *gin.Context)           // 显示用户的所有信息
 	AcceptNum(ctx *gin.Context)      // 显示用户ac题目数量
 	AcceptRankList(ctx *gin.Context) // 显示用户ac题目的排行列表
 	AcceptRank(ctx *gin.Context)     // 显示用户ac题目的排行
 	ScoreChange(ctx *gin.Context)    // 显示用户的分数变化
-	//Hot(ctx *gin.Context)            // 显示用户今日热度数据
-	//LikeRank(ctx *gin.Context)       // 点赞榜单
-	//UnLikeRank(ctx *gin.Context)     // 点踩榜单
-	//CollectRank(ctx *gin.Context)    // 收藏榜单
-	//VisitRank(ctx *gin.Context)      // 游览榜单
+	Hot(ctx *gin.Context)            // 显示用户今日热度数据
+	LikeRank(ctx *gin.Context)       // 点赞榜单
+	UnLikeRank(ctx *gin.Context)     // 点踩榜单
+	CollectRank(ctx *gin.Context)    // 收藏榜单
+	VisitRank(ctx *gin.Context)      // 游览榜单
 }
 
-// UserController			定义了题目工具类
+// UserController			定义了用户工具类
 type UserController struct {
 	DB    *gorm.DB      // 含有一个数据库指针
 	Redis *redis.Client // 含有一个redis指针
@@ -357,74 +354,21 @@ func (u UserController) Update(ctx *gin.Context) {
 	user.Name = requestUser.Name
 	user.Email = requestUser.Email
 	user.Sex = requestUser.Sex
+	user.Icon = requestUser.Icon
 
 	// TODO 更新信息
-	u.DB.Save(&user)
+	u.DB.Where("id = ?", user.ID).Updates(model.User{
+		Address: requestUser.Address,
+		Blog:    requestUser.Blog,
+		Name:    requestUser.Name,
+		Email:   requestUser.Email,
+		Sex:     requestUser.Sex,
+		Icon:    requestUser.Icon,
+	})
 
 	// TODO 移除损坏数据
 	u.Redis.HDel(ctx, "User", fmt.Sprint(user.ID))
 	response.Success(ctx, nil, "用户信息更新成功")
-}
-
-// @title    UpdateIcon
-// @description   个人头像图片上传
-// @auth      MGAronya（张健）       2022-9-16 12:31
-// @param    ctx *gin.Context       接收一个上下文
-// @return   void
-func (u UserController) UpdateIcon(ctx *gin.Context) {
-	tuser, _ := ctx.Get("user")
-	user := tuser.(model.User)
-
-	file, err := ctx.FormFile("file")
-
-	//TODO 数据验证
-	if err != nil {
-		log.Print(err.Error())
-		response.Fail(ctx, nil, "数据验证错误")
-		return
-	}
-
-	extName := path.Ext(file.Filename)
-	allowExtMap := map[string]bool{
-		".jpg":  true,
-		".png":  true,
-		".gif":  true,
-		".jpeg": true,
-	}
-
-	// TODO 格式验证
-	if _, ok := allowExtMap[extName]; !ok {
-		response.Fail(ctx, nil, "文件格式有误")
-		return
-	}
-
-	// TODO 非默认图片，则删除原本地文件
-	if !util.VerifyIconFormat(user.Icon) {
-		if err := os.Remove("./Icon/" + user.Icon); err != nil {
-			// TODO 如果删除失败则输出 file remove Error!
-			fmt.Println("file remove Error!")
-			// TODO 输出错误详细信息
-			fmt.Printf("%s", err)
-		} else {
-			// TODO 如果删除成功则输出 file remove OK!
-			fmt.Print("file remove OK!")
-		}
-	}
-	file.Filename = user.ID.String() + extName
-
-	// TODO 将文件存入本地
-	ctx.SaveUploadedFile(file, "./Icon/"+file.Filename)
-
-	u.DB.Where("id = ?", user.ID).Take(&user)
-
-	user.Icon = file.Filename
-
-	u.DB.Save(&user)
-
-	// TODO 移除损坏数据
-	u.Redis.HDel(ctx, "User", fmt.Sprint(user.ID))
-
-	response.Success(ctx, gin.H{"Icon": user.Icon}, "更新成功")
 }
 
 // @title    UpdateLevel
@@ -808,6 +752,77 @@ func (u UserController) ScoreChange(ctx *gin.Context) {
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"userScoreChanges": userScoreChanges, "total": total}, "成功")
+}
+
+// @title    Hot
+// @description   指定用户的今日热度数据
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (u UserController) Hot(ctx *gin.Context) {
+
+	// TODO 获取用户id
+	id := ctx.Params.ByName("id")
+
+	visitNum, _ := u.Redis.ZScore(ctx, "UserVisit", id).Result()
+	LikeNum, _ := u.Redis.ZScore(ctx, "UserLike", id).Result()
+	UnLikeNum, _ := u.Redis.ZScore(ctx, "UserUnLike", id).Result()
+	CollectNum, _ := u.Redis.ZScore(ctx, "UserCollect", id).Result()
+
+	// TODO 返回数据
+	response.Success(ctx, gin.H{"visitNum": visitNum, "LikeNum": LikeNum, "UnLikeNum": UnLikeNum, "CollectNum": CollectNum}, "成功")
+}
+
+// @title    LikeRank
+// @description   用户的今日收到点赞排行
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (u UserController) LikeRank(ctx *gin.Context) {
+
+	users, _ := u.Redis.ZRangeWithScores(ctx, "UserLike", 0, -1).Result()
+
+	// TODO 返回数据
+	response.Success(ctx, gin.H{"users": users}, "成功")
+}
+
+// @title    UnLikeRank
+// @description   用户的今日收到点踩排行
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (u UserController) UnLikeRank(ctx *gin.Context) {
+
+	users, _ := u.Redis.ZRangeWithScores(ctx, "UserUnLike", 0, -1).Result()
+
+	// TODO 返回数据
+	response.Success(ctx, gin.H{"users": users}, "成功")
+}
+
+// @title    CollectRank
+// @description   用户的今日收到收藏排行
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (u UserController) CollectRank(ctx *gin.Context) {
+
+	users, _ := u.Redis.ZRangeWithScores(ctx, "UserCollect", 0, -1).Result()
+
+	// TODO 返回数据
+	response.Success(ctx, gin.H{"users": users}, "成功")
+}
+
+// @title    VisitRank
+// @description   用户的今日收到游览排行
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (u UserController) VisitRank(ctx *gin.Context) {
+
+	users, _ := u.Redis.ZRangeWithScores(ctx, "UserVisit", 0, -1).Result()
+
+	// TODO 返回数据
+	response.Success(ctx, gin.H{"users": users}, "成功")
 }
 
 // @title    NewUserController

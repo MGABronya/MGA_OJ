@@ -51,9 +51,6 @@ func UserRoutes(r *gin.Engine) *gin.Engine {
 	// TODO 修改用户等级
 	userRoutes.PUT("/update/level/:id/:level", middleware.AuthMiddleware(), userController.UpdateLevel)
 
-	// TODO 修改用户头像
-	userRoutes.PUT("/update/icon", middleware.AuthMiddleware(), userController.UpdateIcon)
-
 	// TODO 获取某个用户的题目数量排行情况
 	userRoutes.GET("/accept/rank/show/:id", userController.AcceptRank)
 
@@ -85,19 +82,19 @@ func UserRoutes(r *gin.Engine) *gin.Engine {
 	userRoutes.GET("/score/change/:id", userController.ScoreChange)
 
 	// TODO 查看某一用户今日热度数据
-	//userRoutes.GET("/hot/:id", userController.Hot)
+	userRoutes.GET("/hot/:id", userController.Hot)
 
 	// TODO 查看今日点赞榜单
-	//userRoutes.GET("/like/rank", userController.LikeRank)
+	userRoutes.GET("/like/rank", userController.LikeRank)
 
 	// TODO 查看今日点踩榜单
-	//userRoutes.GET("/unlike/rank", userController.UnLikeRank)
+	userRoutes.GET("/unlike/rank", userController.UnLikeRank)
 
 	// TODO 查看今日收藏榜单
-	//userRoutes.GET("/collect/rank", userController.CollectRank)
+	userRoutes.GET("/collect/rank", userController.CollectRank)
 
 	// TODO 查看今日游览榜单
-	//userRoutes.GET("/visit/rank", userController.VisitRank)
+	userRoutes.GET("/visit/rank", userController.VisitRank)
 
 	return r
 }

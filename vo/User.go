@@ -22,6 +22,7 @@ type UserUpdate struct {
 	Sex     bool   `json:"sex"`     // 性别
 	Address string `json:"address"` // 地址
 	Verify  string `json:"verify"`  // 验证码
+	Icon    string `json:"icon"`    // 头像
 }
 
 // UserDto			定义了用户的基本信息

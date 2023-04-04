@@ -81,8 +81,5 @@ func CollectRoute(r *gin.Engine) *gin.Engine {
 	// TODO 重判路由
 	r = routes.RejudgeRoutes(r)
 
-	// TODO 权限路由
-	r = routes.LevelRoutes(r)
-
 	return r
 }
