@@ -1,6 +1,7 @@
 package main
 
 import (
+	"MGA_OJ/util"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -13,6 +14,9 @@ import (
 // @param     void			没有入参
 // @return    void			没有回参
 func main() {
+	// TODO 打印MGAronya字符串
+	util.MgaronyaPrint()
+	// TODO 打印部署须知
 	InitConfig()
 	r := gin.Default()
 	r = CollectRoute(r)

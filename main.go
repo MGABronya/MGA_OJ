@@ -3,6 +3,7 @@ package main
 import (
 	"MGA_OJ/common"
 	"MGA_OJ/timer"
+	"MGA_OJ/util"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -15,6 +16,9 @@ import (
 // @param     void			没有入参
 // @return    void			没有回参
 func main() {
+	// TODO 打印MGAronya字符串
+	util.MgaronyaPrint()
+	// TODO 打印部署须知
 	InitConfig()
 	common.InitDB()
 	client0 := common.InitRedis(0)
@@ -25,6 +29,7 @@ func main() {
 	// TODO 定时任务
 	go timer.TimedTask("", timer.HotStatics, 0, 0, 0)
 	go timer.TimedTask("", timer.SetRank, 4, 0, 0)
+
 	if port != "" {
 		panic(r.Run(":" + port))
 	}
