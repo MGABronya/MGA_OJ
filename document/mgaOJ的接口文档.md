@@ -1,3 +1,5 @@
+[TOC]
+
 # mgaOJ的接口文档
 
 ## 简介
@@ -136,6 +138,62 @@
 - VisitNumber     游览人数
 - VisitList              游览列表
 - Visits                   用户游览历史记录
+
+这里再列出一些即将用到的模型以及它们之间的基础层次关系
+
+### 主要服务
+
+**User**（用户）
+
+- **Article**（文章）
+
+  - **Remark**（文章的回复）
+
+- **Letter**（私信）
+
+- **Problem**（题目）
+
+  - **SpecialJudge**（特殊判断）
+
+  - **Comment**（讨论）
+    - **Reply**（讨论的回复）
+  - **Post**（题解）
+    - **Thread**（题解的回复）
+  - **Record**（代码提交）
+
+- **Friend**（好友）
+
+- **Group**（用户组）
+
+  - **Chat**（群聊）
+  - **User**（用户）
+
+- **Message**（留言板）
+
+**Category**（分类）
+
+- **Article**（文章）
+  - **Remark**（文章的回复）
+
+**Competition**（竞赛）
+
+- **Set**（表单）
+  - **Group**（用户组）
+    - **User**（用户）
+  - **Topic**（主题）
+    - **Problem**（题目）
+      - **Record**（代码提交）
+      - **SpecialJudge**（特殊判断）
+
+**Rejudge**（重新判断）
+
+### 本地测试服务
+
+**Test**（本地测试）
+
+### 图床服务
+
+**Img**（简易图床）
 
 ## 路由们
 
@@ -2534,6 +2592,26 @@
     请求参数：  在接口地址中给出指定用户的id（即:id部分）  。
 
     返回值：成功时，以json格式返回一个数组replys和total，replys返回了相应列表的回复信息（按照创建时间排序，越新创建排序越前），total表示回复总量，如果失败则返回失败原因。
+
+### 模型：Img
+
+定义：图片管理
+
+**基础路由：/img**
+
+实现的接口类型：
+
+- 其它
+
+  - **接口地址：/upload**
+
+    **功能：查看指定用户创建的回复列表**
+
+    **方法类型：POST**
+
+    请求参数：   Header中需要包含Content-Type，指名为multipart/form-data。在Body中给用form-data格式给出file（文件类型）。uthorization中的Bearer Token中提供注册、登录时给出的token。  
+
+    返回值：返回文件名。
 
 ### 模型：Set
 
