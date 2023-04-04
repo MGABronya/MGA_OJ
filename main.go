@@ -2,6 +2,7 @@ package main
 
 import (
 	"MGA_OJ/common"
+	"MGA_OJ/timer"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -21,6 +22,9 @@ func main() {
 	r := gin.Default()
 	r = CollectRoute(r)
 	port := viper.GetString("server.port")
+	// TODO 定时任务
+	go timer.TimedTask("", timer.HotStatics, 0, 0, 0)
+	go timer.TimedTask("", timer.SetRank, 4, 0, 0)
 	if port != "" {
 		panic(r.Run(":" + port))
 	}

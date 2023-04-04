@@ -171,7 +171,7 @@ func (s SetController) Create(ctx *gin.Context) {
 	}
 
 	// TODO 尝试更新
-	if updateRank(set.ID) != nil {
+	if UpdateRank(set.ID) != nil {
 		response.Fail(ctx, nil, "更新出错")
 		return
 	}
@@ -326,7 +326,7 @@ func (s SetController) Update(ctx *gin.Context) {
 	}
 
 	// TODO 尝试更新
-	if updateRank(set.ID) != nil {
+	if UpdateRank(set.ID) != nil {
 		response.Fail(ctx, nil, "更新出错")
 		return
 	}
@@ -1219,7 +1219,7 @@ leep:
 	}
 
 	// TODO 尝试更新
-	if updateRank(set.ID) != nil {
+	if UpdateRank(set.ID) != nil {
 		response.Fail(ctx, nil, "更新出错")
 		return
 	}
@@ -2248,7 +2248,7 @@ func NewSetController() ISetController {
 // @auth      MGAronya（张健）       2022-9-16 12:23
 // @param    set_id uuid.UUID		表示表单的id
 // @return   error		返回一个error表示是否出现错误
-func updateRank(set_id uuid.UUID) error {
+func UpdateRank(set_id uuid.UUID) error {
 	db := common.GetDB()
 	var err error
 	// TODO 删掉原先的排行
