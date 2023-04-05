@@ -240,15 +240,6 @@ func FileExit(path string) bool {
 	return err != nil && !finfo.IsDir()
 }
 
-// @title    ConfigExit
-// @description   查看配置是否存在
-// @auth      MGAronya（张健）             2022-9-16 10:29
-// @param     无
-// @return    bool				表示是否存在文件
-func ConfigExit() bool {
-	return FileExit("./config/application.yml")
-}
-
 // @title    RandomString
 // @description   生成一段随机的字符串
 // @auth      MGAronya（张健）             2022-9-16 10:29

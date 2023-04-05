@@ -20,7 +20,7 @@ func main() {
 	// TODO 打印MGAronya字符串
 	util.MgaronyaPrint()
 	// TODO 自检程序启动
-	selfInspection.TestInspection()
+	selfInspection.MainInspection()
 	common.InitDB()
 	client0 := common.InitRedis(0)
 	defer client0.Close()

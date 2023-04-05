@@ -48,6 +48,12 @@ func (t TestController) Create(ctx *gin.Context) {
 		response.Fail(ctx, nil, "数据验证错误")
 		return
 	}
+	if requestTest.TimeLimit > 30*1000 {
+		requestTest.TimeLimit = 30 * 1000
+	}
+	if requestTest.MemoryLimit > 5*1024*1024 {
+		requestTest.MemoryLimit = 5 * 1024 * 1024
+	}
 	// TODO 进行测试
 
 	output, condition, memory, time := Test(requestTest)
