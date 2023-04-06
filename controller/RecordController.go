@@ -7,7 +7,6 @@ package controller
 import (
 	"MGA_OJ/common"
 	"MGA_OJ/model"
-	"MGA_OJ/rabbitMq"
 	"MGA_OJ/response"
 	"MGA_OJ/vo"
 	"encoding/json"
@@ -33,9 +32,9 @@ type IRecordController interface {
 
 // RecordController			定义了提交工具类
 type RecordController struct {
-	DB       *gorm.DB           // 含有一个数据库指针
-	Redis    *redis.Client      // 含有一个redis指针
-	Rabbitmq *rabbitMq.RabbitMQ // 含有一个消息中间件
+	DB       *gorm.DB         // 含有一个数据库指针
+	Redis    *redis.Client    // 含有一个redis指针
+	Rabbitmq *common.RabbitMQ // 含有一个消息中间件
 }
 
 // @title    Create
@@ -414,7 +413,7 @@ func (r RecordController) Case(ctx *gin.Context) {
 func NewRecordController() IRecordController {
 	db := common.GetDB()
 	redis := common.GetRedisClient(0)
-	rabbitmq := rabbitMq.NewRabbitMQSimple("MGAronya")
+	rabbitmq := common.GetRabbitMq()
 	db.AutoMigrate(model.Record{})
 	db.AutoMigrate(model.Case{})
 	return RecordController{DB: db, Redis: redis, Rabbitmq: rabbitmq}

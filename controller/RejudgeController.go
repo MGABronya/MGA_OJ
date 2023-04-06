@@ -7,7 +7,6 @@ package controller
 import (
 	"MGA_OJ/common"
 	"MGA_OJ/model"
-	rabbitMq "MGA_OJ/rabbitMq"
 	"MGA_OJ/response"
 	"encoding/json"
 	"fmt"
@@ -27,9 +26,9 @@ type IRejudgeController interface {
 
 // RejudgeController			定义了重判工具类
 type RejudgeController struct {
-	DB       *gorm.DB           // 含有一个数据库指针
-	Redis    *redis.Client      // 含有一个redis指针
-	Rabbitmq *rabbitMq.RabbitMQ // 含有一个消息中间件
+	DB       *gorm.DB         // 含有一个数据库指针
+	Redis    *redis.Client    // 含有一个redis指针
+	Rabbitmq *common.RabbitMQ // 含有一个消息中间件
 }
 
 // @title    Do
@@ -213,6 +212,6 @@ leap:
 func NewRejudgeController() IRejudgeController {
 	db := common.GetDB()
 	redis := common.GetRedisClient(0)
-	rabbitmq := rabbitMq.NewRabbitMQSimple("MGAronya")
+	rabbitmq := common.GetRabbitMq()
 	return RejudgeController{DB: db, Redis: redis, Rabbitmq: rabbitmq}
 }

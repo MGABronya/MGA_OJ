@@ -16,12 +16,12 @@ mgaoj，主要服务
 
 #### 服务：简易图床
 
-#### 部署文件包：https://github.com/MGABronya/MGA_OJ/blob/main/deploy/Img/Img.zip
+#### 部署文件包：https://github.com/MGABronya/MGA_OJ/raw/main/deploy/Img/Img.zip
 
 你可以使用以下命令下载它
 
 ````
-wget https://github.com/MGABronya/MGA_OJ/blob/main/deploy/Img/Img.zip
+wget https://github.com/MGABronya/MGA_OJ/raw/main/deploy/Img/Img.zip
 ````
 
 你可以将该包解压在linux机器上。
@@ -136,12 +136,12 @@ img.mgaronya.com/MGA1.jpg
 
 #### 服务：本地测试
 
-#### 部署文件包：https://github.com/MGABronya/MGA_OJ/blob/main/deploy/Test/Test.zip
+#### 部署文件包：https://github.com/MGABronya/MGA_OJ/raw/main/deploy/Test/Test.zip
 
 你可以使用以下命令下载它
 
 ````
-wget https://github.com/MGABronya/MGA_OJ/blob/main/deploy/Test/Test.zip
+wget https://github.com/MGABronya/MGA_OJ/raw/main/deploy/Test/Test.zip
 ````
 
 你可以将该包解压在linux机器上。
@@ -267,12 +267,12 @@ test_oj.mgaronya.com
 
 #### 服务：判题机
 
-#### 部署文件包：https://github.com/MGABronya/MGA_OJ/blob/main/deploy/Judge/Judge.zip
+#### 部署文件包：https://github.com/MGABronya/MGA_OJ/raw/main/deploy/Judge/Judge.zip
 
 你可以使用以下命令下载它
 
 ````
-wget https://github.com/MGABronya/MGA_OJ/blob/main/deploy/Judge/Judge.zip
+wget https://github.com/MGABronya/MGA_OJ/raw/main/deploy/Judge/Judge.zip
 ````
 
 你可以将该包解压在linux机器上。

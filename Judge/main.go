@@ -1,8 +1,8 @@
 package main
 
 import (
+	consumer "MGA_OJ/Consumer"
 	"MGA_OJ/common"
-	"MGA_OJ/rabbitMq"
 	"MGA_OJ/selfInspection"
 	"MGA_OJ/util"
 	"os"
@@ -24,8 +24,9 @@ func main() {
 	common.InitDB()
 	client0 := common.InitRedis(0)
 	defer client0.Close()
-	RabbitMQ := rabbitMq.NewRabbitMQSimple("MGAronya")
-	RabbitMQ.ConsumeSimple()
+	common.InitRabbitmq()
+	RabbitMQ := common.GetRabbitMq()
+	RabbitMQ.ConsumeSimple(consumer.NewJudge())
 }
 
 // @title    InitConfig

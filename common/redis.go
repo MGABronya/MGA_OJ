@@ -17,12 +17,12 @@ var Client [16]*redis.Client
 // @param     val int         表示初始化第几号redis库
 // @return    *redis.Client         将返回一个初始化后的redis数据库指针
 func InitRedis(val int) *redis.Client {
-	addr := viper.GetString("datasource.addredis")
-	password := viper.GetString("datasource.redispass")
-	host := viper.GetString("datasource.host")
+	port := viper.GetString("redis.port")
+	password := viper.GetString("redis.password")
+	host := viper.GetString("redis.host")
 
 	client := redis.NewClient(&redis.Options{
-		Addr:     host + ":" + addr,
+		Addr:     host + ":" + port,
 		Password: password,
 		DB:       val,
 	})
