@@ -7,7 +7,7 @@ package controller
 import (
 	"MGA_OJ/common"
 	"MGA_OJ/model"
-	rabbitMq "MGA_OJ/rabbitMq"
+	"MGA_OJ/rabbitMq"
 	"MGA_OJ/response"
 	"MGA_OJ/vo"
 	"encoding/json"
