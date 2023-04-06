@@ -2,7 +2,7 @@ package main
 
 import (
 	"MGA_OJ/common"
-	rabbitmq "MGA_OJ/rabbitmq"
+	"MGA_OJ/rabbitmq"
 	"MGA_OJ/selfInspection"
 	"MGA_OJ/util"
 	"os"
@@ -18,7 +18,6 @@ import (
 func main() {
 	// TODO 打印MGAronya字符串
 	util.MgaronyaPrint()
-	// TODO 打印自检信息
 	// TODO 自检程序启动
 	selfInspection.MainInspection()
 	InitConfig()
