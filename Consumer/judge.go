@@ -67,6 +67,12 @@ func (j Judge) Handel(msg []byte) {
 	}
 
 feep:
+	// TODO 查看代码是否为空
+	if record.Code == "" {
+		record.Condition = "Code is empty"
+		j.DB.Save(&record)
+		return
+	}
 	// TODO 找到提交记录后，开始判题逻辑
 	if cmdI, ok := util.LanguageMap[record.Language]; ok {
 		// TODO 从数据库中读出输入输出
@@ -411,7 +417,7 @@ feep:
 		}
 		j.DB.Save(&record)
 	} else {
-		record.Condition = "Luanguage Error"
+		record.Condition = "Language Error"
 		j.DB.Save(&record)
 	}
 exit:

@@ -21,15 +21,17 @@ func main() {
 	util.MgaronyaPrint()
 	// TODO 自检程序启动
 	selfInspection.MainInspection()
+	InitConfig()
 	common.InitDB()
 	client0 := common.InitRedis(0)
 	defer client0.Close()
+	common.InitRabbitmq()
 	r := gin.Default()
 	r = CollectRoute(r)
 	port := viper.GetString("server.port")
 	// TODO 定时任务
-	go timer.TimedTask("", timer.HotStatics, 0, 0, 0)
-	go timer.TimedTask("", timer.SetRank, 4, 0, 0)
+	go timer.TimedTask("The hot data is being updated...", timer.HotStatics, 0, 0, 0)
+	go timer.TimedTask("Form ranking calculation...", timer.SetRank, 4, 0, 0)
 
 	if port != "" {
 		panic(r.Run(":" + port))

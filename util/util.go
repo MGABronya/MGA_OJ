@@ -237,7 +237,7 @@ func MgaronyaPrint() {
 // @return    bool				表示是否存在文件
 func FileExit(path string) bool {
 	finfo, err := os.Stat(path)
-	return err != nil && !finfo.IsDir()
+	return err == nil && !finfo.IsDir()
 }
 
 // @title    RandomString

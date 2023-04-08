@@ -78,10 +78,15 @@ func NewTestController() ITestController {
 // @return    void			没有回参
 func Test(requestTest vo.TestRequest) (output string, condition string, memory uint64, spand int64) {
 	// TODO 找出语言对应运行方法
+	// TODO 查看代码是否为空
+	if requestTest.Code == "" {
+		condition = "Code is empty"
+		return
+	}
 	// TODO 找到提交记录后，开始判题逻辑
 	cmdI, ok := util.LanguageMap[requestTest.Language]
 	if !ok {
-		condition = "Luanguage Error"
+		condition = "Language Error"
 		return
 	}
 	// id		定义文件名

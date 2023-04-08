@@ -55,7 +55,7 @@ func Hello() {
 	code = `#include <stdio.h>
 	int main()
 	{
-	   printf("Hello, World!");
+	   printf("你好!");
 	   return 0;
 	}
 	`
@@ -74,7 +74,7 @@ func Hello() {
 		{
 			static void Main(string[] args)//main函数
 			{
-				string str = "Hello World !";
+				string str = "你好 !";
 				Console.WriteLine(str);
 			}
 		}
@@ -89,7 +89,7 @@ func Hello() {
 	 
 	int main() 
 	{
-		cout << "Hello, World!";
+		cout << "你好";
 		return 0;
 	}
 	`
@@ -101,7 +101,7 @@ func Hello() {
 	 
 	int main() 
 	{
-		cout << "Hello, World!";
+		cout << "你好";
 		return 0;
 	}
 	`
@@ -110,7 +110,7 @@ func Hello() {
 	language = "Erlang"
 	code = `-module(main).
 	-export([start/0]).
-	start() -> io:fwrite("hi,hello world!\n").
+	start() -> io:fwrite("你好\n").
 	`
 	TestRun(language, code, input, memory_limit, time_limit)
 
@@ -120,7 +120,7 @@ func Hello() {
 	import "fmt"
 	
 	func main() {
-		fmt.Println("Hello world") 
+		fmt.Println("你好") 
 	}
 	`
 	TestRun(language, code, input, memory_limit, time_limit)
@@ -128,58 +128,58 @@ func Hello() {
 	language = "Java"
 	code = `public class Main { 
 		public static void main(String[] args){ 
-			System.out.println("hello world!");
+			System.out.println("nnnttt");
 		}
 	}
 	`
 	TestRun(language, code, input, memory_limit, time_limit)
 
 	language = "JavaScript"
-	code = ` console.log("Hello World");
+	code = ` console.log("你好");
 	`
 	TestRun(language, code, input, memory_limit, time_limit)
 
 	language = "Kotlin"
 	code = `fun main(args: Array<String>) {
-		println("Hello world")
+		println("你好")
 	}
 	`
 	TestRun(language, code, input, memory_limit, time_limit)
 
 	language = "Pascal"
 	code = `begin
-    writeln('Hello, World!');
+    writeln('你好');
 end.
 	`
 	TestRun(language, code, input, memory_limit, time_limit)
 
 	language = "PHP"
 	code = `<?php
-	echo "Hello World \n";
+	echo "你好 \n";
 	?>
 	`
 	TestRun(language, code, input, memory_limit, time_limit)
 
 	language = "Python"
-	code = `print('Hello World!')
+	code = `print('你好')
 	`
 	TestRun(language, code, input, memory_limit, time_limit)
 
 	language = "Racket"
 	code = `#lang racket
-	"Hello, world!"
+	"你好"
 	`
 	TestRun(language, code, input, memory_limit, time_limit)
 
 	language = "Ruby"
 	code = `
-	puts "Hello World!"
+	puts "你好"
 	`
 	TestRun(language, code, input, memory_limit, time_limit)
 
 	language = "Rust"
 	code = `fn main() {
-		println!("Hello, world!");
+		println!("你好");
 	}
 	`
 	TestRun(language, code, input, memory_limit, time_limit)
@@ -187,7 +187,7 @@ end.
 	language = "Scala"
 	code = `object main {
 		def main(args: Array[String]): Unit = {
-		  println("Hello, world!")
+		  println("你好")
 		}
 	  }
 	`
@@ -195,7 +195,7 @@ end.
 
 	language = "Swift"
 	code = `
-	print("hello world")
+	print("你好")
 	`
 	TestRun(language, code, input, memory_limit, time_limit)
 }

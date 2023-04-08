@@ -244,7 +244,7 @@ func (r RecordController) PageList(ctx *gin.Context) {
 	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
 
 	// TODO 获取查询条件
-	Luanguage := ctx.DefaultQuery("luanguage", "")
+	Language := ctx.DefaultQuery("Language", "")
 	UserId := ctx.DefaultQuery("user_id", "")
 	ProblemId := ctx.DefaultQuery("problem_id", "")
 	StartTime := ctx.DefaultQuery("start_time", "")
@@ -257,8 +257,8 @@ func (r RecordController) PageList(ctx *gin.Context) {
 	db := common.GetDB()
 
 	// TODO 根据参数设置where条件
-	if Luanguage != "" {
-		db = db.Where("luanguage = ?", Luanguage)
+	if Language != "" {
+		db = db.Where("Language = ?", Language)
 	}
 	if UserId != "" {
 		db = db.Where("user_id = ?", UserId)

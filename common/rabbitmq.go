@@ -113,6 +113,7 @@ func (r *RabbitMQ) ConsumeSimple(consumer Interface.ConsumerInterface) {
 	}
 
 	for d := range msgs {
+		log.Println("consumer:", d.Body)
 		// TODO 进行消费
 		consumer.Handel(d.Body)
 	}
