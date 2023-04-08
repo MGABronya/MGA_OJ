@@ -16,7 +16,7 @@ mgaoj，主要服务
 
 #### 服务：简易图床
 
-#### 部署文件包：https://github.com/MGABronya/MGA_OJ/raw/main/deploy/Img/Img.zip
+#### 部署文件包：https://github.com/MGABronya/MGA_OJ/blob/main/deploy/Img/Img.zip
 
 你可以使用以下命令下载它
 
@@ -136,7 +136,7 @@ img.mgaronya.com/MGA1.jpg
 
 #### 服务：本地测试
 
-#### 部署文件包：https://github.com/MGABronya/MGA_OJ/raw/main/deploy/Test/Test.zip
+#### 部署文件包：https://github.com/MGABronya/MGA_OJ/blob/main/deploy/Test/Test.zip
 
 你可以使用以下命令下载它
 
@@ -267,7 +267,7 @@ test_oj.mgaronya.com
 
 #### 服务：判题机
 
-#### 部署文件包：https://github.com/MGABronya/MGA_OJ/raw/main/deploy/Judge/Judge.zip
+#### 部署文件包：https://github.com/MGABronya/MGA_OJ/blob/main/deploy/Judge/Judge.zip
 
 你可以使用以下命令下载它
 
@@ -283,3 +283,198 @@ unzip -o Judge.zip -d /home/ubuntu/Judge0
 
 这里的/home/ubuntu/Judge0可以替换为你想要部署的目录。
 
+运行该程序需要有C,C#,C++,C++11,Erlang,Go,Java,JavaScript,Kotlin,Pascal,PHP,Python,Racket,Ruby,Rust,Scala,Swift的语言运行环境，同时需要rabbitmq、mysql、redis的client端服务。你可以通过以下命令获得实现了该环境的镜像。
+
+````
+docker pull mgaronya/oj-judge
+````
+
+在这之后，将服务目录挂载到docker的home目录下，并绑定单核
+
+````
+docker run -itd --cpuset-cpus 0 -v /home/lighthouse/JudgeMachine/Judge0:/home --name ubuntu-judge0 mgaronya/oj-judge /bin/bash
+````
+
+你可以将0换为其它的核，/home/lighthouse/JudgeMachine/Judge0挂载目录应该为你部署的目录，ubuntu-judge0可以换为其它你想使用的名字。
+
+那之后，通过以下指令找到运行时的容器
+
+````
+docker ps
+````
+
+然后进入它
+
+````
+docker exec -it id /bin/bash
+````
+
+这里的id为docker的id。那之后，你可以在挂载的home目录下找到部署包。
+
+您可以修改该包config目录下的application.yml文件来修改监听的端口。原application.yml内容如下
+
+````
+datasource:
+  driverName: mysql
+  host: 127.0.0.1
+  port: 3306
+  database: oj
+  username: root
+  password: 123
+  charset: utf8
+  loc: Asia/Shanghai
+redis:
+  host: 127.0.0.1
+  port: 6379
+  password: 123
+rabbitmq:
+  username: MGAronya
+  password: 123
+  host: 127.0.0.1
+  port: 5672
+  virtual: MGAronya
+````
+
+请将datasource中的host，port，username，password修改为提供主要服务mgaoj所提供mysql的host，port，username，password，你可以在Judge服务所在容器中使用ping查看是否与mgaoj服务所在机器连通，此时请关闭mgaoj服务所在机器的port端口的防火墙。你可能需要将该docker的ip加入主要服务mgaoj的mysql的白名单。
+
+请将redis中的host，port，password修改为提供主要服务mgaoj所提供redis的host，port，password，你可以在Judge服务所在容器中使用ping查看是否与mgaoj服务所在机器连通，此时请关闭mgaoj服务所在机器的port端口的防火墙。
+
+请将rabbitmq中的host，port，username，password，virtual修改为提供主要服务mgaoj所提供rabbitmq的host，port，username，password，virtual。你可以在Judge服务所在容器中使用ping查看是否与mgaoj服务所在机器连通，此时请关闭mgaoj服务所在机器的port端口的防火墙。
+
+那之后，在部署目录下的Test目录下使用指令
+
+````
+nohup ./Judge > Judge.log 2>&1 &
+````
+
+将Judge服务挂在后台，你可以查看文件Judge.log了解日志信息。
+
+如果没有运行权限，可以运行以下指令获取权限
+
+````
+chmod 777 Judge
+````
+
+如果需要停止它，可以使用
+
+````
+ps -aux | grep ./Judge
+````
+
+找到进程id，然后
+
+````
+kill -9 id
+````
+
+杀死它。
+
+## MGA_Oj
+
+#### 服务：判题机
+
+#### 部署文件包：https://github.com/MGABronya/MGA_OJ/blob/main/deploy/MGA_OJ/MGA_OJ.zip
+
+你可以使用以下命令下载它
+
+````
+wget https://github.com/MGABronya/MGA_OJ/raw/main/deploy/MGA_OJ/MGA_OJ.zip
+````
+
+你可以将该包解压在linux机器上。
+
+````
+unzip -o MGA_OJ.zip -d /home/ubuntu/Main
+````
+
+这里的/home/ubuntu/Main可以替换为你想要部署的目录。
+
+运行该程序需要有需要rabbitmq、mysql、redis的server端服务。你可以通过以下命令获得实现了该环境的镜像。
+
+````
+docker pull mgaronya/oj
+````
+
+在这之后，将服务目录挂载到docker的home目录下，并绑定单核
+
+````
+docker run -itd --cpuset-cpus 4,5,6,7,8,9,10,11 -v /home/lighthouse/Main:/home -p 2000:2000 --name ubuntu-oj mgaronya/oj /bin/bash
+````
+
+你可以将0换为其它的核，/home/lighthouse/Main挂载目录应该为你部署的目录，ubuntu-oj可以换为其它你想使用的名字。
+
+那之后，通过以下指令找到运行时的容器
+
+````
+docker ps
+````
+
+然后进入它
+
+````
+docker exec -it id /bin/bash
+````
+
+这里的id为docker的id。那之后，你可以在挂载的home目录下找到部署包。
+
+您可以修改该包config目录下的application.yml文件来修改监听的端口。原application.yml内容如下
+
+````
+server:
+  port: 2000
+datasource:
+  driverName: mysql
+  host: 127.0.0.1
+  port: 3306
+  database: oj
+  username: root
+  password: 123
+  charset: utf8
+  loc: Asia/Shanghai
+redis:
+  host: 127.0.0.1
+  port: 6379
+  password: 123
+rabbitmq:
+  username: MGAronya
+  password: 123
+  host: 127.0.0.1
+  port: 5672
+  virtual: MGAronya
+````
+
+你可以修改server中port的值以此来修改监听端口，但是要与运行docker时映射的docker端口相同。
+
+请将datasource中的host，port，username，password修改为提供mysql的host，port，username，password。
+
+请将redis中的host，port，password修改为提供redis的host，port，password。
+
+请将rabbitmq中的host，port，username，password，virtual修改为提供rabbitmq的host，port，username，password，virtual。
+
+那之后，在部署目录下的Main目录下使用指令
+
+````
+nohup ./MGA_OJ > MGA_OJ.log 2>&1 &
+````
+
+将Judge服务挂在后台，你可以查看文件Judge.log了解日志信息。
+
+如果没有运行权限，可以运行以下指令获取权限
+
+````
+chmod 777 MGA_OJ
+````
+
+如果需要停止它，可以使用
+
+````
+ps -aux | grep ./MGA_OJ
+````
+
+找到进程id，然后
+
+````
+kill -9 id
+````
+
+杀死它。

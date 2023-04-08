@@ -2229,7 +2229,7 @@
 
     请求参数：  Authorization中的Bearer Token中提供注册、登录时给出的token。 在接口地址中给出指定提交的id（即:id部分）  。
 
-    返回值：成功时，以json格式返回一个record，record包含language、code、problem_id、 created_at 、updated_at、 user_id 、condition、competition_id，其中condition表示提交状态，提交状态包含Waiting（等待）、Competition hasn't Started（比赛未开始）、Input Doesn't Exist（输入在数据库中不存在）、Output Doesn't Exist（输入在数据库中不存在）、System Error 1（服务器问题：创建文件失败）、System Error 2（服务器问题：编译指令执行失败）、Compile timeout（编译超时）、Compile Error（编译错误）、System Error 3（服务器问题：消息管道创建失败）、System Error 4（服务器问题：运行指令执行失败）、Time Limit Exceeded（超出时间限制）、Runtime Error（运行时错误）、Memory Limit Exceeded（超出空间限制）、Wrong Answer（错误答案）、System error 5（服务器问题：数据库插入数据失败）、Accepted（提交通过）、Absent from the race（未参加比赛）、Luanguage Error（语言错误）。如果失败则返回失败原因。
+    返回值：成功时，以json格式返回一个record，record包含language、code、problem_id、 created_at 、updated_at、 user_id 、condition、competition_id，其中condition表示提交状态，提交状态包含Waiting（等待）、Competition hasn't Started（比赛未开始）、Input Doesn't Exist（输入在数据库中不存在）、Output Doesn't Exist（输入在数据库中不存在）、System Error 1（服务器问题：创建文件失败）、System Error 2（服务器问题：编译指令执行失败）、Compile timeout（编译超时）、Compile Error（编译错误）、System Error 3（服务器问题：消息管道创建失败）、System Error 4（服务器问题：运行指令执行失败）、Time Limit Exceeded（超出时间限制）、Runtime Error（运行时错误）、Memory Limit Exceeded（超出空间限制）、Wrong Answer（错误答案）、System error 5（服务器问题：数据库插入数据失败）、Accepted（提交通过）、Absent from the race（未参加比赛）、Language Error（语言错误）。如果失败则返回失败原因。
 
   - **接口地址：/list**
 
