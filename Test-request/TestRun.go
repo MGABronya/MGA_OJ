@@ -75,6 +75,7 @@ func Hello() {
 			static void Main(string[] args)//main函数
 			{
 				string str = "你好 !";
+				Console.OutputEncoding = System.Text.Encoding.Unicode;
 				Console.WriteLine(str);
 			}
 		}

@@ -18,7 +18,7 @@ type Java struct{}
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (j Java) Compile(path string, ID string) *exec.Cmd {
-	return exec.Command("javac", path+ID+".java")
+	return exec.Command("javac", "-encoding", "utf-8", path+ID+".java")
 }
 
 // @title    Run
@@ -27,7 +27,7 @@ func (j Java) Compile(path string, ID string) *exec.Cmd {
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (j Java) Run(path string, ID string) *exec.Cmd {
-	return exec.Command("java", "-cp", path, ID)
+	return exec.Command("java", "-Dfile.encoding=utf-8", "-cp", path, ID)
 }
 
 // @title    Suffix
