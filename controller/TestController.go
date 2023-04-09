@@ -155,7 +155,7 @@ func Test(requestTest vo.TestRequest) (output string, condition string, memory u
 		condition = "System Error 3"
 		return
 	}
-	io.WriteString(stdinPipe, requestTest.Input)
+	io.WriteString(stdinPipe, requestTest.Input+"\n")
 	// TODO 关闭管道制造EOF信息
 	stdinPipe.Close()
 	now := time.Now().UnixMilli()

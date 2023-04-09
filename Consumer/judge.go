@@ -265,7 +265,7 @@ feep:
 				j.DB.Save(&record)
 				goto exit
 			}
-			io.WriteString(stdinPipe, testInputs[i].Input)
+			io.WriteString(stdinPipe, testInputs[i].Input+"\n")
 			// TODO 关闭管道制造EOF信息
 			stdinPipe.Close()
 			now := time.Now().UnixMilli()
