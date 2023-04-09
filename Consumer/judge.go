@@ -67,10 +67,37 @@ func (j Judge) Handel(msg []byte) {
 	}
 
 feep:
+	// TODO 发布订阅用于提交列表
+	recordList := vo.RecordList{
+		RecordId: record.ID,
+	}
+	// TODO 确保信息进入频道
+	defer func() {
+		// TODO 将recordlist打包
+		v, _ := json.Marshal(recordList)
+		j.Redis.Publish(j.ctx, "RecordChan", v)
+		// TODO 将record存入redis
+		v, _ = json.Marshal(record)
+		j.Redis.HSet(j.ctx, "Record", fmt.Sprint(record.ID), v)
+		// TODO 将record存入mysql
+		j.DB.Save(&record)
+	}()
+
+	// TODO 一些准备工作
+	{
+		record.Condition = "Preparing"
+		// TODO 将recordlist打包
+		v, _ := json.Marshal(recordList)
+		j.Redis.Publish(j.ctx, "RecordChan", v)
+		// TODO 将record存入redis
+		v, _ = json.Marshal(record)
+		j.Redis.HSet(j.ctx, "Record", fmt.Sprint(record.ID), v)
+		// TODO 将record存入mysql
+		j.DB.Save(&record)
+	}
 	// TODO 查看代码是否为空
 	if record.Code == "" {
 		record.Condition = "Code is empty"
-		j.DB.Save(&record)
 		return
 	}
 	// TODO 找到提交记录后，开始判题逻辑
@@ -95,7 +122,6 @@ feep:
 		// TODO 查看题目是否在数据库中存在
 		if j.DB.Where("id = ?", id).First(&problem).Error != nil {
 			record.Condition = "Problem Doesn't Exist"
-			j.DB.Save(&record)
 			return
 		}
 		// TODO 将题目存入redis供下次使用
@@ -138,7 +164,6 @@ feep:
 		// TODO 如果比赛未开始
 		if competition.StartTime.After(record.CreatedAt) {
 			record.Condition = "Competition hasn't Started"
-			j.DB.Save(&record)
 			return
 		}
 	leap:
@@ -158,7 +183,6 @@ feep:
 		// TODO 查看题目是否在数据库中存在
 		if j.DB.Where("id = ?", id).Find(&testInputs).Error != nil {
 			record.Condition = "Input Doesn't Exist"
-			j.DB.Save(&record)
 			return
 		}
 		// TODO 将题目存入redis供下次使用
@@ -182,7 +206,6 @@ feep:
 		// TODO 查看题目是否在数据库中存在
 		if j.DB.Where("id = ?", id).Find(&testOutputs).Error != nil {
 			record.Condition = "Output Doesn't Exist"
-			j.DB.Save(&record)
 			return
 		}
 		// TODO 将题目存入redis供下次使用
@@ -191,6 +214,7 @@ feep:
 			j.Redis.HSet(j.ctx, "Output", id, v)
 		}
 	Output:
+
 		fileId := cmdI.Name()
 		fp, err := os.Create("user-code/" + fileId + "." + cmdI.Suffix())
 		// TODO 文件错误
@@ -198,8 +222,20 @@ feep:
 			// TODO 创建文件失败的原因有：
 			// TODO 1、路径不存在  2、权限不足  3、打开文件数量超过上限  4、磁盘空间不足等
 			record.Condition = "System Error 1"
+			return
+		}
+
+		// TODO 开始编译工作
+		{
+			record.Condition = "Compiling"
+			// TODO 将recordlist打包
+			v, _ := json.Marshal(recordList)
+			j.Redis.Publish(j.ctx, "RecordChan", v)
+			// TODO 将record存入redis
+			v, _ = json.Marshal(record)
+			j.Redis.HSet(j.ctx, "Record", fmt.Sprint(record.ID), v)
+			// TODO 将record存入mysql
 			j.DB.Save(&record)
-			goto exit
 		}
 
 		// TODO defer延迟调用 关闭文件，释放资源
@@ -219,8 +255,7 @@ feep:
 		// TODO 系统错误
 		if err := cmd.Start(); err != nil {
 			record.Condition = "System Error 2"
-			j.DB.Save(&record)
-			goto exit
+			return
 		}
 		// TODO 启动routine等待结束
 		done := make(chan error)
@@ -236,16 +271,27 @@ feep:
 		case <-after:
 			cmd.Process.Kill()
 			record.Condition = "Compile timeout"
-			j.DB.Save(&record)
-			goto exit
+			return
 		case err = <-done:
 		}
 
 		// TODO 编译出错
 		if err != nil {
 			record.Condition = "Compile Error"
+			return
+		}
+
+		// TODO 开始运行工作
+		{
+			record.Condition = "Runing"
+			// TODO 将recordlist打包
+			v, _ := json.Marshal(recordList)
+			j.Redis.Publish(j.ctx, "RecordChan", v)
+			// TODO 将record存入redis
+			v, _ = json.Marshal(record)
+			j.Redis.HSet(j.ctx, "Record", fmt.Sprint(record.ID), v)
+			// TODO 将record存入mysql
 			j.DB.Save(&record)
-			goto exit
 		}
 
 		for i := 0; i < len(testInputs); i++ {
@@ -262,8 +308,7 @@ feep:
 			// TODO 系统错误
 			if err != nil {
 				record.Condition = "System Error 3"
-				j.DB.Save(&record)
-				goto exit
+				return
 			}
 			io.WriteString(stdinPipe, testInputs[i].Input+"\n")
 			// TODO 关闭管道制造EOF信息
@@ -272,8 +317,7 @@ feep:
 			// TODO 系统错误
 			if err := cmd.Start(); err != nil {
 				record.Condition = "System Error 4"
-				j.DB.Save(&record)
-				goto exit
+				return
 			}
 			// TODO 启动routine等待结束
 			done = make(chan error)
@@ -340,7 +384,6 @@ feep:
 			// TODO 数据库插入数据错误
 			if j.DB.Create(&cas).Error != nil {
 				record.Condition = "System error 5"
-				j.DB.Save(&record)
 				return
 			}
 		}
@@ -361,8 +404,7 @@ feep:
 				// TODO 如果没有参加比赛
 				if j.DB.Table("user_lists").Select("user_lists.group_id").Joins("left join group_lists on user_lists.group_id = group_lists.group_id").Where("user_id = ? and set_id = ?", record.UserId, competition.SetId).Scan(&TID).Error != nil {
 					record.Condition = "Absent from the race"
-					j.DB.Save(&record)
-					goto exit
+					return
 				}
 			}
 			var competitionMembers []model.CompetitionMember
@@ -415,16 +457,9 @@ feep:
 				j.Redis.ZAdd(j.ctx, "Competition"+record.CompetitionId.String(), redis.Z{Score: cR, Member: TID.String()})
 			}
 		}
-		j.DB.Save(&record)
 	} else {
 		record.Condition = "Language Error"
-		j.DB.Save(&record)
 	}
-exit:
-
-	// TODO 将提交存入redis供下次使用
-	v, _ := json.Marshal(record)
-	j.Redis.HSet(j.ctx, "Record", record.ID, v)
 }
 
 // @title    NewJudge

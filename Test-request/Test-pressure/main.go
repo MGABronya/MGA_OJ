@@ -2,35 +2,37 @@ package main
 
 import (
 	TQ "MGA_OJ/Test-request"
+	"bytes"
+	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"os"
 	"time"
 )
 
 // 本地测试使用
 func main() {
-	var language, code, input string
-	var time_limit, memory_limit uint
+	var users []TQ.User
 
-	//1、一次性读取文件内容,还有一个 ReadAll的函数，也能读取
-	data, err := ioutil.ReadFile("code.txt")
+	var start, end time.Time
+
+	dstFile, err := os.Create("pressure.dat")
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println(err.Error())
 		return
 	}
-	code = string(data)
-	fmt.Print("Language:")
-	fmt.Scan(&language)
-	fmt.Print("TimeLimit:")
-	fmt.Scan(&time_limit)
-	fmt.Print("MemoryLimit:")
-	fmt.Scan(&memory_limit)
-	data, err = ioutil.ReadFile("input.txt")
-	if err != nil {
-		fmt.Println(err)
-		return
+
+	defer dstFile.Close()
+
+	for i := range users {
+		go users[i].Do(start, end)
 	}
-	input = string(data)
-	TQ.TestRun(language, code, input, memory_limit, time_limit)
-	time.Sleep(20 * time.Second)
+
+	<-time.NewTimer(end.Sub(start)).C
+
+	bs, _ := json.Marshal(TQ.Records)
+	var out bytes.Buffer
+	json.Indent(&out, bs, "", "\t")
+
+	dstFile.WriteString(out.String())
+
 }

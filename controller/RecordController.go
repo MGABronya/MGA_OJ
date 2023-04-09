@@ -12,29 +12,33 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"net/http"
 	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v9"
+	"github.com/gorilla/websocket"
 	uuid "github.com/satori/go.uuid"
 	"gorm.io/gorm"
 )
 
 // IRecordController			定义了提交类接口
 type IRecordController interface {
-	Create(ctx *gin.Context)   // 用户进行提交操作
-	Show(ctx *gin.Context)     // 用户查看指定提交
-	PageList(ctx *gin.Context) // 用户搜索提交列表
-	CaseList(ctx *gin.Context) // 某次提交的具体测试通过情况
-	Case(ctx *gin.Context)     // 某个测试的具体情况
+	Create(ctx *gin.Context)          // 用户进行提交操作
+	Show(ctx *gin.Context)            // 用户查看指定提交
+	PageList(ctx *gin.Context)        // 用户搜索提交列表
+	CaseList(ctx *gin.Context)        // 某次提交的具体测试通过情况
+	Case(ctx *gin.Context)            // 某个测试的具体情况
+	PublishPageList(ctx *gin.Context) // 订阅提交列表
 }
 
 // RecordController			定义了提交工具类
 type RecordController struct {
-	DB       *gorm.DB         // 含有一个数据库指针
-	Redis    *redis.Client    // 含有一个redis指针
-	Rabbitmq *common.RabbitMQ // 含有一个消息中间件
+	DB       *gorm.DB            // 含有一个数据库指针
+	Redis    *redis.Client       // 含有一个redis指针
+	Rabbitmq *common.RabbitMQ    // 含有一个消息中间件
+	UpGrader *websocket.Upgrader // 用于持久化连接
 }
 
 // @title    Create
@@ -336,6 +340,40 @@ func (r RecordController) PageList(ctx *gin.Context) {
 	response.Success(ctx, gin.H{"records": records, "total": total}, "成功")
 }
 
+// @title    PublishPageList
+// @description  订阅提交列表
+// @auth      MGAronya（张健）       2022-9-16 12:19
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (r RecordController) PublishPageList(ctx *gin.Context) {
+
+	// TODO 订阅消息
+	pubSub := r.Redis.Subscribe(ctx, "RecordChan")
+	defer pubSub.Close()
+	// TODO 获得消息管道
+	ch := pubSub.Channel()
+
+	// TODO 升级get请求为webSocket协议
+	ws, err := r.UpGrader.Upgrade(ctx.Writer, ctx.Request, nil)
+	if err != nil {
+		return
+	}
+	defer ws.Close()
+	// TODO 监听消息
+	for msg := range ch {
+		// TODO 读取ws中的数据
+		_, _, err := ws.ReadMessage()
+		// TODO 断开连接
+		if err != nil {
+			break
+		}
+		var recordList vo.RecordList
+		json.Unmarshal([]byte(msg.Payload), &recordList)
+		// TODO 写入ws数据
+		ws.WriteJSON(recordList)
+	}
+}
+
 // @title    CaseList
 // @description   查看一篇提交的测试通过情况
 // @auth      MGAronya（张健）       2022-9-16 12:19
@@ -414,7 +452,12 @@ func NewRecordController() IRecordController {
 	db := common.GetDB()
 	redis := common.GetRedisClient(0)
 	rabbitmq := common.GetRabbitMq()
+	upGrader := &websocket.Upgrader{
+		CheckOrigin: func(r *http.Request) bool {
+			return true
+		},
+	}
 	db.AutoMigrate(model.Record{})
 	db.AutoMigrate(model.Case{})
-	return RecordController{DB: db, Redis: redis, Rabbitmq: rabbitmq}
+	return RecordController{DB: db, Redis: redis, Rabbitmq: rabbitmq, UpGrader: upGrader}
 }

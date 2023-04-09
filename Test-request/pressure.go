@@ -1,46 +1,51 @@
 package test
 
-import "time"
+import (
+	"fmt"
+	"time"
+)
 
 type User struct {
-	id      string
-	commits []Commit
+	Id      string
+	Commits []Commit
 }
 
 type Commit struct {
-	created_at time.Time
-	code       string
-	language   string
-	problem    Problem
+	Created_at time.Time
+	Code       string
+	Language   string
+	Problem    Problem
 }
 
 type Problem struct {
-	input        []string
-	time_limit   uint
-	memory_limit uint
+	Input        []string
+	Time_limit   uint
+	Memory_limit uint
 }
 
 type Record struct {
-	spand      int64
-	userId     string
-	created_at int64
+	Spand      int64
+	UserId     string
+	Created_at int64
 }
 
 var Records []Record
 
 func (user User) Do(start time.Time, end time.Time) {
-	for i := range user.commits {
+	for i := range user.Commits {
 		go func(i int) {
-			<-time.NewTimer(user.commits[i].created_at.Sub(start)).C
-			for j := range user.commits[i].problem.input {
+			<-time.NewTimer(user.Commits[i].Created_at.Sub(start)).C
+			for j := range user.Commits[i].Problem.Input {
 				now := time.Now()
-				JudgeRun(user.commits[i].language, user.commits[i].code, user.commits[i].problem.input[j], user.commits[i].problem.memory_limit, user.commits[i].problem.time_limit)
+				JudgeRun(user.Commits[i].Language, user.Commits[i].Code, user.Commits[i].Problem.Input[j], user.Commits[i].Problem.Memory_limit, user.Commits[i].Problem.Time_limit)
 				spand := now.UnixMilli() - time.Now().UnixMilli()
-				Records = append(Records, Record{
+				record := Record{
 					spand,
-					user.id,
+					user.Id,
 					now.Sub(start).Milliseconds(),
-				})
+				}
+				fmt.Println(record)
+				Records = append(Records, record)
 			}
 		}(i)
 	}
