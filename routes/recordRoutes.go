@@ -25,13 +25,13 @@ func RecordRoutes(r *gin.Engine) *gin.Engine {
 	recordController := controller.NewRecordController()
 
 	// TODO 创建提交
-	recordRoutes.POST("/create", middleware.AuthMiddleware(), recordController.Create)
+	recordRoutes.POST("/create", middleware.AuthMiddleware(), recordController.Submit)
 
 	// TODO 查看id指定提交状态
-	recordRoutes.GET("/show/:id", middleware.AuthMiddleware(), recordController.Show)
+	recordRoutes.GET("/show/:id", recordController.ShowRecord)
 
 	// TODO 查看某类特定提交列表
-	recordRoutes.GET("/list", middleware.AuthMiddleware(), recordController.PageList)
+	recordRoutes.GET("/list", recordController.SearchList)
 
 	// TODO 订阅提交列表
 	recordRoutes.GET("/publish/list", recordController.PublishPageList)
@@ -41,6 +41,9 @@ func RecordRoutes(r *gin.Engine) *gin.Engine {
 
 	// TODO 查看某个测试的情况
 	recordRoutes.GET("/case/:id", recordController.Case)
+
+	// TODO 黑客指定提交
+	recordRoutes.POST("/hack/:id", middleware.AuthMiddleware(), recordController.Hack)
 
 	return r
 }

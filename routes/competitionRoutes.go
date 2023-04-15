@@ -39,6 +39,36 @@ func CompetitionRoutes(r *gin.Engine) *gin.Engine {
 	// TODO 查看竞赛列表
 	competitionRoutes.GET("/list", competitionController.PageList)
 
+	// TODO 新建密码
+	competitionRoutes.POST("/passwd/create/:id", middleware.AuthMiddleware(), competitionController.CreatePasswd)
+
+	// TODO 删除密码
+	competitionRoutes.DELETE("/passwd/delete/:id", middleware.AuthMiddleware(), competitionController.DeletePasswd)
+
+	// TODO 创建比赛标签
+	competitionRoutes.POST("/label/:id/:label", middleware.AuthMiddleware(), competitionController.LabelCreate)
+
+	// TODO 删除比赛标签
+	competitionRoutes.DELETE("/label/:id/:label", middleware.AuthMiddleware(), competitionController.LabelDelete)
+
+	// TODO 查看比赛标签
+	competitionRoutes.GET("/label/:id", competitionController.LabelShow)
+
+	// TODO 按文本搜索比赛
+	competitionRoutes.GET("/search/:text", competitionController.Search)
+
+	// TODO 按标签搜索比赛
+	competitionRoutes.GET("/search/label", competitionController.SearchLabel)
+
+	// TODO 按文本和标签交集搜索比赛
+	competitionRoutes.GET("/search/with/label/:text", competitionController.SearchWithLabel)
+
+	// TODO 重判
+	competitionRoutes.PUT("/rejudge/:id", middleware.AuthMiddleware(), competitionController.Rejudge)
+
+	// TODO 竞赛结果清除
+	competitionRoutes.DELETE("/data/delete/:id", middleware.AuthMiddleware(), competitionController.CompetitionDataDelete)
+
 	// TODO 查看指定竞赛成员排名
 	competitionRoutes.GET("/member/rank/:competition/:member", competitionController.RankMember)
 
@@ -50,12 +80,6 @@ func CompetitionRoutes(r *gin.Engine) *gin.Engine {
 
 	// TODO 进行滚榜
 	competitionRoutes.GET("/rolling/list/:id", competitionController.RollingList)
-
-	// TODO 进行随机匹配
-	competitionRoutes.POST("/match/:id", competitionController.Match)
-
-	// TODO 取消随机匹配
-	competitionRoutes.DELETE("/unmatch/:id", competitionController.UnMatch)
 
 	return r
 }

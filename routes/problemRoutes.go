@@ -28,7 +28,7 @@ func ProblemRoutes(r *gin.Engine) *gin.Engine {
 	problemRoutes.POST("/create", middleware.AuthMiddleware(), problemController.Create)
 
 	// TODO 查看题目
-	problemRoutes.GET("/show/:id", middleware.AuthMiddleware(), problemController.Show)
+	problemRoutes.GET("/show/:id", problemController.Show)
 
 	// TODO 查看题目测试样例数量
 	problemRoutes.GET("/test/num/:id", problemController.TestNum)
@@ -40,10 +40,10 @@ func ProblemRoutes(r *gin.Engine) *gin.Engine {
 	problemRoutes.DELETE("/delete/:id", middleware.AuthMiddleware(), problemController.Delete)
 
 	// TODO 查看题目列表
-	problemRoutes.GET("/list", middleware.AuthMiddleware(), problemController.PageList)
+	problemRoutes.GET("/list", problemController.PageList)
 
 	// TODO 查看指定用户上传的题目列表
-	problemRoutes.GET("/user/list/:id", middleware.AuthMiddleware(), problemController.UserList)
+	problemRoutes.GET("/user/list/:id", problemController.UserList)
 
 	// TODO 点赞、点踩题目
 	problemRoutes.POST("/like/:id", middleware.AuthMiddleware(), problemController.Like)

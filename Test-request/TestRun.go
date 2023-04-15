@@ -13,12 +13,19 @@ var url = "http://test_oj.mgaronya.com/test/create"
 //"http://test_oj.mgaronya.com/test/create"
 
 type Data struct {
-	condition string `json:"condition"`
-	memory    uint   `json:"memory"`
-	output    string `json:"output"`
-	time      uint   `json:"time"`
+	Condition string `json:"condition"`
+	Memory    uint64 `json:"memory"`
+	Output    string `json:"output"`
+	Time      int64  `json:"time"`
 }
 
+type Result struct {
+	Code string `json:"code"`
+	Data Data   `json:"data"`
+	Msg  string `json:"msg"`
+}
+
+//{"code":200,"msg":"测试创建成功"}
 func test_oj() {
 	// 执行17 * 100次hello world
 	/*start := time.Now()
@@ -223,7 +230,7 @@ func TestRun(language string, code string, input string, memorylimit uint, timel
 	fmt.Println(language + ":" + string(body))
 }
 
-func JudgeRun(language string, code string, input string, memorylimit uint, timelimit uint) string {
+func JudgeRun(language string, code string, input string, memorylimit uint, timelimit uint) (condition string, output string) {
 	data := make(map[string]interface{})
 	var body []byte
 	data["language"] = language
@@ -234,26 +241,19 @@ func JudgeRun(language string, code string, input string, memorylimit uint, time
 	bytesData, _ := json.Marshal(data)
 	resp, err := http.Post(url, "application/json", bytes.NewReader(bytesData))
 	if err != nil {
-		return "TestMachine no response"
+		return "TestMachine no response", ""
 	}
 	body, err = ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return "TestMachine Error"
+		return "TestMachine Error", ""
 	}
-	var result map[string]interface{}
+	var result Result
 	json.Unmarshal(body, &result)
 
-	d, ok := result["data"].(Data)
-	if !ok {
-		return "Wrong Answer"
+	if result.Data.Condition != "ok" {
+		return result.Data.Condition, ""
 	}
-	if d.condition != "ok" {
-		return d.condition
-	}
-	if d.output != "ok" {
-		return "Wrong Answer"
-	}
-	return "ok"
+	return "ok", result.Data.Output
 }
 
 /*

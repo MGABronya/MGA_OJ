@@ -42,6 +42,10 @@ type IUserController interface {
 	AcceptNum(ctx *gin.Context)      // 显示用户ac题目数量
 	AcceptRankList(ctx *gin.Context) // 显示用户ac题目的排行列表
 	AcceptRank(ctx *gin.Context)     // 显示用户ac题目的排行
+	ScoreRankList(ctx *gin.Context)  // 显示用户竞赛分排行列表
+	ScoreRank(ctx *gin.Context)      // 显示用户竞赛分排行
+	HotRankList(ctx *gin.Context)    // 显示用户热度排行列表
+	HotRank(ctx *gin.Context)        // 显示用户热度排行
 	ScoreChange(ctx *gin.Context)    // 显示用户的分数变化
 	Hot(ctx *gin.Context)            // 显示用户今日热度数据
 	LikeRank(ctx *gin.Context)       // 点赞榜单
@@ -491,6 +495,96 @@ func (u UserController) AcceptRank(ctx *gin.Context) {
 	u.DB.Table("records").Select("rank() over(partition by condition order by count(distinct problem_id) desc)").Where("condition = Accepted and user_id = ?", id).Group("user_id").First(&rank)
 
 	response.Success(ctx, gin.H{"rank": rank}, "查看用户ac题目的数量排行成功")
+}
+
+// @title    ScoreRankList
+// @description   查看用户竞赛分数排行列表
+// @auth      MGAronya（张健）       2022-9-16 12:15
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (u UserController) ScoreRankList(ctx *gin.Context) {
+
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
+
+	// TODO 扫描结果
+	var users []model.User
+	u.DB.Order("score desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&users)
+	var total int64
+
+	// TODO 获取排行数据
+	u.DB.Model(model.User{}).Count(&total)
+
+	var tusers []vo.UserDto
+
+	for i := range users {
+		tusers = append(tusers, vo.ToUserDto(users[i]))
+	}
+
+	response.Success(ctx, gin.H{"users": tusers, "total": total}, "查看用户竞赛分数排行列表成功")
+}
+
+// @title    ScoreRank
+// @description   查看用户竞赛分数的数量排行
+// @auth      MGAronya（张健）       2022-9-16 12:15
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (u UserController) ScoreRank(ctx *gin.Context) {
+
+	id := ctx.Params.ByName("id")
+
+	// TODO 获取对应用户
+	var rank int64
+
+	u.DB.Table("users").Select("rank() over(partition by id order by score desc)").Where("id = ?", id).Group("id").First(&rank)
+
+	response.Success(ctx, gin.H{"rank": rank}, "查看用户竞赛分数排行成功")
+}
+
+// @title    HotRankList
+// @description   查看用户热度排行列表
+// @auth      MGAronya（张健）       2022-9-16 12:15
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (u UserController) HotRankList(ctx *gin.Context) {
+
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
+
+	// TODO 扫描结果
+	var users []model.User
+	u.DB.Order("(like_num + collect_num - unlike_num) desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&users)
+	var total int64
+
+	// TODO 获取排行数据
+	u.DB.Model(model.User{}).Count(&total)
+
+	var tusers []vo.UserDto
+
+	for i := range users {
+		tusers = append(tusers, vo.ToUserDto(users[i]))
+	}
+
+	response.Success(ctx, gin.H{"users": tusers, "total": total}, "查看用户竞赛分数排行列表成功")
+}
+
+// @title    HotRank
+// @description   查看用户热度的排行
+// @auth      MGAronya（张健）       2022-9-16 12:15
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (u UserController) HotRank(ctx *gin.Context) {
+
+	id := ctx.Params.ByName("id")
+
+	// TODO 获取对应用户
+	var rank int64
+
+	u.DB.Table("users").Select("rank() over(partition by id order by (like_num + collect_num - unlike_num) desc)").Where("id = ?", id).Group("id").First(&rank)
+
+	response.Success(ctx, gin.H{"rank": rank}, "查看用户竞赛分数排行成功")
 }
 
 // @title    LabelCreate

@@ -1,0 +1,933 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,D,Python3,61790524,2023-04-07 19:18:35,zxcv0112358,运行超时,"def count_subintervals(arr):
+    n = len(arr)
+    prefix_sum = [0] * (n + 1)
+
+    # Calculate prefix sums
+    for i in range(n):
+        prefix_sum[i + 1] = prefix_sum[i] + arr[i]
+
+    count = 0
+
+    # Iterate through the array and check for subintervals whose sum is 1
+    for i in range(n):
+        for j in range(i + 1, n + 1):
+            if prefix_sum[j] - prefix_sum[i] == 1:
+                count += 1
+
+    return count
+
+n=int(input())
+arr=list(map(int,input().split()))
+
+# Output
+output = count_subintervals(arr)
+print(output)
+"
+1,D,Python3,61791374,2023-04-07 19:24:19,万恶之源沼跃鱼,答案正确,"n = int(input())
+lyuan = list(map(int,input().split()))
+l = []
+new = -1
+for i in lyuan:
+    if i == 1:
+        l.append(new+1)
+        new = -1
+        l.append('#')
+    else:
+        new += 1
+
+l.append(new+1)
+sum = 0
+
+for i in range(len(l)):
+    if l[i] == '#':
+        sum += (l[i-1]+1) * (l[i+1]+1)
+print(sum)"
+2,D,Python3,61791686,2023-04-07 19:26:43,wcz02,答案正确,"n = int(input())
+a = list(map(int, input().split()))
+
+s = [0] * (n + 1)
+Map = {0: 1}
+ans = 0
+for i in range(1, n + 1):
+    s[i] = s[i - 1] + a[i - 1]
+    if s[i] not in Map:
+        Map[s[i]] = 0
+    ans += Map.get(s[i] - 1, 0)
+    ans += Map.get(s[i] + 1, 0)
+    Map[s[i]] += 1
+
+print(ans)"
+3,D,Python3,61791905,2023-04-07 19:28:21,_sp,答案错误,"import os
+import sys
+
+n = int(sys.stdin.readline())
+
+a = [int(i) for i in sys.stdin.readline().split()]
+l = [1]
+for i in range(n):
+    if a[i] == 1:
+        l.append(i + 1)
+
+l.append(n)
+res = 0
+
+for i in range(1, len(l) - 1):
+    res += (l[i] - l[i - 1] + 1) * (l[i + 1] - l[i] + 1)
+
+sys.stdout.write(str(res))
+"
+4,D,Python3,61792182,2023-04-07 19:30:07,_sp,答案正确,"import os
+import sys
+
+n = int(sys.stdin.readline())
+
+a = [int(i) for i in sys.stdin.readline().split()]
+l = [0]
+for i in range(n):
+    if a[i] == 1:
+        l.append(i + 1)
+
+l.append(n + 1)
+res = 0
+
+# print(l)
+
+for i in range(1, len(l) - 1):
+    res += (l[i] - l[i - 1]) * (l[i + 1] - l[i])
+
+sys.stdout.write(str(res))
+"
+5,D,Python3,61793737,2023-04-07 19:41:18,一半醒,答案错误,"from collections import defaultdict
+
+n = int(input())
+a = [int(x) for x in input().split()]
+
+last = -1
+res = 0
+for i in range(n):
+    if a[i]==1:
+       res += i-last
+       last = i
+    else:
+        res += 1
+print(res)"
+6,D,Python3,61793949,2023-04-07 19:42:50,孔老大,答案错误,"import heapq
+import sys
+import bisect
+import random
+import io, os
+from bisect import *
+from collections import *
+from contextlib import redirect_stdout
+from itertools import *
+from math import sqrt, gcd, inf
+# ACW没有comb
+# from math import sqrt, gcd, inf, comb
+from array import *
+from functools import lru_cache
+from types import GeneratorType
+from heapq import *
+
+# from networkx import *
+
+RI = lambda: map(int, sys.stdin.readline().split())
+RS = lambda: map(bytes.decode, sys.stdin.readline().strip().split())
+RILST = lambda: list(RI())
+DEBUG = lambda *x: sys.stderr.write(f'{str(x)}\n')
+
+
+def solve():
+    n, = RI()
+    arr = RILST()
+    arr = [1] + arr + [1]
+    arr = [i for i, v in enumerate(arr) if v == 1]
+    ret = 0
+    for i in range(1, len(arr)):
+        ret += arr[i] - arr[i - 1]
+    print(ret)
+
+
+if __name__ == '__main__':
+    solve()
+"
+7,D,Python3,61794469,2023-04-07 19:46:45,一半醒,答案正确,"from collections import defaultdict
+
+n = int(input())
+a = [int(x) for x in input().split()]
+
+mp = defaultdict()
+s = 0
+mp[0] = 1
+res = 0
+for i in range(n):
+    s += a[i]
+    res += mp.get(s-1,0)
+    mp[s] = mp.get(s,0)+1
+print(res)"
+8,D,Python3,61794677,2023-04-07 19:48:20,罗聖鋆,答案正确,"n=int(input())
+l=list(map(int,input().split()))
+count=l.count(1)
+
+for i in range(n):
+    lc=0
+    rc=0
+    if l[i]==1:
+        lf=i-1
+        rg=i+1
+        while(lf>=0 and l[lf]!=1):
+            lc+=1
+            lf-=1
+        while(rg<=n-1 and l[rg]!=1):
+            rc+=1
+            rg+=1
+    count+=lc+rc+(lc*rc)
+print(count)"
+9,D,Python3,61795267,2023-04-07 19:52:31,待我变成红牛,答案正确,"from collections import defaultdict
+
+n = int(input())
+a = list(map(int, input().split()))
+
+left = defaultdict(int)
+right = defaultdict(int)
+
+cnt = 0 # 左侧0个数
+for i, v in enumerate(a):
+    if v == 0:
+        cnt += 1
+    if v == 1:
+        left[i] = cnt
+        cnt = 0
+
+cnt = 0
+for i in range(n-1, -1, -1):
+    v = a[i]
+    if v == 0:
+        cnt += 1
+    if v == 1:
+        right[i] = cnt
+        cnt = 0
+
+ans = 0
+for i in left.keys():
+    ans += (left[i] + 1) * (right[i] + 1)
+print(ans)
+    "
+10,D,Python3,61796237,2023-04-07 19:59:38,wxzcch,答案正确,"n = int(input())
+ls = [0] + list(map(int, input().split()))
+
+cnt = [0]
+res = ls.count(1)
+k = 0
+for i in range(1, n + 1):
+    if ls[i] == 0:
+        k += 1
+    if ls[i] == 1:
+        cnt.append(k)
+        k = 0
+    if i == n:
+        cnt.append(k)
+
+for i in range(1, len(cnt) - 1):
+    res += (cnt[i] + cnt[i + 1] + cnt[i] * cnt[i + 1])
+
+print(res)"
+11,D,Python3,61796317,2023-04-07 20:00:10,RaiNML,运行超时,"n = int(input())
+lis = list(input().split())
+ans = 0
+i = 0
+j = 0
+while i < n and j < n:
+    j += 1
+    if lis[i:j].count('1') == 1:
+        ans += 1
+    if j == n:
+        i += 1
+        j = i
+print(ans)"
+12,D,Python3,61796378,2023-04-07 20:00:31,RaiNML,运行超时,"n = int(input())
+lis = list(input().split())
+ans = 0
+i = 0
+j = 0
+while i < n and j < n:
+    j += 1
+    if lis[i:j].count('1') == 1:
+        ans += 1
+    if j == n:
+        i += 1
+        j = i
+print(ans)"
+13,D,Python3,61796469,2023-04-07 20:01:04,牛客937540361号,执行出错,"n=int(input())
+lst=list(map(int,input().split()))
+left=lst.index(1)
+ans,right,repeat=left+1,left+1,left+1
+while right<n:
+    if lst[right]==1:
+        repeat=right-left
+        ans+=repeat;left=right
+        right+=1
+    else:
+        ans+=repeat
+        right+=1
+print(ans)
+        
+        
+        
+    
+        
+    
+
+"
+14,D,Python3,61796851,2023-04-07 20:04:08,RaiNML,运行超时,"n = int(input())
+lis = list(map(int,input().split()))
+ans = 0
+i = 0
+j = 0
+while i < n:
+    j += 1
+    if lis[i:j].count(1) == 1:
+        ans += 1
+    if j == n:
+        i += 1
+        j = i
+print(ans)"
+15,D,Python3,61796919,2023-04-07 20:04:44,牛客937540361号,答案正确,"n=int(input())
+lst=list(map(int,input().split()))
+if 1 not in lst:
+    print(0)
+else:
+    left=lst.index(1)
+    ans,right,repeat=left+1,left+1,left+1
+    while right<n:
+        if lst[right]==1:
+            repeat=right-left
+            ans+=repeat
+            left=right
+            right+=1
+        else:
+            ans+=repeat
+            right+=1
+    print(ans)
+        
+        
+        
+    
+        
+    
+
+"
+16,D,Python3,61797354,2023-04-07 20:08:03,strongnine,运行超时,"if __name__ == ""__main__"":
+    n = int(input().strip())
+    ary = list(map(int, input().strip().split()))
+    ans = 0
+    for L in range(1, n + 1):
+        for l in range(n - L + 1):
+            if sum(ary[l:l + L]) == 1:
+                ans = ans + 1
+    print(ans)"
+17,D,Python3,61798001,2023-04-07 20:13:26,孔老大,答案正确,"import heapq
+import sys
+import bisect
+import random
+import io, os
+from bisect import *
+from collections import *
+from contextlib import redirect_stdout
+from itertools import *
+from math import sqrt, gcd, inf
+# ACW没有comb
+# from math import sqrt, gcd, inf, comb
+from array import *
+from functools import lru_cache
+from types import GeneratorType
+from heapq import *
+
+# from networkx import *
+
+RI = lambda: map(int, sys.stdin.readline().split())
+RS = lambda: map(bytes.decode, sys.stdin.readline().strip().split())
+RILST = lambda: list(RI())
+DEBUG = lambda *x: sys.stderr.write(f'{str(x)}\n')
+
+
+def solve():
+    n, = RI()
+    arr = RILST()
+    if n == 1:
+        print(arr[0])
+        return
+
+    arr = [i for i, v in enumerate(arr) if v == 1]
+    ret = 0
+    for i in range(len(arr)):
+        x = arr[i] + 1 if i == 0 else arr[i] - arr[i - 1]
+        y = n - arr[i] if i == len(arr) - 1 else arr[i + 1] - arr[i]
+        ret += x * y
+    print(ret)
+
+
+if __name__ == '__main__':
+    solve()
+"
+18,D,Python3,61798585,2023-04-07 20:17:53,nova.zhou,答案错误,"n = int(input())
+a = list(map(int, input().split()))
+
+# 哈希表
+hash_map = {}
+hash_map[0] = 1
+
+# 统计答案
+ans = 0
+pre_sum = 0
+for i in range(n):
+    pre_sum += a[i]
+    ans += hash_map.get(pre_sum - 1, 0)
+    ans += hash_map.get(pre_sum - 2, 0)
+    hash_map[pre_sum] = hash_map.get(pre_sum, 0) + 1
+
+print(ans)
+"
+19,D,Python3,61798747,2023-04-07 20:19:20,贪睡的华夫饼前程似锦,答案错误,"#前缀和
+n=int(input())
+l=list(map(int,input().split()))
+ls=[0]*n
+ls[0]=l[0]
+for i in range(1,n):
+    ls[i]=ls[i-1]+l[i]
+# lc=[0]*(l.count(1))
+# for i in range(len(lc)):
+#     lc=ls.count(ls[i])
+# for i in lc:
+s=1
+ss=0
+for i in range(1,n):
+    if ls[i]>ls[i-1]:
+        ss=ss+s*2
+        s=0
+    else:
+        s=s+1
+for i in range(1,n):
+    if l[-i]==1:
+        k=i
+        break
+print(ss+s+1)
+        
+"
+20,D,Python3,61799069,2023-04-07 20:22:03,tendance,运行超时,"#孤独区间
+import os
+import sys
+n = int(input())
+a = [int(i)for i in input().split()]
+##print(a)
+ans = 0
+l = 0
+r = 0
+for i in range(n):
+    if a[i] == 1:
+        l = i-r+1
+        for j in range(i+1,n):
+            if a[j] == 1:
+                r = j-i
+                ans+=r*l
+                r = i+1
+                break
+        if r == 0:
+            r = n-1
+            ans+=r*l 
+print(ans)"
+21,D,Python3,61799232,2023-04-07 20:23:15,牛客774779028号,运行超时,"n=int(input())
+nums=list(map(int,input().split()))
+cnt=0
+for i in range(n):
+    for j in range(n):
+        if sum(nums[i:j+1])==1:
+            cnt+=1
+print(cnt)"
+22,D,Python3,61799261,2023-04-07 20:23:28,蛮不讲李,答案错误,"n = int(input())
+a = input().split()
+a = [int(i) for i in a]
+
+x = 0
+y = 0
+flag = 0
+count = 0
+for i in range(len(a)):
+    if a[i] == 0:
+        y += 1
+    else:
+        x = y
+        y = 0
+        if flag > 0:
+            count = count + x+y+x*y+1
+        flag += 1
+    if i == len(a)-1:
+        count = count + x+y+x*y+1
+print(count)
+"
+23,D,Python3,61799414,2023-04-07 20:24:45,tendance,运行超时,"
+#孤独区间
+import os
+import sys
+n = int(input())
+a = [int(i)for i in input().split()]
+##print(a)
+ans = 0
+l = 0
+r = 0
+for i in range(n):
+    if a[i] == 1:
+        l = i-r+1
+        for j in range(i+1,n):
+            if a[j] == 1:
+                r = j-i
+                ans+=r*l
+                r = i+1
+                i = j
+                break
+        if r == 0:
+            r = n-1
+            ans+=r*l 
+print(ans)"
+24,D,Python3,61799653,2023-04-07 20:26:37,贪睡的华夫饼前程似锦,执行出错,"#前缀和
+n=int(input())
+l=list(map(int,input().split()))
+ls=[0]*n
+ls[0]=l[0]
+for i in range(1,n):
+    ls[i]=ls[i-1]+l[i]
+# lc=[0]*(l.count(1))
+# for i in range(len(lc)):
+#     lc=ls.count(ls[i])
+# for i in lc:
+s=0
+ss=0
+for i in range(1,n):
+    if ls[i]>ls[i-1]:
+        if s==0:
+            ss=ss+1
+        else:
+            ss=ss+s*2-1
+            s=0
+    else:
+        s=s+1
+for i in range(1,n):
+    if l[-i]==1:
+        k=i
+        break
+print(ss+k+1)"
+25,D,Python3,61799837,2023-04-07 20:28:15,摆渡人和211,答案正确,"n = int(input())
+s = input().split()
+arr = [0]*n
+pre = [0]*(n+1)
+for i in range(0,n):
+    arr[i] = int(s[i])
+    pre[i+1] = pre[i]+arr[i]
+dic = {}
+dic[0] = 1
+ret = 0
+for i in range(1,n+1):
+    if pre[i]-1 in dic:
+        ret+=dic[pre[i]-1]
+    if pre[i] not in dic:
+        dic[pre[i]] = 0
+    dic[pre[i]]+=1
+print(ret)"
+26,D,Python3,61801318,2023-04-07 20:41:07,蛮不讲李,答案错误,"n = int(input())
+a = input().split()
+a = [int(i) for i in a]
+
+x = 0
+y = 0
+flag = 0
+count = 0
+for i in range(len(a)):
+    if a[i] == 0:
+        y += 1
+    else: 
+        if flag > 0:
+            count = count + x+y+x*y+1
+        flag += 1
+        x = y
+        y = 0
+    if i == len(a)-1:
+        count = count + x+y+x*y+1
+print(count)
+"
+27,D,Python3,61801796,2023-04-07 20:45:19,tendance,运行超时,"import os
+import sys
+n = int(input())
+a = [int(i)for i in input().split()]
+ans = 0
+l = 0
+r = 0
+for i in range(n):
+    if a[i] == 1:
+        l = i-r+1
+        flag = 0
+        for j in range(i+1,n):
+            if a[j] == 1:
+                flag = 1
+                r = j-i
+                ans+=r*l
+                r = i+1
+                i = j
+                break
+        if flag == 0:
+            r = 1
+            ans+=r*l 
+print(ans)"
+28,D,Python3,61801800,2023-04-07 20:45:20,蛮不讲李,答案错误,"n = int(input())
+a = input().split()
+a = [int(i) for i in a]
+def cal_num(a):
+    if a == [0]: return 0
+    if a == [1]: return 1
+    x = 0
+    y = 0
+    flag = 0
+    count = 0
+    for i in range(len(a)):
+        if a[i] == 0:
+            y += 1
+        else: 
+            if flag > 0:
+                count = count + x+y+x*y+1
+            flag += 1
+            x = y
+            y = 0
+        if i == len(a)-1:
+            count = count + x+y+x*y+1
+    return count
+print(cal_num(a))
+"
+29,D,Python3,61802238,2023-04-07 20:49:09,蛮不讲李,答案错误,"n = int(input())
+a = input().split()
+a = [int(i) for i in a]
+def cal_num(a):
+    if a == [0]: return 0
+    if a == [1]: return 1
+    x = 0
+    y = 0
+    flag = 0
+    count = 0
+    for i in range(len(a)):
+        if a[i] == 0:
+            y += 1
+        else: 
+            if flag > 0:
+                count = count + x+y+x*y+1
+            flag += 1
+            x = y
+            y = 0
+        if i == len(a)-1:
+            count = count + x+y+x*y+1
+    return count
+print(cal_num(a))
+"
+30,D,Python3,61802565,2023-04-07 20:51:39,theamo,答案错误,"
+if __name__ == ""__main__"":
+    n = int(input())
+    lt = [int(x) for x in input().split()]
+    arr = [index for index, item in enumerate(lt) if item == 1]
+    pre, nex = 0, n - 1
+    res = 0
+    for i in range(len(arr)):
+        cur = arr[i]
+        if i != len(arr) - 1:
+            nex = arr[i + 1]
+        else:
+            nex = n - 1
+        x = cur - pre
+        y = nex - cur
+        res += (x * (y + 1) + (y + 1))
+        pre = cur
+    print(res)
+"
+31,D,Python3,61802970,2023-04-07 20:54:47,theamo,答案正确,"
+if __name__ == ""__main__"":
+    n = int(input())
+    lt = [int(x) for x in input().split()]
+    arr = [index for index, item in enumerate(lt) if item == 1]
+    pre, nex = 0, n - 1
+    res = 0
+    for i in range(len(arr)):
+        cur = arr[i]
+        if i != len(arr) - 1:
+            nex = arr[i + 1]-1
+        else:
+            nex = n - 1
+        x = cur - pre
+        y = nex - cur
+        res += (x * (y + 1) + (y + 1))
+        pre = cur+1
+    print(res)
+"
+32,D,Python3,61804615,2023-04-07 21:10:33,tendance,答案正确,"n = int(input())
+a = [int(i)for i in input().split()]+[1]
+L = []
+for i in range(n+1):
+    if a[i] ==  1:
+        L.append(i)
+##print(L)
+l = 0
+r = 0
+ans = 0
+for i in range(len(L)-1):
+    if i == 0:
+        l = L[i]+1
+        r = L[i+1]-L[i]
+        ans+=l*r
+    else:
+        l = L[i]-L[i-1]
+        r = L[i+1]-L[i]
+        ans+=l*r
+print(ans)"
+33,D,Python3,61805197,2023-04-07 21:18:25,牛客39905829号,运行超时,"n = int(input())
+w = [int(i) for i in input().split()]
+flag = False
+a = b = r = l = 0
+res = 0
+flag = False
+for i in range(1,n+1):
+    if w[i-1] == 1 and flag == False and i != n:
+        r = i
+        flag = True
+    elif w[i-1] == 1 and flag == True:
+        a = r-l
+        b = i-r
+        l = r
+        r = i
+        res += a*b 
+        print(res)
+        
+    if w[i-1] == 0 and i == n:
+        a = r-l
+        l = r
+        b = i-r+1
+        r = i
+        res += a*b
+    elif w[i-1] == 1 and i == n:
+        a = r-l
+        res += a
+print(res)  
+     "
+34,D,Python3,61805213,2023-04-07 21:18:49,牛客39905829号,答案正确,"n = int(input())
+w = [int(i) for i in input().split()]
+flag = False
+a = b = r = l = 0
+res = 0
+flag = False
+for i in range(1,n+1):
+    if w[i-1] == 1 and flag == False and i != n:
+        r = i
+        flag = True
+    elif w[i-1] == 1 and flag == True:
+        a = r-l
+        b = i-r
+        l = r
+        r = i
+        res += a*b 
+    
+    if w[i-1] == 0 and i == n:
+        a = r-l
+        l = r
+        b = i-r+1
+        r = i
+        res += a*b
+    elif w[i-1] == 1 and i == n:
+        a = r-l
+        res += a
+print(res)  
+     "
+35,D,Python3,61808547,2023-04-07 23:30:45,RaiNML,运行超时,"n = int(input())
+lis = list(input().split())
+ans = 0
+i = 0
+j = 0
+while i < n and j < n:
+    j += 1
+    if lis[i:j].count('1') == 1:
+        ans += 1
+    if j == n:
+        i += 1
+        j = i
+print(ans)"
+36,D,Python3,61808711,2023-04-07 23:48:55,RaiNML,运行超时,"n = int(input())
+lis = list(input().split())
+ans = 0
+i = 0
+j = 0
+while i < n:
+    j += 1
+    if lis[i:j].count('1') == 1:
+        ans += 1
+    if j == n:
+        i += 1
+        j = i
+print(ans)"
+37,D,Python3,61817144,2023-04-08 22:58:00,理想三旬……………,答案正确,"
+#l=list(map(int,input().split()))
+#print(max(l))
+n=int(input())
+a=list(map(int,input().split()))
+a.insert(0,0)
+l=0;
+last=[0 for i in range(n+1)]
+for i in range(1,n+1):
+        last[i]=l
+        if(a[i]==1):
+            l=i
+ans=0
+h=0
+for i in range(1,n+1):
+    if(a[i]==1):
+        h=i-last[i]
+    ans+=h
+print(ans)"
+38,D,Python3,61817148,2023-04-08 22:58:39,理想三旬……………,执行出错,"#include<bits/stdc++.h>
+using namespace std;
+#define endl ""\n""
+#define int long long
+const int maxn = 1e6 + 5;
+const int mod = 1e9 + 7;
+#define o signed
+#define oo main
+#define ooo (
+#define oooo )
+#define ooooo {
+#define oooooo return
+#define ooooooo 0
+#define oooooooo ;
+#define ooooooooo }
+#define pao ios::sync_with_stdio(false),cin.tie(0),cout.tie(0)
+#define pai  acos(-1)
+#define rep(i,a,n) for (int i=a;i<=n;i++)
+#define per(i,n,a) for (int i=n;i>=a;i--)
+int a[maxn], sum[maxn], last[maxn];
+int n;
+o oo ooo oooo ooooo
+
+pao oooooooo
+int _;
+_ = 1;
+//cin >> _;
+while (_--) {
+	cin >> n;
+	rep(i, 1, n)
+	cin >> a[i];
+	int l = 0;
+	rep(i, 1, n) {
+		last[i] = l;
+		if (a[i] == 1)
+			l = i;
+	}
+	int ans = 0;
+	int h = 0;
+	rep(i, 1, n) {
+		if (a[i] == 1) {
+			h = i - last[i] ;
+		}
+		ans += h;
+	}
+	cout << ans << endl;
+}
+oooooo ooooooo oooooooo
+ooooooooo
+/**
+*　　┏┓　　　┏┓+ +
+*　┏┛┻━━━┛┻┓ + +
+*　┃　　　　　　　┃
+*　┃　　　━　　　┃ ++ + + +
+*  ████━████+
+*  ◥██◤　◥██◤ +
+*　┃　　　┻　　　┃
+*　┃　　　　　　　┃ + +
+*　┗━┓　　　┏━┛
+*　　　┃　　　┃ + + + +Code is far away from 　
+*　　　┃　　　┃ + bug with the animal protecting
+*　　　┃　 　 ┗━━━┓ 神兽保佑,代码无bug　
+*　　　┃ 　	　　　 ┣┓
+*　　  ┃ 　　　　　 　┏┛
+*　    ┗┓┓┏━┳┓┏┛ + + + +
+*　　　　┃┫┫　┃┫┫
+*　　　　┗┻┛　┗┻┛+ + + +
+*/"
+39,D,Python3,61832189,2023-04-09 21:03:31,从TV和,运行超时,"n=int(input())
+a=list(map(int,input().split()))
+def doo(i):
+    global a,n
+    k=0
+    for k in range(1,n-i):
+        if(a[k+i]==1):
+            break
+    kk=0
+    for kk in range(1,i+1):
+        if(a[i-kk]==1):
+            break
+    return (k+1)*(kk+1)
+s=0
+for i in range(n):
+    if(a[i]==1):
+        s+=doo(i)
+        #print(s)
+print(s)"
+40,D,Python3,61832261,2023-04-09 21:07:52,从TV和,运行超时,"n=int(input())
+a=list(map(int,input().split()))
+def doo(i):
+    global a,n
+    k=0
+    for k in range(1,n-i):
+        if(a[k+i]==1):
+            break
+    kk=0
+    for kk in range(1,i+1):
+        if(a[i-kk]==1):
+            break
+    return (k+1)*(kk+1)
+s=0
+for i in range(n):
+    if(a[i]==1):
+        s+=doo(i)
+        #print(s)
+print(s)"
+41,D,Python3,61832352,2023-04-09 21:13:08,从TV和,答案错误,"#n=int(input())
+a=list(map(int,input().split()))
+n=len(a)
+def doo(i):
+    global a,n
+    k=0
+    for k in range(1,n-i):
+        if(a[k+i]==1):
+            break
+    kk=0
+    for kk in range(1,i+1):
+        if(a[i-kk]==1):
+            break
+    return (k+1)*(kk+1)
+s=0
+for i in range(n):
+    if(a[i]==1):
+        s+=doo(i)
+        #print(s)
+print(s)"
+42,D,Python3,61832365,2023-04-09 21:14:02,从TV和,运行超时,"n=int(input())
+a=list(map(int,input().split()))
+#n=len(a)
+def doo(i):
+    global a,n
+    k=0
+    for k in range(1,n-i):
+        if(a[k+i]==1):
+            break
+    kk=0
+    for kk in range(1,i+1):
+        if(a[i-kk]==1):
+            break
+    return (k+1)*(kk+1)
+s=0
+for i in range(n):
+    if(a[i]==1):
+        s+=doo(i)
+        #print(s)
+print(s)"

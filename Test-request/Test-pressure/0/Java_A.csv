@@ -1,0 +1,5295 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,A,Java,61787057,2023-04-07 19:01:21,陈力明,答案正确,"
+
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.lang.invoke.MethodHandles;
+import java.util.*;
+
+
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+ 
+public class Main{
+ 
+private static final boolean String = false;
+static int []f;
+//static int []f2;
+static int []size;
+//static int []size2;
+//static int []a=new int [500001];
+static int max=Integer.MAX_VALUE;
+
+static Set<Long>set=new HashSet<>();
+static int k;
+static long mod= 998244353;
+static int res=0;
+static int n,m;
+static int x1,y1;
+ static List<Integer>[]ans;
+ static char [][]c;
+
+ private static int[] dx = {-1, 0, 1, 0}, dy = {0, 1, 0, -1};
+	public static void main(String []args) {
+		MyScanner s=new MyScanner();
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+	
+		char []c=s.next().toCharArray();
+		for(char x:c) {
+			x^=32;
+			out.print(x);
+		}
+		
+
+	out.close();
+	}
+	public static long shuwei(int i,int  mask,boolean limitnums,boolean isnum,char []c,long [][]dp)
+	{
+		if(i==c.length)
+			return isnum?1:0;
+					
+	
+	if(!limitnums&&isnum&&dp[i][mask]!=-1)
+		return dp[i][mask];
+	long res=0;
+	if(!isnum)
+	{
+		res=shuwei(i+1,mask,false,false,c,dp);
+	}
+	int up=limitnums?c[i]-'0':9;
+	for(int d=isnum?0:1;d<=up;++d)
+	{
+		 if((mask>>d&1)==0)
+			 res+=shuwei(i+1,mask,limitnums&&d==up,true,c,dp);
+	}
+	if(!limitnums&&isnum)
+		dp[i][mask]=res;
+	return res;
+}
+	
+     
+
+
+	public static boolean is(char []c)
+	{
+		int l=0;
+		int r=c.length-1;
+		while(l<r)
+		{
+			if(c[l]!=c[r])return false;
+			l++;r--;
+		}
+		return true;
+	}
+	public static void swap (int l,int r,int []f)
+	{
+		if(l>=f.length||r>=f.length)return;
+		int tt=f[l];
+		f[l]=f[r];
+		f[r]=tt;
+		
+	}
+	
+public static void reverse(int []a)
+{
+	int l=0,r=a.length-1;
+	while(l<r)
+	{
+		int t=a[l];
+		a[l]=a[r];
+		a[r]=t;
+		l++;r--;
+	}
+}
+	public static long sum (int x,long mod)
+	{
+		
+	long sum=1;
+		for(int i = 2; i * i <= x; ++i){
+			long temp = 1;
+			if(x % i == 0){
+				long j = i;
+				while(x % i == 0){
+					temp += j;
+					j *= i;
+					x /= i;
+				}
+				sum = (sum * temp) % mod;
+			}
+
+	
+	}
+		if(x > 1) sum = (sum * (1 + x)) % mod;
+		return sum;
+	}
+	  public  static long Mode(long a,  long b, long mode)
+	  {
+	  	 long sum = 1;
+	  	a = a % mode;
+	   
+	  	while (b > 0) {
+	  		if (b % 2 == 1)		//判断是否是奇数，是奇数的话将多出来的数事先乘如sum
+	  			sum = (sum * a) % mode;
+	   
+	  		b /= 2;
+	  		a = (a * a) % mode;// 不断的两两合并再取模，减小a和b的规模
+	  	}
+	  	return sum;
+	  }
+	public static long is(int mid,long []f,int d)
+	{
+		long ans=0;
+		for(int i=0;i<d;i++)
+		{
+			
+			int   k=i%mid;
+			if(k>f.length-1)continue;
+			ans+=f[f.length-k-1];
+		}
+		return ans;
+	}
+	
+	public static boolean is(String a,String b)
+	{
+		for(int i=0;i<=b.length()-a.length();i++)
+		{
+			if(b.substring(i,i+a.length()).equals(a))
+				return true;
+		}
+		return false;
+		
+	}
+	
+	
+	  public static boolean is(int  n) {
+		    if (n <= 3) {
+		        return n > 1;
+		    }
+		    // 只有6x-1和6x+1的数才有可能是质数
+		    if (n % 6 != 1 && n % 6 != 5) {
+		        return false;
+		    }
+		    // 判断这些数能否被小于sqrt(n)的奇数整除
+		    int sqrt = (int) Math.sqrt(n);
+		    for (int i = 5; i <= sqrt; i += 6) {
+		        if (n % i == 0 || n % (i + 2) == 0) {
+		            return false;
+		        }
+		    }
+		    return true;
+		}
+
+
+
+public static int find (int []father,int x) {
+		if(x!=father[x])
+			x=find(father,father[x]);
+		return father[x];
+	}
+public static void union(int []father,int x,int y,int []size) {
+	x=find(father,x);
+	y=find(father,y);
+	if(x==y)
+		return ;
+	if(size[x]<size[y]) {
+		 int tem=x;
+         x=y;
+         y=tem;
+	}
+	father[y]=x;
+	size[x]+=size[y];
+return ;
+}
+		
+					
+public static void shufu(int []f) {
+		for(int i=0;i<f.length;i++) {
+			int k=(int)(Math.random()*(f.length));
+			int t=f[k];
+			
+			f[k]=f[0];
+			f[0]=t;
+			
+		}
+	}
+public static void shufu1(long []f) {
+	for(int i=0;i<f.length;i++) {
+		int k=(int)(Math.random()*(f.length));
+		long t=f[k];
+		f[k]=f[0];
+		f[0]=t;
+	}
+}
+public  static int  gcd(int x,int y) {
+		return y==0?x:gcd(y,x%y);
+	}
+ 
+ 
+public  static int  lcm(int x,int y) {
+		
+		return x*y/gcd(x,y);
+}
+		
+	
+	
+		
+		
+	
+	
+		
+	
+/*					
+public static void buildertree(int k,int l,int r) {
+		if(l==r)
+		{
+			f[k]=a[l];
+			return ;
+		}
+		int m=l+r>>1;
+		buildertree(k+k,l,m);
+		buildertree(k+k+1,m+1,r);
+		f[k]=	
+	
+	}
+public static	void update(int u,int l,int r,int x,int c)
+{
+    if(l==x && r==x)
+    {
+        f[u]=c;
+        return;
+    }
+    int mid=l+r>>1;
+    if(x<=mid)update(u<<1,l,mid,x,c);
+    else if(x>=mid+1)update(u<<1|1,mid+1,r,x,c);
+   	f[u]=Math.max(f[u+u], f[u+u+1]);
+}
+	
+public static int query(int k,int l,int r,int x,int y) {
+		if(x==l&&y==r) {
+			return f[k];
+		}
+		int m=l+r>>1;
+		if(y<=m) {
+			return query(k+k,l,m,x,y);
+		}
+		else if(x>m)return query(k+k+1,m+1,r,x,y);
+		else  {
+			int i=query(k+k,l,m,x,m),j=query(k+k+1,m+1,r,m+1,y);
+		return Math.max(j, Math.max(i+j, i));
+		
+		}
+	}
+	
+public static void calc(int k,int l,int r,int x,int z) {
+ 
+			f[k]+=z;
+			if(l==r) {
+				return ;
+			}
+			int m=l+r>>1;
+    		if(x<=m)
+    			calc(k+k,l,m,x,z);
+    		else calc(k+k+1,m+1,r,x,z);
+			
+			
+		}
+	
+				
+			
+ 
+		*/
+		
+				
+	
+			
+	
+			
+	
+ 
+	public static class MyScanner {
+	    BufferedReader br;
+	    StringTokenizer st;
+	 
+	    public MyScanner() {
+	      try {
+	        final String USERDIR = System.getProperty(""user.dir"");
+	        String cname = MethodHandles.lookup().lookupClass().getCanonicalName().replace("".MyScanner"", """");
+	        cname = cname.lastIndexOf('.') > 0 ? cname.substring(cname.lastIndexOf('.') + 1) : cname;
+	        final File fin = new File(USERDIR + ""/io/c"" + cname.substring(1,5) + ""/"" + cname + "".in"");
+	        br = new BufferedReader(new InputStreamReader(fin.exists()
+	            ? new FileInputStream(fin) : System.in));
+	      } catch (Exception e) {
+	        br = new BufferedReader(new InputStreamReader(System.in));
+	      }
+	    }
+	 
+	    public String next() {
+	      try {
+	        while (st == null || !st.hasMoreElements()) {
+	          st = new StringTokenizer(br.readLine());
+	        }
+	        return st.nextToken();
+	      } catch (Exception e) {
+	        throw new RuntimeException(e);
+	      }
+	    }
+	 
+	    public int nextInt() {
+	      return Integer.parseInt(next());
+	    }
+	 
+	    public long nextLong() {
+	      return Long.parseLong(next());
+	    }
+	  }
+	
+		}"
+1,A,Java,61787132,2023-04-07 19:01:32,人工智能3212卢明涛,答案正确,"import java.util.LinkedList;
+import java.util.Queue;
+import java.io.*;
+import java.util.*;
+import java.math.*;
+public class Main {
+    static InputStream inputStream = System.in;
+    static OutputStream outputStream = System.out;
+    static InputReader in = new InputReader(inputStream);
+    static PrintWriter out = new PrintWriter(outputStream);
+    public static void main(String[] args) {
+        TaskA solver = new TaskA();
+        solver.solve(1, in, out);
+        out.close();
+    }
+
+    static class TaskA {
+
+        static int yanx[] = new int[30];
+        static int yany[] = new int[30];
+
+        static int yanname[] = new int[30];
+        static int yanwei[][] = new int[30][6];
+        static char map[][] = new char[301][301];
+
+        static int n = 0;
+        static int m = 0;
+        static int yan = 0;
+
+        static int jue = 0;
+        static int sum =0;
+        static void dfs(){
+            if (sum==0){
+                jue = 1;
+                for (int i=1;i<=n;i++){
+                    for (int j=1;j<=m;j++){
+                        out.print(map[i][j]);
+                    }
+                    out.println();
+                }
+                return;
+            }
+            if (jue==0) {
+                for (int i = 1; i <= yan; i++) {
+                    for (int j = 1; j <= 4; j++) {
+                        if (j == 1) {
+                            int f = 0;
+                            int x = yanx[i] - yanwei[i][1] - 1;
+                            int start = yany[i] - yanwei[i][3];
+                            int end = yany[i] + yanwei[i][4];
+                            if (x >= 1 && x <= m) {
+                                for (int j1 = start; j1 <= end; j1++) {
+                                    if (map[j1][x] != '.') {
+                                        f = 1;
+                                        break;
+                                    }
+                                }
+                                if (f == 0) {
+                                    yanwei[i][1]++;
+                                    for (int j1 = start; j1 <= end; j1++) {
+                                        map[j1][x] = (char) yanname[i];
+                                    }
+                                    sum = sum-(end-start+1);
+                                    dfs();
+                                    for (int j1 = start; j1 <= end; j1++) {
+                                        map[j1][x] = '.';
+                                    }
+                                    yanwei[i][1]--;
+                                    sum = sum+(end-start+1);
+                                }
+                            }
+                        } else if (j == 2) {
+                            int f = 0;
+                            int x = yanx[i] + yanwei[i][2] + 1;
+                            int start = yany[i] - yanwei[i][3];
+                            int end = yany[i] + yanwei[i][4];
+                            if (x >= 1 && x <= m) {
+//                        f = 0;
+                                for (int j1 = start; j1 <= end; j1++) {
+                                    if (map[j1][x] != '.') {
+                                        f = 1;
+                                        break;
+                                    }
+                                }
+                                if (f == 0) {
+                                    yanwei[i][2]++;
+                                    for (int j1 = start; j1 <= end; j1++) {
+                                        map[j1][x] = (char) yanname[i];
+                                    }
+                                    sum = sum-(end-start+1);
+                                    dfs();
+                                    for (int j1 = start; j1 <= end; j1++) {
+                                        map[j1][x] = '.';
+                                    }
+                                    yanwei[i][2]--;
+                                    sum = sum+(end-start+1);
+                                }
+                            }
+                        } else if (j == 3) {
+                            int f = 0;
+                            int y = yany[i] - yanwei[i][3] - 1;
+                            int start = yanx[i] - yanwei[i][1];
+                            int end = yanx[i] + yanwei[i][2];
+                            if (y >= 1 && y <= n) {
+//                        f = 0;
+                                for (int j1 = start; j1 <= end; j1++) {
+                                    if (map[y][j1] != '.') {
+                                        f = 1;
+                                        break;
+                                    }
+                                }
+                                if (f == 0) {
+                                    yanwei[i][3]++;
+                                    for (int j1 = start; j1 <= end; j1++) {
+                                        map[y][j1] = (char) yanname[i];
+                                    }
+                                    sum = sum-(end-start+1);
+                                    dfs();
+                                    for (int j1 = start; j1 <= end; j1++) {
+                                        map[y][j1] = '.';
+                                    }
+                                    yanwei[i][3]--;
+                                    sum = sum+(end-start+1);
+                                }
+                            }
+                        } else {
+                            int f = 0;
+                            int y = yany[i] + yanwei[i][4] + 1;
+                            int start = yanx[i] - yanwei[i][1];
+                            int end = yanx[i] + yanwei[i][2];
+                            if (y >= 1 && y <= n) {
+//                        f = 0;
+                                for (int j1 = start; j1 <= end; j1++) {
+                                    if (map[y][j1] != '.') {
+                                        f = 1;
+                                        break;
+                                    }
+                                }
+                                if (f == 0) {
+                                    yanwei[i][4]++;
+                                    for (int j1 = start; j1 <= end; j1++) {
+                                        map[y][j1] = (char) yanname[i];
+                                    }
+                                    sum = sum-(end-start+1);
+                                    dfs();
+                                    for (int j1 = start; j1 <= end; j1++) {
+                                        map[y][j1] = '.';
+                                    }
+                                    yanwei[i][4]--;
+                                    sum = sum+(end-start+1);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        LinkedList<Integer> dep = new LinkedList<>();
+        boolean[]vis;
+
+        public void solve(int testNumber, InputReader in, PrintWriter out) {
+            String s = in.next();
+            for (int i = 0; i < s.length();i++) {
+                if (s.charAt(i) >='a' && s.charAt(i) <='z'){
+                    out.print((char) (s.charAt(i)-32) );
+                }
+                else {
+                    out.print((char) (s.charAt(i)+32) );
+                }
+            }
+        }
+    }
+
+    static class InputReader {
+        public BufferedReader reader;
+        public StringTokenizer tokenizer;
+
+        public InputReader(InputStream stream) {
+            reader = new BufferedReader(new InputStreamReader(stream), 32768);
+            tokenizer = null;
+        }
+
+        boolean hasNext() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (Exception e) {
+                    return false;
+                    // TODO: handle exception
+                }
+            }
+            return true;
+        }
+
+        public String next() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return tokenizer.nextToken();
+        }
+
+        public String nextLine() {
+            String str = null;
+            try {
+                str = reader.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return str;
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        public double nextDouble() {
+            return Double.parseDouble(next());
+        }
+
+        public long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        public BigInteger nextBigInteger() {
+            return new BigInteger(next());
+        }
+
+        public BigDecimal nextBigDecimal() {
+            return new BigDecimal(next());
+        }
+
+    }
+}
+"
+2,A,Java,61787169,2023-04-07 19:01:38,rookie1号,答案正确,"
+import java.io.*;
+import java.math.*;
+import java.util.*;
+
+public class Main {
+    static PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+
+    public static void main(String[] args) throws IOException {
+        //int T=in.nextInt();
+        int T=1;
+        while(T>0){
+            //String[] strs1 = re.readLine().split("" "");
+            //int n=Integer.parseInt(strs1[0]);
+            //String s=re.readLine();
+            //char arr[]=s.toCharArray();
+
+            //long[][] p = new long[n][2];//对 long 二维数组排序
+            //Arrays.sort(p, (a, b) -> a[0] <= b[0] ? -1 : 1);
+            //Set<Integer>set=new HashSet<>();
+            //Map<Long,Integer>map=new HashMap<>();
+            //Map<Integer,List<Integer>>map=new HashMap<>();
+            //TreeSet<Integer> set = new TreeSet<>();
+            String s=in.next();
+            char arr[]=s.toCharArray();
+            for(int i=0;i<arr.length;i++){
+                if(arr[i]>='a'&&arr[i]<='z'){
+                    arr[i]-=32;
+                    out.print(arr[i]);
+                }
+                else{
+                    arr[i]+=32;
+                    out.print(arr[i]);
+                }
+            }
+            
+
+            
+            
+            
+
+
+
+            
+            T--;
+        }
+        out.flush();
+        out.close();
+
+    }
+    static class Node{
+        int x,y,dis;
+        public Node(int x, int y,int dis) {
+            this.x = x;
+            this.y = y;
+            this.dis=dis;
+        }
+    }
+
+    static class in {
+        private static final StreamTokenizer input = new StreamTokenizer(new BufferedReader(new InputStreamReader(System.in)));
+
+        public static int nextInt() throws IOException {
+            input.nextToken();
+            return (int) input.nval;
+        }
+
+        public static long nextLong() throws IOException {
+            input.nextToken();
+            return (long) input.nval;
+        }
+
+        public static String next() throws IOException {
+            input.nextToken();
+            return input.sval;
+        }
+
+        public static double nextDouble() throws IOException {
+            input.nextToken();
+            return input.nval;
+        }
+    }
+}"
+3,A,Java,61787223,2023-04-07 19:01:48,kk129,答案正确,"import java.io.*;
+import java.util.*;
+import java.math.*;
+
+public class Main {
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader in = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        TaskA solver = new TaskA();
+        solver.solve(1, in, out);
+        out.close();
+    }
+
+    static class TaskA {
+        public void solve(int testNumber, InputReader in, PrintWriter out) {
+            String s = in.next();
+            String ans = """";
+            for (int i = 0; i < s.length(); i++) {
+                char x = s.charAt(i);
+                if(x>='a'&&x<='z')
+                    ans+=(char)(x-32);
+                else
+                    ans+=(char)(x+32);
+            }
+            out.println(ans);
+        }
+    }
+    static class InputReader {
+        public BufferedReader reader;
+        public StringTokenizer tokenizer;
+        public InputReader(InputStream stream) {
+            reader = new BufferedReader(new InputStreamReader(stream), 32768);
+            tokenizer = null;
+        }
+        boolean hasNext()
+        {
+            while (tokenizer == null || !tokenizer.hasMoreTokens())
+            {
+                try
+                {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (Exception e)
+                {
+                    return false;
+                    // TODO: handle exception
+                }
+            }
+            return true;
+        }
+        public String next() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return tokenizer.nextToken();
+        }
+        public String nextLine()
+        {
+            String str = null;
+            try
+            {
+                str = reader.readLine();
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            return str;
+        }
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+        public double nextDouble(){
+            return Double.parseDouble(next());
+        }
+        public long nextLong(){
+            return Long.parseLong(next());
+        }
+        public BigInteger nextBigInteger()
+        {
+            return new BigInteger(next());
+        }
+        public BigDecimal nextBigDecimal()
+        {
+            return new BigDecimal(next());
+        }
+
+    }
+}"
+4,A,Java,61787274,2023-04-07 19:01:56,迷你滨,答案正确,"import java.io.*;
+import java.util.*;
+import java.math.*;
+//An apple a day
+
+public class Main{
+	static int maxn = 200005,n,m;
+	static long INF = (long)1e18,ans = 0,mod = (int)1e9+7;
+	static Scanner sc = new Scanner (System.in);
+	static BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+    static StreamTokenizer st  =new StreamTokenizer(bf);
+    static PrintWriter pw = new PrintWriter(new OutputStreamWriter(System.out));
+    public static void main(String[]args) throws IOException{
+    	int T = 1;
+    	//T = Integer.parseInt(S());
+        
+    	while(T-->0) solve();
+    	//while(st.nextToken() != st.TT_EOF) {
+    		//n = (int)st.nval;solve();
+    	//}
+        pw.flush();
+    }
+    static final int I() throws IOException {
+    	st.nextToken();
+    	return (int)st.nval;
+    }
+    
+    static String S() throws IOException{
+    	String res = bf.readLine();
+    	while(res.equals("""")) res = bf.readLine();
+    	return res;
+    }
+    
+    
+    static void solve() throws IOException{
+    	char[]s = S().toCharArray();
+    	for(int i=0 ; i<s.length;i++) {
+    		if(s[i]<='Z') s[i]+=32;
+    		else s[i] -= 32;
+    	}
+    	System.out.println(String.valueOf(s));
+    }
+}
+"
+5,A,Java,61787321,2023-04-07 19:02:04,尹唐唐,答案正确,"import java.io.*;
+import java.util.*;
+import java.math.*;
+
+public class Main {
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader in = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        TaskA solver = new TaskA();
+        solver.solve(1, in, out);
+        out.flush();
+        out.close();
+    }
+
+    static class TaskA {
+        public void solve(int testNumber, InputReader in, PrintWriter out) {
+            String a = in.next();
+            String b = """";
+            for (int i = 0; i < a.length(); i++) {
+                if (a.charAt(i)>='a'&&a.charAt(i)<='z'){
+                    b+=(char)(a.charAt(i)-32);
+                }else{
+                    b+=(char)(a.charAt(i)+32);
+                }
+            }
+           out.println(b);
+        }
+    }
+
+    static class InputReader {
+        public BufferedReader reader;
+        public StringTokenizer tokenizer;
+
+        public InputReader(InputStream stream) {
+            reader = new BufferedReader(new InputStreamReader(stream), 32768);
+            tokenizer = null;
+        }
+
+        boolean hasNext() {
+            while (tokenizer == null || !tokenizer.hasMoreElements()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (Exception e) {
+                    return false;
+                    // TODO: handle exception
+                }
+            }
+            return true;
+        }
+
+        public String next() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return tokenizer.nextToken();
+        }
+
+        public String nextLine() {
+            String str = null;
+            try {
+                str = reader.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return str;
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        public double nextDouble() {
+            return Double.parseDouble(next());
+        }
+
+        public long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        public BigInteger nextBigInteger() {
+            return new BigInteger(next());
+        }
+
+        public BigDecimal nextBigDecimal() {
+            return new BigDecimal(next());
+        }
+
+    }
+}
+"
+6,A,Java,61787324,2023-04-07 19:02:05,人工智能3211江海洋,答案正确,"import java.io.*;
+import java.util.*;
+import java.math.*;
+
+public class Main {
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader in = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream){};
+        TaskA solver = new TaskA();
+        solver.solve(1, in, out);
+//        out.flush();
+        out.close();
+    }
+
+    static class TaskA {
+        public void solve(int testNumber, InputReader in, PrintWriter out) {
+            String s = in.next();
+            int l = s.length();
+            StringBuilder ss = new StringBuilder();
+            for (int i = 0; i < l; i++) {
+                char c = s.charAt(i);
+                if(c>='a'&&c<='z')
+                    ss.append((char)((int)c-32));
+                else
+                    ss.append((char)((int)c+32));
+            }
+            System.out.println(ss);
+
+
+
+        }
+    }
+
+    static class InputReader {
+        public BufferedReader reader;
+        public StringTokenizer tokenizer;
+
+        public InputReader(InputStream stream) {
+            reader = new BufferedReader(new InputStreamReader(stream), 32768);
+            tokenizer = null;
+        }
+
+        boolean hasNext() {
+            while (tokenizer == null || !tokenizer.hasMoreElements()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (Exception e) {
+                    return false;
+                    // TODO: handle exception
+                }
+            }
+            return true;
+        }
+
+        public String next() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return tokenizer.nextToken();
+        }
+
+        public String nextLine() {
+            String str = null;
+            try {
+                str = reader.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return str;
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        public double nextDouble() {
+            return Double.parseDouble(next());
+        }
+
+        public long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        public BigInteger nextBigInteger() {
+            return new BigInteger(next());
+        }
+
+        public BigDecimal nextBigDecimal() {
+            return new BigDecimal(next());
+        }
+
+    }
+}
+"
+7,A,Java,61787343,2023-04-07 19:02:09,Eunoiay,答案正确,"import static java.lang.Math.*;
+import java.util.*;
+import java.io.*;
+
+public class Main {
+    private static FastReader sc = new FastReader();
+    private static PrintWriter pw = new PrintWriter(System.out);
+    
+    public static void main(String[] args) throws IOException {
+        solve();
+        pw.close();
+    }
+    
+    public static void solve() {
+        char[] s = sc.next().toCharArray();
+        
+        int n = s.length;
+        int gap = 'a' - 'A';
+        for (int i = 0; i < n; i++) {
+            if (Character.isLowerCase(s[i])) pw.print((char)(s[i] - gap));
+            else pw.print((char)(s[i] + gap));
+        }
+    }
+    
+    private static class FastReader {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+        
+        String next() {
+            while (st == null || !st.hasMoreElements()) {
+                try { 
+                    st = new StringTokenizer(br.readLine()); 
+                    
+                } catch (IOException e) {
+                    e.printStackTrace(); 
+                }
+            }
+            return st.nextToken();
+        }
+        
+        int nextInt() {
+            return Integer.parseInt(next());
+        }
+        
+        long nextLong() {
+            return Long.parseLong(next());
+        }
+        
+        double nextDouble() {
+            return Double.parseDouble(next());
+        }
+        
+        String nextLine() {
+            String line = null;
+            try {
+                line = br.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            
+            return line;
+        }
+        
+        boolean hasNext() {
+            if (st == null || !st.hasMoreElements()) {
+                try {
+                    String in = br.readLine();
+                    if (in == null) return false;
+                    st = new StringTokenizer(in);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            
+            return true;
+        }
+    }
+}"
+8,A,Java,61787383,2023-04-07 19:02:14,牛客765377204号,答案正确,"
+
+import java.util.*;
+
+public class Main {
+
+    static Scanner in = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        char[] chars = in.next().toCharArray();
+        for (int i = 0; i < chars.length; i++) {
+            if(chars[i]>='a'&&chars[i]<='z'){
+                chars[i]=Character.toUpperCase(chars[i]);
+            }else {
+                chars[i]=Character.toLowerCase(chars[i]);
+            }
+        }
+        System.out.println(chars);
+    }
+}
+"
+9,A,Java,61787421,2023-04-07 19:02:23,wkkwmm,答案正确,"
+
+
+import java.io.*;
+import java.util.*;
+import java.math.*;
+
+public class Main {
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader in = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        TaskA solver = new TaskA();
+        solver.solve(1, in, out);
+        out.close();
+    }
+
+    static class TaskA {
+    	
+        public void solve(int testNumber, InputReader in, PrintWriter out) {           
+           String s=in.next();
+           String s2="""";
+           int l=s.length();
+           for(int i=0;i<l;i++) {
+        	   char x=s.charAt(i);
+        	   if(x>='a'&&x<='z') {
+        		   char y=(char)(x-32);
+        		   out.print(y);
+        	   }
+        	   else {
+        		   char y=(char)(x+32);
+        		   out.print(y);
+        	   }
+           }
+        }
+    }
+    static class InputReader {
+        public BufferedReader reader;
+        public StringTokenizer tokenizer;
+
+        public InputReader(InputStream stream) {
+            reader = new BufferedReader(new InputStreamReader(stream), 32768);
+            tokenizer = null;
+        }
+        boolean hasNext()
+        {
+            while (tokenizer == null || !tokenizer.hasMoreTokens())
+            {
+                try
+                {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (Exception e)
+                {
+                    return false;
+                    // TODO: handle exception
+                }
+            }
+            return true;
+        }
+        public String next() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return tokenizer.nextToken();
+        }
+        public String nextLine()
+        {
+            String str = null;
+            try
+            {
+                str = reader.readLine();
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            return str;
+        }
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+        public double nextDouble(){
+            return Double.parseDouble(next());
+        }
+        public long nextLong(){
+            return Long.parseLong(next());
+        }
+        public BigInteger nextBigInteger()
+        {
+            return new BigInteger(next());
+        }
+        public BigDecimal nextBigDecimal()
+        {
+            return new BigDecimal(next());
+        }
+
+    }
+}"
+10,A,Java,61787515,2023-04-07 19:02:39,北-北瓜,答案正确,"import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner in=new Scanner(System.in);
+        String s= in.next();
+        for (int i = 0; i <s.length(); i++) {
+            if (s.charAt(i)>92) System.out.print((char)(s.charAt(i)-32));
+            else System.out.print((char)(s.charAt(i)+32));
+        }
+
+
+
+
+
+
+    }
+}
+"
+11,A,Java,61787539,2023-04-07 19:02:44,给个AC吧,答案正确,"import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class Main {
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		char[] a = sc.next().toCharArray();
+		for (int i = 0; i < a.length; i++) {
+			if (a[i] >= 'a' && a[i] <= 'z') {
+				a[i] = String.valueOf(a[i]).toUpperCase().charAt(0);
+			}
+			else if (a[i] >= 'A' && a[i] <= 'Z') {
+				a[i] = String.valueOf(a[i]).toLowerCase().charAt(0);
+			}
+		}
+		System.out.println(a);
+	}
+}
+"
+12,A,Java,61787566,2023-04-07 19:02:50,丁可可a,答案正确,"import java.util.Locale;
+import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner in=new Scanner(System.in);
+        String a=in.next();
+        String b="""";
+        for (int i = 0; i < a.length(); i++) {
+            String c=""""+a.charAt(i);
+            if (a.charAt(i)>='a'&&a.charAt(i)<='z'){
+                c=c.toUpperCase(Locale.ROOT);
+            }else{
+                c=c.toLowerCase(Locale.ROOT);
+            }
+            b+=c;
+        }
+        System.out.println(b);
+    }
+}
+"
+13,A,Java,61787623,2023-04-07 19:03:08,zzl064,答案正确,"import java.util.*;
+
+public class Main{
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        String s = sc.next();
+        StringBuilder sb = new StringBuilder();
+        for(char c: s.toCharArray()){
+            if(c >= 'a' && c <= 'z'){
+                sb.append((char)(c - 'a' + 'A'));
+            }else{
+                sb.append((char)(c - 'A' + 'a'));
+            }
+        }
+        System.out.println(sb);
+    }
+}"
+14,A,Java,61787642,2023-04-07 19:03:12,人工智能3223戴晨灏,答案正确,"import java.io.*;
+import java.util.*;
+import java.math.*;
+
+public class Main {
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader in = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        TaskA solver = new TaskA();
+        solver.solve(1, in, out);
+        out.close();
+    }
+
+    static class TaskA {
+        public void solve(int testNumber, InputReader in, PrintWriter out) {
+            String s = in.next();
+            for (int i = 0; i < s.length(); i++) {
+                String str = String.valueOf(s.charAt(i));
+                if (s.charAt(i)>='a' && s.charAt(i)<='z') {
+                    System.out.print(str.toUpperCase());
+                }else {
+                    System.out.print(str.toLowerCase());
+                }
+            }
+        }
+    }
+
+    static class InputReader {
+        public BufferedReader reader;
+        public StringTokenizer tokenizer;
+
+        public InputReader(InputStream stream) {
+            reader = new BufferedReader(new InputStreamReader(stream), 32768);
+            tokenizer = null;
+        }
+        boolean hasNext()
+        {
+            while (tokenizer == null || !tokenizer.hasMoreTokens())
+            {
+                try
+                {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (Exception e)
+                {
+                    return false;
+                    // TODO: handle exception
+                }
+            }
+            return true;
+        }
+        public String next() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return tokenizer.nextToken();
+        }
+        public String nextLine()
+        {
+            String str = null;
+            try
+            {
+                str = reader.readLine();
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            return str;
+        }
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+        public double nextDouble(){
+            return Double.parseDouble(next());
+        }
+        public long nextLong(){
+            return Long.parseLong(next());
+        }
+        public BigInteger nextBigInteger()
+        {
+            return new BigInteger(next());
+        }
+        public BigDecimal nextBigDecimal()
+        {
+            return new BigDecimal(next());
+        }
+
+    }
+}"
+15,A,Java,61787644,2023-04-07 19:03:12,牛客399999999999号,答案正确,"
+import javax.rmi.ssl.SslRMIClientSocketFactory;
+import java.io.IOException;
+import java.util.*;
+public class Main
+{
+    static Scanner cin =new Scanner(System.in);
+    static void reverse(int l,int r,int num[])
+    {
+        while(l<r)
+        {
+            int t=num[l];num[l]=num[r];num[r]=t;
+            l++;r--;
+        }
+    }
+    public static boolean next_permutationg(int a,int b,int num[])
+    {
+        int i=b-1;
+        while(i>a&&num[i]<=num[i-1]) i--;
+        if(i==a)
+            return false;
+        i--;
+        int j=b-1;
+        while(j>i&&num[j]<=num[i]) --j;
+        int t=num[i];num[i]=num[j];num[j]=t;
+        reverse(i+1,b-1,num);
+        return true;
+    }
+    public static void main(String[] args) throws IOException
+    {
+        char s[]=cin.next().toCharArray();
+        for(int i=0;i<=s.length-1;i++)
+        {
+            if(s[i]>='a'&&s[i]<='z')
+            {
+                s[i]+='A'-'a';
+            }
+            else
+            {
+                s[i]-='A'-'a';
+            }
+        }
+        System.out.print(s);
+    }
+
+}"
+16,A,Java,61787655,2023-04-07 19:03:13,xiaofeiwang,答案正确,"import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.nio.channels.AcceptPendingException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+import java.util.Scanner;
+import java.util.Stack;
+
+public class Main {
+	public static void main(String[] args) throws IOException, ParseException {
+		Scanner scanner = new Scanner(System.in);
+//		System.out.println();
+
+		String string = scanner.nextLine();
+		char[] array = string.toCharArray();
+		char[] array2 = new char[array.length];
+		for (int i = 0; i < array.length; i++) {
+			if (Character.isLowerCase(array[i])) {
+				array2[i] = Character.toUpperCase(array[i]);
+			} else if (Character.isUpperCase(array[i])) {
+				array2[i] = Character.toLowerCase(array[i]);
+			}
+			System.out.print(array2[i]);
+		}
+	}
+
+}
+"
+17,A,Java,61787665,2023-04-07 19:03:16,牛客418895276号,答案正确,"import java.util.Scanner;
+
+// 注意类名必须为 Main, 不要有任何 package xxx 信息
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        // 注意 hasNext 和 hasNextLine 的区别
+        String str = in.nextLine();
+        for(int i=0;i<str.length();i++){
+            char c = str.charAt(i);
+            if(Character.isLowerCase(c)){
+                System.out.print(Character.toUpperCase(c));
+            }else 
+            if(Character.isUpperCase(c)){
+                System.out.print(Character.toLowerCase(c));
+            }
+        }
+        System.out.println();
+    }
+}"
+18,A,Java,61787668,2023-04-07 19:03:17,人工智能3222周克豪,答案正确,"import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        String s=in.next();
+        String str="""";
+        for (int i = 0; i < s.length(); i++) {
+            char c=s.charAt(i);
+            if (c>='A'&&c<='Z'){
+                str+=(char)(c+32);
+            }
+            else {
+                str+=(char)(c-32);
+            }
+        }
+        System.out.println(str);
+
+        
+    }
+}"
+19,A,Java,61787678,2023-04-07 19:03:22,小怂很怂,答案正确,"
+import java.io.*;
+import java.util.Scanner;
+
+/**
+ * @ClassName 答案修改
+ * @Description TODO
+ * @Author 小怂很怂
+ * @Date 2023/4/7 19:00
+ * @Version 1.0
+ **/
+public class Main {
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static StreamTokenizer st = new StreamTokenizer(br);
+    static PrintWriter pw = new PrintWriter(new OutputStreamWriter(System.out));
+
+    public static void main(String[] args) throws Exception {
+        Scanner sc=new Scanner(System.in);
+        String ss=sc.nextLine();
+        for (int i=0;i<ss.length();i++){
+            if (ss.charAt(i)>='a') pw.print((char)(ss.charAt(i) -32));
+            else pw.print((char)(ss.charAt(i)+32));
+        }
+        pw.flush();
+    }
+
+    public static int nextInt() throws Exception {//int型
+        st.nextToken();
+        return (int) st.nval;
+    }
+
+    public static long nextLong() throws Exception {//long型
+        st.nextToken();
+        return (long) st.nval;
+    }
+}
+"
+20,A,Java,61787722,2023-04-07 19:03:31,悠然小白,答案正确,"import java.util.*;
+import java.io.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Scanner in = new Scanner(new BufferedReader(new InputStreamReader(System.in)));
+        PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+
+        String s1 = in.next();
+        StringBuilder sb1 = new StringBuilder();
+        for (int i = 0; i < s1.length(); i++) {
+            if ('a' <= s1.charAt(i) && s1.charAt(i) <= 'z') {
+                sb1.append((char)(s1.charAt(i) - ('a' - 'A')));
+            } else {
+                sb1.append((char)(s1.charAt(i) + ('a' - 'A')));
+            }
+        }
+
+        out.println(sb1.toString());
+
+
+        out.flush();
+    }
+
+
+}
+"
+21,A,Java,61787724,2023-04-07 19:03:32,232132323,答案正确,"import java.io.*;
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader in = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        TaskA solver = new TaskA();
+        solver.solve(1, in, out);
+        out.close();
+    }
+
+    static class TaskA {
+
+        public void solve(int testNumber, InputReader in, PrintWriter out) {
+            String s = in.next();
+            for (int i = 0; i < s.length(); i++) {
+                if (s.charAt(i) >= 'a' && s.charAt(i) <= 'z'){
+                    char x = (char) (s.charAt(i)-32);
+                    out.print(x);
+                }
+                else {
+                    char x = (char) (s.charAt(i)+32);
+                    out.print(x);
+                }
+            }
+        }
+    }
+
+    static class InputReader {
+        public BufferedReader reader;
+        public StringTokenizer tokenizer;
+
+        public InputReader(InputStream stream) {
+            reader = new BufferedReader(new InputStreamReader(stream), 32768);
+            tokenizer = null;
+        }
+        boolean hasNext()
+        {
+            while (tokenizer == null || !tokenizer.hasMoreTokens())
+            {
+                try
+                {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (Exception e)
+                {
+                    return false;
+                    // TODO: handle exception
+                }
+            }
+            return true;
+        }
+        public String next() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return tokenizer.nextToken();
+        }
+        public String nextLine()
+        {
+            String str = null;
+            try
+            {
+                str = reader.readLine();
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            return str;
+        }
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+        public double nextDouble(){
+            return Double.parseDouble(next());
+        }
+        public long nextLong(){
+            return Long.parseLong(next());
+        }
+
+    }
+}"
+22,A,Java,61787761,2023-04-07 19:03:41,智破云霄,答案正确,"import java.util.*;
+import java.io.*;
+public class Main {
+	static long gcd(long a,long b)
+	{
+		return b==0?a:gcd(b,a%b);
+	}
+public static void main(String[] args) {
+	
+ InputReader in = new InputReader(System.in);
+PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+		
+			
+			char[] s = in.next().toCharArray();
+			for(int i = 0;i < s.length;i ++)
+			{
+				char c = s[i];
+				if(Character.isUpperCase(c))
+					out.print(Character.toLowerCase(c));
+				else out.print(Character.toUpperCase(c));
+			}
+			
+			
+			
+			
+			
+			
+			
+		
+
+out.flush();
+
+	
+}
+	
+	
+	
+	
+	
+
+
+
+	
+}
+
+
+
+
+
+class InputReader {
+    private final BufferedReader buf;
+    private StringTokenizer tkl;
+
+    public InputReader(InputStream is) {
+        buf = new BufferedReader(new InputStreamReader(is));
+    }
+
+    public boolean hasNext() {
+        try {
+            while (tkl == null || !tkl.hasMoreElements()) tkl = new StringTokenizer(buf.readLine());
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
+    public String next() {
+        return hasNext() ? tkl.nextToken() : null;
+    }
+
+    public int nextInt() {
+        return Integer.parseInt(next());
+    }
+
+    public double nextDouble() {
+        return Double.parseDouble(next());
+    }
+
+    public long nextLong() {
+        return Long.parseLong(next());
+    }
+}
+"
+23,A,Java,61787785,2023-04-07 19:03:47,凯撒Katharsis,答案正确,"import java.io.*;
+import java.util.*;
+
+public class Main {
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+
+    public static int gcd(int a, int b) {
+        return b > 0 ? gcd(b, a % b) : a;
+    }
+
+    public static void main(String[] args) throws Exception {
+        String str = br.readLine();
+
+        String ans = """";
+        for(int i = 0; i < str.length(); i ++ ) {
+            if(str.charAt(i) >= 'A' && str.charAt(i) <= 'Z') {
+                ans += (char)(str.charAt(i) - 'A' + 'a');
+            } else {
+                ans += (char)(str.charAt(i) - 'a' + 'A');
+            }
+        }
+
+        bw.write(ans + ""\n"");
+        bw.flush();
+    }
+}"
+24,A,Java,61787828,2023-04-07 19:04:01,Leaves_XY,答案正确,"import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.StreamTokenizer;
+import java.util.Scanner;
+
+public class Main {
+	static Scanner scanner=new Scanner(System.in);
+	static StreamTokenizer cin=new StreamTokenizer(new BufferedReader(new InputStreamReader(System.in)));
+	static PrintWriter cout=new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+	static BufferedReader bf=new BufferedReader(new InputStreamReader(System.in));
+	
+	static final int N=100010,M=100010;
+	
+	static int n,k;
+	static int a[]=new int[N];
+	
+	public static void main(String args[]) throws IOException {
+		String string=scanner.next();
+		char s[]=string.toCharArray();
+		
+		for(int i=0;i<string.length();i++) {
+			
+			if(s[i]>='a'&&s[i]<='z')s[i]-=32;
+			else s[i]+=32;
+		}
+		for(int i=0;i<string.length();i++)System.out.print(s[i]);
+		
+		
+	}
+}
+
+"
+25,A,Java,61787856,2023-04-07 19:04:10,Mosyi.,答案正确,"import java.io.*;
+import java.util.*;
+import java.math.*;
+public class Main {
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader in = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        TaskA solver = new TaskA();
+        solver.solve(1, in, out);
+        out.close();
+    }
+
+    static class TaskA {
+        public void solve(int testNumber, InputReader in, PrintWriter out) {
+            String s = in.next();
+            for (int i = 0; i < s.length(); i++) {
+                if (s.charAt(i) >= 'a' && s.charAt(i) <= 'z') {
+                    char ss = (char) (s.charAt(i) - ('a' - 'A'));
+                    out.print(ss);
+                } else {
+                    char ss = (char) (s.charAt(i) + ('a' - 'A'));
+                    out.print(ss);
+                }
+            }
+        }
+    }
+
+    static class InputReader {
+        public BufferedReader reader;
+        public StringTokenizer tokenizer;
+
+        public InputReader(InputStream stream) {
+            reader = new BufferedReader(new InputStreamReader(stream), 32768);
+            tokenizer = null;
+        }
+        boolean hasNext()
+        {
+            while (tokenizer == null || !tokenizer.hasMoreTokens())
+            {
+                try
+                {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (Exception e)
+                {
+                    return false;
+                    // TODO: handle exception
+                }
+            }
+            return true;
+        }
+        public String next() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return tokenizer.nextToken();
+        }
+        public String nextLine()
+        {
+            String str = null;
+            try
+            {
+                str = reader.readLine();
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            return str;
+        }
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+        public double nextDouble(){
+            return Double.parseDouble(next());
+        }
+        public long nextLong(){
+            return Long.parseLong(next());
+        }
+        public BigInteger nextBigInteger()
+        {
+            return new BigInteger(next());
+        }
+        public BigDecimal nextBigDecimal()
+        {
+            return new BigDecimal(next());
+        }
+
+    }
+}"
+26,A,Java,61787930,2023-04-07 19:04:26,蜉蝣~,答案正确,"
+import java.util.*;
+public class Main {
+    static Scanner sc=new Scanner(System.in);
+    public static void main(String[] args) {
+        char[] s=sc.next().toCharArray();
+        for(int i=0;i<s.length;i++){
+            if('a'<=s[i]&&s[i]<='z') s[i]=(char) (s[i]-32);
+            else s[i]=(char) (s[i]+32);
+        }
+        String ans=new String(s);
+        System.out.println(ans);
+    }
+}"
+27,A,Java,61788003,2023-04-07 19:04:48,牛客829798037号,答案正确,"
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+        String s=sc.nextLine();
+        StringBuilder stringBuilder=new StringBuilder();
+        for(char c:s.toCharArray()){
+            if(c>='a'&&c<='z'){
+                stringBuilder.append((char) (c-32));
+            }else if(c>='A'&&c<='Z'){
+                stringBuilder.append((char) (c+32));
+            }
+        }
+        System.out.println(stringBuilder);
+    }
+}
+"
+28,A,Java,61788071,2023-04-07 19:05:12,准备进厂的托尼很喜欢溜溜球,答案正确,"import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+
+public class Main {
+
+	private static int n;
+	private static String str = """";
+	private static String[] arrTemp;
+	private static final BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+	private static final BufferedWriter out = new BufferedWriter(new OutputStreamWriter(System.out));
+
+	public static void main(String[] args) throws IOException {
+
+		str = in.readLine();
+		
+		StringBuffer sb = new StringBuffer();
+		
+		for(int i = 0; i < str.length(); i++) {
+			char t = str.charAt(i);
+			if(t < 97) sb.append((char)(t+32));
+			else sb.append((char)(t-32));
+		}
+		
+		System.out.println(sb.toString());
+		
+		in.close();
+		out.close();
+	}
+
+}
+"
+29,A,Java,61788075,2023-04-07 19:05:13,山东协和学院_张福旭,答案正确,"import java.util.*;
+import java.io.*;
+import java.math.*;
+
+public class Main {
+    static Read sc=new Read(System.in);
+    static PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+    public static void main(String[] args) {
+        char[] ch=sc.next().toCharArray();
+        for(int i=0;i<ch.length;i++){
+            if(ch[i]>='a'&&ch[i]<='z')
+                out.print((char)(ch[i]-32));
+            else out.print((char)(ch[i]+32));
+        }
+        out.flush();
+    }
+    static class Read {
+        BufferedReader br;
+        StringTokenizer st;
+
+        public Read(InputStream in) {
+            br = new BufferedReader(new InputStreamReader(in), 16384);
+            eat("""");
+        }
+
+        public void eat(String s) {
+            st = new StringTokenizer(s);
+        }
+
+        public String nextLine() {
+            try {
+                return br.readLine();
+            } catch (IOException e) {
+                return null;
+            }
+        }
+
+        public boolean hasNext() {
+            while (!st.hasMoreTokens()) {
+                String s = nextLine();
+                if (s == null)
+                    return false;
+                eat(s);
+            }
+            return true;
+        }
+
+        public String next() {
+            hasNext();
+            return st.nextToken();
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        public long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        public Double nextDouble() {
+            return Double.parseDouble(next());
+        }
+
+        public BigInteger nextBigInteger() {
+            return new BigInteger(next());
+        }
+
+        public BigDecimal nextBigDecimal() {
+            return new BigDecimal(next());
+        }
+    }
+}"
+30,A,Java,61788182,2023-04-07 19:05:42,Deng8G,答案正确,"import java.util.Scanner;
+
+public class Main {
+
+
+
+    public static void main(String[] args) {
+        Scanner scan=new Scanner(System.in);
+        String s = scan.next();
+        char[] array = s.toCharArray();
+
+        for (int i = 0; i < array.length; i++) {
+            if (array[i]>='A'&&array[i]<='Z'){
+                array[i]+=32;
+            }else {
+                array[i]-=32;
+            }
+            System.out.print(array[i]);
+        }
+    }
+}"
+31,A,Java,61788186,2023-04-07 19:05:43,wqz579,答案正确,"import java.util.*;
+public class Main
+{
+    public static void main (String [] args)
+    {
+        Scanner in = new Scanner(System.in);
+        while(in.hasNextLine())
+        {
+            String s = in.nextLine();
+            StringBuffer res=new StringBuffer();
+            int n=s.length();
+            for(int i=0;i<n;i++)
+            {
+                char c=s.charAt(i);
+                if(c<='Z')
+                {
+                    c+=32;
+                    res.append(c);
+                }
+                else
+                {
+                    c-=32;
+                    res.append(c);
+                }
+            }
+            System.out.println(res);
+        }
+    }
+}"
+32,A,Java,61788214,2023-04-07 19:05:51,RDeAmor,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""Main.java:8: error: cannot find symbol\n        for(int i = 0; i < str.length(); i++) {\n                           ^\n  symbol:   variable str\n  location: class Main\nMain.java:9: error: cannot find symbol\n            char ch = s.charAt(i);\n                      ^\n  symbol:   variable s\n  location: class Main\n2 errors""}
+
+import java.util.*;
+
+public class Main {
+    public static void main(String args[]) {
+        Scanner in = new Scanner(System.in);
+        int T = in.nextInt();
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < str.length(); i++) {
+            char ch = s.charAt(i);
+            if(ch >= 'a' && ch <= 'z') sb.append(ch - 32);
+            else sb.append(ch + 32);
+        }
+        System.out.println(sb.toString());
+    }
+}"
+33,A,Java,61788264,2023-04-07 19:06:03,henuyzf,答案正确,"import java.util.*;
+
+// 注意类名必须为 Main, 不要有任何 package xxx 信息
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        // 注意 hasNext 和 hasNextLine 的区别
+        
+            String s = in.nextLine();
+            List<Character> list = new ArrayList<>();
+             for(int i=0 ; i < s.length();i++){
+            if (s.charAt(i) >='a' && s.charAt(i)<= 'z')
+            {
+                list.add(s.toUpperCase().charAt(i));
+            }
+            else
+            {
+                list.add(s.toLowerCase().charAt(i));
+            }
+         }
+            list.stream().forEach(System.out::print);
+    }
+}"
+34,A,Java,61788285,2023-04-07 19:06:08,RDeAmor,答案错误,"import java.util.*;
+
+public class Main {
+    public static void main(String args[]) {
+        Scanner in = new Scanner(System.in);
+        String str = in.next();
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < str.length(); i++) {
+            char ch = str.charAt(i);
+            if(ch >= 'a' && ch <= 'z') sb.append(ch - 32);
+            else sb.append(ch + 32);
+        }
+        System.out.println(sb.toString());
+    }
+}"
+35,A,Java,61788350,2023-04-07 19:06:27,肿么肥四.,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""Main.java:10: error: cannot find symbol\n                var a = Character.toUpperCase(s.charAt(i));\n                ^\n  symbol:   class var\n  location: class Main\nMain.java:14: error: cannot find symbol\n                var b=Character.toLowerCase(s.charAt(i));\n                ^\n  symbol:   class var\n  location: class Main\n2 errors""}
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+        String s=sc.next();
+        StringBuilder sb=new StringBuilder();
+        for (int i = 0; i < s.length(); i++) {
+            if(s.charAt(i)>='a' && s.charAt(i)<='z') {
+                var a = Character.toUpperCase(s.charAt(i));
+                sb.append(a);
+            }
+            if(s.charAt(i)>='A' && s.charAt(i)<='Z'){
+                var b=Character.toLowerCase(s.charAt(i));
+                sb.append(b);
+            }
+        }
+        for (int i = 0; i < sb.length(); i++) {
+            System.out.print(sb.charAt(i));
+        }
+    }
+}"
+36,A,Java,61788404,2023-04-07 19:06:41,浮水3000,答案正确,"import java.util.Scanner;
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        String s = in.nextLine();
+        char[] c = s.toCharArray();
+        for(int i=0;i<c.length;i++){
+            if(c[i]>=97){
+                c[i]-=32;
+            }else{
+                c[i]+=32;
+            }
+        }
+        for(int i=0;i<c.length;i++){
+            System.out.print(c[i]);
+        }
+        
+    }
+}"
+37,A,Java,61788458,2023-04-07 19:06:56,RDeAmor,答案正确,"import java.util.*;
+
+public class Main {
+    public static void main(String args[]) {
+        Scanner in = new Scanner(System.in);
+        String str = in.next();
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < str.length(); i++) {
+            char ch = str.charAt(i);
+            if(ch >= 'a' && ch <= 'z') sb.append((char)(ch - 32));
+            else sb.append((char)(ch + 32));
+        }
+        System.out.println(sb.toString());
+    }
+}"
+38,A,Java,61788464,2023-04-07 19:06:58,ZHANG_SJ,答案错误,"import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String str = sc.nextLine();
+        StringBuilder sb = new StringBuilder();
+        int len = str.length();
+        for(int i=0;i<len;i++){
+            char temp = str.charAt(i);
+            if(temp>65&&temp<96){
+                temp+=32;
+            }else {
+                temp-=32;
+            }
+            sb.append(temp);
+        }
+        System.out.println(sb.toString());
+        sc.close();
+    }
+}
+"
+39,A,Java,61788488,2023-04-07 19:07:03,L-0720,答案正确,"import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String s = scanner.nextLine();
+        StringBuilder res = new StringBuilder();
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c >= 'a' && c <= 'z') res.append((char) (c - 32));
+            else res.append((char) (c + 32));
+        }
+        System.out.println(res);
+    }
+
+}"
+40,A,Java,61788490,2023-04-07 19:07:04,肿么肥四.,答案正确,"import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+        String s=sc.next();
+        StringBuilder sb=new StringBuilder();
+        for (int i = 0; i < s.length(); i++) {
+            if(s.charAt(i)>='a' && s.charAt(i)<='z') {
+                char a = Character.toUpperCase(s.charAt(i));
+                sb.append(a);
+            }
+            if(s.charAt(i)>='A' && s.charAt(i)<='Z'){
+                char b=Character.toLowerCase(s.charAt(i));
+                sb.append(b);
+            }
+        }
+        for (int i = 0; i < sb.length(); i++) {
+            System.out.print(sb.charAt(i));
+        }
+    }
+}"
+41,A,Java,61788563,2023-04-07 19:07:25,谦虚的驼瑞驰胖乎乎,答案正确,"import java.util.Scanner;
+import java.util.Arrays;
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc =new Scanner(System.in);
+        String s =sc.nextLine();
+        char []a = s.toCharArray();
+        for(int i = 0; i < a.length; i ++){
+            if(a[i] >= 'a' && a[i] <= 'z'){
+                a[i] = Character.toUpperCase(a[i]);
+            }else {
+                a[i] = Character.toLowerCase(a[i]);
+            }
+        }
+        System.out.println(new String(a));
+    }
+}
+
+"
+42,A,Java,61788569,2023-04-07 19:07:28,牛客834161106号,答案正确,"import java.util.Scanner;
+
+// 注意类名必须为 Main, 不要有任何 package xxx 信息
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        // 注意 hasNext 和 hasNextLine 的区别
+        String str = sc.next();
+        String str1="""";
+        for(int i=0;i<str.length();i++)
+		{
+			char ch=str.charAt(i);
+			if((ch>='a'&&ch<='z'))//读取的单个字符在'a'和'z'之间才可以转换
+			{
+				ch=(char)((int)ch-32);//先将字符ch转换为整型计算ASCII码，再转换为字符型输出字符A~Z的ASCII码为65~90，字符a~z的ASCII码为97~122，每个大小写字符的ASCII码都相差32,因此用小写字符的ASCII码 减去32即可得到该字符的大写形式
+			}
+            else if((ch>='A'&&ch<='Z'))//读取的单个字符在'a'和'z'之间才可以转换
+			{
+				ch=(char)((int)ch+32);//先将字符ch转换为整型计算ASCII码，再转换为字符型输出字符A~Z的ASCII码为65~90，字符a~z的ASCII码为97~122，每个大小写字符的ASCII码都相差32,因此用大写字符的ASCII码 加上32即可得到该字符的小写形式
+			}
+			str1+=ch;
+		}
+        System.out.printf(str1);
+    }
+}"
+43,A,Java,61788571,2023-04-07 19:07:28,huvz,答案正确,"import java.io.*;
+import java.math.BigInteger;
+import java.util.*;
+
+public class Main {
+    static Read in = new Read();
+
+    //static AWriter out = new AWriter();
+    static PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+    //static Scanner in = new Scanner(System.in);
+
+    public static boolean[]  prime= new boolean[4];
+    public static List<Integer> list = new ArrayList<>();
+    public static void solve() throws IOException {
+        //int n =in.nextInt();
+        //int[] a = new int[n+2];
+        String str = in.next();
+        String str2="""";
+        for(int i=0;i<str.length();i++)
+        {
+            char x = str.charAt(i);
+            if(x>='a' && x<='z')str2+=(char)(x-32);
+            else if(x<='Z' && x>='A')str2+=(char)(x+32);
+        }
+        System.out.println(str2);
+    }
+    public static boolean isPrime(int n){
+        while(n>0)
+        {
+            int t = n%10;
+
+            if(prime[t])return false;
+            n/=10;
+        }
+        return true;
+    }
+
+    public static void shai(int n){
+        for(int i=2;i<=n;i++)
+        {
+            if(!prime[i])
+            {
+                list.add(i);
+                for(int j=i+i;j<n;j+=i){
+                    prime[j]=true;
+                }
+            }
+        }
+
+    }
+    public static void main(String[] arg) throws Exception {
+        int t=1;
+
+        //Scanner in = new Scanner(System.in);
+        //t = in.nextInt();
+        while(t-->0)
+        {
+            solve();
+        }
+
+    }
+
+    static class Read{
+        static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        static StreamTokenizer st = new StreamTokenizer(br);
+        static PrintWriter pw = new PrintWriter(new OutputStreamWriter(System.out));
+        public int nextInt() throws IOException {
+            st.nextToken();
+            return (int) st.nval;
+        }
+        public Long nextLong() throws IOException {
+            st.nextToken();
+            return (long) st.nval;
+        }
+        public String next() throws IOException{
+            st.nextToken();
+            return st.sval;
+        }
+        // 若需要nextDouble等方法，请自行调用Double.parseDouble包装
+    }
+    static class AWriter implements Closeable {
+        private BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out));
+        public void print(Object object) throws IOException {
+            writer.write(object.toString());
+        }
+        public void println(Object object) throws IOException {
+            writer.write(object.toString());
+            writer.write(System.lineSeparator());
+        }
+        @Override
+        public void close() throws IOException {
+            writer.close();
+        }
+    }
+
+}"
+44,A,Java,61788596,2023-04-07 19:07:36,可爱抱抱呀😥,答案正确,"//Java快读快写模板，不定时更新优化内容
+//@可爱抱抱呀
+import java.util.*;
+import java.io.*;
+import java.math.*;
+import java.text.*;
+public class Main{
+    public static void main(String args[]) throws IOException{
+        Read sc=new Read();
+        //int n=sc.nextInt();
+        String s=sc.next();
+        for(int i=0;i<s.length();i++){
+            if(s.charAt(i)>='a'){
+                sc.print(s.substring(i,i+1).toUpperCase());
+            }
+            else{
+                sc.print(s.substring(i,i+1).toLowerCase());
+            }
+        }
+        //sc.print(0);
+        sc.bw.flush();
+        sc.bw.close();
+    }
+}
+//记住看数字范围，需要开long吗，需要用BigInteger吗，需要手动处理字符串吗，复杂度数量级控制在1e7或者以下了吗
+//开数组的数据范围最高不能超过1e7，数据范围再大就要用哈希表离散化了
+//基本数据类型不能自定义sort排序，二维数组就可以了，顺序排序的时候是小减大，注意返回值应该是int
+class Read{
+    BufferedReader bf;
+    StringTokenizer st;
+    BufferedWriter bw;
+    public Read(){
+        bf=new BufferedReader(new InputStreamReader(System.in));
+        st=new StringTokenizer("""");
+        bw=new BufferedWriter(new OutputStreamWriter(System.out));
+        //什么时候才能持续稳定ak力扣、AcWing呢？
+        //什么时候才能ak cf的div2，div1呢？才能打div2不计rating呢？
+        //什么时候才能ak  abc  不计rating呢？
+        //什么时候才能ak 牛客练习赛不计rating呢?
+    }
+    public String nextLine() throws IOException{
+        return bf.readLine();
+    }
+    public String next() throws IOException{
+        while(!st.hasMoreTokens()){
+            st=new StringTokenizer(bf.readLine());
+        }
+        return st.nextToken();
+    }
+    public char nextChar() throws IOException{
+        //确定下一个token只有一个字符的时候再用
+        return next().charAt(0);
+    }
+    public int nextInt() throws IOException{
+        return Integer.parseInt(next());
+    }
+    public long nextLong() throws IOException{
+        return Long.parseLong(next());
+    }
+    public double nextDouble() throws IOException{
+        return Double.parseDouble(next());
+    }
+    public float nextFloat() throws IOException{
+        return Float.parseFloat(next());
+    }
+    public byte nextByte() throws IOException{
+        return Byte.parseByte(next());
+    }
+    public short nextShort() throws IOException{
+        return Short.parseShort(next());
+    }
+    public BigInteger nextBigInteger() throws IOException{
+        return new BigInteger(next());
+    }
+    public void println(int a) throws IOException{
+        bw.write(String.valueOf(a));
+        bw.newLine();
+        return;
+    }
+    public void print(int a) throws IOException{
+        bw.write(String.valueOf(a));
+        return;
+    }
+    public void println(String a) throws IOException{
+        bw.write(a);
+        bw.newLine();
+        return;
+    }
+    public void print(String a) throws IOException{
+        bw.write(a);
+        return;
+    }
+    public void println(long a) throws IOException{
+        bw.write(String.valueOf(a));
+        bw.newLine();
+        return;
+    }
+    public void print(long a) throws IOException{
+        bw.write(String.valueOf(a));
+        return;
+    }
+    public void println(double a) throws IOException{
+        bw.write(String.valueOf(a));
+        bw.newLine();
+        return;
+    }
+    public void print(double a) throws IOException{
+        bw.write(String.valueOf(a));
+        return;
+    }
+    public void print(BigInteger a) throws IOException{
+        bw.write(a.toString());
+        return;
+    }
+    public void print(char a) throws IOException{
+        bw.write(String.valueOf(a));
+        return;
+    }
+    public void println(char a) throws IOException{
+        bw.write(String.valueOf(a));
+        bw.newLine();
+        return;
+    }
+}"
+45,A,Java,61788654,2023-04-07 19:07:52,牛客815947679号,答案正确,"import java.util.Scanner;
+
+// 注意类名必须为 Main, 不要有任何 package xxx 信息
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        // 注意 hasNext 和 hasNextLine 的区别
+        String a=in.next();
+         String b="""";
+        for(int i=0;i<a.length();i++)
+        {
+            char ch=a.charAt(i);
+            if((ch>='a'&&ch<='z'))//读取的单个字符在'a'和'z'之间才可以转换
+            {
+                ch=(char)((int)ch-32);//先将字符ch转换为整型计算ASCII码，再转换为字符型输出字符A~Z的ASCII码为65~90，字符a~z的ASCII码为97~122，每个大小写字符的ASCII码都相差32,因此用小写字符的ASCII码 减去32即可得到该字符的大写形式
+            }
+            else ch=(char)((int)ch+32);
+            b+=ch;
+        }
+        System.out.println(b);
+        
+        
+    }
+}"
+46,A,Java,61788672,2023-04-07 19:07:55,lanq-,答案错误,"
+import java.util.*;
+/*
+ * 
+ */
+public class Main{
+public static void main(String[] args) {
+	Scanner sc = new Scanner(System.in);
+	String a = sc.next();
+	
+	StringBuilder sb = new StringBuilder();
+	StringBuilder sb1 = new StringBuilder();
+	for(int i=0;i<a.length();i++) {
+		if('a' <=a.charAt(i) && a.charAt(i) <= 'a'+26) {
+			sb.append(a.charAt(i));
+		}else {
+			sb1.append(a.charAt(i));
+		}
+	}
+	
+	String xiao = sb.toString();
+	String da = sb1.toString();
+	
+	System.out.println(xiao.toUpperCase()+da.toLowerCase());
+}
+
+}"
+47,A,Java,61788699,2023-04-07 19:08:05,牛客815947679号,答案正确,"import java.util.Scanner;
+
+// 注意类名必须为 Main, 不要有任何 package xxx 信息
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        // 注意 hasNext 和 hasNextLine 的区别
+        String a=in.next();
+         String b="""";
+        for(int i=0;i<a.length();i++)
+        {
+            char ch=a.charAt(i);
+            if((ch>='a'&&ch<='z'))//读取的单个字符在'a'和'z'之间才可以转换
+            {
+                ch=(char)((int)ch-32);//先将字符ch转换为整型计算ASCII码，再转换为字符型输出字符A~Z的ASCII码为65~90，字符a~z的ASCII码为97~122，每个大小写字符的ASCII码都相差32,因此用小写字符的ASCII码 减去32即可得到该字符的大写形式
+            }
+            else ch=(char)((int)ch+32);
+            b+=ch;
+        }
+        System.out.println(b);
+        
+        
+    }
+}"
+48,A,Java,61788719,2023-04-07 19:08:10,lanq-,答案错误,"
+import java.util.*;
+/*
+ * 
+ */
+public class Main{
+public static void main(String[] args) {
+	Scanner sc = new Scanner(System.in);
+	String a = sc.next();
+	
+	StringBuilder sb = new StringBuilder();
+	StringBuilder sb1 = new StringBuilder();
+	for(int i=0;i<a.length();i++) {
+		if('a' <=a.charAt(i) && a.charAt(i) <= 'a'+26) {
+			sb.append(a.charAt(i));
+		}else {
+			sb1.append(a.charAt(i));
+		}
+	}
+	
+	String xiao = sb.toString();
+	String da = sb1.toString();
+	
+	System.out.println(xiao.toUpperCase()+da.toLowerCase());
+}
+
+}"
+49,A,Java,61788760,2023-04-07 19:08:26,Tdexi,答案正确,"import java.util.*;
+
+public class Main{
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        String input = in.nextLine();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < input.length(); i++){
+            int x = input.charAt(i) - 'a';
+            int y = input.charAt(i) - 'A';
+            if (x >= 0 && x < 26) {
+                sb.append((char)('A' + x));
+            }
+            if (y >= 0 && y < 26) {
+                sb.append((char)('a' + y));
+            }
+        }
+        System.out.println(sb.toString());
+    }
+}"
+50,A,Java,61788861,2023-04-07 19:09:00,牛客912388614号,答案正确,"import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner scanner =new Scanner(System.in);
+		String s=scanner.nextLine();
+		char[] ch=s.toCharArray();
+		for(int i=0;i<ch.length;i++) {
+			if(ch[i]>='a'&&ch[i]<='z') {
+				ch[i]-=32;
+			}
+			else if(ch[i]>='A'&&ch[i]<='Z') {
+				ch[i]+=32;
+			}
+		}
+		System.out.println(ch);
+	}
+}
+"
+51,A,Java,61788901,2023-04-07 19:09:13,许愿面试顺利的小师弟很讲义气,答案正确,"import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        String s = in.nextLine();
+        String result = """";
+        for (int i = 0; i < s.length(); i++) {
+            char a = s.charAt(i);
+            a ^= 32;
+            result += a;
+        }
+        System.out.println(result);
+    }
+}"
+52,A,Java,61789072,2023-04-07 19:10:09,吴韩宇,答案正确,"import java.util.Locale;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        String n=in.next();
+        String s="""";
+        for (int i = 0; i < n.length(); i++) {
+            if (n.charAt(i)>='a'&&n.charAt(i)<='z'){
+                s+=(n.toUpperCase().charAt(i));
+            }else s+=n.toLowerCase().charAt(i);
+        }
+        System.out.println(s);
+    }
+}"
+53,A,Java,61789114,2023-04-07 19:10:25,ZHANG_SJ,答案正确,"import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String str = sc.nextLine();
+        StringBuilder sb = new StringBuilder();
+        int len = str.length();
+        for(int i=0;i<len;i++){
+            char temp = str.charAt(i);
+            if(temp>=65&&temp<96){
+                temp+=32;
+            }else {
+                temp-=32;
+            }
+            sb.append(temp);
+        }
+        System.out.println(sb.toString());
+        sc.close();
+    }
+}"
+54,A,Java,61789234,2023-04-07 19:11:14,牛客824004940号,答案正确,"
+import java.util.Scanner;
+
+/**
+ * A
+ * @author zxf
+ * @date 2023/4/7 19:02
+ * @version 1.0
+ */
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String next = sc.next();
+        char[] chars = next.toCharArray();
+        for (int i = 0;i < chars.length;i++){
+            if (chars[i] < 97){
+                chars[i] = (char)(chars[i]+32);
+
+            }else{
+                chars[i] = (char)(chars[i]-32);
+            }
+        }
+        System.out.println(new String(chars));
+    }
+}
+
+"
+55,A,Java,61789354,2023-04-07 19:11:53,ssssse,答案正确,"import java.util.Arrays;
+import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        char[] s = in.next().toCharArray();
+        int l = s.length;
+        StringBuilder ans = new StringBuilder();
+        for (int i = 0; i < l; i++) {
+            if(s[i]>='a'&&s[i]<='z'){
+                ans.append(String.valueOf(s[i]).toUpperCase());
+            }else {
+                ans.append(String.valueOf(s[i]).toLowerCase());
+            }
+        }
+        System.out.println(ans);
+    }
+}"
+56,A,Java,61789382,2023-04-07 19:12:05,诚挚的乔治,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""Main.java:3: error: cannot find symbol\n        Scanner scan = new Scanner(System.in);\n        ^\n  symbol:   class Scanner\n  location: class Main\nMain.java:3: error: cannot find symbol\n        Scanner scan = new Scanner(System.in);\n                           ^\n  symbol:   class Scanner\n  location: class Main\n2 errors""}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+
+        String s = scan.next();
+        int n = s.length();
+        char[] ch = new char[n];
+
+        for(int i = 0; i < n; i++){
+            ch[i] = s.charAt(i);
+            if(ch[i] >= 'a' && ch[i] <= 'z'){
+                ch[i] = (char) (ch[i] - 32);
+            }else if(ch[i] >= 'A' && ch[i] <= 'Z'){
+                ch[i] = (char) (ch[i] + 32);
+            }
+        }
+        String str = new String(ch);
+
+        System.out.println(str);
+
+    }
+}"
+57,A,Java,61789416,2023-04-07 19:12:17,诚挚的乔治,答案正确,"import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+
+        String s = scan.next();
+        int n = s.length();
+        char[] ch = new char[n];
+
+        for(int i = 0; i < n; i++){
+            ch[i] = s.charAt(i);
+            if(ch[i] >= 'a' && ch[i] <= 'z'){
+                ch[i] = (char) (ch[i] - 32);
+            }else if(ch[i] >= 'A' && ch[i] <= 'Z'){
+                ch[i] = (char) (ch[i] + 32);
+            }
+        }
+        String str = new String(ch);
+
+        System.out.println(str);
+
+    }
+}"
+58,A,Java,61789467,2023-04-07 19:12:35,lanq-,答案错误,"
+
+import java.util.*;
+/*
+ * 
+ */
+public class Main {
+public static void main(String[] args) {
+	Scanner sc = new Scanner(System.in);
+	String a = sc.next();
+	
+	StringBuilder sb = new StringBuilder();
+	StringBuilder sb1 = new StringBuilder();
+	for(int i=0;i<a.length();i++) {
+		if('a' <=a.charAt(i) && a.charAt(i) <= 'a'+26) {
+			sb.append(a.charAt(i));
+		}else{
+			sb1.append(a.charAt(i));
+		}
+	}
+	
+	String xiao = sb.toString();
+	String da = sb1.toString();
+
+	if( 'a'<=a.charAt(0) &&a.charAt(0) <='a'+26) {
+		System.out.println(xiao.toUpperCase()+da.toLowerCase());
+	}else {
+		System.out.println(da.toLowerCase()+xiao.toUpperCase());
+	}
+	
+}
+
+}"
+59,A,Java,61789515,2023-04-07 19:12:54,lanq-,答案错误,"
+
+import java.util.*;
+/*
+ * 
+ */
+public class Main {
+public static void main(String[] args) {
+	Scanner sc = new Scanner(System.in);
+	String a = sc.next();
+	
+	StringBuilder sb = new StringBuilder();
+	StringBuilder sb1 = new StringBuilder();
+	for(int i=0;i<a.length();i++) {
+		if('a' <=a.charAt(i) && a.charAt(i) <= 'a'+26) {
+			sb.append(a.charAt(i));
+		}else{
+			sb1.append(a.charAt(i));
+		}
+	}
+	
+	String xiao = sb.toString();
+	String da = sb1.toString();
+
+	if( 'a'<=a.charAt(0) &&a.charAt(0) <='a'+26) {
+		System.out.println(xiao.toUpperCase()+da.toLowerCase());
+	}else {
+		System.out.println(da.toLowerCase()+xiao.toUpperCase());
+	}
+	
+}
+
+}"
+60,A,Java,61789572,2023-04-07 19:13:13,stigerwang,答案正确,"import java.util.Scanner;
+public class Main{
+public static void main(String[] args){
+    Scanner in =new Scanner(System.in);
+    String answer =in.nextLine();
+    char[] chars = answer.toCharArray();
+    StringBuilder re=new StringBuilder();
+    for (int i=0;i<answer.length();i++){
+        if(chars[i]>='A'&& chars[i]<='Z'){
+            re.append((char)(chars[i]+32));
+        }
+        else re.append((char)(chars[i]-32));
+    }
+    System.out.println(re.toString());
+}
+}"
+61,A,Java,61789635,2023-04-07 19:13:37,stigerwang,答案正确,"import java.util.Scanner;
+public class Main{
+public static void main(String[] args){
+    Scanner in =new Scanner(System.in);
+    String answer =in.nextLine();
+    char[] chars = answer.toCharArray();
+    StringBuilder re=new StringBuilder();
+    for (int i=0;i<answer.length();i++){
+        if(chars[i]>='A'&& chars[i]<='Z'){
+            re.append((char)(chars[i]+32));
+        }
+        else re.append((char)(chars[i]-32));
+    }
+    System.out.println(re.toString());
+}
+}"
+62,A,Java,61789680,2023-04-07 19:13:53,ecjtu20-软工6-刘腾,答案正确,"import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+
+public class Main {
+	
+	static BufferedReader bReader=new BufferedReader(new InputStreamReader(System.in));
+	static BufferedWriter bWriter=new BufferedWriter(new OutputStreamWriter(System.out));
+	
+	public static void main(String[] args) throws IOException {
+		String inp=bReader.readLine();
+		StringBuilder reStringBuilder=new StringBuilder();
+		int length=inp.length();
+		int count='A'-'a';
+		for(int i=0;i<length;i++) {
+			if(inp.charAt(i)>='a'&&inp.charAt(i)<='z') {
+				reStringBuilder.append((char)(inp.charAt(i)+count));
+			}else {
+				reStringBuilder.append((char)(inp.charAt(i)-count));
+			}
+		}
+		System.out.println(reStringBuilder.toString());
+	}
+}
+"
+63,A,Java,61789702,2023-04-07 19:14:00,栗子ing,答案正确,"import java.util.*;
+
+public class Main{
+    
+    public static void main(String[] args){
+        Scanner scan = new Scanner(System.in);
+        String str = scan.next();
+        for (int i = 0; i < str.length(); i ++){
+            char t = str.charAt(i);
+            if (t >= 'a' && t <= 'z'){
+                System.out.print((char)((int)t - 32));
+            } else System.out.print((char)((int)t + 32));
+                
+        }
+    }
+}"
+64,A,Java,61789709,2023-04-07 19:14:02,MJ_hertz,答案正确,"
+import java.util.Scanner;
+
+public class Main{
+    public static void main(String[] args) {
+        Scanner scanner=new Scanner(System.in);
+        String s=scanner.next();
+        char []c=s.toCharArray();
+        for(int i=0;i<c.length;i++){
+            if(c[i]<='Z'&&c[i]>='A')
+                c[i]= (char) ((int)c[i]+32);
+            else if(c[i]<='z'&&c[i]>='a')
+                c[i]= (char) ((int)c[i]-32);
+        }
+        String ans="""";
+        for(int i=0;i<c.length;i++){
+            ans+=c[i];
+        }
+        System.out.println(ans);
+    }
+}"
+65,A,Java,61789715,2023-04-07 19:14:03,TuWangren123,答案正确,"import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+        String str = s.next();
+        char d = 'a' - 'A';
+        for (int i = 0; i < str.length(); i++) {
+            char x = str.charAt(i);
+            if (x < 'a') {
+                x += d;
+            } else {
+                x -= d;
+            }
+            System.out.print(x);
+        }
+    }
+}"
+66,A,Java,61789735,2023-04-07 19:14:08,//zk,答案正确,"import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String s = scanner.next();
+        StringBuilder stringBuilder = new StringBuilder();
+        for (char c : s.toCharArray()) {
+            if (c >= 'A' && c <= 'Z') {
+                stringBuilder.append((char) (c + 32));
+            } else {
+                stringBuilder.append((char) (c - 32));
+            }
+        }
+        System.out.println(stringBuilder.toString());
+    }
+}
+"
+67,A,Java,61789890,2023-04-07 19:14:54,小陈同学。1,答案正确,"
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class Main {
+	public static void main(String[] args) throws IOException {
+		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+		char[] s = in.readLine().toCharArray();
+		for(int i = 0; i<s.length; i++) {
+			if(s[i]>='a')s[i]=(char)(s[i]-32);
+			else s[i] = (char)(s[i]+32);
+		}
+		for(char temp : s) {
+			System.out.print(temp);
+		}
+	}
+}
+"
+68,A,Java,61790044,2023-04-07 19:15:52,wxyyds,答案正确,"import java.io.*;
+import java.util.*;
+public class Main 
+{
+	
+	static BufferedReader in=new BufferedReader(new InputStreamReader(System.in));
+	static PrintWriter out=new PrintWriter(new OutputStreamWriter(System.out));
+	public static void main(String[] args) throws IOException 
+	{
+		String s=in.readLine();
+		int n=s.length();
+		char[] arr=s.toCharArray();
+		for(int i=0;i<n;i++)
+		{
+			if(arr[i]>='A'&&arr[i]<='Z')  
+			{
+				arr[i]=(char) (arr[i]^32);
+				continue;
+			}
+			if(arr[i]>='a'&&arr[i]<='z')  
+			{
+				arr[i]=(char) (arr[i]^32);
+				continue;
+			}
+		}
+		String ans=new String(arr);
+		out.print(ans);
+		out.flush();
+	}
+}"
+69,A,Java,61790074,2023-04-07 19:16:01,自由oVo,答案正确,"import java.util.*;
+public class Main {
+	public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.next();
+        String ans = """";
+        for(char c : s.toCharArray()) {
+        	if(c > 96) {
+        		ans += (char)(c - 32);
+        	}else {
+        		ans += (char)(c + 32);
+        	}
+        }
+        System.out.println(ans);
+    }
+
+}"
+70,A,Java,61790100,2023-04-07 19:16:07,人工智能3221黄天鲁,答案正确,"import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner=new Scanner(System.in);
+        String zf= scanner.next();
+        StringBuilder sum=new StringBuilder();
+        for (int i= 0; i <zf.length() ; i++) {
+            char zjz=zf.charAt(i);
+            if(zjz>='a'&&zjz<='z'){
+                zjz= (char) (zjz-32);
+            }else {
+                zjz= (char) (zjz+32);
+            }
+            sum.append(zjz);
+        }
+        System.out.println(sum);
+    }
+}
+"
+71,A,Java,61790107,2023-04-07 19:16:10,人工智能3221王子龙,答案正确,"import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner in=new Scanner(System.in);
+        String a=in.next();
+        for (int i = 0; i < a.length(); i++) {
+            if(a.charAt(i)>='A' && a.charAt(i)<='Z'){
+                System.out.print((char) (a.charAt(i)+32));
+            }
+            else {
+                System.out.print((char)(a.charAt(i)-32));
+            }
+        }
+        System.out.println();
+    }
+}
+"
+72,A,Java,61790228,2023-04-07 19:16:54,小小vegetable,答案正确,"import java.io.*;
+
+public class Main {
+    public static void main(String[] args) throws IOException{
+        BufferedReader bu = new BufferedReader(new InputStreamReader(System.in));
+        PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+        String st = bu.readLine();
+        char[] ch = st.toCharArray();
+        for(char chars : ch) {
+            if(chars >= 97)
+                chars -= 32;
+            else
+                chars += 32;
+            out.print(chars);
+        }
+        out.flush();    
+    }
+}
+"
+73,A,Java,61790268,2023-04-07 19:17:09,_lwq_,答案正确,"import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.*;
+
+public class Main{
+	public static void main(String[] args){
+		QuickInput in = new  QuickInput();
+		PrintWriter out = new PrintWriter(System.out);
+		
+        StringBuilder sb = new StringBuilder();
+        
+        String s = in.next();
+        
+        for(int i = 0;i<s.length();i++){
+            char ch = s.charAt(i);
+            if(ch<='z'&&ch>='a'){
+                sb.append(String.valueOf(ch).toUpperCase());
+            }
+            else{
+                sb.append(String.valueOf(ch).toLowerCase());
+            }
+        }
+        out.println(sb.toString());
+        
+		//in.nextInt().....
+		//out.println().....
+		
+		out.close();//不关闭，就会有些数据留在缓冲区
+	}
+}
+
+
+class  QuickInput
+{
+    BufferedReader buf;
+    StringTokenizer tok;
+     QuickInput(){
+        buf = new BufferedReader(new InputStreamReader(System.in));
+    }
+    boolean hasNext(){
+        while(tok == null || !tok.hasMoreElements()){
+            try{
+                tok = new StringTokenizer(buf.readLine());
+            }catch(Exception e){
+                return false;
+            }
+        }
+        return true;
+    }
+    String next(){
+        if(hasNext()) return tok.nextToken();
+        return null;
+    }
+    int nextInt(){
+        return Integer.parseInt(next());
+    }
+    long nextLong(){
+        return Long.parseLong(next());
+    }
+    double nextDouble(){
+        return Double.parseDouble(next());
+    }
+    BigInteger nextBigInteger(){
+        return new BigInteger(next());
+    }
+    BigDecimal nextBigDecimal(){
+        return new BigDecimal(next());
+    }
+}"
+74,A,Java,61790294,2023-04-07 19:17:20,_lwq_,答案正确,"import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.*;
+
+public class Main{
+	public static void main(String[] args){
+		QuickInput in = new  QuickInput();
+		PrintWriter out = new PrintWriter(System.out);
+		
+        StringBuilder sb = new StringBuilder();
+        
+        String s = in.next();
+        
+        for(int i = 0;i<s.length();i++){
+            char ch = s.charAt(i);
+            if(ch<='z'&&ch>='a'){
+                sb.append(String.valueOf(ch).toUpperCase());
+            }
+            else{
+                sb.append(String.valueOf(ch).toLowerCase());
+            }
+        }
+        out.println(sb.toString());
+        
+		//in.nextInt().....
+		//out.println().....
+		
+		out.close();//不关闭，就会有些数据留在缓冲区
+	}
+}
+
+
+class  QuickInput
+{
+    BufferedReader buf;
+    StringTokenizer tok;
+     QuickInput(){
+        buf = new BufferedReader(new InputStreamReader(System.in));
+    }
+    boolean hasNext(){
+        while(tok == null || !tok.hasMoreElements()){
+            try{
+                tok = new StringTokenizer(buf.readLine());
+            }catch(Exception e){
+                return false;
+            }
+        }
+        return true;
+    }
+    String next(){
+        if(hasNext()) return tok.nextToken();
+        return null;
+    }
+    int nextInt(){
+        return Integer.parseInt(next());
+    }
+    long nextLong(){
+        return Long.parseLong(next());
+    }
+    double nextDouble(){
+        return Double.parseDouble(next());
+    }
+    BigInteger nextBigInteger(){
+        return new BigInteger(next());
+    }
+    BigDecimal nextBigDecimal(){
+        return new BigDecimal(next());
+    }
+}"
+75,A,Java,61790310,2023-04-07 19:17:25,KY.cj,答案正确,"import javax.script.ScriptEngineManager;
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    static StreamTokenizer st=new StreamTokenizer(new BufferedReader(new InputStreamReader(System.in)));
+    public static void main(String[] args) throws IOException {
+        Scanner sc=new Scanner(System.in);
+        String a= sc.next();
+        StringBuffer b=new StringBuffer("""");
+        for (int i = 0; i < a.length(); i++) {
+            if(a.charAt(i)>95)b.append((char)(a.charAt(i)-32));
+            else b.append((char)(a.charAt(i)+32));
+        }
+        System.out.println(b);
+    }
+
+    private static double QWQ(int a) {
+        double WTL=0;
+        for (int i = 1; i <=a; i++) {
+            WTL += Math.pow(1 + 1.0/i,i);
+        }
+        return WTL;
+    }
+}
+
+"
+76,A,Java,61790500,2023-04-07 19:18:25,纪小莫,答案错误,"import java.util.Scanner;
+public class Main{
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+        String s=sc.next();
+        char[] c=s.toCharArray();
+        for(int i=0;i<s.length();i++){
+            
+            if(c[i]>='A'&&c[i]<='Z'){
+                c[i]+=32;
+            }
+            if(c[i]>='a'&&c[i]<='z'){
+                c[i]-=32;
+            }
+            
+        }
+        
+    }
+}"
+77,A,Java,61790518,2023-04-07 19:18:32,牛客595843183号,答案正确,"import java.util.*;
+
+public class Main {
+    
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.nextLine();
+        StringBuilder strb = new StringBuilder();
+        
+        int diff = 'A' - 'a';
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c >= 'a' && c <= 'z') {
+                strb.append((char) (c + diff));
+            } else {
+                strb.append((char) (c - diff));
+            }
+        }
+        
+        System.out.println(strb.toString());
+    }
+}"
+78,A,Java,61790537,2023-04-07 19:18:38,纪小莫,答案错误,"import java.util.Scanner;
+public class Main{
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+        String s=sc.next();
+        char[] c=s.toCharArray();
+        for(int i=0;i<s.length();i++){
+            
+            if(c[i]>='A'&&c[i]<='Z'){
+                c[i]+=32;
+            }
+            if(c[i]>='a'&&c[i]<='z'){
+                c[i]-=32;
+            }
+            
+        }
+        System.out.println(c);
+    }
+}"
+79,A,Java,61790629,2023-04-07 19:19:09,阿刁9740,答案正确,"
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+    static Scanner sc;
+    static PrintWriter pw;
+
+    public static void main(String[] args) throws IOException {
+        sc = new Scanner(System.in);
+        pw = new PrintWriter(System.out);
+        solve();
+        pw.close();
+    }
+
+    public static void solve() throws IOException {
+        String str = sc.next();
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < str.length(); i++) {
+            char c = str.charAt(i);
+            if (c >= 97 && c <= 122) {
+                stringBuilder.append((char) (c - 32));
+            } else {
+                stringBuilder.append((char) (c + 32));
+            }
+        }
+        pw.println(stringBuilder);
+    }
+
+
+    static class Scanner {
+        BufferedReader br;
+        StringTokenizer st;
+
+        public Scanner(InputStream s) {
+            br = new BufferedReader(new InputStreamReader(s));
+        }
+
+        public Scanner(FileReader f) {
+            br = new BufferedReader(f);
+        }
+
+        public String next() throws IOException {
+            while (st == null || !st.hasMoreTokens()) st = new StringTokenizer(br.readLine());
+            return st.nextToken();
+        }
+
+        public int nextInt() throws IOException {
+            return Integer.parseInt(next());
+        }
+
+        public long nextLong() throws IOException {
+            return Long.parseLong(next());
+        }
+
+        public double nextDouble() throws IOException {
+            return Double.parseDouble(next());
+        }
+
+        public int[] nextIntArr(int n) throws IOException {
+            int[] arr = new int[n];
+            for (int i = 0; i < n; i++) {
+                arr[i] = Integer.parseInt(next());
+            }
+            return arr;
+        }
+
+    }
+}"
+80,A,Java,61790691,2023-04-07 19:19:37,牛客360818823号,答案正确,"
+import java.util.Scanner;
+
+public class Main {
+     public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		String s = sc.next();
+		String s1 = """";
+		for(int i=0;i<s.length();i++) {
+			if(s.charAt(i)-'a'>=0) {
+				s1 = s1+s.substring(i,i+1).toUpperCase();
+			} else {
+				s1  = s1 +s.substring(i,i+1).toLowerCase();
+				
+			}
+		}
+		System.out.println(s1);
+	}
+}
+"
+81,A,Java,61790749,2023-04-07 19:19:59,欧克z,答案正确,"import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.nextLine();
+        char[] chars = s.toCharArray();
+        for (int i = 0; i < chars.length; i++) {
+            chars[i] ^= ' ';
+        }
+        System.out.println(new String(chars));
+    }
+}"
+82,A,Java,61790871,2023-04-07 19:20:48,纪小莫,答案正确,"import java.util.Scanner;
+public class Main{
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+        String s=sc.next();
+        char[] c=s.toCharArray();
+        for(int i=0;i<s.length();i++){
+        	
+            
+            if(c[i]>='A'&&c[i]<='Z'){
+                c[i]+=32;
+            }else if(c[i]>='a'&&c[i]<='z'){
+                c[i]-=32;
+            }
+            
+        }
+        System.out.println(c);
+        
+    }
+}"
+83,A,Java,61791011,2023-04-07 19:21:55,啥也不会怎么办啊,答案正确,"
+
+import java.util.Scanner;
+
+
+ public class Main {
+
+    public static void main(String[] args) {
+
+        Scanner sc=new Scanner(System.in);
+
+        String s=sc.next();
+        String t="""";
+
+        for(int i=0;i<s.length();i++){
+            char c=s.charAt(i);
+            if(c>='A'&&c<='Z')t=t+(char)(c+32);
+            else t=t+(char)(c-32);
+        }
+        System.out.println(t);
+    }
+
+
+}
+"
+84,A,Java,61791109,2023-04-07 19:22:35,牛客244785099号,答案正确,"
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.util.Arrays;
+
+public class Main {
+	static BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+	static PrintWriter pw =new PrintWriter(new OutputStreamWriter(System.out));
+	public static void main(String[] args) throws IOException {
+		char[] a=br.readLine().toCharArray();
+		for (int i = 0; i < a.length; i++) {
+			if(a[i]<'a')a[i]+=32;
+			else a[i]-=32;
+		}
+		for (int i = 0; i < a.length; i++) {
+			pw.print(a[i]);
+		}
+		pw.flush();
+	}
+
+}
+"
+85,A,Java,61791315,2023-04-07 19:23:54,Ulrica_Ricky_Morhaime,答案正确,"import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        String s = sc.nextLine();
+        StringBuffer sb = new StringBuffer();
+        
+        for (Character c : s.toCharArray()) {
+            if (Character.isLowerCase(c)) {
+                c = Character.toUpperCase(c);
+                sb.append(c);
+            } else {
+                c = Character.toLowerCase(c);
+                sb.append(c);
+            }
+        }
+        
+        System.out.println(sb);
+        
+        sc.close();
+    }
+}"
+86,A,Java,61791318,2023-04-07 19:23:55,寒阳子弟,答案正确,"import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        String s = sc.next();
+
+        //定义一个StringBuffer的实例sb
+        StringBuffer sb = new StringBuffer();
+
+        if(s != null) {
+            for(int i = 0; i < s.length(); i++) {
+
+                //索引指定位置的字符
+                char c = s.charAt(i);
+
+                //判断是否为小写字母
+                if(Character.isLowerCase(c)) {
+                    sb.append(Character.toUpperCase(c));
+                }else if(Character.isUpperCase(c)) {
+                    sb.append(Character.toLowerCase(c));
+                }
+            }
+        }
+        System.out.println(sb);
+    }
+
+}
+"
+87,A,Java,61791724,2023-04-07 19:27:00,牛客225545702号,答案正确,"import java.util.Scanner;
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        String str = in.nextLine();
+        String swapped = swapCase(str);
+        System.out.println(swapped);
+    }
+
+    public static String swapCase(String str) {
+        StringBuilder builder = new StringBuilder();
+        for (char c : str.toCharArray()) {
+            if (Character.isUpperCase(c)) {
+                builder.append(Character.toLowerCase(c));
+            } else if (Character.isLowerCase(c)) {
+                builder.append(Character.toUpperCase(c));
+            } else {
+                builder.append(c);
+            }
+        }
+        return builder.toString();
+    }
+}"
+88,A,Java,61791729,2023-04-07 19:27:04,牛客225545702号,答案正确,"import java.util.Scanner;
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        String str = in.nextLine();
+        String swapped = swapCase(str);
+        System.out.println(swapped);
+    }
+
+    public static String swapCase(String str) {
+        StringBuilder builder = new StringBuilder();
+        for (char c : str.toCharArray()) {
+            if (Character.isUpperCase(c)) {
+                builder.append(Character.toLowerCase(c));
+            } else if (Character.isLowerCase(c)) {
+                builder.append(Character.toUpperCase(c));
+            } else {
+                builder.append(c);
+            }
+        }
+        return builder.toString();
+    }
+}"
+89,A,Java,61791775,2023-04-07 19:27:24,牛客364316832号,答案正确,"import java.util.Scanner;
+
+
+public class Main{
+    static StringBuilder s1=new StringBuilder(505);
+    public static void main(String[] args){
+        Scanner scan=new Scanner(System.in);
+        String s=scan.next();
+        int l=s.length();
+        for(int i=0;i<l;i++){
+        	char t;
+            if(Character.isUpperCase(s.charAt(i))){
+                t=Character.toLowerCase(s.charAt(i));
+            }else{
+                t=Character.toUpperCase(s.charAt(i));
+            }
+            s1.append(t);
+        }
+        System.out.println(s1);
+        scan.close();
+    }
+}"
+90,A,Java,61791793,2023-04-07 19:27:30,牛客436218273号,答案正确,"import java.util.Scanner;
+
+public class Main {
+	public static void main(String[] args) {
+		Scanner sc=new Scanner(System.in);
+		String str=sc.next();
+		String str1="""";
+		for (int i=0;i<str.length();i++) {
+			char c=str.charAt(i);
+			if(c<91&&c>64) {
+				c+=32;
+			}
+			else if(c<123&&c>96) {
+				c-=32;
+			}
+			str1+=c;
+		}
+		System.out.println(str1);
+	}
+}"
+91,A,Java,61791915,2023-04-07 19:28:26,邓文俊,答案正确," import java.util.*;
+
+public class Main {
+    public static void main(String [] args){
+        Scanner scan=new Scanner(System.in);
+        
+        String str=scan.next();
+        for(int i=0;i<str.length();i++){
+            if(str.charAt(i)>='a'&&str.charAt(i)<='z'){
+               System.out.printf(""%c"",str.charAt(i)-32);
+            }else{
+                System.out.printf(""%c"",str.charAt(i)+32);
+            }
+        }
+        scan.close();
+    }   
+}"
+92,A,Java,61792036,2023-04-07 19:29:12,zhangjinming,答案正确,"import java.io.*;
+import java.util.*;
+import java.math.*;
+
+public class Main {
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader in = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        TaskA solver = new TaskA();
+        solver.solve(1, in, out);
+        out.close();
+    }
+
+    static class TaskA {
+        public void solve(int testNumber, InputReader in, PrintWriter out) {
+            String s = in.next();
+            for (int i = 0; i < s.length(); i++) {
+                String str = String.valueOf(s.charAt(i));
+                if (s.charAt(i)>='a' && s.charAt(i)<='z') {
+                    System.out.print(str.toUpperCase());
+                }else {
+                    System.out.print(str.toLowerCase());
+                }
+            }
+        }
+    }
+
+    static class InputReader {
+        public BufferedReader reader;
+        public StringTokenizer tokenizer;
+
+        public InputReader(InputStream stream) {
+            reader = new BufferedReader(new InputStreamReader(stream), 32768);
+            tokenizer = null;
+        }
+        boolean hasNext()
+        {
+            while (tokenizer == null || !tokenizer.hasMoreTokens())
+            {
+                try
+                {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (Exception e)
+                {
+                    return false;
+                    // TODO: handle exception
+                }
+            }
+            return true;
+        }
+        public String next() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return tokenizer.nextToken();
+        }
+        public String nextLine()
+        {
+            String str = null;
+            try
+            {
+                str = reader.readLine();
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            return str;
+        }
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+        public double nextDouble(){
+            return Double.parseDouble(next());
+        }
+        public long nextLong(){
+            return Long.parseLong(next());
+        }
+        public BigInteger nextBigInteger()
+        {
+            return new BigInteger(next());
+        }
+        public BigDecimal nextBigDecimal()
+        {
+            return new BigDecimal(next());
+        }
+
+    }
+}"
+93,A,Java,61792227,2023-04-07 19:30:31,郑乔宇,答案正确,"import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        String s = in.next();
+        char s1[] = s.toCharArray();
+        for (int i = 0; i < s.length(); i++) {
+            if ((int) s1[i] >= 65 && (int) s1[i] <= 90) {
+                s1[i] += 32;
+            } else if ((int) s1[i] >= 97 && (int) s1[i] <= 122) {
+                s1[i] -= 32;
+            }
+        }
+        for (int i = 0; i <s.length() ; i++) {
+            System.out.print(s1[i]);
+        }
+    }
+}"
+94,A,Java,61792691,2023-04-07 19:33:59,zxwycnh,答案正确,"import java.util.Scanner;
+public class Main {
+       public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+        while (s.hasNext()){
+            String str = s.nextLine();
+            System.out.println(t(str));
+
+        }
+    }
+    public static String t(String str){
+        char[] chars = str.toCharArray();
+        for (int i = 0; i < str.length(); i++) {
+           if (chars[i] >=65 && chars[i]<=90) chars[i] += 32;
+           else chars[i] -= 32;
+        }
+         return String.valueOf(chars);
+    }
+}"
+95,A,Java,61793418,2023-04-07 19:39:01,牛客566567724号,答案正确,"
+
+import java.util.Scanner;
+
+public class Main {
+	public static void main(String agrs[]) {
+		Scanner sc = new Scanner(System.in);
+//		System.out.println('a'-'A');
+		char ch []  = sc.next().toCharArray();
+		for(int i=0;i<ch.length;i++) {
+			if(ch[i]<'a') {
+				ch[i] = (char)(ch[i]+32);
+			}else {
+				ch[i] = (char)(ch[i]-32);
+			}
+		}
+		System.out.println(ch);
+	}
+}"
+96,A,Java,61794046,2023-04-07 19:43:32,牛客120991605号,答案正确,"import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        String str = input.nextLine();
+        StringBuffer sb = new StringBuffer();
+        if (str != null) {
+            for (int i = 0; i < str.length(); i++) {
+                char c = str.charAt(i);
+                if (Character.isUpperCase(c)) {
+                    sb.append(Character.toLowerCase(c));
+                } else if (Character.isLowerCase(c)) {
+                    sb.append(Character.toUpperCase(c));
+                }
+            }
+        }
+        System.out.println(sb.toString());
+    }
+}
+"
+97,A,Java,61794111,2023-04-07 19:44:05,lanq-,答案正确,"
+
+import java.util.*;
+/*
+ * 连续会求，不连续
+ * AdasDDS
+ * 
+ */
+public class Main {
+public static void main(String[] args) {
+	Scanner sc = new Scanner(System.in);
+	String a = sc.next();
+	
+	for(int i=0;i<a.length();i++) {
+		StringBuilder sb = new StringBuilder();
+		if('a' <=a.charAt(i) && a.charAt(i) <= 'a'+26) {
+			sb.append(a.charAt(i));
+			System.out.print(sb.toString().toUpperCase());
+		}
+
+		if('A' <=a.charAt(i) && a.charAt(i) <= 'A'+26) {
+			sb.append(a.charAt(i));
+			System.out.print(sb.toString().toLowerCase());
+		}
+		
+	}
+}
+
+}"
+98,A,Java,61794121,2023-04-07 19:44:09,lanq-,答案正确,"
+
+import java.util.*;
+/*
+ * 连续会求，不连续
+ * AdasDDS
+ * 
+ */
+public class Main {
+public static void main(String[] args) {
+	Scanner sc = new Scanner(System.in);
+	String a = sc.next();
+	
+	for(int i=0;i<a.length();i++) {
+		StringBuilder sb = new StringBuilder();
+		if('a' <=a.charAt(i) && a.charAt(i) <= 'a'+26) {
+			sb.append(a.charAt(i));
+			System.out.print(sb.toString().toUpperCase());
+		}
+
+		if('A' <=a.charAt(i) && a.charAt(i) <= 'A'+26) {
+			sb.append(a.charAt(i));
+			System.out.print(sb.toString().toLowerCase());
+		}
+		
+	}
+}
+
+}"
+99,A,Java,61794133,2023-04-07 19:44:14,lanq-,答案正确,"
+
+import java.util.*;
+/*
+ * 连续会求，不连续
+ * AdasDDS
+ * 
+ */
+public class Main {
+public static void main(String[] args) {
+	Scanner sc = new Scanner(System.in);
+	String a = sc.next();
+	
+	for(int i=0;i<a.length();i++) {
+		StringBuilder sb = new StringBuilder();
+		if('a' <=a.charAt(i) && a.charAt(i) <= 'a'+26) {
+			sb.append(a.charAt(i));
+			System.out.print(sb.toString().toUpperCase());
+		}
+
+		if('A' <=a.charAt(i) && a.charAt(i) <= 'A'+26) {
+			sb.append(a.charAt(i));
+			System.out.print(sb.toString().toLowerCase());
+		}
+		
+	}
+}
+
+}"
+100,A,Java,61794732,2023-04-07 19:48:44,ONE_yy31319,答案正确,"// 不要添加 package 语句
+
+import java.util.*;
+import java.math.*;
+import java.io.*;
+
+public class Main {
+
+    static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+    static PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+    
+    public static void main(String[] args) throws Exception {
+        char[] ch = in.readLine().toCharArray();
+        for (char c: ch) out.print((char)(c ^ 32));
+    	
+    	
+
+        out.flush();
+        in.close();
+    }  
+}"
+101,A,Java,61795024,2023-04-07 19:50:39,zime-www,答案正确,"import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        while (sc.hasNext()) {
+           char[] a = sc.nextLine().toCharArray();
+           for (int i = 0; i < a.length; ++i){
+               if(a[i] >= 'a' && a[i] <= 'z')a[i] =(char)(a[i] -32);
+               else a[i] = (char)(a[i] + 32);
+           }
+            System.out.println(String.valueOf(a));
+        }
+    }
+}"
+102,A,Java,61795217,2023-04-07 19:52:06,不上紫不该名,答案正确,"//import com.sun.source.tree.Tree;
+
+import java.io.*;
+import java.util.*;
+public class Main {
+    private static long mode = 1_000_000_000+7;
+    private static long INF = Long.MAX_VALUE;
+  //  private static ArrayList<Character> ans = new ArrayList<Character>();
+    static int maxn=200000+100;
+    public static FastReader in = new FastReader();
+    public static Utility util = new Utility();
+    Queue<Integer> q=new LinkedList<Integer>();
+ //   Vector vt[]=new Vector[maxn];
+    static long dp[]=new long[maxn];
+    static Vector vt[]=new Vector[maxn];
+    static int n,m,ans,sum;
+    static int b[]=new int[maxn];
+    static int f[]=new int[maxn];
+    static long pre[]=new long[maxn];
+    static String str=new String();
+    static int k;
+    static int a[]=new int[maxn];
+    public static void main (String [] args) {
+        //try {
+        //BufferedReader f = new BufferedReader(new InputStreamReader(System.in));
+        PrintWriter out = new PrintWriter(System.out);
+        // HashMap<Integer,Vector> mp = new HashMap<Integer,Vector>();
+        //BufferedReader f = new BufferedReader(new FileReader(""input.in""));
+        //PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(""output.out"")));
+        int t = 1;
+       // t = in.nextInt();
+       // init();
+        while (t > 0) {
+            t--;
+            String str= in.next();
+            int len=str.length();
+            for(int i=0;i<len;i++)
+            {
+                if(str.charAt(i)>='a'&&str.charAt(i)<='z')
+                {
+                    System.out.print((char)(str.charAt(i)-'a'+'A'));
+                }else{
+                    System.out.print((char)(str.charAt(i)-'A'+'a'));
+                }
+            }
+
+        }/////////////////////////
+    }
+
+    static void init()
+    {
+        int tt=1;
+    }
+
+    static long abs(long x)
+    {
+        if(x<=0)
+            return (-1)*x;
+        return x;
+    }
+    static int abs(int x)
+    {
+        if(x<=0)
+            return (-1)*x;
+        return x;
+    }
+
+
+
+
+    public static int log2(int N)
+    {
+        int result = (int)(Math.log(N) / Math.log(2));
+
+        return result;
+    }
+    public static int lowbit(int x)
+    {
+        return x&(-x);
+    }
+
+    static int max(int a,int b)
+    {
+        return Math.max(a,b);
+    }
+    static long max(long a,long b)
+    {
+        return Math.max(a,b);
+    }
+    static int min(int a,int b)
+    {
+        return Math.min(a,b);
+    }
+    static long min(long a,long b)
+    {
+        return Math.min(a,b);
+    }
+
+    public static long gcd(long a, long b) {
+        if (b==0) return a;
+        return gcd(b,a%b);
+    }
+    public static long lcm(long a,long b) {
+        long gcd = gcd(a,b);
+        return (a*b)/gcd;
+    }
+   /* public static int[] inp(BufferedReader f, int n){
+        try {
+            StringTokenizer st = new StringTokenizer(f.readLine());
+            int[] out = new int[n];
+            for(int i=0;i<n;++i)
+                out[i]=Integer.parseInt(st.nextToken());
+            return out;
+        }catch(Exception e){
+            return new int[]{0, 0};
+        }
+    }
+    public static String inp(BufferedReader f,boolean b){
+        try {
+            return f.readLine();
+        }catch(Exception e){
+            return """";
+        }
+    }*/
+    public static void out(PrintWriter out,String s) {
+       out.print(s);
+    }
+    public static void nl() {
+        System.out.print(""\n"");
+    }
+    public static void out(PrintWriter out,int[] a) {
+        for(int i=0;i<a.length;++i) out.print(a[i]+"" "");
+
+    }
+    public static void out(PrintWriter out,long[] a) {
+        for(int i=0;i<a.length;++i) out.print(a[i]+"" "");
+
+    }
+    public static void out(PrintWriter out,int n) {
+        out.println(n);
+    }
+    public static void out(PrintWriter out,long n) {
+        out.println(n);
+    }
+    public static void sort(int[] a){
+        int n = a.length;
+        ArrayList<Integer> b = new ArrayList<Integer>();
+        for(int i:a)b.add(i);
+        Collections.sort(b);
+        for(int i=0;i<n;++i){
+            a[i]=b.get(i);
+        }
+    }public static void sort(long[] a){
+        int n = a.length;
+        ArrayList<Long> b = new ArrayList<Long>();
+        for(Long i:a)b.add(i);
+        Collections.sort(b);
+        for(int i=0;i<n;++i){
+            a[i]=b.get(i);
+        }
+    }
+    public static int lower_bound(int[]a,int n,int tar) {
+        int k = -1;
+        for(int b=n/2;b>=1;b/=2)
+            while(k+b<n&&a[k+b]<tar) k+=b;
+        return k+1;
+    }
+    public static int upper_bound(ArrayList<Integer> a,int n,int tar) {
+        int k = 0;
+        for(int b = n/2; b>=1; b/=2)
+            while(k+b<n&&a.get(k+b)<=tar) k+=b;
+        return k;
+    }
+    static class Pair
+    {
+        int a;
+        int b;
+        Pair(int a, int b)
+        {
+            this.a = a;
+            this.b = b;
+        }
+        public void b(int nv){
+            b=nv;
+        }
+        public void a(int nk){
+            a=nk;
+        }
+    }
+    static class FastReader{
+
+        BufferedReader br;
+
+        StringTokenizer st;
+
+        public FastReader(){
+            br=new BufferedReader(new InputStreamReader(System.in));
+        }
+
+        String next(){
+            while(st==null || !st.hasMoreTokens()){
+                try {
+                    st=new StringTokenizer(br.readLine());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return st.nextToken();
+        }
+
+        int nextInt(){
+            return Integer.parseInt(next());
+        }
+
+        long nextLong(){
+            return Long.parseLong(next());
+        }
+
+        double nextDouble(){
+            return Double.parseDouble(next());
+        }
+
+        String nextLine(){
+            String str="""";
+            try {
+                str=br.readLine().trim();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return str;
+        }
+
+
+
+    }
+    static class Utility{
+
+        int[] createIntArray(){
+
+            String s = in.nextLine();
+
+            return Arrays.stream( s.split("" "") )
+                    .mapToInt( Integer::parseInt )
+                    .toArray();
+
+
+        }
+
+        int[] createIntArray(int n){
+
+            int[] arr = new int[n];
+            for(int i=0; i<n; i++) arr[i] = in.nextInt();
+
+
+            return arr;
+
+
+        }
+
+        int[] createSortedIntArray(int n){
+
+            int [] arr = createIntArray(n);
+            Arrays.sort( arr );
+
+            return arr;
+        }
+
+        int[][] create2DArray( int n , int m ){
+
+            int[][] arr = new int[n][m];
+            for(int i=0; i<n; i++)
+                arr[i] = createIntArray( m );
+
+            return arr;
+
+
+
+        }
+
+        < T > String joinArray( T[] arr , String s ){
+
+            StringBuilder sb = new StringBuilder("""");
+
+            for(int i=0; i<arr.length; i++)
+                sb.append( arr[i] + s  );
+
+            return sb.toString();
+        }
+
+        <T> String  joinList(List<T> arr, String s ){
+
+            StringBuilder sb = new StringBuilder("""");
+
+            for(int i=0; i<arr.size(); i++)
+                sb.append( arr.get(i) + s  );
+
+            return sb.toString();
+        }
+
+    }
+}"
+103,A,Java,61795679,2023-04-07 19:55:24,嘎嘎学编程,答案正确,"import java.util.Scanner;
+
+// 注意类名必须为 Main, 不要有任何 package xxx 信息
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+		String str = sc.next();
+		String str1 = """";
+		for(int i=0;i<str.length();i++)
+		{
+			char ch=str.charAt(i);
+			if((ch>='a'&&ch<='z'))//读取的单个字符在'a'和'z'之间才可以转换
+			{
+				ch=(char)((int)ch-32);//先将字符ch转换为整型计算ASCII码，再转换为字符型输出字符A~Z的ASCII码为65~90，字符a~z的ASCII码为97~122，每个大小写字符的ASCII码都相差32,因此用小写字符的ASCII码 减去32即可得到该字符的大写形式
+			}else{
+                ch=(char)((int)ch+32);
+            }
+			str1+=ch;
+		}
+        System.out.println(str1);
+    }
+}"
+104,A,Java,61796555,2023-04-07 20:01:38,霖酱,答案正确,"import java.util.*;
+import java.math.*;
+import java.io.*;
+
+public class Main {
+    
+    static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+    static PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+
+    public static void main(String[] args) throws Exception{
+        
+        String s = in.readLine();
+        String ans = """";
+        for (int i = 0; i < s.length(); i++) {
+            if(Character.isUpperCase(s.charAt(i))) {
+                ans += Character.toLowerCase(s.charAt(i));
+            } else {
+                ans += Character.toUpperCase(s.charAt(i));
+            }
+        }
+  
+        out.print(ans);
+        out.flush();
+        in.close();
+    }  
+}
+"
+105,A,Java,61797001,2023-04-07 20:05:20,云淇,答案正确,"import java.util.*;
+
+public class Main{
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        while (sc.hasNext()) {
+            String s = sc.next();
+            String result = """";
+            for (int i = 0; i < s.length(); ++i) {
+                char ch = s.charAt(i);
+                if (ch >= 'a' && ch <= 'z') {
+//                    ch = (char) (ch - 32);
+                    ch = (char) ('A' + ch - 'a');
+                } else if (ch >= 'A' && ch <= 'Z') {
+//                    ch = (char) (ch + 32);
+                    ch = (char) (ch - 'A' + 'a');
+                }
+                result += ch;
+            }
+            System.out.println(result);
+        }
+    }
+}"
+106,A,Java,61797025,2023-04-07 20:05:33,牛客890338089号,答案正确,"import java.util.Scanner;
+
+// 注意类名必须为 Main, 不要有任何 package xxx 信息
+public class Main {
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        String a = scan.nextLine();
+        int n = a.length();
+        char[] ans = new char[n];
+        for(int i = 0;i<n;i++){
+            if(a.charAt(i)>='A'&&a.charAt(i)<='Z'){
+                ans[i] = (char)(a.charAt(i)-'A'+'a');
+            }
+            if(a.charAt(i)>='a'&&a.charAt(i)<='z'){
+                ans[i] = (char)(a.charAt(i)-'a'+'A');
+            }
+        }
+        System.out.println(String.valueOf(ans));
+        
+    }
+}"
+107,A,Java,61798113,2023-04-07 20:14:20,郑钧耀2096183232,答案正确,"import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        String n = in.next();
+        String sum = """";
+        for (int i = 0; i < n.length(); i++) {
+            if (n.charAt(i)>='a' && n.charAt(i)<='z'){
+                sum+=String.valueOf(n.charAt(i)).toUpperCase();
+            }else{
+                sum+=String.valueOf(n.charAt(i)).toLowerCase();
+            }
+        }
+        System.out.println(sum);
+    }
+}
+"
+108,A,Java,61798909,2023-04-07 20:20:37,沐雨风栉,答案正确,"import java.util.Scanner;
+import static java.lang.Character.toLowerCase;
+import static java.lang.Character.toUpperCase;
+public class Main {
+    public static void main(String[] ags) {
+        Scanner sa = new Scanner(System.in);
+        String str = sa.next();
+        char[] arrays = str.toCharArray();
+        for (int i = 0; i < arrays.length; i++) {
+            char c1 = arrays[i];     
+
+            if (c1 >= 97 && c1 <= 122) {  
+                char c2 = toUpperCase(c1);
+                System.out.print(c2);
+            } else if (c1 >= 65 && c1 <= 90) {
+                char c2 = toLowerCase(c1);
+                System.out.print(c2);
+            } else {
+                System.out.print("" "");  
+            }
+
+        }
+    }
+    
+}"
+109,A,Java,61800829,2023-04-07 20:36:42,码农100000号,答案正确,"import java.util.*;
+public class Main{
+    public static void main(String[] args){
+        Scanner scanner = new Scanner(System.in);
+        String str = scanner.next();
+        char[] c = str.toCharArray();
+        for(int i = 0;i < c.length;i++){
+            if(Character.isLowerCase(c[i])){
+                c[i] = Character.toUpperCase(c[i]);
+            }else{
+                c[i] = Character.toLowerCase(c[i]);
+            }
+        }
+        for(int i = 0;i < c.length;i++){
+            System.out.print(c[i]);
+        }
+    }
+}"
+110,A,Java,61801700,2023-04-07 20:44:26,Aysy,答案正确,"
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.util.*;
+
+
+public class Main {
+
+    static boolean[][] arr;
+    static int cnt = 0;
+    static int n;
+
+    public static void main(String[] args) {
+        String s = in.nextLine();
+        StringBuilder sb = new StringBuilder();
+        char[] charArray = s.toCharArray();
+        for (char c : charArray) {
+            if (Character.isUpperCase(c)) {
+                sb.append((char) (c | ' '));
+            } else {
+                sb.append((char)(c & '_'));
+            }
+        }
+        System.out.println(sb.toString());
+
+
+//        n = in.nextInt();
+//        arr = new boolean[n][n];
+//        dfs(0);
+//        System.out.println(cnt);
+
+    }
+
+    private static void dfs(int i) {
+        if (i >= n) {
+            cnt++;
+            return;
+        }
+        for (int j = 0; j < n; j++) {
+            if (!check(i, j)) continue;
+            arr[i][j] = true;
+            dfs(i + 1);
+            arr[i][j] = false;
+        }
+    }
+
+
+    private static boolean check(int i, int j) {
+        for (int i1 = i - 1; i1 >= 0; i1--) {
+            if (arr[i1][j]) return false;
+        }
+        for (int i1 = i - 1, j1 = j - 1; i1 >= 0 && j1 >= 0; i1--, j1--) {
+            if (arr[i1][j1]) return false;
+        }
+        for (int i1 = i - 1, j1 = j + 1; i1 >= 0 && j1 < n; i1--, j1++) {
+            if (arr[i1][j1]) return false;
+        }
+        return true;
+    }
+
+
+    public static int gcd(int a, int b) {
+        return b == 0 ? a : gcd(b, a % b);
+    }
+
+
+    static IR in = new IR();
+    static PrintWriter out = new PrintWriter(System.out);
+
+    static class IR {
+        public BufferedReader reader;
+        public StringTokenizer tokenizer;
+
+        public IR() {
+            reader = new BufferedReader(new InputStreamReader(System.in), 32768);
+            tokenizer = null;
+        }
+
+        public String nextLine() {
+            String s = """";
+            try {
+                s = reader.readLine();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            return s;
+
+        }
+
+        public String next() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return tokenizer.nextToken();
+        }
+
+        public double nextDouble() {
+            return Double.parseDouble(next());
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        public long nextLong() {
+            return Long.parseLong(next());
+        }
+    }
+}
+"
+111,A,Java,61802908,2023-04-07 20:54:19,小小小巨人,答案正确,"import java.io.*;
+import java.math.*;
+import java.util.*;
+import java.util.Map.*;
+/**
+ * 
+ * @author TCchen 
+ */
+public class Main {
+	public static void main(String[]args) throws IOException {
+		new Main().run();
+	}
+	File input=new File(""input.txt"");
+	File output=new File(""output.txt"");
+	void run() throws IOException{
+		boolean debug=false;
+//		debug=true;
+		if(debug)new Solve().setIO(input, output).run();
+		else new Solve().setIO(System.in,System.out).run();
+	}
+	class Solve extends ioTask{
+		int n,m,k,i,j,len,p,l,r;
+		char c(char c) {
+			if('a'<=c&&c<='z')return (char) (c+'A'-'a');
+			return (char) (c+'a'-'A');
+		}
+		void solve()throws IOException{
+			char[]s=in.ins().toCharArray();
+			for(int i=0;i<s.length;i++) {
+				out.print(c(s[i]));
+			}
+//			for()
+		}
+		int te;
+		void run()throws IOException{
+//			init();
+			int t=1;
+//			t=in.in();
+			for(te=1;te<=t;te++) {
+				solve();
+//				out.flush();
+			}
+			out.close();
+		}
+//		long timeMillis;
+//		void st() {
+//			timeMillis=System.currentTimeMillis();
+//		}
+//		void ed() {
+//			System.out.println((System.currentTimeMillis()-timeMillis)+""ms"");
+//		}
+	}
+	class QIn{
+		StreamTokenizer st = new StreamTokenizer(new BufferedReader(new InputStreamReader(System.in)));
+		int in() throws IOException {
+			st.nextToken();
+			return (int)st.nval;
+		}
+		long inl() throws IOException {
+			st.nextToken();
+			return (long)st.nval;
+		}
+		double ind()throws IOException  {
+			st.nextToken();
+			return st.nval;
+		}
+		String ins() throws IOException {
+			st.nextToken();
+			return st.sval;
+		}
+	}
+	class In{
+		private StringTokenizer in=new StringTokenizer("""");
+		private InputStream is;
+		private BufferedReader br;
+		public In(File file) throws IOException {
+			is=new FileInputStream(file);
+			init();
+		}
+		public In(InputStream is) throws IOException{
+			this.is=is;
+			init();
+		}
+		private void init() throws IOException {
+			br=new BufferedReader(new InputStreamReader(is));
+		}
+		/**
+		 * File and OJ only
+		 */
+		boolean hasNext() throws IOException {
+			return in.hasMoreTokens()||br.ready();
+		}
+		String ins() throws IOException {
+			while(!in.hasMoreTokens()) {
+				in=new StringTokenizer(br.readLine());
+			}
+			return in.nextToken();
+		}
+		int in() throws IOException {
+			return Integer.parseInt(ins());
+		}
+		long inl() throws IOException {
+			return Long.parseLong(ins());
+		}
+		double ind() throws IOException {
+			return Double.parseDouble(ins());
+		}
+		String line() throws IOException {
+			return br.readLine();
+		}
+	}
+	class Out{
+		PrintWriter out;
+		private OutputStream os;
+		private void init() {
+			out=new PrintWriter(new BufferedWriter(new OutputStreamWriter(os)));
+		}
+		public Out(File file) throws IOException {
+			os=new FileOutputStream(file);
+			init();
+		}
+		public Out(OutputStream os) throws IOException{
+			this.os=os;
+			init();
+		}
+	}
+	abstract class ioTask{
+		In in;
+		PrintWriter out;
+		public ioTask setIO(File in,File out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		public ioTask setIO(File in,OutputStream out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		public ioTask setIO(InputStream in,OutputStream out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		public ioTask setIO(InputStream in,File out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		void run()throws IOException{}
+	}
+}"
+112,A,Java,61804352,2023-04-07 21:06:32,SDTBU_LH,答案正确,"import java.io.*;
+import java.util.*;
+
+public class Main {
+	public static void main(String[] args) throws IOException {
+		Scanner sc = new Scanner(System.in);
+		String s=sc.next();
+		char c[]=s.toCharArray();
+		for(int i=0;i<s.length();i++) {
+			if(c[i]>='a'&&c[i]<='z') {
+				c[i]=(char)(c[i]-32);
+			}else{
+				c[i]=(char)(c[i]+32);
+			}
+		}
+		String ans=String.copyValueOf(c);
+		System.out.println(ans);
+	}
+}"
+113,A,Java,61804986,2023-04-07 21:15:00,森姐,答案正确,"import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        char[] s = sc.next().toCharArray();
+        for (int i = 0; i < s.length; i++) {
+            if (Character.isLowerCase(s[i])) {
+                s[i] = Character.toUpperCase(s[i]);
+                System.out.print(s[i]);
+            }
+            else {
+                s[i] = Character.toLowerCase(s[i]);
+                System.out.print(s[i]);
+            }
+        }
+    }
+}"
+114,A,Java,61806038,2023-04-07 21:34:58,cyclingle,答案错误,"	import java.io.BufferedReader;
+
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.StreamTokenizer;
+import java.lang.reflect.Array;
+import java.math.BigDecimal;
+import java.util.*;
+import java.util.function.LongFunction;
+import java.util.stream.Collectors;
+
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
+import javax.swing.plaf.synth.SynthTabbedPaneUI;
+
+import java.text.DateFormatSymbols;
+import java.util.*;
+public class Main {
+          
+          public static int gcd(int x,int y)
+          {
+              if(x==0) return y;
+              else return gcd(y%x,x);
+          }
+        //static int a[]=new int[20];
+        static List<Integer> list[]=new LinkedList[100006];
+        static int a[][]=new int[1000][1000];
+        static int sum[][]=new int[1000][1000];
+        static int get(int x1,int y1,int x2,int y2)
+        {
+        	return sum[x2][y2]+sum[x1-1][y1-1]-sum[x2][y1-1]-sum[x1-1][y2];
+        }
+        static boolean check(int x)
+        {
+        	String reString=Integer.toString(x);
+        	for(int i=1;i<reString.length();i++)
+        	{
+        		if(reString.charAt(i)<reString.charAt(i-1))
+        		{
+        			return false;
+        		}
+        	}
+        	return true;
+        }
+        static boolean compare(String g1,String g2)
+        {
+        	if(g1.length()<g2.length()) return false;
+        	else if(g1.length()>g2.length()) return true;
+        	for(int i=0;i<g1.length();i++)
+        	{
+        		int x=g1.charAt(i)-'0';int y=g2.charAt(i)-'0';
+        		if(x<y) return false;
+        		else if(x>y) return true;
+        	}
+        	return true;
+        }
+        static int mod=1000000007;
+     public static void main(String args[])throws IOException{
+            Scanner scanner=new Scanner(System.in);
+               char c[]=new char[100006];
+               c=scanner.next().toCharArray();
+               for(int i=0;i<c.length;i++)
+               {
+            	   if(c[i]<'Z')
+            	   {
+            		   int x=c[i]-'A';
+            		   System.out.print((char)(x+'a'));
+            	   }
+            	   else {
+            		   int x=c[i]-'a';
+            		   System.out.print((char)(x+'A'));
+				}
+               }
+            }
+     
+     
+     
+     public static class node {
+         int x,y;
+        node(int x,int y) {
+            this.x=x;
+            this.y=y;
+            
+        }
+    }
+         
+    }"
+115,A,Java,61806087,2023-04-07 21:36:25,cyclingle,答案正确,"	import java.io.BufferedReader;
+
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.StreamTokenizer;
+import java.lang.reflect.Array;
+import java.math.BigDecimal;
+import java.util.*;
+import java.util.function.LongFunction;
+import java.util.stream.Collectors;
+
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
+import javax.swing.plaf.synth.SynthTabbedPaneUI;
+
+import java.text.DateFormatSymbols;
+import java.util.*;
+public class Main {
+          
+          public static int gcd(int x,int y)
+          {
+              if(x==0) return y;
+              else return gcd(y%x,x);
+          }
+        //static int a[]=new int[20];
+        static List<Integer> list[]=new LinkedList[100006];
+        static int a[][]=new int[1000][1000];
+        static int sum[][]=new int[1000][1000];
+        static int get(int x1,int y1,int x2,int y2)
+        {
+        	return sum[x2][y2]+sum[x1-1][y1-1]-sum[x2][y1-1]-sum[x1-1][y2];
+        }
+        static boolean check(int x)
+        {
+        	String reString=Integer.toString(x);
+        	for(int i=1;i<reString.length();i++)
+        	{
+        		if(reString.charAt(i)<reString.charAt(i-1))
+        		{
+        			return false;
+        		}
+        	}
+        	return true;
+        }
+        static boolean compare(String g1,String g2)
+        {
+        	if(g1.length()<g2.length()) return false;
+        	else if(g1.length()>g2.length()) return true;
+        	for(int i=0;i<g1.length();i++)
+        	{
+        		int x=g1.charAt(i)-'0';int y=g2.charAt(i)-'0';
+        		if(x<y) return false;
+        		else if(x>y) return true;
+        	}
+        	return true;
+        }
+        static int mod=1000000007;
+     public static void main(String args[])throws IOException{
+            Scanner scanner=new Scanner(System.in);
+               char c[]=new char[100006];
+               c=scanner.next().toCharArray();
+               for(int i=0;i<c.length;i++)
+               {
+            	   if(c[i]<='Z')
+            	   {
+            		   int x=c[i]-'A';
+            		   System.out.print((char)(x+'a'));
+            	   }
+            	   else {
+            		   int x=c[i]-'a';
+            		   System.out.print((char)(x+'A'));
+				}
+               }
+            }
+     
+     
+     
+     public static class node {
+         int x,y;
+        node(int x,int y) {
+            this.x=x;
+            this.y=y;
+            
+        }
+    }
+         
+    }"
+116,A,Java,61806220,2023-04-07 21:41:00,30cujim,答案正确,"import java.util.*;
+public class Main{
+	public static void main(String[] args) {
+		Scanner sc=new Scanner(System.in);
+		String s=sc.next();
+		char[] a=s.toCharArray();
+		for(int i=0;i<a.length;i++) {
+			if(a[i]>=65&&a[i]<=90) {
+				a[i]+=32;
+			}
+			else {
+				a[i]-=32;
+			}
+		}
+		s=new String(a);
+		System.out.println(s);
+	}
+}"
+117,A,Java,61806233,2023-04-07 21:41:23,30cujim,答案正确,"import java.util.*;
+public class Main{
+	public static void main(String[] args) {
+		Scanner sc=new Scanner(System.in);
+		String s=sc.next();
+		char[] a=s.toCharArray();
+		for(int i=0;i<a.length;i++) {
+			if(a[i]>=65&&a[i]<=90) {
+				a[i]+=32;
+			}
+			else {
+				a[i]-=32;
+			}
+		}
+		s=new String(a);
+		System.out.println(s);
+	}
+}"
+118,A,Java,61806770,2023-04-07 21:59:07,Devotedz,答案正确,"import java.util.*;
+public class Main{
+    public static void main(String[]args){
+        Scanner sc = new Scanner(System.in);
+        String s = sc.next();
+        char []c = s.toCharArray();
+        for(int i = 0;i<c.length;i++){
+            if(c[i]>='a'&&c[i]<='z'){
+                c[i] = (char)(c[i]-32);
+            }
+            else{
+                c[i] = (char)(c[i]+32);
+            }
+        }
+        for(char cc:c){
+           System.out.print(cc);
+        }
+        
+    }
+}"
+119,A,Java,61807133,2023-04-07 22:12:21,Jiarui.X,答案正确,"import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
+
+public class Main {
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static final int N = 100010, mod = (int)1e9 + 7;
+	public static void Solve() throws IOException {
+		String s = br.readLine();
+		for (int i = 0; i < s.length(); i ++) {
+			if((int)s.charAt(i) >= 97) {
+				System.out.print((char)(s.charAt(i) - 32));
+			}else {
+				System.out.print((char)(s.charAt(i) + 32));
+			}
+		}
+	}
+	public static void main(String[] args) throws IOException {
+		int T = 1;
+		for (; T > 0; T --) Solve();
+	}
+}"
+120,A,Java,61808698,2023-04-07 23:46:37,皓金,答案正确,"import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        String s = in.next();
+        char s1[] = s.toCharArray();
+        for (int i = 0; i < s.length(); i++) {
+            if ((int) s1[i] >= 65 && (int) s1[i] <= 90) {
+                s1[i] += 32;
+            } else if ((int) s1[i] >= 97 && (int) s1[i] <= 122) {
+                s1[i] -= 32;
+            }
+        }
+        for (int i = 0; i <s.length() ; i++) {
+            System.out.print(s1[i]);
+        }
+    }
+}"
+121,A,Java,61811003,2023-04-08 11:19:41,牛客100946935号,答案正确,"import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String result = scanner.nextLine();
+        int n = result.length();
+        char[] chars = result.toCharArray();
+        for (int i = 0; i < n; i++) {
+            if (Character.isLowerCase(chars[i])) {
+                chars[i] = Character.toUpperCase(chars[i]);
+            } else {
+                chars[i] = Character.toLowerCase(chars[i]);
+            }
+        }
+        System.out.println(String.valueOf(chars));
+    }
+}"
+122,A,Java,61811234,2023-04-08 11:53:41,尖齿柠檬鲨,答案正确,"import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String input = scanner.next();
+        char[] chars = input.toCharArray();
+        for (char c : chars) {
+            c = c >= 'a' && c <= 'z' ? (char)(c - 32) : (char)(c + 32);
+            System.out.print(c);
+        }
+        System.out.println();
+    }
+}"
+123,A,Java,61811839,2023-04-08 13:40:54,想养一窝拉雅,答案正确,"import java.util.*;
+
+public class Main{
+    public static void main(String[] args){
+        Scanner ass = new Scanner(System.in);
+        String hole = ass.nextLine();
+        char []fuck = hole.toCharArray();
+        for(char sword : fuck){
+            if(sword>='a' && sword<='z')
+                System.out.printf(""%c"",sword-32);
+            if(sword>='A' && sword<='Z')
+                System.out.printf(""%c"",sword+32);
+        }
+        System.out.printf(""\n"");
+    }
+}"
+124,A,Java,61813845,2023-04-08 16:30:41,白泽oj,答案正确,"import java.util.Scanner;
+
+public class Main {
+	 
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+//输入一个字符串
+Scanner s=new Scanner(System.in);
+String str=s.next();
+
+for(int i=0;i<str.length();i++) {
+	char a=str.charAt(i);
+	if(Character.isLowerCase(a)) {//如果为小写就变为大写
+	a=(char)((int)a-32);//小写就变为大写
+	System.out.print(a);
+	}
+	else {
+		a=(char)((int)a+32);//大写变小写
+		System.out.print(a);
+    }
+    }
+	}
+}
+"
+125,A,Java,61814049,2023-04-08 16:47:42,逍~,答案正确,"import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+
+        Scanner sc=new Scanner(System.in);
+        String str=sc.next();
+        char[] ch=new char[500];
+        str.getChars(0,str.length(),ch,0);
+        for(char i:ch)
+        {
+            if(i<=90)
+                System.out.printf(""%c"",i+32);
+            else
+                System.out.printf(""%c"",i-32);
+        }
+
+        }
+    }
+
+"
+126,A,Java,61818081,2023-04-09 09:06:32,牛客846475265号,答案正确,"import java.util.*;
+public class Main {
+    public static void main(String[] args) {
+        Scanner cin = new Scanner(System.in);
+        char[] carr = cin.next().toCharArray();
+        
+        for (int i = 0; i < carr.length; i++) {
+            char c = carr[i];
+            if ('a' <=  c && c <= 'z'){
+                carr[i] = (char) (carr[i] - 'a' + 'A');
+            } else {
+                carr[i] = (char) (carr[i] - 'A' + 'a');
+            }
+        }
+        String res = String.valueOf(carr);
+        System.out.println(res);
+    }
+}"
+127,A,Java,61832752,2023-04-09 21:44:16,牛客407636968号,答案错误,"import java.util.Scanner;
+ 
+// 注意类名必须为 Main, 不要有任何 package xxx 信息
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        // 注意 hasNext 和 hasNextLine 的区别
+        while (in.hasNextInt()) { // 注意 while 处理多个 case
+            int a = in.nextInt();
+            int b = in.nextInt();
+            System.out.println(a + b);
+        }
+    }
+}"
+128,A,Java,61839134,2023-04-10 20:05:50,ttumetai,答案正确,"import java.util.Scanner;
+
+public class Main{
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String [] lower = {""a"",""b"",""c"",""d"",""e"",""f"",""g"",""h"",""i"",""j"",""k"",""l"",""m"",""n"",""o"",""p"",""q"",""r"",""s"",""t"",""u"",""v"",""w"",""x"",""y"",""z""};
+        String [] upper = {""A"",""B"",""C"",""D"",""E"",""F"",""G"",""H"",""I"",""J"",""K"",""L"",""M"",""N"",""O"",""P"",""Q"",""R"",""S"",""T"",""U"",""V"",""W"",""X"",""Y"",""Z""};
+        String input = sc.next();
+        for (int i = 0 ; i < input.length(); i ++){
+            for (int j = 0 ; j < lower.length ; j ++){
+                if (String.valueOf(input.charAt(i)).equals(String.valueOf(lower[j]))){
+                    System.out.print(upper[j]);
+                    break;
+                } else {
+                    if (String.valueOf(input.charAt(i)).equals(String.valueOf(upper[j]))){
+                        System.out.print(lower[j]);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+}"
+129,A,Java,61841327,2023-04-10 22:23:23,薛定谔lak,答案正确,"import java.util.Scanner;
+
+public class Main{
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String input = scanner.nextLine();
+        char[] arr = input.toCharArray();
+        for(int i = 0;i < arr.length;i++){
+           char str = input.charAt(i);
+           if(str >= 'A'&&str <= 'Z'){
+               str += 32;
+               arr[i] = str;
+           }else{
+               str -= 32;
+               arr[i] = str;
+           }
+        }
+        String ino = new String(arr);
+        System.out.println(ino);
+    }
+}
+"
+130,A,Java,61843841,2023-04-11 12:36:13,lllllllle,答案正确,"
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Period;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.Scanner;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
+
+public class Main {
+	 
+	public static void solve01() throws IOException {
+		BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+		String s=br.readLine();
+		char[] c=s.toCharArray();
+		for(int i=0;i<c.length;i++) {
+			if(c[i]<'a') {
+				c[i]+='a'-'A';
+			}
+			else {
+				c[i]-='a'-'A';
+			}
+		}
+		System.out.println(new String(c));
+	}
+	 
+	public static void main(String[] args) throws IOException {
+		solve01();
+	}
+	
+	
+}
+"
+131,A,Java,61855745,2023-04-12 14:39:28,QUST_王盛霖,答案正确,"import java.util.*;
+public class Main{
+    public static void main(String[] args){
+        Scanner cin = new Scanner(System.in);
+        String s = cin.next();
+        for(int i = 0;i < s.length();i++){
+            char c = s.charAt(i);
+            if(c >= 'a' && c <= 'z'){
+                c -= 'a' - 'A';
+            }
+            else{
+                c += 'a' - 'A';
+            }
+            System.out.print(c);
+        }
+    }
+}"
+132,A,Java,61856415,2023-04-12 15:45:16,Rnine,答案正确,"import java.util.Scanner;
+
+// 注意类名必须为 Main, 不要有任何 package xxx 信息
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        // 注意 hasNext 和 hasNextLine 的区别
+        String sentence = in.nextLine();
+        StringBuilder result = new StringBuilder();
+        for (int i = 0;i < sentence.length();i ++) {
+            char temp = sentence.charAt(i);
+            if (temp <= 'Z') {
+                result.append((char)(temp + 'a' - 'A'));
+            } else {
+                result.append((char)(temp - 'a' + 'A'));
+            }
+        }
+        System.out.print(result);
+    }
+}"

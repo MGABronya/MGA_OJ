@@ -48,6 +48,29 @@
 - CollectNumber 查看收藏用户数量
 - Collects              查看用户收藏夹
 
+### EnterInterface
+
+定义：报名
+
+描述：实现了该接口的模型将拥有报名、取消报名、查看报名状态以及查看报名列表的方法
+
+该接口包含的具体方法：
+
+- Enter						 报名
+- EnterCondition       报名状态
+- CancelEnter             取消报名
+- EnterPage                报名列表
+
+### HackInterface
+
+定义：黑客
+
+描述：实现了该接口的模型将拥有黑客方法
+
+该接口包含的具体方法：
+
+- Hack					 黑客
+
 ### HotInterface
 
 定义：热度
@@ -99,6 +122,43 @@
 - Receive            建立实时接收
 - ReceiveLink     建立连接实时接收
 - RemoveLink    移除某个连接
+
+### PasswdInterface
+
+定义：密码
+
+描述：实现了该接口的模型将拥有创建密码和删除密码的方法。
+
+该接口包含的具体方法：
+
+- CreatePasswd       创建密码
+- DeletePasswd       删除密码
+
+### RecordInterface
+
+定义：代码提交
+
+描述：实现了该接口的模型将拥有提交、查看提交、搜索提交列表、查看某次提交的具体测试、订阅提交列表的方法。
+
+该接口包含的具体功能：
+
+- Submit                    提交操作
+- ShowRecord           查看指定提交
+- SearchList               搜索提交列表
+- CaseList                   某次提交的具体测试通过情况
+- Case                         某个测试的具体情况
+- PublishPageList      订阅提交列表
+
+### RejudgeInterface
+
+定义：重新判断
+
+描述：实现了该接口的模型将拥有进行重判以及对比赛结果进行清空的方法。
+
+该接口包含的具体功能：
+
+- Rejudge								 进行重判
+- CompetitionDataDelete     对比赛结果进行清空
 
 ### RestInterface
 
@@ -153,13 +213,14 @@
 
 - **Problem**（题目）
 
-  - **SpecialJudge**（特殊判断）
-
+  - **Program**（特殊判断、输入检测、标准程序）
   - **Comment**（讨论）
     - **Reply**（讨论的回复）
   - **Post**（题解）
     - **Thread**（题解的回复）
   - **Record**（代码提交）
+    - **Hack**(黑客记录)
+    - **rejudge**（重判）
 
 - **Friend**（好友）
 
@@ -177,15 +238,15 @@
 
 **Competition**（竞赛）
 
-- **Set**（表单）
-  - **Group**（用户组）
-    - **User**（用户）
-  - **Topic**（主题）
-    - **Problem**（题目）
-      - **Record**（代码提交）
-      - **SpecialJudge**（特殊判断）
-
-**Rejudge**（重新判断）
+- **CompetitionSingle**(个人比赛)
+- **CompetitionGroup**（小组比赛）
+- **CompetitionOI**（OI赛制比赛）
+- **CompetitionMatch**（匹配比赛）
+- **CompetitionRandomGroup**（及时随机匹配比赛）
+- **CompetitionRandomSingle**（及时随机个人比赛）
+- **Rejudge**（重新判断）
+- **Notice**(通告)
+- **Passwd**(密码)
 
 ### 本地测试服务
 
@@ -815,7 +876,7 @@
 
     **方法类型：POST**
 
-    请求参数：表单的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含 start_time 、 end_time、type，其中type仅可为"Single"或者"Group"，表示为单人赛或者组队赛。
+    请求参数：表单的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含 start_time 、 end_time、type、title、content、res_long（可选）、res_short（可选）、hack_time、hack_score（可选）、hack_num（可选）、group_id（可选）、less_num（可选）、up_num（可选），其中type仅可为"Single"，"Group"，"Match","OI"，表示为单人赛、组队赛、匹配赛和OI赛制，hack_time表示黑客时间，其应该在end_time之后，如果该比赛不需要黑客机制，你可以将hack时间设置在end_time之前。hack_score表示黑客成功后的奖励分数，hack_num表示最多可以获得分数的黑客次数，group_id表示比赛管理组的id，less_num表示为组队比赛时的小组人数上限，up_num表示小组人数下限。
 
     返回值：成功时返回创建成功相关信息和比赛信息competition，否则给出失败原因
 
@@ -835,7 +896,7 @@
 
     **方法类型：PUT**
 
-    请求参数：竞赛的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含 start_time 、 end_time、type，其中type仅可为"Single"或者"Group"，表示为单人赛或者组队赛。
+    请求参数：在Body，raw格式给出json类型数据包含 start_time 、 end_time、title、content、res_long（可选）、res_short（可选）、hack_time、hack_score（可选）、hack_num（可选）、group_id（可选）、less_num（可选）、up_num（可选），其中hack_time表示黑客时间，其应该在end_time之后，如果该比赛不需要黑客机制，你可以将hack时间设置在end_time之前。hack_score表示黑客成功后的奖励分数，hack_num表示最多可以获得分数的黑客次数，group_id表示比赛管理组的id，less_num表示为组队比赛时的小组人数上限，up_num表示小组人数下限。
 
     返回值：成功更新竞赛时，返回成功相关信息和比赛信息competition，否则给出失败原因
 
@@ -858,6 +919,114 @@
     请求参数：在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少篇文章，默认值为20）。
 
     返回值：成功时，以json格式返回一个数组competitions和total，competitions返回了相应列表的竞赛信息（按照创建时间排序，越晚创建排序越前），total表示竞赛总量，如果失败则返回失败原因。
+
+- **PasswdInterface**
+
+  - **接口地址：/passwd/create/:id**
+
+    **功能：创建比赛密码**
+
+    **方法类型：POST**
+
+    请求参数： Authorization中的Bearer Token中提供注册、登录时给出的token。  在接口地址中给出指定比赛的id（即:id部分） 。 在接口地址中给出指定标签内容（即:label部分） 。在Body，raw格式给出json类型数据包含 passwd表示密码。
+
+    返回值：返回创建成功消息
+
+  - **接口地址：/passwd/delete/:id**
+
+    **功能：创建比赛密码**
+
+    **方法类型：POST**
+
+    请求参数： Authorization中的Bearer Token中提供注册、登录时给出的token。  在接口地址中给出指定比赛的id（即:id部分） 。
+
+    返回值：返回删除成功消息
+
+- **LabelInterface**
+
+  - **接口地址：/label/:id/:label**
+
+    **功能：创建比赛标签**
+
+    **方法类型：POST**
+
+    请求参数： Authorization中的Bearer Token中提供注册、登录时给出的token。  在接口地址中给出指定比赛的id（即:id部分） 。 在接口地址中给出指定标签内容（即:label部分） 。
+
+    返回值：返回创建成功消息
+
+  - **接口地址：/label/:id/:label**
+
+    **功能：删除比赛标签**
+
+    **方法类型：DELETE**
+
+    请求参数： Authorization中的Bearer Token中提供注册、登录时给出的token。  在接口地址中给出指定比赛的id（即:id部分） 。 在接口地址中给出指定标签内容（即:label部分） 。
+
+    返回值：返回删除成功消息
+
+  - **接口地址：/label/:id**
+
+    **功能：查看本身标签**
+
+    **方法类型：GET**
+
+    请求参数：  在接口地址中给出指定比赛的id（即:id部分）  。
+
+    返回值：返回competitionLabels,其为competitionLabel数组，每个元素包含了一个 label字符串表示标签，created_at表示创建时间，competition_id表示用户组的uid。
+
+- **SearchInterface**
+
+  - **接口地址：/search/:text**
+
+    **功能：按文本搜索用比赛**
+
+    **方法类型：GET**
+
+    请求参数： 在接口地址中给出需要搜索的字符串（即:text部分） 。在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少个比赛，默认值为20）。
+
+    返回值：返回competitions和total，total表示搜索到的比赛总量。competitions为competition的数组
+
+  - **接口地址：/search/label**
+
+    **功能：按标签搜索比赛**
+
+    **方法类型：GET**
+
+    请求参数： 在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少个比赛，默认值为20）。在Body，raw格式给出json类型数据包含一个labels，其为字符串数组表示要搜索的标签。
+
+    返回值：返回competitions和total，total表示搜索到的比赛总量。competitions为competition的数组
+
+  - **接口地址：/search/with/label/:text**
+
+    **功能：按文本和标签交集搜索比赛**
+
+    **方法类型：GET**
+
+    请求参数： 在接口地址中给出需要搜索的字符串（即:text部分） 。在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少比赛，默认值为20）。在Body，raw格式给出json类型数据包含一个labels，其为字符串数组表示要搜索的标签。
+
+    返回值：返回competitions和total，total表示搜索到的比赛总量。competitions为competition的数组
+
+- **RejudgeInterface**
+
+  - **接口地址：/rejudge/:id**（需要四级权限）
+
+    **功能：对指定的提交进行重新判断**
+
+    **方法类型：PUT**
+
+    请求参数：竞赛的uuid（在接口地址的id处）。 Authorization中的Bearer Token中提供注册、登录时给出的token。 在Params处提供problem_id（表示针对哪道题的提交，默认为空），user_id（表示针对某一用户的提交，默认为空），start_time（表示从何时开始的提交，默认为空），end_time（表示从何时为止的提交，默认为空），language（表示使用什么语言的提交，默认为空），condition（表示什么语言的提交，默认为空），time（表示延时多久以后进行重判，默认为空）。
+
+    返回值：失败则返回失败原因。
+
+  - **接口地址：/data/delete/:id**（需要四级权限）
+
+    **功能：对指定比赛的结果进行清除并回滚分数**
+
+    **方法类型：DELETE**
+
+    请求参数：竞赛的id（在接口地址的competition处）。 Authorization中的Bearer Token中提供注册、登录时给出的token,在Params处提供member_id（表示针对某参赛用户或小组的所有提交，默认为空，可使用该接口扳人）
+
+    返回值：成功时，返回清除完成信息。
 
 - **其它**
 
@@ -887,9 +1056,9 @@
 
     **方法类型：GET**
 
-    请求参数：竞赛的uuid（在接口地址的id处）。
+    请求参数：竞赛的uuid（在接口地址的id处）。在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少参赛用户或小组，默认值为20）。
 
-    返回值：成功时，以json格式返回一个members，其为competitionRank数组，每个元素包含了created_at、updated_at、member_id、competition_id、penalties、 accept_num ，其中penalties为具体罚时， accept_num 为通过题目数量。
+    返回值：成功时，以json格式返回一个members，其为competitionRank数组，每个元素包含了created_at、updated_at、member_id、competition_id、penalties、 score，其中penalties为具体罚时， score为比赛得分。
 
   - **接口地址：/rolling/list/:id**
 
@@ -901,25 +1070,563 @@
 
     返回值：成功时，将持续实时返回指定比赛的rankList，每个rankList包含一个member_id表示排名发生变化的成员id，如果失败则返回失败原因。
 
-  - **接口地址：/match/:id**
+### 模型：CompetitionSingle
 
-    **功能：进行随机匹配**
+定义：个人比赛
+
+**基础路由：/competition/single**
+
+实现的接口类型：
+
+- **RecordInterface**
+
+  - **接口地址：/submit/:id**
+
+    **功能：创建提交**
+
+    **方法类型：POST**
+
+    请求参数： 竞赛的uuid（在接口地址的id处）。 Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含language、code、problem_id ,其中language表示语言，code表示提交的代码，problem_id表示题目id。这里的language支持如下："C"、"C#"、"C++"、"C++11"、"Erlang"、"Go"、"Java"、"JavaScript"、"Kotlin"、"Pascal"、"PHP"、"Python"、"Racket"、"Ruby"、"Rust"、"Scala"、 "Swift"
+
+    返回值：成功时，返回成功消息，如果失败则返回失败原因。
+
+  - **接口地址：/show/record/:id**
+
+    **功能：查看id指定提交状态**
+
+    **方法类型：GET**
+
+    请求参数：  Authorization中的Bearer Token中提供注册、登录时给出的token。 在接口地址中给出指定提交的id（即:id部分）  。
+
+    返回值：成功时，以json格式返回一个record，record包含language、code、problem_id、 created_at 、updated_at、 user_id 、condition、pass、hack_id、competition_id，其中condition表示提交状态，提交状态包含Waiting（等待）、Input Doesn't Exist（输入在数据库中不存在）、Output Doesn't Exist（输入在数据库中不存在）、System Error 1（服务器问题：创建文件失败）、System Error 2（服务器问题：编译指令执行失败）、Compile timeout（编译超时）、Compile Error（编译错误）、System Error 3（服务器问题：消息管道创建失败）、System Error 4（服务器问题：运行指令执行失败）、Time Limit Exceeded（超出时间限制）、Runtime Error（运行时错误）、Memory Limit Exceeded（超出空间限制）、Wrong Answer（错误答案）、System error 5（服务器问题：数据库插入数据失败）、Accepted（提交通过）、Language Error（语言错误）,pass表示用例通过数量，hack_id表示该提交被hack的id,competition_id表示比赛id。如果失败则返回失败原因.
+
+  - **接口地址：/search/list/:id**
+
+    **功能：查看某类特定提交列表**
+
+    **方法类型：GET**
+
+    请求参数：    Authorization中的Bearer Token中提供注册、登录时给出的token。 在接口地址中给出指定比赛的id（即:id部分）  。在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少篇提交，默认值为20），language表示使用的语言（默认为空），user_id表示提交用户的id（默认为空），problem_id表示题目的id（默认为空），start_time表示在这之后的提交（默认为空），end_time表示在这之前的提交（默认为空），condition表示提交状态（默认为空），pass_low表示提交最少通过多少测试（默认为空），pass_top表示提交至多通过多少测试（默认为空），hack表示提交是否被黑客（默认为空，不为空时表示被黑客）。
+
+    返回值：成功时，以json格式返回符合条件的records和total，如果失败则返回失败原因。
+
+  - **接口地址：/case/list/:id**
+
+    **功能：查看提交的测试通过情况**
+
+    **方法类型：GET**
+
+    请求参数：在接口地址中给出指定提交的id（即:id部分）  。
+
+    返回值：成功时，以json格式返回一个cases，cases为case数组，每个case含有record_id表示为哪一个提交的测试通过情况，id表示为第几个测试，time表示测试使用时间，memory表示测试使用空间，如果失败则返回失败原因。
+
+  - **接口地址：/case/:id**
+
+    **功能：查看某个测试的情况**
+
+    **方法类型：GET**
+
+    请求参数：在接口地址中给出指定提交的id（即:id部分）  
+
+    返回值：成功时，以json格式返回一个case
+
+  - **接口地址：/publish/list/:id**
+
+    **功能：订阅提交列表**
+
+    **方法类型：GET**
+
+    请求参数： 在接口地址中给出指定比赛的id（即:id部分）  。注意，该请求为websocket长连接。
+
+    返回值：成功时，将持续实时返回recordList，每个recordList包含record_id表示发生变化的record的id，如果失败则返回失败原因。
+
+- **HackInterface**
+
+  - **接口地址：/hack/:id**
+
+    **功能：黑客指定提交**
+
+    **方法类型：POST**
+
+    请求参数： 在接口地址中给出指定提交的id（即:id部分）  。Authorization中的Bearer Token中提供注册、登录时给出的token。 在Body，raw格式给出json类型数据包含input表示输入。
+
+    返回值：成功时，返回成功信息，否则返回失败原因。
+
+- **EnterInterface**
+
+  - **接口地址：/enter/:id**
+
+    **功能：报名比赛**
+
+    **方法类型：POST**
+
+    请求参数：竞赛的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token
+
+    返回值：成功时，返回报名成功消息。
+
+  - **接口地址：/enter/condition/:id**
+
+    **功能：查看报名状态**
+
+    **方法类型：GET**
+
+    请求参数：竞赛的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token
+
+    返回值：成功时，返回一个enter，其为bool值，true表示已经报名，false表示没有报名。
+
+  - **接口地址：/cancel/enter/:id**
+
+    **功能：取消报名**
+
+    **方法类型：DELETE**
+
+    请求参数：竞赛的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token
+
+    返回值：成功时，返回取消报名成功消息，否则返回失败原因。
+
+  - **接口地址：/enter/list/:id**
+
+    **功能：查看报名列表**
+
+    **方法类型：GET**
+
+    请求参数：竞赛的uuid（在接口地址的id处）。
+
+    返回值：成功时，返回competitionRanks，其为competitionRank数组，其中的member_id表示报名用户的id。
+
+- **其它**
+
+  - **接口地址：/score/:id**
+
+    **功能：计算比赛分数**
 
     **方法类型：POST**
 
     请求参数：竞赛的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token。
 
-    返回值：成功时，返回进入匹配组成功消息。
+    返回值：成功时，返回计算完成信息。
 
-  - **接口地址：/unmatch/:id**
+### 模型：CompetitionGroup
 
-    **功能：取消随机匹配**
+定义：小组比赛
+
+**基础路由：/competition/group**
+
+实现的接口类型：
+
+- **RecordInterface**
+
+  - **接口地址：/submit/:id**
+
+    **功能：创建提交**
+
+    **方法类型：POST**
+
+    请求参数： 竞赛的uuid（在接口地址的id处）。 Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含language、code、problem_id ,其中language表示语言，code表示提交的代码，problem_id表示题目id。这里的language支持如下："C"、"C#"、"C++"、"C++11"、"Erlang"、"Go"、"Java"、"JavaScript"、"Kotlin"、"Pascal"、"PHP"、"Python"、"Racket"、"Ruby"、"Rust"、"Scala"、 "Swift"
+
+    返回值：成功时，返回成功消息，如果失败则返回失败原因。
+
+  - **接口地址：/show/record/:id**
+
+    **功能：查看id指定提交状态**
+
+    **方法类型：GET**
+
+    请求参数：  Authorization中的Bearer Token中提供注册、登录时给出的token。 在接口地址中给出指定提交的id（即:id部分）  。
+
+    返回值：成功时，以json格式返回一个record，record包含language、code、problem_id、 created_at 、updated_at、 user_id 、condition、pass、hack_id、competition_id，其中condition表示提交状态，提交状态包含Waiting（等待）、Input Doesn't Exist（输入在数据库中不存在）、Output Doesn't Exist（输入在数据库中不存在）、System Error 1（服务器问题：创建文件失败）、System Error 2（服务器问题：编译指令执行失败）、Compile timeout（编译超时）、Compile Error（编译错误）、System Error 3（服务器问题：消息管道创建失败）、System Error 4（服务器问题：运行指令执行失败）、Time Limit Exceeded（超出时间限制）、Runtime Error（运行时错误）、Memory Limit Exceeded（超出空间限制）、Wrong Answer（错误答案）、System error 5（服务器问题：数据库插入数据失败）、Accepted（提交通过）、Language Error（语言错误）,pass表示用例通过数量，hack_id表示该提交被hack的id,competition_id表示比赛id。如果失败则返回失败原因.
+
+  - **接口地址：/search/list/:id**
+
+    **功能：查看某类特定提交列表**
+
+    **方法类型：GET**
+
+    请求参数：    Authorization中的Bearer Token中提供注册、登录时给出的token。 在接口地址中给出指定比赛的id（即:id部分）  。在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少篇提交，默认值为20），language表示使用的语言（默认为空），user_id表示提交用户的id（默认为空），problem_id表示题目的id（默认为空），start_time表示在这之后的提交（默认为空），end_time表示在这之前的提交（默认为空），condition表示提交状态（默认为空），pass_low表示提交最少通过多少测试（默认为空），pass_top表示提交至多通过多少测试（默认为空），hack表示提交是否被黑客（默认为空，不为空时表示被黑客）。
+
+    返回值：成功时，以json格式返回符合条件的records和total，如果失败则返回失败原因。
+
+  - **接口地址：/case/list/:id**
+
+    **功能：查看提交的测试通过情况**
+
+    **方法类型：GET**
+
+    请求参数：在接口地址中给出指定提交的id（即:id部分）  。
+
+    返回值：成功时，以json格式返回一个cases，cases为case数组，每个case含有record_id表示为哪一个提交的测试通过情况，id表示为第几个测试，time表示测试使用时间，memory表示测试使用空间，如果失败则返回失败原因。
+
+  - **接口地址：/case/:id**
+
+    **功能：查看某个测试的情况**
+
+    **方法类型：GET**
+
+    请求参数：在接口地址中给出指定提交的id（即:id部分）  
+
+    返回值：成功时，以json格式返回一个case
+
+  - **接口地址：/publish/list/:id**
+
+    **功能：订阅提交列表**
+
+    **方法类型：GET**
+
+    请求参数： 在接口地址中给出指定比赛的id（即:id部分）  。注意，该请求为websocket长连接。
+
+    返回值：成功时，将持续实时返回recordList，每个recordList包含record_id表示发生变化的record的id，如果失败则返回失败原因。
+
+- **HackInterface**
+
+  - **接口地址：/hack/:id**
+
+    **功能：黑客指定提交**
+
+    **方法类型：POST**
+
+    请求参数： 在接口地址中给出指定提交的id（即:id部分）  。Authorization中的Bearer Token中提供注册、登录时给出的token。 在Body，raw格式给出json类型数据包含input表示输入。
+
+    返回值：成功时，返回成功信息，否则返回失败原因。
+
+- **EnterInterface**
+
+  - **接口地址：/enter/:competition_id/:group_id**
+
+    **功能：报名比赛**
+
+    **方法类型：POST**
+
+    请求参数：竞赛的uuid（在接口地址的competition_id处）, 小组的uuid（在接口地址的group_id处）。Authorization中的Bearer Token中提供注册、登录时给出的token
+
+    返回值：成功时，返回报名成功消息。
+
+  - **接口地址：/enter/condition/:id**
+
+    **功能：查看报名状态**
+
+    **方法类型：GET**
+
+    请求参数：竞赛的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token
+
+    返回值：成功时，返回一个enter，其为bool值，true表示已经报名，false表示没有报名。
+
+  - **接口地址：/cancel/enter/:competition_id/:group_id**
+
+    **功能：取消报名**
 
     **方法类型：DELETE**
 
+    请求参数：竞赛的uuid（在接口地址的competition_id处）, 小组的uuid（在接口地址的group_id处）。Authorization中的Bearer Token中提供注册、登录时给出的token
+
+    返回值：成功时，返回取消报名成功消息，否则返回失败原因。
+
+  - **接口地址：/enter/list/:id**
+
+    **功能：查看报名列表**
+
+    **方法类型：GET**
+
+    请求参数：竞赛的uuid（在接口地址的id处）。
+
+    返回值：成功时，返回competitionRanks，其为competitionRank数组，其中的member_id表示报名小组的id。
+
+- **其它**
+
+  - **接口地址：/score/:id**
+
+    **功能：计算比赛分数**
+
+    **方法类型：POST**
+
     请求参数：竞赛的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token。
 
-    返回值：成功时，返回退出匹配组成功消息。
+    返回值：成功时，返回计算完成信息。
+
+### 模型：CompetitionOI
+
+定义：OI比赛
+
+**基础路由：/competition/OI**
+
+实现的接口类型：
+
+- **RecordInterface**
+
+  - **接口地址：/submit/:id**
+
+    **功能：创建提交**
+
+    **方法类型：POST**
+
+    请求参数： 竞赛的uuid（在接口地址的id处）。 Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含language、code、problem_id ,其中language表示语言，code表示提交的代码，problem_id表示题目id。这里的language支持如下："C"、"C#"、"C++"、"C++11"、"Erlang"、"Go"、"Java"、"JavaScript"、"Kotlin"、"Pascal"、"PHP"、"Python"、"Racket"、"Ruby"、"Rust"、"Scala"、 "Swift"
+
+    返回值：成功时，返回成功消息，如果失败则返回失败原因。
+
+  - **接口地址：/show/record/:id**
+
+    **功能：查看id指定提交状态**
+
+    **方法类型：GET**
+
+    请求参数：  Authorization中的Bearer Token中提供注册、登录时给出的token。 在接口地址中给出指定提交的id（即:id部分）  。
+
+    返回值：成功时，以json格式返回一个record，record包含language、code、problem_id、 created_at 、updated_at、 user_id 、condition、pass、hack_id、competition_id，其中condition表示提交状态，提交状态包含Waiting（等待）、Input Doesn't Exist（输入在数据库中不存在）、Output Doesn't Exist（输入在数据库中不存在）、System Error 1（服务器问题：创建文件失败）、System Error 2（服务器问题：编译指令执行失败）、Compile timeout（编译超时）、Compile Error（编译错误）、System Error 3（服务器问题：消息管道创建失败）、System Error 4（服务器问题：运行指令执行失败）、Time Limit Exceeded（超出时间限制）、Runtime Error（运行时错误）、Memory Limit Exceeded（超出空间限制）、Wrong Answer（错误答案）、System error 5（服务器问题：数据库插入数据失败）、Accepted（提交通过）、Language Error（语言错误）,pass表示用例通过数量，hack_id表示该提交被hack的id,competition_id表示比赛id。如果失败则返回失败原因.
+
+  - **接口地址：/search/list/:id**
+
+    **功能：查看某类特定提交列表**
+
+    **方法类型：GET**
+
+    请求参数：    Authorization中的Bearer Token中提供注册、登录时给出的token。 在接口地址中给出指定比赛的id（即:id部分）  。在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少篇提交，默认值为20），language表示使用的语言（默认为空），user_id表示提交用户的id（默认为空），problem_id表示题目的id（默认为空），start_time表示在这之后的提交（默认为空），end_time表示在这之前的提交（默认为空），condition表示提交状态（默认为空），pass_low表示提交最少通过多少测试（默认为空），pass_top表示提交至多通过多少测试（默认为空），hack表示提交是否被黑客（默认为空，不为空时表示被黑客）。
+
+    返回值：成功时，以json格式返回符合条件的records和total，如果失败则返回失败原因。
+
+  - **接口地址：/case/list/:id**
+
+    **功能：查看提交的测试通过情况**
+
+    **方法类型：GET**
+
+    请求参数：在接口地址中给出指定提交的id（即:id部分）  。
+
+    返回值：成功时，以json格式返回一个cases，cases为case数组，每个case含有record_id表示为哪一个提交的测试通过情况，id表示为第几个测试，time表示测试使用时间，memory表示测试使用空间，如果失败则返回失败原因。
+
+  - **接口地址：/case/:id**
+
+    **功能：查看某个测试的情况**
+
+    **方法类型：GET**
+
+    请求参数：在接口地址中给出指定提交的id（即:id部分）  
+
+    返回值：成功时，以json格式返回一个case
+
+  - **接口地址：/publish/list/:id**
+
+    **功能：订阅提交列表**
+
+    **方法类型：GET**
+
+    请求参数： 在接口地址中给出指定比赛的id（即:id部分）  。注意，该请求为websocket长连接。
+
+    返回值：成功时，将持续实时返回recordList，每个recordList包含record_id表示发生变化的record的id，如果失败则返回失败原因。
+
+- **EnterInterface**
+
+  - **接口地址：/enter/:id**
+
+    **功能：报名比赛**
+
+    **方法类型：POST**
+
+    请求参数：竞赛的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token
+
+    返回值：成功时，返回报名成功消息。
+
+  - **接口地址：/enter/condition/:id**
+
+    **功能：查看报名状态**
+
+    **方法类型：GET**
+
+    请求参数：竞赛的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token
+
+    返回值：成功时，返回一个enter，其为bool值，true表示已经报名，false表示没有报名。
+
+  - **接口地址：/cancel/enter/:id**
+
+    **功能：取消报名**
+
+    **方法类型：DELETE**
+
+    请求参数：竞赛的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token
+
+    返回值：成功时，返回取消报名成功消息，否则返回失败原因。
+
+  - **接口地址：/enter/list/:id**
+
+    **功能：查看报名列表**
+
+    **方法类型：GET**
+
+    请求参数：竞赛的uuid（在接口地址的id处）。
+
+    返回值：成功时，返回competitionRanks，其为competitionRank数组，其中的member_id表示报名用户的id。
+
+### 模型：CompetitionMatch
+
+定义：匹配比赛
+
+**基础路由：/competition/match**
+
+实现的接口类型：
+
+- **EnterInterface**
+
+  - **接口地址：/enter/:id**
+
+    **功能：报名比赛**
+
+    **方法类型：POST**
+
+    请求参数：竞赛的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token
+
+    返回值：成功时，返回报名成功消息。
+
+  - **接口地址：/enter/condition/:id**
+
+    **功能：查看报名状态**
+
+    **方法类型：GET**
+
+    请求参数：竞赛的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token
+
+    返回值：成功时，返回一个enter，其为bool值，true表示已经报名，false表示没有报名。
+
+  - **接口地址：/cancel/enter/:id**
+
+    **功能：取消报名**
+
+    **方法类型：DELETE**
+
+    请求参数：竞赛的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token
+
+    返回值：成功时，返回取消报名成功消息，否则返回失败原因。
+
+  - **接口地址：/enter/list/:id**
+
+    **功能：查看报名列表**
+
+    **方法类型：GET**
+
+    请求参数：竞赛的uuid（在接口地址的id处）。
+
+    返回值：成功时，返回competitionRanks，其为competitionRank数组，其中的member_id表示报名用户的id。
+
+### 模型：CompetitionRandomSingle
+
+定义：及时单人比赛
+
+**基础路由：/competition/random/single**
+
+实现的接口类型：
+
+- **EnterInterface**
+
+  - **接口地址：/enter**
+
+    **功能：报名比赛**
+
+    **方法类型：POST**
+
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token
+
+    返回值：成功时，返回报名成功消息。
+
+  - **接口地址：/enter/condition**
+
+    **功能：查看报名状态**
+
+    **方法类型：GET**
+
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token
+
+    返回值：成功时，返回一个enter，其为bool值，true表示已经报名，false表示没有报名。
+
+  - **接口地址：/cancel/enter**
+
+    **功能：取消报名**
+
+    **方法类型：DELETE**
+
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token
+
+    返回值：成功时，返回取消报名成功消息，否则返回失败原因。
+
+  - **接口地址：/enter/list**
+
+    **功能：查看报名列表**
+
+    **方法类型：GET**
+
+    请求参数：
+
+    返回值：成功时，返回competitionRanks，其为competitionRank数组，其中的member表示报名用户的id，score表示用户报名的时间。
+
+- 其它
+
+  - **接口地址：/enter/publish**
+
+    **功能：实时查看报名情况**
+
+    **方法类型：GET**
+
+    请求参数：注意，该请求为websocket长连接。
+
+    返回值：成功时，将持续实时返回enter，每个enter包含member和score，member表示发生变化的用户的id，score为其报名的时间，score为0时表示用户退出，score为-1时表示比赛开始。
+
+### 模型：CompetitionRandomGroup
+
+定义：及时小组比赛
+
+**基础路由：/competition/random/group**
+
+实现的接口类型：
+
+- **EnterInterface**
+
+  - **接口地址：/enter**
+
+    **功能：报名比赛**
+
+    **方法类型：POST**
+
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token
+
+    返回值：成功时，返回报名成功消息。
+
+  - **接口地址：/enter/condition**
+
+    **功能：查看报名状态**
+
+    **方法类型：GET**
+
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token
+
+    返回值：成功时，返回一个enter，其为bool值，true表示已经报名，false表示没有报名。
+
+  - **接口地址：/cancel/enter**
+
+    **功能：取消报名**
+
+    **方法类型：DELETE**
+
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token
+
+    返回值：成功时，返回取消报名成功消息，否则返回失败原因。
+
+  - **接口地址：/enter/list**
+
+    **功能：查看报名列表**
+
+    **方法类型：GET**
+
+    请求参数：
+
+    返回值：成功时，返回competitionRanks，其为competitionRank数组，其中的member表示报名用户的id，score表示用户报名的时间。
+
+- 其它
+
+  - **接口地址：/enter/publish**
+
+    **功能：实时查看报名情况**
+
+    **方法类型：GET**
+
+    请求参数：注意，该请求为websocket长连接。
+
+    返回值：成功时，将持续实时返回enter，每个enter包含member和score，member表示发生变化的用户的id，score为其报名的时间，score为0时表示用户退出，score为-1时表示比赛开始。
 
 ### 模型：Friend
 
@@ -1051,7 +1758,7 @@
 
     请求参数：用户组的uuid（在接口地址的id处）。
 
-    返回值：成功找到用户组时，将会以json格式给出用户组group，group中包含title、content、res_long(可选)、res_short（可选）、auto、leader_id，其中leader_id表示用户组创建人的uuid。如果失败则返回失败原因。
+    返回值：成功找到用户组时，将会以json格式给出用户组group，group中包含title、content、res_long(可选)、res_short（可选）、auto、leader_id、 competition_at ，其中leader_id表示用户组创建人的uuid， competition_at 表示小组参加比赛的结束时间，在结束前小组无法参加其他比赛，无法更新组员。如果失败则返回失败原因。
 
   - **接口地址：/update/:id**
 
@@ -1409,6 +2116,36 @@
 
     返回值：成功时，以json格式返回一个数组groups和total，groups返回了相应列表的用户组信息（按照创建时间排序，越新创建排序越前），total表示用户组总量，如果失败则返回失败原因。
 
+### 模型：Hack
+
+定义：黑客
+
+**基础路由：/hack**
+
+实现的接口类型：
+
+- **其它**
+
+  - **接口地址：/show/:id**
+
+    **功能：查看黑客**
+
+    **方法类型：GET**
+
+    请求参数：在接口地址中给出黑客的id（即:id部分） 。
+
+    返回值：成功时返回hack，包含record_id、user_id、input、type、create_at，其中record_id表示提交记录的id，user_id表示hack的创建者，type表示该提交的类型，包含Normal、Single、Group、Match、OI分别表示隶属于题库、个人比赛、小组比赛、匹配比赛、OI比赛的提交。否则给出失败原因。
+
+  - **接口地址：/shownum/:member_id/:competition_id**
+
+    **功能：查看比赛中某用户或小组的黑客数量与分数**
+
+    **方法类型：GET**
+
+    请求参数：在接口地址中给出用户或小组的id（即:member_id部分） 。在接口地址中给出比赛的id（即:competition_id部分） 。
+
+    返回值：成功时返回hackNum,其包含competition_id、member_id、num、score，分别表示比赛id，用户或者小组的id，hack数量，通过hack获得的分数，否则给出失败原因
+
 ### 模型：Letter
 
 定义：私信
@@ -1477,7 +2214,7 @@
 
     请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。注意，该请求为websocket长连接。
 
-    返回值：成功时，将持续实时返回包含该用户所有接收到的etter，每个letter包含created_at表示创建时间，user_id表示接收消息的用户id，author_id表示作者id，content、res_long(可选)、res_short（可选）表示内容，如果失败则返回失败原因。
+    返回值：成功时，将持续实时返回包含该用户所有接收到的letter，每个letter包含created_at表示创建时间，user_id表示接收消息的用户id，author_id表示作者id，content、res_long(可选)、res_short（可选）表示内容，如果失败则返回失败原因。
 
 - **BlockInterface**
 
@@ -1562,6 +2299,56 @@
     请求参数：指定用户的uuid（在接口地址的id处）。在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少篇文章，默认值为20）。
 
     返回值：成功时，以json格式返回一个数组messages和total，messages返回了相应列表的留言信息（按照创建时间排序，越新创建排序越前），total表示留言总量，如果失败则返回失败原因。
+
+### 模型：Notice
+
+定义：公告
+
+**基础路由：/notice**
+
+实现的接口类型：
+
+- **其它**
+
+  - **接口地址：/create/:id**
+
+    **功能：公告发布**
+
+    **方法类型：POST**
+
+    请求参数：指定比赛的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含title、content、res_long(可选)、res_short（可选）、其中title表示公告标题，content表示公告内容，res_long表示长文本备用键值，res_short表示短文本备用键值。
+
+    返回值：成功时返回创建成功相关信息，否则给出失败原因
+
+  - **接口地址：/publish/:id**
+
+    **功能：订阅公告**
+
+    **方法类型：GET**
+
+    请求参数：指定比赛的uuid（在接口地址的id处）。注意，该请求为websocket长连接。
+
+    返回值：成功时，将持续实时返回包含该用户所有接收到的notice，每个notice包含created_at表示创建时间，user_id表示创建公告的用户id，title，content、res_long(可选)、res_short（可选）表示内容，如果失败则返回失败原因。
+
+  - **接口地址：/show/:id**
+
+    **功能：查看公告**
+
+    **方法类型：GET**
+
+    请求参数：指定公告的uuid（在接口地址的id处）。
+
+    返回值：成功时返回创建成功相关信息和公告信息notice，否则给出失败原因
+
+  - **接口地址：/list/:id**
+
+    **功能：查看公告列表**
+
+    **方法类型：GET**
+
+    请求参数：指定比赛的uuid（在接口地址的id处）。在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少篇文章，默认值为20）。
+
+    返回值：成功时返回创建成功相关信息和notices，notices为notice数组，否则给出失败原因
 
 ### 模型：Post
 
@@ -1893,7 +2680,7 @@
 
     **方法类型：POST**
 
-    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含title、 description 、res_long(可选)、res_short（可选）、 time_limit 、 time_unit 、 memory_limit 、 memory_unit 、 input 、 output 、 sample_input 、 sample_output 、 test_input 、 test_output 、hint、 competition_id 、 source 、 special_judge ,其中title表示题目标题，description表示题目描述，res_long表示长文本备用键值，res_short表示短文本备用键值，time_limit 为uint类型，表示时间限制，time_uint表示时间单位，可为"s"或"ms"，memory_limit为uint类型，表示空间限制， memory_uint表示空间单位，可为"mb"或"kb"或"gb"，input表示输入格式，output表示输出格式、sample_input 表示输入示例、sample_output 表示输出示例，test_input 为string数组，表示测试时的每组输入，test_output 为输出数组，表示测试时的每组输出，hint表示提示，competition_id表示比赛的uid，不为空时表示为某个比赛的题目，source 表示来源，special_judge 表示特判的uid，如果不为空则表示该题为特判题目。
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含title、 description 、res_long(可选)、res_short（可选）、 time_limit 、 time_unit 、 memory_limit 、 memory_unit 、 input 、 output 、 sample_input 、 sample_output 、 test_input 、 test_output 、hint、 source 、 special_judge 、standard、input_check,其中title表示题目标题，description表示题目描述，res_long表示长文本备用键值，res_short表示短文本备用键值，time_limit 为uint类型，表示时间限制，time_uint表示时间单位，可为"s"或"ms"，memory_limit为uint类型，表示空间限制， memory_uint表示空间单位，可为"mb"或"kb"或"gb"，input表示输入格式，output表示输出格式、sample_input 表示输入示例、sample_output 表示输出示例，test_input 为string数组，表示测试时的每组输入，test_output 为输出数组，表示测试时的每组输出，hint表示提示，source 表示来源，special_judge 表示特判程序的uid，如果不为空则表示该题为特判题目。standard表示标准程序的uid、input_check表示输入检测程序的uid，如果均不为空表示此题可以黑客。
 
     返回值：成功时返回创建成功相关信息和题目信息problem，否则给出失败原因
 
@@ -1905,7 +2692,7 @@
 
     请求参数：题目的uuid（在接口地址的id处）。
 
-    返回值：成功找到题目时，将会以json格式给出题目problem，problem中包含id,user_id,create_at,updated_at,title、 description 、res_long(可选)、res_short（可选）、 time_limit 、 time_unit 、 memory_limit 、 memory_unit 、 input 、 output 、 sample_input 、 sample_output 、 test_input 、 test_output 、hint、 competition_id 、 source 、 special_judge 。如果失败则返回失败原因。
+    返回值：成功找到题目时，将会以json格式给出题目problem，problem中包含id,user_id,create_at,updated_at,title、 description 、res_long(可选)、res_short（可选）、 time_limit 、 time_unit 、 memory_limit 、 memory_unit 、 input 、 output 、 sample_input 、 sample_output 、 test_input 、 test_output 、hint、 competition_id 、 source 、 special_judge、standard、input_check 。如果失败则返回失败原因。
 
   - **接口地址：/update/:id**（需要二级权限）
 
@@ -1913,7 +2700,7 @@
 
     **方法类型：PUT**
 
-    请求参数：题目的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含title、 description 、res_long(可选)、res_short（可选）、 time_limit 、 time_unit 、 memory_limit 、 memory_unit 、 input 、 output 、 sample_input 、 sample_output 、 test_input 、 test_output 、hint、 competition_id 、 source 、 special_judge ,其中title表示题目标题，description表示题目描述，res_long表示长文本备用键值，res_short表示短文本备用键值，time_limit 为uint类型，表示时间限制，time_uint表示时间单位，可为"s"或"ms"，memory_limit为uint类型，表示空间限制， memory_uint表示空间单位，可为"mb"或"kb"或"gb"，input表示输入格式，output表示输出格式、sample_input 表示输入示例、sample_output 表示输出示例，test_input 为string数组，表示测试时的每组输入，test_output 为输出数组，表示测试时的每组输出，hint表示提示，competition_id表示比赛的uid，不为空时表示为某个比赛的题目，source 表示来源，special_judge 表示特判的uid，如果不为空则表示该题为特判题目。
+    请求参数：题目的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含title、 description 、res_long(可选)、res_short（可选）、 time_limit 、 time_unit 、 memory_limit 、 memory_unit 、 input 、 output 、 sample_input 、 sample_output 、 test_input 、 test_output 、hint、 source 、 special_judge、standard、input_check,其中title表示题目标题，description表示题目描述，res_long表示长文本备用键值，res_short表示短文本备用键值，time_limit 为uint类型，表示时间限制，time_uint表示时间单位，可为"s"或"ms"，memory_limit为uint类型，表示空间限制， memory_uint表示空间单位，可为"mb"或"kb"或"gb"，input表示输入格式，output表示输出格式、sample_input 表示输入示例、sample_output 表示输出示例，test_input 为string数组，表示测试时的每组输入，test_output 为输出数组，表示测试时的每组输出，hint表示提示，不为空时表示为某个比赛的题目，source 表示来源，special_judge 表示特判的uid，如果不为空则表示该题为特判题目。standard表示标准程序的uid、input_check表示输入检测程序的uid，如果均不为空表示此题可以黑客。
 
     返回值：成功更新题目时，返回更新成功消息。如果失败则返回失败原因。
 
@@ -2201,6 +2988,148 @@
   
     返回值：成功时，以json格式返回一个total，total表示测试样例数量，如果失败则返回失败原因。
 
+### 模型：ProblemNew
+
+定义：赛内题目
+
+**基础路由：/problem/new**
+
+实现的接口类型：
+
+- **RestInterface**
+
+  - **接口地址：/create**（需要二级权限）
+
+    **功能：题目发布**
+
+    **方法类型：POST**
+
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含title、 description 、res_long(可选)、res_short（可选）、 time_limit 、 time_unit 、 memory_limit 、 memory_unit 、 input 、 output 、 sample_input 、 sample_output 、 test_input 、 test_output 、hint、 sources、 special_judge 、standard、input_check、competition_id、score,其中title表示题目标题，description表示题目描述，res_long表示长文本备用键值，res_short表示短文本备用键值，time_limit 为uint类型，表示时间限制，time_uint表示时间单位，可为"s"或"ms"，memory_limit为uint类型，表示空间限制， memory_uint表示空间单位，可为"mb"或"kb"或"gb"，input表示输入格式，output表示输出格式、sample_input 表示输入示例、sample_output 表示输出示例，test_input 为string数组，表示测试时的每组输入，test_output 为输出数组，表示测试时的每组输出，scores为uint数组，表示测试时的每组测试的分数。hint表示提示，source 表示来源，special_judge 表示特判程序的uid，如果不为空则表示该题为特判题目。standard表示标准程序的uid、input_check表示输入检测程序的uid，如果均不为空表示此题可以黑客。
+
+    返回值：成功时返回创建成功相关信息和题目信息problem，否则给出失败原因
+
+  - **接口地址：/show/:id**
+
+    **功能：题目查看**
+
+    **方法类型：GET**
+
+    请求参数：题目的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token。
+
+    返回值：成功找到题目时，将会以json格式给出题目problem，problem中包含id,user_id,create_at,updated_at,title、 description 、res_long(可选)、res_short（可选）、 time_limit 、 time_unit 、 memory_limit 、 memory_unit 、 input 、 output 、 sample_input 、 sample_output 、 test_input 、 test_output 、hint、 competition_id 、 source 、 special_judge、standard、input_check 。如果失败则返回失败原因。
+
+  - **接口地址：/update/:id**（需要二级权限）
+
+    **功能：更新题目**
+
+    **方法类型：PUT**
+
+    请求参数：题目的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含title、 description 、res_long(可选)、res_short（可选）、 time_limit 、 time_unit 、 memory_limit 、 memory_unit 、 input 、 output 、 sample_input 、 sample_output 、 test_input 、 test_output 、scores、hint、 competition_id 、 source 、 special_judge、standard、input_check,其中title表示题目标题，description表示题目描述，res_long表示长文本备用键值，res_short表示短文本备用键值，time_limit 为uint类型，表示时间限制，time_uint表示时间单位，可为"s"或"ms"，memory_limit为uint类型，表示空间限制， memory_uint表示空间单位，可为"mb"或"kb"或"gb"，input表示输入格式，output表示输出格式、sample_input 表示输入示例、sample_output 表示输出示例，test_input 为string数组，表示测试时的每组输入，test_output 为输出数组，表示测试时的每组输出，scores为uint数组，表示测试时的每组测试的分数。hint表示提示，competition_id表示比赛的uid，不为空时表示为某个比赛的题目，source 表示来源，special_judge 表示特判的uid，如果不为空则表示该题为特判题目。standard表示标准程序的uid、input_check表示输入检测程序的uid，如果均不为空表示此题可以黑客。
+
+    返回值：成功更新题目时，返回更新成功消息。如果失败则返回失败原因。
+
+  - **接口地址：/delete/:id**（需要二级权限）
+
+    **功能：删除题目**
+
+    **方法类型：DELETE**
+
+    请求参数：题目的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token。
+
+    返回值：成功删除题目时，删除成功消息。如果失败则返回失败原因。
+
+  - **接口地址：/list/:id**
+
+    **功能：查看题目列表**
+
+    **方法类型：GET**
+
+    请求参数：比赛的uuid（在接口地址的id处）。在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少篇题目，默认值为20）。
+
+    返回值：成功时，以json格式返回一个数组problemIds和total，problemIds返回了相应列表的题目id信息（按照创建时间排序，越新创建排序越前），total表示题目总量，如果失败则返回失败原因。
+
+- **其它**
+
+  - **接口地址：/test/num/:id**
+
+    **功能：查看题目测试样例数量**
+
+    **方法类型：GET**
+
+    请求参数：  在接口地址中给出指定题目的id（即:id部分）  。
+
+    返回值：成功时，以json格式返回一个total，total表示测试样例数量，如果失败则返回失败原因。
+
+  - **接口地址：/quote/:competition_id/:problem_id/:score**（需要二级权限）
+
+    **功能：引用题目**
+
+    **方法类型：POST**
+
+    请求参数：  在接口地址中给出指定题目的id（即:id部分）  、比赛id（:competition_id）、分数（:score）。
+
+    返回值：成功时，将为指定比赛添加指定题目，并设置该题目的分数，如果失败则返回失败原因。
+
+### 模型：Program
+
+定义：程序
+
+**基础路由：/program**
+
+实现的接口类型：
+
+- **RecordInterface**
+
+  - **接口地址：/create**
+
+    **功能：创建程序**
+
+    **方法类型：POST**
+
+    请求参数：  Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含language、code,其中language表示语言，code表示程序的代码。这里的language支持如下："C"、"C#"、"C++"、"C++11"、"Erlang"、"Go"、"Java"、"JavaScript"、"Kotlin"、"Pascal"、"PHP"、"Python"、"Racket"、"Ruby"、"Rust"、"Scala"、 "Swift"
+
+    返回值：成功时，返回成功消息，如果失败则返回失败原因。
+
+  - **接口地址：/show/:id**
+
+    **功能：查看id指定程序**
+
+    **方法类型：GET**
+
+    请求参数：  Authorization中的Bearer Token中提供注册、登录时给出的token。 在接口地址中给出指定程序的id（即:id部分）  。
+
+    返回值：成功时，以json格式返回一个program，program包含id、user_id、language、code、 created_at 、updated_at。如果失败则返回失败原因.
+
+  - **接口地址：/update/:id**
+
+    **功能：更新程序**
+
+    **方法类型：PUT**
+
+    请求参数：  在接口地址中给出指定程序的id（即:id部分）  。Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含language、code,其中language表示语言，code表示程序的代码。这里的language支持如下："C"、"C#"、"C++"、"C++11"、"Erlang"、"Go"、"Java"、"JavaScript"、"Kotlin"、"Pascal"、"PHP"、"Python"、"Racket"、"Ruby"、"Rust"、"Scala"、 "Swift"
+
+    返回值：成功时，返回更新成功，如果失败则返回失败原因。
+
+  - **接口地址：/delete/:id**
+
+    **功能：删除程序**
+
+    **方法类型：DELETE**
+
+    请求参数：  在接口地址中给出指定程序的id（即:id部分）  。Authorization中的Bearer Token中提供注册、登录时给出的token。
+
+    返回值：成功时，返回删除成功信息，如果失败则返回失败原因。
+
+  - **接口地址：/list**
+
+    **功能：查看程序列表**
+
+    **方法类型：GET**
+
+    请求参数：  在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少篇提交，默认值为20）。Authorization中的Bearer Token中提供注册、登录时给出的token。
+
+    返回值：成功时，以json格式返回符合programs和total，如果失败则返回失败原因。
+
 ### 模型：Record
 
 定义：代码提交
@@ -2209,7 +3138,7 @@
 
 实现的接口类型：
 
-- **其它**
+- **RecordInterface**
 
   - **接口地址：/create**
 
@@ -2229,7 +3158,7 @@
 
     请求参数：  Authorization中的Bearer Token中提供注册、登录时给出的token。 在接口地址中给出指定提交的id（即:id部分）  。
 
-    返回值：成功时，以json格式返回一个record，record包含language、code、problem_id、 created_at 、updated_at、 user_id 、condition、competition_id，其中condition表示提交状态，提交状态包含Waiting（等待）、Competition hasn't Started（比赛未开始）、Input Doesn't Exist（输入在数据库中不存在）、Output Doesn't Exist（输入在数据库中不存在）、System Error 1（服务器问题：创建文件失败）、System Error 2（服务器问题：编译指令执行失败）、Compile timeout（编译超时）、Compile Error（编译错误）、System Error 3（服务器问题：消息管道创建失败）、System Error 4（服务器问题：运行指令执行失败）、Time Limit Exceeded（超出时间限制）、Runtime Error（运行时错误）、Memory Limit Exceeded（超出空间限制）、Wrong Answer（错误答案）、System error 5（服务器问题：数据库插入数据失败）、Accepted（提交通过）、Absent from the race（未参加比赛）、Language Error（语言错误）。如果失败则返回失败原因。
+    返回值：成功时，以json格式返回一个record，record包含language、code、problem_id、 created_at 、updated_at、 user_id 、condition、pass、hack_id，其中condition表示提交状态，提交状态包含Waiting（等待）、Input Doesn't Exist（输入在数据库中不存在）、Output Doesn't Exist（输入在数据库中不存在）、System Error 1（服务器问题：创建文件失败）、System Error 2（服务器问题：编译指令执行失败）、Compile timeout（编译超时）、Compile Error（编译错误）、System Error 3（服务器问题：消息管道创建失败）、System Error 4（服务器问题：运行指令执行失败）、Time Limit Exceeded（超出时间限制）、Runtime Error（运行时错误）、Memory Limit Exceeded（超出空间限制）、Wrong Answer（错误答案）、System error 5（服务器问题：数据库插入数据失败）、Accepted（提交通过）、Language Error（语言错误）,pass表示用例通过数量，hack_id表示该提交被hack的id。如果失败则返回失败原因.
 
   - **接口地址：/list**
 
@@ -2237,9 +3166,9 @@
 
     **方法类型：GET**
 
-    请求参数：  Authorization中的Bearer Token中提供注册、登录时给出的token。在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少篇提交，默认值为20），language表示使用的语言（默认为空），user_id表示提交用户的id（默认为空），problem_id表示题目的id（默认为空），start_time表示在这之后的提交（默认为空），end_time表示在这之前的提交（默认为空），condition表示提交状态（默认为空），pass_low表示提交最少通过多少测试（默认为空），pass_top表示提交至多通过多少测试（默认为空），competition_id表示隶属某个比赛的提交（默认为空）。
+    请求参数：  在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少篇提交，默认值为20），language表示使用的语言（默认为空），user_id表示提交用户的id（默认为空），problem_id表示题目的id（默认为空），start_time表示在这之后的提交（默认为空），end_time表示在这之前的提交（默认为空），condition表示提交状态（默认为空），pass_low表示提交最少通过多少测试（默认为空），pass_top表示提交至多通过多少测试（默认为空），hack表示提交是否被黑客（默认为空，不为空时表示被黑客）。
 
-    返回值：成功时，以json格式返回复合条件的records和total，如果失败则返回失败原因。
+    返回值：成功时，以json格式返回符合条件的records和total，如果失败则返回失败原因。
 
   - **接口地址：/list/case/:id**
 
@@ -2260,46 +3189,28 @@
     请求参数：在接口地址中给出指定提交的id（即:id部分）  
 
     返回值：成功时，以json格式返回一个case
+    
+  - **接口地址：/publish/list**
+  
+    **功能：订阅提交列表**
+  
+    **方法类型：GET**
+  
+    请求参数： 注意，该请求为websocket长连接。
+  
+    返回值：成功时，将持续实时返回recordList，每个recordList包含record_id表示发生变化的record的id，如果失败则返回失败原因。
+  
+- **HackInterface**
 
-### 模型：Rejudge
+  - **接口地址：/hack/:id**
 
-定义：对提交代码的重新判断
+    **功能：黑客指定提交**
 
-**基础路由：/rejudge**
+    **方法类型：POST**
 
-实现的接口类型：
+    请求参数： 在接口地址中给出指定提交的id（即:id部分）  。Authorization中的Bearer Token中提供注册、登录时给出的token。 在Body，raw格式给出json类型数据包含input表示输入。
 
-- **其它**
-
-  - **接口地址：/do**（需要二级权限）
-
-    **功能：进行重判**
-
-    **方法类型：PUT**
-
-    请求参数：在Params处提供，language表示使用的语言（默认为空），user_id表示提交用户的id（默认为空），problem_id表示题目的id（默认为空），start_time表示在这之后的提交（默认为空），end_time表示在这之前的提交（默认为空），condition表示提交状态（默认为空），competition_id表示隶属某个比赛的提交（默认为空）。  
-
-    返回值：成功时，重判成功消息
-
-  - **接口地址：/competiton/delete/:id**（需要二级权限）
-
-    **功能：对某场比赛结果进行清空**
-
-    **方法类型：DELETE**
-
-    请求参数：在接口地址中给出指定比赛的id（即:id部分）  
-
-    返回值：成功时，返回成功消息，否则返回失败原因。注意，此操作需要在重判操作之前。
-
-  - **接口地址：/competiton/score/:id**（需要二级权限）
-
-    **功能：对某场比赛结果重新进行分数统计**
-
-    **方法类型：PUT**
-
-    请求参数：在接口地址中给出指定比赛的id（即:id部分）  
-
-    返回值：成功时，返回成功消息，否则返回失败原因。注意，此操作需要在重判操作之后。
+    返回值：成功时，返回成功信息，否则返回失败原因。
 
 ### 模型：Remark
 
@@ -3028,36 +3939,6 @@
     请求参数：在接口地址中给出用户的id（即:user部分） 。在接口地址中给出表单的id（即:set部分） 。在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少个用户组，默认值为20）。
   
     返回值：成功时，以json格式返回一个数组groups,groups为id数组，表示用户加入的group的id。
-
-### 模型：SpecialJudge
-
-定义：特殊判断
-
-**基础路由：/specialjudge**
-
-实现的接口类型：
-
-- 其它
-
-  - **接口地址：/create**（需要二级权限）
-
-    **功能：创建特判程序**
-
-    **方法类型：POST**
-
-    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含 language 、code、input。其要求在以code和language创建程序后，输入input内容可以输出"ok"字符。
-
-    返回值：成功时返回创建成功相关信息并返回specialJudge，包含id、created_at、updated_at、user_id、language 、code、input。否则给出失败原因
-
-  - **接口地址：/update/:id**（需要二级权限）
-
-    **功能：更新特判程序**
-
-    **方法类型：PUT**
-
-    请求参数：在接口地址中给出特判的id（即id部分） 。Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含 language 、code、input。其要求在以code和language创建程序后，输入input内容可以输出"ok"字符。
-
-    返回值：成功时返回更新成功相关信息，否则给出失败原因
 
 ### 模型：Test
 
@@ -3802,4 +4683,44 @@
     请求参数：在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少用户，默认值为20）。。
 
     返回值：返回users和total,total表示总量，users为数组，每个元素还有member和score，member为用户的uid，score为游览数量。
+    
+  - **接口地址：/hot/rank/list"**
+  
+    **功能：查看用户热度排行**
+  
+    **方法类型：GET**
+  
+    请求参数：在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少用户，默认值为20）。
+  
+    返回值：返回users和total,total表示总量，users为user数组。
+  
+  - **接口地址：/hot/rank/:id"**
+  
+    **功能：查看用户热度排名**
+  
+    **方法类型：GET**
+  
+    请求参数：在接口地址中给出指定用户的id（即:id部分）  。
+  
+    返回值：返回rank为排名。
+  
+  - **接口地址：/score/rank/list"**
+  
+    **功能：查看用户竞赛分排行**
+  
+    **方法类型：GET**
+  
+    请求参数：在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少用户，默认值为20）。
+  
+    返回值：返回users和total,total表示总量，users为user数组。
+  
+  - **接口地址：/score/rank/list"**
+  
+    **功能：查看用户竞赛分排名**
+  
+    **方法类型：GET**
+  
+    请求参数：在接口地址中给出指定用户的id（即:id部分）  。
+  
+    返回值：返回rank为排名。
 

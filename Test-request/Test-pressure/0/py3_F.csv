@@ -1,0 +1,303 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,F,Python3,61801717,2023-04-07 20:44:32,zf854,执行出错,"import sys
+from collections import deque
+from collections import Counter
+def main():
+    input_data = sys.stdin.readline().strip().split(' ')
+    n,m = int(input_data[0]), int(input_data[1])
+    g = [[] for i in range(n + 1)]
+    deg = [0] * (n + 1)  
+    for i in range(n - 1):
+        u = sys.stdin.readline().strip().split(' ')
+        x,y = int(u[0]), int(u[1])
+        g[x].append(y)
+        g[y].append(x)
+        deg[x] += 1
+        deg[y] += 1
+    k = int(input())
+    b = [int(i) for i in input().split(' ')]
+    mp = Counter()
+    for i in b:
+        mp[i] += 1
+    if k <= m:
+        print(0)
+    else:
+        q = deque()
+        for i in range(1, n + 1):
+            if deg[i] == 1:
+                q.append(i)
+        while q:
+            x = q.popleft()
+            m -= 1
+            mp[x] -= 1
+            b.remove(x)
+            for y in g[x]:
+                deg[y] -= 1
+                if deg[y] == 1:
+                    q.append(y)
+            if m == 0:
+                break
+        def dfs(edge:list, start: int, pre:int) -> int:
+            nonlocal g, mp
+            ans = 0
+            for i in edge:
+                if i == pre:
+                    continue
+                ans += dfs(g[i], i,start)
+            if ans != 0: 
+                    ans += 2
+            else:
+                if mp[start]:
+                    ans += 2
+            return ans
+        print(max(dfs(g[1],1, -1) -  2, 0))
+        
+            
+    
+
+
+
+
+if __name__ == '__main__':
+    main()"
+1,F,Python3,61801854,2023-04-07 20:45:42,zf854,答案错误,"import sys
+from collections import deque
+from collections import Counter
+def main():
+    input_data = sys.stdin.readline().strip().split(' ')
+    n,m = int(input_data[0]), int(input_data[1])
+    g = [[] for i in range(n + 1)]
+    deg = [0] * (n + 1)  
+    for i in range(n - 1):
+        u = sys.stdin.readline().strip().split(' ')
+        x,y = int(u[0]), int(u[1])
+        g[x].append(y)
+        g[y].append(x)
+        deg[x] += 1
+        deg[y] += 1
+    k = int(input())
+    b = [int(i) for i in input().split(' ')]
+    mp = Counter()
+    for i in b:
+        mp[i] += 1
+    if k <= m:
+        print(0)
+    else:
+        q = deque()
+        for i in range(1, n + 1):
+            if deg[i] == 1:
+                q.append(i)
+        while q:
+            x = q.popleft()
+            m -= 1
+            mp[x] -= 1
+            for y in g[x]:
+                deg[y] -= 1
+                if deg[y] == 1:
+                    q.append(y)
+            if m == 0:
+                break
+        def dfs(edge:list, start: int, pre:int) -> int:
+            nonlocal g, mp
+            ans = 0
+            for i in edge:
+                if i == pre:
+                    continue
+                ans += dfs(g[i], i,start)
+            if ans != 0: 
+                    ans += 2
+            else:
+                if mp[start]:
+                    ans += 2
+            return ans
+        print(max(dfs(g[1],1, -1) -  2, 0))
+        
+            
+    
+
+
+
+
+if __name__ == '__main__':
+    main()"
+2,F,Python3,61802669,2023-04-07 20:52:35,zf854,答案错误,"import sys
+from collections import deque
+from collections import Counter
+def main():
+    input_data = sys.stdin.readline().strip().split(' ')
+    n,m = int(input_data[0]), int(input_data[1])
+    g = [[] for i in range(n + 1)]
+    deg = [0] * (n + 1)  
+    for i in range(n - 1):
+        u = sys.stdin.readline().strip().split(' ')
+        x,y = int(u[0]), int(u[1])
+        g[x].append(y)
+        g[y].append(x)
+        deg[x] += 1
+        deg[y] += 1
+    k = int(input())
+    b = [int(i) for i in input().split(' ')]
+    mp = Counter()
+    for i in b:
+        mp[i] += 1
+    if k <= m:
+        print(0)
+    else:
+        q = deque()
+        for i in range(1, n + 1):
+            if deg[i] == 1:
+                q.append(i)
+        while q:
+            x = q.popleft()
+            m -= 1
+            mp[x] -= 1
+            for y in g[x]:
+                deg[y] -= 1
+                if deg[y] == 1:
+                    q.append(y)
+            if m == 0:
+                break
+        def dfs(edge:list, start: int, pre:int) -> int:
+            nonlocal g, mp
+            ans = 0
+            for i in edge:
+                if i == pre:
+                    continue
+                ans += dfs(g[i], i,start)
+            if ans != 0: 
+                    ans += 2
+            else:
+                if mp[start]:
+                    ans += 2
+            return ans
+        print(dfs(g[1],1, 0) -  2)
+        
+            
+    
+
+
+
+
+if __name__ == '__main__':
+    main()"
+3,F,Python3,61806713,2023-04-07 21:57:30,zf854,答案错误,"import sys
+from collections import deque
+from collections import Counter
+def main():
+    input_data = sys.stdin.readline().strip().split(' ')
+    n,m = int(input_data[0]), int(input_data[1])
+    g = [[] for i in range(n + 1)]
+    deg = [0] * (n + 1)  
+    for i in range(n - 1):
+        u = sys.stdin.readline().strip().split(' ')
+        x,y = int(u[0]), int(u[1])
+        g[x].append(y)
+        g[y].append(x)
+        deg[x] += 1
+        deg[y] += 1
+    k = int(input())
+    b = [int(i) for i in input().split(' ')]
+    mp = Counter()
+    for i in b:
+        mp[i] += 1
+    if k <= m:
+        print(0)
+    else:
+        q = deque()
+        for i in range(1, n + 1):
+            if deg[i] == 1:
+                q.append(i)
+        while q:
+            x = q.popleft()
+            m -= 1
+            mp[x] -= 1
+            for y in g[x]:
+                deg[y] -= 1
+                if deg[y] == 1:
+                    q.append(y)
+            if m == 0:
+                break
+        def dfs(edge:list, start: int, pre:int) -> int:
+            nonlocal g, mp
+            ans = 0
+            for i in edge:
+                if i == pre:
+                    continue
+                ans += dfs(g[i], i,start)
+            if ans != 0: 
+                    ans += 2
+            else:
+                if mp[start]:
+                    ans += 2
+            return ans
+        print(dfs(g[1],1, 0) -  2)
+        
+            
+    
+
+
+
+
+if __name__ == '__main__':
+    main()"
+4,F,Python3,61806785,2023-04-07 21:59:29,zf854,答案错误,"import sys
+from collections import deque
+from collections import Counter
+def main():
+    input_data = sys.stdin.readline().strip().split(' ')
+    n,m = int(input_data[0]), int(input_data[1])
+    g = [[] for i in range(n + 1)]
+    deg = [0] * (n + 1)  
+    for i in range(n - 1):
+        u = sys.stdin.readline().strip().split(' ')
+        x,y = int(u[0]), int(u[1])
+        g[x].append(y)
+        g[y].append(x)
+        deg[x] += 1
+        deg[y] += 1
+    k = int(input())
+    b = [int(i) for i in input().split(' ')]
+    mp = Counter()
+    for i in b:
+        mp[i] += 1
+    if k <= m:
+        print(0)
+    else:
+        q = deque()
+        for i in range(1, n + 1):
+            if deg[i] == 1:
+                q.append(i)
+        while q:
+            x = q.popleft()
+            if mp[x] >= 1:
+                mp[x] -= 1
+                m -= 1
+            for y in g[x]:
+                deg[y] -= 1
+                if deg[y] == 1:
+                    q.append(y)
+            if m == 0:
+                break
+        def dfs(edge:list, start: int, pre:int) -> int:
+            nonlocal g, mp
+            ans = 0
+            for i in edge:
+                if i == pre:
+                    continue
+                ans += dfs(g[i], i,start)
+            if ans != 0: 
+                    ans += 2
+            else:
+                if mp[start]:
+                    ans += 2
+            return ans
+        print(dfs(g[1],1, 0) -  2)
+        
+            
+    
+
+
+
+
+if __name__ == '__main__':
+    main()"

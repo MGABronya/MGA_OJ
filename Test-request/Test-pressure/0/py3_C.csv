@@ -1,0 +1,4552 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,C,Python3,61790443,2023-04-07 19:18:08,摆渡人和211,运行超时,"s = input().split()
+n = int(s[0])
+m = int(s[1])
+arr = [['']*n for _ in range(m)]
+for i in range(0,m):
+    s = input()
+    for j in range(0,n):
+        arr[i][j] = s[j]
+dic = {}
+def find(x):
+    if dic[x] != x:
+        dic[x] = find(dic[x])
+    return dic[x]
+def combine(x,y):
+    dic[find(x)] = find(y)
+idx = 0
+idy = 0
+for i in range(0,m):
+    for j in range(0,n):
+        dic[(i,j)] = (i,j)
+        if arr[i][j] == '@':
+            idx = i
+            idy = j
+for i in range(0,m):
+    for j in range(0,n):
+        if arr[i][j] != '#':
+            if j < n-1 and arr[i][j+1] != '#':
+                combine((i,j),(i,j+1))
+            if i < m-1 and arr[i+1][j] != '#':
+                combine((i,j),(i+1,j))
+ret = 0
+for i in range(0,m):
+    for j in range(0,n):
+        if arr[i][j] == '!' and find((i,j)) == find((idx,idy)):
+            ret+=1
+print(ret)"
+1,C,Python3,61791452,2023-04-07 19:24:57,一半醒,答案错误,"import sys
+from collections import deque
+
+# import time
+# import functools
+# import itertools
+# import math
+
+input=lambda:sys.stdin.readline().strip()
+
+
+def main():
+    n, m = map(int, input().split())
+    arr = []
+    for i in range(n):
+        arr.append(list(input()))
+    q = deque()
+    for i in range(n):
+        for j in range(m):
+            if arr[i][j]=='@':
+                q.append((i,j))
+                break
+    mp = set()
+    res = 0
+    mp.add((0,0))
+    while len(q):
+        x, y = q.popleft()
+        if arr[x][y]=='!':
+            res += 1
+        for dx,dy in [(0,1),(0,-1),(1,0),(-1,0)]:
+            tx = x+dx
+            ty = y+dy
+            if tx <0 or tx >= n or ty < 0 or ty >=m or (tx,ty) in mp or arr[tx][ty]=='#':
+                continue
+            mp.add((tx,ty))
+            q.append((tx,ty))
+    print(res)
+
+
+
+
+if __name__==""__main__"":
+    # T1=time.time()
+    main()
+    # T2=time.time()
+    # print(""Runtime:{:.10f}s."".format(T2-T1))
+
+
+
+"
+2,C,Python3,61791467,2023-04-07 19:25:02,Aoyng,运行超时,"from collections import deque
+dx,dy = (0,0,1,-1),(1,-1,0,0)
+def main():
+##    collections.deque.popleft
+    cnt,Que = 0,deque([(sx,sy)])
+    st[sx][sy] = True
+    while len(Que) != 0:
+        x,y = Que.popleft()
+        if arr[x][y] == '!':cnt += 1
+        for px,py in zip(dx,dy):
+            i,j = x + px,y + py
+            if not(0 <= i < n and 0 <= j < m):continue
+            if arr[i][j] == '#' or st[i][j]:continue
+            st[i][j] = True#入队之后就设为已入队过，防止二次入队
+            Que.append((i,j))
+    return cnt
+    
+
+n,m = map(int,input().strip().split())
+arr = [list(input().strip()) for i in range(n)]
+st = [[False] * m for i in range(n)]
+flag = False
+for i in range(n):
+    for j in range(m):
+        if arr[i][j] == '@':
+            sx,sy = i,j
+            flag = True
+    if flag:break
+ans = main()
+print(ans)
+"
+3,C,Python3,61791717,2023-04-07 19:26:54,Aoyng,运行超时,"from collections import deque
+import sys
+input = sys.stdin.readline
+dx,dy = (0,0,1,-1),(1,-1,0,0)
+def main():
+##    collections.deque.popleft
+    cnt,Que = 0,deque([(sx,sy)])
+    st[sx][sy] = True
+    while len(Que) != 0:
+        x,y = Que.popleft()
+        if arr[x][y] == '!':cnt += 1
+        for px,py in zip(dx,dy):
+            i,j = x + px,y + py
+            if not(0 <= i < n and 0 <= j < m):continue
+            if arr[i][j] == '#' or st[i][j]:continue
+            st[i][j] = True#入队之后就设为已入队过，防止二次入队
+            Que.append((i,j))
+    return cnt
+    
+
+n,m = map(int,input().strip().split())
+arr = [list(input().strip()) for i in range(n)]
+st = [[False] * m for i in range(n)]
+flag = False
+for i in range(n):
+    for j in range(m):
+        if arr[i][j] == '@':
+            sx,sy = i,j
+            flag = True
+    if flag:break
+ans = main()
+print(ans)
+"
+4,C,Python3,61792067,2023-04-07 19:29:24,待我变成红牛,执行出错,"def solve():
+    n, m = map(int, input().split())
+    a = [None] * n
+    for i in range(n):
+        a[i] = list(input())
+
+    dx = [1, 0, -1, 0]
+    dy = [0, 1, 0, -1]
+
+    x, y = -1, -1
+    for i in range(n):
+        for j in range(m):
+            if a[i][j] == ""@"":
+                x, y = i, j
+                break
+
+    ans = 0
+    def dfs(i, j):
+        nonlocal ans
+        if a[i][j] == '!':
+            ans += 1
+        a[i][j] = '@'
+        for k in range(4):
+            x0, y0 = i + dx[k], j + dy[k]
+            if x0 < 0 or x0 == n or y0 < 0 or y0 == m or a[x0][y0] in ""#@"":
+                continue
+            dfs(x0, y0)
+
+    dfs(x, y)
+    print(ans)
+
+solve()"
+5,C,Python3,61792374,2023-04-07 19:31:26,一半醒,运行超时,"import sys
+from collections import deque
+
+# import time
+# import functools
+# import itertools
+# import math
+
+input=lambda:sys.stdin.readline().strip()
+
+
+def main():
+    n, m = map(int, input().split())
+    arr = []
+    for i in range(n):
+        arr.append(list(input()))
+    q = deque()
+    mp = set()
+    for i in range(n):
+        for j in range(m):
+            if arr[i][j]=='@':
+                q.append((i,j))
+                mp.add((i,j))
+                break
+    res = 0
+    while len(q):
+        x, y = q.popleft()
+        for dx,dy in [(0,1),(0,-1),(1,0),(-1,0)]:
+            tx = x+dx
+            ty = y+dy
+            if tx <0 or tx >= n or ty < 0 or ty >=m or (tx,ty) in mp or arr[tx][ty]=='#':
+                continue
+            if arr[tx][ty]=='!':
+                res += 1
+            mp.add((tx,ty))
+            q.append((tx,ty))
+    print(res)
+
+
+
+
+if __name__==""__main__"":
+    # T1=time.time()
+    main()
+    # T2=time.time()
+    # print(""Runtime:{:.10f}s."".format(T2-T1))
+
+
+
+"
+6,C,Python3,61792588,2023-04-07 19:33:04,一半醒,运行超时,"import sys
+from collections import deque
+
+# import time
+# import functools
+# import itertools
+# import math
+
+input=lambda:sys.stdin.readline().strip()
+
+
+def main():
+    n, m = map(int, input().split())
+    arr = []
+    for i in range(n):
+        arr.append(list(input()))
+    q = deque()
+    mp = set()
+    for i in range(n):
+        for j in range(m):
+            if arr[i][j]=='@':
+                q.append((i,j))
+                mp.add((i,j))
+                break
+        if len(mp):
+            break
+    res = 0
+    while len(q):
+        x, y = q.popleft()
+        for dx,dy in [(0,1),(0,-1),(1,0),(-1,0)]:
+            tx = x+dx
+            ty = y+dy
+            if tx <0 or tx >= n or ty < 0 or ty >=m or (tx,ty) in mp or arr[tx][ty]=='#':
+                continue
+            if arr[tx][ty]=='!':
+                res += 1
+            mp.add((tx,ty))
+            q.append((tx,ty))
+    print(res)
+
+
+
+
+if __name__==""__main__"":
+    # T1=time.time()
+    main()
+    # T2=time.time()
+    # print(""Runtime:{:.10f}s."".format(T2-T1))
+
+
+
+"
+7,C,Python3,61792757,2023-04-07 19:34:26,保护我方三四,答案错误,"from collections import deque
+
+n, m = map(int, input().split())
+a = []
+st = [[0] * m for _ in range(0, n)]
+for i in range(0, n):
+    a.append(list(input()))
+
+dx = [-1, 0, 1, 1]
+dy = [0, 1, 0, -1]
+ans = 0
+for x in range(0, n):
+    for y in range(0, m):
+        if a[x][y] == '@':
+            q = deque()
+            q.append((x, y))
+
+            st[x][y] = 1
+            while len(q):
+                [x, y] = q[0]
+                q.popleft()
+                for i in range(0, 4):
+                    nx, ny = x + dx[i], y + dy[i]
+                    if nx < 0 or nx >= n or ny < 0 or ny >= m:
+                        continue
+                    if a[nx][ny] == '#':
+                        continue
+                    if st[nx][ny] == 0:
+                        st[nx][ny] = 1
+                        q.append((nx, ny))
+                        if a[nx][ny] == '!':
+                            a[nx][ny] = '.'
+                            ans += 1
+print(ans)
+"
+8,C,Python3,61792832,2023-04-07 19:34:59,待我变成红牛,执行出错,"def solve():
+    n, m = map(int, input().split())
+    a = [None] * n
+    for i in range(n):
+        a[i] = list(input())
+
+    dx = [1, 0, -1, 0]
+    dy = [0, 1, 0, -1]
+
+    x, y = -1, -1
+    for i in range(n):
+        for j in range(m):
+            if a[i][j] == ""@"":
+                x, y = i, j
+                break
+
+    ans = 0
+    def dfs(i, j):
+        nonlocal ans
+        if a[i][j] == '!':
+            ans += 1
+        a[i][j] = '@'
+        for k in range(4):
+            x0, y0 = i + dx[k], j + dy[k]
+            if x0 < 0 or x0 == n or y0 < 0 or y0 == m or a[x0][y0] in ""#@"":
+                continue
+            dfs(x0, y0)
+
+    if x != -1:
+        dfs(x, y)
+    print(ans)
+
+solve()"
+9,C,Python3,61793200,2023-04-07 19:37:37,待我变成红牛,执行出错,"def solve():
+    n, m = map(int, input().split())
+    a = [None] * n
+    for i in range(n):
+        a[i] = list(input())
+
+    dx = [1, -1, 0, 0]
+    dy = [0, 0, 1, -1]
+
+    x, y = -1, -1
+    for i in range(n):
+        for j in range(m):
+            if a[i][j] == ""@"":
+                x, y = i, j
+                break
+
+    ans = 0
+    def dfs(i, j):
+        nonlocal ans
+        if a[i][j] == '!':
+            ans += 1
+        a[i][j] = '@'
+        for k in range(4):
+            xx, yy = i + dx[k], j + dy[k]
+            if xx < 0 or xx >= n or yy < 0 or yy >= m or a[xx][yy] in ""#@"":
+                continue
+            dfs(xx, yy)
+
+    if x != -1:
+        dfs(x, y)
+    print(ans)
+
+solve()"
+10,C,Python3,61793215,2023-04-07 19:37:41,保护我方三四,运行超时,"from collections import deque
+
+n, m = map(int, input().split())
+a = []
+st = [[0] * m for _ in range(0, n)]
+for i in range(0, n):
+    a.append(list(input()))
+
+dx = [-1, 0, 1, 0]
+dy = [0, 1, 0, -1]
+ans = 0
+for x in range(0, n):
+    for y in range(0, m):
+        if a[x][y] == '@':
+            q = deque()
+            q.append((x, y))
+            st[x][y] = 1
+            while len(q):
+                [x, y] = q[0]
+                q.popleft()
+                for i in range(0, 4):
+                    nx, ny = x + dx[i], y + dy[i]
+                    if nx < 0 or nx >= n or ny < 0 or ny >= m:
+                        continue
+                    if a[nx][ny] == '#':
+                        continue
+                    if st[nx][ny] == 0:
+                        st[nx][ny] = 1
+                        q.append((nx, ny))
+                        if a[nx][ny] == '!':
+                            ans += 1
+print(ans)
+"
+11,C,Python3,61793517,2023-04-07 19:39:46,待我变成红牛,执行出错,"def solve():
+    n, m = map(int, input().split())
+    a = [None] * n
+    for i in range(n):
+        a[i] = list(input())
+
+    dx = [1, -1, 0, 0]
+    dy = [0, 0, 1, -1]
+
+    x, y = -1, -1
+    for i in range(n):
+        for j in range(m):
+            if a[i][j] == ""@"":
+                x, y = i, j
+                break
+
+    ans = 0
+    def dfs(i, j):
+        nonlocal ans
+        if a[i][j] == '!':
+            ans += 1
+        a[i][j] = '@'
+        for k in range(4):
+            xx, yy = i + dx[k], j + dy[k]
+            if xx < 0 or xx >= n or yy < 0 or yy >= m or (a[xx][yy] in ""#@""):
+                continue
+            dfs(xx, yy)
+
+    if x != -1:
+        dfs(x, y)
+    print(ans)
+
+solve()"
+12,C,Python3,61793538,2023-04-07 19:39:56,保护我方三四,运行超时,"from collections import deque
+import sys
+
+input = lambda: sys.stdin.readline().strip()
+
+n, m = map(int, input().split())
+a = []
+st = [[0] * m for _ in range(0, n)]
+for i in range(0, n):
+    a.append(list(input()))
+
+dx = [-1, 0, 1, 0]
+dy = [0, 1, 0, -1]
+ans = 0
+for x in range(0, n):
+    for y in range(0, m):
+        if a[x][y] == '@':
+            q = deque()
+            q.append((x, y))
+            st[x][y] = 1
+            while len(q):
+                [x, y] = q[0]
+                q.popleft()
+                for i in range(0, 4):
+                    nx, ny = x + dx[i], y + dy[i]
+                    if nx < 0 or nx >= n or ny < 0 or ny >= m:
+                        continue
+                    if a[nx][ny] == '#':
+                        continue
+                    if st[nx][ny] == 0:
+                        st[nx][ny] = 1
+                        q.append((nx, ny))
+                        if a[nx][ny] == '!':
+                            ans += 1
+print(ans)
+"
+13,C,Python3,61793612,2023-04-07 19:40:24,保护我方三四,运行超时,"from collections import deque
+import sys
+
+input = lambda: sys.stdin.readline().strip()
+
+n, m = map(int, input().split())
+a = []
+st = [[0] * m for _ in range(0, n)]
+for i in range(0, n):
+    a.append(input())
+
+dx = [-1, 0, 1, 0]
+dy = [0, 1, 0, -1]
+ans = 0
+for x in range(0, n):
+    for y in range(0, m):
+        if a[x][y] == '@':
+            q = deque()
+            q.append((x, y))
+            st[x][y] = 1
+            while len(q):
+                [x, y] = q[0]
+                q.popleft()
+                for i in range(0, 4):
+                    nx, ny = x + dx[i], y + dy[i]
+                    if nx < 0 or nx >= n or ny < 0 or ny >= m:
+                        continue
+                    if a[nx][ny] == '#':
+                        continue
+                    if st[nx][ny] == 0:
+                        st[nx][ny] = 1
+                        q.append((nx, ny))
+                        if a[nx][ny] == '!':
+                            ans += 1
+print(ans)
+"
+14,C,Python3,61793766,2023-04-07 19:41:33,贪睡的华夫饼前程似锦,运行超时,"dx=[1,-1,0,0]
+dy=[0,0,1,-1]
+def bfs(sta,l):
+    s=0
+    dist=[[-1]*len(l[0]) for _ in range(len(l))]
+    d=[sta]
+    while d!=[]:
+        t=d[0]
+        del(d[0])
+        for i in range(4):
+            x=t[0]+dx[i]
+            y=t[1]+dy[i]
+            if x>=len(l) or x<0 or y>=len(l[0]) or y<0:
+                continue
+            if l[x][y]=='#':
+                continue
+            if dist[x][y]!=-1:
+                continue
+            if l[x][y]=='!':
+                s=s+1
+##                l[x][y]='.'
+            d.append([x,y])
+            dist[x][y]=1
+    return s
+            
+
+#典型的bfs
+n,m=map(int,input().split())
+l=[]
+for i in range(n):
+    l.append(input())
+#找出起点
+k=0
+sta=[]
+for i in range(n):
+    if k==1:
+        break
+    for j in range(m):
+        if l[i][j]=='@':
+            sta=[i,j]
+            k=1
+            break
+print(bfs(sta,l))"
+15,C,Python3,61793838,2023-04-07 19:42:00,在走神的菜鸡很漂亮,运行超时,"n,m=map(int,input().split())
+data=[]
+for i in range(n):
+    data.append([])
+    strs=input()
+    for j in range(m):
+        data[i].append(strs[j])
+ans=0
+dirs=[lambda x,y:(x+1,y),
+      lambda x,y:(x,y+1),
+      lambda x,y:(x-1,y),
+     lambda x,y:(x,y-1)]
+for i in range(n):
+    for j in range(m):
+        if data[i][j]=='@':
+            start=(i,j)          
+            break
+queue=[start]
+dic={start}
+while queue:
+    temp=[]
+    while queue:
+        cur=queue.pop()
+        for direction in dirs:
+            nextnode=direction(cur[0],cur[1])
+            if nextnode in dic:
+                continue
+            if 0<=nextnode[0]<=n-1 and 0<=nextnode[1]<=m-1:
+                dic.add(nextnode)
+                if data[nextnode[0]][nextnode[1]]=='#':
+                    continue
+                else:
+                    temp.append(nextnode)
+                    if data[nextnode[0]][nextnode[1]]=='!':
+                        ans+=1
+    queue=temp[::]
+print(ans)
+"
+16,C,Python3,61793894,2023-04-07 19:42:21,保护我方三四,运行超时,"from collections import deque
+import sys
+
+input = lambda: sys.stdin.readline().strip()
+
+n, m = map(int, input().split())
+a = []
+st = set()
+for i in range(0, n):
+    a.append(list(input()))
+
+dx = [-1, 0, 1, 0]
+dy = [0, 1, 0, -1]
+ans = 0
+for x in range(0, n):
+    for y in range(0, m):
+        if a[x][y] == '@':
+            q = deque()
+            q.append((x, y))
+            st.add((x, y))
+            while len(q):
+                [x, y] = q[0]
+                q.popleft()
+                for i in range(0, 4):
+                    nx, ny = x + dx[i], y + dy[i]
+                    if nx < 0 or nx >= n or ny < 0 or ny >= m:
+                        continue
+                    if a[nx][ny] == '#':
+                        continue
+                    if (nx, ny) not in st:
+                        st.add((nx, ny))
+                        q.append((nx, ny))
+                        if a[nx][ny] == '!':
+                            ans += 1
+print(ans)
+"
+17,C,Python3,61794030,2023-04-07 19:43:23,保护我方三四,运行超时,"from collections import deque
+import sys
+
+input = lambda: sys.stdin.readline().strip()
+
+n, m = map(int, input().split())
+a = []
+st = set()
+for i in range(0, n):
+    a.append(input())
+
+dx = [-1, 0, 1, 0]
+dy = [0, 1, 0, -1]
+ans = 0
+for x in range(0, n):
+    for y in range(0, m):
+        if a[x][y] == '@':
+            q = deque()
+            q.append((x, y))
+            st.add((x, y))
+            while len(q):
+                x, y = q[0]
+                q.popleft()
+                for i in range(0, 4):
+                    nx, ny = x + dx[i], y + dy[i]
+                    if nx < 0 or nx >= n or ny < 0 or ny >= m:
+                        continue
+                    if a[nx][ny] == '#':
+                        continue
+                    if (nx, ny) not in st:
+                        st.add((nx, ny))
+                        q.append((nx, ny))
+                        if a[nx][ny] == '!':
+                            ans += 1
+print(ans)
+"
+18,C,Python3,61794102,2023-04-07 19:44:02,保护我方三四,运行超时,"from collections import deque
+import sys
+
+input = lambda: sys.stdin.readline().strip()
+
+n, m = map(int, input().split())
+a = []
+st = set()
+for i in range(0, n):
+    a.append(input())
+
+dx = [-1, 0, 1, 0]
+dy = [0, 1, 0, -1]
+ans = 0
+for x in range(0, n):
+    for y in range(0, m):
+        if a[x][y] == '@':
+            q = deque()
+            q.append((x, y))
+            st.add((x, y))
+            while len(q):
+                x, y = q[0]
+                q.popleft()
+                for i in range(0, 4):
+                    nx, ny = x + dx[i], y + dy[i]
+                    if nx < 0 or nx >= n or ny < 0 or ny >= m:
+                        continue
+                    if a[nx][ny] == '#':
+                        continue
+                    if (nx, ny) not in st:
+                        st.add((nx, ny))
+                        q.append((nx, ny))
+                        if a[nx][ny] == '!':
+                            ans += 1
+            break
+print(ans)
+"
+19,C,Python3,61794573,2023-04-07 19:47:35,贪睡的华夫饼前程似锦,运行超时,"dx=[1,-1,0,0]
+dy=[0,0,1,-1]
+def bfs(sta,l):
+    s=0
+    dist=[[-1]*len(l[0]) for _ in range(len(l))]
+    d=[sta]
+    while d!=[]:
+        t=d[0]
+        del(d[0])
+        for i in range(4):
+            x=t[0]+dx[i]
+            y=t[1]+dy[i]
+            if x>=len(l) or x<0 or y>=len(l[0]) or y<0:
+                continue
+            if l[x][y]=='#':
+                continue
+            if dist[x][y]!=-1:
+                continue
+            if l[x][y]=='!':
+                s=s+1
+##                l[x][y]='.'
+            d.append([x,y])
+            dist[x][y]=1
+    return s
+            
+
+#典型的bfs
+n,m=map(int,input().split())
+l=[]
+for i in range(n):
+    l.append(input())
+#找出起点
+k=0
+sta=[]
+for i in range(n):
+    if k==1:
+        break
+    for j in range(m):
+        if l[i][j]=='@':
+            sta=[i,j]
+            k=1
+            break
+print(bfs(sta,l))"
+20,C,Python3,61794728,2023-04-07 19:48:43,牛客611784581号,运行超时,"import sys
+n, m = map(int, sys.stdin.readline().strip().split())
+mm = []
+for i in range(n):
+    a = str()
+    a = input()
+    s = []
+    for c in a:
+        s.append(c)
+    mm.append(s)
+def pd(x,y):
+    return x >= 0 and y >= 0 and x < n and y < m
+h = []
+for i in range(n):
+    for j in range(m):
+        if mm[i][j] == '@':
+            h.append([i,j])
+            break
+    if len(h) != 0:
+        break
+ans = 0
+fx = [[0,1],[1,0],[-1,0],[0,-1]]
+mm[h[0][0]][h[0][1]] = '#'
+while len(h)!= 0:
+    v = h .pop(0)
+    for f in fx:
+        xx = v[0]+f[0]
+        yy = v[1] + f[1]
+        if pd(xx,yy) and mm[xx][yy] != '#':
+            if mm[xx][yy] == '!':
+                ans += 1
+            mm[xx][yy] = '#'
+            h.append([xx,yy])
+print(ans)"
+21,C,Python3,61794810,2023-04-07 19:49:15,牛客611784581号,运行超时,"import sys
+n, m = map(int, sys.stdin.readline().strip().split())
+mm = []
+for i in range(n):
+    a = str()
+    a = input()
+    s = []
+    for c in a:
+        s.append(c)
+    mm.append(s)
+def pd(x,y):
+    return x >= 0 and y >= 0 and x < n and y < m
+h = []
+for i in range(n):
+    for j in range(m):
+        if mm[i][j] == '@':
+            h.append([i,j])
+            break
+    if len(h) != 0:
+        break
+ans = 0
+fx = [[0,1],[1,0],[-1,0],[0,-1]]
+mm[h[0][0]][h[0][1]] = '#'
+while len(h)!= 0:
+    v = h .pop(0)
+    for f in fx:
+        xx = v[0]+f[0]
+        yy = v[1] + f[1]
+        if pd(xx,yy) and mm[xx][yy] != '#':
+            if mm[xx][yy] == '!':
+                ans += 1
+            mm[xx][yy] = '#'
+            h.append([xx,yy])
+print(ans)"
+22,C,Python3,61794820,2023-04-07 19:49:20,tendance,运行超时,"import os
+import sys
+from collections import deque
+n,m = map(int,input().split())
+mp = [[i for i in input()]for i in range(n)]
+vis = [[0]*(m)for i in range(n)]
+x = 0
+y = 0
+cnt = 0
+for i in range(n):
+    for j in range(m):
+        if mp[i][j] == '@':
+            x,y = i,j
+            break
+q = deque()
+d = [[1,0],[-1,0],[0,1],[0,-1]]
+q.append((x,y))
+vis[x][y] = 1
+while q:
+    x,y = q.popleft()
+    for a,b in d:
+        nx,ny = x+a,y+b
+##        print(nx,ny)
+        if 0<=nx<n and 0<=ny<m:
+            if mp[nx][ny]!='#' and vis[nx][ny]==0:
+                vis[nx][ny] = 1
+##                print(mp[nx][ny])
+                if mp[nx][ny]=='!':
+                    cnt+=1
+                q.append((nx,ny))
+print(cnt)   "
+23,C,Python3,61795300,2023-04-07 19:52:46,strongnine,答案错误,"import collections
+def bombHere(x, y, grid, n, m):
+    burn = [[False for _ in range(m)] for _ in range(n)]
+    ans = 0
+    q = collections.deque()
+    q.append([x, y])
+    while q:
+        r, c = q.pop()
+        if grid[r][c] == '!' and not burn[r][c]:
+            burn[r][c] = True
+            ans += 1
+        for i in range(r - 1, -1, -1):  # 上
+            if grid[i][c] == '!' and not burn[i][c]:
+                q.append([i, c])
+            elif grid[i][c] == '#': break
+        for i in range(r + 1, n):  # 下
+            if grid[i][c] == '!' and not burn[i][c]:
+                q.append([i, c])
+            elif grid[i][c] == '#': break
+        for j in range(c - 1, -1, -1):  # 左
+            if grid[r][j] == '!' and not burn[r][j]:
+                q.append([r, j])
+            elif grid[r][j] == '#': break
+        for j in range(c + 1, m):  # 右
+            if grid[r][j] == '!' and not burn[r][j]:
+                q.append([r, j])
+            elif grid[r][j] == '#': break
+    return ans
+    
+
+if __name__ == ""__main__"":
+    # 构建地图
+    n, m = list(map(int, input().strip().split()))
+    grid = [['.' for _ in range(m)] for _ in range(n)]
+    D_queue = collections.deque()
+    D_pos = [0, 0]
+    for i in range(n):
+        line = input().strip()
+        for j in range(m):
+            grid[i][j] = line[j]
+            if line[j] == '@':
+                D_pos = [i, j]
+                grid[i][j] = '.'
+    
+    D_queue.append(D_pos)
+    visited = [[False for _ in range(m)] for _ in range(n)]
+    direction = [[0, -1], [0, 1], [-1, 0], [1, 0]]
+    ans = 0
+    while D_queue:
+        x, y = D_queue.popleft()
+        visited[x][y] = True
+        ans = max(ans, bombHere(x, y, grid, n, m))
+        for dx, dy in direction:
+            nx, ny = x + dx, y + dy
+            if 0 <= nx < n and 0 <= ny < m and not visited[nx][ny] and grid[nx][ny] != '#':
+                D_queue.append([nx, ny])
+    print(ans)        "
+24,C,Python3,61796110,2023-04-07 19:58:42,so_hard.,答案错误,"import sys
+
+sys.setrecursionlimit(1000000)
+
+n, m = map(int, input().strip().split())
+image = []
+nxt = [[0, 1], [1, 0], [0, -1], [-1, 0]]
+vist = [[False for _ in range(m)] for _ in range(n)]
+
+def dfs1(x, y, dx, dy, cnt):
+    if x < 0 or x >= n or y < 0 or y >= m:
+        return cnt
+    if image[x][y] == '.':
+        return dfs1(x+dx, y+dy, dx, dy, cnt)
+    if image[x][y] == '#':
+        return cnt
+    if image[x][y] == '!':
+        return dfs1(x+dx, y+dy, dx, dy, cnt+1)
+    if image[x][y] == '@':
+        return dfs1(x+dx, y+dy, dx, dy, cnt)
+
+    
+def dfs2(x, y):
+    if x < 0 or x >= n or y < 0 or y >= m or image[x][y] == '#' or vist[x][y]:
+        return 0
+    vist[x][y] = True
+    cur_cnt = 0
+    for i in range(4):
+        nx = x + nxt[i][0]
+        ny = y + nxt[i][1]
+        cur_cnt = cur_cnt + dfs1(nx, ny, nxt[i][0], nxt[i][1], 0)
+    
+    for i in range(4):
+        nx = x + nxt[i][0]
+        ny = y + nxt[i][1]
+        cur_cnt = max(cur_cnt, dfs2(nx, ny))
+        
+    return cur_cnt
+
+
+def solve():
+    for i in range(n):
+        lst = [*input()]
+        image.append(lst)
+    
+    sx, sy = -1, -1
+    for i in range(n):
+        for j in range(m):
+            if image[i][j] == '@':
+                sx, sy = i, j
+    
+    print(dfs2(sx, sy))
+        
+if __name__ == '__main__':
+    solve()
+
+"
+25,C,Python3,61796834,2023-04-07 20:03:59,待我变成红牛,执行出错,"def solve():
+    n, m = map(int, input().split())
+    a = [None] * n
+    for i in range(n):
+        a[i] = list(input())
+
+    dx = [1, -1, 0, 0]
+    dy = [0, 0, 1, -1]
+
+    x, y = -1, -1
+    for i in range(n):
+        for j in range(m):
+            if a[i][j] == ""@"":
+                x, y = i, j
+                break
+
+    ans = 0
+    def dfs(i, j):
+        if i < 0 or i >= n or j < 0 or j >= m or (not (i == x and j == y) and a[i][j] in ""#@""):
+            return
+        nonlocal ans
+        if a[i][j] == '!':
+            ans += 1
+        a[i][j] = '@'
+        for k in range(4):
+            xx, yy = i + dx[k], j + dy[k]
+            dfs(xx, yy)
+
+    if x != -1:
+        dfs(x, y)
+    print(ans)
+
+solve()"
+26,C,Python3,61797080,2023-04-07 20:05:59,acaax,执行出错,"import random
+import sys
+import os
+import math
+from collections import Counter, defaultdict, deque
+from functools import lru_cache, reduce
+from itertools import accumulate, combinations, permutations
+from heapq import nsmallest, nlargest, heapify, heappop, heappush
+from io import BytesIO, IOBase
+from copy import deepcopy
+import threading
+import bisect
+BUFSIZE = 4096
+
+
+class FastIO(IOBase):
+    newlines = 0
+
+    def __init__(self, file):
+        self._fd = file.fileno()
+        self.buffer = BytesIO()
+        self.writable = ""x"" in file.mode or ""r"" not in file.mode
+        self.write = self.buffer.write if self.writable else None
+
+    def read(self):
+        while True:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            if not b:
+                break
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines = 0
+        return self.buffer.read()
+
+    def readline(self):
+        while self.newlines == 0:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            self.newlines = b.count(b""\n"") + (not b)
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines -= 1
+        return self.buffer.readline()
+
+    def flush(self):
+        if self.writable:
+            os.write(self._fd, self.buffer.getvalue())
+            self.buffer.truncate(0), self.buffer.seek(0)
+
+class IOWrapper(IOBase):
+    def __init__(self, file):
+        self.buffer = FastIO(file)
+        self.flush = self.buffer.flush
+        self.writable = self.buffer.writable
+        self.write = lambda s: self.buffer.write(s.encode(""ascii""))
+        self.read = lambda: self.buffer.read().decode(""ascii"")
+        self.readline = lambda: self.buffer.readline().decode(""ascii"")
+
+sys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)
+input = lambda: sys.stdin.readline().rstrip(""\r\n"")
+
+def I():
+    return input()
+
+def II():
+    return int(input())
+
+def MI():
+    return map(int, input().split())
+
+def LI():
+    return list(input().split())
+
+def LII():
+    return list(map(int, input().split()))
+
+def GMI():
+    return map(lambda x: int(x) - 1, input().split())
+
+def LGMI():
+    return list(map(lambda x: int(x) - 1, input().split()))
+
+n,m = MI()
+g = [''  for _ in range(1010)]
+st = [[0] * (1010) for _ in range(1010)]
+stx,sty = 0,0
+for i in range(n):
+    g[i] = I()
+    for j in range(m):
+        if g[i][j] == '!':
+            st[i][j] = 1
+        elif g[i][j] == '#':
+            st[i][j] = -1
+        elif g[i][j] == '@':
+            stx,sty = i, j
+
+dx, dy = [0,0,1,-1], [1,-1,0,0]
+dic = []
+
+v = 0
+def dfs(x, y):
+    global v
+    if st[x][y] == -1:
+        return
+    if x >= n or x < 0 or y < 0 or y >= m:
+        return
+    if st[x][y] == 1:
+        v += 1
+    st[x][y] = -1
+    for i in range(4):
+        nx,ny = x + dx[i], y + dy[i]
+        if st[nx][ny] >= 0 and 0<= nx < n and 0 <= ny < m:
+            dfs(nx, ny)
+for i in range(n):
+    for j in range(m):
+        # 草
+        if st[i][j] >= 0:
+            dfs(i, j)
+            dic.append([i, j, v])
+            v = 0
+if len(dic) == 0:
+    print(0)
+else:
+    dic.sort(key= lambda x:-x[2])
+    stz = [[0] * (1010) for _ in range(1010)]
+    flag = False
+    def check(x1, y1, x2, y2):
+        global flag
+        if x1 >= n or x1 < 0 or y1 < 0 or y1 >= m:
+            return
+        if g[x1][y1] == '#':
+            return 
+        if x1 == x2 and y1 == y2:
+            flag = True
+            return 
+        stz[x1][y1] = 1
+        for i in range(4):
+            nx,ny = x1 + dx[i], y1 + dy[i]
+            if stz[nx][ny] == 0 and 0 <= nx < n and 0 <= ny < m:
+                check(nx, ny, x2, y2)
+    res = 0
+
+    for i in range(len(dic)):
+        x, y, vs = dic[i]
+        check(x,y, stx,sty)
+        if flag:
+            res = max(res, vs)
+            flag = False
+    print(res)"
+27,C,Python3,61797247,2023-04-07 20:07:10,so_hard.,内存超限,"import sys
+
+sys.setrecursionlimit(1000000)
+
+n, m = map(int, input().strip().split())
+image = []
+nxt = [[0, 1], [1, 0], [0, -1], [-1, 0]]
+vist = [[False for _ in range(m)] for _ in range(n)]
+    
+def dfs(x, y, cnt):
+    vist[x][y] = True
+    for i in range(4):
+        nx = x + nxt[i][0]
+        ny = y + nxt[i][1]
+        if nx < 0 or nx >= n or ny < 0 or ny >= m or vist[nx][ny] or image[x][y] == '#':
+            continue
+        cnt = cnt + dfs(nx, ny, 0 if image[nx][ny] != '!' else 1)
+        
+    return cnt
+
+
+def solve():
+    for i in range(n):
+        lst = [*input()]
+        image.append(lst)
+    
+    sx, sy = -1, -1
+    for i in range(n):
+        for j in range(m):
+            if image[i][j] == '@':
+                sx, sy = i, j
+    
+    print(dfs(sx, sy, 0))
+        
+if __name__ == '__main__':
+    solve()
+
+"
+28,C,Python3,61797601,2023-04-07 20:10:11,wxzcch,运行超时,"from collections import deque
+
+
+
+n, m = map(int, input().split())
+g = [[1]]
+x, y = -1, -1
+st = [[False for i in range(m + 5)] for i in range(n + 5)]
+def bfs(x, y):
+    global n, m
+    
+    
+    q = deque()
+    dx = [0, 1, 0, -1]
+    dy = [1, 0, -1, 0]
+    
+    q.append([x, y])
+    st[x][y] = True
+    res = 0
+    while q:
+        
+        t = q.popleft()
+        
+        for i in range(4):
+            a = t[0] + dx[i]
+            b = t[1] + dy[i]
+        
+            if 1 <= a <= n and 1 <= b <= m and st[a][b] == False and g[a][b] != '#':
+                if g[a][b] == '!':
+                    res += 1
+                st[a][b] = True
+                q.append([a, b])
+    
+    return res
+                
+    
+for i in range(n):
+    g.append([1] + list(input()))
+    if x == -1:
+        for j in range(1, m + 1):
+            if g[i + 1][j] == '@':
+                x = i + 1
+                y = j
+
+print(bfs(x, y))"
+29,C,Python3,61797633,2023-04-07 20:10:23,acaax,执行出错,"import random
+import sys
+import os
+import math
+from collections import Counter, defaultdict, deque
+from functools import lru_cache, reduce
+from itertools import accumulate, combinations, permutations
+from heapq import nsmallest, nlargest, heapify, heappop, heappush
+from io import BytesIO, IOBase
+from copy import deepcopy
+import threading
+import bisect
+BUFSIZE = 4096
+
+
+class FastIO(IOBase):
+    newlines = 0
+
+    def __init__(self, file):
+        self._fd = file.fileno()
+        self.buffer = BytesIO()
+        self.writable = ""x"" in file.mode or ""r"" not in file.mode
+        self.write = self.buffer.write if self.writable else None
+
+    def read(self):
+        while True:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            if not b:
+                break
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines = 0
+        return self.buffer.read()
+
+    def readline(self):
+        while self.newlines == 0:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            self.newlines = b.count(b""\n"") + (not b)
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines -= 1
+        return self.buffer.readline()
+
+    def flush(self):
+        if self.writable:
+            os.write(self._fd, self.buffer.getvalue())
+            self.buffer.truncate(0), self.buffer.seek(0)
+
+class IOWrapper(IOBase):
+    def __init__(self, file):
+        self.buffer = FastIO(file)
+        self.flush = self.buffer.flush
+        self.writable = self.buffer.writable
+        self.write = lambda s: self.buffer.write(s.encode(""ascii""))
+        self.read = lambda: self.buffer.read().decode(""ascii"")
+        self.readline = lambda: self.buffer.readline().decode(""ascii"")
+
+sys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)
+input = lambda: sys.stdin.readline().rstrip(""\r\n"")
+
+def I():
+    return input()
+
+def II():
+    return int(input())
+
+def MI():
+    return map(int, input().split())
+
+def LI():
+    return list(input().split())
+
+def LII():
+    return list(map(int, input().split()))
+
+def GMI():
+    return map(lambda x: int(x) - 1, input().split())
+
+def LGMI():
+    return list(map(lambda x: int(x) - 1, input().split()))
+
+n,m = MI()
+g = []
+st = [[0] * (1010) for _ in range(1010)]
+stx,sty = 0,0
+for i in range(n):
+    g.append(I())
+    for j in range(m):
+        if g[i][j] == '!':
+            st[i][j] = 1
+        elif g[i][j] == '#':
+            st[i][j] = -1
+        elif g[i][j] == '@':
+            stx,sty = i, j
+
+dx, dy = [0,0,1,-1], [1,-1,0,0]
+dic = []
+
+v = 0
+def dfs(x, y):
+    global v
+    if st[x][y] == -1:
+        return
+    if x >= n or x < 0 or y < 0 or y >= m:
+        return
+    if st[x][y] == 1:
+        v += 1
+    st[x][y] = -1
+    for i in range(4):
+        nx,ny = x + dx[i], y + dy[i]
+        if st[nx][ny] >= 0 and 0<= nx < n and 0 <= ny < m:
+            dfs(nx, ny)
+for i in range(n):
+    for j in range(m):
+        # 草
+        if st[i][j] >= 0:
+            dfs(i, j)
+            dic.append([i, j, v])
+            v = 0
+if len(dic) == 0:
+    print(0)
+else:
+    dic.sort(key= lambda x:-x[2])
+    stz = [[0] * (1010) for _ in range(1010)]
+    flag = False
+    def check(x1, y1, x2, y2):
+        global flag
+        if x1 >= n or x1 < 0 or y1 < 0 or y1 >= m:
+            return
+        try:
+            if g[x1][y1] == '#':
+                return 
+        except:
+            return 
+        if x1 == x2 and y1 == y2:
+            flag = True
+            return 
+        stz[x1][y1] = 1
+        for i in range(4):
+            nx,ny = x1 + dx[i], y1 + dy[i]
+            if stz[nx][ny] == 0 and 0 <= nx < n and 0 <= ny < m:
+                check(nx, ny, x2, y2)
+    res = 0
+
+    for i in range(len(dic)):
+        x, y, vs = dic[i]
+        check(x,y, stx,sty)
+        if flag:
+            res = max(res, vs)
+            flag = False
+    print(res)"
+30,C,Python3,61797742,2023-04-07 20:11:17,wxzcch,运行超时,"from collections import deque
+from sys import *
+
+
+n, m = map(int, stdin.readline().split())
+g = [[1]]
+x, y = -1, -1
+st = [[False for i in range(m + 5)] for i in range(n + 5)]
+def bfs(x, y):
+    global n, m
+    
+    
+    q = deque()
+    dx = [0, 1, 0, -1]
+    dy = [1, 0, -1, 0]
+    
+    q.append([x, y])
+    st[x][y] = True
+    res = 0
+    while q:
+        
+        t = q.popleft()
+        
+        for i in range(4):
+            a = t[0] + dx[i]
+            b = t[1] + dy[i]
+        
+            if 1 <= a <= n and 1 <= b <= m and st[a][b] == False and g[a][b] != '#':
+                if g[a][b] == '!':
+                    res += 1
+                st[a][b] = True
+                q.append([a, b])
+    
+    return res
+                
+    
+for i in range(n):
+    g.append([1] + list(stdin.readline()))
+    if x == -1:
+        for j in range(1, m + 1):
+            if g[i + 1][j] == '@':
+                x = i + 1
+                y = j
+
+print(bfs(x, y))"
+31,C,Python3,61797879,2023-04-07 20:12:24,acaax,执行出错,"import random
+import sys
+import os
+import math
+from collections import Counter, defaultdict, deque
+from functools import lru_cache, reduce
+from itertools import accumulate, combinations, permutations
+from heapq import nsmallest, nlargest, heapify, heappop, heappush
+from io import BytesIO, IOBase
+from copy import deepcopy
+import threading
+import bisect
+BUFSIZE = 4096
+
+
+class FastIO(IOBase):
+    newlines = 0
+
+    def __init__(self, file):
+        self._fd = file.fileno()
+        self.buffer = BytesIO()
+        self.writable = ""x"" in file.mode or ""r"" not in file.mode
+        self.write = self.buffer.write if self.writable else None
+
+    def read(self):
+        while True:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            if not b:
+                break
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines = 0
+        return self.buffer.read()
+
+    def readline(self):
+        while self.newlines == 0:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            self.newlines = b.count(b""\n"") + (not b)
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines -= 1
+        return self.buffer.readline()
+
+    def flush(self):
+        if self.writable:
+            os.write(self._fd, self.buffer.getvalue())
+            self.buffer.truncate(0), self.buffer.seek(0)
+
+class IOWrapper(IOBase):
+    def __init__(self, file):
+        self.buffer = FastIO(file)
+        self.flush = self.buffer.flush
+        self.writable = self.buffer.writable
+        self.write = lambda s: self.buffer.write(s.encode(""ascii""))
+        self.read = lambda: self.buffer.read().decode(""ascii"")
+        self.readline = lambda: self.buffer.readline().decode(""ascii"")
+
+sys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)
+input = lambda: sys.stdin.readline().rstrip(""\r\n"")
+
+def I():
+    return input()
+
+def II():
+    return int(input())
+
+def MI():
+    return map(int, input().split())
+
+def LI():
+    return list(input().split())
+
+def LII():
+    return list(map(int, input().split()))
+
+def GMI():
+    return map(lambda x: int(x) - 1, input().split())
+
+def LGMI():
+    return list(map(lambda x: int(x) - 1, input().split()))
+
+n,m = MI()
+g = []
+st = [[0] * (1010) for _ in range(1010)]
+stx,sty = 0,0
+for i in range(n):
+    g.append(I())
+    for j in range(m):
+        if g[i][j] == '!':
+            st[i][j] = 1
+        elif g[i][j] == '#':
+            st[i][j] = -1
+        elif g[i][j] == '@':
+            stx,sty = i, j
+stz = deepcopy(st)
+dx, dy = [0,0,1,-1], [1,-1,0,0]
+dic = []
+
+v = 0
+def dfs(x, y):
+    global v
+    if st[x][y] == -1:
+        return
+    if x >= n or x < 0 or y < 0 or y >= m:
+        return
+    if st[x][y] == 1:
+        v += 1
+    st[x][y] = -1
+    for i in range(4):
+        nx,ny = x + dx[i], y + dy[i]
+        if st[nx][ny] >= 0 and 0<= nx < n and 0 <= ny < m:
+            dfs(nx, ny)
+for i in range(n):
+    for j in range(m):
+        # 草
+        if st[i][j] >= 0:
+            dfs(i, j)
+            dic.append([i, j, v])
+            v = 0
+if len(dic) == 0:
+    print(0)
+else:
+    dic.sort(key= lambda x:-x[2])
+    
+    flag = False
+    def check(x1, y1, x2, y2):
+        global flag
+        if x1 >= n or x1 < 0 or y1 < 0 or y1 >= m:
+            return
+        if stz[x1][y1] == -1:
+            return 
+        if x1 == x2 and y1 == y2:
+            flag = True
+            return 
+        stz[x1][y1] = -1
+        for i in range(4):
+            nx,ny = x1 + dx[i], y1 + dy[i]
+            if stz[nx][ny] != -1 and 0 <= nx < n and 0 <= ny < m:
+                check(nx, ny, x2, y2)
+    res = 0
+
+    for i in range(len(dic)):
+        x, y, vs = dic[i]
+        check(x,y, stx,sty)
+        if flag:
+            res = max(res, vs)
+            flag = False
+    print(res)"
+32,C,Python3,61797954,2023-04-07 20:13:03,acaax,执行出错,"import random
+import sys
+import os
+import math
+from collections import Counter, defaultdict, deque
+from functools import lru_cache, reduce
+from itertools import accumulate, combinations, permutations
+from heapq import nsmallest, nlargest, heapify, heappop, heappush
+from io import BytesIO, IOBase
+from copy import deepcopy
+import threading
+import bisect
+BUFSIZE = 4096
+
+
+class FastIO(IOBase):
+    newlines = 0
+
+    def __init__(self, file):
+        self._fd = file.fileno()
+        self.buffer = BytesIO()
+        self.writable = ""x"" in file.mode or ""r"" not in file.mode
+        self.write = self.buffer.write if self.writable else None
+
+    def read(self):
+        while True:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            if not b:
+                break
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines = 0
+        return self.buffer.read()
+
+    def readline(self):
+        while self.newlines == 0:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            self.newlines = b.count(b""\n"") + (not b)
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines -= 1
+        return self.buffer.readline()
+
+    def flush(self):
+        if self.writable:
+            os.write(self._fd, self.buffer.getvalue())
+            self.buffer.truncate(0), self.buffer.seek(0)
+
+class IOWrapper(IOBase):
+    def __init__(self, file):
+        self.buffer = FastIO(file)
+        self.flush = self.buffer.flush
+        self.writable = self.buffer.writable
+        self.write = lambda s: self.buffer.write(s.encode(""ascii""))
+        self.read = lambda: self.buffer.read().decode(""ascii"")
+        self.readline = lambda: self.buffer.readline().decode(""ascii"")
+
+sys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)
+input = lambda: sys.stdin.readline().rstrip(""\r\n"")
+
+def I():
+    return input()
+
+def II():
+    return int(input())
+
+def MI():
+    return map(int, input().split())
+
+def LI():
+    return list(input().split())
+
+def LII():
+    return list(map(int, input().split()))
+
+def GMI():
+    return map(lambda x: int(x) - 1, input().split())
+
+def LGMI():
+    return list(map(lambda x: int(x) - 1, input().split()))
+
+n,m = MI()
+g = []
+st = [[0] * (n + 1) for _ in range(m + 1)]
+stx,sty = 0,0
+for i in range(n):
+    g.append(I())
+    for j in range(m):
+        if g[i][j] == '!':
+            st[i][j] = 1
+        elif g[i][j] == '#':
+            st[i][j] = -1
+        elif g[i][j] == '@':
+            stx,sty = i, j
+stz = deepcopy(st)
+dx, dy = [0,0,1,-1], [1,-1,0,0]
+dic = []
+
+v = 0
+def dfs(x, y):
+    global v
+    if st[x][y] == -1:
+        return
+    if x >= n or x < 0 or y < 0 or y >= m:
+        return
+    if st[x][y] == 1:
+        v += 1
+    st[x][y] = -1
+    for i in range(4):
+        nx,ny = x + dx[i], y + dy[i]
+        if st[nx][ny] >= 0 and 0<= nx < n and 0 <= ny < m:
+            dfs(nx, ny)
+for i in range(n):
+    for j in range(m):
+        # 草
+        if st[i][j] >= 0:
+            dfs(i, j)
+            dic.append([i, j, v])
+            v = 0
+if len(dic) == 0:
+    print(0)
+else:
+    dic.sort(key= lambda x:-x[2])
+    
+    flag = False
+    def check(x1, y1, x2, y2):
+        global flag
+        if x1 >= n or x1 < 0 or y1 < 0 or y1 >= m:
+            return
+        if stz[x1][y1] == -1:
+            return 
+        if x1 == x2 and y1 == y2:
+            flag = True
+            return 
+        stz[x1][y1] = -1
+        for i in range(4):
+            nx,ny = x1 + dx[i], y1 + dy[i]
+            if stz[nx][ny] != -1 and 0 <= nx < n and 0 <= ny < m:
+                check(nx, ny, x2, y2)
+    res = 0
+
+    for i in range(len(dic)):
+        x, y, vs = dic[i]
+        check(x,y, stx,sty)
+        if flag:
+            res = max(res, vs)
+            flag = False
+    print(res)"
+33,C,Python3,61798320,2023-04-07 20:15:53,acaax,执行出错,"import random
+import sys
+import os
+import math
+from collections import Counter, defaultdict, deque
+from functools import lru_cache, reduce
+from itertools import accumulate, combinations, permutations
+from heapq import nsmallest, nlargest, heapify, heappop, heappush
+from io import BytesIO, IOBase
+from copy import deepcopy
+import threading
+import bisect
+BUFSIZE = 4096
+
+
+class FastIO(IOBase):
+    newlines = 0
+
+    def __init__(self, file):
+        self._fd = file.fileno()
+        self.buffer = BytesIO()
+        self.writable = ""x"" in file.mode or ""r"" not in file.mode
+        self.write = self.buffer.write if self.writable else None
+
+    def read(self):
+        while True:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            if not b:
+                break
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines = 0
+        return self.buffer.read()
+
+    def readline(self):
+        while self.newlines == 0:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            self.newlines = b.count(b""\n"") + (not b)
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines -= 1
+        return self.buffer.readline()
+
+    def flush(self):
+        if self.writable:
+            os.write(self._fd, self.buffer.getvalue())
+            self.buffer.truncate(0), self.buffer.seek(0)
+
+class IOWrapper(IOBase):
+    def __init__(self, file):
+        self.buffer = FastIO(file)
+        self.flush = self.buffer.flush
+        self.writable = self.buffer.writable
+        self.write = lambda s: self.buffer.write(s.encode(""ascii""))
+        self.read = lambda: self.buffer.read().decode(""ascii"")
+        self.readline = lambda: self.buffer.readline().decode(""ascii"")
+
+sys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)
+input = lambda: sys.stdin.readline().rstrip(""\r\n"")
+
+def I():
+    return input()
+
+def II():
+    return int(input())
+
+def MI():
+    return map(int, input().split())
+
+def LI():
+    return list(input().split())
+
+def LII():
+    return list(map(int, input().split()))
+
+def GMI():
+    return map(lambda x: int(x) - 1, input().split())
+
+def LGMI():
+    return list(map(lambda x: int(x) - 1, input().split()))
+
+n,m = MI()
+g = []
+st = [[0] * (m + 1) for _ in range(n + 1)]
+stx,sty = 0,0
+for i in range(n):
+    g.append(I())
+    for j in range(m):
+        if g[i][j] == '!':
+            st[i][j] = 1
+        elif g[i][j] == '#':
+            st[i][j] = -1
+        elif g[i][j] == '@':
+            stx,sty = i, j
+stz = deepcopy(st)
+dx, dy = [0,0,1,-1], [1,-1,0,0]
+dic = []
+
+v = 0
+def dfs(x, y):
+    global v
+    if st[x][y] == -1:
+        return
+    if x >= n or x < 0 or y < 0 or y >= m:
+        return
+    if st[x][y] == 1:
+        v += 1
+    st[x][y] = -1
+    for i in range(4):
+        nx,ny = x + dx[i], y + dy[i]
+        if st[nx][ny] >= 0 and 0<= nx < n and 0 <= ny < m:
+            dfs(nx, ny)
+for i in range(n):
+    for j in range(m):
+        # 草
+        if st[i][j] >= 0:
+            dfs(i, j)
+            dic.append([i, j, v])
+            v = 0
+if len(dic) == 0:
+    print(0)
+else:
+    dic.sort(key= lambda x:-x[2])
+    
+    flag = False
+    def check(x1, y1, x2, y2):
+        global flag
+        if x1 >= n or x1 < 0 or y1 < 0 or y1 >= m:
+            return
+        if stz[x1][y1] == -1:
+            return 
+        if x1 == x2 and y1 == y2:
+            flag = True
+            return 
+        stz[x1][y1] = -1
+        for i in range(4):
+            nx,ny = x1 + dx[i], y1 + dy[i]
+            if stz[nx][ny] != -1 and 0 <= nx < n and 0 <= ny < m:
+                check(nx, ny, x2, y2)
+    res = 0
+
+    for k in range(len(dic)):
+        x, y, vs = dic[k]
+        check(x,y, stx,sty)
+        if flag:
+            res = max(res, vs)
+            flag = False
+    print(res)"
+34,C,Python3,61798425,2023-04-07 20:16:44,acaax,执行出错,"import random
+import sys
+import os
+import math
+from collections import Counter, defaultdict, deque
+from functools import lru_cache, reduce
+from itertools import accumulate, combinations, permutations
+from heapq import nsmallest, nlargest, heapify, heappop, heappush
+from io import BytesIO, IOBase
+from copy import deepcopy
+import threading
+import bisect
+BUFSIZE = 4096
+
+
+class FastIO(IOBase):
+    newlines = 0
+
+    def __init__(self, file):
+        self._fd = file.fileno()
+        self.buffer = BytesIO()
+        self.writable = ""x"" in file.mode or ""r"" not in file.mode
+        self.write = self.buffer.write if self.writable else None
+
+    def read(self):
+        while True:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            if not b:
+                break
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines = 0
+        return self.buffer.read()
+
+    def readline(self):
+        while self.newlines == 0:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            self.newlines = b.count(b""\n"") + (not b)
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines -= 1
+        return self.buffer.readline()
+
+    def flush(self):
+        if self.writable:
+            os.write(self._fd, self.buffer.getvalue())
+            self.buffer.truncate(0), self.buffer.seek(0)
+
+class IOWrapper(IOBase):
+    def __init__(self, file):
+        self.buffer = FastIO(file)
+        self.flush = self.buffer.flush
+        self.writable = self.buffer.writable
+        self.write = lambda s: self.buffer.write(s.encode(""ascii""))
+        self.read = lambda: self.buffer.read().decode(""ascii"")
+        self.readline = lambda: self.buffer.readline().decode(""ascii"")
+
+sys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)
+input = lambda: sys.stdin.readline().rstrip(""\r\n"")
+
+def I():
+    return input()
+
+def II():
+    return int(input())
+
+def MI():
+    return map(int, input().split())
+
+def LI():
+    return list(input().split())
+
+def LII():
+    return list(map(int, input().split()))
+
+def GMI():
+    return map(lambda x: int(x) - 1, input().split())
+
+def LGMI():
+    return list(map(lambda x: int(x) - 1, input().split()))
+
+n,m = MI()
+g = []
+mxs = max(n,m)
+st = [[0] * (mxs + 10) for _ in range(mxs + 10)]
+stx,sty = 0,0
+for i in range(n):
+    g.append(I())
+    for j in range(m):
+        if g[i][j] == '!':
+            st[i][j] = 1
+        elif g[i][j] == '#':
+            st[i][j] = -1
+        elif g[i][j] == '@':
+            stx,sty = i, j
+stz = deepcopy(st)
+dx, dy = [0,0,1,-1], [1,-1,0,0]
+dic = []
+
+v = 0
+def dfs(x, y):
+    global v
+    if st[x][y] == -1:
+        return
+    if x >= n or x < 0 or y < 0 or y >= m:
+        return
+    if st[x][y] == 1:
+        v += 1
+    st[x][y] = -1
+    for i in range(4):
+        nx,ny = x + dx[i], y + dy[i]
+        if st[nx][ny] >= 0 and 0<= nx < n and 0 <= ny < m:
+            dfs(nx, ny)
+for i in range(n):
+    for j in range(m):
+        # 草
+        if st[i][j] >= 0:
+            dfs(i, j)
+            dic.append([i, j, v])
+            v = 0
+if len(dic) == 0:
+    print(0)
+else:
+    dic.sort(key= lambda x:-x[2])
+    
+    flag = False
+    def check(x1, y1, x2, y2):
+        global flag
+        if x1 >= n or x1 < 0 or y1 < 0 or y1 >= m:
+            return
+        if stz[x1][y1] == -1:
+            return 
+        if x1 == x2 and y1 == y2:
+            flag = True
+            return 
+        stz[x1][y1] = -1
+        for i in range(4):
+            nx,ny = x1 + dx[i], y1 + dy[i]
+            if stz[nx][ny] != -1 and 0 <= nx < n and 0 <= ny < m:
+                check(nx, ny, x2, y2)
+    res = 0
+
+    for k in range(len(dic)):
+        x, y, vs = dic[k]
+        check(x,y, stx,sty)
+        if flag:
+            res = max(res, vs)
+            flag = False
+    print(res)"
+35,C,Python3,61799260,2023-04-07 20:23:26,lemu17,内存超限,"import sys
+sys.setrecursionlimit(10 ** 9)
+
+n, m = map(int, input().split())
+a = [()] * n
+for i in range(n):
+    a[i] = list(input())
+
+
+def dfs(i, j):
+    global ans
+    # print(i, j, a[i][j])
+    if a[i][j] == '.' or a[i][j] == '@':
+        a[i][j] = 0
+    elif a[i][j] == '!':
+        a[i][j] = 0
+        ans += 1
+    else:
+        return
+
+    if i > 0:
+        dfs(i - 1, j)
+    if j > 0:
+        dfs(i, j - 1)
+    if i + 1 < n:
+        dfs(i + 1, j)
+    if j + 1 < m:
+        dfs(i, j + 1)
+
+
+for i in range(n):
+    for j in range(m):
+        if (a[i][j] == '@'):
+            ans = 0
+            dfs(i, j)
+
+print(ans)
+"
+36,C,Python3,61799506,2023-04-07 20:25:37,牛客801261568号,答案错误,"def ss(x,y):
+    summ=0
+    q=[(x,y)]
+    f=[[0,1],[0,-1],[1,0],[-1,0]]
+    book=[[0 for i in range(m+1)]for j in range(n+1)]
+    while len(q)!=0:
+        x_,y_=q.pop(0)
+        for i in range(4):
+            x1=x_+f[i][0]
+            y1=y_+f[i][1]
+            if x1>=0 and x1<n and y1>=0 and y1<m and book[x1][y1]==0:
+                if b[x1][y1]=='.':
+                    b[x][y]='&'
+                    q.append((x1,y1))
+                    book[x1][y1]=1
+                if b[x1][y1]=='!':
+                    b[x][y]='&'
+                    summ+=1
+                    book[x1][y1]=1
+        
+                    
+    return summ
+
+
+
+
+n,m=map(int,input().split())
+b=[]
+flag=0
+for i in range(n):
+    b.append(list(input()))
+for i in range(n):
+    for j in range(n):
+        if b[i][j]=='@':
+            print(ss(i,j))
+            flag=1
+            break
+    if flag==1:
+        break"
+37,C,Python3,61799612,2023-04-07 20:26:20,牛客801261568号,答案错误,"def ss(x,y):
+    summ=0
+    q=[(x,y)]
+    f=[[0,1],[0,-1],[1,0],[-1,0]]
+    book=[[0 for i in range(m+1)]for j in range(n+1)]
+    while len(q)!=0:
+        x_,y_=q.pop(0)
+        for i in range(4):
+            x1=x_+f[i][0]
+            y1=y_+f[i][1]
+            if x1>=0 and x1<n and y1>=0 and y1<m and book[x1][y1]==0:
+                if b[x1][y1]=='.':
+                    q.append((x1,y1))
+                    book[x1][y1]=1
+                if b[x1][y1]=='!':
+                    summ+=1
+                    book[x1][y1]=1
+        
+                    
+    return summ
+
+
+
+
+n,m=map(int,input().split())
+b=[]
+flag=0
+for i in range(n):
+    b.append(list(input()))
+for i in range(n):
+    for j in range(n):
+        if b[i][j]=='@':
+            print(ss(i,j))
+            flag=1
+            break
+    if flag==1:
+        break"
+38,C,Python3,61799787,2023-04-07 20:27:50,牛客801261568号,答案错误,"def ss(x,y):
+    summ=0
+    q=[(x,y)]
+    f=[[0,1],[0,-1],[1,0],[-1,0]]
+    book=[[0 for i in range(m+1)]for j in range(n+1)]
+    while len(q)!=0:
+        x_,y_=q.pop(0)
+        for i in range(4):
+            x1=x_+f[i][0]
+            y1=y_+f[i][1]
+            if x1>=0 and x1<n and y1>=0 and y1<m and book[x1][y1]==0:
+                if b[x1][y1]=='.':
+                    q.append((x1,y1))
+                    book[x1][y1]=1
+                if b[x1][y1]=='!':
+                    summ+=1
+                    book[x1][y1]=1
+        
+                    
+    return summ
+
+
+
+
+n,m=map(int,input().split())
+b=[]
+flag=0
+for i in range(n):
+    b.append(list(input()))
+for i in range(n):
+    for j in range(m):
+        if b[i][j]=='@':
+            print(ss(i,j))
+            flag=1
+            break
+    if flag==1:
+        break"
+39,C,Python3,61799876,2023-04-07 20:28:35,牛客801261568号,答案错误,"def ss(x,y):
+    summ=0
+    q=[(x,y)]
+    f=[[0,1],[0,-1],[1,0],[-1,0]]
+    book=[[0 for i in range(1001)]for j in range(1001)]
+    while len(q)!=0:
+        x_,y_=q.pop(0)
+        for i in range(4):
+            x1=x_+f[i][0]
+            y1=y_+f[i][1]
+            if x1>=0 and x1<n and y1>=0 and y1<m and book[x1][y1]==0:
+                if b[x1][y1]=='.':
+                    q.append((x1,y1))
+                    book[x1][y1]=1
+                if b[x1][y1]=='!':
+                    summ+=1
+                    book[x1][y1]=1
+        
+                    
+    return summ
+
+
+
+
+n,m=map(int,input().split())
+b=[]
+flag=0
+for i in range(n):
+    b.append(list(input()))
+for i in range(n):
+    for j in range(m):
+        if b[i][j]=='@':
+            print(ss(i,j))
+            flag=1
+            break
+    if flag==1:
+        break"
+40,C,Python3,61799948,2023-04-07 20:29:13,蛮不讲李,执行出错,"a = input().split()
+n,m = int(a[0]),int(a[1])
+
+game_map = []
+for i in range(n):
+    a = list(input())
+    game_map.append(a)
+
+def move(game_map, i,j):
+    count = 0
+    if i<0 or i>=n or j<0 or j>= m:
+        return 0
+    if game_map[i][j] == '#':
+        return 0
+    elif game_map[i][j] == '!':
+        count += 1
+        game_map[i][j] = ""#""
+    else:
+        game_map[i][j] = ""#""
+    return count + move(game_map,i-1,j)+move(game_map,i+1,j)+\
+move(game_map,i,j+1)+move(game_map,i,j-1)
+
+for i in range(n):
+    for j in range(m):
+        if game_map[i][j]==""@"":
+            ans = move(game_map,i,j)
+print(ans)"
+41,C,Python3,61800135,2023-04-07 20:30:48,strongnine,答案错误,"import collections
+def bombHere(x, y, grid, n, m):
+    burn = [[False for _ in range(m)] for _ in range(n)]
+    ans = 0
+    q = collections.deque()
+    q.append([x, y])
+    while q:
+        r, c = q.pop()
+        if grid[r][c] == '!' and not burn[r][c]:
+            burn[r][c] = True
+            ans += 1
+        for i in range(r - 1, -1, -1):  # 上
+            if grid[i][c] == '!' and not burn[i][c]:
+                q.append([i, c])
+            elif grid[i][c] == '#' or burn[i][c]: break
+        for i in range(r + 1, n):  # 下
+            if grid[i][c] == '!' and not burn[i][c]:
+                q.append([i, c])
+            elif grid[i][c] == '#' or burn[i][c]: break
+        for j in range(c - 1, -1, -1):  # 左
+            if grid[r][j] == '!' and not burn[r][j]:
+                q.append([r, j])
+            elif grid[r][j] == '#' or burn[r][j]: break
+        for j in range(c + 1, m):  # 右
+            if grid[r][j] == '!' and not burn[r][j]:
+                q.append([r, j])
+            elif grid[r][j] == '#' or burn[r][j]: break
+    return ans
+    
+
+if __name__ == ""__main__"":
+    # 构建地图
+    n, m = list(map(int, input().strip().split()))
+    grid = [['.' for _ in range(m)] for _ in range(n)]
+    D_queue = collections.deque()
+    D_pos = [0, 0]
+    for i in range(n):
+        line = input().strip()
+        for j in range(m):
+            grid[i][j] = line[j]
+            if line[j] == '@':
+                D_pos = [i, j]
+                grid[i][j] = '.'
+    
+    D_queue.append(D_pos)
+    visited = [[False for _ in range(m)] for _ in range(n)]
+    direction = [[0, -1], [0, 1], [-1, 0], [1, 0]]
+    ans = 0
+    while D_queue:
+        x, y = D_queue.popleft()
+        visited[x][y] = True
+        ans = max(ans, bombHere(x, y, grid, n, m))
+        for dx, dy in direction:
+            nx, ny = x + dx, y + dy
+            if 0 <= nx < n and 0 <= ny < m and not visited[nx][ny] and grid[nx][ny] != '#':
+                D_queue.append([nx, ny])
+    print(ans)        "
+42,C,Python3,61800175,2023-04-07 20:31:10,牛客962568879号,答案错误,"from collections import deque
+n,m=map(int,input().split())
+mp=[]
+vis=deque()
+for i in range(n):
+    s=list(input())
+    mp.append(s)
+for i in range(n):
+    for j in range(m):
+        if mp[i][j]=='@':
+            vis.append((i,j))
+            break
+direction=[(0,1),(1,0),(-1,0),(0,-1)]
+cnt=0
+def bfs():
+    global cnt
+    if len(vis)==0:
+        return 
+    t=vis.popleft()
+    x=t[0]
+    y=t[1]
+    for item in direction:
+        i=item[0]+x
+        j=item[1]+y
+        if 0<=i<n and 0<=j<m:
+            if mp[i][j]!='#':
+                vis.append((i,j))
+                
+                if  mp[i][j]=='!':
+                    cnt=1+cnt
+for i in range(max(n,m)):
+    bfs()
+print(cnt-1)              
+            
+            
+        
+    
+    
+    "
+43,C,Python3,61800551,2023-04-07 20:34:15,牛客962568879号,答案错误,"from collections import deque
+n,m=map(int,input().split())
+mp=[]
+vis=deque()
+for i in range(n):
+    s=list(input())
+    mp.append(s)
+for i in range(n):
+    for j in range(m):
+        if mp[i][j]=='@':
+            vis.append((i,j))
+            break
+direction=[(0,1),(1,0),(-1,0),(0,-1)]
+ans=[]
+def bfs():
+    global cnt
+    if len(vis)==0:
+        return 
+    t=vis.popleft()
+    x=t[0]
+    y=t[1]
+    for item in direction:
+        i=item[0]+x
+        j=item[1]+y
+        if 0<=i<n and 0<=j<m:
+            if mp[i][j]!='#':
+                vis.append((i,j)) 
+                if  mp[i][j]=='!' :
+                    ans.append((i,j))
+for i in range(max(n,m)):
+    bfs()
+ans=set(ans)
+print(len(ans))              
+            
+            
+        
+    
+    
+    "
+44,C,Python3,61800630,2023-04-07 20:34:49,acaax,运行超时,"import random
+import sys
+import os
+import math
+from collections import Counter, defaultdict, deque
+from functools import lru_cache, reduce
+from itertools import accumulate, combinations, permutations
+from heapq import nsmallest, nlargest, heapify, heappop, heappush
+from io import BytesIO, IOBase
+from copy import deepcopy
+import threading
+import bisect
+BUFSIZE = 4096
+
+
+class FastIO(IOBase):
+    newlines = 0
+
+    def __init__(self, file):
+        self._fd = file.fileno()
+        self.buffer = BytesIO()
+        self.writable = ""x"" in file.mode or ""r"" not in file.mode
+        self.write = self.buffer.write if self.writable else None
+
+    def read(self):
+        while True:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            if not b:
+                break
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines = 0
+        return self.buffer.read()
+
+    def readline(self):
+        while self.newlines == 0:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            self.newlines = b.count(b""\n"") + (not b)
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines -= 1
+        return self.buffer.readline()
+
+    def flush(self):
+        if self.writable:
+            os.write(self._fd, self.buffer.getvalue())
+            self.buffer.truncate(0), self.buffer.seek(0)
+
+class IOWrapper(IOBase):
+    def __init__(self, file):
+        self.buffer = FastIO(file)
+        self.flush = self.buffer.flush
+        self.writable = self.buffer.writable
+        self.write = lambda s: self.buffer.write(s.encode(""ascii""))
+        self.read = lambda: self.buffer.read().decode(""ascii"")
+        self.readline = lambda: self.buffer.readline().decode(""ascii"")
+
+sys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)
+input = lambda: sys.stdin.readline().rstrip(""\r\n"")
+
+def I():
+    return input()
+
+def II():
+    return int(input())
+
+def MI():
+    return map(int, input().split())
+
+def LI():
+    return list(input().split())
+
+def LII():
+    return list(map(int, input().split()))
+
+def GMI():
+    return map(lambda x: int(x) - 1, input().split())
+
+def LGMI():
+    return list(map(lambda x: int(x) - 1, input().split()))
+
+n,m = MI()
+g = []
+mxs = max(n,m)
+st = [[0] * (mxs + 10) for _ in range(mxs + 10)]
+stx,sty = 0,0
+for i in range(n):
+    g.append(I())
+    for j in range(m):
+        if g[i][j] == '!':
+            st[i][j] = 1
+        elif g[i][j] == '#':
+            st[i][j] = -1
+        elif g[i][j] == '@':
+            stx,sty = i, j
+stz = deepcopy(st)
+dx, dy = [0,0,1,-1], [1,-1,0,0]
+dic = []
+
+v = 0
+def dfs(x, y):
+    global v
+    if st[x][y] == -1:
+        return
+    if x >= n or x < 0 or y < 0 or y >= m:
+        return
+    if st[x][y] == 1:
+        v += 1
+    st[x][y] = -1
+    for i in range(4):
+        nx,ny = x + dx[i], y + dy[i]
+        if st[nx][ny] >= 0 and 0<= nx < n and 0 <= ny < m:
+            dfs(nx, ny)
+for i in range(n):
+    for j in range(m):
+        # 草
+        if st[i][j] >= 0:
+            dfs(i, j)
+            dic.append([i, j, v])
+            v = 0
+if len(dic) == 0:
+    print(0)
+else:
+    dic.sort(key= lambda x:-x[2])
+    
+    flag = False
+    def check(x1, y1, x2, y2):
+        global flag
+        if x1 >= n or x1 < 0 or y1 < 0 or y1 >= m:
+            return
+        if stz[x1][y1] == -1:
+            return 
+        if x1 == x2 and y1 == y2:
+            flag = True
+            return 
+        stz[x1][y1] = -1
+        for i in range(4):
+            nx,ny = x1 + dx[i], y1 + dy[i]
+            if stz[nx][ny] != -1 and 0 <= nx < n and 0 <= ny < m:
+                check(nx, ny, x2, y2)
+    res = 0
+
+    for k in range(len(dic)):
+        x, y, vs = dic[k]
+        check(x,y, stx,sty)
+        if flag:
+            res = max(res, vs)
+            flag = False
+            break
+    print(res)"
+45,C,Python3,61800681,2023-04-07 20:35:17,牛客962568879号,答案错误,"from collections import deque
+n,m=map(int,input().split())
+mp=[]
+vis=deque()
+for i in range(n):
+    s=list(input())
+    mp.append(s)
+for i in range(n):
+    for j in range(m):
+        if mp[i][j]=='@':
+            vis.append((i,j))
+            break
+direction=[(0,1),(1,0),(-1,0),(0,-1)]
+ans=[]
+def bfs():
+    global cnt
+    if len(vis)==0:
+        return 
+    t=vis.popleft()
+    x=t[0]
+    y=t[1]
+    for item in direction:
+        i=item[0]+x
+        j=item[1]+y
+        if 0<=i<n and 0<=j<m:
+            if mp[i][j]!='#' :
+                vis.append((i,j)) 
+                if  mp[i][j]=='!' :
+                    ans.append((i,j))
+for i in range(max(n,m)):
+    bfs()
+ans=set(ans)
+print(len(ans))              
+            
+            
+        
+    
+    
+    "
+46,C,Python3,61800769,2023-04-07 20:36:11,so_hard.,内存超限,"import sys
+import random
+
+sys.setrecursionlimit(1000000)
+
+n, m = map(int, input().strip().split())
+image = []
+nxt = [[0, 1], [1, 0], [0, -1], [-1, 0]]
+vist = [[False for _ in range(m)] for _ in range(n)]
+    
+def dfs(x, y, cnt):
+    vist[x][y] = True
+    s = cnt
+    for i in range(4):
+        nx = x + nxt[i][0]
+        ny = y + nxt[i][1]
+        if nx < 0 or nx >= n or ny < 0 or ny >= m:
+            continue
+        if vist[nx][ny] or image[nx][ny] == '#':
+            continue
+        if image[nx][ny] == '!':
+            s = s + 1
+        s = dfs(nx, ny, s)
+    return s
+
+
+def solve():
+    for i in range(n):
+        lst = [*input()]
+        image.append(lst)
+    
+    sx, sy = -1, -1
+    for i in range(n):
+        for j in range(m):
+            if image[i][j] == '@':
+                sx, sy = i, j
+    ans = dfs(sx, sy, 0)
+    if n >= 1000 and m >= 1000:
+        print(0)
+    else:
+        print(ans)
+        
+if __name__ == '__main__':
+    solve()
+
+"
+47,C,Python3,61800875,2023-04-07 20:37:10,牛客962568879号,答案错误,"from collections import deque
+n,m=map(int,input().split())
+mp=[]
+vis=deque()
+for i in range(n):
+    s=list(input())
+    mp.append(s)
+for i in range(n):
+    for j in range(m):
+        if mp[i][j]=='@':
+            vis.append((i,j))
+            break
+direction=[(0,1),(1,0),(-1,0),(0,-1)]
+ans=[]
+def bfs():
+    global cnt
+    if len(vis)==0:
+        tmp=0
+        return
+    t=vis.popleft()
+    x=t[0]
+    y=t[1]
+    for item in direction:
+        i=item[0]+x
+        j=item[1]+y
+        if 0<=i<n and 0<=j<m:
+            if mp[i][j]!='#' :
+                vis.append((i,j)) 
+                if  mp[i][j]=='!' :
+                    ans.append((i,j))
+for i in range(max(n,m)):
+    b=bfs()
+    if b==0:
+        break
+ans=set(ans)
+print(len(ans))              
+            
+            
+        
+    
+    
+    "
+48,C,Python3,61801018,2023-04-07 20:38:29,牛客962568879号,答案错误,"from collections import deque
+n,m=map(int,input().split())
+mp=[]
+vis=deque()
+for i in range(n):
+    s=list(input())
+    mp.append(s)
+for i in range(n):
+    for j in range(m):
+        if mp[i][j]=='@':
+            vis.append((i,j))
+            break
+direction=[(0,1),(1,0),(-1,0),(0,-1)]
+ans=[]
+def bfs():
+    global cnt
+    if len(vis)==0:
+        tmp=0
+        return
+    t=vis.popleft()
+    x=t[0]
+    y=t[1]
+    for item in direction:
+        i=item[0]+x
+        j=item[1]+y
+        if 0<=i<n and 0<=j<m:
+            if mp[i][j]!='#' :
+                vis.append((i,j)) 
+                if  mp[i][j]=='!' :
+                    ans.append((i,j))
+f=max(n,m)
+for i in range(f*f):
+    b=bfs()
+    if b==0:
+        break
+ans=set(ans)
+print(len(ans))              
+            
+            
+        
+    
+    
+    "
+49,C,Python3,61801229,2023-04-07 20:40:16,acaax,执行出错,"import random
+import sys
+import os
+import math
+from collections import Counter, defaultdict, deque
+from functools import lru_cache, reduce
+from itertools import accumulate, combinations, permutations
+from heapq import nsmallest, nlargest, heapify, heappop, heappush
+from io import BytesIO, IOBase
+from copy import deepcopy
+import threading
+import bisect
+BUFSIZE = 4096
+
+
+class FastIO(IOBase):
+    newlines = 0
+
+    def __init__(self, file):
+        self._fd = file.fileno()
+        self.buffer = BytesIO()
+        self.writable = ""x"" in file.mode or ""r"" not in file.mode
+        self.write = self.buffer.write if self.writable else None
+
+    def read(self):
+        while True:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            if not b:
+                break
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines = 0
+        return self.buffer.read()
+
+    def readline(self):
+        while self.newlines == 0:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            self.newlines = b.count(b""\n"") + (not b)
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines -= 1
+        return self.buffer.readline()
+
+    def flush(self):
+        if self.writable:
+            os.write(self._fd, self.buffer.getvalue())
+            self.buffer.truncate(0), self.buffer.seek(0)
+
+class IOWrapper(IOBase):
+    def __init__(self, file):
+        self.buffer = FastIO(file)
+        self.flush = self.buffer.flush
+        self.writable = self.buffer.writable
+        self.write = lambda s: self.buffer.write(s.encode(""ascii""))
+        self.read = lambda: self.buffer.read().decode(""ascii"")
+        self.readline = lambda: self.buffer.readline().decode(""ascii"")
+
+sys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)
+input = lambda: sys.stdin.readline().rstrip(""\r\n"")
+
+def I():
+    return input()
+
+def II():
+    return int(input())
+
+def MI():
+    return map(int, input().split())
+
+def LI():
+    return list(input().split())
+
+def LII():
+    return list(map(int, input().split()))
+
+def GMI():
+    return map(lambda x: int(x) - 1, input().split())
+
+def LGMI():
+    return list(map(lambda x: int(x) - 1, input().split()))
+
+n,m = MI()
+g = []
+mxs = max(n,m)
+st = [[0] * (mxs + 10) for _ in range(mxs + 10)]
+stx,sty = 0,0
+for i in range(n):
+    g.append(I())
+    for j in range(m):
+        if g[i][j] == '!':
+            st[i][j] = 1
+        elif g[i][j] == '#':
+            st[i][j] = -1
+        elif g[i][j] == '@':
+            stx,sty = i, j
+stz = deepcopy(st)
+dx, dy = [0,0,1,-1], [1,-1,0,0]
+dic = []
+
+v = 0
+flag = False
+def dfs(x, y):
+    global v, flag
+    if st[x][y] == -1:
+        return
+    if x >= n or x < 0 or y < 0 or y >= m:
+        return
+    if st[x][y] == 1:
+        v += 1
+    st[x][y] = -1
+    if x == stx and y == sty:
+        st[x][y] = 0
+        flag = True
+    for i in range(4):
+        nx,ny = x + dx[i], y + dy[i]
+        if st[nx][ny] >= 0 and 0<= nx < n and 0 <= ny < m:
+            dfs(nx, ny)
+for i in range(n):
+    for j in range(m):
+        # 草
+        if st[i][j] >= 0:
+            dfs(i, j)
+            if flag:
+                dic.append([i, j, v])
+            v,flag = 0, False
+if len(dic) == 0:
+    print(0)
+else:
+    dic.sort(key= lambda x:-x[2])
+    print(dic[0][2])
+#     def check(x1, y1, x2, y2):
+#         global flag
+#         if x1 >= n or x1 < 0 or y1 < 0 or y1 >= m:
+#             return
+#         if stz[x1][y1] == -1:
+#             return 
+#         if x1 == x2 and y1 == y2:
+#             flag = True
+#             return 
+#         stz[x1][y1] = -1
+#         for i in range(4):
+#             nx,ny = x1 + dx[i], y1 + dy[i]
+#             if stz[nx][ny] != -1 and 0 <= nx < n and 0 <= ny < m:
+#                 check(nx, ny, x2, y2)
+#     res = 0
+
+#     for k in range(len(dic)):
+#         x, y, vs = dic[k]
+#         check(x,y, stx,sty)
+#         if flag:
+#             res = max(res, vs)
+#             break
+#     print(res)"
+50,C,Python3,61801265,2023-04-07 20:40:37,牛客962568879号,答案错误,"from collections import deque
+n,m=map(int,input().split())
+mp=[]
+vis=deque()
+for i in range(n):
+    s=list(input())
+    mp.append(s)
+for i in range(n):
+    for j in range(m):
+        if mp[i][j]=='@':
+            vis.append((i,j))
+            break
+direction=[(0,1),(1,0),(-1,0),(0,-1)]
+ans=[]
+def bfs():
+    global cnt
+    if len(vis)==0:
+        tmp=0
+        return
+    t=vis.popleft()
+    x=t[0]
+    y=t[1]
+    for item in direction:
+        i=item[0]+x
+        j=item[1]+y
+        if 0<=i<n and 0<=j<m:
+            if mp[i][j]!='#' :
+                vis.append((i,j)) 
+                if  mp[i][j]=='!' :
+                    ans.append((i,j))
+f=max(n,m)
+for i in range(1000):
+    b=bfs()
+    if b==0:
+        break
+ans=set(ans)
+print(ans)
+print(len(ans))              
+            
+            
+        
+    
+    
+    "
+51,C,Python3,61801278,2023-04-07 20:40:44,牛客962568879号,答案错误,"from collections import deque
+n,m=map(int,input().split())
+mp=[]
+vis=deque()
+for i in range(n):
+    s=list(input())
+    mp.append(s)
+for i in range(n):
+    for j in range(m):
+        if mp[i][j]=='@':
+            vis.append((i,j))
+            break
+direction=[(0,1),(1,0),(-1,0),(0,-1)]
+ans=[]
+def bfs():
+    global cnt
+    if len(vis)==0:
+        tmp=0
+        return
+    t=vis.popleft()
+    x=t[0]
+    y=t[1]
+    for item in direction:
+        i=item[0]+x
+        j=item[1]+y
+        if 0<=i<n and 0<=j<m:
+            if mp[i][j]!='#' :
+                vis.append((i,j)) 
+                if  mp[i][j]=='!' :
+                    ans.append((i,j))
+f=max(n,m)
+for i in range(10000):
+    b=bfs()
+    if b==0:
+        break
+ans=set(ans)
+print(ans)
+print(len(ans))              
+            
+            
+        
+    
+    
+    "
+52,C,Python3,61801489,2023-04-07 20:42:42,牛客962568879号,答案错误,"from collections import deque
+n,m=map(int,input().split())
+mp=[]
+vis=deque()
+for i in range(n):
+    s=list(input())
+    mp.append(s)
+for i in range(n):
+    for j in range(m):
+        if mp[i][j]=='@':
+            vis.append((i,j))
+            break
+direction=[(0,1),(1,0),(-1,0),(0,-1)]
+ans=[]
+def bfs():
+    global cnt
+    if len(vis)==0:
+        tmp=0
+        return
+    t=vis.popleft()
+    x=t[0]
+    y=t[1]
+    for item in direction:
+        i=item[0]+x
+        j=item[1]+y
+        if 0<=i<n and 0<=j<m:
+            if mp[i][j]!='#' :
+                vis.append((i,j)) 
+                if  mp[i][j]=='!' :
+                    ans.append((i,j))
+f=max(n,m)
+for i in range(1000):
+    b=bfs()
+    if b==0:
+        break
+ans=set(ans)
+print(len(ans))              
+            
+            
+        
+    
+    
+    "
+53,C,Python3,61802095,2023-04-07 20:47:53,牛客937540361号,运行超时,"n,m=map(int,input().split())
+visited=set()
+dp=[input() for _ in range(n)]
+fired,ans=[],0
+for i in range(n):
+    if '@' in dp[i]:
+        fired.append((i,dp[i].find('@')))
+        visited.add((i,dp[i].find('@')))
+while fired!=[]:
+    (x,y)=fired.pop(0)
+    for a,b in [1,0],[-1,0],[0,1],[0,-1]:
+        if 0<=x+a<n and 0<=y+b<m:
+            if dp[x+a][y+b]!='#' and (x+a,y+b) not in visited:
+                fired.append((x+a,y+b))
+                visited.add((x+a,y+b))
+                if dp[x+a][y+b]=='!':
+                    ans+=1
+print(ans)
+    "
+54,C,Python3,61802108,2023-04-07 20:47:57,牛客962568879号,运行超时,"from collections import deque
+n,m=map(int,input().split())
+mp=[]
+vis=deque()
+for i in range(n):
+    s=list(input())
+    mp.append(s)
+for i in range(n):
+    for j in range(m):
+        if mp[i][j]=='@':
+            vis.append((i,j))
+            break
+direction=[(0,1),(1,0),(-1,0),(0,-1)]
+ans=[]
+def bfs():
+    global cnt
+    t=vis.popleft()
+    x=t[0]
+    y=t[1]
+    for item in direction:
+        i=item[0]+x
+        j=item[1]+y
+        if 0<=i<n and 0<=j<m:
+            if mp[i][j]!='#' :
+                vis.append((i,j)) 
+                if  mp[i][j]=='!' :
+                    ans.append((i,j))
+f=max(n,m)
+while(len(vis)!=0):
+    bfs()
+ans=set(ans)
+print(len(ans))              
+            
+            
+        
+    
+    
+    "
+55,C,Python3,61802494,2023-04-07 20:51:06,牛客962568879号,运行超时,"from collections import deque
+n,m=map(int,input().split())
+mp=[]
+vis=deque()
+for i in range(n):
+    s=list(input())
+    mp.append(s)
+for i in range(n):
+    for j in range(m):
+        if mp[i][j]=='@':
+            vis.append((i,j))
+            break
+direction=[(0,1),(1,0),(-1,0),(0,-1)]
+ans=[]
+def bfs():
+    global cnt
+    t=vis.popleft()
+    x=t[0]
+    y=t[1]
+    for item in direction:
+        i=item[0]+x
+        j=item[1]+y
+        if 0<=i<n and 0<=j<m:
+            if mp[i][j]!='#' and (i,j) not in vis:
+                vis.append((i,j)) 
+                if  mp[i][j]=='!' :
+                    ans.append((i,j))
+                
+f=max(n,m)
+while(len(vis)!=0):
+    bfs()
+
+print(len(ans))              
+            
+            
+        
+    
+    
+    "
+56,C,Python3,61802672,2023-04-07 20:52:36,蛮不讲李,执行出错,"a = input().split()
+n,m = int(a[0]),int(a[1])
+
+game_map = []
+for i in range(n):
+    a = list(input())
+    game_map.append(a)
+
+def move(game_map, i,j):
+    count = 0
+    if i<0 or i>=n or j<0 or j>= m:
+        return 0
+    if game_map[i][j] == '#':
+        return 0
+    elif game_map[i][j] == '!':
+        count += 1
+        game_map[i][j] = ""#""
+    else:
+        game_map[i][j] = ""#""
+    return count + move(game_map,i-1,j)+move(game_map,i+1,j)+\
+move(game_map,i,j+1)+move(game_map,i,j-1)
+
+for i in range(n):
+    for j in range(m):
+        if game_map[i][j]==""@"":
+            ans = move(game_map,i,j)
+print(ans)"
+57,C,Python3,61802910,2023-04-07 20:54:19,蛮不讲李,执行出错,"a = input().split()
+n,m = int(a[0]),int(a[1])
+
+game_map = []
+for i in range(n):
+    a = list(input())
+    game_map.append(a)
+
+def move(game_map, i,j):
+    count = 0
+    if i<0 or i>=n or j<0 or j>= m:
+        return 0
+    if game_map[i][j] == '#':
+        return 0
+    elif game_map[i][j] == '!':
+        count += 1
+        game_map[i][j] = ""#""
+    else:
+        game_map[i][j] = ""#""
+    return count + move(game_map,i-1,j)+move(game_map,i+1,j)+\
+move(game_map,i,j+1)+move(game_map,i,j-1)
+
+for i in range(n):
+    for j in range(m):
+        if game_map[i][j]==""@"":
+            ans = move(game_map,i,j)
+print(ans)"
+58,C,Python3,61803468,2023-04-07 20:58:42,牛客937540361号,运行超时,"n,m=map(int,input().split())
+visited=set()
+dp=[input() for _ in range(n)]
+fired,ans=[],0
+for i in range(n):
+    if '@' in dp[i]:
+        fired.append((i,dp[i].find('@')))
+        visited.add((i,dp[i].find('@')))
+while fired!=[]:
+    (x,y)=fired.pop(0)
+    for a,b in [1,0],[-1,0],[0,1],[0,-1]:
+        if 0<=x+a<n and 0<=y+b<m:
+            if dp[x+a][y+b]!='#' and (x+a,y+b) not in visited:
+                fired.append((x+a,y+b))
+                visited.add((x+a,y+b))
+                if dp[x+a][y+b]=='!':
+                    ans+=1
+print(ans)
+    "
+59,C,Python3,61804488,2023-04-07 21:08:35,牛客39905829号,运行超时,"import sys
+from collections import deque
+
+sys.setrecursionlimit(1000000)
+
+n, m = map(int, input().strip().split())
+image = []
+nxt = [[0, 1], [1, 0], [0, -1], [-1, 0]]
+vist = [[False for _ in range(m)] for _ in range(n)]
+Q = deque()
+    
+def dfs(x, y, cnt):
+    s = cnt
+    for i in range(4):
+        nx = x + nxt[i][0]
+        ny = y + nxt[i][1]
+        if nx < 0 or nx >= n or ny < 0 or ny >= m:
+            continue
+        if vist[nx][ny] or image[nx][ny] == '#' or image[nx][ny] == '@':
+            continue
+        if image[nx][ny] == '!':
+            s = s + 1
+        vist[nx][ny] = True
+        s = dfs(nx, ny, s)
+    return s
+
+def bfs(sx, sy):
+    vist[sx][sy] = True
+    Q.append((sx, sy))
+    cnt = 0
+    while len(Q) > 0:
+        x, y = Q.popleft()
+        for i in range(4):
+            nx = x + nxt[i][0]
+            ny = y + nxt[i][1]
+            if nx < 0 or nx >= n or ny < 0 or ny >= m:
+                continue
+            if vist[nx][ny] or image[nx][ny] == '#':
+                continue
+            vist[nx][ny] = True
+            if image[nx][ny] == '!':
+                cnt = cnt + 1
+            Q.append((nx, ny))
+    
+    return cnt
+
+
+def solve():
+    for i in range(n):
+        lst = [*input()]
+        image.append(lst)
+    
+    sx, sy = -1, -1
+    for i in range(n):
+        for j in range(m):
+            if image[i][j] == '@':
+                sx, sy = i, j
+    ans = bfs(sx, sy)
+    print(ans)
+        
+if __name__ == '__main__':
+    solve()
+
+"
+60,C,Python3,61804930,2023-04-07 21:14:20,牛客622344441号,运行超时,"# 读入数据
+n, m = map(int, input().split())
+mp = [list(input().strip()) for _ in range(n)]
+
+# 找到小 D 的位置
+for i in range(n):
+    for j in range(m):
+        if mp[i][j] == '@':
+            x, y = i, j
+            break
+
+# BFS 搜索
+queue = [(x, y)]
+distance = {(x, y): 0}
+grass_count = 0
+
+while queue:
+    x, y = queue.pop(0)
+    for dx, dy in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+        nx, ny = x + dx, y + dy
+        if 0 <= nx < n and 0 <= ny < m and mp[nx][ny] != '#' and (nx, ny) not in distance:
+            distance[(nx, ny)] = distance[(x, y)] + 1
+            queue.append((nx, ny))
+            if mp[nx][ny] == '!':
+                grass_count += 1
+
+# 输出答案
+print(grass_count)
+"
+61,C,Python3,61804975,2023-04-07 21:14:55,牛客622344441号,运行超时,"# 读入数据
+n, m = map(int, input().split())
+mp = [list(input().strip()) for _ in range(n)]
+
+# 找到小 D 的位置
+for i in range(n):
+    for j in range(m):
+        if mp[i][j] == '@':
+            x, y = i, j
+            break
+
+# BFS 搜索
+queue = [(x, y)]
+distance = {(x, y): 0}
+grass_count = 0
+
+while queue:
+    x, y = queue.pop(0)
+    for dx, dy in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+        nx, ny = x + dx, y + dy
+        if 0 <= nx < n and 0 <= ny < m and mp[nx][ny] != '#' and (nx, ny) not in distance:
+            distance[(nx, ny)] = distance[(x, y)] + 1
+            queue.append((nx, ny))
+            if mp[nx][ny] == '!':
+                grass_count += 1
+
+# 输出答案
+print(grass_count)
+"
+62,C,Python3,61805155,2023-04-07 21:17:27,jhuikai,执行出错,"n,m=map(int,input().split())
+dp=[]
+for i in range(n):
+    a=list(input())
+    dp.append(a)
+dpi=[(1,0),(-1,0),(0,1),(0,-1)]
+ret=0
+def dfs(a,b):
+    global ret,dp
+    for x,y in dpi:
+        nx=a+x
+        ny=b+y
+        if nx>=0 and nx<n and ny>=0 and ny<m and dp[nx][ny]!='#' and dp[nx][ny]!='-1':
+            if dp[nx][ny]=='!':
+                dp[nx][ny]='-1'
+                ret+=1
+            if dp[nx][ny]=='.':
+                dp[nx][ny]='-1'
+            dfs(nx,ny)
+for i in range(n):
+    for j in range(m):
+        if dp[i][j]=='@':
+            dp[i][j]=='-1'
+            dfs(i,j)
+print(ret)"
+63,C,Python3,61805267,2023-04-07 21:19:45,jhuikai,执行出错,"import sys
+sys.setrecursionlimit(100000) #设置最大递归深度为100000
+n,m=map(int,input().split())
+dp=[]
+for i in range(n):
+    a=list(input())
+    dp.append(a)
+dpi=[(1,0),(-1,0),(0,1),(0,-1)]
+ret=0
+def dfs(a,b):
+    global ret,dp
+    for x,y in dpi:
+        nx=a+x
+        ny=b+y
+        if nx>=0 and nx<n and ny>=0 and ny<m and dp[nx][ny]!='#' and dp[nx][ny]!='-1':
+            if dp[nx][ny]=='!':
+                dp[nx][ny]='-1'
+                ret+=1
+            if dp[nx][ny]=='.':
+                dp[nx][ny]='-1'
+            dfs(nx,ny)
+for i in range(n):
+    for j in range(m):
+        if dp[i][j]=='@':
+            dp[i][j]=='-1'
+            dfs(i,j)
+print(ret)"
+64,C,Python3,61805511,2023-04-07 21:24:10,jhuikai,执行出错,"import sys
+sys.setrecursionlimit(100000) #设置最大递归深度为100000
+n,m=map(int,input().split())
+dp=[]
+for i in range(n):
+    a=list(input())
+    dp.append(a)
+dpi=[(1,0),(-1,0),(0,1),(0,-1)]
+ret=0
+def dfs(a,b):
+    global ret,dp
+    for x,y in dpi:
+        nx=a+x
+        ny=b+y
+        if nx>=0 and nx<n and ny>=0 and ny<m and dp[nx][ny]!='#' and dp[nx][ny]!='-1':
+            if dp[nx][ny]=='!':
+                dp[nx][ny]='-1'
+                ret+=1
+            if dp[nx][ny]=='.':
+                dp[nx][ny]='-1'
+            dfs(nx,ny)
+for i in range(n):
+    for j in range(m):
+        if dp[i][j]=='@':
+            dp[i][j]='-1'
+            dfs(i,j)
+print(ret)"
+65,C,Python3,61805594,2023-04-07 21:25:45,牛客622344441号,运行超时,"# 读入数据
+n, m = map(int, input().split())
+mp = [list(input().strip()) for _ in range(n)]
+
+# 找到小 D 的位置
+for i in range(n):
+    for j in range(m):
+        if mp[i][j] == '@':
+            x, y = i, j
+            break
+
+# 初始化 distance 列表
+distance = [[-1] * m for _ in range(n)]
+distance[x][y] = 0
+
+# BFS 搜索
+queue = [(x, y)]
+grass_count = 0
+
+while queue:
+    x, y = queue.pop(0)
+    for dx, dy in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+        nx, ny = x + dx, y + dy
+        if 0 <= nx < n and 0 <= ny < m and mp[nx][ny] != '#' and distance[nx][ny] == -1:
+            distance[nx][ny] = distance[x][y] + 1
+            queue.append((nx, ny))
+            if mp[nx][ny] == '!':
+                grass_count += 1
+
+# 输出答案
+print(grass_count)
+"
+66,C,Python3,61805628,2023-04-07 21:26:39,jhuikai,执行出错,"n,m=map(int,input().split())
+dp=[]
+for i in range(n):
+    a=list(input())
+    dp.append(a)
+dpi=[(1,0),(-1,0),(0,1),(0,-1)]
+ret=0
+def dfs(a,b):
+    global ret,dp
+    for x,y in dpi:
+        nx=a+x
+        ny=b+y
+        if nx>=0 and nx<n and ny>=0 and ny<m and dp[nx][ny]!='#' and dp[nx][ny]!='-1':
+            if dp[nx][ny]=='!':
+                dp[nx][ny]='-1'
+                ret+=1
+            if dp[nx][ny]=='.':
+                dp[nx][ny]='-1'
+            dfs(nx,ny)
+for i in range(n):
+    for j in range(m):
+        if dp[i][j]=='@':
+            dp[i][j]='-1'
+            dfs(i,j)
+print(ret)"
+67,C,Python3,61805800,2023-04-07 21:30:04,那些i回忆,运行超时,"from collections import deque
+import sys
+
+N=1000+10
+g=[[] for i in range(N)]
+st=[[False]*N for i in range(N)]
+
+n,m=list(map(int,sys.stdin.readline().split()))
+for i in range(n):
+    g[i]=sys.stdin.readline()
+for i in range(n):
+    for j in range(m):
+        if g[i][j]=='@':
+            sx,sy=i,j
+            break
+dx=[0,0,1,-1]
+dy=[1,-1,0,0]
+q=deque()
+q.append([sx,sy])
+st[sx][sy]=True
+cnt=0
+while len(q)>0:
+    x,y=q[0]
+    q.popleft()
+    for i in range(len(dx)):
+        tx=x+dx[i]
+        ty=y+dy[i]
+        if tx>=0 and tx<n and ty>=0 and ty<m:
+            if st[tx][ty]==False and g[tx][ty]!='#':
+                q.append([tx,ty])
+                st[tx][ty]=True
+                if g[tx][ty]=='!':
+                    cnt+=1
+print(cnt)
+"
+68,C,Python3,61806047,2023-04-07 21:35:12,牛客622344441号,运行超时,"# 读入数据
+n, m = map(int, input().split())
+mp = [list(input().strip()) for _ in range(n)]
+
+# 找到小 D 的位置
+for i in range(n):
+    for j in range(m):
+        if mp[i][j] == '@':
+            x, y = i, j
+            break
+
+# 初始化 distance 列表
+distance = [[-1] * m for _ in range(n)]
+distance[x][y] = 0
+
+# BFS 搜索
+queue = [(x, y)]
+grass_count = 0
+
+while queue:
+    x, y = queue.pop(0)
+    for dx, dy in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+        nx, ny = x + dx, y + dy
+        if 0 <= nx < n and 0 <= ny < m and mp[nx][ny] != '#' and distance[nx][ny] == -1:
+            distance[nx][ny] = distance[x][y] + 1
+            queue.append((nx, ny))
+            if mp[nx][ny] == '!':
+                grass_count += 1
+
+# 输出答案
+print(grass_count)
+"
+69,C,Python3,61806061,2023-04-07 21:35:33,牛客622344441号,运行超时,"# 读入数据
+n, m = map(int, input().split())
+mp = [list(input().strip()) for _ in range(n)]
+
+# 找到小 D 的位置
+for i in range(n):
+    for j in range(m):
+        if mp[i][j] == '@':
+            x, y = i, j
+            break
+
+# 初始化 distance 列表
+distance = [[-1] * m for _ in range(n)]
+distance[x][y] = 0
+
+# BFS 搜索
+queue = [(x, y)]
+grass_count = 0
+
+while queue:
+    x, y = queue.pop(0)
+    for dx, dy in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+        nx, ny = x + dx, y + dy
+        if 0 <= nx < n and 0 <= ny < m and mp[nx][ny] != '#' and distance[nx][ny] == -1:
+            distance[nx][ny] = distance[x][y] + 1
+            queue.append((nx, ny))
+            if mp[nx][ny] == '!':
+                grass_count += 1
+
+# 输出答案
+print(grass_count)
+"
+70,C,Python3,61806151,2023-04-07 21:38:48,牛客937540361号,运行超时,"n,m=map(int,input().split())
+visited=set()
+dp=[input() for _ in range(n)]
+fired,ans=[],0
+for i in range(n):
+    if '@' in dp[i]:
+        fired.append((i,dp[i].find('@')))
+        visited.add((i,dp[i].find('@')))
+while fired!=[]:
+    (x,y)=fired.pop(0)
+    for a,b in [1,0],[-1,0],[0,1],[0,-1]:
+        if 0<=x+a<n and 0<=y+b<m:
+            if dp[x+a][y+b]!='#' and (x+a,y+b) not in visited:
+                fired.append((x+a,y+b))
+                visited.add((x+a,y+b))
+                if dp[x+a][y+b]=='!':
+                    ans+=1
+print(ans)
+    "
+71,C,Python3,61806210,2023-04-07 21:40:42,xphhh,执行出错,"n,m=map(int,input().split())
+mp=[]
+step=[(1,0),(-1,0),(0,1),(0,-1)]
+for i in range(n):
+    s=list(input())
+    mp.append(s)
+# print(mp)
+ans=0
+def dfs(x,y):
+    global ans
+    global mp
+    # mp[x][y] = '*' #标记火焰蔓延的标志
+    for i in range(4):
+        xx = x + step[i][0]
+        yy = y + step[i][1]
+        if 0<=xx<n and 0<=yy<m and mp[xx][yy]!='#' and mp[xx][yy] != '*':
+            if mp[xx][yy] == '!':
+                ans += 1
+            mp[xx][yy] = '*'
+            dfs(xx,yy)
+    
+for i in range(n):
+    for j in range(m):
+        if mp[i][j] == '@':
+            mp[i][j]='*'
+            dfs(i,j)
+# for i in range(n):
+#     print(mp[i])
+print(ans)
+
+
+
+
+
+
+"
+72,C,Python3,61806230,2023-04-07 21:41:21,牛客622344441号,答案错误,"n, m = map(int, input().split())
+grid = [input() for _ in range(n)]
+
+# 找到小D的起始位置
+for i in range(n):
+    for j in range(m):
+        if grid[i][j] == '@':
+            start = (i, j)
+            break
+
+# 记录可以蔓延的方向
+dx = [1, 0, -1, 0]
+dy = [0, 1, 0, -1]
+
+# BFS
+def bfs(start, end):
+    queue = [(start, 0)]
+    visited = set([start])
+    while queue:
+        pos, steps = queue.pop(0)
+        if pos == end:
+            return steps
+        x, y = pos
+        for i in range(4):
+            nx, ny = x + dx[i], y + dy[i]
+            if 0 <= nx < n and 0 <= ny < m and grid[nx][ny] != '#' and (nx, ny) not in visited:
+                queue.append(((nx, ny), steps + 1))
+                visited.add((nx, ny))
+    return -1
+
+# 寻找最多能烧掉多少块杂草地
+max_grass_burned = 0
+for i in range(n):
+    for j in range(m):
+        if grid[i][j] == '!':
+            # 燃烧杂草后变为空地
+            grid[i] = grid[i][:j] + '.' + grid[i][j+1:]
+            # 计算从小D位置到该杂草的距离
+            start_steps = bfs(start, (i, j))
+            if start_steps == -1:
+                continue
+            # 计算从该杂草位置到终点的距离
+            end = None
+            for x in range(n):
+                for y in range(m):
+                    if grid[x][y] == '.':
+                        if not end or bfs((i, j), (x, y)) < bfs((i, j), end):
+                            end = (x, y)
+            # 更新最多能烧掉的块数
+            max_grass_burned = max(max_grass_burned, start_steps + bfs((i, j), end))
+
+print(max_grass_burned)
+
+"
+73,C,Python3,61806613,2023-04-07 21:53:39,在走神的菜鸡很漂亮,运行超时,"n,m=map(int,input().split())
+data=[]
+for i in range(n):
+    data.append([])
+    strs=input()
+    for j in range(m):
+        data[i].append(strs[j])
+ans=0
+dirs=[lambda x,y:(x+1,y),
+      lambda x,y:(x,y+1),
+      lambda x,y:(x-1,y),
+     lambda x,y:(x,y-1)]
+for i in range(n):
+    for j in range(m):
+        if data[i][j]=='@':
+            start=(i,j)          
+            break
+queue=[start]
+dic={start}
+while queue:
+    temp=[]
+    while queue:
+        cur=queue.pop()
+        for direction in dirs:
+            nextnode=direction(cur[0],cur[1])
+            if nextnode in dic:
+                continue
+            if 0<=nextnode[0]<=n-1 and 0<=nextnode[1]<=m-1:
+                dic.add(nextnode)
+                if data[nextnode[0]][nextnode[1]]=='#':
+                    continue
+                else:
+                    temp.append(nextnode)
+                    if data[nextnode[0]][nextnode[1]]=='!':
+                        ans+=1
+    queue=temp[::]
+print(ans)
+"
+74,C,Python3,61807464,2023-04-07 22:26:46,牛客801261568号,运行超时,"def ss(x,y):
+    summ=0
+    q=[(x,y)]
+    f=[[0,1],[0,-1],[1,0],[-1,0]]
+    book=[[0 for i in range(1001)]for j in range(1001)]
+    while len(q)!=0:
+        x_,y_=q.pop(0)
+        for i in range(4):
+            x1=x_+f[i][0]
+            y1=y_+f[i][1]
+            if x1>=0 and x1<n and y1>=0 and y1<m:
+                if b[x1][y1]!='#' and book[x1][y1]==0:
+                    q.append((x1,y1))
+                    book[x1][y1]=1
+                    if b[x1][y1]=='!':
+                        summ+=1
+        
+                    
+    return summ
+
+
+
+
+n,m=map(int,input().split())
+b=[]
+flag=0
+for i in range(n):
+    b.append(list(input()))
+for i in range(n):
+    for j in range(m):
+        if b[i][j]=='@':
+            print(ss(i,j))
+            flag=1
+            break
+    if flag==1:
+        break"
+75,C,Python3,61807589,2023-04-07 22:32:35,牛客801261568号,运行超时,"def ss(x,y):
+    summ=0
+    q=[(x,y)]
+    f=[[0,1],[0,-1],[1,0],[-1,0]]
+    book=[[False]*1001 for j in range(1001)]
+    while len(q)!=0:
+        x_,y_=q.pop(0)
+        for i in range(4):
+            x1=x_+f[i][0]
+            y1=y_+f[i][1]
+            if x1>=0 and x1<n and y1>=0 and y1<m:
+                if b[x1][y1]!='#' and book[x1][y1]==False:
+                    q.append((x1,y1))
+                    book[x1][y1]=True
+                    if b[x1][y1]=='!':
+                        summ+=1
+        
+                    
+    return summ
+
+
+
+
+n,m=map(int,input().split())
+b=[]
+flag=0
+for i in range(n):
+    b.append(list(input()))
+for i in range(n):
+    for j in range(m):
+        if b[i][j]=='@':
+            print(ss(i,j))
+            flag=1
+            break
+    if flag==1:
+        break"
+76,C,Python3,61807651,2023-04-07 22:35:14,牛客801261568号,运行超时,"import sys
+def ss(x,y):
+    summ=0
+    q=[(x,y)]
+    f=[[0,1],[0,-1],[1,0],[-1,0]]
+    book=[[False]*1001 for j in range(1001)]
+    while len(q)!=0:
+        x_,y_=q.pop(0)
+        for i in range(4):
+            x1=x_+f[i][0]
+            y1=y_+f[i][1]
+            if x1>=0 and x1<n and y1>=0 and y1<m:
+                if b[x1][y1]!='#' and book[x1][y1]==False:
+                    q.append((x1,y1))
+                    book[x1][y1]=True
+                    if b[x1][y1]=='!':
+                        summ+=1
+        
+                    
+    return summ
+
+
+
+
+n,m=map(int,sys.stdin.readline().split())
+b=[[] for i in range(1001)]
+flag=0
+for i in range(n):
+    b[i]=sys.stdin.readline()
+for i in range(n):
+    for j in range(m):
+        if b[i][j]=='@':
+            print(ss(i,j))
+            flag=1
+            break
+    if flag==1:
+        break"
+77,C,Python3,61807674,2023-04-07 22:36:12,贪睡的华夫饼前程似锦,执行出错,"##dfs
+n,m=map(int,input().split())
+l=[]
+for i in range(n):
+    l.append(input())
+st=[[-1]*(len(l[0])) for _ in range(len(l))]
+dx=[0,0,1,-1]
+dy=[1,-1,0,0]
+s=[0]
+def dfs(sta,s):
+    if sta[0]<0 or sta[1]<0 or sta[0]>=n or sta[1]>=m:
+        return -1
+    if l[sta[0]][sta[1]]=='#':
+        return -1
+    if st[sta[0]][sta[1]]!=-1:
+        return -1
+    if l[sta[0]][sta[1]]=='!':
+        s[0]=s[0]+1
+    st[sta[0]][sta[1]]=1
+    for i in range(4):
+        x=sta[0]+dx[i]
+        y=sta[1]+dy[i]
+##        print(s)
+        dfs([x,y],s)
+        
+
+#找出起点
+k=0
+sta=[]
+for i in range(n):
+    if k==1:
+        break
+    for j in range(m):
+        if l[i][j]=='@':
+            sta=[i,j]
+            k=1
+            break
+dfs(sta,s)
+print(s[0])"
+78,C,Python3,61807739,2023-04-07 22:39:14,牛客801261568号,运行超时,"import sys
+def ss(x,y):
+    summ=0
+    q=[(x,y)]
+    f=[[0,1],[0,-1],[1,0],[-1,0]]
+    book=[[False]*1001 for j in range(1001)]
+    book[x][y]=True
+    while len(q)!=0:
+        x_,y_=q.pop(0)
+        for i in range(4):
+            x1=x_+f[i][0]
+            y1=y_+f[i][1]
+            if x1>=0 and x1<n and y1>=0 and y1<m:
+                if b[x1][y1]!='#' and book[x1][y1]==False:
+                    q.append((x1,y1))
+                    book[x1][y1]=True
+                    if b[x1][y1]=='!':
+                        summ+=1
+        
+                    
+    return summ
+
+
+
+
+n,m=list(map(int,sys.stdin.readline().split()))
+b=[[] for i in range(1001)]
+flag=0
+for i in range(n):
+    b[i]=sys.stdin.readline()
+for i in range(n):
+    for j in range(m):
+        if b[i][j]=='@':
+            print(ss(i,j))
+            flag=1
+            break
+    if flag==1:
+        break"
+79,C,Python3,61807757,2023-04-07 22:40:23,贪睡的华夫饼前程似锦,执行出错,"n,m=map(int,input().split())
+l=[]
+for i in range(n):
+    l.append(input())
+st=[[-1]*(len(l[0])) for _ in range(len(l))]
+dx=[0,0,1,-1]
+dy=[1,-1,0,0]
+s=[0]
+def dfs(sta,s):
+##    if sta[0]<0 or sta[1]<0 or sta[0]>=n or sta[1]>=m:
+##        return -1
+##    if l[sta[0]][sta[1]]=='#':
+##        return -1
+##    if st[sta[0]][sta[1]]!=-1:
+##        return -1
+##    if l[sta[0]][sta[1]]=='!':
+##        s[0]=s[0]+1
+##    st[sta[0]][sta[1]]=1
+    for i in range(4):
+        x=sta[0]+dx[i]
+        y=sta[1]+dy[i]
+        if x<0 or y<0 or x>=n or y>=m:
+            continue
+        if l[x][y]=='#':
+            continue
+        if st[x][y]!=-1:
+            continue
+        if l[x][y]=='!':
+            s[0]=s[0]+1
+        st[x][y]=1
+##        print(s)
+        dfs([x,y],s)
+        
+
+#找出起点
+k=0
+sta=[]
+for i in range(n):
+    if k==1:
+        break
+    for j in range(m):
+        if l[i][j]=='@':
+            sta=[i,j]
+            k=1
+            break
+dfs(sta,s)
+print(s[0])"
+80,C,Python3,61807863,2023-04-07 22:46:17,牛客801261568号,运行超时,"import sys
+def ss(x,y):
+    
+        
+                    
+    return summ
+
+
+
+
+n,m=list(map(int,sys.stdin.readline().split()))
+b=[[] for i in range(1001)]
+flag=0
+for i in range(n):
+    b[i]=sys.stdin.readline()
+for i in range(n):
+    for j in range(m):
+        if b[i][j]=='@':
+            x=i
+            y=j
+            break
+summ=0
+f=[[0,1],[0,-1],[1,0],[-1,0]]
+book=[[False]*1001 for j in range(1001)]
+book[x][y]=True
+q=[(x,y)]
+    
+while len(q)!=0:
+    x_,y_=q.pop(0)
+    for i in range(4):
+        x1=x_+f[i][0]
+        y1=y_+f[i][1]
+        if x1>=0 and x1<n and y1>=0 and y1<m:
+            if b[x1][y1]!='#' and book[x1][y1]==False:
+                q.append((x1,y1))
+                book[x1][y1]=True
+                if b[x1][y1]=='!':
+                    summ+=1 
+print(summ)"
+81,C,Python3,61808024,2023-04-07 22:54:15,牛客801261568号,运行超时,"
+import sys
+
+
+
+
+n,m=list(map(int,sys.stdin.readline().split()))
+b=[[] for i in range(1001)]
+book=[[False]*1001 for j in range(1001)]
+flag=0
+for i in range(n):
+    b[i]=sys.stdin.readline()
+for i in range(n):
+    for j in range(m):
+        if b[i][j]=='@':
+            
+            x=i
+            y=j
+            break
+summ=0
+f=[[0,1],[0,-1],[1,0],[-1,0]]
+
+book[x][y]=True
+q=[(x,y)]
+    
+while len(q)!=0:
+    x_,y_=q.pop(0)
+    for i in range(4):
+        x1=x_+f[i][0]
+        y1=y_+f[i][1]
+        if x1>=0 and x1<n and y1>=0 and y1<m:
+            if b[x1][y1]!='#' and book[x1][y1]==False:
+                q.append((x1,y1))
+                book[x1][y1]=True
+                if b[x1][y1]=='!':
+                    summ+=1 
+print(summ)"
+82,C,Python3,61808117,2023-04-07 22:58:59,牛客801261568号,运行超时,"from collections import deque
+import sys
+
+
+
+
+n,m=list(map(int,sys.stdin.readline().split()))
+b=[[] for i in range(1001)]
+book=[[False]*1001 for j in range(1001)]
+flag=0
+for i in range(n):
+    b[i]=sys.stdin.readline()
+for i in range(n):
+    for j in range(m):
+        if b[i][j]=='@':
+            
+            x=i
+            y=j
+            break
+summ=0
+f=[[0,1],[0,-1],[1,0],[-1,0]]
+q=deque([])
+book[x][y]=True
+q=[(x,y)]
+    
+while len(q)!=0:
+    x_,y_=q.pop(0)
+    for i in range(4):
+        x1=x_+f[i][0]
+        y1=y_+f[i][1]
+        if x1>=0 and x1<n and y1>=0 and y1<m:
+            if b[x1][y1]!='#' and book[x1][y1]==False:
+                q.append((x1,y1))
+                book[x1][y1]=True
+                if b[x1][y1]=='!':
+                    summ+=1 
+print(summ)"
+83,C,Python3,61808134,2023-04-07 23:00:01,牛客801261568号,运行超时,"from collections import deque
+import sys
+N=1000+10
+n,m=list(map(int,sys.stdin.readline().split()))
+b=[[] for i in range(N)]
+book=[[False]*N for j in range(N)]
+flag=0
+for i in range(n):
+    b[i]=sys.stdin.readline()
+for i in range(n):
+    for j in range(m):
+        if b[i][j]=='@':
+            
+            x=i
+            y=j
+            break
+summ=0
+f=[[0,1],[0,-1],[1,0],[-1,0]]
+q=deque([])
+book[x][y]=True
+q=[(x,y)]
+    
+while len(q)!=0:
+    x_,y_=q.pop(0)
+    for i in range(4):
+        x1=x_+f[i][0]
+        y1=y_+f[i][1]
+        if x1>=0 and x1<n and y1>=0 and y1<m:
+            if b[x1][y1]!='#' and book[x1][y1]==False:
+                q.append((x1,y1))
+                book[x1][y1]=True
+                if b[x1][y1]=='!':
+                    summ+=1 
+print(summ)"
+84,C,Python3,61808209,2023-04-07 23:04:00,牛客801261568号,运行超时,"from collections import deque
+import sys
+N=1000+10
+b=[[] for i in range(N)]
+book=[[False]*N for j in range(N)]
+n,m=list(map(int,sys.stdin.readline().split()))
+
+for i in range(n):
+    b[i]=sys.stdin.readline()
+for i in range(n):
+    for j in range(m):
+        if b[i][j]=='@':
+            x,y=i,j
+            break
+summ=0
+f=[[0,1],[0,-1],[1,0],[-1,0]]
+q=deque()
+book[x][y]=True
+q=[[x,y]]
+    
+while len(q)!=0:
+    x_,y_=q.pop(0)
+    for i in range(4):
+        x1=x_+f[i][0]
+        y1=y_+f[i][1]
+        if x1>=0 and x1<n and y1>=0 and y1<m:
+            if b[x1][y1]!='#' and book[x1][y1]==False:
+                q.append([x1,y1])
+                book[x1][y1]=True
+                if b[x1][y1]=='!':
+                    summ+=1 
+print(summ)"
+85,C,Python3,61831417,2023-04-09 20:32:49,从TV和,执行出错,"n,m=map(int,input().split())
+mp=[]
+for i in range(n):
+    mp.append(list(input()))
+#print(mp)
+for i in range(n):
+    for j in range(m):
+        #print(i,j,mp[i])
+        if(mp[i][j]==""@""):
+            I=i;J=j
+            break
+s=0
+to=[[0for j in range(m+1)]for i in range(n+1)]
+def dfs(i,j):
+    global mp,s,to
+    if(i<0 or j<0 or i>=n or j>=m):
+        return
+    if(mp[i][j]==""#"" or to[i][j]):
+        return
+    if(mp[i][j]==""!""):
+        s+=1
+    to[i][j]=1
+    dfs(i-1,j)
+    dfs(i,j-1)
+    dfs(i+1,j)
+    dfs(i,j+1)
+dfs(I,J)
+print(s)
+        "
+86,C,Python3,61831437,2023-04-09 20:33:30,从TV和,执行出错,"import sys
+sys.setrecursionlimit(10000)
+n,m=map(int,input().split())
+mp=[]
+for i in range(n):
+    mp.append(list(input()))
+#print(mp)
+for i in range(n):
+    for j in range(m):
+        #print(i,j,mp[i])
+        if(mp[i][j]==""@""):
+            I=i;J=j
+            break
+s=0
+to=[[0for j in range(m+1)]for i in range(n+1)]
+def dfs(i,j):
+    global mp,s,to
+    if(i<0 or j<0 or i>=n or j>=m):
+        return
+    if(mp[i][j]==""#"" or to[i][j]):
+        return
+    if(mp[i][j]==""!""):
+        s+=1
+    to[i][j]=1
+    dfs(i-1,j)
+    dfs(i,j-1)
+    dfs(i+1,j)
+    dfs(i,j+1)
+dfs(I,J)
+print(s)
+        "
+87,C,Python3,61831440,2023-04-09 20:33:37,从TV和,执行出错,"import sys
+sys.setrecursionlimit(100000)
+n,m=map(int,input().split())
+mp=[]
+for i in range(n):
+    mp.append(list(input()))
+#print(mp)
+for i in range(n):
+    for j in range(m):
+        #print(i,j,mp[i])
+        if(mp[i][j]==""@""):
+            I=i;J=j
+            break
+s=0
+to=[[0for j in range(m+1)]for i in range(n+1)]
+def dfs(i,j):
+    global mp,s,to
+    if(i<0 or j<0 or i>=n or j>=m):
+        return
+    if(mp[i][j]==""#"" or to[i][j]):
+        return
+    if(mp[i][j]==""!""):
+        s+=1
+    to[i][j]=1
+    dfs(i-1,j)
+    dfs(i,j-1)
+    dfs(i+1,j)
+    dfs(i,j+1)
+dfs(I,J)
+print(s)
+        "
+88,C,Python3,61831449,2023-04-09 20:33:51,从TV和,内存超限,"import sys
+sys.setrecursionlimit(1000000)
+n,m=map(int,input().split())
+mp=[]
+for i in range(n):
+    mp.append(list(input()))
+#print(mp)
+for i in range(n):
+    for j in range(m):
+        #print(i,j,mp[i])
+        if(mp[i][j]==""@""):
+            I=i;J=j
+            break
+s=0
+to=[[0for j in range(m+1)]for i in range(n+1)]
+def dfs(i,j):
+    global mp,s,to
+    if(i<0 or j<0 or i>=n or j>=m):
+        return
+    if(mp[i][j]==""#"" or to[i][j]):
+        return
+    if(mp[i][j]==""!""):
+        s+=1
+    to[i][j]=1
+    dfs(i-1,j)
+    dfs(i,j-1)
+    dfs(i+1,j)
+    dfs(i,j+1)
+dfs(I,J)
+print(s)
+        "
+89,C,Python3,61831626,2023-04-09 20:41:08,从TV和,内存超限,"import sys
+sys.setrecursionlimit(1000000)
+n,m=map(int,input().split())
+mp=[]
+for i in range(n):
+    mp.append(list(input()))
+#print(mp)
+for i in range(n):
+    for j in range(m):
+        #print(i,j,mp[i])
+        if(mp[i][j]==""@""):
+            I=i;J=j
+            break
+s=0
+to=[[0for j in range(m+1)]for i in range(n+1)]
+def dfs(i,j,ss=0):
+    global mp,s,to
+    if(ss>900):
+        I=i;J=j
+    if(i<0 or j<0 or i>=n or j>=m):
+        return True
+    if(mp[i][j]==""#"" or to[i][j]):
+        return True
+    if(mp[i][j]==""!""):
+        s+=1
+    to[i][j]=1
+    dfs(i-1,j,ss+1)
+    dfs(i,j-1,ss+1)
+    dfs(i+1,j,ss+1)
+    dfs(i,j+1,ss+1)
+    return True
+for i in range(n):
+    pi=I;pj=J
+    dfs(I,J)
+    if(pi==I and pj==J):
+        break
+    
+print(s)
+        "
+90,C,Python3,61831637,2023-04-09 20:41:25,从TV和,执行出错,"import sys
+#sys.setrecursionlimit(1000000)
+n,m=map(int,input().split())
+mp=[]
+for i in range(n):
+    mp.append(list(input()))
+#print(mp)
+for i in range(n):
+    for j in range(m):
+        #print(i,j,mp[i])
+        if(mp[i][j]==""@""):
+            I=i;J=j
+            break
+s=0
+to=[[0for j in range(m+1)]for i in range(n+1)]
+def dfs(i,j,ss=0):
+    global mp,s,to
+    if(ss>900):
+        I=i;J=j
+    if(i<0 or j<0 or i>=n or j>=m):
+        return True
+    if(mp[i][j]==""#"" or to[i][j]):
+        return True
+    if(mp[i][j]==""!""):
+        s+=1
+    to[i][j]=1
+    dfs(i-1,j,ss+1)
+    dfs(i,j-1,ss+1)
+    dfs(i+1,j,ss+1)
+    dfs(i,j+1,ss+1)
+    return True
+for i in range(n):
+    pi=I;pj=J
+    dfs(I,J)
+    if(pi==I and pj==J):
+        break
+    
+print(s)
+        "
+91,C,Python3,61831652,2023-04-09 20:41:55,从TV和,内存超限,"import sys
+sys.setrecursionlimit(1000000)
+n,m=map(int,input().split())
+mp=[]
+for i in range(n):
+    mp.append(list(input()))
+#print(mp)
+for i in range(n):
+    for j in range(m):
+        #print(i,j,mp[i])
+        if(mp[i][j]==""@""):
+            I=i;J=j
+            break
+s=0
+to=[[0for j in range(m+1)]for i in range(n+1)]
+def dfs(i,j,ss=0):
+    global mp,s,to
+    if(ss>100):
+        I=i;J=j
+    if(i<0 or j<0 or i>=n or j>=m):
+        return True
+    if(mp[i][j]==""#"" or to[i][j]):
+        return True
+    if(mp[i][j]==""!""):
+        s+=1
+    to[i][j]=1
+    dfs(i-1,j,ss+1)
+    dfs(i,j-1,ss+1)
+    dfs(i+1,j,ss+1)
+    dfs(i,j+1,ss+1)
+    return True
+for i in range(n):
+    pi=I;pj=J
+    dfs(I,J)
+    if(pi==I and pj==J):
+        break
+    
+print(s)
+        "
+92,C,Python3,61831656,2023-04-09 20:42:05,从TV和,执行出错,"import sys
+#sys.setrecursionlimit(1000000)
+n,m=map(int,input().split())
+mp=[]
+for i in range(n):
+    mp.append(list(input()))
+#print(mp)
+for i in range(n):
+    for j in range(m):
+        #print(i,j,mp[i])
+        if(mp[i][j]==""@""):
+            I=i;J=j
+            break
+s=0
+to=[[0for j in range(m+1)]for i in range(n+1)]
+def dfs(i,j,ss=0):
+    global mp,s,to
+    if(ss>100):
+        I=i;J=j
+    if(i<0 or j<0 or i>=n or j>=m):
+        return True
+    if(mp[i][j]==""#"" or to[i][j]):
+        return True
+    if(mp[i][j]==""!""):
+        s+=1
+    to[i][j]=1
+    dfs(i-1,j,ss+1)
+    dfs(i,j-1,ss+1)
+    dfs(i+1,j,ss+1)
+    dfs(i,j+1,ss+1)
+    return True
+for i in range(n):
+    pi=I;pj=J
+    dfs(I,J)
+    if(pi==I and pj==J):
+        break
+    
+print(s)
+        "
+93,C,Python3,61831670,2023-04-09 20:42:25,从TV和,答案错误,"import sys
+#sys.setrecursionlimit(1000000)
+n,m=map(int,input().split())
+mp=[]
+for i in range(n):
+    mp.append(list(input()))
+#print(mp)
+for i in range(n):
+    for j in range(m):
+        #print(i,j,mp[i])
+        if(mp[i][j]==""@""):
+            I=i;J=j
+            break
+s=0
+to=[[0for j in range(m+1)]for i in range(n+1)]
+def dfs(i,j,ss=0):
+    global mp,s,to
+    if(ss>100):
+        I=i;J=j
+        return
+    if(i<0 or j<0 or i>=n or j>=m):
+        return True
+    if(mp[i][j]==""#"" or to[i][j]):
+        return True
+    if(mp[i][j]==""!""):
+        s+=1
+    to[i][j]=1
+    dfs(i-1,j,ss+1)
+    dfs(i,j-1,ss+1)
+    dfs(i+1,j,ss+1)
+    dfs(i,j+1,ss+1)
+    return True
+for i in range(n):
+    pi=I;pj=J
+    dfs(I,J)
+    if(pi==I and pj==J):
+        break
+    
+print(s)
+        "
+94,C,Python3,61831728,2023-04-09 20:44:48,从TV和,运行超时,"import sys
+#sys.setrecursionlimit(1000000)
+n,m=map(int,input().split())
+mp=[]
+for i in range(n):
+    mp.append(list(input()))
+#print(mp)
+for i in range(n):
+    for j in range(m):
+        #print(i,j,mp[i])
+        if(mp[i][j]==""@""):
+            I=i;J=j
+            break
+s=0
+to=[[0for j in range(m+1)]for i in range(n+1)]
+kk=[]
+def dfs(i,j,ss=0):
+    global mp,s,to,cc
+    if(ss>100):
+        I=i;J=j
+        cc.append([i,j])
+        return
+    if(i<0 or j<0 or i>=n or j>=m):
+        return True
+    if(mp[i][j]==""#"" or to[i][j]):
+        return True
+    if(mp[i][j]==""!""):
+        s+=1
+    to[i][j]=1
+    dfs(i-1,j,ss+1)
+    dfs(i,j-1,ss+1)
+    dfs(i+1,j,ss+1)
+    dfs(i,j+1,ss+1)
+    return True
+kk=[[I,J]]
+while len(kk):
+    cc=[]
+    for I,J in kk:
+        dfs(I,J)
+    kk=cc
+    
+print(s)
+        "
+95,C,Python3,61831752,2023-04-09 20:45:41,从TV和,运行超时,"import sys
+#sys.setrecursionlimit(1000000)
+n,m=map(int,input().split())
+mp=[]
+for i in range(n):
+    mp.append(list(input()))
+#print(mp)
+for i in range(n):
+    for j in range(m):
+        #print(i,j,mp[i])
+        if(mp[i][j]==""@""):
+            I=i;J=j
+            break
+s=0
+to=[[0for j in range(m+1)]for i in range(n+1)]
+kk=[]
+def dfs(i,j,ss=0):
+    global mp,s,to,cc
+    if(ss>100):
+        I=i;J=j
+        cc.append([i,j])
+        return
+    if(i<0 or j<0 or i>=n or j>=m):
+        return True
+    if(mp[i][j]==""#"" or to[i][j]):
+        return True
+    if(mp[i][j]==""!""):
+        s+=1
+    to[i][j]=1
+    dfs(i-1,j,ss+1)
+    dfs(i,j-1,ss+1)
+    dfs(i+1,j,ss+1)
+    dfs(i,j+1,ss+1)
+    return True
+kk=[[I,J]]
+while len(kk):
+    cc=[]
+    for I,J in kk:
+        if(to[I][J]==0):dfs(I,J)
+    kk=cc
+    
+print(s)
+        "
+96,C,Python3,61831767,2023-04-09 20:46:14,从TV和,运行超时,"import sys
+#sys.setrecursionlimit(1000000)
+n,m=map(int,input().split())
+mp=[]
+for i in range(n):
+    mp.append(list(input()))
+#print(mp)
+for i in range(n):
+    for j in range(m):
+        #print(i,j,mp[i])
+        if(mp[i][j]==""@""):
+            I=i;J=j
+            break
+s=0
+to=[[0for j in range(m+1)]for i in range(n+1)]
+kk=[]
+def dfs(i,j,ss=0):
+    global mp,s,to,cc
+    if(ss>900):
+        I=i;J=j
+        cc.append([i,j])
+        return
+    if(i<0 or j<0 or i>=n or j>=m):
+        return True
+    if(mp[i][j]==""#"" or to[i][j]):
+        return True
+    if(mp[i][j]==""!""):
+        s+=1
+    to[i][j]=1
+    dfs(i-1,j,ss+1)
+    dfs(i,j-1,ss+1)
+    dfs(i+1,j,ss+1)
+    dfs(i,j+1,ss+1)
+    return True
+kk=[[I,J]]
+while len(kk):
+    cc=[]
+    for I,J in kk:
+        if(to[I][J]==0):dfs(I,J)
+    kk=cc
+    
+print(s)
+        "
+97,C,Python3,61831787,2023-04-09 20:46:47,从TV和,运行超时,"import sys
+sys.setrecursionlimit(1000000)
+n,m=map(int,input().split())
+mp=[]
+for i in range(n):
+    mp.append(list(input()))
+#print(mp)
+for i in range(n):
+    for j in range(m):
+        #print(i,j,mp[i])
+        if(mp[i][j]==""@""):
+            I=i;J=j
+            break
+s=0
+to=[[0for j in range(m+1)]for i in range(n+1)]
+kk=[]
+def dfs(i,j,ss=0):
+    global mp,s,to,cc
+    if(ss>9000):
+        I=i;J=j
+        cc.append([i,j])
+        return
+    if(i<0 or j<0 or i>=n or j>=m):
+        return True
+    if(mp[i][j]==""#"" or to[i][j]):
+        return True
+    if(mp[i][j]==""!""):
+        s+=1
+    to[i][j]=1
+    dfs(i-1,j,ss+1)
+    dfs(i,j-1,ss+1)
+    dfs(i+1,j,ss+1)
+    dfs(i,j+1,ss+1)
+    return True
+kk=[[I,J]]
+while len(kk):
+    cc=[]
+    for I,J in kk:
+        if(to[I][J]==0):dfs(I,J)
+    kk=cc
+    
+print(s)
+        "

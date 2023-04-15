@@ -55,3 +55,7 @@ func (t *Time) Scan(v interface{}) error {
 func (t Time) After(p Time) bool {
 	return (time.Time(t)).After(time.Time(p))
 }
+
+func (t Time) Before(p Time) bool {
+	return (time.Time(t)).Before(time.Time(p))
+}

@@ -1,0 +1,2885 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,B,Python3,61788396,2023-04-07 19:06:38,万恶之源沼跃鱼,答案正确,"n,m = map(int,input().split())
+for i in range(0,n,2):
+    l1 = list(map(int,input().split()))
+    l2 = list(map(int,input().split()))
+    for j in range(0,m,2):
+        print((l1[j]+l1[j+1]+l2[j]+l2[j+1])//4,end=' ')
+    print()"
+1,B,Python3,61788414,2023-04-07 19:06:43,_sp,答案错误,"import os
+import sys
+
+n, m = map(int, input().split())
+
+for i in range(n // 2):
+    x = map(int, input().split())
+    y = map(int, input().split())
+    z = list(map(lambda x, y: x + y, x, y))
+    for j in range(m // 2):
+        print((z[j] + z[j + 1]) // 4, end='')
+    print('')
+"
+2,B,Python3,61788496,2023-04-07 19:07:05,wxzcch,答案正确,"from sys import *
+
+n, m = map(int, stdin.readline().split())
+
+g = [[]]
+
+for i in range(n):
+    g.append([0] + list(map(int, stdin.readline().split())))
+
+for i in range(1, n, 2):
+    for j in range(1, m, 2):
+        
+        k = 0
+        for x in range(i, i + 2):
+            for y in range(j, j + 2):
+                k += g[x][y]
+        
+        print(k // 4, end = ' ')
+    print()"
+3,B,Python3,61788504,2023-04-07 19:07:06,一半醒,运行超时,"n,m = map(int,input().split())
+a = []
+for _ in range(n):
+    t = [int(x) for x in input().split()]
+    a.append(t)
+def cal(x1,y1,x2,y2):
+    s = 0
+    for i in range(x1,x2+1):
+        for j in range(y1,y2+1):
+            s += a[i][j]
+    return s
+i = 0
+j = 0
+while i < n:
+    j = 0
+    while j+1 < m:
+        res = cal(i,j,i+1,j+1)//4
+        print(res)
+        j += 2
+    i += 2"
+4,B,Python3,61788593,2023-04-07 19:07:35,_sp,运行超时,"import os
+import sys
+
+n, m = map(int, input().split())
+
+for i in range(n // 2):
+    x = map(int, input().split())
+    y = map(int, input().split())
+    z = list(map(lambda x, y: x + y, x, y))
+    for j in range(m // 2):
+        print((z[j] + z[j + 1]) // 4, end=' ')
+    print('')
+"
+5,B,Python3,61788804,2023-04-07 19:08:40,摆渡人和211,答案正确,"s = input().split()
+m = int(s[0])
+n = int(s[1])
+arr = [[0]*n for _ in range(m)]
+for i in range(0,m):
+    s = input().split()
+    for j in range(0,n):
+        arr[i][j] = int(s[j])
+i = 0
+while i<m:
+    j = 0
+    while j < n:
+        print((arr[i][j]+arr[i][j+1]+arr[i+1][j]+arr[i+1][j+1])//4,end= "" "")
+        j+=2
+    i+=2
+    print()"
+6,B,Python3,61788920,2023-04-07 19:09:18,保护我方三四,答案正确,"n, m = map(int, input().split())
+
+a = [[0] * m for _ in range(0, n)]
+for _ in range(0, n):
+    a[_] = list(map(int, input().split()))
+
+for i in range(0, n, 2):
+    for j in range(0, m, 2):
+        res = a[i][j] + a[i + 1][j] + a[i][j + 1] + a[i + 1][j + 1]
+        print(res // 4, end=' ')
+    print()"
+7,B,Python3,61788956,2023-04-07 19:09:31,strongnine,答案正确,"if __name__ == ""__main__"":
+    n, m = list(map(int, input().strip().split()))
+    img = []
+    for _ in range(n):
+        row = list(map(int, input().strip().split()))
+        img.append(row)
+    
+    zip_img = [[0 for _ in range(m // 2)] for _ in range(n // 2)]
+    for i in range(0, n, 2):
+        for j in range(0, m, 2):
+            point = img[i][j] + img[i + 1][j] + img[i][j + 1] + img[i + 1][j + 1]
+            point = point // 4
+            zip_img[i // 2][j // 2] = point
+    for i in range(n // 2):
+        print(' '.join(map(str, zip_img[i])))"
+8,B,Python3,61789076,2023-04-07 19:10:09,一半醒,运行超时,"import sys
+# import time
+# import functools
+# import itertools
+# import math
+
+input=lambda:sys.stdin.readline().strip()
+
+
+def main():
+    n, m = map(int, input().split())
+    a = []
+    for _ in range(n):
+        t = [int(x) for x in input().split()]
+        a.append(t)
+
+    def cal(x1, y1, x2, y2):
+        s = 0
+        for i in range(x1, x2 + 1):
+            for j in range(y1, y2 + 1):
+                s += a[i][j]
+        return s
+
+    i = 0
+    j = 0
+    while i < n:
+        j = 0
+        while j + 1 < m:
+            res = cal(i, j, i + 1, j + 1) // 4
+            print(res)
+            j += 2
+        i += 2
+    return
+
+
+if __name__==""__main__"":
+    # T1=time.time()
+    main()
+    # T2=time.time()
+    # print(""Runtime:{:.10f}s."".format(T2-T1))
+
+
+
+"
+9,B,Python3,61789130,2023-04-07 19:10:30,Aoyng,答案正确,"def count(x,y):
+    res = arr[i * 2][j * 2] + arr[i * 2][j * 2 + 1]
+    res += arr[i * 2 + 1][j * 2] + arr[i * 2 + 1][j * 2 + 1]
+    return res // 4
+
+n,m = map(int,input().strip().split())
+arr = [list(map(int,input().strip().split())) for i in range(n)]
+##print(arr)
+for i in range(n // 2):
+    for j in range(m // 2):
+        print(count(i,j),end = ' ')
+    print()
+"
+10,B,Python3,61789206,2023-04-07 19:11:02,在走神的菜鸡很漂亮,答案错误,"import copy
+n,m=map(int,input().split())
+data=[]
+for i in range(n):
+    data.append(list(map(int,input().split())))
+while m%2==0 and n%2==0:
+    temp=[]
+    for i in range(0,n,2):
+        temp.append([])
+        for j in range(0,m,2):
+            avg=(data[i][j]+data[i+1][j]+data[i][j+1]+data[i+1][j+1])//4
+            temp[i//2].append(avg)
+    n//=2
+    m//=2
+    data=copy.deepcopy(temp)
+for i in range(n):
+    if i!=0:
+        print('')
+    for j in range(m):
+        print(data[i][j],end=' ')"
+11,B,Python3,61789548,2023-04-07 19:13:04,待我变成红牛,输出超限,"m, n = map(int, input().split())
+a = [ None ] * m
+for i in range(m):
+    a[i] = list(map(int, input().split()))
+
+for i in range(0, m, 2):
+    r = []
+    for j in range(0, n, 2):
+        v = a[i][j] + a[i][j+1] + a[i+1][j] + a[i+1][j+1]
+        v //= 4
+        r.append(str(v))
+        print("" "".join(r))
+
+        "
+12,B,Python3,61789553,2023-04-07 19:13:06,在走神的菜鸡很漂亮,答案正确,"import copy
+n,m=map(int,input().split())
+data=[]
+for i in range(n):
+    data.append(list(map(int,input().split())))
+
+temp=[]
+for i in range(0,n,2):
+    temp.append([])
+    for j in range(0,m,2):
+        avg=(data[i][j]+data[i+1][j]+data[i][j+1]+data[i+1][j+1])//4
+        temp[i//2].append(avg)
+m//=2
+n//=2
+for i in range(n):
+    if i!=0:
+        print('')
+    for j in range(m):
+        print(temp[i][j],end=' ')"
+13,B,Python3,61789624,2023-04-07 19:13:31,待我变成红牛,答案正确,"m, n = map(int, input().split())
+a = [ None ] * m
+for i in range(m):
+    a[i] = list(map(int, input().split()))
+
+for i in range(0, m, 2):
+    r = []
+    for j in range(0, n, 2):
+        v = a[i][j] + a[i][j+1] + a[i+1][j] + a[i+1][j+1]
+        v //= 4
+        r.append(str(v))
+    print("" "".join(r))
+
+        "
+14,B,Python3,61789640,2023-04-07 19:13:38,zxcv0112358,答案正确,"n,m=map(int,input().split())
+a=[]
+ret=[[0 for i in range(m//2)] for j in range(n//2)]
+# print(ret)
+for i in range(n):
+    s=list(map(int,input().split()))
+    a.append(s)
+for i in range(n//2):
+    for j in range(m//2):
+        ret[i][j]=(a[2*i][2*j]+a[2*i+1][2*j]+a[2*i][2*j+1]+a[2*i+1][2*j+1])//4
+for i in range(n//2):
+    for j in range(m//2):
+        if j==m//2-1:
+            print(ret[i][j],end=""\n"")
+        else:
+            print(ret[i][j],end="" "")
+        "
+15,B,Python3,61789647,2023-04-07 19:13:41,顷阳残影,答案正确,"n, m = map(int, input().split())
+
+w = [list(map(int, input().split())) for i in range(n)]
+
+for i in range(0, n, 2):
+    for j in range(0, m, 2):
+        s = (w[i][j] + w[i + 1][j] + w[i][j + 1] + w[i + 1][j + 1]) // 4
+        print(s, end = "" "")
+    print("""")"
+16,B,Python3,61789790,2023-04-07 19:14:25,zf854,答案正确,"
+import sys
+
+def main():
+    input_data = sys.stdin.readline().strip().split(' ')
+    n,m = int(input_data[0]), int(input_data[1])
+    result = [[0 for i in range(m)] for j in range(n)]
+    for j in range(n):
+        result[j] = [int(i) for i in input().split(' ')]
+    ans = []
+    for i in range(0, n, 2):    
+        temp = []
+        for j  in range(0, m, 2):
+            temp.append((result[i][j] + result[i][j+1] + result[i + 1][j] + result[i + 1][j + 1] )// 4) 
+        ans.append(temp)
+    for i in range(n // 2):
+        for j in range(m // 2):
+            print(ans[i][j], end="" "")
+        print("""")
+
+
+
+if __name__ == '__main__':
+    main()"
+17,B,Python3,61789820,2023-04-07 19:14:35,tendance,答案正确,"import os
+import sys
+n,m = map(int,input().split())
+mp = []
+for i in range(n):
+    mp.append(list(int(i)for i in  input().split()))
+for i in range(0,n,2):
+    for j in range(0,m,2):
+        t = (mp[i][j]+mp[i][j+1]+mp[i+1][j]+mp[i+1][j+1])//4
+        print(t,end = ' ')
+    print()"
+18,B,Python3,61789834,2023-04-07 19:14:39,一半醒,答案正确,"import sys
+# import time
+# import functools
+# import itertools
+# import math
+
+input=lambda:sys.stdin.readline().strip()
+
+
+def main():
+    n, m = map(int, input().split())
+    a = []
+    for _ in range(n):
+        t = [int(x) for x in input().split()]
+        a.append(t)
+
+    def cal(x1, y1, x2, y2):
+        s = 0
+        for i in range(x1, x2 + 1):
+            for j in range(y1, y2 + 1):
+                s += a[i][j]
+        return s
+
+    i = 0
+    while i < n:
+        j = 0
+        while j + 1 < m:
+            res = cal(i, j, i + 1, j + 1) // 4
+            print(res,end="" "")
+            j += 2
+        print("""")
+        i += 2
+    return
+
+
+if __name__==""__main__"":
+    # T1=time.time()
+    main()
+    # T2=time.time()
+    # print(""Runtime:{:.10f}s."".format(T2-T1))
+
+
+
+"
+19,B,Python3,61789955,2023-04-07 19:15:19,tendance,答案正确,"import os
+import sys
+n,m = map(int,input().split())
+mp = []
+for i in range(n):
+    mp.append(list(int(i)for i in  input().split()))
+for i in range(0,n,2):
+    for j in range(0,m,2):
+        t = (mp[i][j]+mp[i][j+1]+mp[i+1][j]+mp[i+1][j+1])//4
+        print(t,end = ' ')
+    print()"
+20,B,Python3,61790049,2023-04-07 19:15:54,tendance,答案正确,"import os
+import sys
+n,m = map(int,input().split())
+mp = []
+for i in range(n):
+    mp.append(list(int(i)for i in  input().split()))
+for i in range(0,n,2):
+    for j in range(0,m,2):
+        t = (mp[i][j]+mp[i][j+1]+mp[i+1][j]+mp[i+1][j+1])//4
+        print(t,end = ' ')
+    print()"
+21,B,Python3,61790298,2023-04-07 19:17:23,so_hard.,答案正确,"import sys
+
+sys.setrecursionlimit(1000000)
+
+
+n, m = map(int, input().strip().split())
+
+img = []
+
+for i in range(n):
+    lst = [*map(int, input().strip().split())]
+    img.append(lst)
+
+for i in range(n//2):
+    lst = []
+    for j in range(m//2):
+        x = (img[i*2][j*2] + img[i*2][j*2+1] + img[i*2+1][j*2] + img[i*2+1][j*2+1])
+        print(x//4, end=' ')
+    print()
+        
+        
+        
+        
+        "
+22,B,Python3,61790507,2023-04-07 19:18:28,_sp,运行超时,"import os
+import sys
+
+n, m = map(int, sys.stdin.readline().split())
+
+for i in range(n // 2):
+    x = [int(i) for i in sys.stdin.readline().split()]
+    y = [int(i) for i in sys.stdin.readline().split()]
+    z = list(map(lambda x, y: x + y, x, y))
+
+    for j in range(m // 2):
+        sys.stdout.write(str((z[j] + z[j + 1]) // 4))
+        sys.stdout.write(' ')
+    sys.stdout.write('\n')
+"
+23,B,Python3,61790850,2023-04-07 19:20:40,牛客937540361号,答案正确,"import math
+n,m=map(int,input().split())
+dp=[list(map(int,input().split())) for _ in range(n)]
+for i in range(0,n,2):
+    for j in range(0,m,2):
+        print(math.floor(((dp[i][j]+dp[i][j+1]+dp[i+1][j]+dp[i+1][j+1])/4)),end=' ')
+    print('')
+
+"
+24,B,Python3,61790965,2023-04-07 19:21:35,贪睡的华夫饼前程似锦,答案正确,"n,m=map(int,input().split())             #长宽
+l=[]
+for i in range(n):
+    l.append(list(map(int,input().split())))
+ns=n//2
+ms=m//2
+ls=[[0]*ms for _ in range(ns)]
+for i in range(ns):
+    for j in range(ms):
+        ls[i][j]=(l[i*2][j*2]+l[i*2+1][j*2]+l[i*2][j*2+1]+l[i*2+1][j*2+1])//4
+for i in ls:
+    for j in i:
+        print(j,end=' ')
+    print()"
+25,B,Python3,61791033,2023-04-07 19:22:05,牛客611784581号,答案正确,"import sys
+n, m = map(int, sys.stdin.readline().strip().split())
+mm = []
+for i in range(n):
+    mm.append(list(map(int, sys.stdin.readline().strip().split())))
+n  //= 2
+m //= 2
+ans = []
+
+for k in range(n):
+    a = []
+    for i in range(m):
+        a.append(0)
+    ans.append(a)
+for i in range(n):
+    for j in range(m):
+        ans[i][j] = (mm[2*i][2*j] + mm[2*i+1][2*j] + mm[2*i][2*j+1] + mm[2*i+1][2*j+1])//4
+for i in range(len(ans)):
+    for j in range(len(ans[i])):
+        print(ans[i][j],end = ' ')
+    print('',end = '\n')
+
+        "
+26,B,Python3,61791038,2023-04-07 19:22:08,贪睡的华夫饼前程似锦,答案正确,"n,m=map(int,input().split())             #长宽
+l=[]
+for i in range(n):
+    l.append(list(map(int,input().split())))
+ns=n//2
+ms=m//2
+ls=[[0]*ms for _ in range(ns)]
+for i in range(ns):
+    for j in range(ms):
+        ls[i][j]=(l[i*2][j*2]+l[i*2+1][j*2]+l[i*2][j*2+1]+l[i*2+1][j*2+1])//4
+for i in ls:
+    for j in i:
+        print(j,end=' ')
+    print()"
+27,B,Python3,61791226,2023-04-07 19:23:18,RaiNML,执行出错,"a,b = map(int,input().split())
+flag = []
+for i in range(1,a+1):
+    n,m = map(int,input().split())
+    flag.append(n)
+    flag.append(m)
+    if i % 2 == 0:
+        print(sum(flag) // len(flag))
+        flag.clear()"
+28,B,Python3,61791421,2023-04-07 19:24:39,Mania_,执行出错,"t = int(input())
+for _ in range(t):
+    n, m = map(int, input().split())
+    image = []
+    for i in range(n):
+        row = list(map(int, input().split()))
+        image.append(row)
+    compressed_image = []
+    for i in range(0, n, 2):
+        compressed_row = []
+        for j in range(0, m, 2):
+            sum_pixels = image[i][j] + image[i][j+1] + image[i+1][j] + image[i+1][j+1]
+            avg_pixel = sum_pixels // 4
+            compressed_row.append(avg_pixel)
+        compressed_image.append(compressed_row)
+    for row in compressed_image:
+        print(*row)"
+29,B,Python3,61791561,2023-04-07 19:25:41,lemu17,答案正确,"N, M = map(int, input().split())
+n, m = N // 2, M // 2
+
+a = [()] * N
+for i in range(N):
+    a[i] = list(map(int, input().split()))
+
+ans = [([0] * m) for i in range(n)]
+for i in range(N):
+    for j in range(M):
+        ans[i // 2][j // 2] += int(a[i][j])
+
+for line in ans:
+    for x in line:
+        print(x // 4, end=' ')  
+    print()"
+30,B,Python3,61791622,2023-04-07 19:26:06,RaiNML,执行出错,"a,b = map(int,input().split())
+flag = 0
+for i in range(1,a+1):
+    n,m = map(int,input().split())
+    flag += n + m
+    if i % 2 == 0:
+        print(flag // 4)
+        flag = 0"
+31,B,Python3,61792160,2023-04-07 19:29:58,牛客962568879号,答案正确,"n,m=map(int,input().split())
+mp=[]
+a=n//2
+b=m//2
+ans=[[0]*(b) for _ in range(a)]
+for i in range(n):
+    t=list(map(int,input().split()))
+    mp.append(t)
+for i in range(a):
+    for j in range(b):
+        x=2*i
+        y=2*j
+        tmp=mp[x][y]+mp[x][y+1]+mp[x+1][y]+mp[x+1][y+1]
+        tmp=tmp//4
+        ans[i][j]=tmp
+for i in range(a):
+    for j in range(b):
+        print(ans[i][j],end=' ')
+    print()
+        
+        "
+32,B,Python3,61792211,2023-04-07 19:30:25,罗聖鋆,答案正确,"n,m=map(int,input().split())
+l=[]
+for i in range(n):
+    a=list(map(int,input().split()))
+    l.append(a)
+end=[]
+for i in range(0,n,2):
+    t=[]
+    for j in range(0,m,2):
+        b=(l[i][j]+l[i+1][j]+l[i][j+1]+l[i+1][j+1])//4
+        t.append(b)
+    end.append(t)
+
+for i in range(n//2):
+    for j in range(m//2):
+        print(end[i][j],end=' ')
+    print()
+"
+33,B,Python3,61792625,2023-04-07 19:33:22,_sp,答案错误,"import os
+import sys
+
+n, m = map(int, sys.stdin.readline().split())
+
+for i in range(n // 2):
+    x = [int(i) for i in sys.stdin.readline().split()]
+    y = [int(i) for i in sys.stdin.readline().split()]
+#     z = list(map(lambda x, y: x + y, x, y))
+
+#     for j in range(m // 2):
+#         sys.stdout.write(str((z[j] + z[j + 1]) // 4))
+#         sys.stdout.write(' ')
+#     sys.stdout.write('\n')
+"
+34,B,Python3,61792639,2023-04-07 19:33:32,_sp,答案错误,"import os
+import sys
+
+n, m = map(int, sys.stdin.readline().split())
+
+for i in range(n // 2):
+    x = [int(i) for i in sys.stdin.readline().split()]
+    y = [int(i) for i in sys.stdin.readline().split()]
+    z = list(map(lambda x, y: x + y, x, y))
+
+#     for j in range(m // 2):
+#         sys.stdout.write(str((z[j] + z[j + 1]) // 4))
+#         sys.stdout.write(' ')
+#     sys.stdout.write('\n')
+"
+35,B,Python3,61792715,2023-04-07 19:34:10,爱吸血的小蚊子,执行出错,"m,n = map(int,input().split())
+lis = []
+for i in range(m):
+    p = list(input().split())
+    lis.append(p)
+ans = n // 2
+ans1 = m // 2
+heng = 0
+shu = 0
+arr = []
+for i in range(ans1):
+    for j in range(ans):
+        sum = int(lis[shu][heng]) + int(lis[shu+1][heng]) + int(lis[shu][heng+1]) + int(lis[shu+1][heng+1])
+        arr.append(sum//4)
+        if ans == 1:
+            pass
+        else:
+            heng += 2
+    shu += 2
+for i in arr:
+    print(i)"
+36,B,Python3,61793104,2023-04-07 19:36:59,_sp,答案错误,"import os
+import sys
+
+n, m = map(int, sys.stdin.readline().split())
+
+for i in range(n // 2):
+    x = [int(i) for i in sys.stdin.readline().split()]
+    y = [int(i) for i in sys.stdin.readline().split()]
+    z = list(map(lambda x, y: x + y, x, y))
+    r = []
+
+    for j in range(m // 2):
+        r.append(str((z[j] + z[j + 1]) // 4))
+
+    sys.stdout.write(' '.join(r) + '\n')
+"
+37,B,Python3,61793611,2023-04-07 19:40:24,_sp,答案正确,"import os
+import sys
+
+n, m = map(int, sys.stdin.readline().split())
+
+for i in range(n // 2):
+    x = [int(i) for i in sys.stdin.readline().split()]
+    y = [int(i) for i in sys.stdin.readline().split()]
+    z = list(map(lambda x, y: x + y, x, y))
+    r = []
+
+    for j in range(0, len(z), 2):
+        r.append(str((z[j] + z[j + 1]) // 4))
+
+    sys.stdout.write(' '.join(r) + '\n')
+"
+38,B,Python3,61793632,2023-04-07 19:40:37,小明明朋友,答案正确,"import math
+m,n = map(int,input().split("" ""))
+out = []
+yi = [[1,1],[1,1]]
+ele = []
+for i in range(m):
+    ele.append(list(map(int,input().split("" ""))))
+y_index=0
+for i in range(int(len(ele)/2)):  #获得行数
+    x_index=0
+    element = []
+    for j in range(int(len(ele[0])/2)):
+        avg = yi[0][0]*ele[y_index][x_index]+yi[0][1]*ele[y_index][x_index+1]+yi[1][0]*ele[y_index+1][x_index]+yi[1][1]*ele[y_index+1][x_index+1]
+        avg = math.floor(avg/4)
+        print(avg,end="" "")
+        x_index+=2
+        element.append(avg)
+    print()
+    y_index+=2
+    out.append(element)"
+39,B,Python3,61793669,2023-04-07 19:40:52,蛮不讲李,答案正确,"a = input().split()
+n = int(a[0])
+m = int(a[1])
+
+for i in range(n):
+    a = input().split("" "")
+    a = [int(i) for i in a]
+    if i%2==1:
+        summ = 0
+        for j in range(m):
+            summ = summ + a[j] + b[j]
+            if j%2 == 1:
+                print(int(summ/4), end = "" "")
+                summ = 0
+        print("""")
+    b = a[:]"
+40,B,Python3,61794036,2023-04-07 19:43:25,牛客636288152号,答案错误,"n,m  = map(int,input().split())
+head = 0
+back = 0
+i = 1
+while i!=n+1:
+    if i<=(n/2):
+        temp = 0
+        list = map(int,input().split())
+        for j in list:
+            temp = temp+j
+        head = head +temp
+    else:
+        temp = 0
+        list = map(int,input().split())
+        for j in list:
+            temp = temp+j
+        back = back +temp
+    i+=1
+print(int(head/4))
+print(int(back/4))
+    
+    "
+41,B,Python3,61794079,2023-04-07 19:43:49,牛客636288152号,答案错误,"n,m  = map(int,input().split())
+head = 0
+back = 0
+i = 1
+while i!=(n+1):
+    if i<=(n/2):
+        temp = 0
+        list = map(int,input().split())
+        for j in list:
+            temp = temp+j
+        head = head +temp
+    else:
+        temp = 0
+        list = map(int,input().split())
+        for j in list:
+            temp = temp+j
+        back = back +temp
+    i+=1
+print(int(head/4))
+print(int(back/4))
+    
+    "
+42,B,Python3,61794091,2023-04-07 19:43:54,牛客337354716号,执行出错,"# #!/usr/bin/env python
+# # -*- coding=utf-8 -*-
+# __author__ = ""柯博文老師 Powen Ko, www.powenko.com""
+#
+# import matplotlib.pyplot as plt
+# import numpy as np
+# from sklearn import datasets
+# from sklearn.neighbors import KNeighborsClassifier
+# from sklearn.model_selection import train_test_split
+# import pandas as pd
+# from pandas import DataFrame
+# import csv
+#
+# #Load the diabetes datafset
+# # iris = datasets.load_iris()#调用数据集
+# # iris.head()
+# # x_data = iris.data
+# # y_data= iris.target
+# #
+# # x_data=DataFrame(x_data)
+# #
+# # x_data['类别']=y_data
+# # print(x_data)
+#
+# def file(file):
+#     with open(file,'r') as f:
+#         test=[]
+#         r=[]
+#         data =csv.reader(f)
+#         datas=list(data)
+#         for i in datas:
+#             print(""\t"".join(i))
+#         for line in datas[0:]:
+#             l='\t'.join(line).replace('\t','')
+#             test.append(l.split(' ')[0:5])
+#             r.append(l.split(' ')[-1])
+#     print(test)
+#     print(r)
+#     return test,r
+# file(""iris.csv"")
+#
+# #
+# #
+#
+#
+#
+#
+#
+# iris_X_train , iris_X_test , iris_y_train , iris_y_test = train_test_split(iris.data,iris.target,test_size=0.2)
+#
+# knn = KNeighborsClassifier()
+# knn.fit(iris_X_train, iris_y_train)
+#
+#
+#
+#
+# print(""預測"",knn.predict(iris_X_test))
+# print(""實際"",iris_y_test)
+#
+# print('準確率: %.2f' % knn.score(iris_X_test, iris_y_test))
+
+#
+# a=input()
+# for i in a:
+#     if ord(i)<65:
+#         i.upper()
+#         print(i)
+#     else:
+#         i.lower()
+#         print(i)
+
+n,m=input().split(' ')
+n=int(n)
+m=int(m)
+a=[]
+for i in (0,n):
+    for j in (0,m):
+        b=input()
+        # b=list(b)
+        a.append(b)
+t=n//2
+b=[]
+c=[]
+while(t>0):
+    b.append(a[t+1])
+    c.append(a[t-1])
+    t=t-1
+sum1=0
+sum2=0
+for i in b:
+    k=i.split(' ')
+    for j in k:
+        j=int(j)
+        sum1+=j
+
+for j in c:
+    k=j.split(' ')
+    for j in k:
+        j=int(j)
+        sum2+=j
+
+print(sum2//((n*m)//2))
+print(sum1//((n*m)//2))
+
+
+
+
+
+
+
+"
+43,B,Python3,61794255,2023-04-07 19:45:12,牛客337354716号,执行出错,"# #!/usr/bin/env python
+# # -*- coding=utf-8 -*-
+# __author__ = ""柯博文老師 Powen Ko, www.powenko.com""
+#
+# import matplotlib.pyplot as plt
+# import numpy as np
+# from sklearn import datasets
+# from sklearn.neighbors import KNeighborsClassifier
+# from sklearn.model_selection import train_test_split
+# import pandas as pd
+# from pandas import DataFrame
+# import csv
+#
+# #Load the diabetes datafset
+# # iris = datasets.load_iris()#调用数据集
+# # iris.head()
+# # x_data = iris.data
+# # y_data= iris.target
+# #
+# # x_data=DataFrame(x_data)
+# #
+# # x_data['类别']=y_data
+# # print(x_data)
+#
+# def file(file):
+#     with open(file,'r') as f:
+#         test=[]
+#         r=[]
+#         data =csv.reader(f)
+#         datas=list(data)
+#         for i in datas:
+#             print(""\t"".join(i))
+#         for line in datas[0:]:
+#             l='\t'.join(line).replace('\t','')
+#             test.append(l.split(' ')[0:5])
+#             r.append(l.split(' ')[-1])
+#     print(test)
+#     print(r)
+#     return test,r
+# file(""iris.csv"")
+#
+# #
+# #
+#
+#
+#
+#
+#
+# iris_X_train , iris_X_test , iris_y_train , iris_y_test = train_test_split(iris.data,iris.target,test_size=0.2)
+#
+# knn = KNeighborsClassifier()
+# knn.fit(iris_X_train, iris_y_train)
+#
+#
+#
+#
+# print(""預測"",knn.predict(iris_X_test))
+# print(""實際"",iris_y_test)
+#
+# print('準確率: %.2f' % knn.score(iris_X_test, iris_y_test))
+
+#
+# a=input()
+# for i in a:
+#     if ord(i)<65:
+#         i.upper()
+#         print(i)
+#     else:
+#         i.lower()
+#         print(i)
+
+n,m=input().split(' ')
+n=int(n)
+m=int(m)
+a=[]
+for i in (0,n):
+    for j in (0,m):
+        b=input()
+        # b=list(b)
+        a.append(b)
+t=n//2
+b=[]
+c=[]
+while(t>0):
+    b.append(a[t+1])
+    c.append(a[t-1])
+    t=t-1
+sum1=0
+sum2=0
+for i in b:
+    k=i.split(' ')
+    for j in k:
+        j=int(j)
+        sum1+=j
+
+for j in c:
+    k=j.split(' ')
+    for j in k:
+        j=int(j)
+        sum2+=j
+
+print(sum2//((n*m)//2))
+print(sum1//((n*m)//2))
+
+
+
+
+
+
+
+"
+44,B,Python3,61794308,2023-04-07 19:45:34,牛客337354716号,执行出错,"# #!/usr/bin/env python
+# # -*- coding=utf-8 -*-
+# __author__ = ""柯博文老師 Powen Ko, www.powenko.com""
+#
+# import matplotlib.pyplot as plt
+# import numpy as np
+# from sklearn import datasets
+# from sklearn.neighbors import KNeighborsClassifier
+# from sklearn.model_selection import train_test_split
+# import pandas as pd
+# from pandas import DataFrame
+# import csv
+#
+# #Load the diabetes datafset
+# # iris = datasets.load_iris()#调用数据集
+# # iris.head()
+# # x_data = iris.data
+# # y_data= iris.target
+# #
+# # x_data=DataFrame(x_data)
+# #
+# # x_data['类别']=y_data
+# # print(x_data)
+#
+# def file(file):
+#     with open(file,'r') as f:
+#         test=[]
+#         r=[]
+#         data =csv.reader(f)
+#         datas=list(data)
+#         for i in datas:
+#             print(""\t"".join(i))
+#         for line in datas[0:]:
+#             l='\t'.join(line).replace('\t','')
+#             test.append(l.split(' ')[0:5])
+#             r.append(l.split(' ')[-1])
+#     print(test)
+#     print(r)
+#     return test,r
+# file(""iris.csv"")
+#
+# #
+# #
+#
+#
+#
+#
+#
+# iris_X_train , iris_X_test , iris_y_train , iris_y_test = train_test_split(iris.data,iris.target,test_size=0.2)
+#
+# knn = KNeighborsClassifier()
+# knn.fit(iris_X_train, iris_y_train)
+#
+#
+#
+#
+# print(""預測"",knn.predict(iris_X_test))
+# print(""實際"",iris_y_test)
+#
+# print('準確率: %.2f' % knn.score(iris_X_test, iris_y_test))
+
+#
+# a=input()
+# for i in a:
+#     if ord(i)<65:
+#         i.upper()
+#         print(i)
+#     else:
+#         i.lower()
+#         print(i)
+
+n,m=input().split(' ')
+n=int(n)
+m=int(m)
+a=[]
+for i in (0,n):
+    for j in (0,m):
+        b=input()
+        # b=list(b)
+        a.append(b)
+t=n//2
+b=[]
+c=[]
+while(t>0):
+    b.append(a[t+1])
+    c.append(a[t-1])
+    t=t-1
+sum1=0
+sum2=0
+for i in b:
+    k=i.split(' ')
+    for j in k:
+        j=int(j)
+        sum1+=j
+
+for i in c:
+    k=i.split(' ')
+    for j in k:
+        j=int(j)
+        sum2+=j
+
+print(sum2//((n*m)//2))
+print(sum1//((n*m)//2))
+
+
+
+
+
+
+
+"
+45,B,Python3,61794718,2023-04-07 19:48:40,牛客801261568号,运行超时,"n,m=map(int,input().split())
+
+ans=[]
+c=[]
+for i in range(n):
+    
+    a=list(map(int,input().split()))
+    b=[]
+    for j in range(2,m+1,2):
+        b.append(sum(a[:j]))
+    c.append(b)
+for i in range(m//2):
+    for j in range(1,n,2):
+        ans.append(((c[j][i]+c[j-1][i])//4))
+for i in range((n//2)*(m//2)):
+        if i%(m//2)==0 and i!=0:
+            print()
+        
+        print(ans[i],end="" "")
+    
+"
+46,B,Python3,61794723,2023-04-07 19:48:42,牛客622344441号,答案正确,"n,m=map(int,input().split())
+lst=[]
+for i in range(n):
+    lst.append(list(map(int,input().split())))
+
+lst_lie=[]
+#首先对列进行操作
+for i in range(n):
+    lst_a_lie=[]
+    for j in range(int(m/2)):
+        lst_a_lie.append(sum(lst[i][2*j:2*j+2])/2)
+    lst_lie.append(lst_a_lie)
+lst_out=[]
+#然后对行进行操作
+for i in range(int(n/2)):
+    lst_a_lie=[]
+    for j in range(int(m/2)):
+        lst_a_lie.append((lst_lie[2*i][j]+lst_lie[2*i+1][j])/2)
+    lst_out.append(lst_a_lie)
+
+for i in range(int(n/2)):
+    for j in range(int(m/2)):
+        print(int(lst_out[i][j]),end=' ')
+    print('')
+    
+"
+47,B,Python3,61794792,2023-04-07 19:49:06,牛客801261568号,运行超时,"n,m=map(int,input().split())
+
+ans=[]
+c=[]
+for i in range(n):
+    
+    a=list(map(int,input().split()))
+    b=[]
+    for j in range(2,m+1,2):
+        b.append(sum(a[:j]))
+    c.append(b)
+for i in range(m//2):
+    for j in range(1,n,2):
+        ans.append(((c[j][i]+c[j-1][i])//4))
+for i in range((n//2)*(m//2)):
+        if i%(m//2)==0 and i!=0:
+            print()
+        
+        print(ans[i],end="" "")
+    
+"
+48,B,Python3,61795415,2023-04-07 19:53:30,牛客636288152号,答案错误,"n,m  = map(int,input().split())
+head = 0
+back = 0
+i = 0
+while i!=n:
+    if i<=(n/2):
+        temp = 0
+        list = []
+        list = map(int,input().split())
+        for j in list:
+            temp = temp+j
+        head = head +temp
+    else:
+        temp = 0
+        list = []
+        list = map(int,input().split())
+        for j in list:
+            temp = temp+j
+        back = back +temp
+    i+=1
+print(int(head/4))
+print(int(back/4))
+    
+    "
+49,B,Python3,61795496,2023-04-07 19:54:04,牛客636288152号,答案错误,"n,m  = map(int,input().split())
+head = 0
+back = 0
+i = 1
+while i!=n+1:
+    if i<=(n/2):
+        temp = 0
+        list = []
+        list = map(int,input().split())
+        for j in list:
+            temp = temp+j
+        head = head +temp
+    else:
+        temp = 0
+        list = []
+        list = map(int,input().split())
+        for j in list:
+            temp = temp+j
+        back = back +temp
+    i+=1
+print(int(head/4))
+print(int(back/4))
+    
+    "
+50,B,Python3,61795936,2023-04-07 19:57:26,牛客629010258号,答案错误,"n,m = map(int, input().split())
+a=[]
+for _ in range(n):
+    a.append(list(map(int, input().split())))
+d=[[0,0],[1,0],[0,1],[1,-1]]
+for i in range(0,n//2+1,2):
+    for j in range(0,m//2+1,2):
+        ave=0
+        for t in range(4):
+            ave+=a[i+d[t][0]][j+d[t][1]]
+        ave//=4
+        print(ave,end="" "")
+    print()
+"
+51,B,Python3,61795972,2023-04-07 19:57:43,牛客774779028号,运行超时,"n,m=map(int,input().split())
+nums=[list(map(int,input().split())) for _ in range(n)]
+s=0
+for i in range(n//2):
+    for j in range(m//2):
+        print(sum([nums[i*2][j*2],nums[i*2][j*2+1],nums[i*2+1][j*2],nums[i*2+1][j*2]])//4,sep=' ')"
+52,B,Python3,61796042,2023-04-07 19:58:14,牛客774779028号,运行超时,"n,m=map(int,input().split())
+nums=[list(map(int,input().split())) for _ in range(n)]
+s=0
+for i in range(n//2):
+    for j in range(m//2):
+        print(sum([nums[i*2][j*2],nums[i*2][j*2+1],nums[i*2+1][j*2],nums[i*2+1][j*2]])//4,sep=' ')"
+53,B,Python3,61796389,2023-04-07 20:00:37,theamo,执行出错,"
+if __name__ == ""__main__"":
+    n, m = map(int, input().split())
+    pic = [[0] * m for _ in range(n)]
+    for i in range(n):
+        x, y = map(int, input().split())
+        pic[i][0], pic[i][1] = x, y
+    n //= 2
+    m //= 2
+    res = [[0] * m for i in range(n)]
+    for i in range(n):
+        for j in range(m):
+            x, y = i * 2, j * 2
+            res[i][j] = (pic[x][y] + pic[x+1][y] + pic[x][y+1] + pic[x][y+1]) // 4
+    for i in range(n):
+        print("" "".join(str(x) for x in res[i]))"
+54,B,Python3,61796403,2023-04-07 20:00:42,牛客629010258号,答案错误,"n,m = map(int, input().split())
+a=[]
+for _ in range(n):
+    a.append(list(map(int, input().split())))
+d=[[0,0],[1,0],[0,1],[1,-1]]
+for i in range(0,n//2+1,2):
+    for j in range(0,m//2+1,2):
+        ave=0
+        for t in range(4):
+            ave+=a[i+d[t][0]][j+d[t][1]]
+        ave//=4
+        print(ave,end="" "")
+    if(i!=n//2):    
+        print()
+"
+55,B,Python3,61796593,2023-04-07 20:02:03,theamo,执行出错,"
+if __name__ == ""__main__"":
+    n, m = map(int, input().split())
+    pic = [[0] * m for _ in range(n)]
+    for i in range(n):
+        x, y = map(int, input().split())
+        pic[i][0], pic[i][1] = x, y
+    n //= 2
+    m //= 2
+    res = [[0] * m for _ in range(n)]
+    for i in range(n):
+        for j in range(m):
+            x, y = i * 2, j * 2
+            res[i][j] = (pic[x][y] + pic[x+1][y] + pic[x][y+1] + pic[x][y+1]) // 4
+    for i in range(n):
+        print("" "".join(str(x) for x in res[i]))"
+56,B,Python3,61796622,2023-04-07 20:02:16,牛客774779028号,运行超时,"n,m=map(int,input().split())
+nums=[list(map(int,input().split())) for _ in range(n)]
+s=0
+for i in range(n//2):
+    for j in range(m//2):
+        print(sum([nums[i*2][j*2],nums[i*2][j*2+1],nums[i*2+1][j*2],nums[i*2+1][j*2]])//4,end=' ')
+    print(' ')"
+57,B,Python3,61797005,2023-04-07 20:05:22,牛客337354716号,执行出错,"# #!/usr/bin/env python
+# # -*- coding=utf-8 -*-
+# __author__ = ""柯博文老師 Powen Ko, www.powenko.com""
+#
+# import matplotlib.pyplot as plt
+# import numpy as np
+# from sklearn import datasets
+# from sklearn.neighbors import KNeighborsClassifier
+# from sklearn.model_selection import train_test_split
+# import pandas as pd
+# from pandas import DataFrame
+# import csv
+#
+# #Load the diabetes datafset
+# # iris = datasets.load_iris()#调用数据集
+# # iris.head()
+# # x_data = iris.data
+# # y_data= iris.target
+# #
+# # x_data=DataFrame(x_data)
+# #
+# # x_data['类别']=y_data
+# # print(x_data)
+#
+# def file(file):
+#     with open(file,'r') as f:
+#         test=[]
+#         r=[]
+#         data =csv.reader(f)
+#         datas=list(data)
+#         for i in datas:
+#             print(""\t"".join(i))
+#         for line in datas[0:]:
+#             l='\t'.join(line).replace('\t','')
+#             test.append(l.split(' ')[0:5])
+#             r.append(l.split(' ')[-1])
+#     print(test)
+#     print(r)
+#     return test,r
+# file(""iris.csv"")
+#
+# #
+# #
+#
+#
+#
+#
+#
+# iris_X_train , iris_X_test , iris_y_train , iris_y_test = train_test_split(iris.data,iris.target,test_size=0.2)
+#
+# knn = KNeighborsClassifier()
+# knn.fit(iris_X_train, iris_y_train)
+#
+#
+#
+#
+# print(""預測"",knn.predict(iris_X_test))
+# print(""實際"",iris_y_test)
+#
+# print('準確率: %.2f' % knn.score(iris_X_test, iris_y_test))
+
+#
+# a=input()
+# for i in a:
+#     if ord(i)<65:
+#         i.upper()
+#         print(i)
+#     else:
+#         i.lower()
+#         print(i)
+# #!/usr/bin/env python
+# # -*- coding=utf-8 -*-
+# __author__ = ""柯博文老師 Powen Ko, www.powenko.com""
+#
+# import matplotlib.pyplot as plt
+# import numpy as np
+# from sklearn import datasets
+# from sklearn.neighbors import KNeighborsClassifier
+# from sklearn.model_selection import train_test_split
+# import pandas as pd
+# from pandas import DataFrame
+# import csv
+#
+# #Load the diabetes datafset
+# # iris = datasets.load_iris()#调用数据集
+# # iris.head()
+# # x_data = iris.data
+# # y_data= iris.target
+# #
+# # x_data=DataFrame(x_data)
+# #
+# # x_data['类别']=y_data
+# # print(x_data)
+#
+# def file(file):
+#     with open(file,'r') as f:
+#         test=[]
+#         r=[]
+#         data =csv.reader(f)
+#         datas=list(data)
+#         for i in datas:
+#             print(""\t"".join(i))
+#         for line in datas[0:]:
+#             l='\t'.join(line).replace('\t','')
+#             test.append(l.split(' ')[0:5])
+#             r.append(l.split(' ')[-1])
+#     print(test)
+#     print(r)
+#     return test,r
+# file(""iris.csv"")
+#
+# #
+# #
+#
+#
+#
+#
+#
+# iris_X_train , iris_X_test , iris_y_train , iris_y_test = train_test_split(iris.data,iris.target,test_size=0.2)
+#
+# knn = KNeighborsClassifier()
+# knn.fit(iris_X_train, iris_y_train)
+#
+#
+#
+#
+# print(""預測"",knn.predict(iris_X_test))
+# print(""實際"",iris_y_test)
+#
+# print('準確率: %.2f' % knn.score(iris_X_test, iris_y_test))
+
+#
+# a=input()
+# for i in a:
+#     if ord(i)<65:
+#         i.upper()
+#         print(i)
+#     else:
+#         i.lower()
+#         print(i)
+
+n,m=input().split(' ')
+n=int(n)
+m=int(m)
+a=[]
+for i in (0,n):
+    b=input()
+    a.append(b)
+
+
+t=n//2
+b=[]
+c=[]
+while(t>0):
+    b.append(a[t-1])
+    c.append(a[t-1])
+    t=t-1
+sum1=0
+sum2=0
+for i in b:
+    k=i.split(' ')
+    for j in k:
+        j=int(j)
+        sum1+=j
+
+for i in c:
+    k=i.split(' ')
+    for j in k:
+        j=int(j)
+        sum2+=j
+
+print(sum2//((n*m)//2))
+print(sum1//((n*m)//2))
+
+
+
+
+
+
+
+
+
+
+
+
+"
+58,B,Python3,61797191,2023-04-07 20:06:41,theamo,答案正确,"
+if __name__ == ""__main__"":
+    n, m = map(int, input().split())
+    pic = []
+    for i in range(n):
+        lt = [int(x) for x in input().split()]
+        pic.append(lt)
+    n //= 2
+    m //= 2
+    res = [[0] * m for i in range(n)]
+    for i in range(n):
+        for j in range(m):
+            x, y = i * 2, j * 2
+            res[i][j] = (pic[x][y] + pic[x+1][y] + pic[x][y+1] + pic[x+1][y+1]) // 4
+    for i in range(n):
+        print("" "".join(str(x) for x in res[i]))"
+59,B,Python3,61797913,2023-04-07 20:12:42,牛客39905829号,答案错误,"n, m = [int(x) for x in input().split()]
+
+
+w = [[int(x) for x in input().split()] for i in range(n)]
+x = len(w)
+y = len(w[0])
+
+res = [[0]*(y//2) for x in range(x//2)]
+for i in range(x-1,-1,-2):
+    for j in range(y-1,-1,-2):
+        a = (w[i][j] + w[i][j-1] + w[i-1][j] + w[i-1][j-1])//4
+        res[(i-1)//2][(j-1)//2] = a
+
+        
+for i in res:
+    print(i[0])        "
+60,B,Python3,61797980,2023-04-07 20:13:17,牛客39905829号,答案错误,"n, m = [int(x) for x in input().split()]
+
+w = [[int(x) for x in input().split()] for i in range(n)]
+x = len(w)
+y = len(w[0])
+
+res = [[0]*(y//2) for i in range(x//2)]
+for i in range(x-1,-1,-2):
+    for j in range(y-1,-1,-2):
+        a = (w[i][j] + w[i][j-1] + w[i-1][j] + w[i-1][j-1])//4
+        res[(i-1)//2][(j-1)//2] = a
+
+        
+for i in res:
+    print(i[0])        "
+61,B,Python3,61798037,2023-04-07 20:13:41,牛客39905829号,答案错误,"n, m = [int(x) for x in input().split()]
+
+w = [[int(x) for x in input().split()] for _ in range(n)]
+x = len(w)
+y = len(w[0])
+
+res = [[0]*(y//2) for _ in range(x//2)]
+for i in range(x-1,-1,-2):
+    for j in range(y-1,-1,-2):
+        a = (w[i][j] + w[i][j-1] + w[i-1][j] + w[i-1][j-1])//4
+        res[(i-1)//2][(j-1)//2] = a
+
+        
+for i in res:
+    print(i[0])        "
+62,B,Python3,61798059,2023-04-07 20:13:50,牛客523209988号,运行超时,"n,m=map(int,input().split())
+ans=[]
+for i in range(n):
+    num=[int(x) for x in input().split()]
+    ans.append(num)
+direction=[(0,0),(1,0),(0,1),(-1,0)]
+answer=[]
+for i in range(0,n,2):
+    for j in range(0,m,2):
+        cnt=0
+        for div in direction:
+            i +=div[0]
+            j +=div[1]
+            cnt+=ans[i][j]
+        answer.append(cnt//4)
+for i in range(len(answer)):
+    print(answer[i])
+            
+            
+"
+63,B,Python3,61798287,2023-04-07 20:15:35,牛客797251476号,运行超时,"import os
+import sys
+
+n, m = (int(x) for x in input().split("" ""))
+map1 = []
+map2 = []
+for i in range(n):
+    a = [int(x) for x in input().split("" "")]
+    map1.append(a)
+endl = m * n // 2 + 1
+ans = 0
+index = 0
+b = 0
+for i in range(0, n, 2):
+    for j in range(0, m, 2):
+        b += map1[i][j]
+        b += map1[i + 1][j]
+        b += map1[i][j + 1]
+        b += map1[i + 1][j + 1]
+        b //= 4
+        map2.append(b)
+for i in map2:
+    print(i, end = ' ')
+    ans += 1
+    if (ans % (m // 2) == 0):
+        print()
+    
+        
+        
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import os
+# import sys
+# import numpy as np
+
+# n, m = input().split("" "")
+# n = int(n)
+# m = int(m)
+# # ls = [[' '] * m for _ in range(n)]
+# # for i in range(n):
+# #     for j in range(m):
+# #         s = int(input())
+# #         ls[i][j] = s
+# # ans = 0
+# # ls2 = [[' '] * m / 2 for _ in range(n / 2)]
+# # for i in range(n):
+# #     for j in range(m):
+# ls = [0]
+# ans = int([[0] * n for _ in range(m)])
+# t = 0
+# k = 0
+# index = 0
+# for i in range(n):
+#     for j in range(m):
+#         s = int(input().split("" ""))
+#         ls.append(s)
+# endd = (m * n) // 2 + 1
+# for i in range(1, endd):
+#         if (k == 2):
+#             k = 0
+#             ans[index] = ans[index] + int(ls[2 * n + i]) + int(ls[2 * n + i + 1])
+#             ans[index] //= 4
+#             index = index + 1
+#         else :
+#             ans[index] = ans[index] + int(ls[i])
+#             k = k + 1
+# for i in range(index):
+#     if (i % (n // 2) == 0):
+#         print()
+#         print(ans[index], end = ' ')
+#     else:
+#         print(ans[index], end = ' ')
+        
+        
+            
+"
+64,B,Python3,61798623,2023-04-07 20:18:12,牛客39905829号,答案错误,"n, m = [int(x) for x in input().split()]
+
+w = [[int(x) for x in input().split()] for _ in range(n)]
+
+res = [[0]*(m//2) for _ in range(n//2)]
+for i in range(n-1,-1,-2):
+    for j in range(m-1,-1,-2):
+        a = (w[i][j] + w[i][j-1] + w[i-1][j] + w[i-1][j-1])//4
+        res[(i-1)//2][(j-1)//2] = a  
+        
+for i in res:
+    print(i[0])        "
+65,B,Python3,61798738,2023-04-07 20:19:15,牛客523209988号,运行超时,"n,m=map(int,input().split())
+ans=[]
+for i in range(n):
+    num=[int(x) for x in input().split()]
+    ans.append(num)
+direction=[(0,0),(1,0),(0,1),(-1,0)]
+answer=[]
+for i in range(0,n,2):
+    for j in range(0,m,2):
+        cnt=0
+        for div in direction:
+            i +=div[0]
+            j +=div[1]
+            cnt+=ans[i][j]
+        answer.append(cnt//4)
+for i in range(len(answer)):
+    print(answer[i])
+            
+            
+"
+66,B,Python3,61798805,2023-04-07 20:19:50,牛客337354716号,答案错误,"# #!/usr/bin/env python
+# # -*- coding=utf-8 -*-
+# __author__ = ""柯博文老師 Powen Ko, www.powenko.com""
+#
+# import matplotlib.pyplot as plt
+# import numpy as np
+# from sklearn import datasets
+# from sklearn.neighbors import KNeighborsClassifier
+# from sklearn.model_selection import train_test_split
+# import pandas as pd
+# from pandas import DataFrame
+# import csv
+#
+# #Load the diabetes datafset
+# # iris = datasets.load_iris()#调用数据集
+# # iris.head()
+# # x_data = iris.data
+# # y_data= iris.target
+# #
+# # x_data=DataFrame(x_data)
+# #
+# # x_data['类别']=y_data
+# # print(x_data)
+#
+# def file(file):
+#     with open(file,'r') as f:
+#         test=[]
+#         r=[]
+#         data =csv.reader(f)
+#         datas=list(data)
+#         for i in datas:
+#             print(""\t"".join(i))
+#         for line in datas[0:]:
+#             l='\t'.join(line).replace('\t','')
+#             test.append(l.split(' ')[0:5])
+#             r.append(l.split(' ')[-1])
+#     print(test)
+#     print(r)
+#     return test,r
+# file(""iris.csv"")
+#
+# #
+# #
+#
+#
+#
+#
+#
+# iris_X_train , iris_X_test , iris_y_train , iris_y_test = train_test_split(iris.data,iris.target,test_size=0.2)
+#
+# knn = KNeighborsClassifier()
+# knn.fit(iris_X_train, iris_y_train)
+#
+#
+#
+#
+# print(""預測"",knn.predict(iris_X_test))
+# print(""實際"",iris_y_test)
+#
+# print('準確率: %.2f' % knn.score(iris_X_test, iris_y_test))
+
+#
+# a=input()
+# for i in a:
+#     if ord(i)<65:
+#         i.upper()
+#         print(i)
+#     else:
+#         i.lower()
+#         print(i)
+# #!/usr/bin/env python
+# # -*- coding=utf-8 -*-
+# __author__ = ""柯博文老師 Powen Ko, www.powenko.com""
+#
+# import matplotlib.pyplot as plt
+# import numpy as np
+# from sklearn import datasets
+# from sklearn.neighbors import KNeighborsClassifier
+# from sklearn.model_selection import train_test_split
+# import pandas as pd
+# from pandas import DataFrame
+# import csv
+#
+# #Load the diabetes datafset
+# # iris = datasets.load_iris()#调用数据集
+# # iris.head()
+# # x_data = iris.data
+# # y_data= iris.target
+# #
+# # x_data=DataFrame(x_data)
+# #
+# # x_data['类别']=y_data
+# # print(x_data)
+#
+# def file(file):
+#     with open(file,'r') as f:
+#         test=[]
+#         r=[]
+#         data =csv.reader(f)
+#         datas=list(data)
+#         for i in datas:
+#             print(""\t"".join(i))
+#         for line in datas[0:]:
+#             l='\t'.join(line).replace('\t','')
+#             test.append(l.split(' ')[0:5])
+#             r.append(l.split(' ')[-1])
+#     print(test)
+#     print(r)
+#     return test,r
+# file(""iris.csv"")
+#
+# #
+# #
+#
+#
+#
+#
+#
+# iris_X_train , iris_X_test , iris_y_train , iris_y_test = train_test_split(iris.data,iris.target,test_size=0.2)
+#
+# knn = KNeighborsClassifier()
+# knn.fit(iris_X_train, iris_y_train)
+#
+#
+#
+#
+# print(""預測"",knn.predict(iris_X_test))
+# print(""實際"",iris_y_test)
+#
+# print('準確率: %.2f' % knn.score(iris_X_test, iris_y_test))
+
+#
+# a=input()
+# for i in a:
+#     if ord(i)<65:
+#         i.upper()
+#         print(i)
+#     else:
+#         i.lower()
+#         print(i)
+
+n,m=input().split(' ')
+n=int(n)
+m=int(m)
+a=[]
+while(n!=0):
+    b=input()
+    a.append(b)
+    n=n-1
+t=n//2
+b=[]
+c=[]
+for i in (0,t):
+    b.append(a[i+1])
+    c.append(a[i-1])
+    
+sum1=0
+sum2=0
+
+for i in b:
+    k=i.split(' ')
+    for j in k:
+        j=int(j)
+        sum1+=j
+
+for i in c:
+    k=i.split(' ')
+    for j in k:
+        j=int(j)
+        sum2+=j
+print(sum1//4)
+print(sum2//4)
+
+
+
+#
+#
+#
+#
+
+
+
+
+
+
+"
+67,B,Python3,61798853,2023-04-07 20:20:10,牛客797251476号,运行超时,"import os
+import sys
+
+n, m = (int(x) for x in input().split("" ""))
+map1 = []
+map2 = []
+for i in range(n):
+    a = [int(x) for x in input().split("" "")]
+    map1.append(a)
+endl = m * n // 2 + 1
+ans = 0
+index = 0
+b = 0
+for i in range(0, n, 2):
+    if (i != 0):
+        print()
+    for j in range(0, m, 2):
+        b += map1[i][j]
+        b += map1[i + 1][j]
+        b += map1[i][j + 1]
+        b += map1[i + 1][j + 1]
+        b //= 4
+        print(b, end=' ')
+        #map2.append(b)
+# for i in map2:
+#     print(i, end = ' ')
+#     ans += 1
+#     if (ans % (m // 2) == 0):
+#         print()
+    
+        
+        
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import os
+# import sys
+# import numpy as np
+
+# n, m = input().split("" "")
+# n = int(n)
+# m = int(m)
+# # ls = [[' '] * m for _ in range(n)]
+# # for i in range(n):
+# #     for j in range(m):
+# #         s = int(input())
+# #         ls[i][j] = s
+# # ans = 0
+# # ls2 = [[' '] * m / 2 for _ in range(n / 2)]
+# # for i in range(n):
+# #     for j in range(m):
+# ls = [0]
+# ans = int([[0] * n for _ in range(m)])
+# t = 0
+# k = 0
+# index = 0
+# for i in range(n):
+#     for j in range(m):
+#         s = int(input().split("" ""))
+#         ls.append(s)
+# endd = (m * n) // 2 + 1
+# for i in range(1, endd):
+#         if (k == 2):
+#             k = 0
+#             ans[index] = ans[index] + int(ls[2 * n + i]) + int(ls[2 * n + i + 1])
+#             ans[index] //= 4
+#             index = index + 1
+#         else :
+#             ans[index] = ans[index] + int(ls[i])
+#             k = k + 1
+# for i in range(index):
+#     if (i % (n // 2) == 0):
+#         print()
+#         print(ans[index], end = ' ')
+#     else:
+#         print(ans[index], end = ' ')
+        
+        
+            
+"
+68,B,Python3,61799502,2023-04-07 20:25:35,牛客39905829号,格式错误,"n, m = [int(x) for x in input().split()]
+
+w = [[int(x) for x in input().split()] for _ in range(n)]
+
+res = [[0]*(m//2) for _ in range(n//2)]
+for i in range(n-1,-1,-2):
+    for j in range(m-1,-1,-2):
+        a = (w[i][j] + w[i][j-1] + w[i-1][j] + w[i-1][j-1])//4
+        res[i//2][j//2] = a  
+        
+for i in res:
+    print(str(i).replace('[','').replace(']','').replace(',',' '))"
+69,B,Python3,61799960,2023-04-07 20:29:19,牛客39905829号,答案正确,"n, m = [int(x) for x in input().split()]
+
+w = [[int(x) for x in input().split()] for _ in range(n)]
+
+res = [[0]*(m//2) for _ in range(n//2)]
+for i in range(n-1,-1,-2):
+    for j in range(m-1,-1,-2):
+        a = (w[i][j] + w[i][j-1] + w[i-1][j] + w[i-1][j-1])//4
+        res[i//2][j//2] = a  
+
+r = [[str(j) for j in line] for line in res] 
+for line in r:
+    print(' '.join(line))"
+70,B,Python3,61800021,2023-04-07 20:29:46,牛客774779028号,运行超时,"n,m=map(int,input().split())
+nums=[list(map(int,input().split())) for _ in range(n)]
+s=0
+for i in range(n//2):
+    for j in range(m//2):
+        print(sum([nums[i*2][j*2],nums[i*2][j*2+1],nums[i*2+1][j*2],nums[i*2+1][j*2]])//4,end=' ')
+    print(' ')"
+71,B,Python3,61800029,2023-04-07 20:29:53,牛客774779028号,运行超时,"n,m=map(int,input().split())
+nums=[list(map(int,input().split())) for _ in range(n)]
+s=0
+for i in range(n//2):
+    for j in range(m//2):
+        print(sum([nums[i*2][j*2],nums[i*2][j*2+1],nums[i*2+1][j*2],nums[i*2+1][j*2]])//4,end=' ')
+    print(' ')"
+72,B,Python3,61800147,2023-04-07 20:30:56,牛客337354716号,答案错误,"# #!/usr/bin/env python
+# # -*- coding=utf-8 -*-
+# __author__ = ""柯博文老師 Powen Ko, www.powenko.com""
+#
+# import matplotlib.pyplot as plt
+# import numpy as np
+# from sklearn import datasets
+# from sklearn.neighbors import KNeighborsClassifier
+# from sklearn.model_selection import train_test_split
+# import pandas as pd
+# from pandas import DataFrame
+# import csv
+#
+# #Load the diabetes datafset
+# # iris = datasets.load_iris()#调用数据集
+# # iris.head()
+# # x_data = iris.data
+# # y_data= iris.target
+# #
+# # x_data=DataFrame(x_data)
+# #
+# # x_data['类别']=y_data
+# # print(x_data)
+#
+# def file(file):
+#     with open(file,'r') as f:
+#         test=[]
+#         r=[]
+#         data =csv.reader(f)
+#         datas=list(data)
+#         for i in datas:
+#             print(""\t"".join(i))
+#         for line in datas[0:]:
+#             l='\t'.join(line).replace('\t','')
+#             test.append(l.split(' ')[0:5])
+#             r.append(l.split(' ')[-1])
+#     print(test)
+#     print(r)
+#     return test,r
+# file(""iris.csv"")
+#
+# #
+# #
+#
+#
+#
+#
+#
+# iris_X_train , iris_X_test , iris_y_train , iris_y_test = train_test_split(iris.data,iris.target,test_size=0.2)
+#
+# knn = KNeighborsClassifier()
+# knn.fit(iris_X_train, iris_y_train)
+#
+#
+#
+#
+# print(""預測"",knn.predict(iris_X_test))
+# print(""實際"",iris_y_test)
+#
+# print('準確率: %.2f' % knn.score(iris_X_test, iris_y_test))
+
+#
+# a=input()
+# for i in a:
+#     if ord(i)<65:
+#         i.upper()
+#         print(i)
+#     else:
+#         i.lower()
+#         print(i)
+# #!/usr/bin/env python
+# # -*- coding=utf-8 -*-
+# __author__ = ""柯博文老師 Powen Ko, www.powenko.com""
+#
+# import matplotlib.pyplot as plt
+# import numpy as np
+# from sklearn import datasets
+# from sklearn.neighbors import KNeighborsClassifier
+# from sklearn.model_selection import train_test_split
+# import pandas as pd
+# from pandas import DataFrame
+# import csv
+#
+# #Load the diabetes datafset
+# # iris = datasets.load_iris()#调用数据集
+# # iris.head()
+# # x_data = iris.data
+# # y_data= iris.target
+# #
+# # x_data=DataFrame(x_data)
+# #
+# # x_data['类别']=y_data
+# # print(x_data)
+#
+# def file(file):
+#     with open(file,'r') as f:
+#         test=[]
+#         r=[]
+#         data =csv.reader(f)
+#         datas=list(data)
+#         for i in datas:
+#             print(""\t"".join(i))
+#         for line in datas[0:]:
+#             l='\t'.join(line).replace('\t','')
+#             test.append(l.split(' ')[0:5])
+#             r.append(l.split(' ')[-1])
+#     print(test)
+#     print(r)
+#     return test,r
+# file(""iris.csv"")
+#
+# #
+# #
+#
+#
+#
+#
+#
+# iris_X_train , iris_X_test , iris_y_train , iris_y_test = train_test_split(iris.data,iris.target,test_size=0.2)
+#
+# knn = KNeighborsClassifier()
+# knn.fit(iris_X_train, iris_y_train)
+#
+#
+#
+#
+# print(""預測"",knn.predict(iris_X_test))
+# print(""實際"",iris_y_test)
+#
+# print('準確率: %.2f' % knn.score(iris_X_test, iris_y_test))
+
+#
+# a=input()
+# for i in a:
+#     if ord(i)<65:
+#         i.upper()
+#         print(i)
+#     else:
+#         i.lower()
+#         print(i)
+
+n, m = input().split(' ')
+n = int(n)
+m = int(m)
+t=n*1/2*2
+a = []
+while (n != 0):
+    b = input()
+    a.append(b)
+    n = n - 1
+t = n // 2
+b = []
+c = []
+for i in (0, t):
+    b.append(a[i + 1])
+    c.append(a[i - 1])
+
+sum1=0
+sum2=0
+
+for i in b:
+    k = i.split(' ')
+    for j in k:
+        j = int(j)
+        sum1 += j
+
+for i in c:
+    k = i.split(' ')
+    for j in k:
+        j = int(j)
+        sum2 += j
+
+print(sum1//4)
+print(sum2//4)
+
+#
+#
+#
+#
+
+
+
+
+
+
+"
+73,B,Python3,61800293,2023-04-07 20:32:06,牛客593027199号,运行超时,"n,m = map(int,input().split())
+list1 = []
+for i in range(n):
+    list1.append(list(map(int, input().split())))
+list2 = []
+for i in range(0,n,2):
+    for j in range(0,m,2):
+        res = (list1[i][j] + list1[i][j+1] + list1[i+1][j] + list1[i+1][j+1])//4
+        list2.append(res)
+for i in list2:
+    print(i)"
+74,B,Python3,61800371,2023-04-07 20:32:43,牛客523209988号,运行超时,"n,m=map(int,input().split())
+ans=[]
+for i in range(n):
+    num=[int(x) for x in input().split()]
+    ans.append(num)
+answer=[]
+for i in range(0,n,2):
+    for j in range(0,m,2):
+        cnt=(ans[i][j]+ans[i+1][j]+ans[i][j+1]+ans[i+1][j+1])//4
+        answer.append(cnt)
+
+x=0
+for i in range(int(n//2)):       
+    for j in range(int(m//2)):
+        print(answer[x],sep='')
+        x+=1
+        
+
+            
+            
+"
+75,B,Python3,61800385,2023-04-07 20:32:51,牛客593027199号,运行超时,"n,m = map(int,input().split())
+list1 = []
+for i in range(n):
+    list1.append(list(map(int, input().split())))
+list2 = []
+for i in range(0,n,2):
+    for j in range(0,m,2):
+        res = (list1[i][j] + list1[i][j+1] + list1[i+1][j] + list1[i+1][j+1])//4
+        list2.append(res)
+for i in list2:
+    print(i)"
+76,B,Python3,61800593,2023-04-07 20:34:36,牛客593027199号,运行超时,"n,m = map(int,input().split())
+list1 = []
+for i in range(n):
+    list1.append(list(map(int, input().split())))
+list2 = []
+for i in range(0,n,2):
+    for j in range(0,m,2):
+        res = (list1[i][j] + list1[i][j+1] + list1[i+1][j] + list1[i+1][j+1])//4
+        list2.append(res)
+for i in list2:
+    print(i)"
+77,B,Python3,61800962,2023-04-07 20:38:01,牛客337354716号,执行出错,"n, m = input().split(' ')
+n = int(n)
+m = int(m)
+t=n
+a = []
+while (n != 0):
+    b = input()
+    a.append(b)
+    n = n - 1
+
+
+b = []
+c = []
+for i in (0, t):
+    b.append(a[i + 1])
+    c.append(a[i - 1])
+
+sum1=0
+sum2=0
+
+for i in b:
+    k = i.split(' ')
+    for j in k:
+        j = int(j)
+        sum1 += j
+
+for i in c:
+    k = i.split(' ')
+    for j in k:
+        j = int(j)
+        sum2 += j
+
+print(sum1//t)
+print(sum2//t)
+
+#
+#
+#
+#
+
+
+
+
+
+
+"
+78,B,Python3,61801614,2023-04-07 20:43:45,牛客337354716号,执行出错,"n, m = input().split(' ')
+n = int(n)
+m = int(m)
+k=(n*m)//2
+
+a = []
+while (n != 0):
+    b = input()
+    a.append(b)
+    n = n - 1
+
+
+b = []
+c = []
+
+for i in (0, n):
+    b.append(a[i + 1])
+    c.append(a[i - 1])
+
+sum1=0
+sum2=0
+
+for i in b:
+    k = i.split(' ')
+    for j in k:
+        j = int(j)
+        sum1 += j
+
+
+for i in c:
+    k = i.split(' ')
+    for j in k:
+        j = int(j)
+        sum2 += j
+
+
+print(sum1//k)
+print(sum2//k)
+
+#
+#
+#
+#
+
+
+
+
+
+
+"
+79,B,Python3,61801774,2023-04-07 20:45:06,RaiNML,运行超时,"n,m = map(int,input().split())
+lis = [list(map(int,input().split())) for _ in range(n)]
+ans = 0
+num = 0
+for i in lis:
+    for j in i:
+        ans += 1
+        num += j
+        if ans == 4:
+            print(num // 4)
+            num = 0
+            ans = 0
+
+        "
+80,B,Python3,61802955,2023-04-07 20:54:42,牛客337354716号,答案错误,"n, m = input().split(' ')
+n = int(n)
+m = int(m)
+u=(n*m)//2
+
+
+a = []
+while (n != 0):
+    b = input()
+    a.append(b)
+    n = n - 1
+
+
+b = []
+c = []
+
+for i in (0, n):
+    b.append(a[i + 1])
+    c.append(a[i - 1])
+
+sum1=0
+sum2=0
+
+for i in b:
+    k = i.split(' ')
+    for j in k:
+        j = int(j)
+        sum1 += j
+
+
+for i in c:
+    k = i.split(' ')
+    for j in k:
+        j = int(j)
+        sum2 += j
+
+
+print(sum1//u)
+print(sum2//u)
+
+
+
+
+"
+81,B,Python3,61803038,2023-04-07 20:55:30,牛客774779028号,运行超时,"n,m=map(int,input().split())
+nums=[list(map(int,input().split())) for _ in range(n)]
+s=0
+for i in range(n//2):
+    for j in range(m//2):
+        print(sum([nums[i*2][j*2],nums[i*2][j*2+1],nums[i*2+1][j*2],nums[i*2+1][j*2]])//4,end=' ')
+    print(' ')"
+82,B,Python3,61803210,2023-04-07 20:56:50,牛客774779028号,运行超时,"n,m=map(int,input().split())
+nums=[list(map(int,input().split())) for _ in range(n)]
+for i in range(n//2):
+    for j in range(m//2):
+        print(sum([nums[i*2][j*2],nums[i*2][j*2+1],nums[i*2+1][j*2],nums[i*2+1][j*2]])//4,end=' ')
+    print(' ')"
+83,B,Python3,61803358,2023-04-07 20:58:00,jhuikai,答案正确,"n,m=map(int,input().split())
+lst=[]
+for i in range(n):
+    kk=[int(x) for x in input().split()]
+    lst.append(kk)
+dp=[]
+for i in range(0,len(lst)-1,2):
+    dp.append(lst[i]+lst[i+1])
+ase=[]
+for i in dp:
+    for j in range(0,m-1,2):
+        ase.append((i[j]+i[j+1]+i[j+m]+i[j+m+1])//4)
+for i in range(len(ase)):
+    if (i+1) % (m//2) ==0:
+        print(ase[i],end='\n')
+    else:
+        print(ase[i],end=' ')"
+84,B,Python3,61803435,2023-04-07 20:58:31,牛客477252113号,答案错误,"s=list(input())
+n=int(s[0])
+m=int(s[2])
+j=i=0
+a=[[0]*m]*n
+for i in range(0,n-1):
+    a[i] = list(map(int,input().split()))
+    #print('检查点')
+for i in range(n-2):
+    #print('检查点')
+    for j in range(m-1):
+        a[int(i/2)][int(j/2)]=int((int(a[i][j])+int(a[i+1][j])+int(a[i][j+1])+int(a[i+1][j+1])/4))
+        print(3+i*3)
+"
+85,B,Python3,61803632,2023-04-07 20:59:38,牛客337354716号,答案错误,"n, m = input().split(' ')
+n = int(n)
+m = int(m)
+u=(n*m)//2
+
+
+a = []
+while (n != 0):
+    b = input()
+    a.append(b)
+    n = n - 1
+
+
+b = []
+c = []
+
+for i in (0, n):
+    b.append(a[i + 1])
+    c.append(a[i - 1])
+
+sum1=0
+sum2=0
+
+for i in b:
+    k = i.split(' ')
+    for j in k:
+        j = int(j)
+        sum1 += j
+
+
+for i in c:
+    k = i.split(' ')
+    for j in k:
+        j = int(j)
+        sum2 += j
+
+
+print(sum1//u)
+print(sum2//u)
+
+
+
+
+"
+86,B,Python3,61804119,2023-04-07 21:03:56,牛客593027199号,运行超时,"n,m = map(int,input().split())
+list1 = []
+for i in range(n):
+    list1.append(list(map(int, input().split())))
+list2 = []
+for i in range(0,n,2):
+    for j in range(0,m,2):
+        res = (list1[i][j] + list1[i][j+1] + list1[i+1][j] + list1[i+1][j+1])//4
+        list2.append(res)
+print(list2)
+for i in range(n//2):
+    for i in range(m//2):
+        print(list2.pop(0),end=' ')
+    print()
+"
+87,B,Python3,61804155,2023-04-07 21:04:16,牛客593027199号,运行超时,"n,m = map(int,input().split())
+list1 = []
+for i in range(n):
+    list1.append(list(map(int, input().split())))
+list2 = []
+for i in range(0,n,2):
+    for j in range(0,m,2):
+        res = (list1[i][j] + list1[i][j+1] + list1[i+1][j] + list1[i+1][j+1])//4
+        list2.append(res)
+for i in range(n//2):
+    for i in range(m//2):
+        print(list2.pop(0),end=' ')
+    print()
+"
+88,B,Python3,61804172,2023-04-07 21:04:26,牛客593027199号,运行超时,"n,m = map(int,input().split())
+list1 = []
+for i in range(n):
+    list1.append(list(map(int, input().split())))
+list2 = []
+for i in range(0,n,2):
+    for j in range(0,m,2):
+        res = (list1[i][j] + list1[i][j+1] + list1[i+1][j] + list1[i+1][j+1])//4
+        list2.append(res)
+for i in range(n//2):
+    for i in range(m//2):
+        print(list2.pop(0),end=' ')
+    print()
+"
+89,B,Python3,61804313,2023-04-07 21:06:00,牛客593027199号,运行超时,"n,m = map(int,input().split())
+list1 = []
+for i in range(n):
+    list1.append(list(map(int, input().split())))
+list2 = []
+for i in range(0,n,2):
+    for j in range(0,m,2):
+        res = (list1[i][j] + list1[i][j+1] + list1[i+1][j] + list1[i+1][j+1])//4
+        list2.append(res)
+for i in range(n//2):
+    for i in range(m//2):
+        print(list2.pop(0),end=' ')
+    print()
+"
+90,B,Python3,61804420,2023-04-07 21:07:28,xphhh,答案正确,"n,m=map(int,input().split())
+a=[]
+for i in range(n):
+    s=list(map(int,input().split()))
+    a.append(s)
+# print(a)
+ans=[[0]*(m//2) for _ in range(n//2)]
+# print(ans)
+ave=0
+ss=[]
+ave=[]
+for i in range(0,n,2):
+    for j in range(0,m,2):
+        ss.append(a[i][j])
+        ss.append(a[i][j+1])
+        ss.append(a[i+1][j])
+        ss.append(a[i+1][j+1])
+        ave.append(sum(ss)//4)
+        ss.clear()
+# print(ave)
+kk=0
+for i in range(n//2):
+    for j in range(m//2):
+        ans[i][j] = ave[kk]
+        kk += 1
+# print(ans)
+for i in range(n//2):
+    for j in range(m//2):
+        if j==m//2-1:
+            print(ans[i][j],end='\n')
+            break
+        print(ans[i][j],end=' ')    
+
+    
+
+
+"
+91,B,Python3,61804477,2023-04-07 21:08:18,牛客593027199号,运行超时,"n,m = map(int,input().split())
+list1 = []
+for i in range(n):
+    list1.append(list(map(int, input().split())))
+list2 = []
+for i in range(0,n,2):
+    for j in range(0,m,2):
+        res = (list1[i][j] + list1[i][j+1] + list1[i+1][j] + list1[i+1][j+1])//4
+        list2.append(res)
+for i in range(n//2):
+    for i in range(m//2):
+        print(list2.pop(0),end=' ')
+    print()
+"
+92,B,Python3,61804580,2023-04-07 21:09:54,牛客593027199号,运行超时,"n,m = map(int,input().split())
+list1 = []
+list1 = [[int(x) for x in input().split()] for _ in range(n)]
+list2 = []
+for i in range(0,n,2):
+    for j in range(0,m,2):
+        res = (list1[i][j] + list1[i][j+1] + list1[i+1][j] + list1[i+1][j+1])//4
+        list2.append(res)
+for i in range(n//2):
+    for i in range(m//2):
+        print(list2.pop(0),end=' ')
+    print()
+"
+93,B,Python3,61804729,2023-04-07 21:11:54,那些i回忆,答案正确,"import sys
+
+N=int(1e3+10)
+a=[[0]*N for i in range(N)]
+b=[[0]*N for i in range(N)]
+
+n,m=list(map(int,sys.stdin.readline().split()))
+for i in range(n):
+    a[i][0:n]=list(map(int,sys.stdin.readline().split()))
+for i in range(n):
+    for j in range(m):
+        b[i//2][j//2]+=a[i][j]
+for i in range(n//2):
+    for j in range(m//2):
+        print(b[i][j]//4,end=' ')
+    print('')
+"
+94,B,Python3,61804827,2023-04-07 21:13:10,牛客593027199号,运行超时,"n,m = map(int,input().split())
+list1 = []
+list1 = [[int(x) for x in input().split()] for _ in range(n)]
+list2 = []
+for i in range(0,n,2):
+    for j in range(0,m,2):
+        res = (list1[i][j] + list1[i][j+1] + list1[i+1][j] + list1[i+1][j+1])//4
+        list2.append(res)
+for i in range(n//2):
+    for i in range(m//2):
+        print(list2.pop(0),end=' ')
+    print()
+"
+95,B,Python3,61805751,2023-04-07 21:28:53,yauuu,答案正确,"n, m = input().split(' ')
+n, m = int(n), int(m)
+a, res = [], []
+for i in range(n):
+    a.append(input().split(' '))
+
+for i in range(n):
+    for j in range(m):
+        a[i][j] = int(a[i][j])
+
+for i in range(0, n, 2):
+    ls = []
+    for j in range(0, m, 2):
+        ls.append((a[i][j+1] + a[i][j] + a[i+1][j] + a[i+1][j+1])//4)
+    res.append(ls)
+
+for i in range(n//2):
+    for j in range(m//2):
+        print(res[i][j], end=' ')
+    print('')"
+96,B,Python3,61805947,2023-04-07 21:33:02,Ever_glow.,答案正确,"n, m = map(int, input().split())
+
+a = [[0 for i in range(m + 5)] for j in range(n + 5)]
+
+for i in range(n):
+    row = input().split()
+    for j in range(m):
+        a[i][j] = int(row[j])
+
+
+for i in range(0, n, 2):
+    for j in range(0, m, 2):
+        print((a[i][j] + a[i][j + 1] + a[i + 1][j] + a[i + 1][j + 1]) // 4, end = ' ')
+    print()
+    
+    "
+97,B,Python3,61807654,2023-04-07 22:35:16,PHILiST,运行超时,"n,m = map(int,input().split())
+space = []
+for _ in range(n):
+    space.append(list(map(int,input().split())))
+s = []
+for i in range(0,n,2):
+    for j in range(0,m,2):
+        s.append((space[i][j]+space[i+1][j]+space[i][j+1]+space[i+1][j+1]) // 4)
+for i in range(len(s)): 
+    print(s[i],end="""")
+    if i%((n//2)-1) == 0:
+        print()"
+98,B,Python3,61807857,2023-04-07 22:46:01,PHILiST,格式错误,"n,m = map(int,input().split())
+space = []
+for _ in range(n):
+    space.append(list(map(int,input().split())))
+s = []
+for i in range(0,n,2):
+    for j in range(0,m,2):
+        print((space[i][j]+space[i+1][j]+space[i][j+1]+space[i+1][j+1]) // 4,end="""")
+    print()"
+99,B,Python3,61807872,2023-04-07 22:46:36,PHILiST,答案正确,"n,m = map(int,input().split())
+space = []
+for _ in range(n):
+    space.append(list(map(int,input().split())))
+s = []
+for i in range(0,n,2):
+    for j in range(0,m,2):
+        print((space[i][j]+space[i+1][j]+space[i][j+1]+space[i+1][j+1]) // 4,end="" "")
+    print()"
+100,B,Python3,61808524,2023-04-07 23:28:06,RaiNML,运行超时,"n,m = map(int,input().split())
+lis = [list(map(int,input().split())) for _ in range(n)]
+ans = 0
+num = 0
+for i in lis:
+    for j in i:
+        ans += 1
+        num += j
+        if ans == 4:
+            print(num // 4)
+            num = 0
+            ans = 0
+
+        "
+101,B,Python3,61813557,2023-04-08 16:03:15,小小雨晴,答案正确,"n, m = map(int, input().split())
+temp = []
+for _ in range(n):
+    temp.append(list(map(int, input().split())))
+for i in range(0, n, 2):
+    for k in range(0, m, 2):
+        t = 0
+        t += temp[i][k]
+        t += temp[i][k + 1]
+        t += temp[i + 1][k]
+        t += temp[i + 1][k + 1]
+        t = int(t / 4)
+        print(t, end=' ')
+    print()"
+102,B,Python3,61813595,2023-04-08 16:07:05,小小雨晴,格式错误,"import sys
+n, m = map(int, input().split())
+temp = []
+for _ in range(n):
+    temp.append(list(map(int, input().split())))
+for i in range(0, n, 2):
+    for k in range(0, m, 2):
+        t = 0
+        t += temp[i][k]
+        t += temp[i][k + 1]
+        t += temp[i + 1][k]
+        t += temp[i + 1][k + 1]
+        t = int(t / 4)
+        sys.stdout.write(str(t))
+    sys.stdout.write('\n')"
+103,B,Python3,61813609,2023-04-08 16:08:04,小小雨晴,答案正确,"import sys
+n, m = map(int, input().split())
+temp = []
+for _ in range(n):
+    temp.append(list(map(int, input().split())))
+for i in range(0, n, 2):
+    for k in range(0, m, 2):
+        t = 0
+        t += temp[i][k]
+        t += temp[i][k + 1]
+        t += temp[i + 1][k]
+        t += temp[i + 1][k + 1]
+        t = int(t / 4)
+        sys.stdout.write(str(t) + ' ')
+    sys.stdout.write('\n')"
+104,B,Python3,61817038,2023-04-08 22:46:04,牛客774779028号,执行出错,"n,m=map(int,input().split())
+nums=[list(map(int,input().split())) for _ in range(n)]
+s=0
+for i in range(0,n,2):
+    for j in range(0,m,2):
+        print(sum([nums[i][j],nums[i][j+1],nums[i+1][j*2],nums[i+1][j]])//4,end=' ')
+    print(' ')"
+105,B,Python3,61817047,2023-04-08 22:46:31,牛客774779028号,运行超时,"n,m=map(int,input().split())
+nums=[list(map(int,input().split())) for _ in range(n)]
+s=0
+for i in range(0,n,2):
+    for j in range(0,m,2):
+        print(sum([nums[i][j],nums[i][j+1],nums[i+1][j],nums[i+1][j]])//4,end=' ')
+    print(' ')"
+106,B,Python3,61817095,2023-04-08 22:51:07,牛客774779028号,运行超时,"n,m=map(int,input().split())
+nums=[list(map(int,input().split())) for _ in range(n)]
+for i in range(0,n,2):
+    t=0
+    for j in range(0,m,2):
+        t+=nums[i][j]
+        t+=nums[i][j+1]
+        t+=nums[i+1][j]
+        t+=nums[i+1][j]
+        t=t//4
+        print(t,end='')
+    print(' ')"
+107,B,Python3,61831151,2023-04-09 20:19:03,从TV和,答案正确,"n,m=map(int,input().split())
+mp=[]
+for i in range(0,n//2):
+    k1=list(map(int,input().split()))
+    k2=list(map(int,input().split()))
+    mp.append([])
+    for j in range(0,m,2):
+        ave=sum([k1[j],k1[j+1],k2[j],k2[j+1]])//4
+        mp[i].append(ave)
+for i in mp:
+    print(str(i[0]),end="""")
+    for j in range(1,len(i)):
+        print("" ""+str(i[j]),end="""")
+    print()
+        "
+108,B,Python3,61833499,2023-04-09 22:48:08,炸酱小小面,运行超时,"m,n=map(int,input().split())
+p = [[0 for i in range(n//2)] for j in range(m//2)]
+# print(len(p))
+h,l = 0,0
+for i in range(0,m//2):
+    jihang = list(map(int,input().split()))
+    ouhang = list(map(int,input().split()))
+    for j in range(0,n//2):
+#         print(i,j,p[i])
+        p[i][j] = int((jihang[j]+jihang[j+1]+ouhang[j]+ouhang[j+1])/4)
+for i in range(m//2):
+    for j in range(n//2):
+        print(p[i][j])"
+109,B,Python3,61833504,2023-04-09 22:48:37,炸酱小小面,运行超时,"m,n=map(int,input().split())
+p = [[0 for i in range(n//2)] for j in range(m//2)]
+# print(len(p))
+for i in range(0,m//2):
+    jihang = list(map(int,input().split()))
+    ouhang = list(map(int,input().split()))
+    for j in range(0,n//2):
+#         print(i,j,p[i])
+        p[i][j] = int((jihang[j]+jihang[j+1]+ouhang[j]+ouhang[j+1])/4)
+for i in range(m//2):
+    for j in range(n//2):
+        print(p[i][j])"
+110,B,Python3,61833532,2023-04-09 22:53:28,炸酱小小面,运行超时,"m,n=map(int,input().split())
+p = []
+# print(len(p))
+for i in range(0,m//2):
+    jihang = list(map(int,input().split()))
+    ouhang = list(map(int,input().split()))
+    p.append([])
+    for j in range(0,n//2):
+#         print(i,j,p[i])
+        p[i].append(int((jihang[j]+jihang[j+1]+ouhang[j]+ouhang[j+1])/4))
+
+for i in range(m//2):
+    for j in range(n//2):
+        print(p[i][j])"
+111,B,Python3,61833549,2023-04-09 22:55:28,炸酱小小面,运行超时,"m,n=map(int,input().split())
+p = []
+# print(len(p))
+for i in range(0,m//2):
+    jihang = list(map(int,input().split()))
+    ouhang = list(map(int,input().split()))
+    p.append([])
+    for j in range(0,n,2):
+#         print(i,j,p[i])
+        p[i].append(int((jihang[j]+jihang[j+1]+ouhang[j]+ouhang[j+1])/4))
+
+for i in range(m//2):
+    for j in range(n//2):
+        print(p[i][j])"
+112,B,Python3,61833571,2023-04-09 22:57:35,炸酱小小面,答案正确,"m,n=map(int,input().split())
+p = []
+# print(len(p))
+for i in range(0,m//2):
+    jihang = list(map(int,input().split()))
+    ouhang = list(map(int,input().split()))
+    p.append([])
+    for j in range(0,n,2):
+#         print(i,j,p[i])
+        p[i].append(int((jihang[j]+jihang[j+1]+ouhang[j]+ouhang[j+1])/4))
+
+# for i in range(m//2):
+#     for j in range(n//2):
+#         print(p[i][j])
+for i in p:
+    print(str(i[0]),end="""")
+    for j in range(1,len(i)):
+        print("" ""+str(i[j]),end="""")
+    print()"
+113,B,Python3,61833577,2023-04-09 22:58:06,炸酱小小面,答案正确,"m,n=map(int,input().split())
+p = []
+# print(len(p))
+for i in range(0,m//2):
+    jihang = list(map(int,input().split()))
+    ouhang = list(map(int,input().split()))
+    p.append([])
+    for j in range(0,n,2):
+#         print(i,j,p[i])
+        p[i].append(int((jihang[j]+jihang[j+1]+ouhang[j]+ouhang[j+1])/4))
+
+# for i in range(m//2):
+#     for j in range(n//2):
+#         print(p[i][j])
+for i in p:
+    print(str(i[0]),end="""")
+    for j in range(1,len(i)):
+        print("" ""+str(i[j]),end="""")
+    print()"
+114,B,Python3,61843246,2023-04-11 10:43:53,牛客856192878号,答案正确,"lis = input().split()
+n,m=int(lis[0]),int(lis[1])
+grid = [[] for i in range(n)]
+for i in range(n):
+    grid[i]=input().split()
+b = [[] for i in range(n//2)]
+for i in range(n//2):
+    j = 0
+    while j < m//2:
+        sum=int(grid[i*2][j*2])+int(grid[i*2][j*2+1])+int(grid[i*2+1][j*2])+int(grid[i*2+1][j*2+1])
+        b[i].append(sum//4)
+        j+=1
+for i in range(n//2):
+    for j in range(m//2):
+        print(b[i][j],end=' ')
+    print('\n',end='')
+    
+"

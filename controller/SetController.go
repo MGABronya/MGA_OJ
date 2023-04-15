@@ -10,6 +10,7 @@ import (
 	"MGA_OJ/model"
 	"MGA_OJ/response"
 	"MGA_OJ/vo"
+	"context"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -2013,7 +2014,7 @@ func (s SetController) LabelDelete(ctx *gin.Context) {
 
 	// TODO 查看表单是否在数据库中存在
 	if s.DB.Where("id = ?", id).First(&set).Error != nil {
-		response.Fail(ctx, nil, "题目不存在")
+		response.Fail(ctx, nil, "表单不存在")
 		return
 	}
 	{
@@ -2025,7 +2026,7 @@ leep:
 
 	// TODO 查看是否为表单作者
 	if set.UserId != user.ID {
-		response.Fail(ctx, nil, "不是题目作者，请勿非法操作")
+		response.Fail(ctx, nil, "不是表单作者，请勿非法操作")
 		return
 	}
 
@@ -2250,6 +2251,8 @@ func NewSetController() ISetController {
 // @return   error		返回一个error表示是否出现错误
 func UpdateRank(set_id uuid.UUID) error {
 	db := common.GetDB()
+	redis := common.GetRedisClient(0)
+	ctx := context.Background()
 	var err error
 	// TODO 删掉原先的排行
 	db.Where("set_id = ?", set_id).Delete(&model.SetRank{})
@@ -2260,7 +2263,26 @@ func UpdateRank(set_id uuid.UUID) error {
 	db.Where("set_id = ?", set_id).Find(&groupLists)
 	for _, group := range groupLists {
 		var userLists []model.UserList
-		db.Where("group_id = ?", group.GroupId).Find(&userLists)
+		// TODO 查看用户组是否存在
+		// TODO 先看redis中是否存在
+		if ok, _ := redis.HExists(ctx, "UserList", group.GroupId.String()).Result(); ok {
+			cate, _ := redis.HGet(ctx, "UserList", group.GroupId.String()).Result()
+			if json.Unmarshal([]byte(cate), &userLists) == nil {
+				goto userlist
+			} else {
+				// TODO 移除损坏数据
+				redis.HDel(ctx, "UserList", group.GroupId.String())
+			}
+		}
+
+		// TODO 查看用户组是否在数据库中存在
+		db.Where("group_id = ?", group.GroupId.String()).Find(&userLists)
+		{
+			// TODO 将用户组存入redis供下次使用
+			v, _ := json.Marshal(userLists)
+			redis.HSet(ctx, "UserList", group.GroupId.String(), v)
+		}
+	userlist:
 		for _, user := range userLists {
 			userPass[user.UserId] = 0
 		}
@@ -2304,16 +2326,6 @@ func CanAddGroup(set_id uuid.UUID, group_id uuid.UUID, PassNum uint, PassRe bool
 	var userLists []model.UserList
 	db.Where("group_id = ?", group_id).Find(&userLists)
 
-	// TODO 查看引用该表单的比赛是否有正在进行的
-	var competitions []model.Competition
-	db.Where("set_id = ?", set_id).Find(&competitions)
-
-	for _, competition := range competitions {
-		if time.Now().After(time.Time(competition.StartTime)) && !time.Now().After(time.Time(competition.EndTime)) {
-			return false, nil
-		}
-	}
-
 	// TODO 如果组员数量大于限制
 	if int(PassNum) < len(userLists) {
 		return false, nil
@@ -2335,15 +2347,6 @@ func CanAddGroup(set_id uuid.UUID, group_id uuid.UUID, PassNum uint, PassRe bool
 		db.Where("group_id = ?", group.GroupId).Find(&userLists)
 		for _, userList := range userLists {
 			userMap[userList.UserId] = true
-		}
-	}
-
-	// TODO 将表单内所有候选人存入map
-	for _, competition := range competitions {
-		var matchs []model.Match
-		db.Where("competition_id = ?", competition.ID).Find(&matchs)
-		for _, match := range matchs {
-			userMap[match.UserId] = true
 		}
 	}
 

@@ -6,6 +6,9 @@ package common
 
 import (
 	"MGA_OJ/Interface"
+
+	"MGA_OJ/vo"
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -83,7 +86,7 @@ func (r *RabbitMQ) PublishSimple(message string) error {
 // @auth      MGAronya（张健）       2022-11-25 12:20
 // @param    void					没有参数
 // @return   void					没有返回值
-func (r *RabbitMQ) ConsumeSimple(consumer Interface.ConsumerInterface) {
+func (r *RabbitMQ) ConsumeSimple() {
 	// TODO 申请队列，如果队列不存在会自动创建，存在则跳过创建
 	q, err := r.channel.QueueDeclare(
 		r.QueueName,
@@ -115,7 +118,9 @@ func (r *RabbitMQ) ConsumeSimple(consumer Interface.ConsumerInterface) {
 	for d := range msgs {
 		log.Println("consumer:", d.Body)
 		// TODO 进行消费
-		consumer.Handel(d.Body)
+		var recordRabbit vo.RecordRabbit
+		json.Unmarshal(d.Body, &recordRabbit)
+		Interface.ComsumerMap[recordRabbit.Type].Handel(recordRabbit.RecordId.String())
 	}
 }
 
@@ -154,5 +159,6 @@ func InitRabbitmq() *RabbitMQ {
 // @param     void        void         没有入参
 // @return    rabbitmq        *RabbitMQ         将返回一个初始化后的RabbitMQ指针
 func GetRabbitMq() *RabbitMQ {
+
 	return rabbitmq
 }

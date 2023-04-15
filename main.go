@@ -2,6 +2,7 @@ package main
 
 import (
 	"MGA_OJ/common"
+	"MGA_OJ/controller"
 	"MGA_OJ/selfInspection"
 	"MGA_OJ/timer"
 	"MGA_OJ/util"
@@ -32,6 +33,10 @@ func main() {
 	// TODO 定时任务
 	go timer.TimedTask("The hot data is being updated...", timer.HotStatics, 0, 0, 0)
 	go timer.TimedTask("Form ranking calculation...", timer.SetRank, 4, 0, 0)
+	// TODO 及时单人匹配比赛
+	go controller.CompetitionRandomSingleGo()
+	// TODO 及时小组匹配比赛
+	go controller.CompetitionRandomGroupGo()
 
 	if port != "" {
 		panic(r.Run(":" + port))

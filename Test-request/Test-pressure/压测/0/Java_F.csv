@@ -1,0 +1,3334 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,F,Java,61795644,2023-04-07 19:55:12,牛客765377204号,答案错误,"
+
+import java.util.*;
+
+public class Main {
+
+    static Scanner in = new Scanner(System.in);
+    static int[] dx = {1, -1, 0, 0};
+    static int[] dy = {0, 0, -1, 1};
+    static boolean[][] st;
+    static int n, m;
+    static char[][] grid;
+    static int ans = 0;
+
+//    public static void dfs(int i, int j) {
+//        if (i < 0 || i >= n || j < 0 || j >= m || grid[i][j] == '#') return;
+//        if (grid[i][j] == '!') ans++;
+//        grid[i][j] = '#';
+//        for (int k = 0; k < 4; k++) {
+//            dfs(i + dx[k], j + dy[k]);
+//        }
+//    }
+
+    public static boolean dfs(int x, int y) {
+        if (x == 1 && y == 1) {
+            return false;
+        }
+        if (x > y) {
+            return !dfs(x - x / 2, y);
+        } else {
+            return !dfs(x, y - y / 2);
+        }
+    }
+
+    public static void main(String[] args) {
+        int n = in.nextInt();
+        int m = in.nextInt();
+        List<Integer>[] lists = new List[n + 1];
+        int[] out = new int[n + 1];
+        Arrays.setAll(lists, a -> new ArrayList<>());
+        for (int i = 1; i <= n-1; i++) {
+            int x = in.nextInt();
+            int y = in.nextInt();
+            lists[x].add(y);
+            lists[y].add(x);
+            out[x]++;
+            out[y]++;
+        }
+        int k = in.nextInt();
+//        System.out.println(k);
+        HashSet<Integer> set = new HashSet<>();
+        for (int i = 0; i < k; i++)
+            set.add(in.nextInt());
+//        for(Integer num:set) System.out.print(num+"" "");
+        Queue<Integer> queue = new LinkedList<>();
+        int num = n - 1;
+        for (int i = 1; i <= n; i++)
+            if (out[i] == 1 && !set.contains(i)) {
+                queue.add(i);
+//                System.out.println(i);
+                num--;
+            }
+        while (!queue.isEmpty()) {
+            int p=queue.poll();
+            for(Integer x:lists[p]){
+                if(!set.contains(x)&&--out[x]==1){
+                    num--;
+                    queue.add(x);
+                }
+            }
+        }
+//        System.out.println(num);
+        System.out.println((num-m)*2);
+
+
+    }
+}
+"
+1,F,Java,61796418,2023-04-07 20:00:48,牛客765377204号,答案错误,"
+
+import java.util.*;
+
+public class Main {
+
+    static Scanner in = new Scanner(System.in);
+    static int[] dx = {1, -1, 0, 0};
+    static int[] dy = {0, 0, -1, 1};
+    static boolean[][] st;
+    static int n, m;
+    static char[][] grid;
+    static int ans = 0;
+
+//    public static void dfs(int i, int j) {
+//        if (i < 0 || i >= n || j < 0 || j >= m || grid[i][j] == '#') return;
+//        if (grid[i][j] == '!') ans++;
+//        grid[i][j] = '#';
+//        for (int k = 0; k < 4; k++) {
+//            dfs(i + dx[k], j + dy[k]);
+//        }
+//    }
+
+    public static boolean dfs(int x, int y) {
+        if (x == 1 && y == 1) {
+            return false;
+        }
+        if (x > y) {
+            return !dfs(x - x / 2, y);
+        } else {
+            return !dfs(x, y - y / 2);
+        }
+    }
+
+    static final int N = (int) (1e5 + 10);
+    static int[] h;
+    static int[] e;
+    static int[] ne;
+    static int idx = 0;
+
+    public static void add(int a, int b) {
+        e[idx] = b;
+        ne[idx] = h[a];
+        h[a] = idx++;
+    }
+
+    public static void init() {
+        h = new int[N];
+        e = new int[2 * N];
+        ne = new int[2 * N];
+        Arrays.fill(h, -1);
+    }
+
+    public static void main(String[] args) {
+        int n = in.nextInt();
+        int m = in.nextInt();
+        init();
+        int[] out = new int[n + 1];
+
+        for (int i = 1; i <= n - 1; i++) {
+            int x = in.nextInt();
+            int y = in.nextInt();
+            add(x, y);
+            add(y, x);
+            out[x]++;
+            out[y]++;
+        }
+        int k = in.nextInt();
+        HashSet<Integer> set = new HashSet<>();
+        for (int i = 0; i < k; i++)
+            set.add(in.nextInt());
+        Queue<Integer> queue = new LinkedList<>();
+        int num = n - 1;
+        for (int i = 1; i <= n; i++)
+            if (out[i] == 1 && !set.contains(i)) {
+                queue.add(i);
+                num--;
+            }
+        while (!queue.isEmpty()) {
+            int p = queue.poll();
+            for (int i = h[p]; i != -1; i = ne[i]) {
+                int j = e[i];
+                if (!set.contains(j) && --out[j] == 1) {
+                    queue.add(j);
+                    num--;
+                }
+            }
+        }
+        System.out.println((num - m) * 2);
+    }
+}
+"
+2,F,Java,61796845,2023-04-07 20:04:05,牛客765377204号,答案错误,"
+
+import java.util.*;
+
+public class Main {
+
+    static Scanner in = new Scanner(System.in);
+    static int[] dx = {1, -1, 0, 0};
+    static int[] dy = {0, 0, -1, 1};
+    static boolean[][] st;
+    static int n, m;
+    static char[][] grid;
+    static int ans = 0;
+
+//    public static void dfs(int i, int j) {
+//        if (i < 0 || i >= n || j < 0 || j >= m || grid[i][j] == '#') return;
+//        if (grid[i][j] == '!') ans++;
+//        grid[i][j] = '#';
+//        for (int k = 0; k < 4; k++) {
+//            dfs(i + dx[k], j + dy[k]);
+//        }
+//    }
+
+    public static boolean dfs(int x, int y) {
+        if (x == 1 && y == 1) {
+            return false;
+        }
+        if (x > y) {
+            return !dfs(x - x / 2, y);
+        } else {
+            return !dfs(x, y - y / 2);
+        }
+    }
+
+    static final int N = (int) (1e5 + 10);
+    static int[] h;
+    static int[] e;
+    static int[] ne;
+    static int idx = 0;
+
+    public static void add(int a, int b) {
+        e[idx] = b;
+        ne[idx] = h[a];
+        h[a] = idx++;
+    }
+
+    public static void init() {
+        h = new int[N];
+        e = new int[2 * N];
+        ne = new int[2 * N];
+        Arrays.fill(h, -1);
+    }
+
+    public static void main(String[] args) {
+        int n = in.nextInt();
+        int m = in.nextInt();
+        init();
+        int[] out = new int[n + 1];
+
+        for (int i = 1; i <= n - 1; i++) {
+            int x = in.nextInt();
+            int y = in.nextInt();
+            add(x, y);
+            add(y, x);
+            out[x]+=2;
+            out[y]+=2;
+        }
+        int k = in.nextInt();
+        HashSet<Integer> set = new HashSet<>();
+        for (int i = 0; i < k; i++)
+            set.add(in.nextInt());
+        Queue<Integer> queue = new LinkedList<>();
+        int num = n - 1;
+        for (int i = 1; i <= n; i++)
+            if (out[i] == 2 && !set.contains(i)) {
+                queue.add(i);
+                num--;
+            }
+        while (!queue.isEmpty()) {
+            int p = queue.poll();
+            for (int i = h[p]; i != -1; i = ne[i]) {
+                int j = e[i];
+                out[j]-=2;
+                if (!set.contains(j) && out[j] == 2) {
+                    queue.add(j);
+                    num--;
+                }
+            }
+        }
+        System.out.println((num - m) * 2);
+    }
+}
+"
+3,F,Java,61796971,2023-04-07 20:05:09,牛客765377204号,答案错误,"
+
+import java.util.*;
+
+public class Main {
+
+    static Scanner in = new Scanner(System.in);
+    static int[] dx = {1, -1, 0, 0};
+    static int[] dy = {0, 0, -1, 1};
+    static boolean[][] st;
+    static int n, m;
+    static char[][] grid;
+    static int ans = 0;
+
+//    public static void dfs(int i, int j) {
+//        if (i < 0 || i >= n || j < 0 || j >= m || grid[i][j] == '#') return;
+//        if (grid[i][j] == '!') ans++;
+//        grid[i][j] = '#';
+//        for (int k = 0; k < 4; k++) {
+//            dfs(i + dx[k], j + dy[k]);
+//        }
+//    }
+
+    public static boolean dfs(int x, int y) {
+        if (x == 1 && y == 1) {
+            return false;
+        }
+        if (x > y) {
+            return !dfs(x - x / 2, y);
+        } else {
+            return !dfs(x, y - y / 2);
+        }
+    }
+
+    static final int N = (int) (1e5 + 10);
+    static int[] h;
+    static int[] e;
+    static int[] ne;
+    static int idx = 0;
+
+    public static void add(int a, int b) {
+        e[idx] = b;
+        ne[idx] = h[a];
+        h[a] = idx++;
+    }
+
+    public static void init() {
+        h = new int[N];
+        e = new int[2 * N];
+        ne = new int[2 * N];
+        Arrays.fill(h, -1);
+    }
+
+    public static void main(String[] args) {
+        int n = in.nextInt();
+        int m = in.nextInt();
+        init();
+        int[] out = new int[n + 1];
+
+        for (int i = 1; i <= n - 1; i++) {
+            int x = in.nextInt();
+            int y = in.nextInt();
+            add(x, y);
+            add(y, x);
+            out[x]+=2;
+            out[y]+=2;
+        }
+        int k = in.nextInt();
+        HashSet<Integer> set = new HashSet<>();
+        for (int i = 0; i < k; i++)
+            set.add(in.nextInt());
+        Queue<Integer> queue = new LinkedList<>();
+        int num = n - 1;
+        for (int i = 2; i <= n; i++)
+            if (out[i] == 2 && !set.contains(i)) {
+                queue.add(i);
+                num--;
+            }
+        while (!queue.isEmpty()) {
+            int p = queue.poll();
+            for (int i = h[p]; i != -1; i = ne[i]) {
+                int j = e[i];
+                out[j]-=2;
+                if (!set.contains(j) && out[j] == 2) {
+                    queue.add(j);
+                    num--;
+                }
+            }
+        }
+        System.out.println((num - m) * 2);
+    }
+}
+"
+4,F,Java,61798004,2023-04-07 20:13:30,可爱抱抱呀😥,答案错误,"//Java快读快写模板，不定时更新优化内容
+//@可爱抱抱呀
+import java.sql.Array;
+import java.util.*;
+import java.io.*;
+import java.math.*;
+import java.text.*;
+public class Main{
+    static int ccc[]=new int[1000000];
+    public static void main(String args[]) throws IOException{
+        Read sc=new Read();
+        int n=sc.nextInt();
+        int m=sc.nextInt();
+        boolean has[]=new boolean[n+1];
+        List<Integer> path[]=new List[n+5];
+        for(int i=1;i<=n;i++){
+            path[i]=new ArrayList<>();
+        }
+        for(int i=0;i<n-1;i++){
+            int a=sc.nextInt();
+            int b=sc.nextInt();
+            path[a].add(b);
+            path[b].add(a);
+        }
+        int k=sc.nextInt();
+        for(int i=0;i<k;i++){
+            has[sc.nextInt()]=true;
+        }
+        int level[]=new int[n+1];
+        Arrays.fill(level,-1);
+        int count[]=new int[n+1];
+        boolean delete[]=new boolean[n+1];
+        level[1]=0;
+        find(1,path,count,level,has);
+        Queue<Integer> q=new PriorityQueue<>((a,b)->count[a]==count[b]?ccc[b]-ccc[a]:count[b]-count[a]);
+        for(int i=1;i<=n;i++){
+            q.add(i);
+        }
+        int ans=n-1;
+        while(m>0){
+            int a=q.poll();
+            if(!delete[a]&&m>=count[a]){
+                ans-=ccc[a];
+                m-=count[a];
+                ff(a,level,path,delete);
+            }
+        }
+        sc.println(Math.max(0,ans)<<1);
+        //sc.print(0);
+        sc.bw.flush();
+        sc.bw.close();
+    }
+    static void ff(int k,int level[],List<Integer> path[],boolean delete[]){
+        delete[k]=true;
+        for(int a:path[k]){
+            if(level[a]>level[k]){
+                ff(a,level,path,delete);
+            }
+        }
+    }
+    static void find(int k,List<Integer> path[],int count[],int level[],boolean has[]){
+        if(has[k]){
+            count[k]++;
+        }
+        for(int a:path[k]){
+            if(level[a]==-1){
+                level[a]=level[k]+1;
+                find(a,path,count,level,has);
+                count[k]+=count[a];
+                ccc[k]+=ccc[a];
+            }
+        }
+        ccc[k]++;
+    }
+}
+//记住看数字范围，需要开long吗，需要用BigInteger吗，需要手动处理字符串吗，复杂度数量级控制在1e7或者以下了吗
+//开数组的数据范围最高不能超过1e7，数据范围再大就要用哈希表离散化了
+//基本数据类型不能自定义sort排序，二维数组就可以了，顺序排序的时候是小减大，注意返回值应该是int
+class Read{
+    BufferedReader bf;
+    StringTokenizer st;
+    BufferedWriter bw;
+    public Read(){
+        bf=new BufferedReader(new InputStreamReader(System.in));
+        st=new StringTokenizer("""");
+        bw=new BufferedWriter(new OutputStreamWriter(System.out));
+        //什么时候才能持续稳定ak力扣、AcWing呢？
+        //什么时候才能ak cf的div2，div1呢？才能打div2不计rating呢？
+        //什么时候才能ak  abc  不计rating呢？当然arc不计分更好
+        //什么时候才能ak 牛客练习赛不计rating呢?
+    }
+    public String nextLine() throws IOException{
+        return bf.readLine();
+    }
+    public String next() throws IOException{
+        while(!st.hasMoreTokens()){
+            st=new StringTokenizer(bf.readLine());
+        }
+        return st.nextToken();
+    }
+    public char nextChar() throws IOException{
+        //确定下一个token只有一个字符的时候再用
+        return next().charAt(0);
+    }
+    public int nextInt() throws IOException{
+        return Integer.parseInt(next());
+    }
+    public long nextLong() throws IOException{
+        return Long.parseLong(next());
+    }
+    public double nextDouble() throws IOException{
+        return Double.parseDouble(next());
+    }
+    public float nextFloat() throws IOException{
+        return Float.parseFloat(next());
+    }
+    public byte nextByte() throws IOException{
+        return Byte.parseByte(next());
+    }
+    public short nextShort() throws IOException{
+        return Short.parseShort(next());
+    }
+    public BigInteger nextBigInteger() throws IOException{
+        return new BigInteger(next());
+    }
+    public void println(int a) throws IOException{
+        bw.write(String.valueOf(a));
+        bw.newLine();
+        return;
+    }
+    public void print(int a) throws IOException{
+        bw.write(String.valueOf(a));
+        return;
+    }
+    public void println(String a) throws IOException{
+        bw.write(a);
+        bw.newLine();
+        return;
+    }
+    public void print(String a) throws IOException{
+        bw.write(a);
+        return;
+    }
+    public void println(long a) throws IOException{
+        bw.write(String.valueOf(a));
+        bw.newLine();
+        return;
+    }
+    public void print(long a) throws IOException{
+        bw.write(String.valueOf(a));
+        return;
+    }
+    public void println(double a) throws IOException{
+        bw.write(String.valueOf(a));
+        bw.newLine();
+        return;
+    }
+    public void print(double a) throws IOException{
+        bw.write(String.valueOf(a));
+        return;
+    }
+    public void print(BigInteger a) throws IOException{
+        bw.write(a.toString());
+        return;
+    }
+    public void print(char a) throws IOException{
+        bw.write(String.valueOf(a));
+        return;
+    }
+    public void println(char a) throws IOException{
+        bw.write(String.valueOf(a));
+        bw.newLine();
+        return;
+    }
+}"
+5,F,Java,61798306,2023-04-07 20:15:43,可爱抱抱呀😥,答案错误,"//Java快读快写模板，不定时更新优化内容
+//@可爱抱抱呀
+import java.sql.Array;
+import java.util.*;
+import java.io.*;
+import java.math.*;
+import java.text.*;
+public class Main{
+    static int ccc[]=new int[1000000];
+    public static void main(String args[]) throws IOException{
+        Read sc=new Read();
+        int n=sc.nextInt();
+        int m=sc.nextInt();
+        boolean has[]=new boolean[n+1];
+        List<Integer> path[]=new List[n+5];
+        for(int i=1;i<=n;i++){
+            path[i]=new ArrayList<>();
+        }
+        for(int i=0;i<n-1;i++){
+            int a=sc.nextInt();
+            int b=sc.nextInt();
+            path[a].add(b);
+            path[b].add(a);
+        }
+        int k=sc.nextInt();
+        for(int i=0;i<k;i++){
+            has[sc.nextInt()]=true;
+        }
+        int level[]=new int[n+1];
+        Arrays.fill(level,-1);
+        int count[]=new int[n+1];
+        boolean delete[]=new boolean[n+1];
+        level[1]=0;
+        find(1,path,count,level,has);
+        Queue<Integer> q=new PriorityQueue<>((a,b)->count[a]==count[b]?ccc[b]-ccc[a]:count[b]-count[a]);
+        for(int i=1;i<=n;i++){
+            q.add(i);
+        }
+        int ans=n;
+        while(m>0){
+            int a=q.poll();
+            if(!delete[a]&&m>=count[a]){
+                ans-=ccc[a];
+                m-=count[a];
+                ff(a,level,path,delete);
+            }
+        }
+        sc.println(Math.max(0,ans-1)<<1);
+        //sc.print(0);
+        sc.bw.flush();
+        sc.bw.close();
+    }
+    static void ff(int k,int level[],List<Integer> path[],boolean delete[]){
+        delete[k]=true;
+        for(int a:path[k]){
+            if(level[a]>level[k]){
+                ff(a,level,path,delete);
+            }
+        }
+    }
+    static void find(int k,List<Integer> path[],int count[],int level[],boolean has[]){
+        if(has[k]){
+            count[k]++;
+        }
+        for(int a:path[k]){
+            if(level[a]==-1){
+                level[a]=level[k]+1;
+                find(a,path,count,level,has);
+                count[k]+=count[a];
+                ccc[k]+=ccc[a];
+            }
+        }
+        ccc[k]++;
+    }
+}
+//记住看数字范围，需要开long吗，需要用BigInteger吗，需要手动处理字符串吗，复杂度数量级控制在1e7或者以下了吗
+//开数组的数据范围最高不能超过1e7，数据范围再大就要用哈希表离散化了
+//基本数据类型不能自定义sort排序，二维数组就可以了，顺序排序的时候是小减大，注意返回值应该是int
+class Read{
+    BufferedReader bf;
+    StringTokenizer st;
+    BufferedWriter bw;
+    public Read(){
+        bf=new BufferedReader(new InputStreamReader(System.in));
+        st=new StringTokenizer("""");
+        bw=new BufferedWriter(new OutputStreamWriter(System.out));
+        //什么时候才能持续稳定ak力扣、AcWing呢？
+        //什么时候才能ak cf的div2，div1呢？才能打div2不计rating呢？
+        //什么时候才能ak  abc  不计rating呢？当然arc不计分更好
+        //什么时候才能ak 牛客练习赛不计rating呢?
+    }
+    public String nextLine() throws IOException{
+        return bf.readLine();
+    }
+    public String next() throws IOException{
+        while(!st.hasMoreTokens()){
+            st=new StringTokenizer(bf.readLine());
+        }
+        return st.nextToken();
+    }
+    public char nextChar() throws IOException{
+        //确定下一个token只有一个字符的时候再用
+        return next().charAt(0);
+    }
+    public int nextInt() throws IOException{
+        return Integer.parseInt(next());
+    }
+    public long nextLong() throws IOException{
+        return Long.parseLong(next());
+    }
+    public double nextDouble() throws IOException{
+        return Double.parseDouble(next());
+    }
+    public float nextFloat() throws IOException{
+        return Float.parseFloat(next());
+    }
+    public byte nextByte() throws IOException{
+        return Byte.parseByte(next());
+    }
+    public short nextShort() throws IOException{
+        return Short.parseShort(next());
+    }
+    public BigInteger nextBigInteger() throws IOException{
+        return new BigInteger(next());
+    }
+    public void println(int a) throws IOException{
+        bw.write(String.valueOf(a));
+        bw.newLine();
+        return;
+    }
+    public void print(int a) throws IOException{
+        bw.write(String.valueOf(a));
+        return;
+    }
+    public void println(String a) throws IOException{
+        bw.write(a);
+        bw.newLine();
+        return;
+    }
+    public void print(String a) throws IOException{
+        bw.write(a);
+        return;
+    }
+    public void println(long a) throws IOException{
+        bw.write(String.valueOf(a));
+        bw.newLine();
+        return;
+    }
+    public void print(long a) throws IOException{
+        bw.write(String.valueOf(a));
+        return;
+    }
+    public void println(double a) throws IOException{
+        bw.write(String.valueOf(a));
+        bw.newLine();
+        return;
+    }
+    public void print(double a) throws IOException{
+        bw.write(String.valueOf(a));
+        return;
+    }
+    public void print(BigInteger a) throws IOException{
+        bw.write(a.toString());
+        return;
+    }
+    public void print(char a) throws IOException{
+        bw.write(String.valueOf(a));
+        return;
+    }
+    public void println(char a) throws IOException{
+        bw.write(String.valueOf(a));
+        bw.newLine();
+        return;
+    }
+}"
+6,F,Java,61798699,2023-04-07 20:18:54,小小小巨人,答案正确,"import java.io.*;
+import java.math.*;
+import java.util.*;
+import java.util.Map.*;
+/**
+ * 
+ * @author TCchen 
+ */
+public class Main {
+	public static void main(String[]args) throws IOException {
+		new Main().run();
+	}
+	File input=new File(""input.txt"");
+	File output=new File(""output.txt"");
+	void run() throws IOException{
+		boolean debug=false;
+//		debug=true;
+		if(debug)new Solve().setIO(input, output).run();
+		else new Solve().setIO(System.in,System.out).run();
+	}
+	class Solve extends ioTask{
+		int n,m,k,i,j,len,p,l,r;
+		int[]head=new int[100005],nxt=new int[200005],to=new int[200005];
+		int el=1;
+		void add(int u,int v) {
+			to[el]=v;
+			nxt[el]=head[u];
+			head[u]=el++;
+		}
+		boolean[]book=new boolean[100005];
+		int[][]dp=new int[100005][55];
+		void dp(int[]l,int[]r) {
+			for(int i=m;i>=0;i--) {
+				r[i]+=l[0];
+				for(int j=0;j<i;j++) {
+					r[i]=Math.min(r[i], r[j]+l[i-j]);
+				}
+			}
+		}
+		void dfs(int u,int f) {
+			for(int j=head[u];j>0;j=nxt[j]) {
+				int v=to[j];
+				if(v==f)continue;
+				dfs(v,u);
+				dp(dp[v],dp[u]);
+			}
+			if(u!=1)
+			for(int j=0;j<=m;j++) {
+				if(dp[u][j]==0) {
+					if(book[u])dp[u][j]=1;
+					break;
+				}
+				else dp[u][j]++;
+			}
+		}
+		void solve()throws IOException{
+			n=in.in();
+			m=in.in();
+			for(i=1;i<n;i++) {
+				l=in.in();
+				r=in.in();
+				add(l,r);
+				add(r,l);
+			}
+			k=in.in();
+			for(i=1;i<=k;i++)book[in.in()]=true;
+			dfs(1,0);
+//			for(int i=1;i<=n;i++) {
+//				out.print(i+"":"");
+//				for(int j=0;j<=m;j++) {
+//					out.print(dp[i][j]+"" "");
+//				}
+//				out.println();
+//			}
+			out.println(dp[1][m]<<1);
+		}
+		int te;
+		void run()throws IOException{
+//			init();
+			int t=1;
+//			t=in.in();
+			for(te=1;te<=t;te++) {
+				solve();
+//				out.flush();
+			}
+			out.close();
+		}
+//		long timeMillis;
+//		void st() {
+//			timeMillis=System.currentTimeMillis();
+//		}
+//		void ed() {
+//			System.out.println((System.currentTimeMillis()-timeMillis)+""ms"");
+//		}
+	}
+	class QIn{
+		StreamTokenizer st = new StreamTokenizer(new BufferedReader(new InputStreamReader(System.in)));
+		int in() throws IOException {
+			st.nextToken();
+			return (int)st.nval;
+		}
+		long inl() throws IOException {
+			st.nextToken();
+			return (long)st.nval;
+		}
+		double ind()throws IOException  {
+			st.nextToken();
+			return st.nval;
+		}
+		String ins() throws IOException {
+			st.nextToken();
+			return st.sval;
+		}
+	}
+	class In{
+		private StringTokenizer in=new StringTokenizer("""");
+		private InputStream is;
+		private BufferedReader br;
+		public In(File file) throws IOException {
+			is=new FileInputStream(file);
+			init();
+		}
+		public In(InputStream is) throws IOException{
+			this.is=is;
+			init();
+		}
+		private void init() throws IOException {
+			br=new BufferedReader(new InputStreamReader(is));
+		}
+		/**
+		 * File and OJ only
+		 */
+		boolean hasNext() throws IOException {
+			return in.hasMoreTokens()||br.ready();
+		}
+		String ins() throws IOException {
+			while(!in.hasMoreTokens()) {
+				in=new StringTokenizer(br.readLine());
+			}
+			return in.nextToken();
+		}
+		int in() throws IOException {
+			return Integer.parseInt(ins());
+		}
+		long inl() throws IOException {
+			return Long.parseLong(ins());
+		}
+		double ind() throws IOException {
+			return Double.parseDouble(ins());
+		}
+		String line() throws IOException {
+			return br.readLine();
+		}
+	}
+	class Out{
+		PrintWriter out;
+		private OutputStream os;
+		private void init() {
+			out=new PrintWriter(new BufferedWriter(new OutputStreamWriter(os)));
+		}
+		public Out(File file) throws IOException {
+			os=new FileOutputStream(file);
+			init();
+		}
+		public Out(OutputStream os) throws IOException{
+			this.os=os;
+			init();
+		}
+	}
+	abstract class ioTask{
+		In in;
+		PrintWriter out;
+		public ioTask setIO(File in,File out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		public ioTask setIO(File in,OutputStream out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		public ioTask setIO(InputStream in,OutputStream out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		public ioTask setIO(InputStream in,File out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		void run()throws IOException{}
+	}
+}"
+7,F,Java,61798918,2023-04-07 20:20:41,可爱抱抱呀😥,答案错误,"//Java快读快写模板，不定时更新优化内容
+//@可爱抱抱呀
+import java.sql.Array;
+import java.util.*;
+import java.io.*;
+import java.math.*;
+import java.text.*;
+public class Main{
+    static int ccc[]=new int[1000000];
+    public static void main(String args[]) throws IOException{
+        Read sc=new Read();
+        int n=sc.nextInt();
+        int m=sc.nextInt();
+        boolean has[]=new boolean[n+1];
+        List<Integer> path[]=new List[n+5];
+        for(int i=1;i<=n;i++){
+            path[i]=new ArrayList<>();
+        }
+        for(int i=0;i<n-1;i++){
+            int a=sc.nextInt();
+            int b=sc.nextInt();
+            path[a].add(b);
+            path[b].add(a);
+        }
+        int k=sc.nextInt();
+        for(int i=0;i<k;i++){
+            has[sc.nextInt()]=true;
+        }
+        int level[]=new int[n+1];
+        Arrays.fill(level,-1);
+        int count[]=new int[n+1];
+        boolean delete[]=new boolean[n+1];
+        level[1]=0;
+        find(1,path,count,level,has);
+        Queue<Integer> q=new PriorityQueue<>((a,b)->count[a]==count[b]?ccc[b]-ccc[a]:count[b]-count[a]);
+        for(int i=1;i<=n;i++){
+            q.add(i);
+        }
+        int ans=n;
+        while(q.size()>0){
+            int a=q.poll();
+            if(!delete[a]&&m>=count[a]){
+                ans-=ccc[a];
+                m-=count[a];
+                ff(a,level,path,delete);
+            }
+        }
+        sc.println(Math.max(0,ans-1)<<1);
+        //sc.print(0);
+        sc.bw.flush();
+        sc.bw.close();
+    }
+    static void ff(int k,int level[],List<Integer> path[],boolean delete[]){
+        delete[k]=true;
+        for(int a:path[k]){
+            if(level[a]>level[k]){
+                ff(a,level,path,delete);
+            }
+        }
+    }
+    static void find(int k,List<Integer> path[],int count[],int level[],boolean has[]){
+        if(has[k]){
+            count[k]++;
+        }
+        for(int a:path[k]){
+            if(level[a]==-1){
+                level[a]=level[k]+1;
+                find(a,path,count,level,has);
+                count[k]+=count[a];
+                ccc[k]+=ccc[a];
+            }
+        }
+        ccc[k]++;
+    }
+}
+//记住看数字范围，需要开long吗，需要用BigInteger吗，需要手动处理字符串吗，复杂度数量级控制在1e7或者以下了吗
+//开数组的数据范围最高不能超过1e7，数据范围再大就要用哈希表离散化了
+//基本数据类型不能自定义sort排序，二维数组就可以了，顺序排序的时候是小减大，注意返回值应该是int
+class Read{
+    BufferedReader bf;
+    StringTokenizer st;
+    BufferedWriter bw;
+    public Read(){
+        bf=new BufferedReader(new InputStreamReader(System.in));
+        st=new StringTokenizer("""");
+        bw=new BufferedWriter(new OutputStreamWriter(System.out));
+        //什么时候才能持续稳定ak力扣、AcWing呢？
+        //什么时候才能ak cf的div2，div1呢？才能打div2不计rating呢？
+        //什么时候才能ak  abc  不计rating呢？当然arc不计分更好
+        //什么时候才能ak 牛客练习赛不计rating呢?
+    }
+    public String nextLine() throws IOException{
+        return bf.readLine();
+    }
+    public String next() throws IOException{
+        while(!st.hasMoreTokens()){
+            st=new StringTokenizer(bf.readLine());
+        }
+        return st.nextToken();
+    }
+    public char nextChar() throws IOException{
+        //确定下一个token只有一个字符的时候再用
+        return next().charAt(0);
+    }
+    public int nextInt() throws IOException{
+        return Integer.parseInt(next());
+    }
+    public long nextLong() throws IOException{
+        return Long.parseLong(next());
+    }
+    public double nextDouble() throws IOException{
+        return Double.parseDouble(next());
+    }
+    public float nextFloat() throws IOException{
+        return Float.parseFloat(next());
+    }
+    public byte nextByte() throws IOException{
+        return Byte.parseByte(next());
+    }
+    public short nextShort() throws IOException{
+        return Short.parseShort(next());
+    }
+    public BigInteger nextBigInteger() throws IOException{
+        return new BigInteger(next());
+    }
+    public void println(int a) throws IOException{
+        bw.write(String.valueOf(a));
+        bw.newLine();
+        return;
+    }
+    public void print(int a) throws IOException{
+        bw.write(String.valueOf(a));
+        return;
+    }
+    public void println(String a) throws IOException{
+        bw.write(a);
+        bw.newLine();
+        return;
+    }
+    public void print(String a) throws IOException{
+        bw.write(a);
+        return;
+    }
+    public void println(long a) throws IOException{
+        bw.write(String.valueOf(a));
+        bw.newLine();
+        return;
+    }
+    public void print(long a) throws IOException{
+        bw.write(String.valueOf(a));
+        return;
+    }
+    public void println(double a) throws IOException{
+        bw.write(String.valueOf(a));
+        bw.newLine();
+        return;
+    }
+    public void print(double a) throws IOException{
+        bw.write(String.valueOf(a));
+        return;
+    }
+    public void print(BigInteger a) throws IOException{
+        bw.write(a.toString());
+        return;
+    }
+    public void print(char a) throws IOException{
+        bw.write(String.valueOf(a));
+        return;
+    }
+    public void println(char a) throws IOException{
+        bw.write(String.valueOf(a));
+        bw.newLine();
+        return;
+    }
+}"
+8,F,Java,61798965,2023-04-07 20:21:06,牛客765377204号,答案错误,"
+
+import java.util.*;
+
+public class Main {
+
+    static Scanner in = new Scanner(System.in);
+    static int[] dx = {1, -1, 0, 0};
+    static int[] dy = {0, 0, -1, 1};
+    static boolean[][] st;
+    static int n, m;
+    static char[][] grid;
+    static int ans = 0;
+
+    //    public static void dfs(int i, int j) {
+    //        if (i < 0 || i >= n || j < 0 || j >= m || grid[i][j] == '#') return;
+    //        if (grid[i][j] == '!') ans++;
+    //        grid[i][j] = '#';
+    //        for (int k = 0; k < 4; k++) {
+    //            dfs(i + dx[k], j + dy[k]);
+    //        }
+    //    }
+
+
+    static final int N = (int) (1e5 + 10);
+    static int[] h;
+    static int[] e;
+    static int[] ne;
+    static int idx = 0;
+
+    public static void add(int a, int b) {
+        e[idx] = b;
+        ne[idx] = h[a];
+        h[a] = idx++;
+    }
+
+    public static void init() {
+        h = new int[N];
+        e = new int[2 * N];
+        ne = new int[2 * N];
+        Arrays.fill(h, -1);
+    }
+
+    static HashSet<Integer> set = new HashSet<>();
+    static int[] d;
+    static int[] r;
+
+    public static int[] dfs(int i, int pre) {
+        int[] ans = {1, set.contains(i) ? 1 : 0};
+        for (int j = h[i]; j != -1; j = ne[j]) {
+            int v = e[j];
+            if (v != pre) {
+                int[] a = dfs(v, i);
+                ans[0] += a[0];
+                ans[1] += a[1];
+            }
+        }
+        d[i] = ans[0];
+        r[i] = ans[1];
+        return ans;
+    }
+
+    public static void main(String[] args) {
+        int n = in.nextInt();
+        int m = in.nextInt();
+        d = new int[n + 1];
+        r = new int[n + 1];
+        init();
+        for (int i = 1; i <= n - 1; i++) {
+            int x = in.nextInt();
+            int y = in.nextInt();
+            add(x, y);
+            add(y, x);
+        }
+        int k = in.nextInt();
+        for (int i = 1; i <= k; i++)
+            set.add(in.nextInt());
+        dfs(1, 0);
+        int x = Integer.MIN_VALUE;
+
+        for (int i = 1; i <= n; i++) {
+            if (r[i] <= m) {
+                x = Math.max(x, d[i]);
+            }
+        }
+
+        System.out.println((n-x-1)*2);
+
+    }
+}
+"
+9,F,Java,61799236,2023-04-07 20:23:18,牛客765377204号,答案错误,"
+
+import java.util.*;
+
+public class Main {
+
+    static Scanner in = new Scanner(System.in);
+    static int[] dx = {1, -1, 0, 0};
+    static int[] dy = {0, 0, -1, 1};
+    static boolean[][] st;
+    static int n, m;
+    static char[][] grid;
+    static int ans = 0;
+
+    //    public static void dfs(int i, int j) {
+    //        if (i < 0 || i >= n || j < 0 || j >= m || grid[i][j] == '#') return;
+    //        if (grid[i][j] == '!') ans++;
+    //        grid[i][j] = '#';
+    //        for (int k = 0; k < 4; k++) {
+    //            dfs(i + dx[k], j + dy[k]);
+    //        }
+    //    }
+
+
+    static final int N = (int) (1e5 + 10);
+    static int[] h;
+    static int[] e;
+    static int[] ne;
+    static int idx = 0;
+
+    public static void add(int a, int b) {
+        e[idx] = b;
+        ne[idx] = h[a];
+        h[a] = idx++;
+    }
+
+    public static void init() {
+        h = new int[N];
+        e = new int[2 * N];
+        ne = new int[2 * N];
+        Arrays.fill(h, -1);
+    }
+
+    static HashSet<Integer> set = new HashSet<>();
+    static int[] d;
+    static int[] r;
+
+    public static int[] dfs(int i, int pre) {
+        int[] ans = {1, set.contains(i) ? 1 : 0};
+        for (int j = h[i]; j != -1; j = ne[j]) {
+            int v = e[j];
+            if (v != pre) {
+                int[] a = dfs(v, i);
+                ans[0] += a[0];
+                ans[1] += a[1];
+            }
+        }
+        d[i] = ans[0];
+        r[i] = ans[1];
+        return ans;
+    }
+
+    public static void main(String[] args) {
+        int n = in.nextInt();
+        int m = in.nextInt();
+        d = new int[n + 1];
+        r = new int[n + 1];
+        init();
+        for (int i = 1; i <= n - 1; i++) {
+            int x = in.nextInt();
+            int y = in.nextInt();
+            add(x, y);
+            add(y, x);
+        }
+        int k = in.nextInt();
+        for (int i = 1; i <= k; i++)
+            set.add(in.nextInt());
+        dfs(1, 0);
+        int x = Integer.MIN_VALUE;
+
+        for (int i = 1; i <= n; i++) {
+            if (r[i] <= m) {
+                x = Math.max(x, d[i]);
+            }
+        }
+        if (x >=n-1) System.out.println(0);
+        else
+            System.out.println((n - x - 1) * 2);
+    }
+}
+"
+10,F,Java,61800877,2023-04-07 20:37:13,可爱抱抱呀😥,答案错误,"//Java快读快写模板，不定时更新优化内容
+//@可爱抱抱呀
+import java.sql.Array;
+import java.util.*;
+import java.io.*;
+import java.math.*;
+import java.text.*;
+public class Main{
+    static int ccc[]=new int[1000000];
+    public static void main(String args[]) throws IOException{
+        Read sc=new Read();
+        int n=sc.nextInt();
+        int m=sc.nextInt();
+        boolean has[]=new boolean[n+1];
+        List<Integer> path[]=new List[n+5];
+        for(int i=1;i<=n;i++){
+            path[i]=new ArrayList<>();
+        }
+        for(int i=0;i<n-1;i++){
+            int a=sc.nextInt();
+            int b=sc.nextInt();
+            path[a].add(b);
+            path[b].add(a);
+        }
+        int k=sc.nextInt();
+        for(int i=0;i<k;i++){
+            has[sc.nextInt()]=true;
+        }
+        int level[]=new int[n+1];
+        Arrays.fill(level,-1);
+        int count[]=new int[n+1];
+        boolean delete[]=new boolean[n+1];
+        level[1]=0;
+        find(1,path,count,level,has);
+        Queue<Integer> q=new PriorityQueue<>((a,b)->count[a]==count[b]?ccc[b]-ccc[a]:count[a]-count[b]);
+        for(int i=1;i<=n;i++){
+            q.add(i);
+        }
+        int ans=n;
+        while(q.size()>0){
+            int a=q.poll();
+            if(!delete[a]&&m>=count[a]){
+                ans-=ccc[a];
+                m-=count[a];
+                ff(a,level,path,delete);
+            }
+        }
+        sc.println(Math.max(0,ans-1)<<1);
+        //sc.print(0);
+        sc.bw.flush();
+        sc.bw.close();
+    }
+    static void ff(int k,int level[],List<Integer> path[],boolean delete[]){
+        delete[k]=true;
+        for(int a:path[k]){
+            if(level[a]>level[k]){
+                ff(a,level,path,delete);
+            }
+        }
+    }
+    static void find(int k,List<Integer> path[],int count[],int level[],boolean has[]){
+        if(has[k]){
+            count[k]++;
+        }
+        for(int a:path[k]){
+            if(level[a]==-1){
+                level[a]=level[k]+1;
+                find(a,path,count,level,has);
+                count[k]+=count[a];
+                ccc[k]+=ccc[a];
+            }
+        }
+        ccc[k]++;
+    }
+}
+//记住看数字范围，需要开long吗，需要用BigInteger吗，需要手动处理字符串吗，复杂度数量级控制在1e7或者以下了吗
+//开数组的数据范围最高不能超过1e7，数据范围再大就要用哈希表离散化了
+//基本数据类型不能自定义sort排序，二维数组就可以了，顺序排序的时候是小减大，注意返回值应该是int
+class Read{
+    BufferedReader bf;
+    StringTokenizer st;
+    BufferedWriter bw;
+    public Read(){
+        bf=new BufferedReader(new InputStreamReader(System.in));
+        st=new StringTokenizer("""");
+        bw=new BufferedWriter(new OutputStreamWriter(System.out));
+        //什么时候才能持续稳定ak力扣、AcWing呢？
+        //什么时候才能ak cf的div2，div1呢？才能打div2不计rating呢？
+        //什么时候才能ak  abc  不计rating呢？当然arc不计分更好
+        //什么时候才能ak 牛客练习赛不计rating呢?
+    }
+    public String nextLine() throws IOException{
+        return bf.readLine();
+    }
+    public String next() throws IOException{
+        while(!st.hasMoreTokens()){
+            st=new StringTokenizer(bf.readLine());
+        }
+        return st.nextToken();
+    }
+    public char nextChar() throws IOException{
+        //确定下一个token只有一个字符的时候再用
+        return next().charAt(0);
+    }
+    public int nextInt() throws IOException{
+        return Integer.parseInt(next());
+    }
+    public long nextLong() throws IOException{
+        return Long.parseLong(next());
+    }
+    public double nextDouble() throws IOException{
+        return Double.parseDouble(next());
+    }
+    public float nextFloat() throws IOException{
+        return Float.parseFloat(next());
+    }
+    public byte nextByte() throws IOException{
+        return Byte.parseByte(next());
+    }
+    public short nextShort() throws IOException{
+        return Short.parseShort(next());
+    }
+    public BigInteger nextBigInteger() throws IOException{
+        return new BigInteger(next());
+    }
+    public void println(int a) throws IOException{
+        bw.write(String.valueOf(a));
+        bw.newLine();
+        return;
+    }
+    public void print(int a) throws IOException{
+        bw.write(String.valueOf(a));
+        return;
+    }
+    public void println(String a) throws IOException{
+        bw.write(a);
+        bw.newLine();
+        return;
+    }
+    public void print(String a) throws IOException{
+        bw.write(a);
+        return;
+    }
+    public void println(long a) throws IOException{
+        bw.write(String.valueOf(a));
+        bw.newLine();
+        return;
+    }
+    public void print(long a) throws IOException{
+        bw.write(String.valueOf(a));
+        return;
+    }
+    public void println(double a) throws IOException{
+        bw.write(String.valueOf(a));
+        bw.newLine();
+        return;
+    }
+    public void print(double a) throws IOException{
+        bw.write(String.valueOf(a));
+        return;
+    }
+    public void print(BigInteger a) throws IOException{
+        bw.write(a.toString());
+        return;
+    }
+    public void print(char a) throws IOException{
+        bw.write(String.valueOf(a));
+        return;
+    }
+    public void println(char a) throws IOException{
+        bw.write(String.valueOf(a));
+        bw.newLine();
+        return;
+    }
+}"
+11,F,Java,61803357,2023-04-07 20:58:00,zzl064,答案错误,"import java.util.*;
+
+public class Main{
+    static List<Integer>[] adj;
+    static int n, m;
+    static boolean[] b;
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt(); m = sc.nextInt();
+        adj = new List[n];
+        for(int i = 0; i < n; ++i) adj[i] = new ArrayList<>();
+        for(int i = 0; i < n - 1; ++i){
+            int a = sc.nextInt() - 1, b = sc.nextInt() - 1;
+            adj[a].add(b);
+            adj[b].add(a);
+        }
+        b = new boolean[n];
+        int k = sc.nextInt();
+        if(k <= m) {
+            System.out.println(0);
+            return;
+        }
+        for(int i = 0; i < k; ++i){
+            b[sc.nextInt() - 1] = true;
+        }
+        f = new int[n][m + 1];
+//         for(int[] x: f) Arrays.fill(x, inf);
+        cnt = new int[n];
+        cnt2 = new int[n];
+        dfs1(0, -1);
+        dfs(0, 2);
+        System.out.println(cnt2[0] - f[0][m]);
+    }
+    static int[] cnt, cnt2;
+    static int[][] f;
+    static int inf = Integer.MAX_VALUE / 4;
+    static void dfs1(int root, int fa){
+        if(b[root]){
+            cnt[root]++;
+        }
+        for(int v: adj[root]){
+            if(v == fa) continue;
+            dfs1(v, root);
+            cnt[root] += cnt[v];
+        }
+    }
+    static void dfs(int root, int fa){
+        f[root][0] = 0;
+        for(int v: adj[root]){
+            if(v == fa) continue;
+            if(cnt[v] > 0){
+                dfs(v, root);
+                cnt2[root] += 2 + cnt2[v];
+            }
+        }
+        for(int v: adj[root]){
+            if(v == fa)continue;
+            for(int i = 1; i < cnt[v] && i <= m; ++i){
+                for(int j = Math.min(m, cnt[root]); j >= i; --j){
+                    f[root][j] = Math.max(f[root][j], f[v][i] + (i == cnt[v]? 2: 0));
+                }
+            }
+        }
+    }
+}"
+12,F,Java,61803718,2023-04-07 21:00:06,zzl064,答案错误,"import java.util.*;
+
+public class Main{
+    static List<Integer>[] adj;
+    static int n, m;
+    static boolean[] b;
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt(); m = sc.nextInt();
+        adj = new List[n];
+        for(int i = 0; i < n; ++i) adj[i] = new ArrayList<>();
+        for(int i = 0; i < n - 1; ++i){
+            int a = sc.nextInt() - 1, b = sc.nextInt() - 1;
+            adj[a].add(b);
+            adj[b].add(a);
+        }
+        b = new boolean[n];
+        int k = sc.nextInt();
+        if(k <= m) {
+            System.out.println(0);
+            return;
+        }
+        for(int i = 0; i < k; ++i){
+            b[sc.nextInt() - 1] = true;
+        }
+        f = new int[n][m + 1];
+//         for(int[] x: f) Arrays.fill(x, inf);
+        cnt = new int[n];
+        cnt2 = new int[n];
+        dfs1(0, -1);
+        dfs(0, 2);
+        System.out.println(cnt2[0] - f[0][m]);
+    }
+    static int[] cnt, cnt2;
+    static int[][] f;
+    static int inf = Integer.MAX_VALUE / 4;
+    static void dfs1(int root, int fa){
+        if(b[root]){
+            cnt[root]++;
+        }
+        for(int v: adj[root]){
+            if(v == fa) continue;
+            dfs1(v, root);
+            cnt[root] += cnt[v];
+        }
+    }
+    static void dfs(int root, int fa){
+        f[root][0] = 0;
+        for(int v: adj[root]){
+            if(v == fa) continue;
+            if(cnt[v] > 0){
+                dfs(v, root);
+                cnt2[root] += 2 + cnt2[v];
+                for(int i = 1; i < cnt[v] && i <= m; ++i){
+                    for(int j = m; j >= i; --j){
+                        f[root][j] = Math.max(f[root][j], f[v][i] + (i == cnt[v]? 2: 0));
+                    }
+                }
+            }
+        }
+    }
+}"
+13,F,Java,61804147,2023-04-07 21:04:12,牛客418895276号,运行超时,"import java.util.*;
+
+// 注意类名必须为 Main, 不要有任何 package xxx 信息
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        // 注意 hasNext 和 hasNextLine 的区别
+        
+        int n = in.nextInt();
+        int m = in.nextInt();
+        Map<Integer,List<Integer>> map = new HashMap<>();
+        Map<Integer,Integer> dep = new HashMap<>();
+        for(int i=0;i<n;i++){
+            int a=in.nextInt();
+            int b=in.nextInt();
+            if(!map.containsKey(a)){
+                map.put(a,new ArrayList<>());
+            }
+            if(!map.containsKey(b)){
+                map.put(b,new ArrayList<>());
+            }
+            map.get(a).add(b);
+            map.get(b).add(a);
+        }
+        int k = in.nextInt();
+        int[] nums = new int[k];
+        for(int i=0;i<k;i++){
+            nums[i] = in.nextInt();
+        }
+        dep.put(1,0);
+        dfs(1,1,map,dep);
+        PriorityQueue<int[]> pq = new PriorityQueue<>(new Comparator<int[]>(){
+            public int compare(int[]a,int[] b){
+                return b[1]-a[1];
+            }
+        });
+        int sz = n-m;
+        Set<Integer> toDel = new HashSet<>();
+        for(int key:dep.keySet()){
+            int d = dep.get(key);
+            if(pq.size() < sz){
+                pq.offer(new int[]{key,d});
+            }else {
+                if(pq.peek()[1] >= d){
+                    //记录删掉的点
+                    int delNum = pq.poll()[0];
+                    toDel.add(delNum);
+                    pq.offer(new int[]{key,d});
+                }
+            }
+        }
+        Map<String,Boolean> vis = new HashMap<>();
+        
+        dfs2(1,1,map,toDel,vis);
+        System.out.println(vis.size()*2);
+        
+        
+    }
+    
+    static void dfs2(int cur,int from, Map<Integer,List<Integer>> map,Set<Integer> toDel,
+                Map<String,Boolean> vis){
+        
+        List<Integer> to = map.get(cur);
+        for(int x:to){
+            if(x != from ){
+                if(!toDel.contains(cur) && !toDel.contains(x)){
+                   //System.out.println(Math.min(x,cur)+""-""+Math.max(x,cur));
+                    vis.put(Math.min(x,cur)+""-""+Math.max(x,cur),true);
+                }
+
+                dfs2(x,cur,map,toDel,vis);
+            }
+        }
+    }
+    
+    static void dfs(int cur,int from, Map<Integer,List<Integer>> map,Map<Integer,Integer> dep){
+        dep.put(cur,dep.get(from)+1);
+        List<Integer> to = map.get(cur);
+        for(int x:to){
+            if(x != from)
+                dfs(x,cur,map,dep);
+        }
+    }
+}"
+14,F,Java,61804585,2023-04-07 21:09:57,zzl064,答案错误,"import java.util.*;
+
+public class Main{
+    static List<Integer>[] adj;
+    static int n, m;
+    static boolean[] b;
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt(); m = sc.nextInt();
+        adj = new List[n];
+        for(int i = 0; i < n; ++i) adj[i] = new ArrayList<>();
+        for(int i = 0; i < n - 1; ++i){
+            int a = sc.nextInt() - 1, b = sc.nextInt() - 1;
+            adj[a].add(b);
+            adj[b].add(a);
+        }
+        b = new boolean[n];
+        int k = sc.nextInt();
+        if(k <= m) {
+            System.out.println(0);
+            return;
+        }
+        for(int i = 0; i < k; ++i){
+            b[sc.nextInt() - 1] = true;
+        }
+        f = new int[n][m + 1];
+//         for(int[] x: f) Arrays.fill(x, inf);
+        cnt = new int[n];
+        cnt2 = new int[n];
+        dfs1(0, -1);
+        dfs(0, -1);
+//         Arrays.stream(f).map(Arrays::toString).forEach(System.out::println);
+//         System.out.println(Arrays.toString(cnt2));
+//         System.out.println(Arrays.toString(cnt));
+        System.out.println(cnt2[0] - f[0][m]);
+    }
+    static int[] cnt, cnt2;
+    static int[][] f;
+    static int inf = Integer.MAX_VALUE / 4;
+    static void dfs1(int root, int fa){
+        if(b[root]){
+            cnt[root]++;
+        }
+        for(int v: adj[root]){
+            if(v == fa) continue;
+            dfs1(v, root);
+            cnt[root] += cnt[v];
+        }
+    }
+    static void dfs(int root, int fa){
+        f[root][0] = 0;
+        for(int v: adj[root]){
+            if(v == fa) continue;
+            if(cnt[v] > 0){
+                dfs(v, root);
+                cnt2[root] += 2 + cnt2[v];
+                for(int i = 1; i <= cnt[v] && i <= m; ++i){
+                    for(int j = m; j >= i; --j){
+                        f[root][j] = Math.max(f[root][j], f[root][j - i] + f[v][i] + (i == cnt[v]? 2: 0));
+                    }
+                }
+            }
+        }
+    }
+}"
+15,F,Java,61804826,2023-04-07 21:13:09,zzl064,答案错误,"import java.util.*;
+
+public class Main{
+    static List<Integer>[] adj;
+    static int n, m;
+    static boolean[] b;
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt(); m = sc.nextInt();
+        adj = new List[n];
+        for(int i = 0; i < n; ++i) adj[i] = new ArrayList<>();
+        for(int i = 0; i < n - 1; ++i){
+            int a = sc.nextInt() - 1, b = sc.nextInt() - 1;
+            adj[a].add(b);
+            adj[b].add(a);
+        }
+        b = new boolean[n];
+        int k = sc.nextInt();
+        if(k <= m) {
+            System.out.println(0);
+            return;
+        }
+        for(int i = 0; i < k; ++i){
+            b[sc.nextInt() - 1] = true;
+        }
+        f = new int[n][m + 1];
+//         for(int[] x: f) Arrays.fill(x, inf);
+        cnt = new int[n];
+        cnt2 = new int[n];
+        dfs1(0, -1);
+        dfs(0, -1);
+//         Arrays.stream(f).map(Arrays::toString).forEach(System.out::println);
+//         System.out.println(Arrays.toString(cnt2));
+//         System.out.println(Arrays.toString(cnt));
+        System.out.println(cnt2[0] - f[0][m]);
+    }
+    static int[] cnt, cnt2;
+    static int[][] f;
+    static int inf = Integer.MAX_VALUE / 4;
+    static void dfs1(int root, int fa){
+        if(b[root]){
+            cnt[root]++;
+        }
+        for(int v: adj[root]){
+            if(v == fa) continue;
+            dfs1(v, root);
+            cnt[root] += cnt[v];
+        }
+    }
+    static void dfs(int root, int fa){
+        f[root][0] = 0;
+        for(int v: adj[root]){
+            if(v == fa) continue;
+            if(cnt[v] > 0){
+                dfs(v, root);
+                cnt2[root] += 2 + cnt2[v];
+                for(int i = 1; i <= cnt[v] && i <= m; ++i){
+                    for(int j = m; j >= i; --j){
+                        f[root][j] = Math.max(f[root][j], f[root][j - i] + f[v][i] + (i == cnt[v]? 2: 0));
+                    }
+                }
+            }
+        }
+    }
+}"
+16,F,Java,61804938,2023-04-07 21:14:25,牛客765377204号,答案错误,"
+
+import java.util.*;
+
+public class Main {
+
+    static Scanner in = new Scanner(System.in);
+    static int[] dx = {1, -1, 0, 0};
+    static int[] dy = {0, 0, -1, 1};
+    static boolean[][] st;
+    static int n, m;
+    static char[][] grid;
+    static int ans = 0;
+
+    //    public static void dfs(int i, int j) {
+    //        if (i < 0 || i >= n || j < 0 || j >= m || grid[i][j] == '#') return;
+    //        if (grid[i][j] == '!') ans++;
+    //        grid[i][j] = '#';
+    //        for (int k = 0; k < 4; k++) {
+    //            dfs(i + dx[k], j + dy[k]);
+    //        }
+    //    }
+
+
+    static final int N = (int) (1e5 + 10);
+    static int[] h;
+    static int[] e;
+    static int[] ne;
+    static int idx = 0;
+
+    public static void add(int a, int b) {
+        e[idx] = b;
+        ne[idx] = h[a];
+        h[a] = idx++;
+    }
+
+    public static void init() {
+        h = new int[N];
+        e = new int[2 * N];
+        ne = new int[2 * N];
+        Arrays.fill(h, -1);
+    }
+
+    static HashSet<Integer> set = new HashSet<>();
+    static int[] d;
+    static int[] r;
+
+    public static int[] dfs(int i, int pre) {
+        int[] ans = {1, set.contains(i) ? 1 : 0};
+        for (int j = h[i]; j != -1; j = ne[j]) {
+            int v = e[j];
+            if (v != pre) {
+                int[] a = dfs(v, i);
+                ans[0] += a[0];
+                ans[1] += a[1];
+            }
+        }
+        d[i] = ans[0];
+        r[i] = ans[1];
+        return ans;
+    }
+
+    public static void main(String[] args) {
+        int n = in.nextInt();
+        int m = in.nextInt();
+        d = new int[n + 1];
+        r = new int[n + 1];
+        init();
+        for (int i = 1; i <= n - 1; i++) {
+            int x = in.nextInt();
+            int y = in.nextInt();
+            add(x, y);
+            add(y, x);
+        }
+        int k = in.nextInt();
+        for (int i = 1; i <= k; i++)
+            set.add(in.nextInt());
+        dfs(1, 0);
+        int x = Integer.MIN_VALUE;
+
+        for (int i = 1; i <= n; i++) {
+            if (r[i] <= m) {
+                x = Math.max(x, d[i]);
+            }
+        }
+        if (x >=n-1) System.out.println(0);
+        else
+            System.out.println((n - x - 1) * 2);
+    }
+}
+"
+17,F,Java,61805210,2023-04-07 21:18:43,zzl064,答案错误,"import java.util.*;
+
+public class Main{
+    static List<Integer>[] adj;
+    static int n, m;
+    static boolean[] b;
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt(); m = sc.nextInt();
+        adj = new List[n];
+        for(int i = 0; i < n; ++i) adj[i] = new ArrayList<>();
+        for(int i = 0; i < n - 1; ++i){
+            int a = sc.nextInt() - 1, b = sc.nextInt() - 1;
+            adj[a].add(b);
+            adj[b].add(a);
+        }
+        b = new boolean[n];
+        int k = sc.nextInt();
+        if(k <= m) {
+            System.out.println(0);
+            return;
+        }
+        for(int i = 0; i < k; ++i){
+            b[sc.nextInt() - 1] = true;
+        }
+        f = new int[n][m + 1];
+//         for(int[] x: f) Arrays.fill(x, inf);
+        cnt = new int[n];
+        cnt2 = new int[n];
+        dfs1(0, -1);
+        dfs(0, -1);
+//         Arrays.stream(f).map(Arrays::toString).forEach(System.out::println);
+//         System.out.println(Arrays.toString(cnt2));
+//         System.out.println(Arrays.toString(cnt));
+        System.out.println(cnt2[0] - f[0][m]);
+    }
+    static int[] cnt, cnt2;
+    static int[][] f;
+    static int inf = Integer.MAX_VALUE / 4;
+    static void dfs1(int root, int fa){
+        if(b[root]){
+            cnt[root]++;
+        }
+        for(int v: adj[root]){
+            if(v == fa) continue;
+            dfs1(v, root);
+            cnt[root] += cnt[v];
+        }
+    }
+    static void dfs(int root, int fa){
+        f[root][0] = 0;
+        for(int v: adj[root]){
+            if(v == fa) continue;
+            if(cnt[v] > 0){
+                dfs(v, root);
+                cnt2[root] += 2 + cnt2[v];
+                for(int i = 1; i <= cnt[v] && i <= m; ++i){
+                    for(int j = m; j >= i; --j){
+                        f[root][j] = Math.max(f[root][j], f[root][j - i] + f[v][i] + (i >= cnt[v]? 2: 0));
+                    }
+                }
+            }
+        }
+    }
+}"
+18,F,Java,61805641,2023-04-07 21:26:50,zzl064,答案错误,"import java.util.*;
+
+public class Main{
+    static List<Integer>[] adj;
+    static int n, m;
+    static boolean[] b;
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt(); m = sc.nextInt();
+        adj = new List[n];
+        for(int i = 0; i < n; ++i) adj[i] = new ArrayList<>();
+        for(int i = 0; i < n - 1; ++i){
+            int a = sc.nextInt() - 1, b = sc.nextInt() - 1;
+            adj[a].add(b);
+            adj[b].add(a);
+        }
+        b = new boolean[n];
+        int k = sc.nextInt();
+        if(k <= m) {
+            System.out.println(0);
+            return;
+        }
+        for(int i = 0; i < k; ++i){
+            b[sc.nextInt() - 1] = true;
+        }
+        f = new int[n][m + 1];
+//         for(int[] x: f) Arrays.fill(x, inf);
+        cnt = new int[n];
+        cnt2 = new int[n];
+        dfs1(0, -1);
+        dfs(0, -1);
+//         Arrays.stream(f).map(Arrays::toString).forEach(System.out::println);
+//         System.out.println(Arrays.toString(cnt2));
+//         System.out.println(Arrays.toString(cnt));
+        System.out.println(cnt2[0] - f[0][m]);
+    }
+    static int[] cnt, cnt2;
+    static int[][] f;
+    static int inf = Integer.MAX_VALUE / 4;
+    static void dfs1(int root, int fa){
+        if(b[root]){
+            cnt[root]++;
+        }
+        for(int v: adj[root]){
+            if(v == fa) continue;
+            dfs1(v, root);
+            cnt[root] += cnt[v];
+        }
+    }
+    static void dfs(int root, int fa){
+        f[root][0] = 0;
+        int[] tmp = new int[m + 1];
+        for(int v: adj[root]){
+            if(v == fa) continue;
+            if(cnt[v] > 0){
+                dfs(v, root);
+                cnt2[root] += 2 + cnt2[v];
+                for(int i = 1; i <= cnt[v] && i <= m; ++i){
+                    for(int j = m; j >= i; --j){
+                        f[root][j] = Math.max(f[root][j], tmp[j - i] + f[v][i] + (i >= cnt[v]? 2: 0));
+                    }
+                }
+            }
+            tmp = f[root];
+        }
+    }
+}
+"
+19,F,Java,61806548,2023-04-07 21:50:54,zzl064,答案错误,"import java.util.*;
+
+public class Main{
+    static List<Integer>[] adj;
+    static int n, m;
+    static boolean[] b;
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt(); m = sc.nextInt();
+        adj = new List[n];
+        for(int i = 0; i < n; ++i) adj[i] = new ArrayList<>();
+        for(int i = 0; i < n - 1; ++i){
+            int a = sc.nextInt() - 1, b = sc.nextInt() - 1;
+            adj[a].add(b);
+            adj[b].add(a);
+        }
+        b = new boolean[n];
+        int k = sc.nextInt();
+        if(k <= m) {
+            System.out.println(0);
+            return;
+        }
+        for(int i = 0; i < k; ++i){
+            b[sc.nextInt() - 1] = true;
+        }
+        f = new int[n][m + 1];
+//         for(int[] x: f) Arrays.fill(x, inf);
+        sz = new int[n];
+        cnt2 = new int[n];
+        dfs1(0, -1);
+        dfs(0, -1);
+//         Arrays.stream(f).map(Arrays::toString).forEach(System.out::println);
+//         System.out.println(Arrays.toString(cnt2));
+//         System.out.println(Arrays.toString(cnt));
+        System.out.println(cnt2[0] - f[0][m]);
+    }
+    static int[] sz, cnt2;
+    static int[][] f;
+    static int inf = Integer.MAX_VALUE / 4;
+    static void dfs1(int root, int fa){
+        if(b[root]){
+            sz[root]++;
+        }
+        for(int v: adj[root]){
+            if(v == fa) continue;
+            dfs1(v, root);
+            sz[root] += sz[v];
+        }
+    }
+    static void dfs(int root, int fa){
+        f[root][0] = 0;
+        int[] tmp = new int[m + 1];
+        for(int v: adj[root]){
+            if(v == fa) continue;
+            if(sz[v] > 0){
+                dfs(v, root);
+                cnt2[root] += 2 + cnt2[v];
+                for(int i = 1; i <= m; ++i){
+                    for(int j = i; j <= m; ++j){
+                        f[root][j] = Math.max(f[root][j], tmp[j - i] + f[v][i] + (i == sz[v]? 2: 0));
+                    }
+                }
+            }
+            tmp = f[root];
+        }
+    }
+}
+"
+20,F,Java,61806559,2023-04-07 21:51:28,zzl064,答案错误,"import java.util.*;
+
+public class Main{
+    static List<Integer>[] adj;
+    static int n, m;
+    static boolean[] b;
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt(); m = sc.nextInt();
+        adj = new List[n];
+        for(int i = 0; i < n; ++i) adj[i] = new ArrayList<>();
+        for(int i = 0; i < n - 1; ++i){
+            int a = sc.nextInt() - 1, b = sc.nextInt() - 1;
+            adj[a].add(b);
+            adj[b].add(a);
+        }
+        b = new boolean[n];
+        int k = sc.nextInt();
+        if(k <= m) {
+            System.out.println(0);
+            return;
+        }
+        for(int i = 0; i < k; ++i){
+            b[sc.nextInt() - 1] = true;
+        }
+        f = new int[n][m + 1];
+//         for(int[] x: f) Arrays.fill(x, inf);
+        sz = new int[n];
+        cnt2 = new int[n];
+        dfs1(0, -1);
+        dfs(0, -1);
+//         Arrays.stream(f).map(Arrays::toString).forEach(System.out::println);
+//         System.out.println(Arrays.toString(cnt2));
+//         System.out.println(Arrays.toString(cnt));
+        System.out.println(cnt2[0] - f[0][m]);
+    }
+    static int[] sz, cnt2;
+    static int[][] f;
+    static int inf = Integer.MAX_VALUE / 4;
+    static void dfs1(int root, int fa){
+        if(b[root]){
+            sz[root]++;
+        }
+        for(int v: adj[root]){
+            if(v == fa) continue;
+            dfs1(v, root);
+            sz[root] += sz[v];
+        }
+    }
+    static void dfs(int root, int fa){
+        f[root][0] = 0;
+        int[] tmp = new int[m + 1];
+        for(int v: adj[root]){
+            if(v == fa) continue;
+            if(sz[v] > 0){
+                dfs(v, root);
+                cnt2[root] += 2 + cnt2[v];
+                for(int i = 1; i <= m; ++i){
+                    for(int j = i; j <= m; ++j){
+                        f[root][j] = Math.max(f[root][j], tmp[j - i] + (i == sz[v]? 2: 0));
+                    }
+                }
+            }
+            tmp = f[root];
+        }
+    }
+}
+"
+21,F,Java,61806566,2023-04-07 21:51:48,zzl064,答案错误,"import java.util.*;
+
+public class Main{
+    static List<Integer>[] adj;
+    static int n, m;
+    static boolean[] b;
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt(); m = sc.nextInt();
+        adj = new List[n];
+        for(int i = 0; i < n; ++i) adj[i] = new ArrayList<>();
+        for(int i = 0; i < n - 1; ++i){
+            int a = sc.nextInt() - 1, b = sc.nextInt() - 1;
+            adj[a].add(b);
+            adj[b].add(a);
+        }
+        b = new boolean[n];
+        int k = sc.nextInt();
+        if(k <= m) {
+            System.out.println(0);
+            return;
+        }
+        for(int i = 0; i < k; ++i){
+            b[sc.nextInt() - 1] = true;
+        }
+        f = new int[n][m + 1];
+//         for(int[] x: f) Arrays.fill(x, inf);
+        sz = new int[n];
+        cnt2 = new int[n];
+        dfs1(0, -1);
+        dfs(0, -1);
+//         Arrays.stream(f).map(Arrays::toString).forEach(System.out::println);
+//         System.out.println(Arrays.toString(cnt2));
+//         System.out.println(Arrays.toString(cnt));
+        System.out.println(cnt2[0] - f[0][m]);
+    }
+    static int[] sz, cnt2;
+    static int[][] f;
+    static int inf = Integer.MAX_VALUE / 4;
+    static void dfs1(int root, int fa){
+        if(b[root]){
+            sz[root]++;
+        }
+        for(int v: adj[root]){
+            if(v == fa) continue;
+            dfs1(v, root);
+            sz[root] += sz[v];
+        }
+    }
+    static void dfs(int root, int fa){
+        f[root][0] = 0;
+        int[] tmp = new int[m + 1];
+        for(int v: adj[root]){
+            if(v == fa) continue;
+            if(sz[v] > 0){
+                dfs(v, root);
+                cnt2[root] += 2 + cnt2[v];
+                for(int i = 1; i <= m; ++i){
+                    for(int j = i; j <= m; ++j){
+                        f[root][j] = Math.max(f[root][j], tmp[j - i] + f[v][i] + (i == sz[v]? 2: 0));
+                    }
+                }
+            }
+            tmp = f[root];
+        }
+    }
+}
+"
+22,F,Java,61806633,2023-04-07 21:54:19,zzl064,答案正确,"import java.util.*;
+
+public class Main{
+    static List<Integer>[] adj;
+    static int n, m;
+    static boolean[] b;
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt(); m = sc.nextInt();
+        adj = new List[n];
+        for(int i = 0; i < n; ++i) adj[i] = new ArrayList<>();
+        for(int i = 0; i < n - 1; ++i){
+            int a = sc.nextInt() - 1, b = sc.nextInt() - 1;
+            adj[a].add(b);
+            adj[b].add(a);
+        }
+        b = new boolean[n];
+        int k = sc.nextInt();
+        if(k <= m) {
+            System.out.println(0);
+            return;
+        }
+        for(int i = 0; i < k; ++i){
+            b[sc.nextInt() - 1] = true;
+        }
+        f = new int[n][m + 1];
+//         for(int[] x: f) Arrays.fill(x, inf);
+        sz = new int[n];
+        cnt2 = new int[n];
+        dfs1(0, -1);
+        dfs(0, -1);
+//         Arrays.stream(f).map(Arrays::toString).forEach(System.out::println);
+//         System.out.println(Arrays.toString(cnt2));
+//         System.out.println(Arrays.toString(cnt));
+        System.out.println(cnt2[0] - f[0][m]);
+    }
+    static int[] sz, cnt2;
+    static int[][] f;
+    static int inf = Integer.MAX_VALUE / 4;
+    static void dfs1(int root, int fa){
+        if(b[root]){
+            sz[root]++;
+        }
+        for(int v: adj[root]){
+            if(v == fa) continue;
+            dfs1(v, root);
+            sz[root] += sz[v];
+        }
+    }
+    static void dfs(int root, int fa){
+        f[root][0] = 0;
+        int[] tmp = new int[m + 1];
+        for(int v: adj[root]){
+            if(v == fa) continue;
+            if(sz[v] > 0){
+                dfs(v, root);
+                cnt2[root] += 2 + cnt2[v];
+                for(int i = 1; i <= m; ++i){
+                    for(int j = i; j <= m; ++j){
+                        f[root][j] = Math.max(f[root][j], tmp[j - i] + f[v][i] + (i == sz[v]? 2: 0));
+                    }
+                }
+            }
+            tmp = f[root].clone();
+        }
+    }
+}
+"
+23,F,Java,61808559,2023-04-07 23:31:31,不上紫不该名,答案正确,"//import com.sun.source.tree.Tree;
+
+import java.io.*;
+import java.util.*;
+public class Main {
+    private static long mode = 1_000_000_000+7;
+    private static long INF = Long.MAX_VALUE;
+  //  private static ArrayList<Character> ans = new ArrayList<Character>();
+    static int maxn=200000+100;
+    public static FastReader in = new FastReader();
+    public static Utility util = new Utility();
+  //  Queue<Integer> q=new LinkedList<Integer>();
+ //   Vector vt[]=new Vector[maxn];
+    static long dp[][]=new long[maxn][55];
+    static Vector vt[]=new Vector[maxn];
+    static int n,m,ans,sum;
+    static int b[]=new int[maxn];
+    static int f[]=new int[maxn];
+    static long pre[]=new long[maxn];
+    static String str=new String();
+    static int k;
+    static Boolean vis[]=new Boolean[maxn];
+    static int dx[]={0,0,1,-1};
+    static int dy[]={1,-1,0,0};
+    static long le[]=new long[1000009];
+    static long ri[]=new long[1000009];
+    static int a[]=new int[maxn];
+    static int sz[]=new int[maxn];
+    public static void main (String [] args) {
+        //try {
+        //BufferedReader f = new BufferedReader(new InputStreamReader(System.in));
+        PrintWriter out = new PrintWriter(System.out);
+        // HashMap<Integer,Vector> mp = new HashMap<Integer,Vector>();
+        //BufferedReader f = new BufferedReader(new FileReader(""input.in""));
+        //PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(""output.out"")));
+        int t = 1;
+       // t = in.nextInt();
+       // init();
+        while (t > 0) {
+            t--;
+            n=in.nextInt();
+            m=in.nextInt();
+            for(int i=1;i<=n;i++)
+                vis[i]=false;
+            for(int i=1;i<=n-1;i++)
+            {
+                int u,v;
+                u=in.nextInt();
+                v=in.nextInt();
+                if(vt[u]==null)
+                    vt[u]=new Vector<>();
+                vt[u].add(v);
+                if(vt[v]==null)
+                    vt[v]=new Vector<>();
+                vt[v].add(u);
+            }
+            k=in.nextInt();
+            for(int i=1;i<=k;i++)
+            {
+                a[i]=in.nextInt();
+                vis[a[i]]=true;
+            }
+            for(int i=1;i<=n;i++)
+            {
+                dp[i]=new long[55];
+                for(int j=0;j<=50;j++)
+                {
+                    dp[i][j]=1000000000000000l;
+                }
+            }
+            for(int i=0;i<=n;i++)
+                dp[i][0]=0l;
+            dfs(1,0);
+            System.out.print(dp[1][m]);
+
+        }/////////////////////////
+    }
+    static void dfs(int u,int fa)
+    {
+        dp[u][0]=0;
+        if(vis[u]==true)
+        {
+            dp[u][1]=0;
+            sz[u]=1;
+        }
+        if(vt[u]==null)
+            return;
+        for(Object it:vt[u])
+        {
+            int to=(int)it;
+            if(to==fa)
+                continue;
+            dfs(to,u);
+            long dp2[]=new long[55];
+            for(int i=0;i<=54;i++)
+            {
+                dp2[i]=10000000000000000l;
+            }
+            for(int i=min(m,sz[u]);i>=0;i--)
+            {
+                if(dp[u][i]>1000000000000l)
+                    continue;
+                for(int j=0;j<=min(m,sz[to]);j++)
+                {
+                    if(i+j>m)
+                        continue;
+                    if(j==sz[to])
+                        dp2[i+j]=min(dp2[i+j],dp[u][i]+dp[to][j]);
+                    else dp2[i+j]=min(dp2[i+j],dp[u][i]+dp[to][j]+2);
+                }
+            }
+            for(int i=0;i<=m;i++)
+                dp[u][i]=dp2[i];
+            sz[u]+=sz[to];
+        }
+    }
+    static void init()
+    {
+        int tt=1;
+    }
+
+    static long abs(long x)
+    {
+        if(x<=0)
+            return (-1)*x;
+        return x;
+    }
+    static int abs(int x)
+    {
+        if(x<=0)
+            return (-1)*x;
+        return x;
+    }
+
+
+
+
+    public static int log2(int N)
+    {
+        int result = (int)(Math.log(N) / Math.log(2));
+
+        return result;
+    }
+    public static int lowbit(int x)
+    {
+        return x&(-x);
+    }
+
+    static int max(int a,int b)
+    {
+        return Math.max(a,b);
+    }
+    static long max(long a,long b)
+    {
+        return Math.max(a,b);
+    }
+    static int min(int a,int b)
+    {
+        return Math.min(a,b);
+    }
+    static long min(long a,long b)
+    {
+        return Math.min(a,b);
+    }
+
+    public static long gcd(long a, long b) {
+        if (b==0) return a;
+        return gcd(b,a%b);
+    }
+    public static long lcm(long a,long b) {
+        long gcd = gcd(a,b);
+        return (a*b)/gcd;
+    }
+   /* public static int[] inp(BufferedReader f, int n){
+        try {
+            StringTokenizer st = new StringTokenizer(f.readLine());
+            int[] out = new int[n];
+            for(int i=0;i<n;++i)
+                out[i]=Integer.parseInt(st.nextToken());
+            return out;
+        }catch(Exception e){
+            return new int[]{0, 0};
+        }
+    }
+    public static String inp(BufferedReader f,boolean b){
+        try {
+            return f.readLine();
+        }catch(Exception e){
+            return """";
+        }
+    }*/
+    public static void out(PrintWriter out,String s) {
+       out.print(s);
+    }
+    public static void nl() {
+        System.out.print(""\n"");
+    }
+    public static void out(PrintWriter out,int[] a) {
+        for(int i=0;i<a.length;++i) out.print(a[i]+"" "");
+
+    }
+    public static void out(PrintWriter out,long[] a) {
+        for(int i=0;i<a.length;++i) out.print(a[i]+"" "");
+
+    }
+    public static void out(PrintWriter out,int n) {
+        out.println(n);
+    }
+    public static void out(PrintWriter out,long n) {
+        out.println(n);
+    }
+    public static void sort(int[] a){
+        int n = a.length;
+        ArrayList<Integer> b = new ArrayList<Integer>();
+        for(int i:a)b.add(i);
+        Collections.sort(b);
+        for(int i=0;i<n;++i){
+            a[i]=b.get(i);
+        }
+    }public static void sort(long[] a){
+        int n = a.length;
+        ArrayList<Long> b = new ArrayList<Long>();
+        for(Long i:a)b.add(i);
+        Collections.sort(b);
+        for(int i=0;i<n;++i){
+            a[i]=b.get(i);
+        }
+    }
+    public static int lower_bound(int[]a,int n,int tar) {
+        int k = -1;
+        for(int b=n/2;b>=1;b/=2)
+            while(k+b<n&&a[k+b]<tar) k+=b;
+        return k+1;
+    }
+    public static int upper_bound(ArrayList<Integer> a,int n,int tar) {
+        int k = 0;
+        for(int b = n/2; b>=1; b/=2)
+            while(k+b<n&&a.get(k+b)<=tar) k+=b;
+        return k;
+    }
+    static class Pair
+    {
+        int a;
+        int b;
+        Pair(int a, int b)
+        {
+            this.a = a;
+            this.b = b;
+        }
+        public void b(int nv){
+            b=nv;
+        }
+        public void a(int nk){
+            a=nk;
+        }
+    }
+    static class FastReader{
+
+        BufferedReader br;
+
+        StringTokenizer st;
+
+        public FastReader(){
+            br=new BufferedReader(new InputStreamReader(System.in));
+        }
+
+        String next(){
+            while(st==null || !st.hasMoreTokens()){
+                try {
+                    st=new StringTokenizer(br.readLine());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return st.nextToken();
+        }
+
+        int nextInt(){
+            return Integer.parseInt(next());
+        }
+
+        long nextLong(){
+            return Long.parseLong(next());
+        }
+
+        double nextDouble(){
+            return Double.parseDouble(next());
+        }
+
+        String nextLine(){
+            String str="""";
+            try {
+                str=br.readLine().trim();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return str;
+        }
+
+
+
+    }
+    static class Utility{
+
+        int[] createIntArray(){
+
+            String s = in.nextLine();
+
+            return Arrays.stream( s.split("" "") )
+                    .mapToInt( Integer::parseInt )
+                    .toArray();
+
+
+        }
+
+        int[] createIntArray(int n){
+
+            int[] arr = new int[n];
+            for(int i=0; i<n; i++) arr[i] = in.nextInt();
+
+
+            return arr;
+
+
+        }
+
+        int[] createSortedIntArray(int n){
+
+            int [] arr = createIntArray(n);
+            Arrays.sort( arr );
+
+            return arr;
+        }
+
+        int[][] create2DArray( int n , int m ){
+
+            int[][] arr = new int[n][m];
+            for(int i=0; i<n; i++)
+                arr[i] = createIntArray( m );
+
+            return arr;
+
+
+
+        }
+
+        < T > String joinArray( T[] arr , String s ){
+
+            StringBuilder sb = new StringBuilder("""");
+
+            for(int i=0; i<arr.length; i++)
+                sb.append( arr[i] + s  );
+
+            return sb.toString();
+        }
+
+        <T> String  joinList(List<T> arr, String s ){
+
+            StringBuilder sb = new StringBuilder("""");
+
+            for(int i=0; i<arr.size(); i++)
+                sb.append( arr.get(i) + s  );
+
+            return sb.toString();
+        }
+
+    }
+}"
+24,F,Java,61808567,2023-04-07 23:32:09,不上紫不该名,答案正确,"//import com.sun.source.tree.Tree;
+
+import java.io.*;
+import java.util.*;
+public class Main {
+    private static long mode = 1_000_000_000+7;
+    private static long INF = Long.MAX_VALUE;
+  //  private static ArrayList<Character> ans = new ArrayList<Character>();
+    static int maxn=200000+100;
+    public static FastReader in = new FastReader();
+    public static Utility util = new Utility();
+  //  Queue<Integer> q=new LinkedList<Integer>();
+ //   Vector vt[]=new Vector[maxn];
+    static long dp[][]=new long[maxn][55];
+    static Vector vt[]=new Vector[maxn];
+    static int n,m,ans,sum;
+    static int b[]=new int[maxn];
+    static int f[]=new int[maxn];
+    static long pre[]=new long[maxn];
+    static String str=new String();
+    static int k;
+    static Boolean vis[]=new Boolean[maxn];
+    static int dx[]={0,0,1,-1};
+    static int dy[]={1,-1,0,0};
+    static long le[]=new long[1000009];
+    static long ri[]=new long[1000009];
+    static int a[]=new int[maxn];
+    static int sz[]=new int[maxn];
+    public static void main (String [] args) {
+        //try {
+        //BufferedReader f = new BufferedReader(new InputStreamReader(System.in));
+        PrintWriter out = new PrintWriter(System.out);
+        // HashMap<Integer,Vector> mp = new HashMap<Integer,Vector>();
+        //BufferedReader f = new BufferedReader(new FileReader(""input.in""));
+        //PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(""output.out"")));
+        int t = 1;
+       // t = in.nextInt();
+       // init();
+        while (t > 0) {
+            t--;
+            n=in.nextInt();
+            m=in.nextInt();
+            for(int i=1;i<=n;i++)
+                vis[i]=false;
+            for(int i=1;i<=n-1;i++)
+            {
+                int u,v;
+                u=in.nextInt();
+                v=in.nextInt();
+                if(vt[u]==null)
+                    vt[u]=new Vector<>();
+                vt[u].add(v);
+                if(vt[v]==null)
+                    vt[v]=new Vector<>();
+                vt[v].add(u);
+            }
+            k=in.nextInt();
+            for(int i=1;i<=k;i++)
+            {
+                a[i]=in.nextInt();
+                vis[a[i]]=true;
+            }
+            for(int i=1;i<=n;i++)
+            {
+                dp[i]=new long[55];
+                for(int j=0;j<=50;j++)
+                {
+                    dp[i][j]=1000000000000000l;
+                }
+            }
+            for(int i=0;i<=n;i++)
+                dp[i][0]=0l;
+            dfs(1,0);
+            System.out.print(dp[1][m]);
+
+        }/////////////////////////
+    }
+    static void dfs(int u,int fa)
+    {
+        dp[u][0]=0;
+        if(vis[u]==true)
+        {
+            dp[u][1]=0;
+            sz[u]=1;
+        }
+       // if(vt[u]==null)
+         //   return;
+        for(Object it:vt[u])
+        {
+            int to=(int)it;
+            if(to==fa)
+                continue;
+            dfs(to,u);
+            long dp2[]=new long[55];
+            for(int i=0;i<=54;i++)
+            {
+                dp2[i]=10000000000000000l;
+            }
+            for(int i=min(m,sz[u]);i>=0;i--)
+            {
+                if(dp[u][i]>1000000000000l)
+                    continue;
+                for(int j=0;j<=min(m,sz[to]);j++)
+                {
+                    if(i+j>m)
+                        continue;
+                    if(j==sz[to])
+                        dp2[i+j]=min(dp2[i+j],dp[u][i]+dp[to][j]);
+                    else dp2[i+j]=min(dp2[i+j],dp[u][i]+dp[to][j]+2);
+                }
+            }
+            for(int i=0;i<=m;i++)
+                dp[u][i]=dp2[i];
+            sz[u]+=sz[to];
+        }
+    }
+    static void init()
+    {
+        int tt=1;
+    }
+
+    static long abs(long x)
+    {
+        if(x<=0)
+            return (-1)*x;
+        return x;
+    }
+    static int abs(int x)
+    {
+        if(x<=0)
+            return (-1)*x;
+        return x;
+    }
+
+
+
+
+    public static int log2(int N)
+    {
+        int result = (int)(Math.log(N) / Math.log(2));
+
+        return result;
+    }
+    public static int lowbit(int x)
+    {
+        return x&(-x);
+    }
+
+    static int max(int a,int b)
+    {
+        return Math.max(a,b);
+    }
+    static long max(long a,long b)
+    {
+        return Math.max(a,b);
+    }
+    static int min(int a,int b)
+    {
+        return Math.min(a,b);
+    }
+    static long min(long a,long b)
+    {
+        return Math.min(a,b);
+    }
+
+    public static long gcd(long a, long b) {
+        if (b==0) return a;
+        return gcd(b,a%b);
+    }
+    public static long lcm(long a,long b) {
+        long gcd = gcd(a,b);
+        return (a*b)/gcd;
+    }
+   /* public static int[] inp(BufferedReader f, int n){
+        try {
+            StringTokenizer st = new StringTokenizer(f.readLine());
+            int[] out = new int[n];
+            for(int i=0;i<n;++i)
+                out[i]=Integer.parseInt(st.nextToken());
+            return out;
+        }catch(Exception e){
+            return new int[]{0, 0};
+        }
+    }
+    public static String inp(BufferedReader f,boolean b){
+        try {
+            return f.readLine();
+        }catch(Exception e){
+            return """";
+        }
+    }*/
+    public static void out(PrintWriter out,String s) {
+       out.print(s);
+    }
+    public static void nl() {
+        System.out.print(""\n"");
+    }
+    public static void out(PrintWriter out,int[] a) {
+        for(int i=0;i<a.length;++i) out.print(a[i]+"" "");
+
+    }
+    public static void out(PrintWriter out,long[] a) {
+        for(int i=0;i<a.length;++i) out.print(a[i]+"" "");
+
+    }
+    public static void out(PrintWriter out,int n) {
+        out.println(n);
+    }
+    public static void out(PrintWriter out,long n) {
+        out.println(n);
+    }
+    public static void sort(int[] a){
+        int n = a.length;
+        ArrayList<Integer> b = new ArrayList<Integer>();
+        for(int i:a)b.add(i);
+        Collections.sort(b);
+        for(int i=0;i<n;++i){
+            a[i]=b.get(i);
+        }
+    }public static void sort(long[] a){
+        int n = a.length;
+        ArrayList<Long> b = new ArrayList<Long>();
+        for(Long i:a)b.add(i);
+        Collections.sort(b);
+        for(int i=0;i<n;++i){
+            a[i]=b.get(i);
+        }
+    }
+    public static int lower_bound(int[]a,int n,int tar) {
+        int k = -1;
+        for(int b=n/2;b>=1;b/=2)
+            while(k+b<n&&a[k+b]<tar) k+=b;
+        return k+1;
+    }
+    public static int upper_bound(ArrayList<Integer> a,int n,int tar) {
+        int k = 0;
+        for(int b = n/2; b>=1; b/=2)
+            while(k+b<n&&a.get(k+b)<=tar) k+=b;
+        return k;
+    }
+    static class Pair
+    {
+        int a;
+        int b;
+        Pair(int a, int b)
+        {
+            this.a = a;
+            this.b = b;
+        }
+        public void b(int nv){
+            b=nv;
+        }
+        public void a(int nk){
+            a=nk;
+        }
+    }
+    static class FastReader{
+
+        BufferedReader br;
+
+        StringTokenizer st;
+
+        public FastReader(){
+            br=new BufferedReader(new InputStreamReader(System.in));
+        }
+
+        String next(){
+            while(st==null || !st.hasMoreTokens()){
+                try {
+                    st=new StringTokenizer(br.readLine());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return st.nextToken();
+        }
+
+        int nextInt(){
+            return Integer.parseInt(next());
+        }
+
+        long nextLong(){
+            return Long.parseLong(next());
+        }
+
+        double nextDouble(){
+            return Double.parseDouble(next());
+        }
+
+        String nextLine(){
+            String str="""";
+            try {
+                str=br.readLine().trim();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return str;
+        }
+
+
+
+    }
+    static class Utility{
+
+        int[] createIntArray(){
+
+            String s = in.nextLine();
+
+            return Arrays.stream( s.split("" "") )
+                    .mapToInt( Integer::parseInt )
+                    .toArray();
+
+
+        }
+
+        int[] createIntArray(int n){
+
+            int[] arr = new int[n];
+            for(int i=0; i<n; i++) arr[i] = in.nextInt();
+
+
+            return arr;
+
+
+        }
+
+        int[] createSortedIntArray(int n){
+
+            int [] arr = createIntArray(n);
+            Arrays.sort( arr );
+
+            return arr;
+        }
+
+        int[][] create2DArray( int n , int m ){
+
+            int[][] arr = new int[n][m];
+            for(int i=0; i<n; i++)
+                arr[i] = createIntArray( m );
+
+            return arr;
+
+
+
+        }
+
+        < T > String joinArray( T[] arr , String s ){
+
+            StringBuilder sb = new StringBuilder("""");
+
+            for(int i=0; i<arr.length; i++)
+                sb.append( arr[i] + s  );
+
+            return sb.toString();
+        }
+
+        <T> String  joinList(List<T> arr, String s ){
+
+            StringBuilder sb = new StringBuilder("""");
+
+            for(int i=0; i<arr.size(); i++)
+                sb.append( arr.get(i) + s  );
+
+            return sb.toString();
+        }
+
+    }
+}"
+25,F,Java,61818493,2023-04-09 09:29:29,牛客765377204号,答案错误,"
+
+import java.util.*;
+
+public class Main {
+
+    static Scanner in = new Scanner(System.in);
+    static int[] dx = {1, -1, 0, 0};
+    static int[] dy = {0, 0, -1, 1};
+    static boolean[][] st;
+    static int n, m;
+    static char[][] grid;
+    static int ans = 0;
+
+    //    public static void dfs(int i, int j) {
+    //        if (i < 0 || i >= n || j < 0 || j >= m || grid[i][j] == '#') return;
+    //        if (grid[i][j] == '!') ans++;
+    //        grid[i][j] = '#';
+    //        for (int k = 0; k < 4; k++) {
+    //            dfs(i + dx[k], j + dy[k]);
+    //        }
+    //    }
+
+
+    static final int N = (int) (1e5 + 10);
+    static int[] h;
+    static int[] e;
+    static int[] ne;
+    static int idx = 0;
+
+    public static void add(int a, int b) {
+        e[idx] = b;
+        ne[idx] = h[a];
+        h[a] = idx++;
+    }
+
+    public static void init() {
+        h = new int[N];
+        e = new int[2 * N];
+        ne = new int[2 * N];
+        Arrays.fill(h, -1);
+    }
+
+    static HashSet<Integer> set = new HashSet<>();
+    static int[] d;
+    static int[] r;
+
+    public static int[] dfs(int i, int pre) {
+        int[] ans = {1, set.contains(i) ? 1 : 0};
+        for (int j = h[i]; j != -1; j = ne[j]) {
+            int v = e[j];
+            if (v != pre) {
+                int[] a = dfs(v, i);
+                ans[0] += a[0];
+                ans[1] += a[1];
+            }
+        }
+        d[i] = ans[0];
+        r[i] = ans[1];
+        return ans;
+    }
+
+    public static void main(String[] args) {
+        int n = in.nextInt();
+        int m = in.nextInt();
+        d = new int[n + 1];
+        r = new int[n + 1];
+        init();
+        for (int i = 1; i <= n - 1; i++) {
+            int x = in.nextInt();
+            int y = in.nextInt();
+            add(x, y);
+            add(y, x);
+        }
+        int k = in.nextInt();
+        for (int i = 1; i <= k; i++)
+            set.add(in.nextInt());
+        dfs(1, 0);
+        int x = Integer.MIN_VALUE;
+
+        for (int i = 1; i <= n; i++) {
+            if (r[i] <= m) {
+                x = Math.max(x, d[i]);
+            }
+        }
+        if (x >=n-1) System.out.println(0);
+        else
+            System.out.println((n - x - 1) * 2);
+    }
+}
+"
+26,F,Java,61844437,2023-04-11 14:08:24,lllllllle,答案错误,"
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Period;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.Scanner;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
+
+public class Main {
+	 
+	public static void solve01() throws IOException {
+		BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+		String s=br.readLine();
+		char[] c=s.toCharArray();
+		for(int i=0;i<c.length;i++) {
+			if(c[i]<'a') {
+				c[i]+='a'-'A';
+			}
+			else {
+				c[i]-='a'-'A';
+			}
+		}
+		System.out.println(new String(c));
+	}
+	
+	
+	 
+	public static void main(String[] args) throws IOException {
+//		solve01();
+//		solve02();
+//		solve03();
+//		solve04();
+		solve05();
+	}
+
+	static int[] pow;
+	static int ans=0;
+	private static void solve05() throws IOException {
+		BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+		String[] s=br.readLine().split("" "");
+		int n=Integer.parseInt(s[0]);
+		int m=Integer.parseInt(s[1]);
+		Map<Integer, List<Integer>> edge=new HashMap<Integer, List<Integer>>();
+		pow=new int[n];
+		for(int i=0;i<n;i++) {
+			edge.put(i, new ArrayList<Integer>());
+		}
+		for(int i=0;i<n-1;i++) {
+			s=br.readLine().split("" "");
+			int a=Integer.parseInt(s[0])-1;
+			int b=Integer.parseInt(s[1])-1;
+			edge.get(a).add(b);
+			edge.get(b).add(a);
+		}
+		s=br.readLine().split("" "");
+		int k=Integer.parseInt(s[0]);
+		boolean[] need=new boolean[n];
+		s=br.readLine().split("" "");
+		for(int i=0;i<k;i++) {
+			int x=Integer.parseInt(s[i])-1;
+			need[x]=true;
+		}
+		deal(0,-1,0,need,edge);
+		Arrays.sort(pow);
+//		for(int i=0;i<n;i++) {
+//			System.out.print(pow[i]+"" "");
+//		}
+		for(int i=n-1,j=0;j<m;j++,i--) {
+			ans-=pow[i]*2;
+		}
+		System.out.println(ans);
+	}
+
+
+
+	private static void deal(int cur, int fa, int val, boolean[] need, Map<Integer, List<Integer>> edge) {
+		List<Integer> nt=edge.get(cur);
+//		System.out.println(cur+"" ""+val+"" ""+need[cur]);
+		if(need[cur]) {
+			pow[cur]=val;
+			ans+=(val)*2;
+		}
+		for(int x:nt) {
+			if(x==fa) {
+				continue;
+			}
+			if(need[cur]) {
+				deal(x, cur, 1, need, edge);
+			}
+			else {
+				deal(x, cur, val+1, need, edge);
+			}
+		}
+		
+	}
+
+
+
+	private static void solve04() throws IOException {
+		BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+		String[] s=br.readLine().split("" "");
+		int n=Integer.parseInt(s[0]);
+		Map<Integer, Integer> map=new HashMap<Integer, Integer>();
+		map.put(0, 1);
+		long ans=0;
+		s=br.readLine().split("" "");
+		int sum=0;
+		for(int i=0;i<n;i++) {
+			int x=Integer.parseInt(s[i]);
+			sum+=x;
+			int t=sum-1;
+			ans+=map.getOrDefault(t, 0);
+			map.put(sum, map.getOrDefault(sum, 0)+1);
+		}
+		System.out.println(ans);
+	}
+
+
+	static class Union{
+		int[] fa;
+		public Union(int n) {
+			fa=new int[n];
+			for(int i=0;i<n;i++) {
+				fa[i]=i;
+			}
+		}
+		public int find(int x) {
+			if(fa[x]!=x) {
+				fa[x]=find(fa[x]);
+			}
+			return fa[x];
+		}
+		public void merge(int v,int w) {
+			int pv=find(v);
+			int pw=find(w);
+			if(pv==pw) {
+				return;
+			}
+			fa[pv]=pw;
+		}
+	}
+	private static void solve03() throws IOException {
+		BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+		String[] s=br.readLine().split("" "");
+		int n=Integer.parseInt(s[0]);
+		int m=Integer.parseInt(s[1]);
+		char[][] grid=new char[n][m];
+		for(int i=0;i<n;i++) {
+			grid[i]=br.readLine().toCharArray();
+		}
+		Union un=new Union(n*m);
+		int[][] dir= {{1,0},{0,1},{-1,0},{0,-1}};
+		int tx=-1,ty=-1;
+		for(int i=0;i<n;i++) {
+			for(int j=0;j<m;j++) {
+				if(grid[i][j]=='#') {
+					continue;
+				}
+				if(grid[i][j]=='@') {
+					tx=i;
+					ty=j;
+				}
+				for(int k=0;k<4;k++) {
+					int x=i+dir[k][0];
+					int y=j+dir[k][1];
+					if(x>=0&&x<n&&y>=0&&y<m) {
+						if(grid[x][y]!='#') {
+							un.merge(i*m+j, x*m+y);
+						}
+					}
+				}
+			}
+		}
+		int ans=0;
+		int fa=un.find(tx*m+ty);
+		for(int i=0;i<n;i++) {
+			for(int j=0;j<m;j++) {
+				if(grid[i][j]=='#') {
+					continue;
+				}
+				if(grid[i][j]=='!') {
+					if(un.find(i*m+j)==fa) {
+						ans++;
+					}
+				}
+			}
+		}
+		System.out.println(ans);
+	}
+
+
+
+	private static void solve02() throws IOException {
+		BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+		String[] s=br.readLine().split("" "");
+		int n=Integer.parseInt(s[0]);
+		int m=Integer.parseInt(s[1]);
+		int[][] grid=new int[n][m];
+		for(int i=0;i<n;i++) {
+			s=br.readLine().split("" "");
+			for(int j=0;j<m;j++) {
+				grid[i][j]=Integer.parseInt(s[j]);
+			}
+		}
+		int[][] ans=new int[n/2][m/2];
+		for(int i=0,ii=0;i<n/2;i++,ii+=2) {
+			for(int j=0,jj=0;j<m/2;j++,jj+=2) {
+				ans[i][j]=(grid[ii][jj]+grid[ii][jj+1]+grid[ii+1][jj]+grid[ii+1][jj+1])/4;
+				System.out.print(ans[i][j]+"" "");
+			}
+			System.out.println();
+		}
+	}
+	
+	
+}
+"

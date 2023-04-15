@@ -1,0 +1,2009 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,C,C,61789611,2023-04-07 19:13:25,Mania_,答案错误,"#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_N 1000
+#define MAX_M 1000
+
+char map[MAX_N][MAX_M + 1];  // +1 for null-terminator
+
+int n, m;
+int sx, sy;  // starting position
+
+int count_grass(void) {
+    int count = 0;
+
+    // Copy the map to a temporary buffer
+    char tmp[MAX_N][MAX_M + 1];
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j <= m; j++) {
+            tmp[i][j] = map[i][j];
+        }
+    }
+
+    // Place the bomb at the starting position
+    tmp[sx][sy] = 'X';
+
+    // Simulate the bomb explosion
+    for (int d = 0; d < 4; d++) {
+        int dx = (d == 0) - (d == 1);
+        int dy = (d == 2) - (d == 3);
+
+        int x = sx + dx;
+        int y = sy + dy;
+        while (x >= 0 && x < n && y >= 0 && y < m && tmp[x][y] != '#') {
+            if (tmp[x][y] == '.') {
+                tmp[x][y] = '!';
+                count++;
+            } else if (tmp[x][y] == '!') {
+                tmp[x][y] = '.';
+                count++;
+            }
+            x += dx;
+            y += dy;
+        }
+    }
+
+    return count;
+}
+
+int main() {
+    scanf(""%d %d"", &n, &m);
+
+    // Read the map
+    for (int i = 0; i < n; i++) {
+        scanf(""%s"", map[i]);
+        for (int j = 0; j < m; j++) {
+            if (map[i][j] == '@') {
+                sx = i;
+                sy = j;
+            }
+        }
+    }
+
+    printf(""%d\n"", count_grass());
+
+    return 0;
+}"
+1,C,C,61789967,2023-04-07 19:15:25,Mania_,答案错误,"#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+#define MAX_N 1000
+#define MAX_M 1000
+
+char map[MAX_N][MAX_M]; // 地图
+bool visited[MAX_N][MAX_M]; // 标记是否访问过
+int dx[4] = {0, 0, -1, 1}; // 方向数组
+int dy[4] = {-1, 1, 0, 0};
+int n, m; // 地图的大小
+int ans = 0; // 答案
+
+// 判断坐标(x,y)是否在地图中
+bool in_map(int x, int y) {
+    return x >= 0 && x < n && y >= 0 && y < m;
+}
+
+// 放置炸弹并爆炸，更新地图和visited数组
+void explode(int x, int y) {
+    map[x][y] = '.'; // 炸弹放置后变成空地
+    visited[x][y] = true; // 炸弹所在位置已访问
+    for (int i = 0; i < 4; i++) {
+        int nx = x + dx[i];
+        int ny = y + dy[i];
+        while (in_map(nx, ny) && map[nx][ny] != '#' && !visited[nx][ny]) {
+            // 蔓延到空地
+            if (map[nx][ny] == '!') {
+                ans++; // 统计答案
+            }
+            visited[nx][ny] = true; // 记录访问过的位置
+            nx += dx[i];
+            ny += dy[i];
+        }
+        // 如果蔓延到了石头或者地图外，停止蔓延
+    }
+}
+
+int main() {
+    int sx, sy; // 小DD的位置
+    scanf(""%d%d"", &n, &m);
+    for (int i = 0; i < n; i++) {
+        scanf(""%s"", map[i]);
+        for (int j = 0; j < m; j++) {
+            if (map[i][j] == '@') {
+                sx = i;
+                sy = j;
+            }
+        }
+    }
+
+    // 放置第一颗炸弹
+    explode(sx, sy);
+
+    // 不断放置炸弹，直到没有新的杂草变为空地为止
+    bool flag = true;
+    while (flag) {
+        flag = false;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (map[i][j] == '!') {
+                    bool can_explode = false;
+                    for (int k = 0; k < 4; k++) {
+                        int nx = i + dx[k];
+                        int ny = j + dy[k];
+                        if (in_map(nx, ny) && map[nx][ny] != '#' && visited[nx][ny]) {
+                            can_explode = true;
+                            break;
+                        }
+                    }
+                    if (can_explode) {
+                        explode(i, j);
+                        flag = true;
+                    }
+                }
+            }
+        }
+    }
+
+    printf(""%d\n"", ans);
+    return 0;
+}
+"
+2,C,C,61790079,2023-04-07 19:16:02,Mania_,答案错误,"#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+#define MAX_N 1000
+#define MAX_M 1000
+
+char map[MAX_N][MAX_M]; // 地图
+bool visited[MAX_N][MAX_M]; // 标记是否访问过
+int dx[4] = {0, 0, -1, 1}; // 方向数组
+int dy[4] = {-1, 1, 0, 0};
+int n, m; // 地图的大小
+int ans = 0; // 答案
+
+// 判断坐标(x,y)是否在地图中
+bool in_map(int x, int y) {
+    return x >= 0 && x < n && y >= 0 && y < m;
+}
+
+// 放置炸弹并爆炸，更新地图和visited数组
+void explode(int x, int y) {
+    map[x][y] = '.'; // 炸弹放置后变成空地
+    visited[x][y] = true; // 炸弹所在位置已访问
+    for (int i = 0; i < 4; i++) {
+        int nx = x + dx[i];
+        int ny = y + dy[i];
+        while (in_map(nx, ny) && map[nx][ny] != '#' && !visited[nx][ny]) {
+            // 蔓延到空地
+            if (map[nx][ny] == '!') {
+                ans++; // 统计答案
+            }
+            visited[nx][ny] = true; // 记录访问过的位置
+            nx += dx[i];
+            ny += dy[i];
+        }
+        // 如果蔓延到了石头或者地图外，停止蔓延
+    }
+}
+
+int main() {
+    int sx, sy; // 小DD的位置
+    scanf(""%d%d"", &n, &m);
+    for (int i = 0; i < n; i++) {
+        scanf(""%s"", map[i]);
+        for (int j = 0; j < m; j++) {
+            if (map[i][j] == '@') {
+                sx = i;
+                sy = j;
+            }
+        }
+    }
+
+    // 放置第一颗炸弹
+    explode(sx, sy);
+
+    // 不断放置炸弹，直到没有新的杂草变为空地为止
+    bool flag = true;
+    while (flag) {
+        flag = false;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (map[i][j] == '!') {
+                    bool can_explode = false;
+                    for (int k = 0; k < 4; k++) {
+                        int nx = i + dx[k];
+                        int ny = j + dy[k];
+                        if (in_map(nx, ny) && map[nx][ny] != '#' && visited[nx][ny]) {
+                            can_explode = true;
+                            break;
+                        }
+                    }
+                    if (can_explode) {
+                        explode(i, j);
+                        flag = true;
+                    }
+                }
+            }
+        }
+    }
+
+    printf(""%d\n"", ans);
+    return 0;
+}
+"
+3,C,C(gcc 7.5.0),61791855,2023-04-07 19:27:56,小憕666,答案正确,"#include <stdio.h>
+#include <string.h>
+int main(void)
+{
+    int n, m;
+    
+    scanf(""%d%d"", &n, &m);
+    
+    char map[n][m+1];
+    
+    for(int i=0; i<n; i++){
+        scanf(""%s"", map[i]);
+    }  
+        
+    
+    int max=0;
+    
+
+    int queue[1000001][2];
+    int top=0, end=1;
+                    
+    for(int i=0; i<n; i++)
+    {
+        int tag=0;
+        for(int j=0; j<m; j++)
+            if(map[i][j]=='@')
+            {
+                queue[top][0]=i;
+                queue[top][1]=j;
+                tag=1;
+                break;
+            }
+        
+        if(tag)
+            break;
+    }
+        
+    int result=0;          
+    while(top<end)
+    {
+        int x=queue[top][0], y=queue[top][1];
+        top++;
+                    
+        if(x+1<n)
+        {
+            if(map[x+1][y]=='!')
+            {
+                result++;
+                queue[end][0]=x+1;
+                queue[end][1]=y;
+                map[x+1][y]=0;
+                end++;
+            }
+            else if(map[x+1][y]=='.')
+            {
+                queue[end][0]=x+1;
+                queue[end][1]=y;
+                map[x+1][y]=0;
+                end++;
+            }
+            else
+                ;
+        }
+        
+        if(x-1>=0)
+        {
+            if(map[x-1][y]=='!')
+            {
+                result++;
+                queue[end][0]=x-1;
+                queue[end][1]=y;
+                map[x-1][y]=0;
+                end++;
+            }
+            else if(map[x-1][y]=='.')
+            {
+                queue[end][0]=x-1;
+                queue[end][1]=y;
+                map[x-1][y]=0;
+                end++;
+            }
+            else
+                ;
+        }
+          
+        if(y+1<m)
+        {
+            if(map[x][y+1]=='!')
+            {
+                result++;
+                queue[end][0]=x;
+                queue[end][1]=y+1;
+                map[x][y+1]=0;
+                end++;
+            }
+            else if(map[x][y+1]=='.')
+            {
+                queue[end][0]=x;
+                queue[end][1]=y+1;
+                map[x][y+1]=0;
+                end++;
+            }
+            else
+                ;
+        }
+        
+        if(y-1>=0)
+        {
+            if(map[x][y-1]=='!')
+            {
+                result++;
+                queue[end][0]=x;
+                queue[end][1]=y-1;
+                map[x][y-1]=0;
+                end++;
+            }
+            else if(map[x][y-1]=='.')
+            {
+                queue[end][0]=x;
+                queue[end][1]=y-1;
+                map[x][y-1]=0;
+                end++;
+            }
+            else
+                ;
+        }
+    }
+    
+    printf(""%d"", result);
+    
+    return 0;
+
+}"
+4,C,C,61792038,2023-04-07 19:29:12,杜文杰,答案正确,"#define _CRT_SECURE_NO_WARNINGS
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+#include<math.h>
+#include<assert.h>
+typedef long long ll;
+char s[1010][1010] = { 0 };
+int ans = 0, n, m, x, y;
+void dfs(int i, int j)
+{
+    if (s[i][j] == '#' || i > n || i<1 || j>m || j < 1)return;
+    if (s[i][j] == '!')ans++;
+    s[i][j] = '#';
+    dfs(i + 1, j);
+    dfs(i, j + 1);
+    dfs(i - 1, j);
+    dfs(i, j - 1);
+}
+signed main()
+{
+    scanf(""%d%d"", &n, &m);
+    for (int i = 1; i <= n; i++)
+    {
+        scanf(""%s"", s[i] + 1);
+        for (int j = 1; s[i][j]; j++)
+        {
+            if (s[i][j] == '@')x = i, y = j;
+        }
+    }
+    dfs(x, y);
+    printf(""%d\n"", ans);
+
+    return EXIT_SUCCESS;
+}"
+5,C,C,61792789,2023-04-07 19:34:39,牛客770942876号,答案错误,"#include <stdio.h>
+char a[1000][1000];
+int b[1000][1000];
+int counter = 0;
+void huoyan(int x, int y, int n, int m);
+int main()
+{
+    int m, n, i, j, x, y;
+    scanf(""%d%d"", &n, &m);
+    for (i = 0; i < n; i++)
+    {
+        for (j = 0; j < m; j++)
+        {
+            scanf(""%c"", &a[i][j]);
+            if (a[i][j] == '@')
+            {
+                x = i;
+                y = j;
+            }
+            b[i][j] = 0;
+        }
+        getchar();
+    }
+    huoyan(x, y, n, m);
+    printf(""%d"", counter);
+}
+
+void huoyan(int x, int y, int n, int m)
+{
+    if (a[x][y] == '!')
+    {
+        counter++;
+    }
+    b[x][y] = 1;
+    if (x != 0 && a[x - 1][y] != '#' && b[x - 1][y] == 0)
+    {
+        huoyan(x - 1, y, n, m);
+    }
+    if (x != n - 1 && a[x + 1][y] != '#' && b[x + 1][y] == 0)
+    {
+
+        huoyan(x + 1, y, n, m);
+    }
+    if (y != 0 && a[x][y - 1] != '#' && b[x][y - 1] == 0)
+    {
+
+        huoyan(x, y - 1, n, m);
+    }
+    if (y != m - 1 && a[x][y + 1] != '#' && b[x][y + 1] == 0)
+    {
+
+        huoyan(x, y + 1, n, m);
+    }
+}"
+6,C,C,61794201,2023-04-07 19:44:47,牛客770942876号,答案正确,"#include <stdio.h>
+char a[1000][1000];
+int b[1000][1000];
+int counter = 0;
+void huoyan(int x, int y, int n, int m);
+int main()
+{
+    int m, n, i, j, x, y;
+    scanf(""%d%d"", &n, &m);
+    getchar();
+    for (i = 0; i < n; i++)
+    {
+        for (j = 0; j < m; j++)
+        {
+            scanf(""%c"", &a[i][j]);
+            if (a[i][j] == '@')
+            {
+                x = i;
+                y = j;
+            }
+            b[i][j] = 0;
+        }
+        getchar();
+    }
+    huoyan(x, y, n, m);
+    printf(""%d"", counter);
+}
+
+void huoyan(int x, int y, int n, int m)
+{
+    if (a[x][y] == '!')
+    {
+        counter++;
+    }
+    b[x][y] = 1;
+    if (x != 0 && a[x - 1][y] != '#' && b[x - 1][y] == 0)
+    {
+        huoyan(x - 1, y, n, m);
+    }
+    if (x != n - 1 && a[x + 1][y] != '#' && b[x + 1][y] == 0)
+    {
+
+        huoyan(x + 1, y, n, m);
+    }
+    if (y != 0 && a[x][y - 1] != '#' && b[x][y - 1] == 0)
+    {
+
+        huoyan(x, y - 1, n, m);
+    }
+    if (y != m - 1 && a[x][y + 1] != '#' && b[x][y + 1] == 0)
+    {
+
+        huoyan(x, y + 1, n, m);
+    }
+}"
+7,C,C,61794503,2023-04-07 19:47:06,٩( ๑╹ ꇴ╹)۶haha,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c:9:17: error: subscripted value is not an array, pointer, or vector\n            if(a[i][j]=='.')\n               ~^~\nmain.c:11:17: error: subscripted value is not an array, pointer, or vector\n            if(a[i][j]=='.')\n               ~^~\nmain.c:13:17: error: subscripted value is not an array, pointer, or vector\n            if(a[i][j]=='.')\n               ~^~\nmain.c:15:9: error: expected statement\n        }\n        ^\n4 errors generated.""}
+
+#include<stdio.h>
+int jineng(int x,int y,char a)
+{
+    int i=x,j=y,sum=0;
+    for(i=x;i>=0;i--)
+    {
+        for(j=y;j>=0;j--)
+        {
+            if(a[i][j]=='.')
+            {}
+            if(a[i][j]=='.')
+            {}
+            if(a[i][j]=='.')
+            
+        }
+    }
+    
+}
+int main()
+{
+    int n,m;
+    scanf(""%d %d"",&n,&m);
+    char a[n][m];
+    int i,j;
+    int p,q;
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<m;j++)
+        {
+            scanf(""%c"",&a[i][j]);
+            if(a[i][j]=='@')
+            {
+                p=i;
+                q=j;
+            }
+        }
+    }
+    for(i=p;i<n;i++)
+    {
+        for(j=q;j<m;j++)
+        {
+
+        }
+    }
+}"
+8,C,C(gcc 7.5.0),61796376,2023-04-07 20:00:30,cb5,答案错误,"#include<stdio.h>
+char num[1001][1001]={0};
+int cnt=0,n,m;
+void jk(int a ,int b);
+int main()
+{
+    int c,d,a,b;
+    scanf(""%d %d\n"",&c,&d);
+    n=c;m=d;
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            scanf(""%c"",&num[i][j]);
+            if(num[i][j]=='@'){a=i;b=j;}
+        }getchar();
+    }
+    jk(a,b);
+    printf(""%d\n"",cnt);
+    return 0;
+}
+void jk(int a ,int b)
+{
+    num[a][b]='#';
+    if(a-1>=0&&num[a-1][b]=='.'){jk(a-1,b);}
+    else if(a-1>=0&&num[a-1][b]=='!'){cnt++;jk(a-1,b);}
+    else if(b-1>=0&&num[a][b-1]=='.'){jk(a,b-1);}
+    else if(b-1>=0&&num[a][b-1]=='!'){cnt++;jk(a,b-1);}
+    else if(a+1<n&&num[a+1][b]=='.'){jk(a+1,b);}
+    else if(a+1<n&&num[a+1][b]=='!'){cnt++;jk(a+1,b);}
+    else if(b+1<m&&num[a][b+1]=='.'){jk(a,b+1);}
+    else if(b+1<m&&num[a][b+1]=='!'){cnt ++;jk(a,b+1);}
+}
+"
+9,C,C,61796774,2023-04-07 20:03:29,Mania_,答案错误,"#include <stdio.h>
+
+int n, m, ans = 0;
+char map[1005][1005];
+int vis[1005][1005];
+
+int max(int a, int b) {
+    return a > b ? a : b;
+}
+
+void dfs(int x, int y, int cnt) {
+    vis[x][y] = 1;
+    ans = max(ans, cnt);
+    if (map[x][y] == '!') cnt++;
+    if (cnt == 0) {  // 限制使用技能一次
+        for (int i = x + 1; i <= n && map[i][y] != '#'; i++) {
+            if (!vis[i][y]) dfs(i, y, cnt);
+        }
+        for (int i = x - 1; i >= 1 && map[i][y] != '#'; i--) {
+            if (!vis[i][y]) dfs(i, y, cnt);
+        }
+        for (int j = y + 1; j <= m && map[x][j] != '#'; j++) {
+            if (!vis[x][j]) dfs(x, j, cnt);
+        }
+        for (int j = y - 1; j >= 1 && map[x][j] != '#'; j--) {
+            if (!vis[x][j]) dfs(x, j, cnt);
+        }
+    }
+    vis[x][y] = 0;
+}
+
+int main() {
+    int x, y;
+    scanf(""%d%d"", &n, &m);
+    for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= m; j++) {
+            scanf("" %c"", &map[i][j]);
+            if (map[i][j] == '@') {
+                x = i;
+                y = j;
+            }
+        }
+    }
+    dfs(x, y, 0);
+    printf(""%d\n"", ans);
+    return 0;
+}
+
+"
+10,C,C(gcc 7.5.0),61797068,2023-04-07 20:05:54,lsud,答案错误,"#include<stdio.h>
+int burn(int* a[1000][1000],int si,int sj,int n,int m){
+    int i,j;
+    if(a[si][sj]==0||a[si][sj]==3){
+        return 0;
+    }else if(a[si][sj]==2){
+        return 1+burn(a,si-1,sj,n,m)+burn(a,si,sj-1,n,m)+burn(a,si+1,sj,n,m)+burn(a,si,sj+1,n,m);
+    }else{
+        return burn(a,si-1,sj,n,m)+burn(a,si,sj-1,n,m)+burn(a,si+1,sj,n,m)+burn(a,si,sj+1,n,m);
+    }
+}
+int main(){
+    char in;
+    int n,m,i,j,si,sj,flag;
+    int a[1001][1001]={};
+    scanf(""%d %d"",&n,&m);
+    for(i=1;i<=n;i++){
+        for(j=1;j<=m;j++){
+            scanf(""%c"",&in);
+            if(in=='.'){
+                a[i][j]=1;
+            }else if(in=='!'){
+                a[i][j]=2;
+            }else if(in=='#'){
+                a[i][j]=3;
+            }else if(in=='@'){
+                a[i][j]=4;
+                si=i;
+                sj=j;
+            }
+        }
+    }
+    flag=burn(a,si,sj,n,m);
+    printf(""%d"",flag); 
+}"
+11,C,C(gcc 7.5.0),61797289,2023-04-07 20:07:31,lsud,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c: In function ‘burn’:\nmain.c:3:31: warning: comparison between pointer and integer\n     if(a[si][sj]==0||a[si][sj]==3){\n                               ^~\nmain.c:5:23: warning: comparison between pointer and integer\n     }else if(a[si][sj]==2){\n                       ^~\nmain.c: In function ‘main’:\nmain.c:32:15: warning: passing argument 1 of ‘burn’ from incompatible pointer type [-Wincompatible-pointer-types]\n     flag=burn(a,si,sj,n,m);\n               ^\nmain.c:2:5: note: expected ‘int * (*)[1000]’ but argument is of type ‘int (*)[1001]’\n int burn(int* a[1000][1000],int si,int sj){\n     ^~~~\nmain.c:32:10: error: too many arguments to function ‘burn’\n     flag=burn(a,si,sj,n,m);\n          ^~~~\nmain.c:2:5: note: declared here\n int burn(int* a[1000][1000],int si,int sj){\n     ^~~~\nmain.c:15:5: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n     scanf(\""%d %d\"",&n,&m);\n     ^~~~~~~~~~~~~~~~~~~~\nmain.c:18:13: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n             scanf(\""%c\"",&in);\n             ^~~~~~~~~~~~~~~""}
+
+#include<stdio.h>
+int burn(int* a[1000][1000],int si,int sj){
+    if(a[si][sj]==0||a[si][sj]==3){
+        return 0;
+    }else if(a[si][sj]==2){
+        return 1+burn(a,si-1,sj)+burn(a,si,sj-1)+burn(a,si+1,sj)+burn(a,si,sj+1);
+    }else{
+        return burn(a,si-1,sj)+burn(a,si,sj-1)+burn(a,si+1,sj)+burn(a,si,sj+1);
+    }
+}
+int main(){
+    char in;
+    int n,m,i,j,si,sj,flag;
+    int a[1001][1001]={};
+    scanf(""%d %d"",&n,&m);
+    for(i=1;i<=n;i++){
+        for(j=1;j<=m;j++){
+            scanf(""%c"",&in);
+            if(in=='.'){
+                a[i][j]=1;
+            }else if(in=='!'){
+                a[i][j]=2;
+            }else if(in=='#'){
+                a[i][j]=3;
+            }else if(in=='@'){
+                a[i][j]=4;
+                si=i;
+                sj=j;
+            }
+        }
+    }
+    flag=burn(a,si,sj,n,m);
+    printf(""%d"",flag); 
+}"
+12,C,C(gcc 7.5.0),61797308,2023-04-07 20:07:42,lsud,答案错误,"#include<stdio.h>
+int burn(int* a[1000][1000],int si,int sj){
+    if(a[si][sj]==0||a[si][sj]==3){
+        return 0;
+    }else if(a[si][sj]==2){
+        return 1+burn(a,si-1,sj)+burn(a,si,sj-1)+burn(a,si+1,sj)+burn(a,si,sj+1);
+    }else{
+        return burn(a,si-1,sj)+burn(a,si,sj-1)+burn(a,si+1,sj)+burn(a,si,sj+1);
+    }
+}
+int main(){
+    char in;
+    int n,m,i,j,si,sj,flag;
+    int a[1001][1001]={};
+    scanf(""%d %d"",&n,&m);
+    for(i=1;i<=n;i++){
+        for(j=1;j<=m;j++){
+            scanf(""%c"",&in);
+            if(in=='.'){
+                a[i][j]=1;
+            }else if(in=='!'){
+                a[i][j]=2;
+            }else if(in=='#'){
+                a[i][j]=3;
+            }else if(in=='@'){
+                a[i][j]=4;
+                si=i;
+                sj=j;
+            }
+        }
+    }
+    flag=burn(a,si,sj);
+    printf(""%d"",flag); 
+}"
+13,C,C(gcc 7.5.0),61797602,2023-04-07 20:10:12,牛的勒,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c:3:27: error: array type has incomplete element type ‘char[]’\n int find(int i,int j,char a[][])\n                           ^\nmain.c:3:27: note: declaration of ‘a’ as multidimensional array must have bounds for all dimensions except the first\nmain.c: In function ‘find’:\nmain.c:8:24: error: type of formal parameter 3 is incomplete\n         max=find(i+1,j,a);\n                        ^\nmain.c:10:24: error: type of formal parameter 3 is incomplete\n         max=find(i-1,j,a);\n                        ^\nmain.c:12:23: error: type of formal parameter 3 is incomplete\n        max=find(i,j+1,a);\n                       ^\nmain.c:14:24: error: type of formal parameter 3 is incomplete\n         max=find(i,j-1,a);\n                        ^\nmain.c: In function ‘main’:\nmain.c:50:5: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n     scanf(\""%d%d\"",&n,&m);\n     ^~~~~~~~~~~~~~~~~~~\nmain.c:67:18: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n                  scanf(\""%c\"",&a[i][j]);\n                  ^~~~~~~~~~~~~~~~~~~~""}
+
+#include<stdio.h>
+    int n,m;
+int find(int i,int j,char a[][])
+{
+    int max=0;
+    int count=0;
+    if(a[i+1][j]=='.')
+        max=find(i+1,j,a);
+    if(a[i-1][j]=='.')
+        max=find(i-1,j,a);
+    if(a[i][j+1]=='.')
+       max=find(i,j+1,a);
+    if(a[i][j]=='.')
+        max=find(i,j-1,a);
+    
+    for(int k=i;k>=1;k--)//往上走
+    {
+        if(a[k][j]=='!')
+            count++;
+        if(a[k][j]=='#')
+            break;
+    }
+       for(int k=i;k<=n;k++)//往下走
+    {
+        if(a[k][j]=='!')
+            count++;
+        if(a[k][j]=='#')
+            break;
+    }
+           for(int k=j;k>=1;k--)//往左走
+    {
+        if(a[i][k]=='!')
+            count++;
+        if(a[i][k]=='#')
+            break;
+    }
+           for(int k=j;k<=m;k++)//往右走
+    {
+        if(a[i][k]=='!')
+            count++;
+        if(a[i][k]=='#')
+            break;
+    }
+    if(max<count)
+    return count;
+    return max;
+}
+int main()
+{
+    scanf(""%d%d"",&n,&m);
+    char a[n+5][m+5];
+    int i,j;
+    int b,c;
+    for(i=0,j=0;j<=m+1;j++)
+        a[i][j]='#';
+    for(i=m+1,j=0;j<=m+1;j++)
+        a[i][j]='#';
+        for(i=0,j=0;i<=n+1;i++)
+        a[i][j]='#';
+        for(j=m+1,i=0;i<=n+1;i++)
+        a[i][j]='#';
+    for(i=1;i<=n;i++)
+    {
+        getchar();
+        for(j=1;j<=m;j++)
+        {
+                 scanf(""%c"",&a[i][j]);
+            if(a[i][j]=='@')
+                b=i,c=j;
+        }
+    }
+    
+}"
+14,C,C,61797820,2023-04-07 20:11:54,可口小可乐,答案正确,"#include <stdio.h>
+int n,m,sum;
+char a[1010][1010];
+int x[]={-1,1,0,0},y[]={0,0,-1,1};
+int stu[1010][1010]={0};
+/*void move(int i,int j)
+{
+    num=0;
+    for(int k=0;k<m;k++)
+        if(a[i][k]=='!')
+            num++;
+    for(int k=0;k<m;k++)
+        if(a[k][i]=='!')
+            num++;
+    if(maxn<num){maxn=num;i1=i;j1=j;}
+    if(a[i-1][j]!='#')
+        move(i-1,j);
+    if(a[i][j-1]!='#')
+        move(i,j-1);
+    if(a[i][j+1]!='#')
+        move(i,j+1);
+    if(a[i+1][j]!='#')
+        move(i+1,j);
+}*/
+void dfs(int i,int j)
+{ 
+    int c,d;
+    //printf(""%d %d\n"",i,j);
+    if(a[i][j]=='!')
+        sum++;
+    stu[i][j]=1;
+    for(int k=0;k<4;k++)
+    {    
+        c=i+x[k];d=j+y[k];
+        if(c<1||d<1||c>n||d>m)continue;
+        if(stu[c][d]||a[c][d]=='#')continue;
+        dfs(c,d);     
+    }
+}
+int main()
+{
+    int p,q;
+    scanf(""%d"",&n);
+    getchar();
+    scanf(""%d"",&m);
+    getchar();
+    for(int i=1;i<=n;i++)
+    {
+        for(int j=1;j<=m;j++)
+        {
+            scanf(""%c"",&a[i][j]);
+            if(a[i][j]=='@'){p=i;q=j;}
+        }
+        getchar();
+    }     
+    //printf(""%d %d "",p,q);
+    /*for(int i=1;i<=n;i++)
+    {
+        for(int j=1;j<=m;j++)
+        {
+            printf(""%c"",a[i][j]);
+        }
+        printf(""\n"");
+    }*/     
+    //move(p,q);
+    dfs(p,q);
+    printf(""%d"",sum);
+    return 0;
+}"
+15,C,C,61799504,2023-04-07 20:25:36,在考古的安哥拉兔很用心,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c:36:20: error: expected expression\n               map(char *ch)\n                   ^\n1 error generated.""}
+
+#include<stdio.h>
+int map(char *,int,int);
+int a = 0;
+int a_ = 0;
+int main(void)
+{
+    int n,m;
+    scanf(""%d %d"",&n,&m);
+    char ch[n][m];
+    int position_n,position_m;
+    for(int i = 0;i<n;i++)
+    {
+        for(int j = 0;j<m;j++)
+        {
+            scanf(""%c"",&ch[i][j]);
+            if(ch[i][j] == '@')
+            {
+                position_n = i;
+                position_m = j;
+            }
+            if(ch[i][j] == '!')
+                a_++;
+        }
+    }
+    if(ch[position_n][position_m+1] == '#' && ch[position_n][position_m-1] == '#'&& ch[position_n+1][position_m] == '#' && ch[position_n-1][position_m] == '#')
+    {
+        printf(""0"");
+        return 0;
+    }
+    else
+    {
+        while(a<=a_)
+        {
+           if(ch[position_n+1][position_m]!='#') 
+           {
+               map(char *ch)
+           }
+            else if(ch[position_n-1][position_m]!='#')
+            {
+                
+            }
+            else if(ch[position_n][position_m-1]!='#')
+            {
+                
+            }
+            else if(ch[position_n][position_m+1]!='#')
+            {
+                
+            }
+        }
+    }
+    return 0;
+}
+int map(char *ch,int i,int j)
+{
+     
+}"
+16,C,C(gcc 7.5.0),61800731,2023-04-07 20:35:47,牛的勒,内存超限,"#include<stdio.h>
+    int n,m;
+int find(int i,int j,char a[][1005])
+{
+    int max=0;
+    int count=0;
+    if(a[i+1][j]=='.')
+        max=find(i+1,j,a);
+    if(a[i-1][j]=='.')
+        max=find(i-1,j,a);
+    if(a[i][j+1]=='.')
+       max=find(i,j+1,a);
+    if(a[i][j-1]=='.')
+        max=find(i,j-1,a);
+    for(int k=i;k>=1;k--)//往上走
+    {
+        if(a[k][j]=='!')
+            count++;
+        if(a[k][j]=='#')
+            break;
+    }
+       for(int k=i;k<=n;k++)//往下走
+    {
+        if(a[k][j]=='!')
+            count++;
+        if(a[k][j]=='#')
+            break;
+    }
+           for(int k=j;k>=1;k--)//往左走
+    {
+        if(a[i][k]=='!')
+            count++;
+        if(a[i][k]=='#')
+            break;
+    }
+           for(int k=j;k<=m;k++)//往右走
+    {
+        if(a[i][k]=='!')
+            count++;
+        if(a[i][k]=='#')
+            break;
+    }
+    if(max<=count)
+    return count;
+    return max;
+}
+int main()
+{
+    scanf(""%d%d"",&n,&m);
+    char a[1005][1005];
+    int i,j;
+    int b,c;
+    for(i=0,j=0;j<=m+1;j++)
+        a[i][j]='#';
+    for(i=m+1,j=0;j<=m+1;j++)
+        a[i][j]='#';
+        for(i=0,j=0;i<=n+1;i++)
+        a[i][j]='#';
+        for(j=m+1,i=0;i<=n+1;i++)
+        a[i][j]='#';
+    for(i=1;i<=n;i++)
+    {
+        getchar();
+        for(j=1;j<=m;j++)
+        {
+                 scanf(""%c"",&a[i][j]);
+            if(a[i][j]=='@')
+                b=i,c=j;
+        }
+    }
+    int sum;
+    sum=find(b,c,a);
+    printf(""%d"",sum);
+}"
+17,C,C,61801021,2023-04-07 20:38:32,Mania_,答案正确,"#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+char map[1001][1001];
+int n, m, ans = 0;
+
+void dfs(int x, int y) {
+    if (x >= 0 && x < n && y >= 0 && y < m && map[x][y] != '#') {
+        if (map[x][y] == '!') ans++;
+        map[x][y] = '#';
+        dfs(x + 1, y);
+        dfs(x - 1, y);
+        dfs(x, y + 1);
+        dfs(x, y - 1);
+    }
+}
+
+int main() {
+    scanf(""%d%d"", &n, &m);
+    for (int i = 0; i < n; i++) {
+        scanf(""%s"", map[i]);
+    }
+
+    int start_x, start_y;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            if (map[i][j] == '@') {
+                start_x = i;
+                start_y = j;
+                break;
+            }
+        }
+    }
+
+    dfs(start_x, start_y);
+    printf(""%d\n"", ans);
+
+    return 0;
+}
+"
+18,C,C(gcc 7.5.0),61801344,2023-04-07 20:41:23,山海 自然,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c:1:10: fatal error: bits/stdc++.h: No such file or directory\n #include <bits/stdc++.h>\n          ^~~~~~~~~~~~~~~\ncompilation terminated.""}
+
+#include <bits/stdc++.h>
+struct note
+{
+	int x;
+	int y;
+};
+char map[30][30];
+int getnum(int i, int j)
+{
+	int sum, x, y;
+	sum = 0;
+	x = i;
+	y = j;
+	while (map[x][y] != '#')
+	{
+		if (map[x][y] == '!')
+			sum++;
+		x--;
+	}
+	x = i;
+	y = j;
+	while (map[x][y] != '#')
+	{
+		if (map[x][y] == '!')
+			sum++;
+		x++;
+	}
+	x = i;
+	y = j;
+	while (map[x][y] != '#')
+	{
+		if (map[x][y] == '!')
+			sum++;
+		y--;
+	}
+	x = i;
+	y = j;
+	while (map[x][y] != '#')
+	{
+		if (map[x][y] == '!')
+			sum++;
+		y++;
+	}
+	return sum;
+}
+int main()
+{
+	struct note que[901];
+	int head, tail;
+	int book[30][30] = {0};
+	int i, j, k, sum, max = 0, mx, my, n, m, startx, starty, tx, ty;
+	int next[4][2] = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+	scanf(""%d%d%d%d"", &n, &m, &startx, &starty);
+	for (i = 0; i <= n - 1; i++)
+		scanf(""%s"", map[i]);
+	head = 1;
+	tail = 1;
+	que[tail].x = startx;
+	que[tail].y = starty;
+	tail++;
+	book[startx][starty] = 1;
+	max = getnum(startx, starty);
+	mx = startx;
+	my = starty;
+	while (head < tail)
+	{
+		for (k = 0; k <= 3; k++)
+		{
+			tx = que[head].x + next[k][0];
+			ty = que[head].y + next[k][1];
+			if (tx < 0 || tx > n - 1 || ty < 0 || ty > m - 1)
+				continue;
+			if (map[tx][ty] == '.' && book[tx][ty] == 0)
+			{
+				book[tx][ty] = 1;
+				que[tail].x = tx;
+				que[tail].y = ty;
+				tail++;
+				sum = getnum(tx, ty);
+				if(sum>max)
+				{
+					max = sum;
+					mx = tx;
+					my = ty;
+				}
+			}
+		}
+		head++;
+	}
+	printf(""%d"", max);
+	return 0;
+}"
+19,C,C,61801932,2023-04-07 20:46:25,已转码的猪猪很喜欢拱白菜,答案错误,"#include<stdio.h>
+#include<stdlib.h>
+char a[1000][1000];
+int b[1000][1000]={0};
+int n,m;
+int sum=0;
+void dfs(int i,int j){
+    if(b[i-1][j]==0&&b[i+1][j]==0&&b[i][j-1]==0&&b[i][j+1]==0)
+        return;
+    else {
+        if(i-1>=0&&b[i-1][j]==1)
+        {b[i-1][j]=0;
+         dfs(i-1,j);
+        }
+        if(i+1<n&&b[i+1][j]==1)
+        {b[i+1][j]=0;
+        dfs(i+1,j);
+        }
+        if(j-1>=0&&b[i][j-1]==1)
+        {b[i][j-1]=0;
+        dfs(i,j-1);
+        }
+        if(j+1<m&&b[i][j+1]==1)
+        {b[i][j+1]=0;
+        dfs(i,j+1);
+        }
+    }
+}
+int main(){
+    scanf(""%d%d"",&n,&m);
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            scanf(""%s"",&a[i][j]);
+            getchar();
+            if(a[i][j]=='@')
+                b[i][j]=1;
+            if(a[i][j]=='!')
+                b[i][j]=1;
+            if(a[i][j]=='.')
+                b[i][j]=1;
+        }
+    }
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            if(b[i][j]==1)
+            {dfs(i,j);
+            sum++;
+            }
+        }
+    }
+    printf(""%d"",sum+1);
+    return 0;
+}"
+20,C,C(gcc 7.5.0),61805818,2023-04-07 21:30:28,cb5,答案正确,"#include<stdio.h>
+char num[1001][1001]={0};
+int cnt=0,n,m;
+void jk(int a ,int b);
+int main()
+{
+    int c,d,a,b;
+    scanf(""%d %d\n"",&c,&d);
+    n=c;m=d;
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            scanf(""%c"",&num[i][j]);
+            if(num[i][j]=='@'){a=i;b=j;}
+        }getchar();
+    }
+    jk(a,b);
+    printf(""%d\n"",cnt);
+    return 0;
+}
+void jk(int a ,int b)
+{
+    num[a][b]='#';
+    if(a-1>=0&&num[a-1][b]=='.'){jk(a-1,b);}
+    if(a-1>=0&&num[a-1][b]=='!'){cnt++;jk(a-1,b);}
+    if(b-1>=0&&num[a][b-1]=='.'){jk(a,b-1);}
+    if(b-1>=0&&num[a][b-1]=='!'){cnt++;jk(a,b-1);}
+    if(a+1<n&&num[a+1][b]=='.'){jk(a+1,b);}
+    if(a+1<n&&num[a+1][b]=='!'){cnt++;jk(a+1,b);}
+    if(b+1<m&&num[a][b+1]=='.'){jk(a,b+1);}
+    if(b+1<m&&num[a][b+1]=='!'){cnt++;jk(a,b+1);}
+}
+"
+21,C,C,61807175,2023-04-07 22:14:02,xunmeng,答案正确,"#include <stdio.h>
+
+char a[1005][1005];
+int aa[1005][1005];
+long long ans = 0;
+int n, m;
+
+int main(void)
+{
+	void dfs(int x, int y);
+
+	int dx, dy;
+	scanf(""%d %d"", &n, &m);
+	getchar();
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < m; j++)
+		{
+			scanf(""%c"", &a[i][j]);
+			if (a[i][j] == '@' || a[i][j] == '#')
+			{
+				aa[i][j] = 1;
+			}
+			if (a[i][j] == '@')
+			{
+				dx = i;
+				dy = j;
+			}
+		}
+		getchar();
+	}
+	dfs(dx, dy);
+	printf(""%lld"", ans);
+}
+
+int dir[4][2] = {
+	{0,1},
+	{1,0},
+	{0,-1},
+	{-1,0}
+};
+
+int check(int xx, int yy)
+{
+	if (xx >= 0 && xx < n && yy >= 0 && yy < m)
+	{
+		//printf(""%d %c\n"", aa[xx][yy], a[xx][yy]);
+		if (aa[xx][yy] == 0 && (a[xx][yy] == '.' || a[xx][yy] == '!'))
+		{
+		//	printf(""2\n"");
+			return 1;
+		}
+	}
+	return 0;
+}
+
+void dfs(int x, int y)
+{
+	//printf(""%d %d\n"", x, y);
+	aa[x][y] = 1;
+	if (a[x][y] == '!')
+	{
+		ans++;
+	}
+	int t, tt;
+	for (int i = 0; i < 4; i++)
+	{
+		t = x + dir[i][0];
+		tt = y + dir[i][1];
+		if (check(t, tt))
+		{
+			dfs(t, tt);
+		}
+	}
+}"
+22,C,C,61808580,2023-04-07 23:33:00,٩( ๑╹ ꇴ╹)۶haha,答案错误,"#include<stdio.h>
+#define rep(i,a,n) for(int i=a;i<=n;i++)
+char s[1010][1010];
+int n,m,vis[1010][1010];
+int dx[]={1,0,-1,0};
+int dy[]={0,-1,0,1};
+int ans;
+void  dfs(int i,int j)
+{
+	if(i<1||j<1||i>n||j>m||vis[i][j]||s[i][j]=='#')
+		return ;
+		vis[i][j]=1;
+		if(s[i][j]=='!')ans++;
+		rep(k,0,3)
+		{
+			dfs(i+dx[k],j+dy[k]);
+		}
+}
+int main()
+{
+    scanf(""%d %d"",&n,&m);
+    int i,j;
+    int p,q;
+    int sum,max=0;
+    for(i=1;i<n;i++)
+    {
+    	getchar();
+        for(j=1;j<m;j++)
+        {
+            scanf(""%c"",&s[i][j]);
+            if(s[i][j]=='@')
+            {
+                p=i;
+                q=j;
+            }
+        }
+    }
+	dfs(p,q);
+    printf(""%d"",ans);
+    return 0;
+}
+/*
+4 4
+..!.
+.@.#
+!##!
+#!!!
+*/"
+23,C,C,61808607,2023-04-07 23:36:04,٩( ๑╹ ꇴ╹)۶haha,答案正确,"#include<stdio.h>
+#define rep(i,a,n) for(int i=a;i<=n;i++)
+char s[1010][1010];
+int n,m,vis[1010][1010];
+int dx[]={1,0,-1,0};
+int dy[]={0,-1,0,1};
+int ans;
+void  dfs(int i,int j)
+{
+	if(i<1||j<1||i>n||j>m||vis[i][j]||s[i][j]=='#')
+		return ;
+		vis[i][j]=1;
+		if(s[i][j]=='!')ans++;
+		rep(k,0,3)
+		{
+			dfs(i+dx[k],j+dy[k]);
+		}
+}
+int main()
+{
+    scanf(""%d %d"",&n,&m);
+    int i,j;
+    int p,q;
+    for(i=1;i<=n;i++)
+    {
+        scanf(""%s"",&s[i][1]);
+    }
+    for(i=1;i<=n;i++)
+    {
+        for(j=1;j<m;j++)
+        {
+            if(s[i][j]=='@')
+            {
+                dfs(i,j);
+            }
+        }
+    }
+    printf(""%d"",ans);
+    return 0;
+}"
+24,C,C,61828949,2023-04-09 18:17:50,ehdxbc,答案正确,"#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+char map[1001][1001];
+int n,m,ans=0;
+int dfs(int x,int y)
+{
+    
+    if(x>=0&&x<n&&y>=0&&y<m&&map[x][y]!='#')
+    {
+        if(map[x][y]=='!')ans++;
+        map[x][y]='#';
+        dfs(x+1,y);
+        dfs(x-1,y);
+        dfs(x,y+1);
+        dfs(x,y-1);
+    }
+ return 0;
+}
+int main()
+{
+    scanf(""%d %d"",&n,&m);
+    int i,j;
+    for(i=0;i<n;i++)
+    {
+        scanf(""%s"",map[i]);
+    }
+    int x,y;
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<m;j++)
+        {
+            if(map[i][j]=='@')
+            {
+                x=i,y=j;
+                break;
+            }
+        }
+    }
+    dfs(x,y);
+
+    printf(""%d\n"",ans);
+    return 0;
+}"
+25,C,C(gcc 7.5.0),61828968,2023-04-09 18:19:20,是Han,答案正确,"#include <stdio.h>
+int n, m, x, y, initx, inity;
+char s[1004][1004] = { 0 };
+int a[1004][1004] = { 0 };
+long long num = 0;
+
+//用这个数组来 规定(指定) 检索的移动方向
+int move[4][2] = { {1, 0}, {0, 1}, {-1, 0}, {0, -1} };
+
+void dfs(int x, int y)
+{
+	//先将所有违规情况集合在一起！！
+	if (x >= n || x < 0 || y >= m || y < 0 || s[x][y] == '#' || a[x][y] == 1)
+		return;
+	a[x][y] = 1;//表示已检索过的格子
+	if (s[x][y] == '!')
+		num++;
+    
+    for(int i = 0; i <= 3; i++)
+        dfs(x + move[i][0], y + move[i][1]);
+}
+int main()
+{
+	scanf(""%d%d"", &n, &m);
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < m; j++)
+		{
+			scanf("" %c"", &s[i][j]);
+			if (s[i][j] == '@')
+			{
+				initx = x = i;
+				inity = y = j;
+			}
+		}
+	}
+	dfs(x, y);
+	printf(""%lld\n"", num);
+	return 0;
+}"
+26,C,C,61828991,2023-04-09 18:20:40,ehdxbc,答案错误,"#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+char map[1001][1001];
+int n,m,ans;
+void dfs(int x,int y)
+{
+    int ans=0;
+    if(x>=0&&x<n&&y>=0&&y<m&&map[x][y]!='#')
+    {
+        if(map[x][y]=='!')ans++;
+        map[x][y]='#';
+        dfs(x+1,y);
+        dfs(x-1,y);
+        dfs(x,y+1);
+        dfs(x,y-1);
+    }
+
+}
+int main()
+{
+    scanf(""%d %d"",&n,&m);
+    int i,j;
+    for(i=0;i<n;i++)
+    {
+        scanf(""%s"",map[i]);
+    }
+    int x,y;
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<m;j++)
+        {
+            if(map[i][j]=='@')
+            {
+                x=i,y=j;
+                break;
+            }
+        }
+    }
+    dfs(x,y);
+
+    printf(""%d\n"",ans);
+    return 0;
+}"
+27,C,C,61828992,2023-04-09 18:20:48,ehdxbc,答案错误,"#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+char map[1001][1001];
+int n,m,ans=0;
+void dfs(int x,int y)
+{
+    int ans=0;
+    if(x>=0&&x<n&&y>=0&&y<m&&map[x][y]!='#')
+    {
+        if(map[x][y]=='!')ans++;
+        map[x][y]='#';
+        dfs(x+1,y);
+        dfs(x-1,y);
+        dfs(x,y+1);
+        dfs(x,y-1);
+    }
+
+}
+int main()
+{
+    scanf(""%d %d"",&n,&m);
+    int i,j;
+    for(i=0;i<n;i++)
+    {
+        scanf(""%s"",map[i]);
+    }
+    int x,y;
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<m;j++)
+        {
+            if(map[i][j]=='@')
+            {
+                x=i,y=j;
+                break;
+            }
+        }
+    }
+    dfs(x,y);
+
+    printf(""%d\n"",ans);
+    return 0;
+}"
+28,C,C,61828994,2023-04-09 18:20:52,ehdxbc,答案正确,"#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+char map[1001][1001];
+int n,m,ans=0;
+void dfs(int x,int y)
+{
+    
+    if(x>=0&&x<n&&y>=0&&y<m&&map[x][y]!='#')
+    {
+        if(map[x][y]=='!')ans++;
+        map[x][y]='#';
+        dfs(x+1,y);
+        dfs(x-1,y);
+        dfs(x,y+1);
+        dfs(x,y-1);
+    }
+
+}
+int main()
+{
+    scanf(""%d %d"",&n,&m);
+    int i,j;
+    for(i=0;i<n;i++)
+    {
+        scanf(""%s"",map[i]);
+    }
+    int x,y;
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<m;j++)
+        {
+            if(map[i][j]=='@')
+            {
+                x=i,y=j;
+                break;
+            }
+        }
+    }
+    dfs(x,y);
+
+    printf(""%d\n"",ans);
+    return 0;
+}"
+29,C,C,61829049,2023-04-09 18:27:58,在打卡的小飞象很想吃火锅,答案正确,"#include<stdio.h>
+char arr[2000][2000];
+int n, m, cnt = 0;
+int dfs(int x, int y)
+{
+    if(x >= 0 && x < n && y >= 0 && y < m && arr[x][y] != '#')
+    {
+        if(arr[x][y] == '!')
+            cnt++;
+        arr[x][y] = '#';
+        dfs(x+1,y);
+        dfs(x-1, y);
+        dfs(x, y+1);
+        dfs(x, y-1);
+    }
+    return 0;
+}
+int main()
+{
+    
+    scanf(""%d %d"", &n, &m);
+    for(int i = 0; i < n; i++)
+    {
+        scanf(""%s"", arr[i]);
+    }
+    int t,p;
+    for(int i = 0; i < n; i++)
+    {
+        for(int j = 0; j < m; j++)
+        {
+           if(arr[i][j] == '@')
+           {
+               t = i, p = j;
+               break;
+           }
+        }
+    }
+    dfs(t,p);
+    printf(""%d"", cnt);
+    return 0;
+}"
+30,C,C(gcc 7.5.0),61830582,2023-04-09 19:55:23,小白捏,答案正确,"#include<stdio.h>
+
+char a[1005][1005];
+int cnt = 0;
+int n,m;
+
+void dfs(int x,int y)
+{
+    if(a[x][y]=='#'||x<1||y<1||x>n||y>m)return;
+    else if(a[x][y]=='!')cnt++;
+    a[x][y]='#';
+    dfs(x+1,y);
+    dfs(x,y+1);
+    dfs(x-1,y);
+    dfs(x,y-1);
+}
+
+
+int main()
+{
+
+    int x,y;
+    scanf(""%d%d"",&n,&m);
+    
+    getchar();
+    
+    for(int i=1;i<=n;i++)
+    {
+        for(int q=1;q<=m;q++)
+        {
+            scanf(""%c"",&a[i][q]);
+            
+            if(a[i][q]=='@')
+            {
+                x=i;
+                y=q;
+            }
+            
+        }
+        getchar();
+    }
+    
+    dfs(x,y);
+    
+    printf(""%d"",cnt);
+    
+    
+    
+    return 0;
+}"
+31,C,C,61836621,2023-04-10 16:24:18,sana_u,答案错误,"#include<stdio.h>
+#include<string.h>
+int n,m;int count=0; 
+char array[1000][1000]={'\0'};
+void def(int row,int clon)
+{
+    if(row>=0&&row<n&&clon>=0&&clon<m&&array[row][clon]!='#')
+    {
+        if(array[row][clon]=='!')
+                     count++;
+        
+        array[row][clon]='#';
+        def(row+1,clon); def(row-1,clon);
+        def(row,clon+1);def(row,clon-1);
+       
+        
+    }
+}
+int main()
+{
+    
+   
+    
+    int row,clon;
+    scanf(""%d %d"",&n,&m);
+    for(int i=0;i<n;i++)
+    {
+        for(int k=0;k<m;k++)
+        {
+            scanf(""%c"",&array[i][k]);
+            if(array[i][k]=='@')
+            {
+                row=i;
+                clon=k;
+            }
+        }
+    }
+    
+    def(row,clon);
+    printf(""%d\n"",count);
+    
+    
+    
+    
+    return 0;
+}"
+32,C,C,61836752,2023-04-10 16:39:26,sana_u,答案错误,"#include<stdio.h>
+#include<string.h>
+int n,m;int count=0; 
+char array[1000][1000]={'\0'};
+void def(int row,int clon)
+{
+    if(row>=0&&row<n&&clon>=0&&clon<m&&array[row][clon]!='#')
+    {
+        if(array[row][clon]=='!')
+                     count++;
+        
+        array[row][clon]='#';
+        def(row+1,clon); def(row-1,clon);
+        def(row,clon+1);def(row,clon-1);
+       
+        
+    }
+}
+int main()
+{
+    
+   
+    
+    int row,clon;
+    scanf(""%d %d"",&n,&m);
+    for(int i=0;i<n;i++)
+    {
+        for(int k=0;k<m;k++)
+        {
+            scanf(""%c"",&array[i][k]);
+            if(array[i][k]=='@')
+            {
+                row=i;
+                clon=k;
+            }
+        }
+    }
+    
+    def(row,clon);
+    printf(""%d\n"",count-1);
+    
+    
+    
+    
+    return 0;
+}"
+33,C,C,61836774,2023-04-10 16:42:02,sana_u,答案正确,"#include<stdio.h>
+#include<string.h>
+int n,m;int count=0; 
+char array[1000][1000]={'\0'};
+void def(int row,int clon)
+{
+    if(row>=0&&row<n&&clon>=0&&clon<m&&array[row][clon]!='#')
+    {
+        if(array[row][clon]=='!')
+                     count++;
+        
+        array[row][clon]='#';
+        def(row+1,clon); def(row-1,clon);
+        def(row,clon+1);def(row,clon-1);
+       
+        
+    }
+}
+int main()
+{
+    int row,clon;
+    scanf(""%d %d"",&n,&m);
+    getchar();
+    for(int i=0;i<n;i++)
+    {
+        for(int k=0;k<m;k++)
+        {
+            scanf(""%c"",&array[i][k]);
+           
+            if(array[i][k]=='@')
+            {
+                row=i;
+                clon=k;
+            } 
+        }
+        getchar();
+    }
+    
+    def(row,clon);
+    printf(""%d\n"",count);
+    
+    
+    
+    
+    return 0;
+}"
+34,C,C,61838398,2023-04-10 19:28:20,威严满满二小姐,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c:38:1: error: non-void function does not return a value in all control paths [-Werror,-Wreturn-type]\n}\n^\n1 error generated.""}
+
+#include<string.h>
+#include<stdio.h>
+#include<stdlib.h>
+char num[1005][1005];
+char num1[1005][1005]={0};
+int n,m,sum=0;
+int dfs(int x,int y);
+int main()
+{
+    scanf(""%d %d"",&n,&m);
+    int i,j;
+    int x,y;
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<m;j++)
+        {
+            scanf("" %c"",&num[i][j]);
+            if(num[i][j]=='@')x=j,y=i;
+        }
+    }
+    dfs(x,y);
+    printf(""%d"",sum);
+}
+int dfs(int x,int y)
+{
+    if(x<0||x>=m||y<0||y>=n||num1[y][x]==1)return 0;
+    if(num[y][x]=='#')return 0;
+    if(num[y][x]=='!')
+    {
+        num[y][x]='.';
+        sum++;
+    }
+    num1[y][x]=1;
+    dfs(x-1,y);
+    dfs(x+1,y);
+    dfs(x,y-1);
+    dfs(x,y+1);
+}
+"
+35,C,C,61838412,2023-04-10 19:28:53,威严满满二小姐,答案正确,"#include<string.h>
+#include<stdio.h>
+#include<stdlib.h>
+char num[1005][1005];
+char num1[1005][1005]={0};
+int n,m,sum=0;
+int dfs(int x,int y);
+int main()
+{
+    scanf(""%d %d"",&n,&m);
+    int i,j;
+    int x,y;
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<m;j++)
+        {
+            scanf("" %c"",&num[i][j]);
+            if(num[i][j]=='@')x=j,y=i;
+        }
+    }
+    dfs(x,y);
+    printf(""%d"",sum);
+}
+int dfs(int x,int y)
+{
+    if(x<0||x>=m||y<0||y>=n||num1[y][x]==1)return 0;
+    if(num[y][x]=='#')return 0;
+    if(num[y][x]=='!')
+    {
+        num[y][x]='.';
+        sum++;
+    }
+    num1[y][x]=1;
+    dfs(x-1,y);
+    dfs(x+1,y);
+    dfs(x,y-1);
+    dfs(x,y+1);
+    return 0;
+}
+"
+36,C,C,61838438,2023-04-10 19:30:12,威严满满二小姐,答案正确,"#include<string.h>
+#include<stdio.h>
+#include<stdlib.h>
+char num[1005][1005];
+char num1[1005][1005]={0};
+int n,m,sum=0;
+void dfs(int x,int y);
+int main()
+{
+    scanf(""%d %d"",&n,&m);
+    int i,j;
+    int x,y;
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<m;j++)
+        {
+            scanf("" %c"",&num[i][j]);
+            if(num[i][j]=='@')x=j,y=i;
+        }
+    }
+    dfs(x,y);
+    printf(""%d"",sum);
+}
+void dfs(int x,int y)
+{
+    if(x<0||x>=m||y<0||y>=n||num1[y][x]==1)return ;
+    if(num[y][x]=='#')return ;
+    if(num[y][x]=='!')
+    {
+        num[y][x]='.';
+        sum++;
+    }
+    num1[y][x]=1;
+    dfs(x-1,y);
+    dfs(x+1,y);
+    dfs(x,y-1);
+    dfs(x,y+1);
+}
+"
+37,C,C,61838958,2023-04-10 19:57:05,威严满满二小姐,答案正确,"#include<string.h>
+#include<stdio.h>
+#include<stdlib.h>
+char num[1005][1005];
+char num1[1005][1005]={0};
+int n,m,sum=0;
+void dfs(int x,int y);
+int main()
+{
+    scanf(""%d %d"",&n,&m);
+    int i,j;
+    int x,y;
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<m;j++)
+        {
+            scanf("" %c"",&num[i][j]);
+            if(num[i][j]=='@')x=j,y=i;
+        }
+    }
+    dfs(x,y);
+    printf(""%d"",sum);
+}
+void dfs(int x,int y)
+{
+    if(x<0||x>=m||y<0||y>=n||num1[y][x]==1)return ;
+    if(num[y][x]=='#')return ;
+    if(num[y][x]=='!')
+    {
+        num[y][x]='.';
+        sum++;
+    }
+    num1[y][x]=1;
+    dfs(x-1,y);
+    dfs(x+1,y);
+    dfs(x,y-1);
+    dfs(x,y+1);
+}
+"

@@ -17,6 +17,7 @@ type UserScoreChange struct {
 	ScoreChange   float64   `json:"score_change" gorm:"type:double;not null"`                             // 分数变化
 	CompetitionId uuid.UUID `json:"competition_id" gorm:"type:char(36);index:idx_competitionId;not null"` // 竞赛外键
 	UserId        uuid.UUID `json:"user_id" gorm:"type:char(36);index:idx_userId;not null"`               // 用户外键
+	Type          string    `json:"type" gorm:"type:char(20);not null"`                                   // 竞赛类型
 }
 
 // @title    BeforeCreate

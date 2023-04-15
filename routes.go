@@ -75,11 +75,35 @@ func CollectRoute(r *gin.Engine) *gin.Engine {
 	// TODO 群聊路由
 	r = routes.ChatRoutes(r)
 
-	// TODO 特判路由
-	r = routes.SpecialRoutes(r)
+	// TODO 通告路由
+	r = routes.NoticeRoutes(r)
 
-	// TODO 重判路由
-	r = routes.RejudgeRoutes(r)
+	// TODO 黑客路由
+	r = routes.HackRoutes(r)
+
+	// TODO 程序路由
+	r = routes.ProgramRoutes(r)
+
+	// TODO 赛内题目路由
+	r = routes.ProblemNewRoutes(r)
+
+	// TODO 个人比赛路由
+	r = routes.CompetitionSingleRoutes(r)
+
+	// TODO 小组比赛路由
+	r = routes.CompetitionGroupRoutes(r)
+
+	// TODO 及时个人比赛路由
+	r = routes.CompetitionRandomSingleRoutes(r)
+
+	// TODO 及时小组比赛路由
+	r = routes.CompetitionRandomGroupRoutes(r)
+
+	// TODO OI比赛路由
+	r = routes.CompetitionOIRoutes(r)
+
+	// TODO 匹配比赛路由
+	r = routes.CompetitionMatchRoutes(r)
 
 	return r
 }

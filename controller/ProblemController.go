@@ -6,6 +6,7 @@ package controller
 
 import (
 	"MGA_OJ/Interface"
+	TQ "MGA_OJ/Test-request"
 	"MGA_OJ/common"
 	"MGA_OJ/model"
 	"MGA_OJ/response"
@@ -15,7 +16,6 @@ import (
 	"log"
 	"strconv"
 	"strings"
-	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v9"
@@ -33,7 +33,7 @@ type IProblemController interface {
 	Interface.SearchInterface  // 包含搜索功能
 	Interface.HotInterface     // 包含热度功能
 	UserList(ctx *gin.Context) // 查看指定用户上传的题目列表
-	TestNum(ctx *gin.Context)  // 查看指定题目的样例数量
+	TestNum(ctx *gin.Context)  // 查看指定题目的用例数量
 }
 
 // ProblemController			定义了题目工具类
@@ -85,13 +85,13 @@ func (p ProblemController) Create(ctx *gin.Context) {
 	requestProblem.MemoryLimit *= memoryunits
 
 	// TODO 查看时间限制是否合理
-	if requestProblem.TimeLimit < 50 || requestProblem.TimeLimit > 60000 {
+	if requestProblem.TimeLimit < 50 || requestProblem.TimeLimit > 10000 {
 		response.Fail(ctx, nil, "时间限制不合理")
 		return
 	}
 
 	// TODO 查看空间限制是否合理
-	if requestProblem.MemoryLimit < 1 || requestProblem.MemoryLimit > 1024*1024*2 {
+	if requestProblem.MemoryLimit < 1 || requestProblem.MemoryLimit > 1024*1024*1 {
 		response.Fail(ctx, nil, "空间限制不合理")
 		return
 	}
@@ -101,23 +101,65 @@ func (p ProblemController) Create(ctx *gin.Context) {
 		requestProblem.Source = "用户" + user.Name + "上传"
 	}
 
+	// TODO 如果样例输入数量与样例输出数量不对等
+	if len(requestProblem.SampleInput) != len(requestProblem.SampleOutput) {
+		response.Fail(ctx, nil, "题目的样例输入数量或输出数量有误")
+		return
+	}
+
+	// TODO 如果用例输入数量与输出数量不对等
+	if len(requestProblem.TestOutput) != len(requestProblem.TestInput) {
+		response.Fail(ctx, nil, "题目的用例输入数量或输出数量有误")
+		return
+	}
+
+	// TODO 查看特判程序是否通过
+	var program model.Program
+	if p.DB.Where("id = ?", requestProblem.SpecialJudge).First(&program).Error != nil {
+		for i := range requestProblem.TestInput {
+			if condition, output := TQ.JudgeRun(program.Language, program.Code, requestProblem.TestInput[i]+"\n"+requestProblem.TestOutput[i], requestProblem.MemoryLimit*2, requestProblem.TimeLimit*2); condition != "ok" || output != "ok" {
+				response.Fail(ctx, nil, "特判程序未通过")
+				return
+			}
+		}
+	}
+
+	// TODO 查看标准程序是否通过
+	if p.DB.Where("id = ?", requestProblem.Standard).First(&program).Error != nil {
+		for i := range requestProblem.TestInput {
+			if condition, output := TQ.JudgeRun(program.Language, program.Code, requestProblem.TestInput[i], requestProblem.MemoryLimit*2, requestProblem.TimeLimit*2); condition != "ok" || output != requestProblem.TestOutput[i] {
+				response.Fail(ctx, nil, "标准程序未通过")
+				return
+			}
+		}
+	}
+
+	// TODO 查看输入检查程序是否通过
+	if p.DB.Where("id = ?", requestProblem.InputCheck).First(&program).Error != nil {
+		for i := range requestProblem.TestInput {
+			if condition, output := TQ.JudgeRun(program.Language, program.Code, requestProblem.TestInput[i], requestProblem.MemoryLimit*2, requestProblem.TimeLimit*2); condition != "ok" || output != "ok" {
+				response.Fail(ctx, nil, "输入检查程序未通过")
+				return
+			}
+		}
+	}
+
 	// TODO 创建题目
 	problem := model.Problem{
-		Title:         requestProblem.Title,
-		TimeLimit:     requestProblem.TimeLimit,
-		MemoryLimit:   requestProblem.MemoryLimit,
-		Description:   requestProblem.Description,
-		Reslong:       requestProblem.Reslong,
-		Resshort:      requestProblem.Resshort,
-		Input:         requestProblem.Input,
-		Output:        requestProblem.Output,
-		SampleInput:   requestProblem.SampleInput,
-		SampleOutput:  requestProblem.SampleOutput,
-		Hint:          requestProblem.Hint,
-		Source:        requestProblem.Source,
-		UserId:        user.ID,
-		CompetitionId: requestProblem.CompetitionId,
-		SpecialJudge:  requestProblem.SpecialJudge,
+		Title:        requestProblem.Title,
+		TimeLimit:    requestProblem.TimeLimit,
+		MemoryLimit:  requestProblem.MemoryLimit,
+		Description:  requestProblem.Description,
+		Reslong:      requestProblem.Reslong,
+		Resshort:     requestProblem.Resshort,
+		Input:        requestProblem.Input,
+		Output:       requestProblem.Output,
+		Hint:         requestProblem.Hint,
+		Source:       requestProblem.Source,
+		UserId:       user.ID,
+		SpecialJudge: requestProblem.SpecialJudge,
+		Standard:     requestProblem.Standard,
+		InputCheck:   requestProblem.InputCheck,
 	}
 
 	// TODO 插入数据
@@ -126,35 +168,38 @@ func (p ProblemController) Create(ctx *gin.Context) {
 		return
 	}
 
-	// TODO 存储测试输入
-	for i, val := range requestProblem.TestInput {
+	// TODO 存储测试样例
+	for i := range requestProblem.SampleInput {
 		// TODO 尝试存入数据库
-		testInput := model.TestInput{
+		cas := model.CaseSample{
 			ProblemId: problem.ID,
-			Input:     val,
+			Input:     requestProblem.SampleInput[i],
+			Output:    requestProblem.SampleOutput[i],
 			Id:        uint(i + 1),
 		}
 		// TODO 插入数据
-		if err := p.DB.Create(&testInput).Error; err != nil {
-			response.Fail(ctx, nil, "题目上传出错，数据验证有误")
+		if err := p.DB.Create(&cas).Error; err != nil {
+			response.Fail(ctx, nil, "题目用例上传出错，数据验证有误")
 			return
 		}
 	}
 
-	// TODO 存储测试输出
-	for i, val := range requestProblem.TestOutput {
+	// TODO 存储测试用例
+	for i := range requestProblem.TestInput {
 		// TODO 尝试存入数据库
-		testOutput := model.TestOutput{
+		cas := model.Case{
 			ProblemId: problem.ID,
-			Output:    val,
+			Input:     requestProblem.TestInput[i],
+			Output:    requestProblem.TestOutput[i],
 			Id:        uint(i + 1),
 		}
 		// TODO 插入数据
-		if err := p.DB.Create(&testOutput).Error; err != nil {
-			response.Fail(ctx, nil, "题目上传出错，数据验证有误")
+		if err := p.DB.Create(&cas).Error; err != nil {
+			response.Fail(ctx, nil, "题目用例上传出错，数据验证有误")
 			return
 		}
 	}
+
 	// TODO 成功
 	response.Success(ctx, nil, "创建成功")
 }
@@ -222,75 +267,119 @@ func (p ProblemController) Update(ctx *gin.Context) {
 	requestProblem.MemoryLimit *= memoryunits
 
 	// TODO 查看时间限制是否合理
-	if requestProblem.TimeLimit != 0 && (requestProblem.TimeLimit < 50 || requestProblem.TimeLimit > 60000) {
+	if requestProblem.TimeLimit != 0 && (requestProblem.TimeLimit < 50 || requestProblem.TimeLimit > 10000) {
 		response.Fail(ctx, nil, "时间限制不合理")
 		return
 	}
 
 	// TODO 查看空间限制是否合理
-	if requestProblem.MemoryLimit != 0 && (requestProblem.MemoryLimit < 1 || requestProblem.MemoryLimit > 1024*1024*2) {
+	if requestProblem.MemoryLimit != 0 && (requestProblem.MemoryLimit < 1 || requestProblem.MemoryLimit > 1024*1024*1) {
 		response.Fail(ctx, nil, "空间限制不合理")
 		return
 	}
 
-	// TODO 更新题目内容
-	p.DB.Table("problems").Where("id = ?", id).Updates(model.Problem{
-		TimeLimit:     requestProblem.TimeLimit,
-		MemoryLimit:   requestProblem.MemoryLimit,
-		Title:         requestProblem.Title,
-		Description:   requestProblem.Description,
-		Reslong:       requestProblem.Reslong,
-		Resshort:      requestProblem.Resshort,
-		Input:         requestProblem.Input,
-		Output:        requestProblem.Output,
-		SampleInput:   requestProblem.SampleInput,
-		SampleOutput:  requestProblem.SampleOutput,
-		Hint:          requestProblem.Hint,
-		Source:        requestProblem.Source,
-		CompetitionId: requestProblem.CompetitionId,
-		SpecialJudge:  requestProblem.SpecialJudge,
-	})
+	// TODO 如果样例输入数量与样例输出数量不对等
+	if len(requestProblem.SampleInput) != len(requestProblem.SampleOutput) {
+		response.Fail(ctx, nil, "题目的样例输入数量或输出数量有误")
+		return
+	}
 
-	// TODO 移除损坏数据
-	p.Redis.HDel(ctx, "Problem", id)
+	// TODO 如果输入数量与输出数量不对等
+	if len(requestProblem.TestOutput) != len(requestProblem.TestInput) {
+		response.Fail(ctx, nil, "题目的输入数量或输出数量有误")
+		return
+	}
 
-	// TODO 查看输入测试是否变化
-	if len(requestProblem.TestInput) != 0 {
-		p.Redis.HDel(ctx, "Input", id)
-		// TODO 清空原有的测试输入
-		p.DB.Where("problem_id = ?", id).Delete(&model.TestInput{})
-		// TODO 存储测试输入
-		for i, val := range requestProblem.TestInput {
-			// TODO 尝试存入数据库
-			testInput := model.TestInput{
-				ProblemId: problem.ID,
-				Input:     val,
-				Id:        uint(i + 1),
-			}
-			// TODO 插入数据
-			if err := p.DB.Create(&testInput).Error; err != nil {
-				response.Fail(ctx, nil, "题目上传出错，数据验证有误")
+	// TODO 查看特判程序是否通过
+	var program model.Program
+	if p.DB.Where("id = ?", requestProblem.SpecialJudge).First(&program).Error != nil {
+		for i := range requestProblem.TestInput {
+			if condition, output := TQ.JudgeRun(program.Language, program.Code, requestProblem.TestInput[i]+"\n"+requestProblem.TestOutput[i], requestProblem.MemoryLimit*2, requestProblem.TimeLimit*2); condition != "ok" || output != "ok" {
+				response.Fail(ctx, nil, "特判程序未通过")
 				return
 			}
 		}
 	}
 
-	// TODO 查看输出测试是否变化
-	if len(requestProblem.TestOutput) != 0 {
-		p.Redis.HDel(ctx, "Output", id)
-		// TODO 清空原有的测试输出
-		p.DB.Where("problem_id = ?", id).Delete(&model.TestOutput{})
-		// TODO 存储测试输出
-		for i, val := range requestProblem.TestOutput {
+	// TODO 查看标准程序是否通过
+	if p.DB.Where("id = ?", requestProblem.Standard).First(&program).Error != nil {
+		for i := range requestProblem.TestInput {
+			if condition, output := TQ.JudgeRun(program.Language, program.Code, requestProblem.TestInput[i], requestProblem.MemoryLimit*2, requestProblem.TimeLimit*2); condition != "ok" || output != requestProblem.TestOutput[i] {
+				response.Fail(ctx, nil, "标准程序未通过")
+				return
+			}
+		}
+	}
+
+	// TODO 查看输入检查程序是否通过
+	if p.DB.Where("id = ?", requestProblem.InputCheck).First(&program).Error != nil {
+		for i := range requestProblem.TestInput {
+			if condition, output := TQ.JudgeRun(program.Language, program.Code, requestProblem.TestInput[i], requestProblem.MemoryLimit*2, requestProblem.TimeLimit*2); condition != "ok" || output != "ok" {
+				response.Fail(ctx, nil, "输入检查程序未通过")
+				return
+			}
+		}
+	}
+
+	// TODO 更新题目内容
+	p.DB.Where("id = ?", id).Updates(model.Problem{
+		TimeLimit:    requestProblem.TimeLimit,
+		MemoryLimit:  requestProblem.MemoryLimit,
+		Title:        requestProblem.Title,
+		Description:  requestProblem.Description,
+		Reslong:      requestProblem.Reslong,
+		Resshort:     requestProblem.Resshort,
+		Input:        requestProblem.Input,
+		Output:       requestProblem.Output,
+		Hint:         requestProblem.Hint,
+		Source:       requestProblem.Source,
+		SpecialJudge: requestProblem.SpecialJudge,
+		Standard:     requestProblem.Standard,
+		InputCheck:   requestProblem.InputCheck,
+	})
+
+	// TODO 移除损坏数据
+	p.Redis.HDel(ctx, "Problem", id)
+
+	// TODO 查看输入样例是否变化
+	if len(requestProblem.SampleInput) != 0 {
+		p.Redis.HDel(ctx, "SampleCase", id)
+		// TODO 清空原有的测试输入
+		p.DB.Where("problem_id = ?", id).Delete(&model.CaseSample{})
+		// TODO 存储测试输入
+		for i := range requestProblem.SampleInput {
 			// TODO 尝试存入数据库
-			testOutput := model.TestOutput{
+			cas := model.CaseSample{
 				ProblemId: problem.ID,
-				Output:    val,
+				Input:     requestProblem.SampleInput[i],
+				Output:    requestProblem.SampleOutput[i],
 				Id:        uint(i + 1),
 			}
 			// TODO 插入数据
-			if err := p.DB.Create(&testOutput).Error; err != nil {
-				response.Fail(ctx, nil, "题目上传出错，数据验证有误")
+			if err := p.DB.Create(&cas).Error; err != nil {
+				response.Fail(ctx, nil, "题目样例上传出错，数据验证有误")
+				return
+			}
+		}
+	}
+
+	// TODO 查看输入测试是否变化
+	if len(requestProblem.TestInput) != 0 {
+		p.Redis.HDel(ctx, "Case", id)
+		// TODO 清空原有的测试输入
+		p.DB.Where("problem_id = ?", id).Delete(&model.Case{})
+		// TODO 存储测试输入
+		for i := range requestProblem.TestInput {
+			// TODO 尝试存入数据库
+			cas := model.Case{
+				ProblemId: problem.ID,
+				Input:     requestProblem.TestInput[i],
+				Output:    requestProblem.TestOutput[i],
+				Id:        uint(i + 1),
+			}
+			// TODO 插入数据
+			if err := p.DB.Create(&cas).Error; err != nil {
+				response.Fail(ctx, nil, "题目用例上传出错，数据验证有误")
 				return
 			}
 		}
@@ -334,47 +423,28 @@ func (p ProblemController) Show(ctx *gin.Context) {
 	}
 
 leep:
-	// TODO 获取登录用户
-	tuser, _ := ctx.Get("user")
-	user := tuser.(model.User)
-
-	// TODO 查看problem的competition
-	if problem.CompetitionId != (uuid.UUID{}) {
-		var competition model.Competition
-		// TODO 无法找到比赛，则返回题目
-		if p.DB.Where("id = ?", problem.CompetitionId).First(&competition).Error != nil {
-			response.Success(ctx, gin.H{"problem": problem}, "成功")
-			return
+	var caseSamples []model.CaseSample
+	// TODO 先看redis中是否存在
+	if ok, _ := p.Redis.HExists(ctx, "CaseSample", id).Result(); ok {
+		cate, _ := p.Redis.HGet(ctx, "CaseSample", id).Result()
+		if json.Unmarshal([]byte(cate), &caseSamples) == nil {
+			// TODO 跳过数据库搜寻caseSample过程
+			goto leap
+		} else {
+			// TODO 移除损坏数据
+			p.Redis.HDel(ctx, "CaseSample", id)
 		}
-		// TODO 查看比赛是否已经结束
-		if time.Now().After(time.Time(competition.EndTime)) {
-			response.Success(ctx, gin.H{"problem": problem}, "成功")
-			return
-		}
-		// TODO 查看比赛是否已经开始
-		if !time.Now().After(time.Time(competition.StartTime)) {
-			response.Fail(ctx, nil, "题目不存在")
-			return
-		}
-		// TODO 查看用户是否参加了比赛
-		var problemLists []model.ProblemList
-		p.DB.Where("set_id = ?", competition.SetId).Find(&problemLists)
-		for _, problemList := range problemLists {
-			var userLists []model.UserList
-			p.DB.Where("problem_id = ?", problemList.ProblemId).Find(&userLists)
-			for _, userList := range userLists {
-				if userList.UserId == user.ID {
-					response.Success(ctx, gin.H{"problem": problem}, "成功")
-					return
-				}
-			}
-		}
-		// TODO 没有参加比赛
-		response.Fail(ctx, nil, "题目不存在")
-		return
+	}
+	p.DB.Where("problem_id = ?", problem.ID).Find(&caseSamples)
+	// TODO 将题目存入redis供下次使用
+	{
+		v, _ := json.Marshal(caseSamples)
+		p.Redis.HSet(ctx, "CaseSample", id, v)
 	}
 
-	response.Success(ctx, gin.H{"problem": problem}, "成功")
+leap:
+
+	response.Success(ctx, gin.H{"problem": problem, "caseSamples": caseSamples}, "成功")
 }
 
 // @title    TestNum
@@ -387,14 +457,33 @@ func (p ProblemController) TestNum(ctx *gin.Context) {
 	id := ctx.Params.ByName("id")
 	var problem model.Problem
 
+	// TODO 先看redis中是否存在
+	if ok, _ := p.Redis.HExists(ctx, "Problem", id).Result(); ok {
+		cate, _ := p.Redis.HGet(ctx, "Problem", id).Result()
+		if json.Unmarshal([]byte(cate), &problem) == nil {
+			// TODO 跳过数据库搜寻problem过程
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			p.Redis.HDel(ctx, "Problem", id)
+		}
+	}
+
 	// TODO 查看题目是否在数据库中存在
 	if p.DB.Where("id = ?", id).First(&problem).Error != nil {
 		response.Fail(ctx, nil, "题目不存在")
 		return
 	}
+	// TODO 将题目存入redis供下次使用
+	{
+		v, _ := json.Marshal(problem)
+		p.Redis.HSet(ctx, "Problem", id, v)
+	}
+
+leep:
 
 	var total int64
-	p.DB.Where("problem_id = ?", id).Model(&model.TestInput{}).Count(&total)
+	p.DB.Where("problem_id = ?", id).Model(&model.Case{}).Count(&total)
 
 	response.Success(ctx, gin.H{"total": total}, "成功")
 }
@@ -452,6 +541,10 @@ func (p ProblemController) Delete(ctx *gin.Context) {
 	// TODO 移除损坏数据
 	p.Redis.HDel(ctx, "Problem", id)
 
+	p.Redis.HDel(ctx, "Case", id)
+
+	p.Redis.HDel(ctx, "CaseSample", id)
+
 	response.Success(ctx, nil, "删除成功")
 }
 
@@ -465,54 +558,14 @@ func (p ProblemController) PageList(ctx *gin.Context) {
 	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
 	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
 
-	// TODO 获取登录用户
-	tuser, _ := ctx.Get("user")
-	user := tuser.(model.User)
-
-	// TODO 尝试获取所有没有结束的比赛
-	var competitions []model.Competition
-	p.DB.Where("end_time > ?", time.Now()).Find(&competitions)
-
-	// TODO 用于记录没有被用户参加的比赛
-	userNotJoin := make([]uuid.UUID, 0)
-
-	// TODO 查看哪些比赛没有被用户参加或比赛未开始
-	for _, competition := range competitions {
-		// TODO 查看比赛是否已经开始
-		if !time.Now().After(time.Time(competition.StartTime)) {
-			userNotJoin = append(userNotJoin, competition.ID)
-			continue
-		}
-		// TODO 查看用户是否加入比赛
-		ok := false
-		var problemLists []model.ProblemList
-		p.DB.Where("set_id = ?", competition.SetId).Find(&problemLists)
-		for _, problemList := range problemLists {
-			var userLists []model.UserList
-			p.DB.Where("problem_id = ?", problemList.ProblemId).Find(&userLists)
-			for _, userList := range userLists {
-				if user.ID == userList.UserId {
-					ok = true
-					break
-				}
-			}
-			if ok {
-				break
-			}
-		}
-		if !ok {
-			userNotJoin = append(userNotJoin, competition.ID)
-		}
-	}
-
 	// TODO 分页
 	var problems []model.Problem
 
 	// TODO 查找所有分页中可见的条目
-	p.DB.Where("competition_id not in ?", userNotJoin).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problems)
+	p.DB.Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problems)
 
 	var total int64
-	p.DB.Where("competition_id not in ?", userNotJoin).Model(model.Problem{}).Count(&total)
+	p.DB.Model(model.Problem{}).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"problems": problems, "total": total}, "成功")
@@ -528,46 +581,6 @@ func (p ProblemController) UserList(ctx *gin.Context) {
 	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
 	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
 
-	// TODO 获取登录用户
-	tuser, _ := ctx.Get("user")
-	user := tuser.(model.User)
-
-	// TODO 尝试获取所有没有结束的比赛
-	var competitions []model.Competition
-	p.DB.Where("end_time > ?", time.Now()).Find(&competitions)
-
-	// TODO 用于记录没有被用户参加的比赛
-	userNotJoin := make([]uuid.UUID, 0)
-
-	// TODO 查看哪些比赛没有被用户参加或比赛未开始
-	for _, competition := range competitions {
-		// TODO 查看比赛是否已经开始
-		if !time.Now().After(time.Time(competition.StartTime)) {
-			userNotJoin = append(userNotJoin, competition.ID)
-			continue
-		}
-		// TODO 查看用户是否加入比赛
-		ok := false
-		var problemLists []model.ProblemList
-		p.DB.Where("set_id = ?", competition.SetId).Find(&problemLists)
-		for _, problemList := range problemLists {
-			var userLists []model.UserList
-			p.DB.Where("problem_id = ?", problemList.ProblemId).Find(&userLists)
-			for _, userList := range userLists {
-				if user.ID == userList.UserId {
-					ok = true
-					break
-				}
-			}
-			if ok {
-				break
-			}
-		}
-		if !ok {
-			userNotJoin = append(userNotJoin, competition.ID)
-		}
-	}
-
 	// TODO 取出指定用户的id
 	id := ctx.Params.ByName("id")
 
@@ -575,10 +588,10 @@ func (p ProblemController) UserList(ctx *gin.Context) {
 	var problems []model.Problem
 
 	// TODO 查找所有分页中可见的条目
-	p.DB.Where("user_id = ? and competition_id not in ?", id, userNotJoin).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problems)
+	p.DB.Where("user_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problems)
 
 	var total int64
-	p.DB.Where("user_id = ? and competition_id not in ?", id, userNotJoin).Model(model.Problem{}).Count(&total)
+	p.DB.Where("user_id = ?", id).Model(model.Problem{}).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"problems": problems, "total": total}, "成功")
@@ -1496,8 +1509,9 @@ func NewProblemController() IProblemController {
 	db.AutoMigrate(model.ProblemCollect{})
 	db.AutoMigrate(model.ProblemLike{})
 	db.AutoMigrate(model.ProblemVisit{})
-	db.AutoMigrate(model.TestInput{})
-	db.AutoMigrate(model.TestOutput{})
+	db.AutoMigrate(model.Case{})
+	db.AutoMigrate(model.CaseSample{})
 	db.AutoMigrate(model.ProblemLabel{})
+	db.AutoMigrate(model.ProblemNew{})
 	return ProblemController{DB: db, Redis: redis}
 }

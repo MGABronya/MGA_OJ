@@ -246,7 +246,7 @@ func FileExit(path string) bool {
 // @param     n int		字符串的长度
 // @return    string    一串随机的字符串
 func RandomString(n int) string {
-	var letters = []byte("qwertyuioplkjhgfdsazxcvbnmQWERTYUIOPLKJHGFDSAZXCVBNM")
+	var letters = []byte("qwertyuioplkjhgfdsazxcvbnmQWERTYUOIPLKJHGFDSAZXCVBNM")
 	result := make([]byte, n)
 	rand.Seed(time.Now().Unix())
 	// TODO 不断用随机字母填充字符串

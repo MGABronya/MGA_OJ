@@ -28,7 +28,7 @@ func CORSMiddleware() gin.HandlerFunc {
 			// TODO 接收客户端发送的origin （重要！）
 			ctx.Writer.Header().Set("Access-Control-Allow-Origin", origin)
 			// TODO 服务器支持的所有跨域请求的方法
-			ctx.Header("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE,UPDATE")
+			ctx.Header("Access-Control-Allow-Methods", "POST, GET, OPTOINS, PUT, DELETE,UPDATE")
 			// TODO 允许跨域设置可以返回其他子段，可以自定义字段
 			ctx.Header("Access-Control-Allow-Headers", "Authorization, Content-Length, X-CSRF-Token, Token,session,X_Requested_With,Accept, Origin, Host, Connection, Accept-Encoding, Accept-Language,DNT, X-CustomHeader, Keep-Alive, User-Agent, X-Requested-With, If-Modified-Since, Cache-Control, Content-Type, Pragma")
 			// TODO 允许浏览器（客户端）可以解析的头部 （重要）
@@ -40,7 +40,7 @@ func CORSMiddleware() gin.HandlerFunc {
 		}
 
 		// TODO 允许类型校验
-		if method == "OPTIONS" {
+		if method == "OPTOINS" {
 			ctx.JSON(http.StatusOK, "ok!")
 		}
 

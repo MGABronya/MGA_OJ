@@ -21,7 +21,6 @@ import (
 	"time"
 
 	"github.com/go-redis/redis/v9"
-	uuid "github.com/satori/go.uuid"
 	"gorm.io/gorm"
 )
 
@@ -43,17 +42,17 @@ type Judge struct {
 // @auth      MGAronya（张健）       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
-func (j Judge) Handel(msg []byte) {
+func (j Judge) Handel(msg string) {
 	// TODO 单核处理，上锁
 	j.rw.Lock()
 	// TODO 确保资源归还
 	defer j.rw.Unlock()
 	var record model.Record
 	// TODO 先看redis中是否存在
-	if ok, _ := j.Redis.HExists(j.ctx, "Record", string(msg)).Result(); ok {
-		cate, _ := j.Redis.HGet(j.ctx, "Record", string(msg)).Result()
+	if ok, _ := j.Redis.HExists(j.ctx, "Record", msg).Result(); ok {
+		cate, _ := j.Redis.HGet(j.ctx, "Record", msg).Result()
 		// TODO 移除损坏数据
-		j.Redis.HDel(j.ctx, "Record", string(msg))
+		j.Redis.HDel(j.ctx, "Record", msg)
 		if json.Unmarshal([]byte(cate), &record) == nil {
 			// TODO 跳过数据库搜寻过程
 			goto feep
@@ -103,8 +102,7 @@ feep:
 	// TODO 找到提交记录后，开始判题逻辑
 	if cmdI, ok := util.LanguageMap[record.Language]; ok {
 		// TODO 从数据库中读出输入输出
-		var testInputs []model.TestInput
-		var testOutputs []model.TestOutput
+		var cases []model.Case
 		var problem model.Problem
 		// TODO 先看redis中是否存在
 		id := fmt.Sprint(record.ProblemId)
@@ -131,89 +129,30 @@ feep:
 		}
 
 	leep:
-		// TODO 查看比赛是否开始
-		var competition model.Competition
 
-		// TODO 是否存在比赛
-		if problem.CompetitionId != (uuid.UUID{}) {
-			goto leap
-		}
-
-		// TODO 先看redis中是否存在
-		if ok, _ := j.Redis.HExists(j.ctx, "Competition", fmt.Sprint(problem.CompetitionId)).Result(); ok {
-			cate, _ := j.Redis.HGet(j.ctx, "Competition", fmt.Sprint(problem.CompetitionId)).Result()
-			if json.Unmarshal([]byte(cate), &competition) == nil {
-				goto leap
-			} else {
-				// TODO 移除损坏数据
-				j.Redis.HDel(j.ctx, "Competition", fmt.Sprint(problem.CompetitionId))
-			}
-		}
-
-		// TODO 查看比赛是否在数据库中存在
-		if j.DB.Where("id = ?", problem.CompetitionId).First(&competition).Error != nil {
-			goto leap
-		}
-
-		// TODO 将竞赛存入redis供下次使用
-		{
-			v, _ := json.Marshal(competition)
-			j.Redis.HSet(j.ctx, "Competition", fmt.Sprint(problem.CompetitionId), v)
-		}
-
-		// TODO 如果比赛未开始
-		if competition.StartTime.After(record.CreatedAt) {
-			record.Condition = "Competition hasn't Started"
-			return
-		}
-	leap:
-
-		// TODO 查找输入
-		if ok, _ := j.Redis.HExists(j.ctx, "Input", id).Result(); ok {
-			cate, _ := j.Redis.HGet(j.ctx, "Input", id).Result()
-			if json.Unmarshal([]byte(cate), &testInputs) == nil {
+		// TODO 查找用例
+		if ok, _ := j.Redis.HExists(j.ctx, "Case", id).Result(); ok {
+			cate, _ := j.Redis.HGet(j.ctx, "Case", id).Result()
+			if json.Unmarshal([]byte(cate), &cases) == nil {
 				// TODO 跳过数据库搜寻testInputs过程
-				goto Input
+				goto Case
 			} else {
 				// TODO 移除损坏数据
-				j.Redis.HDel(j.ctx, "Input", id)
+				j.Redis.HDel(j.ctx, "Case", id)
 			}
 		}
 
 		// TODO 查看题目是否在数据库中存在
-		if j.DB.Where("id = ?", id).Find(&testInputs).Error != nil {
+		if j.DB.Where("id = ?", id).Find(&cases).Error != nil {
 			record.Condition = "Input Doesn't Exist"
 			return
 		}
 		// TODO 将题目存入redis供下次使用
 		{
-			v, _ := json.Marshal(testInputs)
-			j.Redis.HSet(j.ctx, "Input", id, v)
+			v, _ := json.Marshal(cases)
+			j.Redis.HSet(j.ctx, "Case", id, v)
 		}
-	Input:
-		// TODO 查找输入
-		if ok, _ := j.Redis.HExists(j.ctx, "Output", id).Result(); ok {
-			cate, _ := j.Redis.HGet(j.ctx, "Output", id).Result()
-			if json.Unmarshal([]byte(cate), &testOutputs) == nil {
-				// TODO 跳过数据库搜寻testOutputs过程
-				goto Output
-			} else {
-				// TODO 移除损坏数据
-				j.Redis.HDel(j.ctx, "Output", id)
-			}
-		}
-
-		// TODO 查看题目是否在数据库中存在
-		if j.DB.Where("id = ?", id).Find(&testOutputs).Error != nil {
-			record.Condition = "Output Doesn't Exist"
-			return
-		}
-		// TODO 将题目存入redis供下次使用
-		{
-			v, _ := json.Marshal(testOutputs)
-			j.Redis.HSet(j.ctx, "Output", id, v)
-		}
-	Output:
+	Case:
 
 		fileId := cmdI.Name()
 		fp, err := os.Create("user-code/" + fileId + "." + cmdI.Suffix())
@@ -294,7 +233,7 @@ feep:
 			j.DB.Save(&record)
 		}
 
-		for i := 0; i < len(testInputs); i++ {
+		for i := 0; i < len(cases); i++ {
 			var bm runtime.MemStats
 			runtime.ReadMemStats(&bm)
 
@@ -310,7 +249,7 @@ feep:
 				record.Condition = "System Error 3"
 				return
 			}
-			io.WriteString(stdinPipe, testInputs[i].Input+"\n")
+			io.WriteString(stdinPipe, cases[i].Input+"\n")
 			// TODO 关闭管道制造EOF信息
 			stdinPipe.Close()
 			now := time.Now().UnixMilli()
@@ -345,7 +284,7 @@ feep:
 			end := time.Now().UnixMilli()
 			var em runtime.MemStats
 			runtime.ReadMemStats(&em)
-			cas := model.Case{
+			cas := model.CaseCondition{
 				RecordId: record.ID,
 				Time:     uint(math.Max(float64(end-now-int64(cmdI.RunUpTime())), 0)),
 				Memory:   uint(em.Alloc/1024 - bm.Alloc/1024),
@@ -363,21 +302,48 @@ feep:
 				goto final
 			}
 			// TODO 答案错误
-			var specalJudge model.SpecialJudge
-			// TODO 查看特判是否存在
-			if j.DB.Where("id = ?", problem.SpecialJudge).First(&specalJudge).Error != nil {
-				// TODO 进行特判
-				res := TQ.JudgeRun(specalJudge.Language, specalJudge.Code, testInputs[i].Input+"\n"+out.String(), problem.MemoryLimit*5, problem.TimeLimit*5)
-				if res != "ok" {
-					record.Condition = res
+			var specalJudge model.Program
+			// TODO 查看题目是否有标准程序
+
+			// TODO 先看redis中是否存在
+			if ok, _ := j.Redis.HExists(j.ctx, "Program", problem.SpecialJudge.String()).Result(); ok {
+				cate, _ := j.Redis.HGet(j.ctx, "Program", problem.SpecialJudge.String()).Result()
+				if json.Unmarshal([]byte(cate), &specalJudge) == nil {
+					// TODO 跳过数据库搜寻program过程
+					goto special
+				} else {
+					// TODO 移除损坏数据
+					j.Redis.HDel(j.ctx, "Program", problem.SpecialJudge.String())
+				}
+			}
+
+			// TODO 查看程序是否在数据库中存在
+			if j.DB.Where("id = ?", problem.SpecialJudge.String()).First(&specalJudge).Error != nil {
+				goto outPut
+			}
+			// TODO 将题目存入redis供下次使用
+			{
+				v, _ := json.Marshal(specalJudge)
+				j.Redis.HSet(j.ctx, "Program", problem.SpecialJudge.String(), v)
+			}
+		special:
+			// TODO 进行特判
+			{
+				if condition, output := TQ.JudgeRun(specalJudge.Language, specalJudge.Code, cases[i].Input+"\n"+out.String(), problem.MemoryLimit*3, problem.TimeLimit*3); condition != "ok" || output != "ok" {
+					record.Condition = condition
 					flag = false
 					goto final
 				}
-			} else if out.String() != testOutputs[i].Output {
+				goto pass
+			}
+		outPut:
+			// TODO 正常判断
+			if out.String() != cases[i].Output {
 				record.Condition = "Wrong Answer"
 				flag = false
 				goto final
 			}
+		pass:
 			// TODO 通过数量+1
 			record.Pass++
 
@@ -392,84 +358,21 @@ feep:
 		if flag {
 			record.Condition = "Accepted"
 		}
-		// TODO 查看是否为比赛提交,且比赛已经开始
-		if competition.ID != (uuid.UUID{}) && record.CreatedAt.After(competition.StartTime) {
-			var TID uuid.UUID
-			if competition.Type == "Single" {
-				TID = record.UserId
-			} else {
-				// TODO 查看该用户属于哪个组
-				var competition model.Competition
-				j.DB.Where("id = ?", record.CompetitionId).First(&competition)
-				// TODO 如果没有参加比赛
-				if j.DB.Table("user_lists").Select("user_lists.group_id").Joins("left join group_lists on user_lists.group_id = group_lists.group_id").Where("user_id = ? and set_id = ?", record.UserId, competition.SetId).Scan(&TID).Error != nil {
-					record.Condition = "Absent from the race"
-					return
-				}
-			}
-			var competitionMembers []model.CompetitionMember
-			// TODO 在redis中取出成员罚时具体数据
-			cM, err := j.Redis.HGet(j.ctx, "competition"+record.CompetitionId.String(), TID.String()).Result()
-			if err == nil {
-				json.Unmarshal([]byte(cM), &competitionMembers)
-			}
-			// TODO 找出数组中对应的题目
-			k := -1
-			for i := range competitionMembers {
-				if competitionMembers[i].ProblemId == record.ProblemId {
-					k = i
-					break
-				}
-			}
-			if k == -1 {
-				k = len(competitionMembers)
-				competitionMembers = append(competitionMembers, model.CompetitionMember{
-					ID:            uuid.NewV4(),
-					MemberId:      TID,
-					CompetitionId: record.CompetitionId,
-					ProblemId:     record.ProblemId,
-				})
-			}
-			// TODO 在redis中取出通过、罚时情况
-			cR, err := j.Redis.ZScore(j.ctx, "Competition"+record.CompetitionId.String(), TID.String()).Result()
-			if err != nil {
-				cR = 0
-			}
-			// TODO 如果先前没有通过该题，则记录罚时
-			if competitionMembers[k].Condition != "Accepted" {
-				competitionMembers[k].Penalties += time.Time(record.CreatedAt).Sub(time.Time(competition.StartTime))
-				cR -= float64(time.Time(record.CreatedAt).Sub(time.Time(competition.StartTime))) / 10000000000
-				competitionMembers[k].Condition = record.Condition
-				// TODO 如果此次为第一次通过
-				if flag {
-					cR++
-					// TODO 发布订阅用于滚榜
-					rankList := vo.RankList{
-						MemberId: TID,
-					}
-					// TODO 将ranklist打包
-					v, _ := json.Marshal(rankList)
-					j.Redis.Publish(j.ctx, "CompetitionChan"+competition.ID.String(), v)
-				}
-				// TODO 存入redis供下次使用
-				v, _ := json.Marshal(competitionMembers)
-				j.Redis.HSet(j.ctx, "competition"+record.CompetitionId.String(), TID.String(), v)
-				j.Redis.ZAdd(j.ctx, "Competition"+record.CompetitionId.String(), redis.Z{Score: cR, Member: TID.String()})
-			}
-		}
 	} else {
 		record.Condition = "Language Error"
 	}
 }
 
 // @title    NewJudge
-// @description   新建一个Judge
-// @auth      MGAronya（张健）       2022-9-16 12:23
+// @description   新建一Judge
+// @auth      MGAronya（张健）      2022-9-16 12:23
 // @param    void
-// @return   IJudge		返回一个IJudge用于调用各种函数
-func NewJudge() IJudge {
+// @return   IJude		返回一个IJudge用于调用各种函数
+func NewJudge(rw *sync.RWMutex) IJudge {
 	db := common.GetDB()
 	redis := common.GetRedisClient(0)
 	ctx := context.Background()
-	return Judge{rw: &sync.RWMutex{}, DB: db, Redis: redis, ctx: ctx}
+	Normal := Judge{rw: rw, DB: db, Redis: redis, ctx: ctx}
+	Interface.ComsumerMap["Normal"] = &Normal
+	return Normal
 }

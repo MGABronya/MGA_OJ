@@ -6,5 +6,7 @@ package Interface
 
 // ConsumerInterface			定义了消费者方法
 type ConsumerInterface interface {
-	Handel(body []byte) // 对消息进行消费
+	Handel(body string) // 对消息进行消费
 }
+
+var ComsumerMap map[string]ConsumerInterface = map[string]ConsumerInterface{}

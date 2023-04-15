@@ -18,9 +18,10 @@ type CompetitionMember struct {
 	UpdatedAt     Time          `json:"updated_at" gorm:"type:timestamp"`                                     // 更新日期
 	MemberId      uuid.UUID     `json:"member_id" gorm:"type:char(36);index:idx_memberId;not null"`           // 成员外键
 	CompetitionId uuid.UUID     `json:"competition_id" gorm:"type:char(36);index:idx_competitionId;not null"` // 竞赛外键
-	ProblemId     uuid.UUID     `json:"accept_num" gorm:"type:char(36);not null"`                             // 题目外键
+	ProblemId     uuid.UUID     `json:"problem_id" gorm:"type:char(36);not null"`                             // 题目外键
 	Penalties     time.Duration `json:"penalties" gorm:"type:timestamp;not null"`                             // 罚时
 	Condition     string        `json:"condition" gorm:"type:varchar(64);not null"`                           // 记录状态
+	Pass          uint          `json:"pass" gorm:"type:uint;not null"`                                       // 通过用例数量
 }
 
 // @title    BeforeCreate

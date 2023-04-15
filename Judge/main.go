@@ -1,12 +1,13 @@
 package main
 
 import (
-	consumer "MGA_OJ/Consumer"
 	"MGA_OJ/common"
+	"MGA_OJ/consumer"
 	"MGA_OJ/selfInspection"
 	"MGA_OJ/util"
 	"log"
 	"os"
+	"sync"
 
 	"github.com/spf13/viper"
 )
@@ -25,10 +26,14 @@ func main() {
 	common.InitDB()
 	client0 := common.InitRedis(0)
 	defer client0.Close()
+	rw := &sync.RWMutex{}
+	consumer.NewGroup(rw)
+	consumer.NewSingle(rw)
+	consumer.NewJudge(rw)
 	common.InitRabbitmq()
 	RabbitMQ := common.GetRabbitMq()
 	log.Println("Consumer working...")
-	RabbitMQ.ConsumeSimple(consumer.NewJudge())
+	RabbitMQ.ConsumeSimple()
 }
 
 // @title    InitConfig

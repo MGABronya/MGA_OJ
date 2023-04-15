@@ -10,6 +10,7 @@ import (
 	"MGA_OJ/model"
 	"MGA_OJ/response"
 	"MGA_OJ/vo"
+	"context"
 	"encoding/json"
 	"log"
 	"strconv"
@@ -150,7 +151,13 @@ func (g GroupController) Update(ctx *gin.Context) {
 	g.Redis.HDel(ctx, "Group", id)
 
 	if len(requestGroup.Users) != 0 {
+		// TODO 移除损坏数据
+		g.Redis.HDel(ctx, "UserList", group.ID.String())
 		// TODO 查看新的用户组是否为超过最大长度
+		if time.Now().Before(time.Time(group.CompetitionAt)) {
+			response.Fail(ctx, nil, "报名小组比赛时无法更新成员")
+			return
+		}
 
 		g.DB.Where("group_id = ?", id).Delete(&model.UserList{})
 		// TODO 插入相关用户
@@ -237,6 +244,11 @@ func (g GroupController) Delete(ctx *gin.Context) {
 		return
 	}
 
+	if time.Now().Before(time.Time(group.CompetitionAt)) {
+		response.Fail(ctx, nil, "报名小组比赛时无法更新成员")
+		return
+	}
+
 	var total int64
 
 	// TODO 查看点赞的数量
@@ -256,6 +268,8 @@ func (g GroupController) Delete(ctx *gin.Context) {
 
 	// TODO 移除损坏数据
 	g.Redis.HDel(ctx, "Group", id)
+	// TODO 移除损坏数据
+	g.Redis.HDel(ctx, "UserList", group.ID.String())
 
 	response.Success(ctx, nil, "删除成功")
 }
@@ -908,6 +922,10 @@ leep:
 			response.Fail(ctx, nil, "用户无法添加")
 			return
 		}
+		if time.Now().Before(time.Time(group.CompetitionAt)) {
+			response.Fail(ctx, nil, "报名小组比赛时无法更新成员")
+			return
+		}
 		userList := model.UserList{
 			GroupId: group.ID,
 			UserId:  user.ID,
@@ -917,6 +935,8 @@ leep:
 			response.Fail(ctx, nil, "通过申请出错，数据验证有误")
 			return
 		}
+		// TODO 移除损坏数据
+		g.Redis.HDel(ctx, "UserList", group.ID.String())
 		// TODO 成功
 		response.Success(ctx, nil, "创建成功")
 		return
@@ -984,8 +1004,33 @@ func (g GroupController) Consent(ctx *gin.Context) {
 		return
 	}
 
+	// TODO 查找group
+	var group model.Group
+	// TODO 先看redis中是否存在
+	if ok, _ := g.Redis.HExists(ctx, "Group", groupApply.GroupId.String()).Result(); ok {
+		cate, _ := g.Redis.HGet(ctx, "Group", groupApply.GroupId.String()).Result()
+		if json.Unmarshal([]byte(cate), &group) == nil {
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			g.Redis.HDel(ctx, "Group", groupApply.GroupId.String())
+		}
+	}
+
+	// TODO 查看用户组是否在数据库中存在
+	if g.DB.Where("id = ?", groupApply.GroupId.String()).First(&group).Error != nil {
+		response.Fail(ctx, nil, "用户组不存在")
+		return
+	}
+	{
+		// TODO 将用户组存入redis供下次使用
+		v, _ := json.Marshal(group)
+		g.Redis.HSet(ctx, "Group", groupApply.GroupId.String(), v)
+	}
+leep:
+
 	// TODO 查看当前用户是否为用户组组长
-	if g.DB.Where("id = ? and leader_id = ?", groupApply.GroupId, user.ID).First(&model.Group{}).Error != nil {
+	if group.LeaderId != user.ID {
 		response.Fail(ctx, nil, "非用户组组长，无法操作")
 		return
 	}
@@ -993,6 +1038,11 @@ func (g GroupController) Consent(ctx *gin.Context) {
 	// TODO 查看用户是否可以添加
 	if ok, err := CanAddUser(groupApply.UserId, groupApply.GroupId); !ok || err != nil {
 		response.Fail(ctx, nil, "用户无法添加")
+		return
+	}
+
+	if time.Now().Before(time.Time(group.CompetitionAt)) {
+		response.Fail(ctx, nil, "报名小组比赛时无法更新成员")
 		return
 	}
 
@@ -1009,6 +1059,9 @@ func (g GroupController) Consent(ctx *gin.Context) {
 
 	// TODO 删除申请
 	g.DB.Delete(&groupApply)
+
+	// TODO 移除损坏数据
+	g.Redis.HDel(ctx, "UserList", group.ID.String())
 
 	// TODO 成功
 	response.Success(ctx, nil, "创建成功")
@@ -1690,6 +1743,8 @@ func NewGroupController() IGroupController {
 func CanAddUser(user_id uuid.UUID, group_id uuid.UUID) (bool, error) {
 	// TODO 连接数据库
 	db := common.GetDB()
+	redis := common.GetRedisClient(0)
+	ctx := context.Background()
 
 	// TODO 获取该组参加的表单列表
 	var groupLists []model.GroupList
@@ -1713,29 +1768,35 @@ func CanAddUser(user_id uuid.UUID, group_id uuid.UUID) (bool, error) {
 				return false, nil
 			}
 		}
-		// TODO 表单的比赛不能已经开始
-		var competitions []model.Competition
-		db.Where("set_id = ?", set_id).Find(&competitions)
-		for _, competition := range competitions {
-			if time.Now().After(time.Time(competition.StartTime)) && !time.Now().After(time.Time(competition.EndTime)) {
-				return false, nil
-			}
-		}
 		// TODO 该表单禁止不同组之间成员重复
 		if !set.PassRe {
 			for _, group := range groupLists {
+				// TODO 查找该组的成员
 				var userLists []model.UserList
-				db.Where("group_id = ?", group).Find(&userLists)
+				// TODO 查看用户组是否存在
+				// TODO 先看redis中是否存在
+				if ok, _ := redis.HExists(ctx, "UserList", group.GroupId.String()).Result(); ok {
+					cate, _ := redis.HGet(ctx, "UserList", group.GroupId.String()).Result()
+					if json.Unmarshal([]byte(cate), &userLists) == nil {
+						goto userlist
+					} else {
+						// TODO 移除损坏数据
+						redis.HDel(ctx, "UserList", group.GroupId.String())
+					}
+				}
+
+				// TODO 查看用户组是否在数据库中存在
+				db.Where("group_id = ?", group.GroupId.String()).Find(&userLists)
+				{
+					// TODO 将用户组存入redis供下次使用
+					v, _ := json.Marshal(userLists)
+					redis.HSet(ctx, "UserList", group.GroupId.String(), v)
+				}
+			userlist:
 				for _, user := range userLists {
 					if user.UserId == user_id {
 						return false, nil
 					}
-				}
-			}
-			// TODO 不能在比赛的候选人中
-			for _, competition := range competitions {
-				if db.Where("competition_id = ? and user_id = ?", competition.ID, user_id).First(&model.Match{}).Error != nil {
-					return false, nil
 				}
 			}
 		}

@@ -108,7 +108,26 @@ leep:
 
 	// TODO 查找该组的成员
 	var userLists []model.UserList
+	// TODO 查看用户组是否存在
+	// TODO 先看redis中是否存在
+	if ok, _ := c.Redis.HExists(ctx, "UserList", group.ID.String()).Result(); ok {
+		cate, _ := c.Redis.HGet(ctx, "UserList", group.ID.String()).Result()
+		if json.Unmarshal([]byte(cate), &userLists) == nil {
+			goto userlist
+		} else {
+			// TODO 移除损坏数据
+			c.Redis.HDel(ctx, "UserList", group.ID.String())
+		}
+	}
+
+	// TODO 查看用户组是否在数据库中存在
 	c.DB.Where("group_id = ?", group.ID).Find(&userLists)
+	{
+		// TODO 将用户组存入redis供下次使用
+		v, _ := json.Marshal(userLists)
+		c.Redis.HSet(ctx, "UserList", group.ID.String(), v)
+	}
+userlist:
 
 	for i := range userLists {
 		// TODO 跳过自己

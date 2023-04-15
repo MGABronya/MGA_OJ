@@ -11,16 +11,16 @@ import (
 
 // Record			定义提交记录
 type Record struct {
-	ID            uuid.UUID `json:"id" gorm:"type:char(36);primary_key"`                                  // id
-	CreatedAt     Time      `json:"created_at" gorm:"type:timestamp"`                                     // 创建日期
-	UpdatedAt     Time      `json:"updated_at" gorm:"type:timestamp"`                                     // 更新日期
-	UserId        uuid.UUID `json:"user_id" gorm:"type:char(36);index:idx_userId;not null"`               // 用户外键
-	ProblemId     uuid.UUID `json:"problem_id" gorm:"type:char(36);index:idx_problemId;not null"`         // 题目外键
-	Language      string    `json:"language" gorm:"type:varchar(64);index:idx_language;not null"`         // 语言
-	Code          string    `json:"code" gorm:"type:text;not null"`                                       // 代码
-	Condition     string    `json:"condition" gorm:"type:varchar(64);not null"`                           // 记录状态
-	CompetitionId uuid.UUID `json:"competition_id" gorm:"type:char(36);index:idx_competitionId;not null"` // 比赛外键
-	Pass          uint `json:"pass" gorm:"type:uint;not null"`                                   // 测试通过数量
+	ID        uuid.UUID `json:"id" gorm:"type:char(36);primary_key"`                          // id
+	CreatedAt Time      `json:"created_at" gorm:"type:timestamp"`                             // 创建日期
+	UpdatedAt Time      `json:"updated_at" gorm:"type:timestamp"`                             // 更新日期
+	UserId    uuid.UUID `json:"user_id" gorm:"type:char(36);index:idx_userId;not null"`       // 用户外键
+	ProblemId uuid.UUID `json:"problem_id" gorm:"type:char(36);index:idx_problemId;not null"` // 题目外键
+	Language  string    `json:"language" gorm:"type:varchar(64);index:idx_language;not null"` // 语言
+	Code      string    `json:"code" gorm:"type:text;not null"`                               // 代码
+	Condition string    `json:"condition" gorm:"type:varchar(64);not null"`                   // 记录状态
+	Pass      uint      `json:"pass" gorm:"type:uint;not null"`                               // 测试通过数量
+	HackId    uuid.UUID `json:"hack_id" gorm:"type:varchar(64);"`                             // hack外键
 }
 
 // @title    BeforeCreate
@@ -42,7 +42,7 @@ func (r *Record) BeforDelete(tx *gorm.DB) (err error) {
 	tx = tx.Where("record_id = ?", r.ID)
 
 	// TODO 删除提交记录用例相关
-	tx.Delete(&Case{})
+	tx.Delete(&CaseCondition{})
 
 	return
 }
