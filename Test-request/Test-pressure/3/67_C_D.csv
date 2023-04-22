@@ -1,0 +1,7271 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,D,C,60967235,2023-02-24 19:12:10,这个人真的很深情,答案正确,"#include<stdio.h>
+int a[200005]={0};
+int main()
+{
+    int m, q;
+    int op, num;
+    scanf(""%d %d"",&m,&q);
+    int ans=0;
+    for(int i=0;i<q;i++)
+    {
+        scanf(""%d %d"",&op,&num);
+        if(op==1)
+        {
+            if(num-3>=1&&num-3<=m)
+            {
+                a[num-3]++;
+                if(a[num-3]==1)
+                    ans++;
+            }
+            if(num+3>=1&&num+3<=m)
+            {
+                a[num+3]++;
+                if(a[num+3]==1)
+                    ans++;
+            }
+        }
+        else
+        {
+            if(num-3>=1&&num-3<=m)
+            {
+                a[num-3]--;
+                if(a[num-3]==0)
+                    ans--;
+            }
+            if(num+3>=1&&num+3<=m)
+            {
+                a[num+3]--;
+                if(a[num+3]==0)
+                    ans--;
+            }
+        }
+        printf(""%d\n"",ans);
+    }
+    return 0;
+}"
+1,D,C(gcc 7.5.0),60967505,2023-02-24 19:14:44,Nefelibata.,答案正确,"#include<stdio.h>
+#include<math.h>
+#include<stdlib.h>
+#include<string.h>
+#include<malloc.h>
+#include<ctype.h>
+
+#define Max(a,b) (a>b?a:b)
+#define Min(a,b) (a>b?b:a)
+#define Max3(a,b,c) (Max(a,b)>c?Max(a,b):c)
+#define Min3(a,b,c) (Min(a,b)>c?c:Min(a,b))
+#define scanfint(a) scanf(""%d"",&a)
+#define scanfl(a) scanf(""%ld"",&a)
+#define scanfll(a) scanf(""%lld"",&a)
+#define scanfstr(a) scanf(""%s"",a)
+#define printfll(a) printf(""%lld\n"",a)
+#define swap(a,b) a=a+b;b=a-b;a=a-b
+#define FOR(i,l,r) for(int i=l;i<=r;i++)
+#define FORL(i,l,r) for(long i=l;i<=r;i++)
+#define FORLL(i,l,r) for(long long i=l;i<=r;i++)
+#define Get_Rand(x) (rand()%x+1)
+#define Presentation(i,r) printf(""%c"","" \n""[i==r])
+
+typedef long long ll;
+
+const double pi=3.141592653589793;
+const ll MOD=1e9+7;
+const int INF=0x7fffffff;
+const double eps=1e-8;
+
+/*----------C Head----------*/
+int main()
+{
+    ll m,q;
+    scanfll(m);scanfll(q);
+    int op;
+    ll num;
+    ll safe[100005]={0};
+    ll cnt[100005]={0};
+    ll re=0;
+    FORLL(i,1,q)
+    {
+        scanfint(op);
+        scanfll(num);
+        if(op==1)
+        {
+            cnt[num]++;
+            if(num-3>0)
+            {
+                if(safe[num-3]==0) re++;
+                safe[num-3]++;
+            }
+            if(num+3<m+1)
+            {
+                if(safe[num+3]==0) re++;
+                safe[num+3]++;
+            }
+        }
+        else
+        {
+            cnt[num]--;
+            if(num-3>0)
+            {
+                safe[num-3]--;
+                if(safe[num-3]==0) re--;
+            }
+            if(num+3<m+1)
+            {
+                safe[num+3]--;
+                if(safe[num+3]==0) re--;
+            }
+        }
+        printfll(re);
+    }
+    return 0;
+}"
+2,D,C(gcc 7.5.0),60968154,2023-02-24 19:21:39,牛客797594545号,答案正确,"#include <stdio.h>
+int main()
+{
+    int a,b,c,d,e=0,f;
+    scanf(""%d %d"",&a,&b);
+    int x[a];
+    for(c=0;c<a;c++)
+    {
+        x[c]=0;
+    }
+    while(b--)
+    {
+        scanf(""%d %d"",&c,&d);
+        if(c==1)
+        {
+            if(d-3>0)
+            {
+                if(x[d-4]==0)
+                {
+                    e++;
+                }
+                x[d-4]++;
+            }
+            if(d+3<=a)
+            {
+                if(x[d+2]==0)
+                {
+                    e++;
+                }
+                x[d+2]++;
+            }
+        }
+        else if(c==2)
+        {
+            if(d-3>0)
+            {
+                x[d-4]--;
+                if(x[d-4]==0)
+                {
+                    e--;
+                }
+            }
+            if(d+3<=a)
+            {
+                x[d+2]--;
+                if(x[d+2]==0)
+                {
+                    e--;
+                }
+            }
+        }
+        printf(""%d\n"",e);
+    }
+}"
+3,D,C,60969378,2023-02-24 19:34:54,小憕666,答案错误,"#include <stdio.h>
+#include <string.h>
+int main(void)
+{
+    int m, q;
+    
+    scanf(""%d%d"", &m, &q);
+    
+    int hash[m+1];
+    memset(hash, 0, sizeof(hash));
+    
+    int result=0;
+    for(int i=0; i<q; i++)
+    {
+        int op, num;
+        
+        scanf(""%d%d"", &op, &num);
+        
+        if(op==1)
+        {
+            if(hash[num+3]==0)
+                result++;
+            
+            if(hash[num-3]==0)
+                result++;
+            
+            hash[num+3]++;
+            hash[num-3]++;
+        }   
+        else
+        {
+            if(hash[num+3]==1)
+                result--;
+            
+            if(hash[num-3]==1)
+                result--;
+            
+            hash[num+3]--;
+            hash[num-3]--;
+        }
+        
+        printf(""%d\n"", result);
+    }
+    
+
+    return 0;     
+}"
+4,D,C,60969455,2023-02-24 19:35:44,丨阿伟丨,段错误,"#include<stdio.h>
+int a[105];
+int main()
+{
+    int m,q;
+    scanf(""%d %d"",&m,&q);
+    while(q--)
+    {
+        int op,num,k=0;
+        scanf(""%d %d"",&op,&num);
+        if(op==1)
+        {
+            a[num+3]++;
+            a[num-3]++;
+        }
+        else
+        {
+            a[num+3]--;
+            a[num-3]--;
+        }
+        for(int i=1;i<=m;i++)
+            if(a[i])
+                k++;
+        printf(""%d\n"",k);
+    }
+}"
+5,D,C,60969461,2023-02-24 19:35:50,丨阿伟丨,段错误,"#include<stdio.h>
+int a[105];
+int main()
+{
+    int m,q;
+    scanf(""%d %d"",&m,&q);
+    while(q--)
+    {
+        int op,num,k=0;
+        scanf(""%d %d"",&op,&num);
+        if(op==1)
+        {
+            a[num+3]++;
+            a[num-3]++;
+        }
+        else
+        {
+            a[num+3]--;
+            a[num-3]--;
+        }
+        for(int i=1;i<=m;i++)
+            if(a[i])
+                k++;
+        printf(""%d\n"",k);
+    }
+}"
+6,D,C,60969487,2023-02-24 19:36:11,丨阿伟丨,运行超时,"#include<stdio.h>
+int a[1000005];
+int main()
+{
+    int m,q;
+    scanf(""%d %d"",&m,&q);
+    while(q--)
+    {
+        int op,num,k=0;
+        scanf(""%d %d"",&op,&num);
+        if(op==1)
+        {
+            a[num+3]++;
+            a[num-3]++;
+        }
+        else
+        {
+            a[num+3]--;
+            a[num-3]--;
+        }
+        for(int i=1;i<=m;i++)
+            if(a[i])
+                k++;
+        printf(""%d\n"",k);
+    }
+}"
+7,D,C,60969750,2023-02-24 19:38:59,小憕666,答案正确,"#include <stdio.h>
+#include <string.h>
+int main(void)
+{
+    int m, q;
+    
+    scanf(""%d%d"", &m, &q);
+    
+    int hash[m+1];
+    memset(hash, 0, sizeof(hash));
+    
+    int result=0;
+    for(int i=0; i<q; i++)
+    {
+        int op, num;
+        
+        scanf(""%d%d"", &op, &num);
+        
+        if(op==1)
+        {
+            if(num+3<=m)
+            {
+                if(hash[num+3]==0)
+                    result++;
+                
+                hash[num+3]++;
+            }
+            
+            if(num-3>=1)
+            {
+                if(hash[num-3]==0)
+                    result++;
+                
+                hash[num-3]++;
+            }
+        }   
+        else
+        {
+            if(num+3<=m)
+            {
+                if(hash[num+3]==1)
+                    result--;
+                
+                hash[num+3]--;
+            }
+            
+            if(num-3>=1)
+            {
+                if(hash[num-3]==1)
+                    result--;
+                
+                hash[num-3]--;
+            }
+        }
+        
+        printf(""%d\n"", result);
+    }
+    
+
+    return 0;     
+}"
+8,D,C,60969768,2023-02-24 19:39:11,丨阿伟丨,答案正确,"#include<stdio.h>
+int a[100005];
+int main()
+{
+    int m,q,k=0;
+    scanf(""%d %d"",&m,&q);
+    while(q--)
+    {
+        int op,num;
+        scanf(""%d %d"",&op,&num);
+        if(op==1)
+        {
+            a[num+3]++;
+            a[num-3]++;
+            if(a[num+3]==1&&num+3<=m)
+                k++;
+            if(a[num-3]==1&&num-3>0)
+                k++;
+        }
+        else
+        {
+            a[num+3]--;
+            a[num-3]--;
+            if(a[num+3]==0&&num+3<=m)
+                k--;
+            if(a[num-3]==0&&num-3>0)
+                k--;
+        }
+        printf(""%d\n"",k);
+    }
+}"
+9,D,C(gcc 7.5.0),60970164,2023-02-24 19:43:53,习丽君,运行超时,"#include<stdio.h>
+int main()
+{
+    int ms[100010] = {0}, kg[100010] = {0}, m, q, op, num, i, sum = 0;
+    scanf(""%d%d"", &m, &q);
+    while(q--)
+    {
+        scanf(""%d%d"", &op, &num);
+        if(op == 1)
+        {
+            kg[num]++;
+            if(num - 3 >= 1)
+                ms[num - 3] = 1;
+            if(num + 3 <= m)
+                ms[num + 3] = 1;
+        }
+        if(op == 2)
+        {
+            kg[num]--;
+            if(kg[num] == 0)
+            {
+                if(kg[num - 6] == 0 && num - 6 >= 0)
+                    ms[num - 3] = 0;
+                if(num - 6 < 0)
+                    ms[num - 3] = 0;
+                if(kg[num + 6] == 0)
+                    ms[num + 3] = 0;
+            }
+        }
+        for(i = 1; i <= m; i++)
+            sum += ms[i];
+        printf(""%d\n"", sum);
+        sum = 0;
+    }
+    return 0;
+}"
+10,D,C,60970369,2023-02-24 19:46:23,Tang__Bin,段错误,"#include<stdio.h>
+
+int arr[105];
+int ans;
+int m,q;
+void PutCard(int cardnum)
+{
+    if(cardnum>3)
+    {
+        if(arr[cardnum-3]==0)++ans;
+        ++arr[cardnum-3];
+    }
+    if(cardnum<=m-3)
+    {
+        if(arr[cardnum+3]==0)++ans;
+        ++arr[cardnum+3];
+    }
+}
+void MoveCard(int cardnum)
+{
+    if(cardnum>3)
+    {
+        --arr[cardnum-3];
+        if(arr[cardnum-3]==0)--ans;
+    }
+    if(cardnum<=m-3)
+    {
+        --arr[cardnum+3];
+        if(arr[cardnum+3]==0)--ans;
+    }
+}
+int main()
+{
+    scanf(""%d%d"",&m,&q);
+    int op,cardnum;
+    while(q--)
+    {
+        scanf(""%d%d"",&op,&cardnum);
+        if(op==1)PutCard(cardnum);
+        else MoveCard(cardnum);
+        printf(""%d\n"",ans);
+    }
+    
+    return 0;
+}"
+11,D,C,60970414,2023-02-24 19:46:50,Tang__Bin,答案正确,"#include<stdio.h>
+
+int arr[100005];
+int ans;
+int m,q;
+void PutCard(int cardnum)
+{
+    if(cardnum>3)
+    {
+        if(arr[cardnum-3]==0)++ans;
+        ++arr[cardnum-3];
+    }
+    if(cardnum<=m-3)
+    {
+        if(arr[cardnum+3]==0)++ans;
+        ++arr[cardnum+3];
+    }
+}
+void MoveCard(int cardnum)
+{
+    if(cardnum>3)
+    {
+        --arr[cardnum-3];
+        if(arr[cardnum-3]==0)--ans;
+    }
+    if(cardnum<=m-3)
+    {
+        --arr[cardnum+3];
+        if(arr[cardnum+3]==0)--ans;
+    }
+}
+int main()
+{
+    scanf(""%d%d"",&m,&q);
+    int op,cardnum;
+    while(q--)
+    {
+        scanf(""%d%d"",&op,&cardnum);
+        if(op==1)PutCard(cardnum);
+        else MoveCard(cardnum);
+        printf(""%d\n"",ans);
+    }
+    
+    return 0;
+}"
+12,D,C,60970449,2023-02-24 19:47:14,没文化.......,段错误,"#include<stdio.h>
+int main() {
+    long long m,q,a,b,num=0;
+    long long c[10000]={0};
+    scanf(""%lld%lld"",&m,&q);
+    for(int i=1;i<=q;i++){
+        scanf(""%lld%lld"",&a,&b);
+        if(a==1){
+            if(b-3>=1)
+            c[b-3]++;
+            if(b+3<=m)
+            c[b+3]++;
+        }
+        else{
+            if(b-3>=1)
+            c[b-3]--;
+            if(b+3<=m)
+            c[b+3]--;
+        }
+    num=0;
+    for(int i=1;i<=m;i++){
+        if(c[i]>0)
+            num++;
+    }
+    printf(""%lld\n"",num);  
+    }
+   
+	return 0;
+}"
+13,D,C,60970515,2023-02-24 19:48:06,bulis04_zqy,段错误,"#include<stdio.h>
+int main()
+{
+    int m,q,op,num;
+    int a[1000]={0},b[1000]={0},sum=0;
+    scanf(""%d %d"",&m,&q);
+    while(q--)
+    {
+        sum=0;
+        scanf(""%d %d"",&op,&num);
+        if(op==1)
+        {
+            a[num]=a[num]+1;
+            if(num+3<=m)
+                b[num+3]++;
+            if(num-3>=1)
+                b[num-3]++;
+        }
+        else
+            if(op==2)
+            {
+                a[num]--;
+            if(num+3<=m)
+                b[num+3]--;
+            if(num-3>=1)
+                b[num-3]--;
+            }
+        for(int i=1;i<=m;i++)
+            if(b[i]>=1)
+                sum++;
+        printf(""%d\n"",sum);
+    }
+    return 0;
+}"
+14,D,C(gcc 7.5.0),60970698,2023-02-24 19:50:29,习丽君,答案错误,"#include<stdio.h>
+int main()
+{
+    int ms[100010] = {0}, kg[100010] = {0}, m, q, op, num, i, sum = 0;
+    scanf(""%d%d"", &m, &q);
+    while(q--)
+    {
+        scanf(""%d%d"", &op, &num);
+        if(op == 1)
+        {
+            kg[num]++;
+            if(num - 3 >= 1)
+            {
+                if(ms[num - 3] == 0)
+                    sum++;
+                ms[num - 3] = 1;
+            }
+            if(num + 3 <= m)
+            {
+                if(ms[num + 3] == 0)
+                    sum++;
+                ms[num + 3] = 1;
+            }
+
+        }
+        if(op == 2)
+        {
+            kg[num]--;
+            if(kg[num] == 0)
+            {
+                if(kg[num - 6] == 0 && num - 6 >= 0)
+                {
+                    ms[num - 3] = 0;
+                    sum--;
+                }
+                if(num - 6 < 0)
+                {
+                    ms[num - 3] = 0;
+                    sum--;
+                }
+                if(kg[num + 6] == 0)
+                {
+                    ms[num + 3] = 0;
+                    sum--;
+                }
+            }
+        }
+        printf(""%d\n"", sum);
+    }
+    return 0;
+}"
+15,D,C(gcc 7.5.0),60970727,2023-02-24 19:50:52,runler,段错误,"#include<stdio.h>
+#define N 1000
+int main()
+{
+	long long n,m,op,num,i,j,c=0,s[N],f[N];
+	scanf(""%lld %lld"",&n,&m);
+	for(i=1;i<=n;i++){
+		f[i]=0;
+		s[i]=0;
+	}
+	while(m-->0){
+		scanf(""%lld %lld"",&op,&num);
+		if(op == 1){
+			s[num]++;
+			if(s[num]>1){
+		    	printf(""%lld\n"",c);
+		    	continue;
+		    }
+		}
+		else if(op == 2){
+			s[num]--;
+			if(s[num]==0){
+				f[num-3]=0;
+				f[num+3]=0;
+			}
+			if(s[num]>=1){
+			    printf(""%lld\n"",c);
+			    continue;
+		    }
+		}	
+		c=0;
+		for(i=1;i<=n;i++){
+			if(s[i]>0){
+				if(i-3>0){
+					f[i-3]=1;
+				}
+				if(i+3<=n){
+					f[i+3]=1;
+				}
+			}
+		}
+		for(i=1;i<=n;i++){
+			if(f[i]==1){
+				c++;
+			}
+		}
+		printf(""%lld\n"",c);
+	}
+	return 0;
+}"
+16,D,C(gcc 7.5.0),60970819,2023-02-24 19:52:00,runler,段错误,"#include<stdio.h>
+#define N 1000
+int main()
+{
+	long long n,m,op,num,i,j,c=0,s[N],f[N];
+	scanf(""%lld %lld"",&n,&m);
+	for(i=1;i<=n;i++){
+		f[i]=0;
+		s[i]=0;
+	}
+	while(m-->0){
+		scanf(""%lld %lld"",&op,&num);
+		if(op == 1){
+			s[num]++;
+			if(s[num]>1){
+		    	printf(""%lld\n"",c);
+		    	continue;
+		    }
+		}
+		else if(op == 2){
+			s[num]--;
+			if(s[num]==0){
+				if(num-3>0){
+					f[num-3]=0;
+				}
+				if(num+3<=n){
+					f[num+3]=0;
+				}
+			}
+			if(s[num]>=1){
+			    printf(""%lld\n"",c);
+			    continue;
+		    }
+		}	
+		c=0;
+		for(i=1;i<=n;i++){
+			if(s[i]>0){
+				if(i-3>0){
+					f[i-3]=1;
+				}
+				if(i+3<=n){
+					f[i+3]=1;
+				}
+			}
+		}
+		for(i=1;i<=n;i++){
+			if(f[i]==1){
+				c++;
+			}
+		}
+		printf(""%lld\n"",c);
+	}
+	return 0;
+}"
+17,D,C(gcc 7.5.0),60970859,2023-02-24 19:52:33,runler,运行超时,"#include<stdio.h>
+#define N 200001
+int main()
+{
+	long long n,m,op,num,i,j,c=0,s[N],f[N];
+	scanf(""%lld %lld"",&n,&m);
+	for(i=1;i<=n;i++){
+		f[i]=0;
+		s[i]=0;
+	}
+	while(m-->0){
+		scanf(""%lld %lld"",&op,&num);
+		if(op == 1){
+			s[num]++;
+			if(s[num]>1){
+		    	printf(""%lld\n"",c);
+		    	continue;
+		    }
+		}
+		else if(op == 2){
+			s[num]--;
+			if(s[num]==0){
+				if(num-3>0){
+					f[num-3]=0;
+				}
+				if(num+3<=n){
+					f[num+3]=0;
+				}
+			}
+			if(s[num]>=1){
+			    printf(""%lld\n"",c);
+			    continue;
+		    }
+		}	
+		c=0;
+		for(i=1;i<=n;i++){
+			if(s[i]>0){
+				if(i-3>0){
+					f[i-3]=1;
+				}
+				if(i+3<=n){
+					f[i+3]=1;
+				}
+			}
+		}
+		for(i=1;i<=n;i++){
+			if(f[i]==1){
+				c++;
+			}
+		}
+		printf(""%lld\n"",c);
+	}
+	return 0;
+}"
+18,D,C,60971204,2023-02-24 19:57:23,bulis04_zqy,答案正确,"#include<stdio.h>
+int main()
+{
+    int m,q,op,num;
+    int b[100000]={0},sum=0;
+    scanf(""%d %d"",&m,&q);
+    while(q--)
+    {
+        scanf(""%d %d"",&op,&num);
+        if(op==1)
+        {
+            if(num+3<=m)
+            {
+                if(b[num+3]==0)
+                    sum++;
+                b[num+3]++;
+            }
+            if(num-3>=1)
+            {
+            if(b[num-3]==0)
+                    sum++;
+                b[num-3]++;
+            }
+        }
+        else
+        {
+            if(num+3<=m)
+            {
+                b[num+3]--;
+              if(b[num+3]==0)
+                    sum--;
+            }
+            if(num-3>=1)
+            {
+                b[num-3]--;
+                if(b[num-3]==0)
+                    sum--;
+            }
+        }
+        printf(""%d\n"",sum);
+    }
+    return 0;
+}"
+19,D,C(gcc 7.5.0),60971590,2023-02-24 20:02:19,习丽君,答案错误,"#include<stdio.h>
+int main()
+{
+    int ms[100010] = {0}, kg[100010] = {0}, m, q, op, num, i, sum = 0;
+    scanf(""%d%d"", &m, &q);
+    while(q--)
+    {
+        scanf(""%d%d"", &op, &num);
+        if(op == 1)
+        {
+            kg[num]++;
+            if(num - 3 >= 1)
+            {
+                if(ms[num - 3] == 0)
+                    sum++;
+                ms[num - 3] = 1;
+            }
+            if(num + 3 <= m)
+            {
+                if(ms[num + 3] == 0)
+                    sum++;
+                ms[num + 3] = 1;
+            }
+
+        }
+        if(op == 2)
+        {
+            kg[num]--;
+            if(kg[num] == 0)
+            {
+                if(kg[num - 6] == 0 && num - 6 >= 0)
+                {
+                    ms[num - 3] = 0;
+                    sum--;
+                }
+                if(num - 6 < 0)
+                {
+                    ms[num - 3] = 0;
+                    sum--;
+                }
+                if(kg[num + 6] == 0)
+                {
+                    ms[num + 3] = 0;
+                    if(num + 3 <= m)
+                        sum--;
+                }
+            }
+        }
+        printf(""%d\n"", sum);
+    }
+    return 0;
+}"
+20,D,C(gcc 7.5.0),60971794,2023-02-24 20:05:07,习丽君,答案正确,"#include<stdio.h>
+int main()
+{
+    int ms[100010] = {0}, kg[100010] = {0}, m, q, op, num, i, sum = 0;
+    scanf(""%d%d"", &m, &q);
+    while(q--)
+    {
+        scanf(""%d%d"", &op, &num);
+        if(op == 1)
+        {
+            kg[num]++;
+            if(num - 3 >= 1)
+            {
+                if(ms[num - 3] == 0)
+                    sum++;
+                ms[num - 3] = 1;
+            }
+            if(num + 3 <= m)
+            {
+                if(ms[num + 3] == 0)
+                    sum++;
+                ms[num + 3] = 1;
+            }
+
+        }
+        if(op == 2)
+        {
+            kg[num]--;
+            if(kg[num] == 0)
+            {
+                if(kg[num - 6] == 0 && num - 6 >= 0)
+                {
+                    ms[num - 3] = 0;
+                    if(num - 3 > 0)
+                        sum--;
+                }
+                if(num - 6 < 0)
+                {
+                    ms[num - 3] = 0;
+                    if(num - 3 > 0)
+                        sum--;
+                }
+                if(kg[num + 6] == 0)
+                {
+                    ms[num + 3] = 0;
+                    if(num + 3 <= m)
+                        sum--;
+                }
+            }
+        }
+        printf(""%d\n"", sum);
+    }
+    return 0;
+}"
+21,D,C(gcc 7.5.0),60972271,2023-02-24 20:11:05,六鸟先森,答案正确,"#include <stdio.h>
+int arr[100010],vis[100010];
+int main()
+{
+	int m,q;
+	scanf(""%d%d"",&m,&q);
+	for(int i=1;i<=q;i++)
+	{
+		int op,num;
+		scanf(""%d%d"",&op,&num);
+		if(op==1)
+		{
+			if(num>3)
+			{
+				vis[num-3]++;
+				if(vis[num-3]==1)
+				{
+					vis[0]++;
+				}
+			}
+			if(num+3<=m)
+			{
+				vis[num+3]++;
+				if(vis[num+3]==1)
+				{
+					vis[0]++;
+				}
+			}
+		}
+		else
+		{
+			if(num>3)
+			{
+				vis[num-3]--;
+				if(vis[num-3]==0)
+				vis[0]--;
+			}
+			
+			if(num+3<=m)
+			{
+				vis[num+3]--;
+				if(vis[num+3]==0)
+				vis[0]--;
+			}
+		}
+		printf(""%d\n"",vis[0]);
+	}
+	return 0;
+}"
+22,D,C,60972360,2023-02-24 20:12:16,没文化.......,段错误,"#include<stdio.h>
+int main() {
+    long long m,q,a,b,num=0;
+    long long c[10000]={0};
+    scanf(""%lld%lld"",&m,&q);
+    for(int i=1;i<=q;i++){
+        scanf(""%lld%lld"",&a,&b);
+        if(a==1){
+            if(b-3>=1)
+            c[b-3]++;
+            if(b+3<=m)
+            c[b+3]++;
+        }
+        else{
+            if(b-3>=1)
+            c[b-3]--;
+            if(b+3<=m)
+            c[b+3]--;
+        }
+    num=0;
+    for(int i=1;i<=m;i++){
+        if(c[i]>0)
+            num++;
+    }
+    printf(""%lld\n"",num);  
+    }
+   
+	return 0;
+}"
+23,D,C(gcc 7.5.0),60972382,2023-02-24 20:12:29,runler,答案正确,"#include<stdio.h>
+#define N 200001
+int main()
+{
+	long long n,m,op,num,i,j,c=0,s[N],f[N];
+	scanf(""%lld %lld"",&n,&m);
+	for(i=1;i<=n;i++){
+		f[i]=0;
+		s[i]=0;
+	}
+	while(m-->0){
+		scanf(""%lld %lld"",&op,&num);
+		if(op == 1){
+			s[num]++;
+			if(s[num]>1){
+		    	printf(""%lld\n"",c);
+		    	continue;
+		    }
+		    else{
+		    	if((num-3)>0 && ++f[num-3]==1){
+					c++;
+				}
+				if((num+3)<=n && ++f[num+3]==1){
+					c++;
+				}
+			}
+		}
+		else if(op == 2){
+			s[num]--;
+			if(s[num]==0){
+				if((num-3)>0 && --f[num-3]==0){
+					c--;
+				}
+				if((num+3)<=n && --f[num+3]==0){
+					c--;
+				}
+			}
+			else if(s[num]>=1){
+			    printf(""%lld\n"",c);
+			    continue;
+		    }
+		}	
+		printf(""%lld\n"",c);
+	}
+	return 0;
+}"
+24,D,C,60972401,2023-02-24 20:12:48,没文化.......,运行超时,"#include<stdio.h>
+int main() {
+    long long m,q,a,b,num=0;
+    long long c[100000]={0};
+    scanf(""%lld%lld"",&m,&q);
+    for(int i=1;i<=q;i++){
+        scanf(""%lld%lld"",&a,&b);
+        if(a==1){
+            if(b-3>=1)
+            c[b-3]++;
+            if(b+3<=m)
+            c[b+3]++;
+        }
+        else{
+            if(b-3>=1)
+            c[b-3]--;
+            if(b+3<=m)
+            c[b+3]--;
+        }
+    num=0;
+    for(int i=1;i<=m;i++){
+        if(c[i]>0)
+            num++;
+    }
+    printf(""%lld\n"",num);  
+    }
+   
+	return 0;
+}"
+25,D,C,60972515,2023-02-24 20:14:40,Valaryu,段错误,"#include<stdio.h>
+#define maxn 100000
+int number[maxn];
+int count[maxn];
+
+int main()
+{
+    int m,q;
+    int op,num;
+    scanf(""%d %d"",&m,&q);
+    for(int i = 0;i<q;i++)
+    { 
+        scanf(""%d %d"",&op,&num);
+        if(op==1) 
+        {    
+            if(num-3>0) number[num-3] += 1;
+            if(num+3<m) number[num+3] += 1;
+        }
+        if(op==2)
+        {
+            if(num-3>0) number[num-3] -= 1;
+            if(num+3<m) number[num+3] -= 1;
+        }
+        for(int j = 1;j<=m;j++) if(number[j]>0) count[i]++;
+        printf(""%d\n"",count[i]);
+    }
+    
+    return 0;
+}"
+26,D,C,60972649,2023-02-24 20:16:31,Valaryu,答案错误,"#include<stdio.h>
+#define maxn 200000
+int number[maxn];
+int count[maxn];
+
+int main()
+{
+    int m,q;
+    int op,num;
+    scanf(""%d %d"",&m,&q);
+    for(int i = 1;i<=q;i++)
+    { 
+        scanf(""%d %d"",&op,&num);
+        if(op==1) 
+        {    
+            if(num-3>0) number[num-3] += 1;
+            if(num+3<m) number[num+3] += 1;
+        }
+        if(op==2)
+        {
+            if(num-3>0) number[num-3] -= 1;
+            if(num+3<m) number[num+3] -= 1;
+        }
+        for(int j = 1;j<=m;j++) if(number[j]>0) count[i]++;
+        printf(""%d\n"",count[i]);
+    }
+    
+    return 0;
+}"
+27,D,C,60972971,2023-02-24 20:20:51,啦啦啦0408,运行超时,"#define _CRT_SECURE_NO_WARNINGS
+#include<stdio.h>
+int main()
+{
+    int m, q, i, k, n, a[200], g = 0, s, l;
+    scanf(""%d%d"", &m, &q);
+    for (i = 0; i < q; i++)
+    {
+        s = 0;
+        l = 0;
+        int b[500000] = {0};
+        scanf(""%d%d"", &k, &n);
+        if (k == 1)
+        {
+            a[g] = n;
+            g++;
+        }
+        if (k==2)
+        {
+            for (int j = 0; j < g; j++)
+            {
+                if (a[j] == n)
+                {
+                    a[j] = -99999;
+                    break;
+                }   
+            }
+        }
+        for (int j = 0; j < g; j++)
+        {
+            if (a[j] + 3 >= 1 && a[j] + 3 <= m)
+            {
+                s++;
+                b[l] = a[j] + 3;
+                l++;
+            }
+            if (a[j] - 3 >= 1 && a[j] - 3 <= m)
+            {
+                s++;
+                b[l] = a[j] - 3;
+                l++;
+            }
+        }
+        for (int j = 0; j < l; j++)
+        {
+            for (int z = j + 1; z < l; z++)
+            {
+                if (b[j] == b[z] && b[j] != 0 && b[z] != 0)
+                {
+                    b[z] = 0;
+                    s--;
+                }
+            }
+        }
+        printf(""%d\n"", s);
+    }
+    return 0;
+}"
+28,D,C,60972996,2023-02-24 20:21:21,啦啦啦0408,运行超时,"#define _CRT_SECURE_NO_WARNINGS
+#include<stdio.h>
+int main()
+{
+    int m, q, i, k, n, a[200], g = 0, s, l;
+    scanf(""%d%d"", &m, &q);
+    for (i = 0; i < q; i++)
+    {
+        s = 0;
+        l = 0;
+        int b[500000] = {0};
+        scanf(""%d%d"", &k, &n);
+        if (k == 1)
+        {
+            a[g] = n;
+            g++;
+        }
+        if (k==2)
+        {
+            for (int j = 0; j < g; j++)
+            {
+                if (a[j] == n)
+                {
+                    a[j] = -99999;
+                    break;
+                }   
+            }
+        }
+        for (int j = 0; j < g; j++)
+        {
+            if (a[j] + 3 >= 1 && a[j] + 3 <= m)
+            {
+                s++;
+                b[l] = a[j] + 3;
+                l++;
+            }
+            if (a[j] - 3 >= 1 && a[j] - 3 <= m)
+            {
+                s++;
+                b[l] = a[j] - 3;
+                l++;
+            }
+        }
+        for (int j = 0; j < l; j++)
+        {
+            for (int z = j + 1; z < l; z++)
+            {
+                if (b[j] == b[z] && b[j] != 0 && b[z] != 0)
+                {
+                    b[z] = 0;
+                    s--;
+                }
+            }
+        }
+        printf(""%d\n"", s);
+    }
+    return 0;
+}"
+29,D,C,60973115,2023-02-24 20:22:56,服了你个老六的他很有担当,段错误,"#include<stdio.h>
+int main()
+{
+    int i,n,m,op,num,s=0,a[101]={0};
+    scanf(""%d%d"",&m,&n);//m种牌，n次操作次数。
+    for(i=0;i<n;i++)
+    {
+        scanf(""%d%d"",&op,&num);
+        if(op==1)
+        {
+            if(num-3>=1)
+            {
+                a[num-3]+=1;
+                if(a[num-3]==1)
+                    s++;
+            }        
+            if(num+3<=m)
+            {
+                a[num+3]+=1;
+                if(a[num+3]==1)
+                    s++;
+            }
+        }
+        else if(op==2)
+        {
+            if(num-3>=1)
+            {    
+                a[num-3]-=1;
+                if(a[num-3]==0)
+                s--;
+            }
+            if(num+3<=m)
+            {
+                a[num+3]-=1;
+                if(a[num+3]==0)
+                s--;
+            }
+        }
+        printf(""%d\n"",s);
+    }
+    return 0;
+}"
+30,D,C,60973141,2023-02-24 20:23:16,啦啦啦0408,运行超时,"#define _CRT_SECURE_NO_WARNINGS
+#include<stdio.h>
+int main()
+{
+    int m, q, i, k, n, a[200], g = 0, s, l;
+    scanf(""%d%d"", &m, &q);
+    for (i = 0; i < q; i++)
+    {
+        s = 0;
+        l = 0;
+        int b[400000] = {0};
+        scanf(""%d%d"", &k, &n);
+        if (k == 1)
+        {
+            a[g] = n;
+            g++;
+        }
+        if (k==2)
+        {
+            for (int j = 0; j < g; j++)
+            {
+                if (a[j] == n)
+                {
+                    a[j] = -99999;
+                    break;
+                }   
+            }
+        }
+        for (int j = 0; j < g; j++)
+        {
+            if (a[j] + 3 >= 1 && a[j] + 3 <= m)
+            {
+                s++;
+                b[l] = a[j] + 3;
+                l++;
+            }
+            if (a[j] - 3 >= 1 && a[j] - 3 <= m)
+            {
+                s++;
+                b[l] = a[j] - 3;
+                l++;
+            }
+        }
+        for (int j = 0; j < l; j++)
+        {
+            for (int z = j + 1; z < l; z++)
+            {
+                if (b[j] == b[z] && b[j] != 0 && b[z] != 0)
+                {
+                    b[z] = 0;
+                    s--;
+                }
+            }
+        }
+        printf(""%d\n"", s);
+    }
+    return 0;
+}"
+31,D,C,60973173,2023-02-24 20:23:46,服了你个老六的他很有担当,答案错误,"#include<stdio.h>
+int main()
+{
+    int i,n,m,op,num,s=0,a[100000]={0};
+    scanf(""%d%d"",&m,&n);//m种牌，n次操作次数。
+    for(i=0;i<n;i++)
+    {
+        scanf(""%d%d"",&op,&num);
+        if(op==1)
+        {
+            if(num-3>=1)
+            {
+                a[num-3]+=1;
+                if(a[num-3]==1)
+                    s++;
+            }        
+            if(num+3<=m)
+            {
+                a[num+3]+=1;
+                if(a[num+3]==1)
+                    s++;
+            }
+        }
+        else if(op==2)
+        {
+            if(num-3>=1)
+            {    
+                a[num-3]-=1;
+                if(a[num-3]==0)
+                s--;
+            }
+            if(num+3<=m)
+            {
+                a[num+3]-=1;
+                if(a[num+3]==0)
+                s--;
+            }
+        }
+        printf(""%d\n"",s);
+    }
+    return 0;
+}"
+32,D,C,60973193,2023-02-24 20:24:06,姜羊yskm,段错误,"#include<stdio.h>
+int arr[200];
+int brr[200];
+int main()
+{
+    int m,q;
+    scanf(""%d%d"",&m,&q);
+    while(q--)
+    {
+        int op,num;
+        scanf(""%d%d"",&op,&num);
+        if(op==1)
+        {
+            arr[num]++;
+            if(num-3>=1&&arr[num]!=0)
+                brr[num-3]++;
+            if(num+3<=m&&arr[num]!=0)
+                brr[num+3]++;
+        }   
+        if(op==2)
+        {
+            arr[num]--;
+           if(num-3>=1)
+                      brr[num-3]--;
+           if(num+3<=m)
+                      brr[num+3]--;
+            
+         }
+        int ans=0;
+       for(int i=1;i<=200;i++)
+       {
+           if(brr[i]!=0)
+               ans++;
+       }
+        printf(""%d\n"",ans);
+    }
+    
+   return 0; 
+}"
+33,D,C,60973247,2023-02-24 20:25:08,服了你个老六的他很有担当,答案正确,"#include<stdio.h>
+int main()
+{
+    int i,n,m,op,num,s=0,a[100001]={0};
+    scanf(""%d%d"",&m,&n);//m种牌，n次操作次数。
+    for(i=0;i<n;i++)
+    {
+        scanf(""%d%d"",&op,&num);
+        if(op==1)
+        {
+            if(num-3>=1)
+            {
+                a[num-3]+=1;
+                if(a[num-3]==1)
+                    s++;
+            }        
+            if(num+3<=m)
+            {
+                a[num+3]+=1;
+                if(a[num+3]==1)
+                    s++;
+            }
+        }
+        else if(op==2)
+        {
+            if(num-3>=1)
+            {    
+                a[num-3]-=1;
+                if(a[num-3]==0)
+                s--;
+            }
+            if(num+3<=m)
+            {
+                a[num+3]-=1;
+                if(a[num+3]==0)
+                s--;
+            }
+        }
+        printf(""%d\n"",s);
+    }
+    return 0;
+}"
+34,D,C,60973290,2023-02-24 20:25:52,姜羊yskm,答案错误,"#include<stdio.h>
+int arr[100005];
+int brr[100005];
+int main()
+{
+    long long m,q;
+    scanf(""%lld%lld"",&m,&q);
+    while(q--)
+    {
+        long long op,num;
+        scanf(""%lld%lld"",&op,&num);
+        if(op==1)
+        {
+            arr[num]++;
+            if(num-3>=1&&arr[num]!=0)
+                brr[num-3]++;
+            if(num+3<=m&&arr[num]!=0)
+                brr[num+3]++;
+        }   
+        if(op==2)
+        {
+            arr[num]--;
+           if(num-3>=1)
+                      brr[num-3]--;
+           if(num+3<=m)
+                      brr[num+3]--;
+            
+         }
+        long long ans=0;
+       for(int i=1;i<=200;i++)
+       {
+           if(brr[i]!=0)
+               ans++;
+       }
+        printf(""%lld\n"",ans);
+    }
+    
+   return 0; 
+}"
+35,D,C,60973371,2023-02-24 20:26:53,姜羊yskm,运行超时,"#include<stdio.h>
+int arr[100005];
+int brr[100005];
+int main()
+{
+    long long m,q;
+    scanf(""%lld%lld"",&m,&q);
+    while(q--)
+    {
+        long long op,num;
+        scanf(""%lld%lld"",&op,&num);
+        if(op==1)
+        {
+            arr[num]++;
+            if(num-3>=1&&arr[num]!=0)
+                brr[num-3]++;
+            if(num+3<=m&&arr[num]!=0)
+                brr[num+3]++;
+        }   
+        if(op==2)
+        {
+            arr[num]--;
+           if(num-3>=1)
+                      brr[num-3]--;
+           if(num+3<=m)
+                      brr[num+3]--;
+            
+         }
+        long long ans=0;
+       for(int i=1;i<=m;i++)
+       {
+           if(brr[i]!=0)
+               ans++;
+       }
+        printf(""%lld\n"",ans);
+    }
+    
+   return 0; 
+}"
+36,D,C,60973629,2023-02-24 20:31:07,fync王萌,段错误,"#include <stdio.h>
+int main(){
+    int a[200]={0},n,m,t,i,b,x,j;
+    x=0;
+    scanf(""%d %d"",&m,&t);
+    for(i=0;i<t;i++){
+        scanf(""%d %d"",&n,&b);
+        if(n==1){
+            if(b+3<=m){
+                if(a[b+3]==0){
+                    x++;
+                }
+            }
+            if(b-3>=1){
+                if(a[b-3]==0){
+                    x++;
+                }
+            }
+            a[b+3]++;
+            a[b-3]++;
+        }else{
+            a[b+3]--;
+            a[b-3]--;
+            if(b+3<=m){
+                if(a[b+3]==0){
+                    x--;
+                }
+            }
+            if(b-3>=1){
+                if(a[b-3]==0){
+                    x--;
+                }
+            }
+        }
+        printf(""%d\n"",x);
+    }
+}"
+37,D,C,60973860,2023-02-24 20:35:10,cwbnb,段错误,"#include<stdio.h>
+int main(){
+    int m,n,a[105]={0},ab[105]={0},c,b,x=0;
+    scanf(""%d%d"",&m,&n);
+    for(int i=0;i<n;i++){
+        scanf(""%d%d"",&b,&c);
+        if(b==1){
+           if((c+3)>=1&&(c+3)<=m){
+              a[c+3]++;
+            
+           }  
+            if(c-3>=1&&c-3<=m){
+                a[c-3]++;
+              
+            }
+        }
+        else{
+            if(c+3>=1&&c+3<=m){
+              a[c+3]--;
+             
+           }  
+            if(c-3>=1&&c-3<=m){
+                a[c-3]--;
+                
+            }
+            
+        }
+       for(int i=1;i<=m;i++){
+           if(a[i]>0){
+               x++;
+           }
+       }
+        printf(""%d\n"",x);
+        x=0;
+    }
+}"
+38,D,C,60973906,2023-02-24 20:35:58,cwbnb,运行超时,"#include<stdio.h>
+int main(){
+    int m,n,a[100005]={0},c,b,x=0;
+    scanf(""%d%d"",&m,&n);
+    for(int i=0;i<n;i++){
+        scanf(""%d%d"",&b,&c);
+        if(b==1){
+           if((c+3)>=1&&(c+3)<=m){
+              a[c+3]++;
+            
+           }  
+            if(c-3>=1&&c-3<=m){
+                a[c-3]++;
+              
+            }
+        }
+        else{
+            if(c+3>=1&&c+3<=m){
+              a[c+3]--;
+             
+           }  
+            if(c-3>=1&&c-3<=m){
+                a[c-3]--;
+                
+            }
+            
+        }
+       for(int i=1;i<=m;i++){
+           if(a[i]>0){
+               x++;
+           }
+       }
+        printf(""%d\n"",x);
+        x=0;
+    }
+}"
+39,D,C,60973927,2023-02-24 20:36:14,cwbnb,运行超时,"#include<stdio.h>
+int main(){
+    int m,n,a[100005]={0},c,b,x=0;
+    scanf(""%d%d"",&m,&n);
+    for(int i=0;i<n;i++){
+        scanf(""%d%d"",&b,&c);
+        if(b==1){
+           if((c+3)>=1&&(c+3)<=m){
+              a[c+3]++;
+            
+           }  
+            if(c-3>=1&&c-3<=m){
+                a[c-3]++;
+              
+            }
+        }
+        else{
+            if(c+3>=1&&c+3<=m){
+              a[c+3]--;
+             
+           }  
+            if(c-3>=1&&c-3<=m){
+                a[c-3]--;
+                
+            }
+            
+        }
+       for(int i=1;i<=m;i++){
+           if(a[i]>0){
+               x++;
+           }
+       }
+        printf(""%d\n"",x);
+        x=0;
+    }
+}"
+40,D,C,60973962,2023-02-24 20:36:46,cwbnb,运行超时,"#include<stdio.h>
+int main(){
+    int m,n,a[100005]={0},c,b,x=0;
+    scanf(""%d%d"",&m,&n);
+    for(int i=0;i<n;i++){
+        scanf(""%d%d"",&b,&c);
+        if(b==1){
+           if((c+3)>=1&&(c+3)<=m){
+              a[c+3]++;
+            
+           }  
+            if(c-3>=1&&c-3<=m){
+                a[c-3]++;
+              
+            }
+        }
+        else{
+            if(c+3>=1&&c+3<=m){
+              a[c+3]--;
+             
+           }  
+            if(c-3>=1&&c-3<=m){
+                a[c-3]--;
+                
+            }
+            
+        }
+       for(int i=1;i<=m;i++){
+           if(a[i]>0){
+               x++;
+           }
+       }
+        printf(""%d\n"",x);
+        x=0;
+    }
+}"
+41,D,C,60974511,2023-02-24 20:45:51,fync王萌,答案正确,"#include <stdio.h>
+int main(){
+    long long a[100][1000]={0},n,m,t,i,b,x,j,c,d,e,f;
+    x=0;
+    scanf(""%lld %lld"",&m,&t);
+    for(i=0;i<t;i++){
+        scanf(""%lld %lld"",&n,&b);
+        if(n==1){
+            c=(b+3)/1000;
+            d=(b+3)%1000;
+            if(b+3<=m){
+                if(a[c][d]==0){
+                    x++;
+                }
+            }
+            a[c][d]++;
+            c=(b-3)/1000;
+            d=(b-3)%1000;
+            if(b-3>=1){
+                if(a[c][d]==0){
+                    x++;
+                }
+            }
+            a[c][d]++;
+        }else{
+            c=(b+3)/1000;
+            d=(b+3)%1000;
+            a[c][d]--;
+            if(b+3<=m){
+                if(a[c][d]==0){
+                    x--;
+                }
+            }
+            c=(b-3)/1000;
+            d=(b-3)%1000;
+            a[c][d]--;
+            if(b-3>=1){
+                if(a[c][d]==0){
+                    x--;
+                }
+            }
+        }
+        printf(""%lld\n"",x);
+    }
+}"
+42,D,C,60975068,2023-02-24 20:54:32,٩( ๑╹ ꇴ╹)۶haha,段错误,"#include<stdio.h>
+int main()
+{
+	int m,q;
+	int op,n;
+	int i,k,sum;
+	scanf(""%d %d"",&m,&q);
+	int a[201][2]={0};
+	for(i=1;i<=q;i++)
+	{
+		scanf(""%d %d"",&op,&n);
+		if(op==1)
+		{
+			if((n-3)>=1&&(n-3)<=100)
+			{
+				a[n-3][0]=n-3;
+				a[n-3][1]++;
+			}
+			if((n+3)>=1&&(n+3)<=100)
+			{
+				a[n+3][0]=n+3;
+				a[n+3][1]++;
+			}
+		}
+		else
+		{
+			if((n-3)>=1&&(n-3)<=100)
+			{
+				if(--a[n-3][1]>0);
+				else
+				{
+					a[n-3][0]=0;
+				}
+			}
+			if((n+3)>=1&&(n+3)<=100)
+			{
+				if(--a[n+3][1]>0);
+				else
+				{
+					a[n+3][0]=0;
+				}
+			}
+		}
+		sum=0;
+		for(k=1;k<=m;k++)
+		{
+			if(a[k][0]>0)
+			sum++;
+		}
+		printf(""%d\n"",sum);
+	}
+	return 0;
+}"
+43,D,C(gcc 7.5.0),60975160,2023-02-24 20:56:11,拒绝pua的柯基很讲原则,运行超时,"#include<stdio.h>
+#include<string.h>
+int main(){
+    int m,q;
+    scanf(""%d%d"", &m,&q);    
+    int i =0;
+    int river[100000];
+    memset(river,0,sizeof(river));//赋初值0
+    for(; i<q; i++){
+        int count[100000];
+        memset(count,0,sizeof(count));//赋初值0
+        int op,num;
+        int j = 0;
+        scanf(""%d%d"", &op,&num);
+        //op阶段
+        if(op == 1 ){ //jiaru
+            river[num]++;
+            //printf(""num:%d  river[num]:%d\n"",num,river[num]);
+        }
+        else{ //yichu
+            if(river[num]>0)
+                river[num]--;
+            //printf(""num:%d  river[num]:%d\n"",num,river[num]);
+        }
+        //判定阶段
+        for(j = 1;j <= m; j++){
+            //printf(""最初：j = %d,count[j]:%d\n"",j,count[j]);
+            //j<4
+            if(j<4){    
+                if(river[j+3]!=0){
+                    count[j]++;
+                    //printf(""river[%d+3]:%d\n"",j,river[j+3]);
+                    //printf(""判定后count[j]:%d"",count[j]);
+                }
+            }
+            //     4<=j<=m-3
+            if(j>=4&&j<=(m-3)){
+                //printf(""river[%d+3]:%d\n"",j,river[j+3]);
+                if( (river[j-3]!=0) || (river[j+3]!=0) ){
+                    count[j]++;
+                    //printf(""判定后count[j]:%d"",count[j]);
+                } 
+            }
+            //j>=m-3
+            if(j>(m-3)){
+                //printf(""j:%d\n"",j);
+                if(river[j-3]!=0)
+                    count[j]++;
+                //printf(""判定后count[j]:%d"",count[j]);
+            }
+        }
+        
+        int sum=0;
+        for(j=1; j<= m; j++){
+            if(count[j]!=0){
+                //printf(""j:%d\n"",j);
+                sum++;
+            }
+        }
+        printf(""%d\n"",sum);
+    }
+    return 0;
+    }"
+44,D,C(gcc 7.5.0),60975208,2023-02-24 20:57:04,拒绝pua的柯基很讲原则,段错误,"#include<stdio.h>
+#include<string.h>
+int main(){
+    int m,q;
+    scanf(""%d%d"", &m,&q);    
+    int i =0;
+    int river[1000];
+    memset(river,0,sizeof(river));//赋初值0
+    for(; i<q; i++){
+        int count[1000];
+        memset(count,0,sizeof(count));//赋初值0
+        int op,num;
+        int j = 0;
+        scanf(""%d%d"", &op,&num);
+        //op阶段
+        if(op == 1 ){ //jiaru
+            river[num]++;
+            //printf(""num:%d  river[num]:%d\n"",num,river[num]);
+        }
+        else{ //yichu
+            if(river[num]>0)
+                river[num]--;
+            //printf(""num:%d  river[num]:%d\n"",num,river[num]);
+        }
+        //判定阶段
+        for(j = 1;j <= m; j++){
+            //printf(""最初：j = %d,count[j]:%d\n"",j,count[j]);
+            //j<4
+            if(j<4){    
+                if(river[j+3]!=0){
+                    count[j]++;
+                    //printf(""river[%d+3]:%d\n"",j,river[j+3]);
+                    //printf(""判定后count[j]:%d"",count[j]);
+                }
+            }
+            //     4<=j<=m-3
+            if(j>=4&&j<=(m-3)){
+                //printf(""river[%d+3]:%d\n"",j,river[j+3]);
+                if( (river[j-3]!=0) || (river[j+3]!=0) ){
+                    count[j]++;
+                    //printf(""判定后count[j]:%d"",count[j]);
+                } 
+            }
+            //j>=m-3
+            if(j>(m-3)){
+                //printf(""j:%d\n"",j);
+                if(river[j-3]!=0)
+                    count[j]++;
+                //printf(""判定后count[j]:%d"",count[j]);
+            }
+        }
+        
+        int sum=0;
+        for(j=1; j<= m; j++){
+            if(count[j]!=0){
+                //printf(""j:%d\n"",j);
+                sum++;
+            }
+        }
+        printf(""%d\n"",sum);
+    }
+    return 0;
+    }"
+45,D,C,60975214,2023-02-24 20:57:08,٩( ๑╹ ꇴ╹)۶haha,段错误,"#include<stdio.h>
+int main()
+{
+	int m,q;
+	int op,n;
+	int i,k,sum;
+	scanf(""%d %d"",&m,&q);
+	int a[10001][2]={0};
+	for(i=1;i<=q;i++)
+	{
+		scanf(""%d %d"",&op,&n);
+		if(op==1)
+		{
+			if((n-3)>=1&&(n-3)<=10000)
+			{
+				a[n-3][0]=n-3;
+				a[n-3][1]++;
+			}
+			if((n+3)>=1&&(n+3)<=10000)
+			{
+				a[n+3][0]=n+3;
+				a[n+3][1]++;
+			}
+		}
+		else
+		{
+			if((n-3)>=1&&(n-3)<=10000)
+			{
+				if(--a[n-3][1]>0);
+				else
+				{
+					a[n-3][0]=0;
+				}
+			}
+			if((n+3)>=1&&(n+3)<=10000)
+			{
+				if(--a[n+3][1]>0);
+				else
+				{
+					a[n+3][0]=0;
+				}
+			}
+		}
+		sum=0;
+		for(k=1;k<=m;k++)
+		{
+			if(a[k][0]>0)
+			sum++;
+		}
+		printf(""%d\n"",sum);
+	}
+	return 0;
+}"
+46,D,C,60975314,2023-02-24 20:58:28,٩( ๑╹ ꇴ╹)۶haha,段错误,"#include<stdio.h>
+int a[10001][2]={0};
+int main()
+{
+	int m,q;
+	int op,n;
+	int i,k,sum;
+	scanf(""%d %d"",&m,&q);
+	for(i=1;i<=q;i++)
+	{
+		scanf(""%d %d"",&op,&n);
+		if(op==1)
+		{
+			if((n-3)>=1&&(n-3)<=10000)
+			{
+				a[n-3][0]=n-3;
+				a[n-3][1]++;
+			}
+			if((n+3)>=1&&(n+3)<=10000)
+			{
+				a[n+3][0]=n+3;
+				a[n+3][1]++;
+			}
+		}
+		else
+		{
+			if((n-3)>=1&&(n-3)<=10000)
+			{
+				if(--a[n-3][1]>0);
+				else
+				{
+					a[n-3][0]=0;
+				}
+			}
+			if((n+3)>=1&&(n+3)<=10000)
+			{
+				if(--a[n+3][1]>0);
+				else
+				{
+					a[n+3][0]=0;
+				}
+			}
+		}
+		sum=0;
+		for(k=1;k<=m;k++)
+		{
+			if(a[k][0]>0)
+			sum++;
+		}
+		printf(""%d\n"",sum);
+	}
+	return 0;
+}"
+47,D,C,60975493,2023-02-24 21:00:28,٩( ๑╹ ꇴ╹)۶haha,段错误,"#include<stdio.h>
+int a[10001][2]={0};
+int main()
+{
+	int m,q;
+	int op,n;
+	int i,k,sum;
+	scanf(""%d %d"",&m,&q);
+	for(i=1;i<=q;i++)
+	{
+		scanf(""%d %d"",&op,&n);
+		if(op==1)
+		{
+			if((n-3)>=1&&(n-3)<=10000)
+			{
+				a[n-3][0]=n-3;
+				a[n-3][1]++;
+			}
+			if((n+3)<=10000)
+			{
+				a[n+3][0]=n+3;
+				a[n+3][1]++;
+			}
+		}
+		else
+		{
+			if((n-3)>=1&&(n-3)<=10000)
+			{
+				if(--a[n-3][1]>0);
+				else
+				{
+					a[n-3][0]=0;
+				}
+			}
+			if((n+3)<=10000)
+			{
+				if(--a[n+3][1]>0);
+				else
+				{
+					a[n+3][0]=0;
+				}
+			}
+		}
+		sum=0;
+		for(k=1;k<=m;k++)
+		{
+			if(a[k][0]>0)
+			sum++;
+		}
+		printf(""%d\n"",sum);
+	}
+	return 0;
+}"
+48,D,C,60975630,2023-02-24 21:03:44,在刷代码的林北很想吃开封菜,运行超时,"#include<stdio.h>
+int main()
+{
+	int m,q,op,num,i,j,k,paihe[205]={},paishu=0,a,b,count=0;
+	scanf(""%d%d"",&m,&q);
+	int _m[105]={};
+	for(i=0;i<q;i++)
+	{
+		scanf(""%d%d"",&op,&num);
+		if(op==1){
+			paihe[paishu]=num;
+			paishu++;
+		}
+		if(op==2){
+			for(j=0;j<200;j++){
+				if(paihe[j]==num){
+					for(k=j;k<200;k++){
+						paihe[k]=paihe[k+1];
+					}
+					break;
+				}
+			}
+			paishu--;
+		}
+		for(j=1;j<=m;j++)
+		{
+			for(k=0;k<200;k++)
+			{
+				a=j+3;
+				b=j-3;
+				if(a<=m&&a==paihe[k]) break;
+				else if(b>=1&&b==paihe[k]) break;
+			}
+			//printf(""%d\t"",k);
+			if(k<200)count++;
+		}
+		printf(""%d\n"",count);
+		count=0;
+	}
+	return 0;
+}"
+49,D,C,60976323,2023-02-24 21:23:31,٩( ๑╹ ꇴ╹)۶haha,段错误,"#include<stdio.h>
+int a[10010][2]={0};
+int main()
+{
+	int m,q;
+	int op,n;
+	int i,k,sum;
+	scanf(""%d %d"",&m,&q);
+	for(i=1;i<=q;i++)
+	{
+		scanf(""%d %d"",&op,&n);
+		if(op==1)
+		{
+			if((n-3)>=1&&(n-3)<=10000)
+			{
+				a[n-3][0]=n-3;
+				a[n-3][1]++;
+			}
+			if((n+3)<=10000)
+			{
+				a[n+3][0]=n+3;
+				a[n+3][1]++;
+			}
+		}
+		else
+		{
+			if((n-3)>=1&&(n-3)<=10000)
+			{
+				if(--a[n-3][1]>0);
+				else
+				{
+					a[n-3][0]=0;
+				}
+			}
+			if((n+3)<=10000)
+			{
+				if(--a[n+3][1]>0);
+				else
+				{
+					a[n+3][0]=0;
+				}
+			}
+		}
+		sum=0;
+		for(k=1;k<=m;k++)
+		{
+			if(a[k][0]>0)
+			sum++;
+		}
+		printf(""%d\n"",sum);
+	}
+	return 0;
+}"
+50,D,C,60976942,2023-02-24 21:45:17,٩( ๑╹ ꇴ╹)۶haha,段错误,"#include<stdio.h>
+int a[10010]={0};
+int main()
+{
+	int m,q;
+	int op,n;
+	int i,k,sum=0;
+	scanf(""%d %d"",&m,&q);
+	for(i=1;i<=q;i++)
+	{
+		scanf(""%d %d"",&op,&n);
+		if(op==1)
+		{
+			if((n-3)>=1&&(n-3)<=m)
+			{
+				a[n-3]++;
+                if(a[n-3]==1)
+                    sum++;
+			}
+			if((n+3)<=m)
+			{
+				a[n+3]++;
+                if(a[n+3]==1)
+                    sum++;
+			}
+		}
+		else
+		{
+			if((n-3)>=1&&(n-3)<=m)
+			{
+                a[n-3]--;
+                if(a[n-3]==0)
+                    sum--;
+			}
+			if((n+3)<=m)
+			{
+                a[n+3]--;
+                if(a[n+3]==0)
+                    sum--;
+			}
+		}
+		printf(""%d\n"",sum);
+	}
+	return 0;
+}"
+51,D,C,60976991,2023-02-24 21:47:09,٩( ๑╹ ꇴ╹)۶haha,段错误,"#include<stdio.h>
+int a[10010]={0};
+int main()
+{
+	int m,q;
+	int op,n;
+	int i,k,sum=0;
+	scanf(""%d %d"",&m,&q);
+	for(i=1;i<=q;i++)
+	{
+		scanf(""%d %d"",&op,&n);
+		if(op==1)
+		{
+			if(n-3>=1&&n-3<=m)
+			{
+				a[n-3]++;
+                if(a[n-3]==1)
+                    sum++;
+			}
+			if(n+3<=m)
+			{
+				a[n+3]++;
+                if(a[n+3]==1)
+                    sum++;
+			}
+		}
+		else
+		{
+			if(n-3>=1&&n-3<=m)
+			{
+                a[n-3]--;
+                if(a[n-3]==0)
+                    sum--;
+			}
+			if(n+3<=m)
+			{
+                a[n+3]--;
+                if(a[n+3]==0)
+                    sum--;
+			}
+		}
+		printf(""%d\n"",sum);
+	}
+	return 0;
+}"
+52,D,C,60977010,2023-02-24 21:48:16,٩( ๑╹ ꇴ╹)۶haha,答案正确,"#include<stdio.h>
+int a[100010]={0};
+int main()
+{
+	int m,q;
+	int op,n;
+	int i,k,sum=0;
+	scanf(""%d %d"",&m,&q);
+	for(i=1;i<=q;i++)
+	{
+		scanf(""%d %d"",&op,&n);
+		if(op==1)
+		{
+			if(n-3>=1&&n-3<=m)
+			{
+				a[n-3]++;
+                if(a[n-3]==1)
+                    sum++;
+			}
+			if(n+3<=m)
+			{
+				a[n+3]++;
+                if(a[n+3]==1)
+                    sum++;
+			}
+		}
+		else
+		{
+			if(n-3>=1&&n-3<=m)
+			{
+                a[n-3]--;
+                if(a[n-3]==0)
+                    sum--;
+			}
+			if(n+3<=m)
+			{
+                a[n+3]--;
+                if(a[n+3]==0)
+                    sum--;
+			}
+		}
+		printf(""%d\n"",sum);
+	}
+	return 0;
+}"
+53,D,C,60977028,2023-02-24 21:49:18,٩( ๑╹ ꇴ╹)۶haha,运行超时,"#include<stdio.h>
+int a[100010][2]={0};
+int main()
+{
+	int m,q;
+	int op,n;
+	int i,k,sum;
+	scanf(""%d %d"",&m,&q);
+	for(i=1;i<=q;i++)
+	{
+		scanf(""%d %d"",&op,&n);
+		if(op==1)
+		{
+			if((n-3)>=1&&(n-3)<=10000)
+			{
+				a[n-3][0]=n-3;
+				a[n-3][1]++;
+			}
+			if((n+3)<=10000)
+			{
+				a[n+3][0]=n+3;
+				a[n+3][1]++;
+			}
+		}
+		else
+		{
+			if((n-3)>=1&&(n-3)<=10000)
+			{
+				if(--a[n-3][1]>0);
+				else
+				{
+					a[n-3][0]=0;
+				}
+			}
+			if((n+3)<=10000)
+			{
+				if(--a[n+3][1]>0);
+				else
+				{
+					a[n+3][0]=0;
+				}
+			}
+		}
+		sum=0;
+		for(k=1;k<=m;k++)
+		{
+			if(a[k][0]>0)
+			sum++;
+		}
+		printf(""%d\n"",sum);
+	}
+	return 0;
+}"
+54,D,C,60977085,2023-02-24 21:52:32,٩( ๑╹ ꇴ╹)۶haha,运行超时,"#include<stdio.h>
+int a[100010][2]={0};
+int main()
+{
+	int m,q;
+	int op,n;
+	int i,k,sum;
+	scanf(""%d %d"",&m,&q);
+	for(i=1;i<=q;i++)
+	{
+		scanf(""%d %d"",&op,&n);
+		if(op==1)
+		{
+			if(n-3>=1&&n-3<=m)
+			{
+				a[n-3][0]=1;
+				a[n-3][1]++;
+			}
+			if(n+3<=m)
+			{
+				a[n+3][0]=1;
+				a[n+3][1]++;
+			}
+		}
+		else
+		{
+			if(n-3>=1&&n-3<=m)
+			{
+				if(--a[n-3][1]>0);
+				else
+				{
+					a[n-3][0]=0;
+				}
+			}
+			if(n+3<=m)
+			{
+				if(--a[n+3][1]>0);
+				else
+				{
+					a[n+3][0]=0;
+				}
+			}
+		}
+		sum=0;
+		for(k=1;k<=m;k++)
+		{
+			if(a[k][0]>0)
+			sum++;
+		}
+		printf(""%d\n"",sum);
+	}
+	return 0;
+}"
+55,D,C,60977122,2023-02-24 21:54:40,٩( ๑╹ ꇴ╹)۶haha,答案正确,"#include<stdio.h>
+int a[100010]={0};
+int main()
+{
+	int m,q;
+	int op,n;
+	int i,k,sum=0;
+	scanf(""%d %d"",&m,&q);
+	for(i=1;i<=q;i++)
+	{
+		scanf(""%d %d"",&op,&n);
+		if(op==1)
+		{
+			if(n-3>=1&&n-3<=m)
+			{
+				a[n-3]++;
+                if(a[n-3]==1)
+                    sum++;
+			}
+			if(n+3<=m)
+			{
+				a[n+3]++;
+                if(a[n+3]==1)
+                    sum++;
+			}
+		}
+		else
+		{
+			if(n-3>=1&&n-3<=m)
+			{
+                a[n-3]--;
+                if(a[n-3]==0)
+                    sum--;
+			}
+			if(n+3<=m)
+			{
+                a[n+3]--;
+                if(a[n+3]==0)
+                    sum--;
+			}
+		}
+		printf(""%d\n"",sum);
+	}
+	return 0;
+}"
+56,D,C,60977889,2023-02-24 22:50:35,曜花缘,运行超时,"#include<stdio.h>
+#include<string.h>
+int main(){
+    int m,q,ans,num,op,a[100001][2],f=1;
+    scanf(""%d %d"",&m,&q);if(m<=6) f=0;
+    for(int i=0;i<=m;i++){
+        for(int j=0;j<2;j++){
+            a[i][j]=0;
+        }
+    }
+    for(int i=1;i<=q;i++){
+        ans=0;
+        scanf(""%d %d"",&op,&num);
+        if(op==1){
+            a[num][0]++;
+         }
+            else {
+                a[num][0]--;
+            }
+            for(int k=1;k<=m;k++){
+                if(a[k][0]>=1){
+                    
+                     
+                        if(k<3)a[k+3][1]=-1;
+                        else if(k>m-3) a[k-3][1]=-1;
+                        else {
+                            a[k-3][1]=-1;
+                            a[k+3][1]=-1;
+                        }
+                   
+                }
+                
+            }
+            for(int i=1;i<m+1;i++){
+                if(a[i][1]==-1) ans++;
+                a[i][1]=0;
+            }
+            printf(""%d"",ans);
+                if(i==q){break;}
+                else printf(""\n"");
+    }
+}"
+57,D,C,60977898,2023-02-24 22:51:15,曜花缘,运行超时,"#include<stdio.h>
+#include<string.h>
+int main(){
+    int m,q,ans,num,op,a[100001][2],f=1;
+    scanf(""%d %d"",&m,&q);if(m<=6) f=0;
+    for(int i=0;i<=m;i++){
+        for(int j=0;j<2;j++){
+            a[i][j]=0;
+        }
+    }
+    for(int i=1;i<=q;i++){
+        ans=0;
+        scanf(""%d %d"",&op,&num);
+        if(op==1){
+            a[num][0]++;
+         }
+            else {
+                a[num][0]--;
+            }
+            for(int k=1;k<=m;k++){
+                if(a[k][0]>=1){
+                    
+                     
+                        if(k<3)a[k+3][1]=-1;
+                        else if(k>m-3) a[k-3][1]=-1;
+                        else {
+                            a[k-3][1]=-1;
+                            a[k+3][1]=-1;
+                        }
+                   
+                }
+                
+            }
+            for(int i=1;i<m+1;i++){
+                if(a[i][1]==-1) ans++;
+                a[i][1]=0;
+            }
+            printf(""%d"",ans);
+                if(i==q){break;}
+                else printf(""\n"");
+    }
+}"
+58,D,C,60977930,2023-02-24 22:53:13,曜花缘,运行超时,"#include<stdio.h>
+#include<string.h>
+int main(){
+    int m,q,ans,num,op,a[100001][2],f=1;
+    scanf(""%d %d"",&m,&q);if(m<=6) f=0;
+    for(int i=0;i<=m;i++){
+        for(int j=0;j<2;j++){
+            a[i][j]=0;
+        }
+    }
+    for(int i=1;i<=q;i++){
+        ans=0;
+        scanf(""%d %d"",&op,&num);
+        if(op==1){
+            a[num][0]++;
+         }
+            else {
+                a[num][0]--;
+            }
+            for(int k=1;k<=m;k++){
+                if(a[k][0]>=1){
+                    
+                     
+                        if(k<3)a[k+3][1]=-1;
+                        else if(k>m-3) a[k-3][1]=-1;
+                        else {
+                            a[k-3][1]=-1;
+                            a[k+3][1]=-1;
+                        }
+                   
+                }
+                
+            }
+            for(int i=1;i<m+1;i++){
+                if(a[i][1]==-1) ans++;
+                a[i][1]=0;
+            }
+            printf(""%d"",ans);
+                if(i==q){break;}
+                else printf(""\n"");
+    }
+}"
+59,D,C,60977948,2023-02-24 22:54:48,Valaryu,运行超时,"#include<stdio.h>
+#define maxn 200000
+int number[maxn];
+int count[maxn];
+
+int main()
+{
+    int m,q;
+    int op,num;
+    scanf(""%d %d"",&m,&q);
+    for(int i = 0;i<q;i++)
+    { 
+        scanf(""%d %d"",&op,&num);
+        if(op==1) 
+        {    
+            if(num-3>0) number[num-3] += 1;
+            if(num+3<=m) number[num+3] += 1;
+        }
+        if(op==2)
+        {
+            if(num-3>0) number[num-3] -= 1;
+            if(num+3<=m) number[num+3] -= 1;
+        }
+        for(int j = 1;j<=m;j++) if(number[j]>0) count[i]++;
+        printf(""%d\n"",count[i]);
+    }
+    return 0;
+}"
+60,D,C,60977964,2023-02-24 22:55:51,Valaryu,运行超时,"#include<stdio.h>
+#define maxn 200000
+int number[maxn];
+int count[maxn];
+
+int main()
+{
+    int m,q;
+    int op,num;
+    scanf(""%d %d"",&m,&q);
+    for(int i = 0;i<q;i++)
+    { 
+        scanf(""%d %d"",&op,&num);
+        if(op==1) 
+        {    
+            if(num-3>0) number[num-3] += 1;
+            if(num+3<=m) number[num+3] += 1;
+        }
+        if(op==2)
+        {
+            if(num-3>0) number[num-3] -= 1;
+            if(num+3<=m) number[num+3] -= 1;
+        }
+        for(int j = 1;j<=m;j++) if(number[j]>0) count[i]++;
+        printf(""%d\n"",count[i]);
+    }
+    return 0;
+}"
+61,D,C,60978631,2023-02-25 00:15:52,牛客777627551号,段错误,"//#include<stdio.h>
+//int main()
+//{
+//	int n,x=0;
+//	scanf(""%d"",&n);
+//	int arr[110],i;
+//	for(i=0;i<n;i++)
+//	scanf(""%d"",&arr[i]);
+//	if(n==1)
+//	printf(""Yes"");
+//	else
+//	{
+//		if(arr[0]<arr[1])
+//		{
+//			for(i=1;i<n-1;i++)
+//			{
+//				if(arr[i]>arr[i+1])
+//				{
+//					x=i+1;
+//					for(i=x;i<n-1;i++)
+//					{
+//						if(arr[i]>arr[i+1])
+//						x=1;
+//						else
+//						{
+//							x=0;
+//							break;
+//						}
+//					}
+//					break;
+//				}
+//				else if(arr[i]==arr[i+1])
+//				{
+//					x=i+1;
+//					for(i=x;i<n-1;i++)
+//					{
+//						if(arr[i]>arr[i+1])
+//						{
+//							
+//						}
+//						else if(arr[i]==arr[i+1])
+//						{
+//							
+//						}
+//						else
+//						{
+//							x=0;
+//							break;
+//						}
+//					}
+//				}
+//				else
+//				{
+//					if(arr[i]<arr[i+1])
+//					{
+//						x=1;
+//					}
+//					else
+//					{
+//						x=0;
+//						break;
+//					}
+//				}
+//			}
+//		}
+//		else if(arr[0]==arr[1])
+//		{
+//			for(i=1;i<n-1;i++)
+//			{
+//				
+//			}
+//		}
+//		else
+//		{
+//			for(i=0;i<n-1;i++)
+//			{
+//				if(arr[i]>arr[i+1])
+//				{
+//					x=1;
+//				}
+//				else
+//				{
+//					x=0;
+//					break;
+//				}
+//			}
+//		}
+//		if(x==0)
+//		printf(""No"");
+//		else
+//		printf(""Yes"");
+//	} 
+//	return 0;
+//}
+//#include<stdio.h>
+//int main()
+//{
+//	int n,m,i,j,z=0;
+//	scanf(""%d%d"",&n,&m);
+//	int x[10010],y[10010];
+//	for(i=0;i<m;i++)
+//	scanf(""%d%d"",&x[i],&y[i]);
+//	for(i=0;i<m;i++)
+//	{
+//		if(x[i]!=y[i])
+//		{
+//			for(j=0;j<m;j++)
+//			{
+//				if(x[j]==x[i]&&(y[i]!=y[j]||x[i]!=y[j]))
+//				{
+//					z=1;
+//					break;
+//				}
+//				if(y[j]==x[i]&&(y[i]!=x[j]||x[i]!=x[j]))
+//				{
+//					z=1;
+//					break;
+//				}
+//				if(y[i]==x[j]&&(y[j]!=x[i]||y[j]!=y[i]))
+//				{
+//					z=1;
+//					break;
+//				}
+//				if(y[i]==y[j]&&(x[j]!=x[i]||x[j]!=y[i]))
+//				{
+//					z=1;
+//					break;
+//				}
+//			}
+//		}
+//	}
+//	if(z==1)
+//	printf(""Error"");
+//	else
+//	printf(""Nice"");
+//	return 0;
+//}
+#include<stdio.h>
+int main()
+{
+	int m,q,x=0;
+	scanf(""%d%d"",&m,&q);
+	int op,num,arr[100010]={0},tem[100010],i,j;
+	for(i=0;i<q;i++)
+	{
+		scanf(""%d%d"",&op,&num);
+		if(op==1)
+		{
+			if(arr[num]==0)
+			{
+				if(num<4)
+				{
+					if(arr[num+6]==0)
+					{
+						if(num+3<=m)
+						x++;
+						else
+						x+=0;
+					}
+					else
+					x+=0;
+				}
+				else if(num>=4&&num<=6)
+				{
+					if(arr[num+6]==0)
+					{
+						if(num+3<=m)
+						x+=2;
+						else
+						x++;
+					}
+					else
+					x++;
+				}
+				else
+				{
+					if(arr[num+6]!=0&&arr[num-6]==0)
+					x++;
+					else if(arr[num+6]==0&&arr[num-6]!=0)
+					{
+						if(num+3<=m)
+						x++;
+						else
+						x+=0;
+					}
+					else if(arr[num+6]!=0&&arr[num-6]!=0)
+					x+=0;
+					else if(arr[num+6]==0&&arr[num-6]==0)
+					{
+						if(num+3<=m)
+						x+=2;
+						else
+						x++;
+					}
+				}
+			}
+			arr[num]++;
+			tem[i]=x;
+		}
+		if(op==2)
+		{
+			if(arr[num]>1)
+			{
+				tem[i]=x;
+				arr[num]--;
+			}
+			else
+			{
+				if(num<4)
+				{
+					if(arr[num+6]==0)
+					{
+						if(num+3<=m)
+						x--;
+						else
+						x-=0;
+					}
+					else
+					x-=0;
+				}
+				else if(num>=4&&num<=6)
+				{
+					if(arr[num+6]==0)
+					{
+						if(num+3<=m)
+						x-=2;
+						else
+						x--;
+					}
+					else
+					x--;
+				}
+				else
+				{
+					if(arr[num]+6!=0&&arr[num-6]==0)
+					x--;
+					else if(arr[num+6]==0&&arr[num-6]!=0)
+					{
+						if(num+3<=m)
+						x--;
+						else
+						x-=0;
+					}
+					else if(arr[num+6]!=0&&arr[num-6]!=0)
+					x-=0;
+					else if(arr[num+6]==0&&arr[num-6]==0)
+					{
+						if(num+3<=m)
+						x-=2;
+						else
+						x--;
+					}
+				}
+				arr[num]--;
+				tem[i]=x;
+			}
+		}
+	}
+	for(i=0;i<q;i++)
+	printf(""%d\n"",tem[i]);
+	return 0;
+} "
+62,D,C,60978647,2023-02-25 00:18:07,牛客777627551号,段错误,"//#include<stdio.h>
+//int main()
+//{
+//	int n,x=0;
+//	scanf(""%d"",&n);
+//	int arr[110],i;
+//	for(i=0;i<n;i++)
+//	scanf(""%d"",&arr[i]);
+//	if(n==1)
+//	printf(""Yes"");
+//	else
+//	{
+//		if(arr[0]<arr[1])
+//		{
+//			for(i=1;i<n-1;i++)
+//			{
+//				if(arr[i]>arr[i+1])
+//				{
+//					x=i+1;
+//					for(i=x;i<n-1;i++)
+//					{
+//						if(arr[i]>arr[i+1])
+//						x=1;
+//						else
+//						{
+//							x=0;
+//							break;
+//						}
+//					}
+//					break;
+//				}
+//				else if(arr[i]==arr[i+1])
+//				{
+//					x=i+1;
+//					for(i=x;i<n-1;i++)
+//					{
+//						if(arr[i]>arr[i+1])
+//						{
+//							
+//						}
+//						else if(arr[i]==arr[i+1])
+//						{
+//							
+//						}
+//						else
+//						{
+//							x=0;
+//							break;
+//						}
+//					}
+//				}
+//				else
+//				{
+//					if(arr[i]<arr[i+1])
+//					{
+//						x=1;
+//					}
+//					else
+//					{
+//						x=0;
+//						break;
+//					}
+//				}
+//			}
+//		}
+//		else if(arr[0]==arr[1])
+//		{
+//			for(i=1;i<n-1;i++)
+//			{
+//				
+//			}
+//		}
+//		else
+//		{
+//			for(i=0;i<n-1;i++)
+//			{
+//				if(arr[i]>arr[i+1])
+//				{
+//					x=1;
+//				}
+//				else
+//				{
+//					x=0;
+//					break;
+//				}
+//			}
+//		}
+//		if(x==0)
+//		printf(""No"");
+//		else
+//		printf(""Yes"");
+//	} 
+//	return 0;
+//}
+//#include<stdio.h>
+//int main()
+//{
+//	int n,m,i,j,z=0;
+//	scanf(""%d%d"",&n,&m);
+//	int x[10010],y[10010];
+//	for(i=0;i<m;i++)
+//	scanf(""%d%d"",&x[i],&y[i]);
+//	for(i=0;i<m;i++)
+//	{
+//		if(x[i]!=y[i])
+//		{
+//			for(j=0;j<m;j++)
+//			{
+//				if(x[j]==x[i]&&(y[i]!=y[j]||x[i]!=y[j]))
+//				{
+//					z=1;
+//					break;
+//				}
+//				if(y[j]==x[i]&&(y[i]!=x[j]||x[i]!=x[j]))
+//				{
+//					z=1;
+//					break;
+//				}
+//				if(y[i]==x[j]&&(y[j]!=x[i]||y[j]!=y[i]))
+//				{
+//					z=1;
+//					break;
+//				}
+//				if(y[i]==y[j]&&(x[j]!=x[i]||x[j]!=y[i]))
+//				{
+//					z=1;
+//					break;
+//				}
+//			}
+//		}
+//	}
+//	if(z==1)
+//	printf(""Error"");
+//	else
+//	printf(""Nice"");
+//	return 0;
+//}
+#include<stdio.h>
+int main()
+{
+	int m,q,x=0;
+	scanf(""%d%d"",&m,&q);
+	int op,num,arr[100010]={0},tem[100010],i,j;
+	for(i=0;i<q;i++)
+	{
+		scanf(""%d%d"",&op,&num);
+		if(op==1)
+		{
+			if(arr[num]==0)
+			{
+				if(num<4)
+				{
+					if(arr[num+6]==0)
+					{
+						if(num+3<=m)
+						x++;
+						else
+						x+=0;
+					}
+					else
+					x+=0;
+				}
+				else if(num>=4&&num<=6)
+				{
+					if(arr[num+6]==0)
+					{
+						if(num+3<=m)
+						x+=2;
+						else
+						x++;
+					}
+					else
+					x++;
+				}
+				else
+				{
+					if(arr[num+6]!=0&&arr[num-6]==0)
+					x++;
+					else if(arr[num+6]==0&&arr[num-6]!=0)
+					{
+						if(num+3<=m)
+						x++;
+						else
+						x+=0;
+					}
+					else if(arr[num+6]!=0&&arr[num-6]!=0)
+					x+=0;
+					else if(arr[num+6]==0&&arr[num-6]==0)
+					{
+						if(num+3<=m)
+						x+=2;
+						else
+						x++;
+					}
+				}
+			}
+			arr[num]++;
+			tem[i]=x;
+		}
+		if(op==2)
+		{
+			if(arr[num]>1)
+			{
+				tem[i]=x;
+				arr[num]--;
+			}
+			else
+			{
+				if(num<4)
+				{
+					if(arr[num+6]==0)
+					{
+						if(num+3<=m)
+						x--;
+						else
+						x-=0;
+					}
+					else
+					x-=0;
+				}
+				else if(num>=4&&num<=6)
+				{
+					if(arr[num+6]==0)
+					{
+						if(num+3<=m)
+						x-=2;
+						else
+						x--;
+					}
+					else
+					x--;
+				}
+				else
+				{
+					if(arr[num]+6!=0&&arr[num-6]==0)
+					x--;
+					else if(arr[num+6]==0&&arr[num-6]!=0)
+					{
+						if(num+3<=m)
+						x--;
+						else
+						x-=0;
+					}
+					else if(arr[num+6]!=0&&arr[num-6]!=0)
+					x-=0;
+					else if(arr[num+6]==0&&arr[num-6]==0)
+					{
+						if(num+3<=m)
+						x-=2;
+						else
+						x--;
+					}
+				}
+				arr[num]--;
+				tem[i]=x;
+			}
+		}
+	}
+	for(i=0;i<q;i++)
+	printf(""%d\n"",tem[i]);
+	return 0;
+} "
+63,D,C,60978653,2023-02-25 00:19:20,牛客777627551号,段错误,"#include<stdio.h>
+int main()
+{
+	int m,q,x=0;
+	scanf(""%d%d"",&m,&q);
+	int op,num,arr[100010]={0},tem[100010],i,j;
+	for(i=0;i<q;i++)
+	{
+		scanf(""%d%d"",&op,&num);
+		if(op==1)
+		{
+			if(arr[num]==0)
+			{
+				if(num<4)
+				{
+					if(arr[num+6]==0)
+					{
+						if(num+3<=m)
+						x++;
+						else
+						x+=0;
+					}
+					else
+					x+=0;
+				}
+				else if(num>=4&&num<=6)
+				{
+					if(arr[num+6]==0)
+					{
+						if(num+3<=m)
+						x+=2;
+						else
+						x++;
+					}
+					else
+					x++;
+				}
+				else
+				{
+					if(arr[num+6]!=0&&arr[num-6]==0)
+					x++;
+					else if(arr[num+6]==0&&arr[num-6]!=0)
+					{
+						if(num+3<=m)
+						x++;
+						else
+						x+=0;
+					}
+					else if(arr[num+6]!=0&&arr[num-6]!=0)
+					x+=0;
+					else if(arr[num+6]==0&&arr[num-6]==0)
+					{
+						if(num+3<=m)
+						x+=2;
+						else
+						x++;
+					}
+				}
+			}
+			arr[num]++;
+			tem[i]=x;
+		}
+		if(op==2)
+		{
+			if(arr[num]>1)
+			{
+				tem[i]=x;
+				arr[num]--;
+			}
+			else
+			{
+				if(num<4)
+				{
+					if(arr[num+6]==0)
+					{
+						if(num+3<=m)
+						x--;
+						else
+						x-=0;
+					}
+					else
+					x-=0;
+				}
+				else if(num>=4&&num<=6)
+				{
+					if(arr[num+6]==0)
+					{
+						if(num+3<=m)
+						x-=2;
+						else
+						x--;
+					}
+					else
+					x--;
+				}
+				else
+				{
+					if(arr[num]+6!=0&&arr[num-6]==0)
+					x--;
+					else if(arr[num+6]==0&&arr[num-6]!=0)
+					{
+						if(num+3<=m)
+						x--;
+						else
+						x-=0;
+					}
+					else if(arr[num+6]!=0&&arr[num-6]!=0)
+					x-=0;
+					else if(arr[num+6]==0&&arr[num-6]==0)
+					{
+						if(num+3<=m)
+						x-=2;
+						else
+						x--;
+					}
+				}
+				arr[num]--;
+				tem[i]=x;
+			}
+		}
+	}
+	for(i=0;i<q;i++)
+	printf(""%d\n"",tem[i]);
+	return 0;
+} "
+64,D,C,60983787,2023-02-25 15:22:31,曜花缘,运行超时,"#include<stdio.h>
+#include<string.h>
+int main(){
+    int m,q,ans,num,op,a[100001][2],f=1;
+    scanf(""%d %d"",&m,&q);if(m<=6) f=0;
+    for(int i=0;i<=m;i++){
+        for(int j=0;j<2;j++){
+            a[i][j]=0;
+        }
+    }
+    for(int i=1;i<=q;i++){
+        ans=0;
+        scanf(""%d %d"",&op,&num);
+        if(op==1){
+            a[num][0]++;
+         }
+            else {
+                a[num][0]--;
+            }
+            for(int k=1;k<=m;k++){
+                if(a[k][0]>=1){
+                    
+                     
+                        if(k<3)a[k+3][1]=-1;
+                        else if(k>m-3) a[k-3][1]=-1;
+                        else {
+                            a[k-3][1]=-1;
+                            a[k+3][1]=-1;
+                        }
+                   
+                }
+                
+            }
+            for(int i=1;i<m+1;i++){
+                if(a[i][1]==-1) ans++;
+                a[i][1]=0;
+            }
+            printf(""%d"",ans);
+                if(i==q){break;}
+                else printf(""\n"");
+    }
+}"
+65,D,C,60983793,2023-02-25 15:22:38,曜花缘,运行超时,"#include<stdio.h>
+#include<string.h>
+int main(){
+    int m,q,ans,num,op,a[100001][2],f=1;
+    scanf(""%d %d"",&m,&q);if(m<=6) f=0;
+    for(int i=0;i<=m;i++){
+        for(int j=0;j<2;j++){
+            a[i][j]=0;
+        }
+    }
+    for(int i=1;i<=q;i++){
+        ans=0;
+        scanf(""%d %d"",&op,&num);
+        if(op==1){
+            a[num][0]++;
+         }
+            else {
+                a[num][0]--;
+            }
+            for(int k=1;k<=m;k++){
+                if(a[k][0]>=1){
+                    
+                     
+                        if(k<3)a[k+3][1]=-1;
+                        else if(k>m-3) a[k-3][1]=-1;
+                        else {
+                            a[k-3][1]=-1;
+                            a[k+3][1]=-1;
+                        }
+                   
+                }
+                
+            }
+            for(int i=1;i<m+1;i++){
+                if(a[i][1]==-1) ans++;
+                a[i][1]=0;
+            }
+            printf(""%d"",ans);
+                if(i==q){break;}
+                else printf(""\n"");
+    }
+}"
+66,D,C,60985046,2023-02-25 16:39:03,是芒果鸭yyy,段错误,"#include<stdio.h>
+int main()
+{
+    int n,m,i,q,op,num,sum;
+    int hash[105]={},math[105]={};
+    
+    scanf(""%d%d"",&m,&q);
+    
+    while(q--)
+	{
+		sum=0;
+		scanf(""%d%d"",&op,&num);
+		if(op==1)
+		{
+			math[num]++;
+			num>3&&math[num]==1&&hash[num-3]++;
+			math[num]==1&&hash[num+3]++;	
+		}
+		else
+		{
+			math[num]--;
+			if(math[num]==0)
+			{
+				num>3&&hash[num-3]--;
+				hash[num+3]--;
+			}
+		}
+		for(i=1;i<=m;i++)
+		{
+			if(hash[i])
+			{
+				sum++;
+			}
+		}
+		printf(""%d\n"",sum);
+	}
+	
+	return 0;
+}"
+67,D,C,60985055,2023-02-25 16:39:37,是芒果鸭yyy,运行超时,"#include<stdio.h>
+    int hash[200005]={},math[200005]={};
+int main()
+{
+    int n,m,i,q,op,num,sum;
+    
+    scanf(""%d%d"",&m,&q);
+    
+    while(q--)
+	{
+		sum=0;
+		scanf(""%d%d"",&op,&num);
+		if(op==1)
+		{
+			math[num]++;
+			num>3&&math[num]==1&&hash[num-3]++;
+			math[num]==1&&hash[num+3]++;	
+		}
+		else
+		{
+			math[num]--;
+			if(math[num]==0)
+			{
+				num>3&&hash[num-3]--;
+				hash[num+3]--;
+			}
+		}
+		for(i=1;i<=m;i++)
+		{
+			if(hash[i])
+			{
+				sum++;
+			}
+		}
+		printf(""%d\n"",sum);
+	}
+	
+	return 0;
+}"
+68,D,C,60985060,2023-02-25 16:40:05,是芒果鸭yyy,运行超时,"#include<stdio.h>
+    int hash[200005]={},math[200005]={};
+int main()
+{
+    int n,m,i,q,op,num,sum;
+    
+    scanf(""%d%d"",&m,&q);
+    
+    while(q--)
+	{
+		sum=0;
+		scanf(""%d%d"",&op,&num);
+		if(op==1)
+		{
+			math[num]++;
+			num>3&&math[num]==1&&hash[num-3]++;
+			math[num]==1&&hash[num+3]++;	
+		}
+		else
+		{
+			math[num]--;
+			if(math[num]==0)
+			{
+				num>3&&hash[num-3]--;
+				hash[num+3]--;
+			}
+		}
+		for(i=1;i<=m;i++)
+		{
+			if(hash[i])
+			{
+				sum++;
+			}
+		}
+		printf(""%d\n"",sum);
+	}
+	
+	return 0;
+}"
+69,D,C,60985223,2023-02-25 16:54:22,是芒果鸭yyy,答案正确,"#include<stdio.h>
+int hash[200005]={},math[200005]={};
+int main()
+{
+    int n,m,i,q,op,num,sum=0;
+    
+    scanf(""%d%d"",&m,&q);
+    
+    while(q--)
+	{
+		scanf(""%d%d"",&op,&num);
+		if(op==1)
+		{
+			math[num]++;
+//			num>3&&math[num]==1&&hash[num-3]++&&hash[num-3]==1&&sum++;
+            if(num>3&&math[num]==1)
+			{
+				hash[num-3]++;
+				if(hash[num-3]==1) sum++;
+			}
+//			math[num]==1&&hash[num+3]++&&hash[num+3]==1&&sum++;	
+            if(math[num]==1&&num+3<=m)
+			{
+				hash[num+3]++;
+				if(hash[num+3]==1) sum++;
+			}
+		}
+		else
+		{
+			math[num]--;
+			if(math[num]==0)
+			{
+//				num>3&&hash[num-3]--&&hash[num-3]==0&&sum--;
+                if(num>3)
+				{
+					hash[num-3]--;
+					if(hash[num-3]==0) sum--;
+				}
+//				hash[num+3]--&&hash[num-3]==0&&sum--;
+                if(num+3<=m)
+				{
+	                hash[num+3]--;
+	                if(hash[num+3]==0) sum--;
+				}
+			}
+		}
+		printf(""%d\n"",sum);
+	}
+	
+	return 0;
+}"
+70,D,C,60985727,2023-02-25 17:56:44,Atree_May,运行超时,"#include<stdio.h>
+#include<string.h>
+int a[200001] = {0};
+int main() {
+	int m, q;
+	
+	scanf(""%d%d"", &m, &q);
+	while (q--) {
+		int op, num,i;
+		int sum = 0;
+		scanf(""%d%d"", &op, &num);
+		if (op == 1) {
+			a[num - 3]++;
+			a[num + 3]++;
+		}
+		else {
+			a[num - 3]--;
+			a[num + 3]--;
+		}
+		for (i = 1; i <= m; i++) {
+			if (a[i]) sum++;
+		}
+		printf(""%d\n"", sum);
+	}
+}"
+71,D,C,60985730,2023-02-25 17:57:07,Atree_May,运行超时,"#include<stdio.h>
+#include<string.h>
+int a[200001] = {0};
+int main() {
+	int m, q;
+	
+	scanf(""%d%d"", &m, &q);
+	while (q--) {
+		int op, num,i;
+		int sum = 0;
+		scanf(""%d%d"", &op, &num);
+		if (op == 1) {
+			a[num - 3]++;
+			a[num + 3]++;
+		}
+		else {
+			a[num - 3]--;
+			a[num + 3]--;
+		}
+		for (i = 1; i <= m; i++) {
+			if (a[i]) sum++;
+		}
+		printf(""%d\n"", sum);
+	}
+}"
+72,D,C,60986055,2023-02-25 18:38:56,Atree_May,答案错误,"#include<stdio.h>
+#include<string.h>
+int a[200001] = {0};
+int main() {
+	int m, q,sum=0;
+	
+	scanf(""%d%d"", &m, &q);
+	while (q--) {
+		int op, num,i;
+		scanf(""%d%d"", &op, &num);
+		if (op == 1) 
+		{
+			a[num - 3]++;
+			a[num + 3]++;
+			if (num + 3 <= m) {
+				if (a[num - 3] == 1 && a[num + 3] == 1) {
+				sum = sum + 2;
+				}
+				else if (a[num - 3] == 1 || a[num + 3] == 1) {
+				sum++;
+				}
+			}
+			else if (num - 3 <= m&&num+3>m) {
+				if (a[num - 3] == 1) sum++;
+			}
+		}
+		else 
+		{
+			a[num - 3]--;
+			a[num + 3]--;
+			if (num + 3 <= m) {
+				if (a[num - 3] == 0 && a[num + 3] == 0) {
+					sum = sum - 2;
+				}
+				else if (a[num - 3] == 0 || a[num + 3] == 0) {
+					sum--;
+				}
+			}
+			else if (num - 3 <= m&&num + 3 > m) {
+				if (a[num - 3] == 0) sum--;
+			}
+			
+		}
+		
+		printf(""%d\n"", sum);
+	}
+	return 0;
+}"
+73,D,C,60987484,2023-02-25 21:12:54,XY-0,答案错误,"#include<stdio.h>
+int a[300];
+int main() {
+    int n, m;
+    scanf(""%d%d"", &n, &m); 
+    int ans = 0;
+    while (m--) {
+        int op, x;
+        scanf(""%d%d"", &op, &x);
+
+        if (op == 1) {
+            if (x - 3 > 0) {
+                if (!a[x - 3])ans++;
+                a[x - 3]++;
+            }
+            if (x + 3 <= n) {
+                if (!a[x + 3])ans++;
+                a[x + 3]++;
+            }
+        }
+        else {
+            if (x - 3 > 0) {
+                if (!a[x - 3])ans--;
+                a[x - 3]--;
+            }if (x + 3 <= n) {  
+               if (!a[x - 3])ans--;
+                a[x + 3]--; 
+            }
+        }
+        printf(""%d\n"", ans);
+    }
+    return 0;
+}"
+74,D,C,60987490,2023-02-25 21:13:15,XY-0,答案错误,"#include<stdio.h>
+int a[123456];
+int main() {
+    int n, m;
+    scanf(""%d%d"", &n, &m); 
+    int ans = 0;
+    while (m--) {
+        int op, x;
+        scanf(""%d%d"", &op, &x);
+
+        if (op == 1) {
+            if (x - 3 > 0) {
+                if (!a[x - 3])ans++;
+                a[x - 3]++;
+            }
+            if (x + 3 <= n) {
+                if (!a[x + 3])ans++;
+                a[x + 3]++;
+            }
+        }
+        else {
+            if (x - 3 > 0) {
+                if (!a[x - 3])ans--;
+                a[x - 3]--;
+            }if (x + 3 <= n) {  
+               if (!a[x - 3])ans--;
+                a[x + 3]--; 
+            }
+        }
+        printf(""%d\n"", ans);
+    }
+    return 0;
+}"
+75,D,C,60987512,2023-02-25 21:14:42,XY-0,答案正确,"#include<stdio.h>
+int cont[123456];
+int main()
+{
+    int n, q;
+    scanf(""%d %d"", &n, &q);
+    int ans = 0;
+    while (q--) {
+        int op, x;
+        scanf(""%d %d"", &op, &x);
+        if (op == 1) {
+            if (x - 3 >= 1) {
+                if (!cont[x - 3]) 
+                    ans++;
+              
+                cont[x - 3] ++;
+            }
+            if (x + 3 <= n) {
+                if (!cont[x + 3]) 
+                    ans++;
+                
+                cont[x + 3] ++;
+            }
+        }
+        else {
+            if (x - 3 >= 1) {
+                cont[x - 3] --;
+                if (!cont[x - 3]) 
+                    ans--;
+                
+            }
+            if (x + 3 <= n) {
+                cont[x + 3] --;
+                if (!cont[x + 3]) 
+                    ans--;
+                
+            }
+        }
+        printf(""%d\n"", ans);
+    }
+    return 0;
+}"
+76,D,C,60988297,2023-02-25 22:28:33,cwbnb,答案正确,"#include<stdio.h>
+int main(){
+    int m,n,a[100005]={0},c,b,x=0;
+    scanf(""%d%d"",&m,&n);
+    for(int i=0;i<n;i++){
+        scanf(""%d%d"",&b,&c);
+        if(b==1){
+           if(c+3<=m){
+              a[c+3]++;
+            if(a[c+3]==1){
+                x++;
+            }
+           }  
+            if(c-3>=1&&c-3<=m){
+                a[c-3]++;
+              if(a[c-3]==1){
+                x++;
+            }
+            }
+        }
+        else{
+            if(c+3>=1&&c+3<=m){
+              a[c+3]--;
+                if(a[c+3]==0)
+             x--;
+           }  
+            if(c-3>=1&&c-3<=m){
+                a[c-3]--;
+                if(a[c-3]==0)
+                x--;
+            }
+        }
+        printf(""%d\n"",x);
+      
+    }
+}"
+77,D,C,60990780,2023-02-26 12:21:34,曜花缘,运行超时,"#include<stdio.h>
+#include<string.h>
+int main(){
+    int m,q,ans,num,op,a[100001][2],f=1;
+    scanf(""%d %d"",&m,&q);if(m<=6) f=0;
+    for(int i=0;i<=m;i++){
+        for(int j=0;j<2;j++){
+            a[i][j]=0;
+        }
+    }
+    for(int i=1;i<=q;i++){
+        ans=0;
+        scanf(""%d %d"",&op,&num);
+        if(op==1){
+            a[num][0]++;
+         }
+            else {
+                a[num][0]--;
+            }
+            for(int k=1;k<=m;k++){
+                if(a[k][0]>=1){
+                    
+                     
+                        if(k<3)a[k+3][1]=-1;
+                        else if(k>m-3) a[k-3][1]=-1;
+                        else {
+                            a[k-3][1]=-1;
+                            a[k+3][1]=-1;
+                        }
+                   
+                }
+                
+            }
+            for(int i=1;i<m+1;i++){
+                if(a[i][1]==-1) ans++;
+                a[i][1]=0;
+            }
+            printf(""%d"",ans);
+                if(i==q){break;}
+                else printf(""\n"");
+    }
+}"
+78,D,C,60990788,2023-02-26 12:23:18,曜花缘,运行超时,"#include<stdio.h>
+#include<string.h>
+int main(){
+    int m,q,ans,num,op,a[1000001][2],f=1;
+    scanf(""%d %d"",&m,&q);if(m<=6) f=0;
+    for(int i=0;i<=m;i++){
+        for(int j=0;j<2;j++){
+            a[i][j]=0;
+        }
+    }
+    for(int i=1;i<=q;i++){
+        ans=0;
+        scanf(""%d %d"",&op,&num);
+        if(op==1){
+            a[num][0]++;
+         }
+            else {
+                a[num][0]--;
+            }
+            for(int k=1;k<=m;k++){
+                if(a[k][0]>=1){
+                    
+                     
+                        if(k<3)a[k+3][1]=-1;
+                        else if(k>m-3) a[k-3][1]=-1;
+                        else {
+                            a[k-3][1]=-1;
+                            a[k+3][1]=-1;
+                        }
+                   
+                }
+                
+            }
+            for(int i=1;i<m+1;i++){
+                if(a[i][1]==-1) ans++;
+                a[i][1]=0;
+            }
+            printf(""%d"",ans);
+                if(i==q){break;}
+                else printf(""\n"");
+    }
+}"
+79,D,C,60990801,2023-02-26 12:25:07,曜花缘,运行超时,"#include<stdio.h>
+#include<string.h>
+int main(){
+    int m,q,ans,num,op,a[1000001][2],f=1;
+    scanf(""%d %d"",&m,&q);if(m<=6) f=0;
+    for(int i=0;i<=m;i++){
+        for(int j=0;j<2;j++){
+            a[i][j]=0;
+        }
+    }
+    for(int i=1;i<=q;i++){
+        ans=0;
+        scanf(""%d %d"",&op,&num);
+        if(op==1){
+            a[num][0]++;
+         }
+            else {
+                a[num][0]--;
+            }
+            for(int k=1;k<=m;k++){
+                if(a[k][0]>=1){
+                    
+                     
+                        if(k<3)a[k+3][1]=-1;
+                        else if(k>m-3) a[k-3][1]=-1;
+                        else {
+                            a[k-3][1]=-1;
+                            a[k+3][1]=-1;
+                        }
+                   
+                }
+                
+            }
+            for(int i=1;i<m+1;i++){
+                if(a[i][1]==-1) ans++;
+                a[i][1]=0;
+            }
+            printf(""%d"",ans);
+                 printf(""\n"");
+    }
+}"
+80,D,C(gcc 7.5.0),60990807,2023-02-26 12:26:15,曜花缘,运行超时,"#include<stdio.h>
+#include<string.h>
+int main(){
+    int m,q,ans,num,op,a[1000001][2],f=1;
+    scanf(""%d %d"",&m,&q);if(m<=6) f=0;
+    for(int i=0;i<=m;i++){
+        for(int j=0;j<2;j++){
+            a[i][j]=0;
+        }
+    }
+    for(int i=1;i<=q;i++){
+        ans=0;
+        scanf(""%d %d"",&op,&num);
+        if(op==1){
+            a[num][0]++;
+         }
+            else {
+                a[num][0]--;
+            }
+            for(int k=1;k<=m;k++){
+                if(a[k][0]>=1){
+                    
+                     
+                        if(k<3)a[k+3][1]=-1;
+                        else if(k>m-3) a[k-3][1]=-1;
+                        else {
+                            a[k-3][1]=-1;
+                            a[k+3][1]=-1;
+                        }
+                   
+                }
+                
+            }
+            for(int i=1;i<m+1;i++){
+                if(a[i][1]==-1) ans++;
+                a[i][1]=0;
+            }
+            printf(""%d"",ans);
+                 printf(""\n"");
+    }
+}"
+81,D,C(gcc 7.5.0),60990810,2023-02-26 12:26:41,曜花缘,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c:2:19: warning: extra tokens at end of #include directive\n #include<string.h>a[1000001]；\n                   ^\nmain.c: In function ‘main’:\nmain.c:4:24: error: expected identifier or ‘(’ before ‘[’ token\n     int m,q,ans,num,op,[2],f=1;\n                        ^\nmain.c:5:35: error: ‘f’ undeclared (first use in this function)\n     scanf(\""%d %d\"",&m,&q);if(m<=6) f=0;\n                                   ^\nmain.c:5:35: note: each undeclared identifier is reported only once for each function it appears in\nmain.c:8:13: error: ‘a’ undeclared (first use in this function)\n             a[i][j]=0;\n             ^\nmain.c:5:5: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n     scanf(\""%d %d\"",&m,&q);if(m<=6) f=0;\n     ^~~~~~~~~~~~~~~~~~~~\nmain.c:13:9: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n         scanf(\""%d %d\"",&op,&num);\n         ^~~~~~~~~~~~~~~~~~~~~~~""}
+
+#include<stdio.h>
+#include<string.h>a[1000001]；
+int main(){
+    int m,q,ans,num,op,[2],f=1;
+    scanf(""%d %d"",&m,&q);if(m<=6) f=0;
+    for(int i=0;i<=m;i++){
+        for(int j=0;j<2;j++){
+            a[i][j]=0;
+        }
+    }
+    for(int i=1;i<=q;i++){
+        ans=0;
+        scanf(""%d %d"",&op,&num);
+        if(op==1){
+            a[num][0]++;
+         }
+            else {
+                a[num][0]--;
+            }
+            for(int k=1;k<=m;k++){
+                if(a[k][0]>=1){
+                    
+                     
+                        if(k<3)a[k+3][1]=-1;
+                        else if(k>m-3) a[k-3][1]=-1;
+                        else {
+                            a[k-3][1]=-1;
+                            a[k+3][1]=-1;
+                        }
+                   
+                }
+                
+            }
+            for(int i=1;i<m+1;i++){
+                if(a[i][1]==-1) ans++;
+                a[i][1]=0;
+            }
+            printf(""%d"",ans);
+                 printf(""\n"");
+    }
+}"
+82,D,C(gcc 7.5.0),60990813,2023-02-26 12:26:54,曜花缘,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c:3:15: error: stray ‘\\357’ in program\n int a[1000001]；\n               ^\nmain.c:3:16: error: stray ‘\\274’ in program\n int a[1000001]；\n                ^\nmain.c:3:17: error: stray ‘\\233’ in program\n int a[1000001]；\n                 ^\nmain.c:4:1: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘int’\n int main(){\n ^~~""}
+
+#include<stdio.h>
+#include<string.h>
+int a[1000001]；
+int main(){
+    int m,q,ans,num,op,[2],f=1;
+    scanf(""%d %d"",&m,&q);if(m<=6) f=0;
+    for(int i=0;i<=m;i++){
+        for(int j=0;j<2;j++){
+            a[i][j]=0;
+        }
+    }
+    for(int i=1;i<=q;i++){
+        ans=0;
+        scanf(""%d %d"",&op,&num);
+        if(op==1){
+            a[num][0]++;
+         }
+            else {
+                a[num][0]--;
+            }
+            for(int k=1;k<=m;k++){
+                if(a[k][0]>=1){
+                    
+                     
+                        if(k<3)a[k+3][1]=-1;
+                        else if(k>m-3) a[k-3][1]=-1;
+                        else {
+                            a[k-3][1]=-1;
+                            a[k+3][1]=-1;
+                        }
+                   
+                }
+                
+            }
+            for(int i=1;i<m+1;i++){
+                if(a[i][1]==-1) ans++;
+                a[i][1]=0;
+            }
+            printf(""%d"",ans);
+                 printf(""\n"");
+    }
+}"
+83,D,C(gcc 7.5.0),60990814,2023-02-26 12:27:07,曜花缘,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c: In function ‘main’:\nmain.c:5:24: error: expected identifier or ‘(’ before ‘[’ token\n     int m,q,ans,num,op,[2],f=1;\n                        ^\nmain.c:6:35: error: ‘f’ undeclared (first use in this function)\n     scanf(\""%d %d\"",&m,&q);if(m<=6) f=0;\n                                   ^\nmain.c:6:35: note: each undeclared identifier is reported only once for each function it appears in\nmain.c:9:17: error: subscripted value is neither array nor pointer nor vector\n             a[i][j]=0;\n                 ^\nmain.c:16:19: error: subscripted value is neither array nor pointer nor vector\n             a[num][0]++;\n                   ^\nmain.c:19:23: error: subscripted value is neither array nor pointer nor vector\n                 a[num][0]--;\n                       ^\nmain.c:22:24: error: subscripted value is neither array nor pointer nor vector\n                 if(a[k][0]>=1){\n                        ^\nmain.c:25:38: error: subscripted value is neither array nor pointer nor vector\n                         if(k<3)a[k+3][1]=-1;\n                                      ^\nmain.c:26:46: error: subscripted value is neither array nor pointer nor vector\n                         else if(k>m-3) a[k-3][1]=-1;\n                                              ^\nmain.c:28:35: error: subscripted value is neither array nor pointer nor vector\n                             a[k-3][1]=-1;\n                                   ^\nmain.c:29:35: error: subscripted value is neither array nor pointer nor vector\n                             a[k+3][1]=-1;\n                                   ^\nmain.c:36:24: error: subscripted value is neither array nor pointer nor vector\n                 if(a[i][1]==-1) ans++;\n                        ^\nmain.c:37:21: error: subscripted value is neither array nor pointer nor vector\n                 a[i][1]=0;\n                     ^\nmain.c:6:5: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n     scanf(\""%d %d\"",&m,&q);if(m<=6) f=0;\n     ^~~~~~~~~~~~~~~~~~~~\nmain.c:14:9: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n         scanf(\""%d %d\"",&op,&num);\n         ^~~~~~~~~~~~~~~~~~~~~~~""}
+
+#include<stdio.h>
+#include<string.h>
+int a[1000001];
+int main(){
+    int m,q,ans,num,op,[2],f=1;
+    scanf(""%d %d"",&m,&q);if(m<=6) f=0;
+    for(int i=0;i<=m;i++){
+        for(int j=0;j<2;j++){
+            a[i][j]=0;
+        }
+    }
+    for(int i=1;i<=q;i++){
+        ans=0;
+        scanf(""%d %d"",&op,&num);
+        if(op==1){
+            a[num][0]++;
+         }
+            else {
+                a[num][0]--;
+            }
+            for(int k=1;k<=m;k++){
+                if(a[k][0]>=1){
+                    
+                     
+                        if(k<3)a[k+3][1]=-1;
+                        else if(k>m-3) a[k-3][1]=-1;
+                        else {
+                            a[k-3][1]=-1;
+                            a[k+3][1]=-1;
+                        }
+                   
+                }
+                
+            }
+            for(int i=1;i<m+1;i++){
+                if(a[i][1]==-1) ans++;
+                a[i][1]=0;
+            }
+            printf(""%d"",ans);
+                 printf(""\n"");
+    }
+}"
+84,D,C(gcc 7.5.0),60990820,2023-02-26 12:27:31,曜花缘,运行超时,"#include<stdio.h>
+#include<string.h>
+int a[1000001][2];
+int main(){
+    int m,q,ans,num,op,f=1;
+    scanf(""%d %d"",&m,&q);if(m<=6) f=0;
+    for(int i=0;i<=m;i++){
+        for(int j=0;j<2;j++){
+            a[i][j]=0;
+        }
+    }
+    for(int i=1;i<=q;i++){
+        ans=0;
+        scanf(""%d %d"",&op,&num);
+        if(op==1){
+            a[num][0]++;
+         }
+            else {
+                a[num][0]--;
+            }
+            for(int k=1;k<=m;k++){
+                if(a[k][0]>=1){
+                    
+                     
+                        if(k<3)a[k+3][1]=-1;
+                        else if(k>m-3) a[k-3][1]=-1;
+                        else {
+                            a[k-3][1]=-1;
+                            a[k+3][1]=-1;
+                        }
+                   
+                }
+                
+            }
+            for(int i=1;i<m+1;i++){
+                if(a[i][1]==-1) ans++;
+                a[i][1]=0;
+            }
+            printf(""%d"",ans);
+                 printf(""\n"");
+    }
+}"
+85,D,C,60991099,2023-02-26 13:16:29,tttx1,段错误,"#include<stdio.h>
+#include<string.h>
+#include<math.h>
+#define ll long long
+int main()
+{
+    int n,m;
+    int vis[105];
+    memset(vis,0,sizeof(vis));
+    scanf(""%d%d"",&m,&n);
+    for(int i=1;i<=n;i++)
+    {
+        int p,q;
+        int ans=0;
+        scanf(""%d%d"",&p,&q);
+        if(p==1)
+        {
+            if(q-3>=1)
+            {
+                vis[q-3]++;
+            }
+            if(q+3<=m)
+            {
+                vis[q+3]++;
+            }
+        }
+        else 
+        {
+            vis[q-3]--;
+            vis[q+3]--;
+        }
+        for(int k=1;k<=m;k++)
+        {
+            if(vis[k]>0) ans++;
+        }
+        printf(""%d\n"",ans);
+    }
+}"
+86,D,C,60991104,2023-02-26 13:16:53,tttx1,运行超时,"#include<stdio.h>
+#include<string.h>
+#include<math.h>
+#define ll long long
+int main()
+{
+    int n,m;
+    int vis[100005];
+    memset(vis,0,sizeof(vis));
+    scanf(""%d%d"",&m,&n);
+    for(int i=1;i<=n;i++)
+    {
+        int p,q;
+        int ans=0;
+        scanf(""%d%d"",&p,&q);
+        if(p==1)
+        {
+            if(q-3>=1)
+            {
+                vis[q-3]++;
+            }
+            if(q+3<=m)
+            {
+                vis[q+3]++;
+            }
+        }
+        else 
+        {
+            vis[q-3]--;
+            vis[q+3]--;
+        }
+        for(int k=1;k<=m;k++)
+        {
+            if(vis[k]>0) ans++;
+        }
+        printf(""%d\n"",ans);
+    }
+}"
+87,D,C,60991108,2023-02-26 13:17:30,tttx1,运行超时,"#include<stdio.h>
+#include<string.h>
+#include<math.h>
+#define ll long long
+int main()
+{
+    int n,m;
+    int vis[100005];
+    memset(vis,0,sizeof(vis));
+    scanf(""%d%d"",&m,&n);
+    for(int i=1;i<=n;i++)
+    {
+        int p,q;
+        int ans=0;
+        scanf(""%d%d"",&p,&q);
+        if(p==1)
+        {
+            if(q-3>=1)
+            {
+                vis[q-3]++;
+            }
+            if(q+3<=m)
+            {
+                vis[q+3]++;
+            }
+        }
+        else 
+        {
+            vis[q-3]--;
+            vis[q+3]--;
+        }
+        for(int k=1;k<=m;k++)
+        {
+            if(vis[k]>0) ans++;
+        }
+        printf(""%d\n"",ans);
+    }
+}"
+88,D,C,60991137,2023-02-26 13:21:03,tttx1,答案错误,"#include<stdio.h>
+#include<string.h>
+#include<math.h>
+#define ll long long
+int main()
+{
+    int n,m;
+    int vis[100005];
+    memset(vis,0,sizeof(vis));
+    scanf(""%d%d"",&m,&n);
+           int ans=0;
+    for(int i=1;i<=n;i++)
+    {
+        int p,q;
+        scanf(""%d%d"",&p,&q);
+        if(p==1)
+        {
+            if(q-3>=1)
+            {
+                if(vis[q-3]==0)
+                ans++;
+                vis[q-3]++;
+            }
+            if(q+3<=m)
+            {
+                if(vis[q+3]==0) ans++;
+                vis[q+3]++;
+            }
+        }
+        else 
+        {
+            vis[q-3]--;
+            if(vis[q-3]==0) ans--;
+            vis[q+3]--;
+            if(vis[q+3]==0) ans--;
+        }
+        printf(""%d\n"",ans);
+    }
+}"
+89,D,C,60991169,2023-02-26 13:25:10,tttx1,答案错误,"#include<stdio.h>
+#include<string.h>
+#include<math.h>
+#define ll long long
+int main()
+{
+    int n,m;
+    int vis[100005];
+    memset(vis,0,sizeof(vis));
+    scanf(""%d%d"",&m,&n);
+           int ans=0;
+    for(int i=1;i<=n;i++)
+    {
+        int p,q;
+        scanf(""%d%d"",&p,&q);
+        if(p==1)
+        {
+            if(q-3>=1)
+            {
+                if(vis[q-3]==0)
+                ans++;
+                vis[q-3]++;
+            }
+            if(q+3<=m)
+            {
+                if(vis[q+3]==0) ans++;
+                vis[q+3]++;
+            }
+        }
+        else 
+        {
+            vis[q-3]--;
+            if(vis[q-3]==0) ans--;
+            vis[q+3]--;
+            if(vis[q+3]==0) ans--;
+        }
+        printf(""%d\n"",ans);
+    }
+}"
+90,D,C,60993012,2023-02-26 15:23:59,tttx1,答案正确,"#include<stdio.h>
+#include<string.h>
+#include<math.h>
+#define ll long long
+int main()
+{
+    int n,m;
+    int vis[100005];
+    memset(vis,0,sizeof(vis));
+    scanf(""%d%d"",&m,&n);
+           int ans=0;
+    for(int i=1;i<=n;i++)
+    {
+        int p,q;
+        scanf(""%d%d"",&p,&q);
+        if(p==1)
+        {
+            if(q-3>=1)
+            {
+                if(vis[q-3]==0)
+                ans++;
+                vis[q-3]++;
+            }
+            if(q+3<=m)
+            {
+                if(vis[q+3]==0) ans++;
+                vis[q+3]++;
+            }
+        }
+        else 
+        {
+            if(q-3>=1)
+            {
+            vis[q-3]--;
+            if(vis[q-3]==0) ans--;
+            }
+            if(q+3<=m)
+            {
+                 vis[q+3]--;
+            if(vis[q+3]==0) ans--;
+            }
+        }
+        printf(""%d\n"",ans);
+    }
+}"
+91,D,C,60993363,2023-02-26 15:45:13,xunmeng,段错误,"#include <stdio.h>
+
+int main(void)
+{
+	int m, q;
+	scanf(""%d %d"", &m, &q);
+	static int a[105] = { 0 };
+	int t, tt;
+	int ans = 0;
+	while (q--)
+	{
+		scanf(""%d %d"", &t, &tt);
+		if (t == 1)
+		{
+			if (tt > 3)
+			{
+				a[tt - 3]++;
+				if (a[tt - 3] == 1)
+				{
+					ans++;
+				}
+			}
+			if (tt < m - 2)
+			{
+				a[tt + 3]++;
+				if (a[tt + 3] == 1)
+				{
+					ans++;
+				}
+			}
+		}
+		if (t == 2)
+		{
+			if (tt > 3)
+			{
+				a[tt - 3]--;
+				if (a[tt - 3] == 0)
+				{
+					ans--;
+				}
+			}
+			if (tt < m - 2)
+			{
+				a[tt + 3]--;
+				if (a[tt + 3] == 0)
+				{
+					ans--;
+				}
+			}
+		}
+		printf(""%d\n"", ans);
+	}
+}"
+92,D,C,60993367,2023-02-26 15:45:34,xunmeng,答案正确,"#include <stdio.h>
+
+int main(void)
+{
+	int m, q;
+	scanf(""%d %d"", &m, &q);
+	static int a[100005] = { 0 };
+	int t, tt;
+	int ans = 0;
+	while (q--)
+	{
+		scanf(""%d %d"", &t, &tt);
+		if (t == 1)
+		{
+			if (tt > 3)
+			{
+				a[tt - 3]++;
+				if (a[tt - 3] == 1)
+				{
+					ans++;
+				}
+			}
+			if (tt < m - 2)
+			{
+				a[tt + 3]++;
+				if (a[tt + 3] == 1)
+				{
+					ans++;
+				}
+			}
+		}
+		if (t == 2)
+		{
+			if (tt > 3)
+			{
+				a[tt - 3]--;
+				if (a[tt - 3] == 0)
+				{
+					ans--;
+				}
+			}
+			if (tt < m - 2)
+			{
+				a[tt + 3]--;
+				if (a[tt + 3] == 0)
+				{
+					ans--;
+				}
+			}
+		}
+		printf(""%d\n"", ans);
+	}
+}"
+93,D,C(gcc 7.5.0),60996222,2023-02-26 19:18:11,曜花缘,运行超时,"#include<stdio.h>
+#include<string.h>
+int a[1000001][2];
+int main(){
+    int m,q,ans,num,op,f=1;
+    scanf(""%d %d"",&m,&q);if(m<=6) f=0;
+    for(int i=0;i<=m;i++){
+        for(int j=0;j<2;j++){
+            a[i][j]=0;
+        }
+    }
+    for(int i=1;i<=q;i++){
+        ans=0;
+        scanf(""%d %d"",&op,&num);
+        if(op==1){
+            a[num][0]++;
+         }
+            else {
+                a[num][0]--;
+            }
+            for(int k=1;k<=m;k++){
+                if(a[k][0]>=1){
+                    
+                     
+                        if(k<3)a[k+3][1]=-1;
+                        else if(k>m-3) a[k-3][1]=-1;
+                        else {
+                            a[k-3][1]=-1;
+                            a[k+3][1]=-1;
+                        }
+                   
+                }
+                
+            }
+            for(int i=1;i<m+1;i++){
+                if(a[i][1]==-1) ans++;
+                a[i][1]=0;
+            }
+            printf(""%d"",ans);
+                 printf(""\n"");
+    }
+}"
+94,D,C(gcc 7.5.0),60996249,2023-02-26 19:19:20,曜花缘,运行超时,"#include<stdio.h>
+#include<string.h>
+int a[10001][2];
+int main(){
+    int m,q,ans,num,op,f=1;
+    scanf(""%d %d"",&m,&q);if(m<=6) f=0;
+    for(int i=0;i<=m;i++){
+        for(int j=0;j<2;j++){
+            a[i][j]=0;
+        }
+    }
+    for(int i=1;i<=q;i++){
+        ans=0;
+        scanf(""%d %d"",&op,&num);
+        if(op==1){
+            a[num][0]++;
+         }
+            else {
+                a[num][0]--;
+            }
+            for(int k=1;k<=m;k++){
+                if(a[k][0]>=1){
+                    
+                     
+                        if(k<3)a[k+3][1]=-1;
+                        else if(k>m-3) a[k-3][1]=-1;
+                        else {
+                            a[k-3][1]=-1;
+                            a[k+3][1]=-1;
+                        }
+                   
+                }
+                
+            }
+            for(int i=1;i<m+1;i++){
+                if(a[i][1]==-1) {ans++;a[i][1]=0;}
+                
+            }
+            printf(""%d\n"",ans);
+                 
+    }
+}"
+95,D,C(gcc 7.5.0),60996274,2023-02-26 19:19:57,曜花缘,运行超时,"#include<stdio.h>
+#include<string.h>
+int a[10001][2];
+int main(){
+    int m,q,ans,num,op,f=1;
+    scanf(""%d %d"",&m,&q);if(m<=6) f=0;
+    memset(a,0,sizeof(a));
+    for(int i=1;i<=q;i++){
+        ans=0;
+        scanf(""%d %d"",&op,&num);
+        if(op==1){
+            a[num][0]++;
+         }
+            else {
+                a[num][0]--;
+            }
+            for(int k=1;k<=m;k++){
+                if(a[k][0]>=1){
+                    
+                     
+                        if(k<3)a[k+3][1]=-1;
+                        else if(k>m-3) a[k-3][1]=-1;
+                        else {
+                            a[k-3][1]=-1;
+                            a[k+3][1]=-1;
+                        }
+                   
+                }
+                
+            }
+            for(int i=1;i<m+1;i++){
+                if(a[i][1]==-1) {ans++;a[i][1]=0;}
+                
+            }
+            printf(""%d\n"",ans);
+                 
+    }
+}"
+96,D,C(gcc 7.5.0),60996283,2023-02-26 19:20:15,曜花缘,运行超时,"#include<stdio.h>
+#include<string.h>
+int a[10001][2];
+int main(){
+    int m,q,ans,num,op,f=1;
+    scanf(""%d %d"",&m,&q);
+    memset(a,0,sizeof(a));
+    for(int i=1;i<=q;i++){
+        ans=0;
+        scanf(""%d %d"",&op,&num);
+        if(op==1){
+            a[num][0]++;
+         }
+            else {
+                a[num][0]--;
+            }
+            for(int k=1;k<=m;k++){
+                if(a[k][0]>=1){
+                    
+                     
+                        if(k<3)a[k+3][1]=-1;
+                        else if(k>m-3) a[k-3][1]=-1;
+                        else {
+                            a[k-3][1]=-1;
+                            a[k+3][1]=-1;
+                        }
+                   
+                }
+                
+            }
+            for(int i=1;i<m+1;i++){
+                if(a[i][1]==-1) {ans++;a[i][1]=0;}
+                
+            }
+            printf(""%d\n"",ans);
+                 
+    }
+}"
+97,D,C(gcc 7.5.0),60997950,2023-02-26 20:23:59,曜花缘,段错误,"#include<stdio.h>
+#include<string.h>
+
+int main(){
+    int m,q,ans=0,num,op,f=1;int a[10001];
+    scanf(""%d %d"",&m,&q);
+    memset(a,0,sizeof(a));
+    for(int i=0;i<q;i++){
+        scanf(""%d %d"",&op,&num);
+        if(op==1){
+            if((num-3)>=1){
+                if(a[num-3]==0) ans++;
+                 a[num-3]++;
+            }
+          if((num+3)<=m){
+                if(a[num+3]==0) ans++;
+                a[num+3]++;
+            }
+            }
+        else {
+
+                if((num-3)>=1){
+                    a[num-3]--;
+                    if(a[num-3]==0) ans--;
+                }
+                if((num+3)<=m){
+                    a[num+3]--;
+                    if(a[num+3]==0) ans--;
+
+                }
+
+
+        }
+        printf(""%d\n"",ans);
+    }
+    return 0;
+}"
+98,D,C(gcc 7.5.0),60997955,2023-02-26 20:24:12,曜花缘,段错误,"#include<stdio.h>
+#include<string.h>
+
+int main(){
+    int m,q,ans=0,num,op,f=1;int a[10005];
+    scanf(""%d %d"",&m,&q);
+    memset(a,0,sizeof(a));
+    for(int i=0;i<q;i++){
+        scanf(""%d %d"",&op,&num);
+        if(op==1){
+            if((num-3)>=1){
+                if(a[num-3]==0) ans++;
+                 a[num-3]++;
+            }
+          if((num+3)<=m){
+                if(a[num+3]==0) ans++;
+                a[num+3]++;
+            }
+            }
+        else {
+
+                if((num-3)>=1){
+                    a[num-3]--;
+                    if(a[num-3]==0) ans--;
+                }
+                if((num+3)<=m){
+                    a[num+3]--;
+                    if(a[num+3]==0) ans--;
+
+                }
+
+
+        }
+        printf(""%d\n"",ans);
+    }
+    return 0;
+}"
+99,D,C(gcc 7.5.0),60997990,2023-02-26 20:25:22,曜花缘,段错误,"#include<stdio.h>
+#include<string.h>
+
+int main(){
+    int m,q,ans=0,num,op,f=1;int a[10005];
+    scanf(""%d %d"",&m,&q);
+    memset(a,0,sizeof(a));
+    for(int i=0;i<q;i++){
+        scanf(""%d %d"",&op,&num);
+        if(op==1){
+            if((num-3)>=1){
+                if(a[num-3]==0) ans++;
+                 a[num-3]++;
+            }
+          if((num+3)<=m){
+                if(a[num+3]==0) ans++;
+                a[num+3]++;
+            }
+            }
+        else {
+
+                if((num-3)>=1){
+                    a[num-3]--;
+                    if(a[num-3]==0) ans--;
+                }
+                if((num+3)<=m){
+                    a[num+3]--;
+                    if(a[num+3]==0) ans--;
+
+                }
+
+
+        }
+        printf(""%d\n"",ans);
+    }
+    return 0;
+}"
+100,D,C(gcc 7.5.0),60998003,2023-02-26 20:25:50,曜花缘,段错误,"#include<stdio.h>
+#include<string.h>
+
+int main(){
+    int m,q,ans=0,num,op,f=1;int a[10005];
+    scanf(""%d %d"",&m,&q);
+    memset(a,0,sizeof(a));
+    for(int i=0;i<q;i++){
+        scanf(""%d %d"",&op,&num);
+        if(op==1){
+            if((num-3)>=1){
+                if(a[num-3]==0) ans++;
+                 a[num-3]++;
+            }
+          if((num+3)<=m){
+                if(a[num+3]==0) ans++;
+                a[num+3]++;
+            }
+            }
+        else {
+
+                if((num-3)>=1){
+                    a[num-3]--;
+                    if(a[num-3]==0) ans--;
+                }
+                if((num+3)<=m){
+                    a[num+3]--;
+                    if(a[num+3]==0) ans--;
+
+                }
+
+
+        }
+        printf(""%d\n"",ans);
+    }
+    return 0;
+}"
+101,D,C(gcc 7.5.0),60998015,2023-02-26 20:26:09,曜花缘,段错误,"#include<stdio.h>
+#include<string.h>
+
+int main(){
+    int m,q,ans=0,num,op,f=1;static int a[10005];
+    scanf(""%d %d"",&m,&q);
+    memset(a,0,sizeof(a));
+    for(int i=0;i<q;i++){
+        scanf(""%d %d"",&op,&num);
+        if(op==1){
+            if((num-3)>=1){
+                if(a[num-3]==0) ans++;
+                 a[num-3]++;
+            }
+          if((num+3)<=m){
+                if(a[num+3]==0) ans++;
+                a[num+3]++;
+            }
+            }
+        else {
+
+                if((num-3)>=1){
+                    a[num-3]--;
+                    if(a[num-3]==0) ans--;
+                }
+                if((num+3)<=m){
+                    a[num+3]--;
+                    if(a[num+3]==0) ans--;
+
+                }
+
+
+        }
+        printf(""%d\n"",ans);
+    }
+    return 0;
+}"
+102,D,C(gcc 7.5.0),60998029,2023-02-26 20:26:46,曜花缘,答案正确,"#include <stdio.h>
+ 
+int main(void)
+{
+    int m, q;
+    scanf(""%d %d"", &m, &q);
+    static int a[100005] = { 0 };
+    int t, tt;
+    int ans = 0;
+    while (q--)
+    {
+        scanf(""%d %d"", &t, &tt);
+        if (t == 1)
+        {
+            if (tt > 3)
+            {
+                a[tt - 3]++;
+                if (a[tt - 3] == 1)
+                {
+                    ans++;
+                }
+            }
+            if (tt < m - 2)
+            {
+                a[tt + 3]++;
+                if (a[tt + 3] == 1)
+                {
+                    ans++;
+                }
+            }
+        }
+        if (t == 2)
+        {
+            if (tt > 3)
+            {
+                a[tt - 3]--;
+                if (a[tt - 3] == 0)
+                {
+                    ans--;
+                }
+            }
+            if (tt < m - 2)
+            {
+                a[tt + 3]--;
+                if (a[tt + 3] == 0)
+                {
+                    ans--;
+                }
+            }
+        }
+        printf(""%d\n"", ans);
+    }
+}"
+103,D,C(gcc 7.5.0),60998044,2023-02-26 20:27:12,曜花缘,答案正确,"#include<stdio.h>
+#include<string.h>
+
+int main(){
+    int m,q,ans=0,num,op,f=1;int a[100001];
+    scanf(""%d %d"",&m,&q);
+    memset(a,0,sizeof(a));
+    for(int i=0;i<q;i++){
+        scanf(""%d %d"",&op,&num);
+        if(op==1){
+            if((num-3)>=1){
+                if(a[num-3]==0) ans++;
+                 a[num-3]++;
+            }
+          if((num+3)<=m){
+                if(a[num+3]==0) ans++;
+                a[num+3]++;
+            }
+            }
+        else {
+
+                if((num-3)>=1){
+                    a[num-3]--;
+                    if(a[num-3]==0) ans--;
+                }
+                if((num+3)<=m){
+                    a[num+3]--;
+                    if(a[num+3]==0) ans--;
+
+                }
+
+
+        }
+        printf(""%d\n"",ans);
+    }
+    return 0;
+}"
+104,D,C(gcc 7.5.0),60998048,2023-02-26 20:27:19,曜花缘,答案正确,"#include<stdio.h>
+#include<string.h>
+
+int main(){
+    int m,q,ans=0,num,op,f=1;int a[100005];
+    scanf(""%d %d"",&m,&q);
+    memset(a,0,sizeof(a));
+    for(int i=0;i<q;i++){
+        scanf(""%d %d"",&op,&num);
+        if(op==1){
+            if((num-3)>=1){
+                if(a[num-3]==0) ans++;
+                 a[num-3]++;
+            }
+          if((num+3)<=m){
+                if(a[num+3]==0) ans++;
+                a[num+3]++;
+            }
+            }
+        else {
+
+                if((num-3)>=1){
+                    a[num-3]--;
+                    if(a[num-3]==0) ans--;
+                }
+                if((num+3)<=m){
+                    a[num+3]--;
+                    if(a[num+3]==0) ans--;
+
+                }
+
+
+        }
+        printf(""%d\n"",ans);
+    }
+    return 0;
+}"
+105,D,C,61035039,2023-03-02 08:48:55,192211902224马文,答案正确,"#include<stdlib.h>
+#include<stdio.h>
+#include<string.h>
+
+
+int main() {
+    int vis[100010];
+    memset(vis,0,sizeof(vis));
+    int m,q,op,num;
+    scanf(""%d%d"",&m,&q);
+    
+    int  ans = 0;
+    while(q--) {
+    
+        scanf(""%d%d"",&op,&num);
+        
+        if(op == 1) {
+            if(num - 3 >= 1 && vis[num - 3] == 0)    ans++;
+            if(num + 3 <= m && vis[num + 3] == 0)    ans++;
+                
+            if(num - 3 >= 1 )    vis[num - 3]++;
+            if(num + 3 <= m )    vis[num + 3]++;
+        }
+        else {
+            if(num - 3 >= 1 )    vis[num - 3]--;
+            if(num + 3 <= m )    vis[num + 3]--;
+            if(num - 3 >= 1 && vis[num - 3] == 0 )    ans--;
+            if(num + 3 <= m && vis[num + 3] == 0 )    ans--;
+        }
+        
+      //  for(int i = 1; i <= m; i++)
+              //  printf(""%d  %d\n"",i,vis[i])；
+       // printf(""%d %d\n"",i,vis[i]);
+        printf(""%d\n"",ans);    
+    }
+    return 0;
+}"
+106,D,C,61035776,2023-03-02 11:49:53,澈628,段错误,"#include<stdio.h>
+int bb[1000];
+int main()
+{
+    long long m,q;
+  
+    scanf(""%lld%lld"",&m,&q);
+    while(q--)
+    {
+        long long  op,num,count=0,i;
+        scanf(""%lld%lld"",&op,&num);
+        if(op==1)
+        {
+            bb[num+3]++;
+            bb[num-3]++;
+        }
+      else
+        {
+            bb[num+3]--;
+            bb[num-3]--;
+        }
+        for(i=1;i<=m;i++){
+        
+            if(bb[i]){
+                count++;}
+        }
+        printf(""%lld\n"",count);
+    }
+
+    
+}"
+107,D,C,61079130,2023-03-04 12:23:26,ZJGSU_wjh,答案正确,"#include <stdio.h>
+#include <string.h>
+int main()
+{
+	int m, q;
+	int a[100004] = { 0 };
+	scanf(""%d %d"", &m, &q);
+	int op, num;
+	int ans = 0;
+	while (q--)
+	{
+		scanf(""%d %d"", &op, &num);
+		if (op == 1)
+		{
+			if (num - 3 > 0)
+			{
+				a[num - 3]++;
+				if (a[num - 3] == 1)
+				{
+					ans++;
+				}
+			}
+			if (num + 3 <= m)
+			{
+				a[num + 3]++;
+				if (a[num + 3] == 1)
+				{
+					ans++;
+				}
+			}
+		}
+		else if (op == 2)
+		{
+			if (num - 3 > 0)
+			{
+				a[num - 3]--;
+				if (a[num - 3] == 0)
+				{
+					ans--;
+				}
+			}
+			if (num + 3 <= m)
+			{
+				a[num + 3]--;
+				if (a[num + 3] == 0)
+				{
+					ans--;
+				}
+			}
+		}
+		printf(""%d\n"", ans);
+	}
+	return 0;
+}"
+108,D,C,61123755,2023-03-07 17:36:21,青年大学习做了没,答案错误,"#include<stdio.h>
+#include<stdlib.h>
+typedef  int ElemType;
+typedef struct LNode
+{
+    ElemType data;
+    struct LNode *next;
+}LNode,*LinkList;
+/*有头结点单链表初始化*/
+/*返回初始化好的单链表*/
+LinkList initList()
+{
+        LinkList  head;
+        head=(LinkList)malloc(sizeof(LNode));
+       
+       head->next=NULL;
+       return head;
+
+}
+/*在单链表中pos位置插入元素e*/
+/*插入成功返回1，不成功返回0*/
+int insertList(LinkList head, int pos, ElemType e)
+{
+   int j=1;
+    LNode *a=head,*s;
+    while(a && j<pos)
+    {
+        a=a->next;
+        j++;
+    }
+    if(!a||j>pos)
+        return 0;
+    s=(LNode*)malloc(sizeof(LNode));
+    if(!s)
+        return 0;
+    s->data=e;
+    s->next=a->next;
+    a->next=s;
+    return 1;
+}
+/*依次输出单链表的元素*/
+void printList(LinkList head)
+{
+   while(head->next)
+   {
+       printf(""%d "",head->data);
+       head=head->next;
+   }
+}
+int main()
+{
+    LinkList head;
+    ElemType e;
+    int i,n,m,pos;
+    scanf(""%d%d"",&n,&m);
+    head=initList();
+    /*以下创建n个结点的单链表*/
+    while(n--)
+    {
+        scanf(""%d"",&i);
+        
+    }
+    while(m--)
+    {
+        scanf(""%d %d"",&pos,&e);
+        insertList(head, pos, e);
+    }
+    /*以下插入m个数据*/
+    /*输出全部元素*/
+    printList(head);
+    return 0;
+}"
+109,D,C,61130710,2023-03-08 14:11:55,hhu21张宇,答案正确,"#include<stdio.h>
+int river[100005];
+char vis[100005];
+int main() {
+  int m, q;
+  scanf(""%d%d"", &m, &q);
+  int op, num;
+  int ans = 0;
+  while (q--) {
+    scanf(""%d%d"", &op, &num);
+    if (op == 1) {
+      river[num]++;
+      if (num > 3 && vis[num - 3] == 0){
+        ans++;
+        vis[num - 3] = 1;
+      }
+      if (num + 3 <= m && vis[num + 3] == 0) {
+        ans++;
+        vis[num + 3] = 1;
+      }
+    } else {
+      river[num]--;
+      if (river[num] == 0) {
+        if (num > 3 && vis[num - 3] == 1) {
+          if (!(num > 6 && river[num - 6] > 0)) {
+            ans--;
+            vis[num - 3] = 0;
+          }
+        }
+        if (num + 2 < m && vis[num + 3] == 1) {
+          if (!(num + 5 < m && river[num + 6] > 0)) {
+            ans--;
+            vis[num + 3] = 0;
+          }
+        }
+      }
+    }
+    printf(""%d\n"", ans);
+  }
+  return 0;
+}
+"
+110,D,C,61130712,2023-03-08 14:12:07,hhu21张宇,答案正确,"#include<stdio.h>
+int river[100005];
+char vis[100005];
+int main() {
+  int m, q;
+  scanf(""%d%d"", &m, &q);
+  int op, num;
+  int ans = 0;
+  while (q--) {
+    scanf(""%d%d"", &op, &num);
+    if (op == 1) {
+      river[num]++;
+      if (num > 3 && vis[num - 3] == 0){
+        ans++;
+        vis[num - 3] = 1;
+      }
+      if (num + 3 <= m && vis[num + 3] == 0) {
+        ans++;
+        vis[num + 3] = 1;
+      }
+    } else {
+      river[num]--;
+      if (river[num] == 0) {
+        if (num > 3 && vis[num - 3] == 1) {
+          if (!(num > 6 && river[num - 6] > 0)) {
+            ans--;
+            vis[num - 3] = 0;
+          }
+        }
+        if (num + 2 < m && vis[num + 3] == 1) {
+          if (!(num + 5 < m && river[num + 6] > 0)) {
+            ans--;
+            vis[num + 3] = 0;
+          }
+        }
+      }
+    }
+    printf(""%d\n"", ans);
+  }
+  return 0;
+}
+"
+111,D,C,61142613,2023-03-09 14:33:58,【南笙】,运行超时,"#include <stdio.h>
+#include <stdlib.h>
+int main()
+{
+    int m = 0, q = 0, op = 0, *num = NULL, mem = 0, plus = 0;
+    
+    scanf(""%d %d"", &m, &q);
+    num = (int*)malloc(sizeof(int) * (m + 1));
+    
+    while(q-- > 0)
+    {
+        plus = 0;
+        scanf(""%d %d"", &op, &mem);
+        
+        if(op == 1)
+        {
+            num[mem]++;
+        }
+        else if(op == 2)
+        {
+            num[mem]--;
+        }
+            
+        for(int i = 1; i <= m; i++)
+        {
+            if(i <= 3)
+            {
+                if(num[i + 3] != 0)
+                {
+                    plus++;
+                }
+            }
+            else if(i > m -3)
+            {
+                if(num[i - 3] != 0)
+                {
+                    plus++;
+                }
+            }
+            else 
+            {
+                if ((num[i - 3] != 0) || (num[i + 3] != 0))
+                {
+                    plus++;
+                }
+            }
+            
+        }  printf(""%d\n"", plus);
+    }
+    free(num);
+}"
+112,D,C,61142779,2023-03-09 14:51:46,【南笙】,运行超时,"#include <stdio.h>
+#include <stdlib.h>
+int main()
+{
+    int m = 0, q = 0, op = 0, *num = NULL, mem = 0, plus = 0;
+    
+    scanf(""%d %d"", &m, &q);
+    num = (int*)malloc(sizeof(int) * (m + 1));
+    
+    while(q-- > 0)
+    {
+        plus = 0;
+        scanf(""%d %d"", &op, &mem);
+        
+        if(op == 1)
+        {
+            num[mem]++;
+        }
+        else if(op == 2)
+        {
+            num[mem]--;
+        }
+            
+        for(int i = 1; i <= m; i++)
+        {
+            if(i <= 3)
+            {
+                if(num[i + 3])
+                {
+                    plus++;
+                }
+            }
+            else if(i > m -3)
+            {
+                if(num[i - 3])
+                {
+                    plus++;
+                }
+            }
+            else 
+            {
+                if (num[i - 3] || num[i +3])
+                {
+                    plus++;
+                }
+            }
+            
+        }  printf(""%d\n"", plus);
+    }
+    free(num);
+}"
+113,D,C,61142781,2023-03-09 14:51:50,【南笙】,运行超时,"#include <stdio.h>
+#include <stdlib.h>
+int main()
+{
+    int m = 0, q = 0, op = 0, *num = NULL, mem = 0, plus = 0;
+    
+    scanf(""%d %d"", &m, &q);
+    num = (int*)malloc(sizeof(int) * (m + 1));
+    
+    while(q-- > 0)
+    {
+        plus = 0;
+        scanf(""%d %d"", &op, &mem);
+        
+        if(op == 1)
+        {
+            num[mem]++;
+        }
+        else if(op == 2)
+        {
+            num[mem]--;
+        }
+            
+        for(int i = 1; i <= m; i++)
+        {
+            if(i <= 3)
+            {
+                if(num[i + 3])
+                {
+                    plus++;
+                }
+            }
+            else if(i > m -3)
+            {
+                if(num[i - 3])
+                {
+                    plus++;
+                }
+            }
+            else 
+            {
+                if (num[i - 3] || num[i +3])
+                {
+                    plus++;
+                }
+            }
+            
+        }  printf(""%d\n"", plus);
+    }
+    free(num);
+}"
+114,D,C,61142828,2023-03-09 14:57:05,【南笙】,运行超时,"#include <stdio.h>
+#include <stdlib.h>
+int main()
+{
+    int m = 0, q = 0, op = 0, *num = NULL, mem = 0, plus = 0;
+    
+    scanf(""%d %d"", &m, &q);
+    num = (int*)malloc(sizeof(int) * (m + 1));
+    
+    while(q-- > 0)
+    {
+        plus = 0;
+        scanf(""%d %d"", &op, &mem);
+        
+        if(op == 1)
+        {
+            num[mem]++;
+        }
+        else if(op == 2)
+        {
+            num[mem]--;
+        }
+            
+        for(int i = 1; i <= m; i++)
+        {
+            int k = 0;
+            if ((i > 3) && num[i - 3])
+                 k = 1;
+            if((i <= m - 3) && num[i + 3])
+                k = 1;
+            plus += k;
+        }  
+        printf(""%d\n"", plus);
+    }
+    free(num);
+}"
+115,D,C,61142851,2023-03-09 14:58:42,【南笙】,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c:1:9: fatal error: 'iostream' file not found\n#include<iostream>\n        ^~~~~~~~~~\n1 error generated.""}
+
+#include<iostream>
+#include<cstdio>
+using namespace std;
+int m,q,op,x,saf[100005],ans=0;
+int main()
+{
+	cin>>m>>q;
+    while(q--)
+    {
+        cin>>op>>x;
+        if(op==1)
+        {
+            if(x-3>=1)
+            {
+                saf[x-3]++;
+                if(saf[x-3]==1) ans++;
+            }
+            if(x+3<=m)
+            {
+                saf[x+3]++;
+                if(saf[x+3]==1) ans++;
+            }
+        }
+        else
+        {
+            if(x-3>=1)
+            {
+                saf[x-3]--;
+                if(saf[x-3]==0) ans--;
+            }
+            if(x+3<=m)
+            {
+                saf[x+3]--;
+                if(saf[x+3]==0) ans--;
+            }
+        }
+        cout<<ans<<endl;
+    }
+    return 0;
+}"
+116,D,C,61142979,2023-03-09 15:10:53,【南笙】,运行超时,"#include <stdio.h>
+#include <stdlib.h>
+int main()
+{
+    int m = 0, q = 0, op = 0, *num = NULL, mem = 0, plus = 0;
+    
+    scanf(""%d %d"", &m, &q);
+    num = (int*)malloc(sizeof(int) * (m + 1));
+    
+    while(q-- > 0)
+    {
+        plus = 0;
+        scanf(""%d %d"", &op, &mem);
+        
+        if(op == 1)
+        {
+            num[mem]++;
+        }
+        else if(op == 2)
+        {
+            num[mem]--;
+        }
+            
+        for(int i = 1; i <= m; i++)
+        {
+            int k =  0;
+            if(i > 3 && num[i - 3])
+                k = 1;
+            if(i <= m - 3 && num[i + 3])
+                k = 1;
+            plus+=k;
+        } 
+        printf(""%d\n"", plus);
+    }
+}"
+117,D,C,61142989,2023-03-09 15:11:45,【南笙】,运行超时,"#include <stdio.h>
+#include <stdlib.h>
+int main()
+{
+    int m = 0, q = 0, op = 0, num[10003] = {0 }, mem = 0, plus = 0;
+    
+    scanf(""%d %d"", &m, &q);
+    while(q-- > 0)
+    {
+        plus = 0;
+        scanf(""%d %d"", &op, &mem);
+        
+        if(op == 1)
+        {
+            num[mem]++;
+        }
+        else if(op == 2)
+        {
+            num[mem]--;
+        }
+            
+        for(int i = 1; i <= m; i++)
+        {
+            int k =  0;
+            if(i > 3 && num[i - 3])
+                k = 1;
+            if(i <= m - 3 && num[i + 3])
+                k = 1;
+            plus+=k;
+        } 
+        printf(""%d\n"", plus);
+    }
+}"
+118,D,C,61143084,2023-03-09 15:24:21,【南笙】,答案错误,"#include <stdio.h>
+#include <stdlib.h>
+int main()
+{
+    int m, q, op, num[10003] = {0 }, mem, plus, max = 0;
+    
+    scanf(""%d %d"", &m, &q);
+    while(q-- > 0)
+    {
+        plus = 0;
+        scanf(""%d %d"", &op, &mem);
+        if (max < mem)
+            max =mem;
+        if(op == 1)
+            num[mem]++;
+        else if(op == 2)
+            num[mem]--;  
+        for(int i = 1; i <= max + 3; i++)
+        {
+            int k =  0;
+            if(i > 3 && num[i - 3])
+                k = 1;
+            if(i <= m - 3 && num[i + 3])
+                k = 1;
+            plus+=k;
+        } 
+        printf(""%d\n"", plus);
+    }
+}"
+119,D,C,61143098,2023-03-09 15:25:48,【南笙】,运行超时,"#include <stdio.h>
+#include <stdlib.h>
+int main()
+{
+    int m, q, op, num[10003] = {0 }, mem, plus;
+    
+    scanf(""%d %d"", &m, &q);
+    while(q-- > 0)
+    {
+        plus = 0;
+        scanf(""%d %d"", &op, &mem);
+        if(op == 1)
+            num[mem]++;
+        else if(op == 2)
+            num[mem]--;  
+        for(int i = 1; i <= m; i++)
+        {
+            int k =  0;
+            if(i > 3 && num[i - 3])
+                k = 1;
+            if(i <= m - 3 && num[i + 3])
+                k = 1;
+            plus+=k;
+        } 
+        printf(""%d\n"", plus);
+    }
+}"
+120,D,C,61147636,2023-03-09 20:40:00,老铁666a,运行超时,"#include<stdio.h>
+int main()
+{
+	int n,m;
+	int flag,count;
+	int op,num; 
+	scanf(""%d %d"",&n,&m);
+	int a[n+1];
+	for(int i=0;i<=n;i++)
+	{
+		a[i] = 0;
+	}
+	int b[n+1];
+	while(m--)
+	{
+		count=0;
+		for(int i=0;i<=n;i++)
+		{
+			b[i] = 0;
+		}
+		scanf(""%d %d"",&op,&num);
+		flag = op==1 ? 1:-1;
+		a[num] += flag;
+		for(int i=1;i<=n;i++)
+		{
+			if(a[i]>=1)
+			{
+				if(i-3>=1)
+				{
+					b[i-3] = 1;
+				}
+				if(i+3<=n)
+				{
+					b[i+3] = 1;
+				}
+			}
+		}
+		for(int i=1;i<=n;i++)
+		{
+			if(b[i]==1)
+			{
+				count++;
+			}
+		}
+		printf(""%d\n"",count);
+	}
+	return 0;
+} "
+121,D,C,61147640,2023-03-09 20:40:16,老铁666a,运行超时,"#include<stdio.h>
+int main()
+{
+	int n,m;
+	int flag,count;
+	int op,num; 
+	scanf(""%d %d"",&n,&m);
+	int a[n+1];
+	for(int i=0;i<=n;i++)
+	{
+		a[i] = 0;
+	}
+	int b[n+1];
+	while(m--)
+	{
+		count=0;
+		for(int i=0;i<=n;i++)
+		{
+			b[i] = 0;
+		}
+		scanf(""%d %d"",&op,&num);
+		flag = op==1 ? 1:-1;
+		a[num] += flag;
+		for(int i=1;i<=n;i++)
+		{
+			if(a[i]>=1)
+			{
+				if(i-3>=1)
+				{
+					b[i-3] = 1;
+				}
+				if(i+3<=n)
+				{
+					b[i+3] = 1;
+				}
+			}
+		}
+		for(int i=1;i<=n;i++)
+		{
+			if(b[i]==1)
+			{
+				count++;
+			}
+		}
+		printf(""%d\n"",count);
+	}
+	return 0;
+} "
+122,D,C,61147653,2023-03-09 20:40:55,老铁666a,运行超时,"#include<stdio.h>
+int main()
+{
+	int n,m;
+	int flag,count;
+	int op,num; 
+	scanf(""%d %d"",&n,&m);
+	int a[n+1];
+	for(int i=0;i<=n;i++)
+	{
+		a[i] = 0;
+	}
+	int b[n+1];
+	while(m--)
+	{
+		count=0;
+		for(int i=0;i<=n;i++)
+		{
+			b[i] = 0;
+		}
+		scanf(""%d %d"",&op,&num);
+		flag = op==1 ? 1:-1;
+		a[num] += flag;
+		for(int i=1;i<=n;i++)
+		{
+			if(a[i]>=1)
+			{
+				if(i-3>=1)
+				{
+					b[i-3] = 1;
+				}
+				if(i+3<=n)
+				{
+					b[i+3] = 1;
+				}
+			}
+		}
+		for(int i=1;i<=n;i++)
+		{
+			if(b[i]==1)
+			{
+				count++;
+			}
+		}
+		printf(""%d\n"",count);
+	}
+	return 0;
+} "
+123,D,C,61147665,2023-03-09 20:41:49,老铁666a,运行超时,"#include<stdio.h>
+int main()
+{
+	int n,m;
+	int flag,count;
+	int op,num; 
+	scanf(""%d %d"",&n,&m);
+	int a[n+1];
+	for(int i=0;i<=n;i++)
+	{
+		a[i] = 0;
+	}
+	int b[n+1];
+	while(m--)
+	{
+		count=0;
+		for(int i=0;i<=n;i++)
+		{
+			b[i] = 0;
+		}
+		scanf(""%d %d"",&op,&num);
+		flag = op==1 ? 1:-1;
+		a[num] += flag;
+		for(int i=1;i<=n;i++)
+		{
+			if(a[i]>=1)
+			{
+				if(i-3>=1)
+				{
+					b[i-3] = 1;
+				}
+				if(i+3<=n)
+				{
+					b[i+3] = 1;
+				}
+			}
+		}
+		for(int i=1;i<=n;i++)
+		{
+			if(b[i]==1)
+			{
+				count++;
+			}
+		}
+		printf(""%d\n"",count);
+	}
+	return 0;
+} "
+124,D,C,61147676,2023-03-09 20:42:17,老铁666a,运行超时,"#include<stdio.h>
+int main()
+{
+	int n,m;
+	int flag,count;
+	int op,num; 
+	scanf(""%d %d"",&n,&m);
+	int a[n+1];
+	for(int i=0;i<=n;i++)
+	{
+		a[i] = 0;
+	}
+	int b[n+1];
+	while(m--)
+	{
+		count=0;
+		for(int i=0;i<=n;i++)
+		{
+			b[i] = 0;
+		}
+		scanf(""%d %d"",&op,&num);
+		flag = op==1 ? 1:-1;
+		a[num] += flag;
+		for(int i=1;i<=n;i++)
+		{
+			if(a[i]>=1)
+			{
+				if(i-3>=1)
+				{
+					b[i-3] = 1;
+				}
+				if(i+3<=n)
+				{
+					b[i+3] = 1;
+				}
+			}
+		}
+		for(int i=1;i<=n;i++)
+		{
+			if(b[i]==1)
+			{
+				count++;
+			}
+		}
+		printf(""%d\n"",count);
+	}
+	return 0;
+} "
+125,D,C,61153450,2023-03-10 15:19:23,老铁666a,运行超时,"#include<stdio.h>
+int main()
+{
+	int n,m;
+	int flag,count;
+	int op,num; 
+	scanf(""%d %d"",&n,&m);
+	int a[n+1];
+	for(int i=0;i<=n;i++)
+	{
+		a[i] = 0;
+	}
+	int b[n+1];
+	while(m--)
+	{
+		count=0;
+		for(int i=0;i<=n;i++)
+		{
+			b[i] = 0;
+		}
+		scanf(""%d %d"",&op,&num);
+		flag = op==1 ? 1:-1;
+		a[num] += flag;
+		for(int i=1;i<=n;i++)
+		{
+			if(a[i]>=1)
+			{
+				if(i-3>=1)
+				{
+					b[i-3] = 1;
+				}
+				if(i+3<=n)
+				{
+					b[i+3] = 1;
+				}
+			}
+		}
+		for(int i=1;i<=n;i++)
+		{
+			if(b[i]==1)
+			{
+				count++;
+			}
+		}
+		printf(""%d\n"",count);
+	}
+	return 0;
+} "
+126,D,C,61153566,2023-03-10 15:24:05,强大的雪碧想开了,段错误,"#include<stdio.h>
+int main()
+{
+    int m,q;
+    int a[100]={0};
+    int op,num;
+    int sum=0;
+    scanf(""%d %d"",&m,&q);
+    while(q--)
+    {
+        scanf(""%d %d"",&op,&num);
+        if(op==1)
+        {
+            if(num-3>0)
+            {
+                 a[num-3]++;
+                 if(a[num-3]==1)
+                     sum++;
+            }
+            if(num+3<=m)
+            {
+                 a[num+3]++;
+                 if(a[num+3]==1)
+                      sum++;
+            }
+        }
+        if(op==2)
+        {
+            if(num-3>0)
+            {
+                a[num-3]--;
+                if(a[num-3]==0)
+                    sum--;
+            }
+            if(num+3<=m)
+            {
+                a[num+3]--;
+                if(a[num+3]==0)
+                    sum--;
+            }
+        }
+        printf(""%d\n"",sum);
+    }
+    return 0;
+}"
+127,D,C,61153596,2023-03-10 15:25:02,强大的雪碧想开了,段错误,"#include<stdio.h>
+int main()
+{
+    int m,q;
+    int a[100]={0};
+    int op,num;
+    int sum=0;
+    scanf(""%d %d"",&m,&q);
+    while(q--)
+    {
+        scanf(""%d %d"",&op,&num);
+        if(op==1)
+        {
+            if(num-3>0)
+            {
+                 a[num-3]++;
+                 if(a[num-3]==1)
+                     sum++;
+            }
+            if(num+3<=m)
+            {
+                 a[num+3]++;
+                 if(a[num+3]==1)
+                      sum++;
+            }
+        }
+        if(op==2)
+        {
+            if(num-3>0)
+            {
+                a[num-3]--;
+                if(a[num-3]==0)
+                    sum--;
+            }
+            if(num+3<=m)
+            {
+                a[num+3]--;
+                if(a[num+3]==0)
+                    sum--;
+            }
+        }
+        printf(""%d\n"",sum);
+    }
+    return 0;
+}"
+128,D,C,61153637,2023-03-10 15:26:44,强大的雪碧想开了,答案正确,"#include<stdio.h>
+int main()
+{
+    int m,q;
+    int a[100001]={0};
+    int op,num;
+    int sum=0;
+    scanf(""%d %d"",&m,&q);
+    while(q--)
+    {
+        scanf(""%d %d"",&op,&num);
+        if(op==1)
+        {
+            if(num-3>0)
+            {
+                 a[num-3]++;
+                 if(a[num-3]==1)
+                     sum++;
+            }
+            if(num+3<=m)
+            {
+                 a[num+3]++;
+                 if(a[num+3]==1)
+                      sum++;
+            }
+        }
+        if(op==2)
+        {
+            if(num-3>0)
+            {
+                a[num-3]--;
+                if(a[num-3]==0)
+                    sum--;
+            }
+            if(num+3<=m)
+            {
+                a[num+3]--;
+                if(a[num+3]==0)
+                    sum--;
+            }
+        }
+        printf(""%d\n"",sum);
+    }
+    return 0;
+}"
+129,D,C,61169254,2023-03-10 21:00:38,【南笙】,运行超时,"#include <stdio.h>
+#include <stdlib.h>
+int main()
+{
+    int m = 0, q = 0, op = 0, *num = NULL, mem = 0, plus = 0;
+    
+    scanf(""%d %d"", &m, &q);
+    num = (int*)malloc(sizeof(int) * (m + 1));
+    
+    while(q-- > 0)
+    {
+        plus = 0;
+        scanf(""%d %d"", &op, &mem);
+        
+        if(op == 1)
+        {
+            num[mem]++;
+        }
+        else if(op == 2)
+        {
+            num[mem]--;
+        }
+            
+        for(int i = 1; i <= m; i++)
+        {
+            if(i <= 3)
+            {
+                if(num[i + 3] != 0)
+                {
+                    plus++;
+                }
+            }
+            else if(i > m -3)
+            {
+                if(num[i - 3] != 0)
+                {
+                    plus++;
+                }
+            }
+            else 
+            {
+                if ((num[i - 3] != 0) || (num[i + 3] != 0))
+                {
+                    plus++;
+                }
+            }
+            
+        }  printf(""%d\n"", plus);
+    }
+    free(num);
+}"
+130,D,C,61169306,2023-03-10 21:01:17,【南笙】,运行错误,"#include <stdio.h>
+#include <stdlib.h>
+int main()
+{
+    int m = 0, q = 0, op = 0, num[10003] = { 0 }, mem = 0, plus = 0;
+    
+    scanf(""%d %d"", &m, &q);
+
+    
+    while(q-- > 0)
+    {
+        plus = 0;
+        scanf(""%d %d"", &op, &mem);
+        
+        if(op == 1)
+        {
+            num[mem]++;
+        }
+        else if(op == 2)
+        {
+            num[mem]--;
+        }
+            
+        for(int i = 1; i <= m; i++)
+        {
+            if(i <= 3)
+            {
+                if(num[i + 3] != 0)
+                {
+                    plus++;
+                }
+            }
+            else if(i > m -3)
+            {
+                if(num[i - 3] != 0)
+                {
+                    plus++;
+                }
+            }
+            else 
+            {
+                if ((num[i - 3] != 0) || (num[i + 3] != 0))
+                {
+                    plus++;
+                }
+            }
+            
+        }  printf(""%d\n"", plus);
+    }
+    free(num);
+}"
+131,D,C,61169323,2023-03-10 21:01:31,【南笙】,运行超时,"#include <stdio.h>
+#include <stdlib.h>
+int main()
+{
+    int m = 0, q = 0, op = 0, num[10003] = { 0 }, mem = 0, plus = 0;
+    
+    scanf(""%d %d"", &m, &q);
+
+    
+    while(q-- > 0)
+    {
+        plus = 0;
+        scanf(""%d %d"", &op, &mem);
+        
+        if(op == 1)
+        {
+            num[mem]++;
+        }
+        else if(op == 2)
+        {
+            num[mem]--;
+        }
+            
+        for(int i = 1; i <= m; i++)
+        {
+            if(i <= 3)
+            {
+                if(num[i + 3] != 0)
+                {
+                    plus++;
+                }
+            }
+            else if(i > m -3)
+            {
+                if(num[i - 3] != 0)
+                {
+                    plus++;
+                }
+            }
+            else 
+            {
+                if ((num[i - 3] != 0) || (num[i + 3] != 0))
+                {
+                    plus++;
+                }
+            }
+            
+        }  printf(""%d\n"", plus);
+    }
+    return 0;
+}"
+132,D,C,61171209,2023-03-10 21:33:32,【南笙】,段错误,"#include <stdio.h>
+#include <stdlib.h>
+int main()
+{
+    int m = 0, q = 0, op = 0, num[10001] = { 0 }, mem = 0, plus = 0;
+    
+    scanf(""%d %d"", &m, &q);
+    while (q-- > 0)
+    {
+        scanf(""%d %d"", &op, &mem);
+        
+        if(op == 1)
+        { 
+            //当mem-3大于0且数组的相同位置零时计数器加一
+            if (mem - 3 > 0 && !num[mem - 3]++)
+                plus++; 
+            if (mem + 3 <= m && !num[mem + 3]++)
+                plus++;
+        }
+        else 
+        {
+            if (mem - 3 > 0 && !(--num[mem - 3]))
+            {
+                plus--;
+            }
+            if (mem + 3 <= m && !(--num[mem + 3]))
+            {
+                plus--;
+            }
+        }
+        printf(""%d\n"", plus);
+    }
+    return 0;
+}"
+133,D,C,61171239,2023-03-10 21:34:05,【南笙】,答案正确,"#include <stdio.h>
+#include <stdlib.h>
+int main()
+{
+    int m = 0, q = 0, op = 0, num[100001] = { 0 }, mem = 0, plus = 0;
+    
+    scanf(""%d %d"", &m, &q);
+    while (q-- > 0)
+    {
+        scanf(""%d %d"", &op, &mem);
+        
+        if(op == 1)
+        { 
+            //当mem-3大于0且数组的相同位置零时计数器加一
+            if (mem - 3 > 0 && !num[mem - 3]++)
+                plus++; 
+            if (mem + 3 <= m && !num[mem + 3]++)
+                plus++;
+        }
+        else 
+        {
+            if (mem - 3 > 0 && !(--num[mem - 3]))
+            {
+                plus--;
+            }
+            if (mem + 3 <= m && !(--num[mem + 3]))
+            {
+                plus--;
+            }
+        }
+        printf(""%d\n"", plus);
+    }
+    return 0;
+}"
+134,D,C,61172712,2023-03-10 22:18:08,强大的雪碧想开了,答案正确,"#include<stdio.h>
+int main()
+{
+    int m,q;
+    scanf(""%d%d"",&m,&q);
+    int op,num;
+    int a[1000001]={0};
+    int sum=0;
+    while(q--)
+    {
+        scanf(""%d %d"",&op,&num);
+        if(op==1)
+        {
+            if(num-3>0)
+            {
+                a[num-3]++;
+                if(a[num-3]==1)
+                    sum++;
+            }
+            if(num+3<=m)
+            {
+                a[num+3]++;
+                if(a[num+3]==1)
+                        sum++;
+            }
+        }
+        if(op==2)
+        {
+            if(num-3>0)
+            {
+                a[num-3]--;
+                if(a[num-3]==0)
+                    sum--;
+            }
+            if(num+3<=m)
+            {
+                a[num+3]--;
+                if(a[num+3]==0)
+                    sum--;
+            }
+        }
+        printf(""%d\n"",sum);
+    }
+    return 0;
+}"
+135,D,C(gcc 7.5.0),61259915,2023-03-12 20:23:17,墨初_,段错误,"#include<stdio.h>
+
+int main()
+{
+    //m代表范围，q代表加牌次数
+    int m=0,q=0;
+    //op为1代表加入，为2代表移除，num表示牌的数字
+    int op=0,num=0;
+    //数组nums的下标代表对应的牌，值代表对应牌有多少张
+    //count数组对应下标代表安全牌，下标大于0，则为安全牌，用于防止出现相同安全牌
+    int nums[100]={0},count[100]={0};
+    //n代表安全牌的多少
+    int i=0,j=0,n=0;
+    scanf(""%d%d"",&m,&q);
+    for(i=0;i<q;i++)
+    {
+        //每次重新开始需将所有安全牌清0，防止牌被移除后造成错误
+        for(j=1;j<=m;j++)
+        {
+            count[j]=0;
+        }
+        n=0;
+        scanf(""%d%d"",&op,&num);
+        if(op==1)
+        {
+            nums[num]++;
+        }else if(op==2&&nums[num]>0)
+        {
+            nums[num]--;
+        }
+        //从第一张开始到第m张
+        for(j=1;j<=m;j++)
+        {
+            if(j<=3)
+            {
+            //若数组nums中存在j+3或j-3的下标值大于0，则j为安全牌
+            if(nums[j+3]>0)
+            {
+                count[j]++;
+            }
+            }else if(j>3&&j<=m-3)
+            {
+              if(nums[j-3]>0)
+              {
+                 count[j]++; 
+              }else if(nums[j+3]>0)
+              {
+                  count[j]++;
+              }
+            }else if(j>m-3&&j<=m)
+            {
+                if(nums[j-3]>0)
+                {
+                    count[j]++;
+                }
+            }
+        }
+        for(j=1;j<=m;j++)
+        {
+            //只要大于0，则为安全牌，重复的不重新计算
+            if(count[j]>0)
+            {
+                n++;
+            }
+        }
+        printf(""%d\n"",n);
+    }
+    return 0;
+}"
+136,D,C(gcc 7.5.0),61259931,2023-03-12 20:23:39,墨初_,段错误,"#include<stdio.h>
+
+int main()
+{
+    //m代表范围，q代表加牌次数
+    int m=0,q=0;
+    //op为1代表加入，为2代表移除，num表示牌的数字
+    int op=0,num=0;
+    //数组nums的下标代表对应的牌，值代表对应牌有多少张
+    //count数组对应下标代表安全牌，下标大于0，则为安全牌，用于防止出现相同安全牌
+    int nums[1000]={0},count[1000]={0};
+    //n代表安全牌的多少
+    int i=0,j=0,n=0;
+    scanf(""%d%d"",&m,&q);
+    for(i=0;i<q;i++)
+    {
+        //每次重新开始需将所有安全牌清0，防止牌被移除后造成错误
+        for(j=1;j<=m;j++)
+        {
+            count[j]=0;
+        }
+        n=0;
+        scanf(""%d%d"",&op,&num);
+        if(op==1)
+        {
+            nums[num]++;
+        }else if(op==2&&nums[num]>0)
+        {
+            nums[num]--;
+        }
+        //从第一张开始到第m张
+        for(j=1;j<=m;j++)
+        {
+            if(j<=3)
+            {
+            //若数组nums中存在j+3或j-3的下标值大于0，则j为安全牌
+            if(nums[j+3]>0)
+            {
+                count[j]++;
+            }
+            }else if(j>3&&j<=m-3)
+            {
+              if(nums[j-3]>0)
+              {
+                 count[j]++; 
+              }else if(nums[j+3]>0)
+              {
+                  count[j]++;
+              }
+            }else if(j>m-3&&j<=m)
+            {
+                if(nums[j-3]>0)
+                {
+                    count[j]++;
+                }
+            }
+        }
+        for(j=1;j<=m;j++)
+        {
+            //只要大于0，则为安全牌，重复的不重新计算
+            if(count[j]>0)
+            {
+                n++;
+            }
+        }
+        printf(""%d\n"",n);
+    }
+    return 0;
+}"
+137,D,C(gcc 7.5.0),61260027,2023-03-12 20:26:20,墨初_,段错误,"#include<stdio.h>
+
+int main()
+{
+    //m代表范围，q代表加牌次数
+    int m=0,q=0;
+    //op为1代表加入，为2代表移除，num表示牌的数字
+    int op=0,num=0;
+    //数组nums的下标代表对应的牌，值代表对应牌有多少张
+    //count数组对应下标代表安全牌，下标大于0，则为安全牌，用于防止出现相同安全牌
+    int nums[1000]={0},count[1000]={0};
+    //n代表安全牌的多少
+    int i=0,j=0,n=0;
+    scanf(""%d%d"",&m,&q);
+    for(i=0;i<q;i++)
+    {
+        //每次重新开始需将所有安全牌清0，防止牌被移除后造成错误
+        for(j=1;j<=m;j++)
+        {
+            count[j]=0;
+        }
+        n=0;
+        scanf(""%d%d"",&op,&num);
+        if(op==1)
+        {
+            nums[num]++;
+        }else if(op==2&&nums[num]>0)
+        {
+            nums[num]--;
+        }
+        //从第一张开始到第m张
+        for(j=1;j<=m;j++)
+        {
+            if(j<=3)
+            {
+            //若数组nums中存在j+3或j-3的下标值大于0，则j为安全牌
+            if(nums[j+3]>0)
+            {
+                count[j]++;
+            }
+            }else if(j>3&&j<=m-3)
+            {
+              if(nums[j-3]>0)
+              {
+                 count[j]++; 
+              }if(nums[j+3]>0)
+              {
+                  count[j]++;
+              }
+            }else if(j>m-3&&j<=m)
+            {
+                if(nums[j-3]>0)
+                {
+                    count[j]++;
+                }
+            }
+        }
+        for(j=1;j<=m;j++)
+        {
+            //只要大于0，则为安全牌，重复的不重新计算
+            if(count[j]>0)
+            {
+                n++;
+            }
+        }
+        printf(""%d\n"",n);
+    }
+    return 0;
+}"
+138,D,C(gcc 7.5.0),61260168,2023-03-12 20:30:35,墨初_,段错误,"#include<stdio.h>
+
+int main()
+{
+    //m代表范围，q代表加牌次数
+    int m=0,q=0;
+    //op为1代表加入，为2代表移除，num表示牌的数字
+    int op=0,num=0;
+    //数组nums的下标代表对应的牌，值代表对应牌有多少张
+    //count数组对应下标代表安全牌，下标大于0，则为安全牌，用于防止出现相同安全牌
+    int nums[1000]={0},count[1000]={0};
+    //n代表安全牌的多少
+    int i=0,j=0,n=0;
+    scanf(""%d%d"",&m,&q);
+    
+    for(i=0;i<q;i++)
+    {
+        //每次重新开始需将所有安全牌清0，防止牌被移除后造成错误
+        for(j=1;j<=m;j++)
+        {
+            count[j]=0;
+        }
+        n=0;
+        scanf(""%d%d"",&op,&num);
+        if(num>m)
+        {
+            exit(-1);
+        }
+        if(op==1)
+        {
+            nums[num]++;
+        }else if(op==2&&nums[num]>0)
+        {
+            nums[num]--;
+        }
+        //从第一张开始到第m张
+        for(j=1;j<=m;j++)
+        {
+            if(j<=3)
+            {
+            //若数组nums中存在j+3或j-3的下标值大于0，则j为安全牌
+            if(nums[j+3]>0)
+            {
+                count[j]++;
+            }
+            }else if(j>3&&j<=m-3)
+            {
+              if(nums[j-3]>0)
+              {
+                 count[j]++; 
+              }if(nums[j+3]>0)
+              {
+                  count[j]++;
+              }
+            }else if(j>m-3&&j<=m)
+            {
+                if(nums[j-3]>0)
+                {
+                    count[j]++;
+                }
+            }
+        }
+        for(j=1;j<=m;j++)
+        {
+            //只要大于0，则为安全牌，重复的不重新计算
+            if(count[j]>0)
+            {
+                n++;
+            }
+        }
+        printf(""%d\n"",n);
+    }
+    return 0;
+}"
+139,D,C,61288763,2023-03-14 20:43:29,强者，，，，，,答案错误,"#include<stdio.h>
+int c[1000000];
+int ans=0;
+int m,q;
+void Add_(int x)
+{
+    
+    if(x<1||x>m) return ;
+    c[x]++;
+    if(c[x]==1) ans++;
+}
+void De_(int x)
+{
+    if(x<1||x>m) return ;
+    c[x]--;
+    if(c[x]==0) ans--;
+}
+int main()
+{
+    int m,q,op,num,ans,i,b;
+    b=0;
+    scanf(""%d %d"",&m,&q);
+    for(i=0;i<q;i++)
+    {
+        scanf(""%d %d"",&op,&num);
+            if(op==1)
+            {
+                Add_(num+3);
+                Add_(num-3);
+            }
+            if(op==2)
+            {
+                De_(num+3);
+                De_(num-3);
+            }
+       printf(""%d\n"",ans);
+    }
+  
+        return 0;
+}
+"
+140,D,C,61288981,2023-03-14 20:53:26,强者，，，，，,答案正确,"#include<stdio.h>
+int c[1000000];
+int ans=0;
+int m,q;
+void Add_(int x)
+{
+    
+    if(x<1||x>m) return ;
+    c[x]++;
+    if(c[x]==1) ans++;
+}
+void De_(int x)
+{
+    if(x<1||x>m) return ;
+    c[x]--;
+    if(c[x]==0) ans--;
+}
+int main()
+{
+    int op,num,i,b;
+    b=0;
+    scanf(""%d %d"",&m,&q);
+    for(i=0;i<q;i++)
+    {
+        scanf(""%d %d"",&op,&num);
+            if(op==1)
+            {
+                Add_(num+3);
+                Add_(num-3);
+            }
+            if(op==2)
+            {
+                De_(num+3);
+                De_(num-3);
+            }
+       printf(""%d\n"",ans);
+    }
+  
+        return 0;
+}
+"
+141,D,C,61360338,2023-03-18 17:20:47,拒绝pua的小鱼干很爱吃肉,段错误,"#include <stdio.h>
+int main()
+{
+    int m,q;
+    scanf(""%d %d"",&m,&q);
+    int a[110];
+    for(int i=1;i<=m;i++) a[i]=0;
+    int cz;
+    int t;
+    int cnt;
+    while(q--)
+    {
+        cnt=0;
+        scanf(""%d %d"",&cz,&t);
+        if(cz==1)
+        {
+            if(t-3>=1)
+            {
+                a[t-3]++;
+                a[t+3]++;
+            }
+            else
+            {
+                a[t+3]++;
+            }
+        }
+        else
+        {
+            if(t-3>=1)
+            {
+                a[t-3]--;
+                a[t+3]--;
+            }
+            else
+            {
+                a[t+3]--;
+            }
+        }
+        for(int i=1;i<=m;i++)
+        {
+            if(a[i]>0) cnt++;
+        }
+        printf(""%d\n"",cnt);
+    }
+}"
+142,D,C,61360340,2023-03-18 17:20:48,拒绝pua的小鱼干很爱吃肉,段错误,"#include <stdio.h>
+int main()
+{
+    int m,q;
+    scanf(""%d %d"",&m,&q);
+    int a[110];
+    for(int i=1;i<=m;i++) a[i]=0;
+    int cz;
+    int t;
+    int cnt;
+    while(q--)
+    {
+        cnt=0;
+        scanf(""%d %d"",&cz,&t);
+        if(cz==1)
+        {
+            if(t-3>=1)
+            {
+                a[t-3]++;
+                a[t+3]++;
+            }
+            else
+            {
+                a[t+3]++;
+            }
+        }
+        else
+        {
+            if(t-3>=1)
+            {
+                a[t-3]--;
+                a[t+3]--;
+            }
+            else
+            {
+                a[t+3]--;
+            }
+        }
+        for(int i=1;i<=m;i++)
+        {
+            if(a[i]>0) cnt++;
+        }
+        printf(""%d\n"",cnt);
+    }
+}"
+143,D,C,61360402,2023-03-18 17:22:07,拒绝pua的小鱼干很爱吃肉,段错误,"#include <stdio.h>
+int main()
+{
+    int m,q;
+    scanf(""%d %d"",&m,&q);
+    int a[10010];
+    for(int i=1;i<=m;i++) a[i]=0;
+    int cz;
+    int t;
+    int cnt;
+    while(q--)
+    {
+        cnt=0;
+        scanf(""%d %d"",&cz,&t);
+        if(cz==1)
+        {
+            if(t-3>=1)
+            {
+                a[t-3]++;
+                a[t+3]++;
+            }
+            else
+            {
+                a[t+3]++;
+            }
+        }
+        else
+        {
+            if(t-3>=1)
+            {
+                a[t-3]--;
+                a[t+3]--;
+            }
+            else
+            {
+                a[t+3]--;
+            }
+        }
+        for(int i=1;i<=m;i++)
+        {
+            if(a[i]>0) cnt++;
+        }
+        printf(""%d\n"",cnt);
+    }
+}"
+144,D,C,61360534,2023-03-18 17:24:18,拒绝pua的小鱼干很爱吃肉,运行超时,"#include <stdio.h>
+int main()
+{
+    int m,q;
+    scanf(""%d %d"",&m,&q);
+    int a[100010];
+    for(int i=1;i<=m;i++) a[i]=0;
+    int cz;
+    int t;
+    int cnt;
+    while(q--)
+    {
+        cnt=0;
+        scanf(""%d %d"",&cz,&t);
+        if(cz==1)
+        {
+            if(t-3>=1)
+            {
+                a[t-3]++;
+                a[t+3]++;
+            }
+            else
+            {
+                a[t+3]++;
+            }
+        }
+        else
+        {
+            if(t-3>=1)
+            {
+                a[t-3]--;
+                a[t+3]--;
+            }
+            else
+            {
+                a[t+3]--;
+            }
+        }
+        for(int i=1;i<=m;i++)
+        {
+            if(a[i]>0) cnt++;
+        }
+        printf(""%d\n"",cnt);
+    }
+}"
+145,D,C,61419813,2023-03-21 01:05:22,青年大学习做了没,答案错误,"#include<malloc.h>
+#include<stdio.h>
+#include<stdlib.h>
+#define  ERROR  0//操作返回值
+#define  OK  1
+typedef  int  ElemType;
+typedef  struct  LNode{
+        ElemType  data;
+        struct  LNode  *pre;
+        struct  LNode  *next;
+        //struct LNode  *rera;
+}LNode,*LinkList;
+LinkList  CreateLoopListN(int  n)
+{
+        int  i,data;
+        LinkList rera,head,p,pre,s;
+        p=head=pre=(LinkList)malloc(sizeof(LNode));
+        if(!p)  return  p;
+        scanf(""%d"",&p->data);
+       for (int i=2;i<=n;i++)
+       {
+           s=(LNode*)malloc(sizeof(LNode));
+           scanf(""%d"",&s->data);
+           p->next=s;
+           s->pre=p;
+           p=s;
+       }
+        p->next=NULL;
+        //pre=p;
+        return  head;
+}
+
+void  PrintLoopListRear(LinkList S)
+{
+       LNode *p=S;
+    while(p!=NULL)
+    {
+        printf(""%d "",p->data);
+        p=p->next;
+    }
+    printf(""\n"");
+  
+   
+}
+int  insert (LinkList L, int pos,int e)
+{
+    int i;
+    LNode *p=L,*y;
+    while(i<pos-1)
+    {
+        i++;
+        p=p->next;
+    }
+    if(i>pos)
+        return 0;
+    y=(LNode*)malloc(sizeof(LNode));
+    y->data=e;
+    y->next=p->next;
+    p->next->pre=y;
+    p->next=y;
+    y->pre=p;
+    return 1;
+}
+LinkList ppp(LinkList L)
+{
+    LNode *s=L;
+    while(s)
+    {
+        s=s->next;
+    }
+    return s;
+}
+void PrintLoopListRear1(LinkList Q)
+{
+   LNode *s=Q;
+    while(s)
+    {
+        printf(""%d "",s->data);
+        s=s->pre;
+    }
+}
+int main ()
+{
+    int m;   
+    scanf(""%d"",&m);
+    int pos,e;
+    LinkList Q,S=CreateLoopListN(m);
+    scanf(""%d %d"",&pos,&e);
+    Q=ppp(S);
+    insert(S,pos,e);
+   // PrintLoopListRear(S);
+     PrintLoopListRear1(Q);
+}"
+146,D,C,61430373,2023-03-21 21:32:52,青年大学习做了没,答案错误,"#include<malloc.h>
+#include<stdio.h>
+#include<stdlib.h>
+#define  ERROR  0//操作返回值
+#define  OK  1
+typedef  int  ElemType;
+typedef  struct  LNode{
+        ElemType  data;
+        struct  LNode  *pre;
+        struct  LNode  *next;
+}LNode,*LinkList;
+LinkList  CreateLoopListN(LinkList head, int  n)
+{
+       LNode *s,*p; 
+       ElemType e;
+        scanf(""%d"",&e);
+          head->data=e;
+          p=head;
+      for (int i=2;i<=n;i++)
+      {
+          scanf(""%d"",&e);
+          s=(LNode*)malloc(sizeof(LNode));
+          s->data=e;
+          p->next=s;
+          s->pre=p;
+          p=s;
+      }
+    p->next=NULL;
+    return p;      
+}
+
+void  PrintLoopListRear(LinkList S)
+{
+       LNode *p=S;
+    while(p!=NULL)
+    {
+        printf(""%d "",p->data);
+        p=p->next;
+    }
+    printf(""\n"");
+  
+   
+}
+int  insert (LinkList L, int pos,int e)
+{
+    int i=0;
+    LNode *p=L,*y;
+    while(i<pos-1)
+    {
+        i++;
+        p=p->next;
+    }
+    if(i>pos)
+        return 0;
+    y=(LNode*)malloc(sizeof(LNode));
+    y->data=e;
+    y->next=p->next;
+    p->next->pre=y;
+    p->next=y;
+    y->pre=p;
+    return 1;
+}
+LinkList ppp(LinkList L)
+{
+    LNode *s=L;
+    while(s)
+    {
+        s=s->next;
+    }
+    return s;
+}
+void PrintLoopListRear1(LinkList Q)
+{
+   LNode *s=Q;
+    while(s)
+    {
+        printf(""%d "",s->data);
+        s=s->pre;
+    }
+}
+int main ()
+{
+    int m;   
+    scanf(""%d"",&m);
+    int pos,e;
+    LinkList rera,head;
+    head=(LNode *)malloc(sizeof(LNode));
+    if(!head)
+        return 0;
+    rera=CreateLoopListN(head,m);
+    scanf(""%d %d"",&pos,&e);
+   int i=insert(head,pos,e);
+    if(i==0)
+    {
+        printf(""error"");
+        return 0;
+    }
+    PrintLoopListRear(head);
+     PrintLoopListRear1(rera);
+}"
+147,D,C(gcc 7.5.0),61865826,2023-04-13 16:23:14,墨初_,段错误,"#include<stdio.h>
+
+int main()
+{
+    //m代表范围，q代表加牌次数
+    int m=0,q=0;
+    //op为1代表加入，为2代表移除，num表示牌的数字
+    int op=0,num=0;
+    //数组nums的下标代表对应的牌，值代表对应牌有多少张
+    //count数组对应下标代表安全牌，下标大于0，则为安全牌，用于防止出现相同安全牌
+    int nums[1000]={0},count[1000]={0};
+    //n代表安全牌的多少
+    int i=0,j=0,n=0;
+    scanf(""%d%d"",&m,&q);
+    
+    for(i=0;i<q;i++)
+    {
+        //每次重新开始需将所有安全牌清0，防止牌被移除后造成错误
+        for(j=1;j<=m;j++)
+        {
+            count[j]=0;
+        }
+        n=0;
+        scanf(""%d%d"",&op,&num);
+        if(num>m)
+        {
+            exit(-1);
+        }
+        if(op==1)
+        {
+            nums[num]++;
+        }else if(op==2&&nums[num]>0)
+        {
+            nums[num]--;
+        }
+        //从第一张开始到第m张
+        for(j=1;j<=m;j++)
+        {
+            if(j<=3)
+            {
+            //若数组nums中存在j+3或j-3的下标值大于0，则j为安全牌
+            if(nums[j+3]>0)
+            {
+                count[j]++;
+            }
+            }else if(j>3&&j<=m-3)
+            {
+              if(nums[j-3]>0)
+              {
+                 count[j]++; 
+              }if(nums[j+3]>0)
+              {
+                  count[j]++;
+              }
+            }else if(j>m-3&&j<=m)
+            {
+                if(nums[j-3]>0)
+                {
+                    count[j]++;
+                }
+            }
+        }
+        for(j=1;j<=m;j++)
+        {
+            //只要大于0，则为安全牌，重复的不重新计算
+            if(count[j]>0)
+            {
+                n++;
+            }
+        }
+        printf(""%d\n"",n);
+    }
+    return 0;
+}"
+148,D,C(gcc 7.5.0),61865834,2023-04-13 16:24:02,墨初_,运行超时,"#include<stdio.h>
+
+int main()
+{
+    //m代表范围，q代表加牌次数
+    int m=0,q=0;
+    //op为1代表加入，为2代表移除，num表示牌的数字
+    int op=0,num=0;
+    //数组nums的下标代表对应的牌，值代表对应牌有多少张
+    //count数组对应下标代表安全牌，下标大于0，则为安全牌，用于防止出现相同安全牌
+    int nums[10000]={0},count[10000]={0};
+    //n代表安全牌的多少
+    int i=0,j=0,n=0;
+    scanf(""%d%d"",&m,&q);
+    
+    for(i=0;i<q;i++)
+    {
+        //每次重新开始需将所有安全牌清0，防止牌被移除后造成错误
+        for(j=1;j<=m;j++)
+        {
+            count[j]=0;
+        }
+        n=0;
+        scanf(""%d%d"",&op,&num);
+        if(num>m)
+        {
+            exit(-1);
+        }
+        if(op==1)
+        {
+            nums[num]++;
+        }else if(op==2&&nums[num]>0)
+        {
+            nums[num]--;
+        }
+        //从第一张开始到第m张
+        for(j=1;j<=m;j++)
+        {
+            if(j<=3)
+            {
+            //若数组nums中存在j+3或j-3的下标值大于0，则j为安全牌
+            if(nums[j+3]>0)
+            {
+                count[j]++;
+            }
+            }else if(j>3&&j<=m-3)
+            {
+              if(nums[j-3]>0)
+              {
+                 count[j]++; 
+              }if(nums[j+3]>0)
+              {
+                  count[j]++;
+              }
+            }else if(j>m-3&&j<=m)
+            {
+                if(nums[j-3]>0)
+                {
+                    count[j]++;
+                }
+            }
+        }
+        for(j=1;j<=m;j++)
+        {
+            //只要大于0，则为安全牌，重复的不重新计算
+            if(count[j]>0)
+            {
+                n++;
+            }
+        }
+        printf(""%d\n"",n);
+    }
+    return 0;
+}"
+149,D,C(gcc 7.5.0),61865839,2023-04-13 16:24:37,墨初_,段错误,"#include<stdio.h>
+
+int main()
+{
+    //m代表范围，q代表加牌次数
+    int m=0,q=0;
+    //op为1代表加入，为2代表移除，num表示牌的数字
+    int op=0,num=0;
+    //数组nums的下标代表对应的牌，值代表对应牌有多少张
+    //count数组对应下标代表安全牌，下标大于0，则为安全牌，用于防止出现相同安全牌
+    int nums[2000]={0},count[2000]={0};
+    //n代表安全牌的多少
+    int i=0,j=0,n=0;
+    scanf(""%d%d"",&m,&q);
+    
+    for(i=0;i<q;i++)
+    {
+        //每次重新开始需将所有安全牌清0，防止牌被移除后造成错误
+        for(j=1;j<=m;j++)
+        {
+            count[j]=0;
+        }
+        n=0;
+        scanf(""%d%d"",&op,&num);
+        if(num>m)
+        {
+            exit(-1);
+        }
+        if(op==1)
+        {
+            nums[num]++;
+        }else if(op==2&&nums[num]>0)
+        {
+            nums[num]--;
+        }
+        //从第一张开始到第m张
+        for(j=1;j<=m;j++)
+        {
+            if(j<=3)
+            {
+            //若数组nums中存在j+3或j-3的下标值大于0，则j为安全牌
+            if(nums[j+3]>0)
+            {
+                count[j]++;
+            }
+            }else if(j>3&&j<=m-3)
+            {
+              if(nums[j-3]>0)
+              {
+                 count[j]++; 
+              }if(nums[j+3]>0)
+              {
+                  count[j]++;
+              }
+            }else if(j>m-3&&j<=m)
+            {
+                if(nums[j-3]>0)
+                {
+                    count[j]++;
+                }
+            }
+        }
+        for(j=1;j<=m;j++)
+        {
+            //只要大于0，则为安全牌，重复的不重新计算
+            if(count[j]>0)
+            {
+                n++;
+            }
+        }
+        printf(""%d\n"",n);
+    }
+    return 0;
+}"

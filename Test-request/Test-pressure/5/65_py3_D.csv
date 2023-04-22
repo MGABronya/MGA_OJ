@@ -1,0 +1,705 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,D,Python3,60145041,2023-01-06 19:30:17,书生alin,答案错误,"t = int(input())
+for i in range(t):
+    a, b = map(int ,input().split())
+    x = min(a, b)
+    if x == 1 or x == 2:
+        print(""niuniu"")
+    elif x % 2 == 1:
+        print(""niumei"")
+    elif x % 2 == 0:
+        print(""niuniu"")
+
+"
+1,D,Python3,60146371,2023-01-06 19:38:22,童庆,答案错误,"T = int(input())
+for i in range(T):
+    a,b = map(int,input().split())
+    if a % 2 == b % 2:
+        print('niumei')
+    else:
+        print('niuniu')"
+2,D,Python3,60146496,2023-01-06 19:39:13,HHU-20-郭校廷,答案错误,"T = int(input())
+for _ in range(T):
+    a, b = map(int, input().split())
+    if a > b:
+        t = a
+        a = b
+        b = t
+    if (a == 1 and b == 2):
+        print(""niuniu"")
+    else:
+        if (a & 1 == 1):
+            print(""niumei"")
+        else:
+            print(""niuniu"")"
+3,D,Python3,60149076,2023-01-06 19:54:46,眼里_有光,答案错误,"'''
+牛牛和牛妹都很聪明
+经典博弈论题目，倒推就行了
+某个人输代表当前轮到他，且石子数为(1,1),(0,n)
+考虑1,n和1,1
+1,1的前身是3,2
+也就是谁先遇到3,2谁先赢，
+
+0,n的前身是1,n+2或者2,n+1
+
+思考4,3
+1:    3,1,shu    2,2,shu
+
+思考5,3
+1:    4,1,shu    3,2,shu
+
+不难发现，小的数先小于3的那个人输，那么就要通过控1,2来让小的那个数到对手的时候小于等于3
+也就是要拿到4,5
+也就是不能让对手拿到4,5
+也就是要让对手拿到6,7，就是自己拿到8----让对手拿10，11，对手不管1,2自己都可以反过来，然后拿到8，就赢了
+不难发现，不管对手选择1还是2，自己都可以选另一个，让这一轮的数字稳定下降3
+也就是7以上的三的倍数都没有意义
+所以直接将最小值一直减三直到在范围8,9,10之间
+
+
+
+'''
+t=int(input())
+for i in range(t):
+    tup=tuple(map(int,input().split()))
+    m=min(tup)
+    if(m==1):
+        if(tup==(1,1)):
+            print(""niumei"")
+        else:
+            print(""niuniu"")
+    elif(m==2):print(""niuniu"")
+    elif(m==3):print(""niumei"")
+    else:
+        if(m%4<=1):print(""niuniu"")
+        else:print(""niumei"")
+
+
+
+
+
+"
+4,D,Python3,60149411,2023-01-06 19:56:54,HHU-20-郭校廷,答案错误,"T = int(input())
+for _ in range(T):
+    a, b = map(int, input().split())
+    if a > b:
+        t = a
+        a = b
+        b = t
+    t = int(a / 3)
+    a -= t * 3
+    if a == 0:
+        print(""niumei"")
+    else:
+        print(""niuniu"")"
+5,D,Python3,60150018,2023-01-06 20:00:39,1900300728宁申恺,答案错误,"from sys import stdin
+from functools import cache
+input = lambda: stdin.readline().rstrip()
+
+
+def run_case(case: int):
+    @cache
+    def dfs(a: int, b: int) -> bool:
+        if a < 0 or b < 0:
+            return True
+        if dfs(a - 2, b - 1) and dfs(a - 1, b - 2):
+            return False
+        return True
+    # for i in range(1, 20):
+    #     for j in range(i, 20):
+    #         print(i, j, dfs(i, j))
+    a, b = map(int, input().split(' '))
+    if a == b:
+        print(""niumei"")
+    elif min(a, b) % 2 == 0 or min(a, b) == 1:
+        print(""niuniu"")
+    else:
+        print(""niumei"")
+    return
+
+
+cases = int(input())
+for case in range(cases):
+    run_case(case)
+"
+6,D,Python3,60150027,2023-01-06 20:00:43,HHU-20-郭校廷,答案错误,"T = int(input())
+for _ in range(T):
+    a, b = map(int, input().split())
+    if a > b:
+        t = a
+        a = b
+        b = t
+    a = a % 3
+    if a == 0:
+        print(""niumei"")
+    else:
+        print(""niuniu"")"
+7,D,Python3,60150514,2023-01-06 20:04:07,HHU-20-郭校廷,答案错误,"T = int(input())
+for _ in range(T):
+    a, b = map(int, input().split())
+    if a > b:
+        t = a
+        a = b
+        b = t
+    if(a == 1 and b == 2):
+        print(""niuniu"")
+    else:
+        a = a % 3
+        if a == 0 or a == 1:
+            print(""niumei"")
+        else:
+            print(""niuniu"")"
+8,D,Python3,60150622,2023-01-06 20:04:52,HHU-20-郭校廷,答案错误,"T = int(input())
+for _ in range(T):
+    a, b = map(int, input().split())
+    if a > b:
+        t = a
+        a = b
+        b = t
+    if(a == 1 and b == 2):
+        print(""niuniu"")
+    else:
+        a = a % 3
+        if a == 0 or a == 2:
+            print(""niumei"")
+        else:
+            print(""niuniu"")"
+9,D,Python3,60150707,2023-01-06 20:05:29,童庆,答案错误,"T = int(input())
+for i in range(T):
+    a,b = map(int,input().split())
+    a %= 3
+    b %= 3
+    if a == 0 or b == 0:
+        print('niumei')
+    elif a == 1 and b == 1:
+        print('niumei')
+    else:
+        print('niuniu')"
+10,D,Python3,60150717,2023-01-06 20:05:32,1900300728宁申恺,答案错误,"from sys import stdin
+from functools import cache
+input = lambda: stdin.readline().rstrip()
+
+
+def run_case(case: int):
+    @cache
+    def dfs(a: int, b: int) -> bool:
+        if a < 0 or b < 0:
+            return True
+        if dfs(a - 2, b - 1) and dfs(a - 1, b - 2):
+            return False
+        return True
+    # for i in range(1, 20):
+    #     for j in range(i, 20):
+    #         print(i, j, dfs(i, j))
+    a, b = map(int, input().split(' '))
+    if a == b:
+        print(""niumei"")
+    elif min(a, b) % 3:
+        print(""niuniu"")
+    else:
+        print(""niumei"")
+    return
+
+
+cases = int(input())
+for case in range(cases):
+    run_case(case)
+"
+11,D,Python3,60150921,2023-01-06 20:06:56,HHU-20-郭校廷,答案错误,"T = int(input())
+for _ in range(T):
+    a, b = map(int, input().split())
+    if a > b:
+        t = a
+        a = b
+        b = t
+    if(a == 1 or b == 2):
+        print(""niuniu"")
+    else:
+        a = a % 3
+        if a == 0 or a == 2:
+            print(""niumei"")
+        else:
+            print(""niuniu"")"
+12,D,Python3,60150946,2023-01-06 20:07:04,HHU-20-郭校廷,答案错误,"T = int(input())
+for _ in range(T):
+    a, b = map(int, input().split())
+    if a > b:
+        t = a
+        a = b
+        b = t
+    if(a == 1 or b == 2):
+        print(""niuniu"")
+    else:
+        a = a % 3
+        if a == 0 or a == 1:
+            print(""niumei"")
+        else:
+            print(""niuniu"")"
+13,D,Python3,60150974,2023-01-06 20:07:20,HHU-20-郭校廷,答案错误,"T = int(input())
+for _ in range(T):
+    a, b = map(int, input().split())
+    if a > b:
+        t = a
+        a = b
+        b = t
+    if(a == 1 or b == 2):
+        print(""niuniu"")
+    else:
+        a = a % 3
+        if a == 0:
+            print(""niumei"")
+        else:
+            print(""niuniu"")"
+14,D,Python3,60151242,2023-01-06 20:09:15,皓金,答案错误,"
+T = int(input())
+
+
+for _ in range(T):
+
+  a, b = map(int, input().split())
+
+
+  if (a+b) % 2 == 1:
+    print(""niuniu"")
+  else:
+
+    print(""niumei"")
+"
+15,D,Python3,60152999,2023-01-06 20:23:36,书生alin,答案错误,"t = int(input())
+for i in range(t):
+    a, b = map(int, input().split())
+    minn = min(a, b)
+    yu = minn % 3
+    if yu == 0:
+        print(""niumei"")
+    else:
+        print(""niuniu"")
+    
+
+"
+16,D,Python3,60153145,2023-01-06 20:24:48,KevinSo,答案正确,"def swap (a, b):
+    return b, a
+
+if __name__ == '__main__':
+    t = int(input())
+    while t > 0:
+        t -= 1
+        a, b = map(int, input().split())
+        if a == b:
+            if a % 3 == 2: print(""niuniu"")
+            else: print(""niumei"")
+        else:
+            if a > b: a, b = swap(a, b)
+            if a % 3 == 0: print(""niumei"")
+            else: print(""niuniu"")"
+17,D,Python3,60153919,2023-01-06 20:31:27,YQ045,答案错误,"T = int(input())
+for i in range(0, T):
+    a, b = map(int, input().split())
+    s = min(a, b)
+    if s % 3 == 1 or s % 3 == 2:
+        print('niuniu')
+    else:
+        print('niumei')"
+18,D,Python3,60154248,2023-01-06 20:34:13,YQ045,答案错误,"T = int(input())
+for i in range(0, T):
+    a, b = map(int, input().split())
+    s = int(min(a, b))
+    if s % 3 == 0:
+        print('niumei')
+    else:
+        print('niuniu')"
+19,D,Python3,60154283,2023-01-06 20:34:31,眼里_有光,答案错误,"'''
+牛牛和牛妹都很聪明
+经典博弈论题目，倒推就行了
+某个人输代表当前轮到他，且石子数为(1,1),(0,n)
+考虑1,n和1,1
+1,1的前身是3,2
+也就是谁先遇到3,2谁先赢，
+
+0,n的前身是1,n+2或者2,n+1
+
+思考4,3
+1:    3,1,shu    2,2,shu
+
+思考5,3
+1:    4,1,shu    3,2,shu
+
+不难发现，小的数先小于3的那个人输，那么就要通过控1,2来让小的那个数到对手的时候小于等于3
+也就是要拿到4,5
+也就是不能让对手拿到4,5
+也就是要让对手拿到6,7，就是自己拿到8----让对手拿10，11，对手不管1,2自己都可以反过来，然后拿到8，就赢了
+不难发现，不管对手选择1还是2，自己都可以选另一个，让这一轮的数字稳定下降3
+也就是7以上的三的倍数都没有意义
+所以直接将最小值一直减三直到在范围8,9,10之间
+
+
+
+'''
+t=int(input())
+for i in range(t):
+    tup=tuple(map(int,input().split()))
+    m=min(tup)
+    if(m==1):
+        if(tup==(1,1)):
+            print(""niumei"")
+        else:
+            print(""niuniu"")
+    elif(m==2):print(""niuniu"")
+    elif(m==3):print(""niumei"")
+    elif(m==4):print(""niuniu"")
+    elif(m==5):print(""niuniu"")
+    elif(m==6):print(""niumei"")
+    elif(m==7):print(""niumei"")
+    else:
+        if(m%4<=1):print(""niuniu"")
+        else:print(""niumei"")
+
+
+
+
+
+"
+20,D,Python3,60154744,2023-01-06 20:38:34,YQ045,答案错误,"T = int(input())
+for i in range(0, T):
+    a, b = map(int, input().split())
+    s = int(min(a, b))
+    if a == 1 and b == 1:
+        print('niumei')
+    elif s % 3 == 0:
+        print('niumei')
+    else:
+        print('niuniu')"
+21,D,Python3,60155012,2023-01-06 20:40:50,YQ045,答案错误,"T = int(input())
+while T > 0:
+    a, b = map(int, input().split())
+    s = int(min(a, b))
+    if a == 1 and b == 1:
+        print('niumei')
+    elif s % 3 == 0:
+        print('niumei')
+    else:
+        print('niuniu')
+    T -= 1"
+22,D,Python3,60155509,2023-01-06 20:45:16,尉大帅的同学,答案错误,"A=input()
+A=int(A)
+for i in range(0,A):
+    a,b=input().split("" "")
+    a=int(a)
+    b=int(b)
+    if (a+b)%2==1:
+        print(""niuniu"")
+    else:
+        print(""niumei"")"
+23,D,Python3,60155850,2023-01-06 20:48:25,尉大帅的同学,答案错误,"A=input()
+A=int(A)
+for i in range(0,A):
+    a,b=input().split()
+    a=int(a)
+    b=int(b)
+    if (a+b)%2==1:
+        print(""niuniu"")
+    else:
+        print(""niumei"")"
+24,D,Python3,60156001,2023-01-06 20:49:33,皓金,答案错误,"t = int(input())
+
+for i in range(t):
+  a, b = map(int, input().split())
+  if (a % 3 == 0 and b % 3 == 0):
+    print(""niumei"")
+  else:
+    print(""niuniu"")
+"
+25,D,Python3,60156027,2023-01-06 20:49:50,皓金,答案错误,"t = int(input())
+
+for i in range(t):
+  a, b = map(int, input().split())
+  if (a % 3 == 0 and b % 3 == 0):
+    print(""niumei"")
+  else:
+    print(""niuniu"")
+"
+26,D,Python3,60156066,2023-01-06 20:50:09,皓金,答案错误,"t = int(input())
+
+for i in range(t):
+  a, b = map(int, input().split())
+  if (a % 3 == 0 and b % 3 == 0):
+    print(""niumei"")
+  else:
+    print(""niuniu"")
+"
+27,D,Python3,60157060,2023-01-06 20:59:01,童庆,答案错误,"T = int(input())
+for i in range(T):
+    a,b = map(int,input().split())
+    if a >= 3 and b >= 3:
+        print('niumei')
+    elif a == 1 and b == 1:
+        print('niumei')
+    else:
+        print('niuniu')"
+28,D,Python3,60157645,2023-01-06 21:04:41,皓金,答案错误,"def grundy(a, b, memo):
+    if a < 2 and b < 2:
+        return 0
+    if (a, b) in memo:
+        return memo[(a, b)]
+    g = min(grundy(a - 1, b - 2, memo), grundy(a - 2, b - 1, memo))
+    memo[(a, b)] = g
+    return g
+
+def solve(a, b):
+    memo = {}
+    grundy_value = grundy(a, b, memo)
+    if grundy_value == 0:
+        return ""niumei""
+    else:
+        return ""niuniu""
+
+t = int(input())
+
+for _ in range(t):
+    a, b = map(int, input().split())
+    print(solve(a, b))
+"
+29,D,Python3,60160289,2023-01-06 22:11:25,qdljerry,答案正确,"t = int(input())
+for _ in range(t):
+    a,b = map(int,input().split())
+    mi = min(a,b)//3*3
+    a -= mi
+    b -= mi
+    print(""niumei"" if a == b == 1 or a == 0 or b == 0 else ""niuniu"")"
+30,D,Python3,60163364,2023-01-07 10:15:22,caucxht,答案正确,"def swap(a , b):
+    return b , a
+
+t = int(input())
+for _ in range(t):
+    a , b = map(int , input().split())
+    if(a > b):
+        a , b = swap(a , b)
+    b -= (a // 3) * 3
+    a -= (a // 3) * 3
+    if a >= 1 and b >= 2:
+        print(""niuniu"")
+    else:
+        print(""niumei"")"
+31,D,Python3,60164074,2023-01-07 11:09:40,牛客972825279号,答案错误,"T=int(input())
+while T>0:
+    a,b=map(int,input().split())
+    if a%3==0 and b%3==0:
+        print(""niumei"")
+    else:
+        print(""niuniu"")
+    T-=1"
+32,D,Python3,60164194,2023-01-07 11:20:00,牛客972825279号,答案错误,"T=int(input())
+while T>0:
+    a,b=map(int,input().split())
+    if a%3==0 or b%3==0:
+        print(""niumei"")
+    else:
+        if a%3==1 and b%3==1:
+            print(""niumei"")
+        else:
+            print(""niuniu"")
+    T-=1
+"
+33,D,Python3,60164216,2023-01-07 11:21:56,牛客972825279号,答案错误,"T=int(input())
+while T>0:
+    a,b=map(int,input().split())
+    if a%3==0 or b%3==0:
+        print(""niumei"")
+    else:
+        if a%3==1 and a==b:
+            print(""niumei"")
+        else:
+            print(""niuniu"")
+    T-=1
+"
+34,D,Python3,60164242,2023-01-07 11:24:10,牛客972825279号,答案正确,"T=int(input())
+while T>0:
+    a,b=map(int,input().split())
+    MIN=min(a,b)
+    if MIN%3==0:
+        print(""niumei"")
+    else:
+        if MIN%3==1 and a==b:
+            print(""niumei"")
+        else:
+            print(""niuniu"")
+    T-=1
+"
+35,D,Python3,60164917,2023-01-07 12:16:57,伊丽莎白-杰,答案错误,"t = int(input())
+while t > 0:
+    a,b = map(int, input().split())
+    x = min(a,b)
+    print('niuniu' if x % 3 != 0 else 'niumei')
+    t -= 1"
+36,D,Python3,60164957,2023-01-07 12:20:10,伊丽莎白-杰,答案错误,"t = int(input())
+while t > 0:
+    a,b = map(int, input().split())
+    if a==1 and b == 1:
+        print('niumei')
+        continue
+    x = min(a,b)
+    print('niuniu' if x % 3 != 0 else 'niumei')
+    t -= 1"
+37,D,Python3,60165369,2023-01-07 13:07:24,书生alin,答案正确,"t = int(input())
+for i in range(t):
+    a, b = map(int, input().split())
+    minn = min(a, b)
+    yu = minn % 3
+    if yu == 0:
+        print(""niumei"")
+    elif yu == 1:
+        if a == b:
+            print(""niumei"")
+        else:
+            print(""niuniu"")
+    else:
+        print(""niuniu"")
+    
+
+"
+38,D,Python3,60195216,2023-01-10 03:01:33,苏哈克,答案正确,"T = int(input())
+def win(a,b):
+    if a==0 or b==0 or a+b<=2:
+        return ""niumei""
+    if b>a and a%3!=0 or a>b and b%3!=0:
+        return ""niuniu""
+    if b>a and a%3==0 or a>b and b%3==0:
+        return ""niumei""
+    if a==b:
+        if a%3==2:
+            return ""niuniu""
+        else:
+            return ""niumei""
+for i in range(0,T):
+    a, b = map(int, input().split())
+    print(win(a,b))"
+39,D,Python3,60202381,2023-01-10 19:29:55,牛客481337953号,答案正确,"t = int(input())
+for _ in range(t):
+    a,b = map(int,input().split())
+    mi = min(a,b)//3*3
+    a -= mi
+    b -= mi
+    print(""niumei"" if a == b == 1 or a == 0 or b == 0 else ""niuniu"")"
+40,D,Python3,60217348,2023-01-12 11:24:30,牛客233537359号,答案错误,"T = int(input())
+for _ in range(T):
+    a,b = map(int,input().split())
+    if min(a-1,b-2)%3 == 0 or min(a-2,a-1)%3 == 0:
+        print('niuniu')
+    else:
+        print('niumei')"
+41,D,Python3,60217372,2023-01-12 11:27:15,牛客233537359号,答案错误,"T = int(input())
+for _ in range(T):
+    a,b = map(int,input().split())
+    if min(a-1,b-2)%3 == 0:
+        print('niuniu')
+    elif min(a-2,a-1)%3 == 0:
+        print('niuniu')
+    else:
+        print('niumei')"
+42,D,Python3,60217398,2023-01-12 11:28:59,牛客233537359号,答案正确,"T = int(input())
+for _ in range(T):
+    a,b = map(int,input().split())
+    if min(a-1,b-2)%3 == 0:
+        print('niuniu')
+    elif min(a-2,b-1)%3 == 0:
+        print('niuniu')
+    else:
+        print('niumei')"
+43,D,Python3,60217415,2023-01-12 11:29:57,牛客233537359号,答案错误,"t = int(input())
+for _ in range(t):
+    a,b = map(int,input().split())
+    mi = min(a,b)//3*3
+    a -= mi
+    b -= mi
+    print(""niumei"" if  a == 0 or b == 0 else ""niuniu"")"
+44,D,Python3,60232062,2023-01-13 15:53:01,拒绝pua的coder很想五点下,答案错误,"t = int(input())
+
+for i in (0,t):
+    x,y = map(int,input().split())
+    if (x+y)%2 == 0:
+        print(""niumei"")
+    else:
+        print(""niuniu"")"
+45,D,Python3,60232235,2023-01-13 16:01:09,拒绝pua的coder很想五点下,答案错误,"t = int(input())
+
+for i in (0,t):
+    x,y = map(int,input().split())
+    if x > y :
+        x,y = y,x 
+    if x%3==0:
+        print(""niumei"")
+    else:
+        print(""niuniu"")"
+46,D,Python3,60232334,2023-01-13 16:07:22,拒绝pua的coder很想五点下,答案错误,"t = int(input())
+
+for i in (0,t):
+    x,y = map(int,input().split())
+    if x > y :
+        x,y = y,x 
+    if x%3==0:
+        print(""niumei"")
+    else:
+        if x%3==1 and x==y:
+            print(""niumei"")
+        else:
+            print(""niuniu"")"
+47,D,Python3,60232437,2023-01-13 16:12:48,拒绝pua的coder很想五点下,答案错误,"t = int(input())
+
+for i in (0,t):
+    x,y = map(int,input().split())
+    if min(x-1,y-2)%3 == 0:
+        print('niuniu')
+    elif min(x-2,y-1)%3 == 0:
+        print('niuniu')
+    else:
+        print('niumei')"
+48,D,Python3,60232438,2023-01-13 16:12:56,拒绝pua的coder很想五点下,答案错误,"t = int(input())
+
+for i in (0,t):
+    x,y = map(int,input().split())
+    if min(x-1,y-2)%3 == 0:
+        print('niuniu')
+    elif min(x-2,y-1)%3 == 0:
+        print('niuniu')
+    else:
+        print('niumei')"
+49,D,Python3,60232448,2023-01-13 16:13:26,拒绝pua的coder很想五点下,答案错误,"t = int(input())
+
+for i in (0,t):
+    x,y = map(int,input().split())
+    if min(x-1,y-2)%3 == 0:
+        print('niuniu')
+    elif min(x-2,y-1)%3 == 0:
+        print('niuniu')
+    else:
+        print('niumei')"
+50,D,Python3,60232510,2023-01-13 16:15:58,拒绝pua的coder很想五点下,答案错误,"t = int(input())
+
+for i in (0,t):
+    x,y = map(int,input().split())
+    if min(x-1,y-2)%3 == 0:
+        print('niuniu')
+    elif min(x-2,y-1)%3 == 0:
+        print('niuniu')
+    else:
+        print('niumei')"
+51,D,Python3,60232848,2023-01-13 16:35:10,拒绝pua的coder很想五点下,答案正确,"T = int(input())
+for _ in range(T):
+    a,b = map(int,input().split())
+    if min(a-1,b-2)%3 == 0:
+        print('niuniu')
+    elif min(a-2,b-1)%3 == 0:
+        print('niuniu')
+    else:
+        print('niumei')"
+52,D,Python3,60233444,2023-01-13 17:07:53,懒得改了,答案错误,"for _ in range(int(input())):
+    a,b=sorted(map(int,input().split()))
+    print('niuniu'if a%3 and b>1 else'niumei')"
+53,D,Python3,60233541,2023-01-13 17:14:01,懒得改了,答案正确,"for _ in range(int(input())):
+    a,b=sorted(map(int,input().split()))
+    if b==1:
+        print(""niumei"")
+    elif a!=b:
+        print(""niuniu""if a%3 else""niumei"")
+    else:
+        print(""niuniu""if (a-2)%3==0 else""niumei"")"

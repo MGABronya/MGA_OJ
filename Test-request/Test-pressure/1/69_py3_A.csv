@@ -1,0 +1,1307 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,A,Python3,61474485,2023-03-24 19:01:43,懒得改了,答案错误,"a,b=map(int,input().split())
+print(""niuniu eats less than others"")"
+1,A,Python3,61474556,2023-03-24 19:01:53,爱吃洋芋的喵酱,执行出错,"m,n = map(int,input())
+
+x = m//n
+y = m % n 
+
+if x > y :
+    print(""niuniu eats less than others"")
+elif x < y :
+    print(""niuniu eats more than others"")
+else:
+    print(""same"")"
+2,A,Python3,61474562,2023-03-24 19:01:54,Hanonymous,答案错误,"import sys
+sys.setrecursionlimit(10000000)
+def InI(sep=' '): return map(int, input().strip().split(sep))
+def InF(sep=' '): return map(float, input().strip().split(sep))
+
+
+def NInit(n, num=-1, init=0): return [init for i in range(n)
+                                      ] if num == -1 else [[init] * num for i in range(n)]
+
+
+def main():
+    a, b = InI()
+    if a % b > a/b:
+        print(""niuniu eats more than others"")
+    elif a % b < a/b:
+        print(""niuniu eats less than others"")
+    else:
+        print(""same"")
+
+main()
+"
+3,A,Python3,61474565,2023-03-24 19:01:54,阿来想AC,答案错误,"a,b = map(int,input().split())
+c = a%b
+d = a//b 
+if c == d:
+    print(""same"")
+else:
+    print(""niuniu eats less than others"")"
+4,A,Python3,61474634,2023-03-24 19:02:02,牛客632869927号,答案正确,"
+
+a, b = map(int, input().split(' '))
+if a % b > a // b:
+    print( ""niuniu eats more than others"")
+elif a % b == a // b:
+    print('same')
+else:
+    print(""niuniu eats less than others"")"
+5,A,Python3,61474638,2023-03-24 19:02:03,牛客481337953号,答案正确,"a, b = map(int, input().split())
+v = a // b - a % b
+if v == 0:
+    print(""same"")
+elif v > 0:
+    print(""niuniu eats less than others"")
+else:
+    print(""niuniu eats more than others"")"
+6,A,Python3,61474695,2023-03-24 19:02:09,爱吃洋芋的喵酱,答案正确,"m,n = map(int,input().split("" ""))
+
+x = m//n
+y = m % n 
+
+if x > y :
+    print(""niuniu eats less than others"")
+elif x < y :
+    print(""niuniu eats more than others"")
+else:
+    print(""same"")"
+7,A,Python3,61474736,2023-03-24 19:02:15,在抱佛脚的肖恩很害怕一个人,答案错误,"a, b = map(int, input().split())
+others = a/b
+my = a%b
+if my > others:
+    print(""niuniu eats more than others"")
+elif my == others:
+    print(""same"")
+else:
+    print(""niuniu eats less than others"")"
+8,A,Python3,61474756,2023-03-24 19:02:17,zronghui,答案正确,"a, b = map(int, input().split())
+
+# 计算每个人最多能分到多少蛋挞
+max_tarts = a // b
+left_tarts = a % b
+
+# 判断牛牛是否吃得多
+if left_tarts < max_tarts:
+    print(""niuniu eats less than others"")
+elif left_tarts==max_tarts:
+    print(""same"")
+else:
+    print(""niuniu eats more than others"")
+"
+9,A,Python3,61474770,2023-03-24 19:02:19,zxcv0112358,答案正确,"a,b=map(int,input().split())
+remain=a%b
+number_per_person=a//b
+if remain>number_per_person:
+    print(""niuniu eats more than others"")
+elif remain==number_per_person:
+    print(""same"")
+else:
+    print(""niuniu eats less than others"")
+"
+10,A,Python3,61474807,2023-03-24 19:02:23,zxcv0112358,答案正确,"a,b=map(int,input().split())
+remain=a%b
+number_per_person=a//b
+if remain>number_per_person:
+    print(""niuniu eats more than others"")
+elif remain==number_per_person:
+    print(""same"")
+else:
+    print(""niuniu eats less than others"")
+"
+11,A,Python3,61474867,2023-03-24 19:02:29,是她,答案正确,"import random
+import sys
+import os
+import math
+from collections import Counter, defaultdict, deque
+from functools import lru_cache, reduce
+from itertools import accumulate, combinations, permutations
+from heapq import nsmallest, nlargest, heapify, heappop, heappush
+from io import BytesIO, IOBase
+from copy import deepcopy
+import operator
+import threading
+import bisect
+BUFSIZE = 4096
+Inf = float('inf')
+eps = 1e-6
+class FastIO(IOBase):
+    newlines = 0
+
+    def __init__(self, file):
+        self._fd = file.fileno()
+        self.buffer = BytesIO()
+        self.writable = ""x"" in file.mode or ""r"" not in file.mode
+        self.write = self.buffer.write if self.writable else None
+
+    def read(self):
+        while True:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            if not b:
+                break
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines = 0
+        return self.buffer.read()
+
+    def readline(self):
+        while self.newlines == 0:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            self.newlines = b.count(b""\n"") + (not b)
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines -= 1
+        return self.buffer.readline()
+
+    def flush(self):
+        if self.writable:
+            os.write(self._fd, self.buffer.getvalue())
+            self.buffer.truncate(0), self.buffer.seek(0)
+
+class IOWrapper(IOBase):
+    def __init__(self, file):
+        self.buffer = FastIO(file)
+        self.flush = self.buffer.flush
+        self.writable = self.buffer.writable
+        self.write = lambda s: self.buffer.write(s.encode(""ascii""))
+        self.read = lambda: self.buffer.read().decode(""ascii"")
+        self.readline = lambda: self.buffer.readline().decode(""ascii"")
+
+sys.stdin = IOWrapper(sys.stdin)
+sys.stdout = IOWrapper(sys.stdout)
+input = lambda: sys.stdin.readline().rstrip(""\r\n"")
+def I():
+   return input()
+
+def II():
+   return int(input())
+
+def MI():
+   return map(int, input().split())
+
+def LI():
+   return list(input().split())
+
+def LII():
+   return list(map(int, input().split()))
+
+def GMI():
+   return map(lambda x: int(x) - 1, input().split())
+
+def LGMI():
+   return list(map(lambda x: int(x) - 1, input().split()))
+a, b = MI()
+t = a % b
+k = a // b
+if t == k:
+    print(""same"")
+elif t > k:
+    print(""niuniu eats more than others"")
+else:
+    print(""niuniu eats less than others"")"
+12,A,Python3,61474889,2023-03-24 19:02:31,Fei_xiangShi,答案错误,"a,b = map(int,input().split())
+if a > b:
+	print(""niuniu eats less than others"")
+elif b < a:
+	print(""niuniu eats more than others"")
+else:
+	print(""same"")"
+13,A,Python3,61474922,2023-03-24 19:02:36,LeiQ,答案错误,"a, b = map(int, input().strip().split(' '))
+
+if a < b: print(""niuniu eats more than others"")
+else:
+    c = a // b
+    d = a - b * c
+    if c == d: print(""same"")
+    else: print(""niuniu eats less than others"")"
+14,A,Python3,61475016,2023-03-24 19:02:48,在抱佛脚的肖恩很害怕一个人,答案正确,"a, b = map(int, input().split())
+others = a//b
+my = a%b
+if my > others:
+    print(""niuniu eats more than others"")
+elif my == others:
+    print(""same"")
+else:
+    print(""niuniu eats less than others"")"
+15,A,Python3,61475033,2023-03-24 19:02:50,Hanonymous,答案正确,"import sys
+sys.setrecursionlimit(10000000)
+def InI(sep=' '): return map(int, input().strip().split(sep))
+def InF(sep=' '): return map(float, input().strip().split(sep))
+
+
+def NInit(n, num=-1, init=0): return [init for i in range(n)
+                                      ] if num == -1 else [[init] * num for i in range(n)]
+
+
+def main():
+    a, b = InI()
+    if a % b > a//b:
+        print(""niuniu eats more than others"")
+    elif a % b < a//b:
+        print(""niuniu eats less than others"")
+    else:
+        print(""same"")
+
+main()
+"
+16,A,Python3,61475073,2023-03-24 19:02:55,懒得改了,答案错误,"a,b=map(int,input().split())
+x=a//b
+y=a%b
+if x>y:
+    print(""niuniu eats less than others"")
+elif x==y:
+    print(""same"")
+else:
+    print( ""niuniu eats less than others"")"
+17,A,Python3,61475173,2023-03-24 19:03:09,在午休的柯基很奔放,答案正确,"a,b=list(map(int,input().split()))
+c=a%b
+d=a//b
+if c>d:
+    print('niuniu eats more than others')
+elif c==d:
+    print('same')
+else:
+    print('niuniu eats less than others')"
+18,A,Python3,61475271,2023-03-24 19:03:22,牛客956373253号,答案正确,"s = input().split(' ')
+a = int(s[0])
+b = int(s[1])
+
+each = a//b
+niu = a - each*b
+if each==niu:
+    print('same')
+elif each > niu:
+    print('niuniu eats less than others')
+else:
+    print('niuniu eats more than others')"
+19,A,Python3,61475279,2023-03-24 19:03:24,罗熙L,答案错误,"a,b = map(int,input().split())
+r1 = a//b
+r2 = a%b
+if r1<r2:
+    print(""niuniu eats more than others"")
+else:
+    print(""niuniu eats less than others"")"
+20,A,Python3,61475331,2023-03-24 19:03:29,阿来想AC,答案正确,"a,b = map(int,input().split())
+c = a % b
+d = a//b 
+if c == d:
+    print(""same"")
+elif c <d:
+    print(""niuniu eats less than others"")
+else:
+    print(""niuniu eats more than others"")"
+21,A,Python3,61475378,2023-03-24 19:03:34,LeiQ,答案正确,"a, b = map(int, input().strip().split(' '))
+
+if a < b: print(""niuniu eats more than others"")
+else:
+    c = a // b
+    d = a - b * c
+    if c == d: print(""same"")
+    elif d > c: print(""niuniu eats more than others"")
+    else: print(""niuniu eats less than others"")"
+22,A,Python3,61475459,2023-03-24 19:03:49,Fei_xiangShi,答案正确,"a,b = map(int,input().split())
+c = int(a / b)
+d = a - c*b
+if c > d:
+	print(""niuniu eats less than others"")
+elif c < d:
+	print(""niuniu eats more than others"")
+else:
+	print(""same"")"
+23,A,Python3,61475473,2023-03-24 19:03:52,菜鸡崽崽,答案正确,"m,n=input().split()
+m=int(m)
+n=int(n)
+if m//n<m%n:
+    print('niuniu eats more than others')
+elif m//n>m%n:
+    print('niuniu eats less than others')
+else:
+    print('same')
+"
+24,A,Python3,61475535,2023-03-24 19:04:00,牛客801261568号,答案正确,"a,b=map(int,input().split())
+s1=a%b
+s2=a//b
+if s1>s2:
+    print(""niuniu eats more than others"")
+elif s1==s2:
+    print(""same"")
+else:
+    print(""niuniu eats less than others"")"
+25,A,Python3,61475725,2023-03-24 19:04:25,lllllllllan,答案错误,"a,b=map(int,input().split())
+if a//b>a%b:
+    print('niuniu eats less than others')
+else:
+    print('niuniu eats more than others')"
+26,A,Python3,61475785,2023-03-24 19:04:34,lllllllllan,答案错误,"a,b=map(int,input().split())
+if a//b>a%b:
+    print('niuniu eats less than others')
+else:
+    print('niuniu eats more than others')"
+27,A,Python3,61475808,2023-03-24 19:04:37,懒得改了,答案正确,"a,b=map(int,input().split())
+x=a//b
+y=a-x*b
+if x<y:
+    print(""niuniu eats more than others"")
+elif x==y:
+    print(""same"")
+else:
+    print(""niuniu eats less than others"")"
+28,A,Python3,61475967,2023-03-24 19:05:02,罗熙L,答案正确,"a,b = map(int,input().split())
+r1 = a//b
+r2 = a%b
+if r1<r2:
+    print(""niuniu eats more than others"")
+elif r1>r2:
+    print(""niuniu eats less than others"")
+else:
+    print(""same"")"
+29,A,Python3,61476123,2023-03-24 19:05:23,LIboshun,答案正确,"a,b=map(int,input().split())
+ot = a//b 
+se = a%b
+if se>ot :print(""niuniu eats more than others"")
+elif se<ot:print(""niuniu eats less than others"")
+else:print(""same"")"
+30,A,Python3,61476161,2023-03-24 19:05:30,lllllllllan,答案正确,"a,b=map(int,input().split())
+if (a//b)>(a%b):
+    print('niuniu eats less than others')
+elif (a//b)==(a%b):
+    print('same')
+else:
+    print('niuniu eats more than others')"
+31,A,Python3,61476335,2023-03-24 19:05:56,万恶之源沼跃鱼,答案正确,"a,b = map(int,input().split())
+x = a // b
+y = a % b
+if x > y:
+    print('niuniu eats less than others')
+elif x < y:
+    print('niuniu eats more than others')
+else:
+    print('same')"
+32,A,Python3,61476494,2023-03-24 19:06:25,晓星晨曦,答案错误,"import sys
+
+for line in sys.stdin:
+    gets = line.split()
+    cakeNum = int(gets[0])
+    peopleNum = int(gets[-1])
+    get = cakeNum % peopleNum
+    pEat = (cakeNum - get) / peopleNum
+
+    if get > pEat:
+        print(""niuniu eats more than others"")
+    else:
+        print(""niuniu eats less than others"")
+
+"
+33,A,Python3,61476676,2023-03-24 19:06:56,Python-Rookie,答案错误,"a,b=map(int,input().split())
+x1=a//b
+x2=a%b
+if(x1>x2):
+    print(""niuniu eats more than others"")
+elif(x1<x2):
+    print(""niuniu eats less than others"")
+else:
+    print(""same"")"
+34,A,Python3,61476712,2023-03-24 19:07:01,killProblem,答案正确,"a,b = map(int, input().split())
+c = a // b
+d = a % b
+if d > c:
+    print(""niuniu eats more than others"")
+elif d < c:
+    print(""niuniu eats less than others"")
+else:
+    print(""same"")"
+35,A,Python3,61476729,2023-03-24 19:07:05,Python-Rookie,答案正确,"a,b=map(int,input().split())
+x1=a//b
+x2=a%b
+if(x1<x2):
+    print(""niuniu eats more than others"")
+elif(x1>x2):
+    print(""niuniu eats less than others"")
+else:
+    print(""same"")"
+36,A,Python3,61476831,2023-03-24 19:07:24,晓星晨曦,答案正确,"import sys
+
+for line in sys.stdin:
+    gets = [int(s) for s in line.split()]
+    cakeNum = gets[0]
+    peopleNum = gets[-1]
+    get = cakeNum % peopleNum
+    pEat = (cakeNum - get) / peopleNum
+
+    if get > pEat:
+        print(""niuniu eats more than others"")
+    elif get == pEat:
+        print(""same"")
+    else:
+        print(""niuniu eats less than others"")
+
+"
+37,A,Python3,61476851,2023-03-24 19:07:28,traveller1239,答案正确,"a,b=map(int,input().split())
+t1=a%b
+t2=a//b
+if t1>t2:
+    print(""niuniu eats more than others"")
+elif t1<t2:
+    print(""niuniu eats less than others"")
+else:
+    print(""same"")"
+38,A,Python3,61476998,2023-03-24 19:08:00,看看怎么说,答案正确,"
+def main():
+    
+    arry = list(map(int, input().split("" "")))
+    a = arry[0]
+    b = arry[1]
+    if a // b < a % b:
+        print(""niuniu eats more than others"")
+    elif a // b == a % b:
+        print(""same"")
+    else:
+        print(""niuniu eats less than others"")
+    
+    
+main()
+"
+39,A,Python3,61477057,2023-03-24 19:08:12,在走神的菜鸡很漂亮,答案错误,"a,b=map(int,input().split())
+avg_eat=a//b
+left=a%b
+if avg_eat>left:
+    print('niuniu eats less than others')
+elif avg_eat==left:
+    print('same')
+else:
+    print('niuniu eats more that others')"
+40,A,Python3,61477204,2023-03-24 19:08:48,交织面具,答案正确,"a,b=map(int,input().split())
+c=int(a/b)
+d=a%b
+if c>d:
+    print('niuniu eats less than others')
+elif c<d:
+    print(""niuniu eats more than others"")
+else:
+    print(""same"")"
+41,A,Python3,61477315,2023-03-24 19:09:16,hhz-usst,答案正确,"s = [i for i in input().split(' ')]
+a = int(s[0])
+b = int(s[1])
+s1 = a//b
+s2 = a- s1*b
+if s2>s1:
+    print('niuniu eats more than others')
+elif s2<s1:
+    print('niuniu eats less than others')
+else:
+    print('same')"
+42,A,Python3,61477381,2023-03-24 19:09:34,在吐槽的牛油很孤独,答案正确,"Str = input().split("" "")
+a = int(Str[0])
+b = int(Str[1])
+c = a % b
+d = (a -c) / b
+if d > c:
+    print(""niuniu eats less than others"")
+elif d < c:
+    print(""niuniu eats more than others"")
+else:
+    print(""same"")"
+43,A,Python3,61477448,2023-03-24 19:09:55,书画无边缱绻,答案错误,"a,b = map(int,input().split())
+if a//b <= a%b:
+    print(""niuniu eats more than others"")
+elif a//b > a%b:
+    print(""niuniu eats less than others"")
+else:
+    print(""same"")"
+44,A,Python3,61477549,2023-03-24 19:10:24,书画无边缱绻,答案正确,"a,b = map(int,input().split())
+if a//b < a%b:
+    print(""niuniu eats more than others"")
+elif a//b > a%b:
+    print(""niuniu eats less than others"")
+else:
+    print(""same"")"
+45,A,Python3,61478005,2023-03-24 19:12:48,Calabash_yang,答案正确,"import collections
+import math
+import os
+from heapq import heapify, heappop, heappush
+import queue
+from sys import stdin, stdout
+from itertools import *
+import bisect
+import sys
+from collections import deque
+
+MAXN = 200010
+mod = 1000000007
+inf = int(1e6)
+
+a,b=map(int,stdin.readline().split())
+x,y=a//b,a%b
+if x<y:print(""niuniu eats more than others"")
+elif x>y:print(""niuniu eats less than others"")
+else:print(""same"")"
+46,A,Python3,61478067,2023-03-24 19:13:09,hyhsjd2,答案正确,"a,b=map(int,input().split())
+if(a//b>a%b):
+    print(""niuniu eats less than others"")
+elif(a//b<a%b):
+    print(""niuniu eats more than others"")
+else:
+    print(""same"")"
+47,A,Python3,61478970,2023-03-24 19:18:41,zf854,答案正确,"
+import sys
+if __name__ == '__main__':
+    
+    input_data = sys.stdin.readline().strip().split(' ')
+    a,b  = int(input_data[0]), int(input_data[1])
+    w =  a // b
+    u = a - w * b 
+    if u > w:
+        print(""niuniu eats more than others"")
+    elif u < w:
+        print(""niuniu eats less than others"")
+    else:
+        print(""same"")"
+48,A,Python3,61478986,2023-03-24 19:18:50,Yansunsky,答案错误,"a,b=map(int,input().split())
+if(a%b):
+    if ((a - (a % b)) / b > a % b):
+        print(""niuniu eats less than others"")
+    else:print(""niuniu eats more than others"")
+else:print(""same"")"
+49,A,Python3,61479265,2023-03-24 19:20:39,Yansunsky,答案错误,"a,b=map(int,input().split())
+if(a%b):
+    if ((a - (a % b)) / b > a % b):
+        print(""niuniu eats less than others"")
+    else:print(""niuniu eats more than others"")
+else:print(""same"")"
+50,A,Python3,61479376,2023-03-24 19:21:27,小七爱英语,答案错误,"print(""!!!!!!!!!!!!!!!!!!!!!!!!!!!!"")"
+51,A,Python3,61479750,2023-03-24 19:24:14,Yansunsky,答案正确,"a,b=map(int,input().split())
+if(a%(b+1)):
+    if ((a - (a % b)) / b > (a % b)):
+        print(""niuniu eats less than others"")
+    else:print(""niuniu eats more than others"")
+else:print(""same"")"
+52,A,Python3,61479849,2023-03-24 19:24:59,涼風青葉7,答案正确,"a, b = map(int, input().split())
+
+t1 = a // b
+t2 = a % b
+
+if t1 < t2:
+    print(""niuniu eats more than others"")
+elif t1 > t2:
+    print(""niuniu eats less than others"")
+else:
+    print(""same"")
+"
+53,A,Python3,61480285,2023-03-24 19:28:15,残阳离殇,答案正确,"list_my=input().split("" "")
+a=int(list_my[0])
+b=int(list_my[1])
+meigeren = a // b;
+shengyu = a % b;
+if shengyu < meigeren:
+    print(""niuniu eats less than others"")
+elif shengyu == meigeren:
+    print(""same"")
+else:
+    print(""niuniu eats more than others"")
+"
+54,A,Python3,61480892,2023-03-24 19:32:39,HHU-20-郭校廷,答案错误,"a, b = map(int, input().split())
+t = int(a / b)
+s = a - t * b
+if(s < t):
+    print(""niuniu eats less than others"")
+else:
+    print(""niuniu eats more than others"")"
+55,A,Python3,61480907,2023-03-24 19:32:44,HHU-20-郭校廷,答案错误,"a, b = map(int, input().split())
+t = int(a / b)
+s = a - t * b
+if(s <= t):
+    print(""niuniu eats less than others"")
+else:
+    print(""niuniu eats more than others"")"
+56,A,Python3,61481035,2023-03-24 19:33:33,HHU-20-郭校廷,答案正确,"a, b = map(int, input().split())
+t = int(a / b)
+s = a - t * b
+if(s < t):
+    print(""niuniu eats less than others"")
+elif(s > t):
+    print(""niuniu eats more than others"")
+else:
+    print(""same"")"
+57,A,Python3,61481592,2023-03-24 19:37:48,在走神的菜鸡很漂亮,答案正确,"a,b=map(int,input().split())
+avg_eat=a//b
+left=a%b
+if avg_eat>left:
+    print('niuniu eats less than others')
+elif avg_eat==left:
+    print('same')
+else:
+    print('niuniu eats more than others')"
+58,A,Python3,61482427,2023-03-24 19:44:08,Jyzzzb,答案正确,"a,b=map(int,input().split())
+x1=a//b
+x2=a%b
+if x1==x2:
+    print(""same"")
+if x1<x2:
+    print(""niuniu eats more than others"")
+if x1>x2:
+    print(""niuniu eats less than others"")
+
+"
+59,A,Python3,61483552,2023-03-24 19:52:35,牛客510181564号,答案正确,"a,b=map(int,input().split())
+s=int(a/b)
+c=a%b
+if s>c:
+    print(""niuniu eats less than others"")
+elif s<c:
+    print(""niuniu eats more than others"")
+else:
+    print(""same"")"
+60,A,Python3,61483664,2023-03-24 19:53:31,Fei_xiangShi,答案正确,"a,b = map(int,input().split())
+c = int(a / b)
+d = a%b
+if c > d:
+	print(""niuniu eats less than others"")
+elif c < d:
+	print(""niuniu eats more than others"")
+else:
+	print(""same"")"
+61,A,Python3,61483745,2023-03-24 19:54:05,晓觉儿,答案错误,"a,b=map(int,input().split())
+if a%b<b :
+    print(""niuniu eats less than others"")
+else:
+    print(""niuniu eats more than others"");"
+62,A,Python3,61483761,2023-03-24 19:54:11,晓觉儿,答案错误,"a,b=map(int,input().split())
+if a%b<=b :
+    print(""niuniu eats less than others"")
+else:
+    print(""niuniu eats more than others"");"
+63,A,Python3,61483935,2023-03-24 19:55:32,晓觉儿,答案错误,"a,b=map(int,input().split())
+if a%b<=a-a*a%b :
+    print(""niuniu eats less than others"")
+else:
+    print(""niuniu eats more than others"");"
+64,A,Python3,61483945,2023-03-24 19:55:36,晓觉儿,答案错误,"a,b=map(int,input().split())
+if a%b<a-a*a%b :
+    print(""niuniu eats less than others"")
+else:
+    print(""niuniu eats more than others"");"
+65,A,Python3,61484020,2023-03-24 19:56:12,晓觉儿,答案错误,"a,b=map(int,input().split())
+if a%b<a/b :
+    print(""niuniu eats less than others"")
+else:
+    print(""niuniu eats more than others"");"
+66,A,Python3,61484035,2023-03-24 19:56:15,晓觉儿,答案错误,"a,b=map(int,input().split())
+if a%b<=a/b :
+    print(""niuniu eats less than others"")
+else:
+    print(""niuniu eats more than others"");"
+67,A,Python3,61484118,2023-03-24 19:57:00,晓觉儿,答案错误,"a,b=map(int,input().split())
+if a%b<a/b :
+    print(""niuniu eats less than others"")
+elif a%b==a/b:
+    print(""same"");
+else:
+    print(""niuniu eats more than others"");"
+68,A,Python3,61484141,2023-03-24 19:57:06,晓觉儿,答案错误,"a,b=map(int,input().split())
+if a%b<a/b :
+    print(""niuniu eats less than others"")
+elif a%b==a/b:
+    print(""same"");
+else:
+    print(""niuniu eats more than others"");"
+69,A,Python3,61485040,2023-03-24 20:04:18,晓觉儿,答案错误,"
+a,b = input().split("" "")
+a=int(a)
+b=int(b)
+if a%b<a/b :
+    print(""niuniu eats less than others"")
+elif a%b==a/b:
+    print(""same"");
+else:
+    print(""niuniu eats more than others"");"
+70,A,Python3,61485110,2023-03-24 20:04:47,晓觉儿,答案错误,"
+a,b = input().split("" "")
+a=int(a)
+b=int(b)
+if a%b<a/b :
+    print(""niuniu eats less than others"")
+elif a%b==a/b:
+    print(""same"")
+else:
+    print(""niuniu eats more than others"")"
+71,A,Python3,61485278,2023-03-24 20:05:58,晓觉儿,答案正确,"
+a,b = input().split("" "")
+a=int(a)
+b=int(b)
+if a%b<a//b :
+    print(""niuniu eats less than others"")
+elif a%b==a//b:
+    print(""same"")
+else:
+    print(""niuniu eats more than others"")"
+72,A,Python3,61485920,2023-03-24 20:11:16,.201803242316477,答案正确,"a, b = map(int, input().split("" ""))
+n = a // b
+m = a % b
+if n < m:
+    print(""niuniu eats more than others"")
+elif n == m:
+    print(""same"")
+else:
+    print(""niuniu eats less than others"")"
+73,A,Python3,61485938,2023-03-24 20:11:25,.201803242316477,答案正确,"a, b = map(int, input().split("" ""))
+n = a // b
+m = a % b
+if n < m:
+    print(""niuniu eats more than others"")
+elif n == m:
+    print(""same"")
+else:
+    print(""niuniu eats less than others"")"
+74,A,Python3,61486576,2023-03-24 20:16:37,想交流的熊熊很无语,答案错误,"n,m=map(int,input().split())
+q=n//m
+w=n%m
+if q==w:
+    print('same')
+if q<m:
+    print( ""niuniu eats less than others"")
+if q>m:
+    print(""niuniu eats more than others"")"
+75,A,Python3,61486578,2023-03-24 20:16:38,想交流的熊熊很无语,答案错误,"n,m=map(int,input().split())
+q=n//m
+w=n%m
+if q==w:
+    print('same')
+if q<m:
+    print( ""niuniu eats less than others"")
+if q>m:
+    print(""niuniu eats more than others"")"
+76,A,Python3,61486944,2023-03-24 20:19:52,想交流的熊熊很无语,答案正确,"n,m=map(int,input().split())
+q=n//m
+w=n%m
+if q==w:
+    print('same')
+if q>w:
+    print( ""niuniu eats less than others"")
+if q<w:
+    print(""niuniu eats more than others"")"
+77,A,Python3,61488019,2023-03-24 20:28:28,KevinSo,答案正确,"a, b = map(int, input().split())
+if a // b > a % b:
+    print(""niuniu eats less than others"")
+elif a // b == a % b:
+    print(""same"")
+else: print(""niuniu eats more than others"")"
+78,A,Python3,61490598,2023-03-24 20:50:18,灞波儿奔en,答案错误,"a,b = map(int,input().split())
+n = a//b
+tt = b-n*a
+if n>tt:
+    print(""niuniu eats less than others"")
+elif n<tt:
+    print(""niuniu eats more than others"")
+else:
+    print(""same"")"
+79,A,Python3,61490614,2023-03-24 20:50:29,灞波儿奔en,答案正确,"a,b = map(int,input().split())
+n = a//b
+tt = a-n*b
+if n>tt:
+    print(""niuniu eats less than others"")
+elif n<tt:
+    print(""niuniu eats more than others"")
+else:
+    print(""same"")"
+80,A,Python3,61493853,2023-03-24 21:29:58,crazy_lee,答案错误,"a,b=map(int,input().split())
+c=a/b
+d=a%b
+if(c==d):print(""same"")
+if(c>b):print(""niuniu eats more than others"")
+else: print(""niuniu eats less than others"")"
+81,A,Python3,61493911,2023-03-24 21:31:09,crazy_lee,答案错误,"a,b=map(int,input().split())
+c=a//b
+d=a%b
+if(c==d):print(""same"")
+if(c>d):print(""niuniu eats more than others"")
+else: print(""niuniu eats less than others"")"
+82,A,Python3,61493932,2023-03-24 21:31:39,crazy_lee,答案错误,"a,b=map(int,input().split())
+c=a//b
+d=a%b
+if(c==d):print(""same"")
+if(c>d):print(""niuniu eats less than others"")
+else: print(""niuniu eats more than others"")"
+83,A,Python3,61493979,2023-03-24 21:33:02,crazy_lee,答案正确,"a,b=map(int,input().split())
+c=a//b
+d=a%b
+if(c==d):print(""same"")
+elif(c>d):print(""niuniu eats less than others"")
+else: print(""niuniu eats more than others"")"
+84,A,Python3,61494513,2023-03-24 21:44:27,牛客240241527号,答案错误,"a,b=list(map(int,input().split()))
+c=a//b
+d=a-(a//b)
+if c>d:
+    print(""niuniu eats more than others"")
+elif a==d:
+    print(""same"")
+else:
+    print(""niuniu eats less than others"")"
+85,A,Python3,61494681,2023-03-24 21:49:32,牛客240241527号,答案错误,"a,b=list(map(int,input().split()))
+c=a//b
+d=a-(b*(a//b))
+if c>d:
+    print(""niuniu eats less than others"")
+elif a==d:
+    print(""same"")
+else:
+    print(""niuniu eats more than others"")"
+86,A,Python3,61494687,2023-03-24 21:49:49,牛客240241527号,答案正确,"a,b=list(map(int,input().split()))
+c=a//b
+d=a-(b*(a//b))
+if c>d:
+    print(""niuniu eats less than others"")
+elif c==d:
+    print(""same"")
+else:
+    print(""niuniu eats more than others"")"
+87,A,Python3,61495831,2023-03-24 22:26:51,菠落蜜,答案正确,"a, b = input().split()
+a = int(a)
+b = int(b)
+aver = a//b
+
+niuniu = a - b*aver
+
+if niuniu > aver:
+    print(""niuniu eats more than others"")
+elif niuniu < aver:
+    print(""niuniu eats less than others"")
+else:
+    print('same')"
+88,A,Python3,61496160,2023-03-24 22:39:02,黄琳琰,答案错误,"a,b = map(int,input().split())
+x = a%b
+y = a/b
+if x>y:
+    print('niuniu eats more than others')
+elif x ==y:
+    print('same')
+else:
+    print('niuniu eats less than others')"
+89,A,Python3,61496234,2023-03-24 22:42:19,黄琳琰,答案正确,"a,b = map(int,input().split())
+x = a%b
+y = a//b 
+if x>y:
+    print('niuniu eats more than others')
+elif x ==y:
+    print('same')
+else:
+    print('niuniu eats less than others')"
+90,A,Python3,61498427,2023-03-25 07:46:37,牛客115257330号,执行出错,"// #include ""atcoder/all""
+#include <bits/stdc++.h>
+using ll = long long;
+const int MOD1000000007 = 1000000007;
+const int MOD998244353 = 998244353;
+const double PI = 3.14159265358979323846264338327950288;
+
+void solve();
+
+int main()
+{
+    std::ios_base::sync_with_stdio(false);
+    std::cin.tie(0);
+#ifdef LOCAL
+    freopen(""input.txt"", ""r"", stdin);
+#endif
+    // freopen(""input.txt"", ""r"", stdin);
+    // freopen(""output.txt"", ""w"", stdout);
+    solve();
+    return 0;
+}
+
+void solve()
+{
+    int a, b;
+    std::cin >> a >> b;
+    int c1 = a / b;
+    int c2 = a % b;
+    if (c2 > c1)
+    {
+        std::cout << ""niuniu eats more than others"";
+    }
+    else if (c2 == c1)
+    {
+        std::cout << ""same"";
+    }
+    else
+    {
+        std::cout << ""niuniu eats less than others"";
+    }
+}"
+91,A,Python3,61500269,2023-03-25 11:08:42,苦闷的垂耳兔起床了,答案正确,"# coding:utf-8
+
+a, b = map(int, input().split())
+c = a // b
+d = a % b
+if c == d:
+    print('same')
+elif c > d:
+    print('niuniu eats less than others')
+else:
+    print('niuniu eats more than others')
+"
+92,A,Python3,61517421,2023-03-25 14:33:43,牛客272965431号,答案正确,"a, b = map(int, input().split())
+other, niu = divmod(a, b)
+if other > niu:
+    print('niuniu eats less than others')
+elif other < niu:
+    print('niuniu eats more than others')
+else:
+    print('same')
+    "
+93,A,Python3,61537788,2023-03-25 19:31:03,Mr.Rongrong,答案错误,"def main ():
+    a, b = map(int,input().split())
+    if a % b != 0:
+        print(""niuniu eats less than others"")
+    else:
+        print(""same"")
+    
+main()"
+94,A,Python3,61537814,2023-03-25 19:32:29,Mr.Rongrong,答案错误,"def main ():
+    a, b = map(int,input().split())
+    if a % b != 0:
+        print(""niuniu eats less than others"")
+    elif a % b == 0:
+        print(""same"")
+    else:
+        print(""niuniu eats less than others"")
+    
+main()"
+95,A,Python3,61537993,2023-03-25 19:41:44,Mr.Rongrong,答案正确,"def main ():
+    a, b = map(int,input().split())
+    m = a // b # 每个人分了多少个
+    n = a % b # 剩余个数
+    
+    if a % b == 0:
+        print(""niuniu eats less than others"")
+    else:
+        if n > m:
+            print(""niuniu eats more than others"")
+        elif n == m:
+            print(""same"")
+        else:
+            print(""niuniu eats less than others"")
+    
+main()"
+96,A,Python3,61577756,2023-03-27 15:16:36,小学二年级了,答案错误,"a, b = input().split()
+if int(a) % int(b) > int(a) / int(b):
+    print(""niuniu eats more than others"")
+elif int(a) % int(b) == int(a) / int(b):
+    print(""same"")
+else:
+    print(""niuniu eats less than others"")"
+97,A,Python3,61577780,2023-03-27 15:18:50,小学二年级了,答案正确,"a, b = input().split()
+if int(a) % int(b) > int(a) / int(b):
+    print(""niuniu eats more than others"")
+elif int(a) % int(b) == int(int(a) / int(b)):
+    print(""same"")
+else:
+    print(""niuniu eats less than others"")"
+98,A,Python3,61579294,2023-03-27 17:18:30,newko,答案正确,"a , b = map(int,input().split())
+
+div,mod = divmod(a,b)
+
+if div > mod:
+    print(""niuniu eats less than others"")
+elif div < mod:
+    print(""niuniu eats more than others"")
+else:
+    print(""same"")"
+99,A,Python3,61584923,2023-03-27 21:33:00,牛客3.141592653号,答案正确,"a,b=map(int,input().split())
+e=a//b
+a=a-e*b
+if(a>e):
+    print('niuniu eats more than others')
+if(a<e):
+    print('niuniu eats less than others')
+if(a==e):
+    print('same')
+"
+100,A,Python3,61585757,2023-03-27 22:17:58,Celadon,答案错误,"a, b = map(int, input().split())
+if a % b == 0:
+    print(""same"")
+else:
+    if a // b >= a % b:
+        print(""niuniu eats less than others"")
+    else:
+        print(""niuniu eats more than others"")"
+101,A,Python3,61585769,2023-03-27 22:18:58,Celadon,答案错误,"a, b = map(int, input().split())
+if a % b == 0:
+    print(""niuniu eats less than others"")
+else:
+    if a // b >= a % b:
+        print(""niuniu eats less than others"")
+    else:
+        print(""niuniu eats more than others"")"
+102,A,Python3,61594425,2023-03-28 19:10:53,牛客58251122号,答案错误,"a,b=map(int,input().split())
+d=a/b
+c=a%b
+if(c==d):
+    print(""same"")
+elif(d>c):
+    print(""niuniu eats less than others"")
+else:
+    print(""niuniu eats more than others"")
+"
+103,A,Python3,61594491,2023-03-28 19:14:36,牛客58251122号,答案错误,"a,b=map(int,input().split())
+d=a/b
+c=a-d*b
+if(c==d):
+    print(""same"")
+elif(d>c):
+    print(""niuniu eats less than others"")
+else:
+    print(""niuniu eats more than others"")
+"
+104,A,Python3,61612284,2023-03-29 21:47:17,420k,答案正确,"a, b = map(int,input().split())
+if a//b > a%b :
+    print(""niuniu eats less than others"")
+elif a//b < a%b :
+    print(""niuniu eats more than others"")
+else :
+    print(""same"")"
+105,A,Python3,61615258,2023-03-30 10:50:26,SakuyaQwQ,答案正确,"a,b=[int(_) for _ in input().split()]
+x=a//b
+y=a%b
+if y>x:
+    print(""niuniu eats more than others"")
+if y==x:
+    print(""same"")
+if y<x:
+    print(""niuniu eats less than others"")"
+106,A,Python3,61619032,2023-03-30 17:38:53,牛客356292128号,答案正确,"s = list(map(int, input().split()))
+a, b = s[0], s[1]
+n, mod = a // b, a % b
+if mod > n:
+    print('niuniu eats more than others')
+elif mod < n:
+    print('niuniu eats less than others')
+else:
+    print('same')"
+107,A,Python3,61632774,2023-03-31 21:31:04,大胆的布莱恩在思考,答案错误,"a,b=input().split()
+a,b = int(a),int(b)
+reslut = a//b
+left = a-(reslut*b)
+if left > reslut:
+    print(""niuniu eats more than others"")
+else:
+    print('niuniu eats less than others')"
+108,A,Python3,61632782,2023-03-31 21:31:26,大胆的布莱恩在思考,答案错误,"a,b=input().split()
+a,b = int(a),int(b)
+reslut = a//b
+left = a-(reslut*b)
+if left > reslut:
+    print(""niuniu eats more than others"")
+else:
+    print('niuniu eats less than others')"
+109,A,Python3,61632807,2023-03-31 21:33:04,大胆的布莱恩在思考,答案错误,"a,b=map(int,input().split())
+reslut = a//b
+left = a-(reslut*b)
+if left > reslut:
+    print(""niuniu eats more than others"")
+else:
+    print('niuniu eats less than others')"
+110,A,Python3,61632845,2023-03-31 21:34:48,大胆的布莱恩在思考,答案正确,"a,b=map(int,input().split())
+reslut = a//b
+left = a-(reslut*b)
+if left > reslut:
+    print(""niuniu eats more than others"")
+elif left < reslut:
+    print('niuniu eats less than others')
+else:
+    print('same')"
+111,A,Python3,61730936,2023-04-03 09:31:40,想去三亚看海的艾伦少糖去冰,答案错误,"a,b = map(int, input().split())
+other = a/b
+niuniu = a%b
+if niuniu>other:
+    print(""niuniu eats more than others"")
+elif niuniu<other:
+    print(""niuniu eats less than others"")
+else:
+    print(""same"")"
+112,A,Python3,61730943,2023-04-03 09:33:12,想去三亚看海的艾伦少糖去冰,答案正确,"a,b = map(int, input().split())
+other = a//b
+niuniu = a%b
+if niuniu>other:
+    print(""niuniu eats more than others"")
+elif niuniu<other:
+    print(""niuniu eats less than others"")
+else:
+    print(""same"")"
+113,A,Python3,61732841,2023-04-03 15:12:02,yaokan,答案错误,"a, b = map(int, input().split())
+per_num = a // b  # 每个人分得的蛋挞数量
+leftover = a % b  # 剩余的蛋挞数量
+niuniu_eat = a - per_num * b  # 牛牛吃的蛋挞数量
+if leftover == 0:  # 如果每个人都分到了相等的蛋挞数量
+    if niuniu_eat == 0:  # 如果牛牛没吃到多余的蛋挞
+        print(""same"")
+    else:
+        print(""niuniu eats more than others"")
+else:
+    if niuniu_eat < leftover:  # 如果牛牛吃的蛋挞数量比剩余的少
+        print(""niuniu eats less than others"")
+    else:
+        print(""niuniu eats more than others"")"
+114,A,Python3,61734708,2023-04-03 18:19:36,沙野博士,答案正确,"a,b=[int(x) for x in input().split(' ')]
+c = a // b
+d = a % b
+if c < d:
+    print(""niuniu eats more than others"")
+elif c > d:
+    print(""niuniu eats less than others"")
+else:
+    print(""same"")
+"
+115,A,Python3,61737090,2023-04-03 20:07:25,Baiiche,答案错误,"input(""niuniu eats less than others"")"
+116,A,Python3,61738692,2023-04-03 20:53:47,牛客39905829号,答案正确,"a, b = map(int,input().split())
+x = a // b
+y = a % b
+if x > y:
+    print(""niuniu eats less than others"")
+elif x == y:
+    print(""same"")
+else:
+    print(""niuniu eats more than others"")"
+117,A,Python3,61745775,2023-04-04 17:42:54,牛客466938041号,答案正确,"list1 = input().split()
+a = int(list1[0])
+b = int(list1[1])
+
+res = a % b 
+eat = a // b
+if res == eat:
+    print('same')
+elif res > eat:
+    print('niuniu eats more than others')
+else:
+    print('niuniu eats less than others')
+    "
+118,A,Python3,61745778,2023-04-04 17:43:23,牛客466938041号,答案正确,"list1 = input().split()
+a = int(list1[0])
+b = int(list1[1])
+
+res = a % b 
+eat = a // b
+if res == eat:
+    print('same')
+elif res > eat:
+    print('niuniu eats more than others')
+else:
+    print('niuniu eats less than others')
+    "
+119,A,Python3,61765183,2023-04-06 16:12:07,rick_Han,执行出错,"a, b = map(int,input.split())
+everyOne = a // b
+dummyTotal = everyOne * b
+if a - dummyTotal > everyOne:
+    print( 'niuniu eats more than others')
+elif a - dummyTotal == everyOne:
+    print('same')
+else:
+    print(""niuniu eats less than others"")
+    "
+120,A,Python3,61765340,2023-04-06 16:25:24,rick_Han,答案正确,"a, b = map(int, input().split())
+everyOne = a // b
+dummyTotal = everyOne * b
+if a - dummyTotal > everyOne:
+    print( 'niuniu eats more than others')
+elif a - dummyTotal == everyOne:
+    print('same')
+else:
+    print(""niuniu eats less than others"")
+    "
+121,A,Python3,61784851,2023-04-07 15:59:51,louisyang,答案错误,"dan = input()
+list_dan = dan.split()
+people = int(list_dan[0])
+num = int(list_dan[1])
+people_num = people // num
+niuniu = num - people * people_num
+
+if people_num > niuniu:
+    print(""niuniu eats less than others"")
+elif people_num == niuniu:
+    print(""same"")
+else:
+    print(""niuniu eats more than others"")"
+122,A,Python3,61784885,2023-04-07 16:03:00,louisyang,答案错误,"dan = input()
+list_dan = dan.split()
+people = int(list_dan[0])
+num = int(list_dan[1])
+people_num = people // num
+niuniu = num - people * people_num
+
+if people_num > niuniu:
+    print(""niuniu eats less than others"")
+elif people_num == niuniu:
+    print(""same"")
+else:
+    print(""niuniu eats more than others"")"
+123,A,Python3,61784921,2023-04-07 16:06:20,louisyang,答案正确,"dan = input()
+list_dan = dan.split()
+num = int(list_dan[0])
+people = int(list_dan[1])
+people_num = num // people
+niuniu = num - people * people_num
+
+if people_num > niuniu:
+    print(""niuniu eats less than others"")
+elif people_num == niuniu:
+    print(""same"")
+else:
+    print(""niuniu eats more than others"")"
+124,A,Python3,61857341,2023-04-12 17:12:03,牛客444008552号,答案正确,"str=input().split(' ')
+a=int(str[0])
+b=int(str[1])
+others=a//b
+niuniu=a%b
+if(niuniu>others):
+    print('niuniu eats more than others')
+elif(niuniu<others):
+    print(""niuniu eats less than others"")
+else:
+    print(""same"")"
+125,A,Python3,61905292,2023-04-15 19:48:40,想开了的秋田犬很爱吃,答案错误,"list1=input().split()
+a=int(list1[0])
+b=int(list1[1])
+if a%b==0:
+    print(""same"")
+elif a%b<a/b:
+    print(""niuniu eats less than others"")
+else:
+    print(""niuniu eats more than others"")
+"
+126,A,Python3,61905359,2023-04-15 19:52:56,想开了的秋田犬很爱吃,答案错误,"list1=input().split()
+a=int(list1[0])
+b=int(list1[1])
+if a%b==0:
+    print(""same"")
+elif a%b<a//b:
+    print(""niuniu eats less than others"")
+else:
+    print(""niuniu eats more than others"")
+"
+127,A,Python3,61905370,2023-04-15 19:53:42,想开了的秋田犬很爱吃,答案错误,"list1=input().split(' ')
+a=int(list1[0])
+b=int(list1[1])
+if a%b==0:
+    print(""same"")
+elif a%b<a//b:
+    print(""niuniu eats less than others"")
+else:
+    print(""niuniu eats more than others"")
+"
+128,A,Python3,61905384,2023-04-15 19:54:22,想开了的秋田犬很爱吃,答案正确,"list1=input().split(' ')
+a=int(list1[0])
+b=int(list1[1])
+if a%b>a//b:
+    print(""niuniu eats more than others"")
+elif a%b<a//b:
+    print(""niuniu eats less than others"")
+else:
+    print(""same"")
+"
+129,A,Python3,61918205,2023-04-16 17:14:21,-未来可期-,答案正确,"a,b=map(int,input().split())
+if a%b>a//b:
+    print(""niuniu eats more than others"")
+elif a//b>a%b:
+    print(""niuniu eats less than others"")
+else:
+    print(""same"")"

@@ -1,0 +1,40 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,F,C(gcc 7.5.0),54846248,2022-11-18 20:44:07,服了你个老六的熊猫很好奇,答案错误,"#include <stdio.h>
+#include <string.h>
+#define MAXN 114514
+int main(void)
+{
+    int m,n,count=0;
+    int a[MAXN]={},b[MAXN]={},c[MAXN]={},f[MAXN]={},seat[MAXN]={};
+    int i,j,k,l,tag=0;
+    scanf(""%d %d"",&n,&m);
+    for(i=0;i<m;i++)
+        scanf(""%d"",&a[i]);
+    for(i=0;i<m;i++)
+        scanf(""%d"",&b[i]);
+    for(i=0;i<m;i++)
+        scanf(""%d"",&c[i]);
+    for(k=1;k<=n;k++)
+    {
+        for(j=1;j<=m-k+1;j++)
+        {
+            for(l=j;l<j+k;l++)
+                seat[l]=1;
+            for(l=0;l<m;l++)
+            {
+                if(seat[a[l]]==1||seat[b[l]]==1||seat[c[l]]==1)
+                {
+                    tag=1;
+                    break;
+                }
+            }
+            if(tag==1)
+                f[k]++;
+            tag=0;
+            memset(seat,0,sizeof(seat));
+        }
+    }
+    printf(""%d"",f[1]);
+    for(i=2;i<=n;i++)
+        printf("" %d"",f[i]);
+}"

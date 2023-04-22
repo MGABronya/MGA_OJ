@@ -1,0 +1,356 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,D,Java,54847490,2022-11-18 20:51:56,232132323,答案错误,"import java.io.*;
+import java.util.*;
+import java.math.*;
+public class Main {
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader in = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        TaskA solver = new TaskA();
+        solver.solve(1, in, out);
+        out.close();
+    }
+
+    static class TaskA {
+
+        public void solve(int testNumber, InputReader in, PrintWriter out) {
+            int n = in.nextInt();
+            long ec = in.nextLong();
+            long et = in.nextLong();
+            long p = in.nextLong();
+            long s = in.nextLong();
+            long [] a = new long[n];
+            long sumTime = 0;
+            long b = 0;
+            long [] c = new long[n];
+            if (s < ec){
+                out.println(-1);
+            }
+            else {
+                int count = 0;
+                a[0] = in.nextLong();
+                sumTime += et;
+                a[0] += sumTime;
+                s -= ec;
+                for (int i = 1; i < n; i++) {
+                    a[i] = in.nextLong();
+                    c[i] = a[i];
+                    if (s < ec) {
+                        while (s < ec) {
+                            if (a[count] >= sumTime)
+                                count++;
+                            s += count * p;
+                            sumTime++;
+                        }
+                    }
+                    sumTime += et;
+                    s -= ec;
+                    a[i] += sumTime;
+
+                    while (count < i && sumTime > a[count]) {
+                        count++;
+                    }
+                }
+                sumTime+=c[n-1];
+                out.println(sumTime);
+            }
+        }
+    }
+
+
+    static class InputReader {
+        public BufferedReader reader;
+        public StringTokenizer tokenizer;
+
+        public InputReader(InputStream stream) {
+            reader = new BufferedReader(new InputStreamReader(stream), 32768);
+            tokenizer = null;
+        }
+        boolean hasNext()
+        {
+            while (tokenizer == null || !tokenizer.hasMoreTokens())
+            {
+                try
+                {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (Exception e)
+                {
+                    return false;
+                    // TODO: handle exception
+                }
+            }
+            return true;
+        }
+        public String next() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return tokenizer.nextToken();
+        }
+        public String nextLine()
+        {
+            String str = null;
+            try
+            {
+                str = reader.readLine();
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            return str;
+        }
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+        public double nextDouble(){
+            return Double.parseDouble(next());
+        }
+        public long nextLong(){
+            return Long.parseLong(next());
+        }
+        public BigInteger nextBigInteger()
+        {
+            return new BigInteger(next());
+        }
+        public BigDecimal nextBigDecimal()
+        {
+            return new BigDecimal(next());
+        }
+
+    }
+}"
+1,D,Java,54847914,2022-11-18 20:54:30,232132323,答案错误,"import java.io.*;
+import java.util.*;
+import java.math.*;
+public class Main {
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader in = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        TaskA solver = new TaskA();
+        solver.solve(1, in, out);
+        out.close();
+    }
+
+    static class TaskA {
+
+        public void solve(int testNumber, InputReader in, PrintWriter out) {
+            int n = in.nextInt();
+            long ec = in.nextLong();
+            long et = in.nextLong();
+            long p = in.nextLong();
+            long s = in.nextLong();
+            long [] a = new long[n];
+            long sumTime = 0;
+            long b = 0;
+            long [] c = new long[n];
+            if (s < ec){
+                out.println(-1);
+            }
+            else {
+                int count = 0;
+                a[0] = in.nextLong();
+                sumTime += et;
+                a[0] += sumTime;
+                s -= ec;
+                for (int i = 1; i < n; i++) {
+                    a[i] = in.nextLong();
+                    c[i] = a[i];
+                    if (s < ec) {
+                        while (s < ec) {
+                            if (a[count] > sumTime)
+                                count++;
+                            s += count * p;
+                            sumTime++;
+                        }
+                    }
+                    sumTime += et;
+                    s -= ec;
+                    a[i] += sumTime;
+//                    System.out.println(sumTime);
+                    while (count < i && sumTime > a[count]) {
+                        count++;
+                    }
+                }
+                sumTime+=c[n-1];
+                out.println(sumTime);
+            }
+        }
+    }
+
+
+    static class InputReader {
+        public BufferedReader reader;
+        public StringTokenizer tokenizer;
+
+        public InputReader(InputStream stream) {
+            reader = new BufferedReader(new InputStreamReader(stream), 32768);
+            tokenizer = null;
+        }
+        boolean hasNext()
+        {
+            while (tokenizer == null || !tokenizer.hasMoreTokens())
+            {
+                try
+                {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (Exception e)
+                {
+                    return false;
+                    // TODO: handle exception
+                }
+            }
+            return true;
+        }
+        public String next() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return tokenizer.nextToken();
+        }
+        public String nextLine()
+        {
+            String str = null;
+            try
+            {
+                str = reader.readLine();
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            return str;
+        }
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+        public double nextDouble(){
+            return Double.parseDouble(next());
+        }
+        public long nextLong(){
+            return Long.parseLong(next());
+        }
+        public BigInteger nextBigInteger()
+        {
+            return new BigInteger(next());
+        }
+        public BigDecimal nextBigDecimal()
+        {
+            return new BigDecimal(next());
+        }
+
+    }
+}"
+2,D,Java,55007447,2022-11-26 19:01:54,chuyb,运行超时,"import java.util.*;
+ 
+  
+public class Main {
+  
+    public static void main(String[] args) {
+       List<En> list1 =new ArrayList<>();
+       Set<Filed> set1 = new HashSet<>();
+       Scanner sc =new Scanner(System.in);
+       int n=sc.nextInt();
+       int ec=sc.nextInt();
+       int et=sc.nextInt();
+       int p=sc.nextInt();
+       int s=sc.nextInt();
+       int arr[]=new int[n];
+       for(int i=0;i<n;i++) {
+    	   arr[i]=sc.nextInt();
+       }
+       int index=0;
+       if(s<ec) {
+    	   System.out.println(-1);
+       }else {
+    	   int sum=0;
+    	   long time=0;
+    	   
+    	   while(sum!=n) {
+    		  while(s>=ec) {
+    			  list1.add(new En(et));
+    			  s-=ec;
+    		  }
+    		  Iterator<Filed> it2 =set1.iterator();
+    		  while(it2.hasNext()) {
+    			  Filed tmp =it2.next();
+    			  s+=tmp.pro();
+    		  }
+    		  Iterator<En> it =list1.iterator();
+    		  
+    		  if(it.hasNext()) {
+    			  En tmp =it.next();
+    			  tmp.go();
+    			  if(tmp.isUsed()) {
+    				  set1.add(new Filed(p, arr[index]));
+    				  index++;
+    				  list1.remove(tmp);
+    				  sum++;
+    			  }
+    		  }
+    		 
+    		 
+    		 
+    		 
+    		  time++;
+    	   }
+    	   System.out.println(time+arr[n-1]);
+       }
+    }
+    
+    
+}
+class Filed{
+	int produce;
+	boolean flag=false;
+	int time;
+	public Filed(int p,int t) {
+		produce=p;
+		time=t;
+	}
+	public int pro() {
+		if(flag) {
+			return produce;
+		}else {
+			time--;
+			if(time==0) {
+				flag=true;
+			}
+			return 0;
+		}
+	}
+	
+}
+
+class En{
+	int time;
+	int cost;
+	int rest=0;
+	public En(int t) {
+		time=t;
+	}
+	public void go() {
+		time--;
+		
+		
+	}
+	public boolean isUsed() {
+		if(time==0) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+}
+"

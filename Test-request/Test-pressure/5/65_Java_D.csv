@@ -1,0 +1,6822 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,D,Java,60145975,2023-01-06 19:35:59,刘映辰,答案错误,"import java.util.*;
+import java.lang.*;
+
+public class Main {
+    
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int test_count = in.nextInt();
+        for(int i = 0; i < test_count; i++){
+            long a = in.nextLong() % 3;
+            long b = in.nextLong() % 3;
+            if((a == 2 && b == 1) || (a == 1 && b == 2)){
+                System.out.println(""niuniu"");
+            }
+            else{
+                System.out.println(""niumei"");
+            }
+        }
+    }
+}"
+1,D,Java,60148339,2023-01-06 19:49:59,panther125,答案错误,"import java.util.Scanner;
+
+// 注意类名必须为 Main, 不要有任何 package xxx 信息
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        // 注意 hasNext 和 hasNextLine 的区别
+        int test = in.nextInt();
+        while (test-->0) { // 注意 while 处理多个 case
+            int a = in.nextInt();
+            int b = in.nextInt();
+            while(a > 3){
+                a -=3;
+            }
+            while(b > 3){
+                b -=3;
+            }
+            if((a == 2 && b == 1) || (a == 1 && b==2) ){
+                System.out.println(""niuniu"");
+            }else{
+                System.out.println(""niumei"");
+            }
+        }
+    }
+}"
+2,D,Java,60148630,2023-01-06 19:51:50,牛客232703472号,执行出错,"import java.util.Scanner;
+public class Main{
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        while(n -- > 0) {
+            int a = sc.nextInt();
+            int b = sc.nextInt();
+            a = Math.min(a, b);
+            if((a & (a - 1)) == 0) System.out.println(""niuniu"");
+            else System.out.println(""niumei"");
+        }
+    }
+}"
+3,D,Java,60148762,2023-01-06 19:52:40,牛客232703472号,执行出错,"import java.util.Scanner;
+public class Main{
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        while(n -- > 0) {
+            long a = sc.nextInt();
+            long b = sc.nextInt();
+            a = Math.min(a, b);
+            if((a & (a - 1)) == 0) System.out.println(""niuniu"");
+            else System.out.println(""niumei"");
+        }
+    }
+}"
+4,D,Java,60148851,2023-01-06 19:53:16,牛客232703472号,答案错误,"import java.util.Scanner;
+public class Main{
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        while(n -- > 0) {
+            long a = sc.nextLong();
+            long b = sc.nextLong();
+            a = Math.min(a, b);
+            if((a & (a - 1)) == 0) System.out.println(""niuniu"");
+            else System.out.println(""niumei"");
+        }
+    }
+}"
+5,D,Java,60149910,2023-01-06 20:00:01,cyclingle,答案错误,"import java.io.*;
+//import java.math.BigInteger;
+import java.util.*;
+
+import javax.management.MalformedObjectNameException;
+public class Main {
+    static int sum=0;
+    //static int n;
+    static int N=300007;
+    //static char [] arr=new char [300007];
+    static int [] siz=new int [300007];
+    static int [] p=new int[300007];
+    static int fa[]=new int [10];
+    //static List<Integer>pth[]=new List[300007];
+    //static List<Integer>pth[]=new List[N];
+    public static int gcd(int x,int y){
+         if(x==0) return y;
+         else return gcd(y%x,x);
+    }
+    public static void main(String [] args)throws IOException
+    {
+        FastScanner f = new FastScanner();
+        PrintWriter w = new PrintWriter(System.out);
+        int t=f.nextInt();
+        while(t>0)
+        {
+            long a,b;
+            a=f.nextLong();b=f.nextLong();
+            long ans=Math.min(a,b);
+            if(ans%3==0)
+            {
+                w.println(""niumei"");
+            }
+            else w.println(""niuniu"");
+            w.flush();
+            --t;
+        }
+    }    
+    private static class FastScanner {
+        final private int BUFFER_SIZE = 1 << 16;
+        private DataInputStream din;
+        private byte[] buffer;
+        private int bufferPointer, bytesRead;
+ 
+        private FastScanner() throws IOException {
+            din = new DataInputStream(System.in);
+            buffer = new byte[BUFFER_SIZE];
+            bufferPointer = bytesRead = 0;
+        }
+ 
+        private short nextShort() throws IOException {
+            short ret = 0;
+            byte c = read();
+            while (c <= ' ') c = read();
+            boolean neg = (c == '-');
+            if (neg) c = read();
+            do ret = (short) (ret * 10 + c - '0');
+            while ((c = read()) >= '0' && c <= '9');
+            if (neg) return (short) -ret;
+            return ret;
+        }
+ 
+        private int nextInt() throws IOException {
+            int ret = 0;
+            byte c = read();
+            while (c <= ' ') c = read();
+            boolean neg = (c == '-');
+            if (neg) c = read();
+            do ret = ret * 10 + c - '0';
+            while ((c = read()) >= '0' && c <= '9');
+            if (neg) return -ret;
+            return ret;
+        }
+ 
+        public long nextLong() throws IOException {
+            long ret = 0;
+            byte c = read();
+            while (c <= ' ') c = read();
+            boolean neg = (c == '-');
+            if (neg) c = read();
+            do ret = ret * 10 + c - '0';
+            while ((c = read()) >= '0' && c <= '9');
+            if (neg) return -ret;
+            return ret;
+        }
+ 
+        private char nextChar() throws IOException {
+            byte c = read();
+            while (c <= ' ') c = read();
+            return (char) c;
+        }
+ 
+        private String nextString() throws IOException {
+            StringBuilder ret = new StringBuilder();
+            byte c = read();
+            while (c <= ' ') c = read();
+            do {
+                ret.append((char) c);
+            } while ((c = read()) > ' ');
+            return ret.toString();
+        }
+ 
+        private void fillBuffer() throws IOException {
+            bytesRead = din.read(buffer, bufferPointer = 0, BUFFER_SIZE);
+            if (bytesRead == -1) buffer[0] = -1;
+        }
+ 
+        private byte read() throws IOException {
+            if (bufferPointer == bytesRead) fillBuffer();
+            return buffer[bufferPointer++];
+        }
+    }
+}
+"
+6,D,Java,60149944,2023-01-06 20:00:14,我不叫jhy,答案错误,"import java.util.*;
+public class Main {
+    public static void main(String[] args) {
+        Scanner in=new Scanner(System.in);
+        int t= in.nextInt();
+        for (int l = 0; l < t; l++) {
+            long a= in.nextInt();
+            long b= in.nextInt();
+            a=a%3;
+            b=b%3;
+            if (Math.max(a,b)<2|Math.min(a,b)<0) System.out.println(""niumei"");
+            else  System.out.println(""niuniu"");
+        }
+    }
+}"
+7,D,Java,60149981,2023-01-06 20:00:27,刘映辰,答案错误,"import java.util.*;
+import java.lang.*;
+
+public class Main {
+    
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int test_count = in.nextInt();
+        for(int i = 0; i < test_count; i++){
+            long a = in.nextLong();
+            long b = in.nextLong();
+            long max = Math.min(a / 3, b / 3);
+            a -= max * 3;
+            b -= max * 3;
+            
+            if(a == 1 || a == 2 || b == 1 || b == 2){
+                System.out.println(""niuniu"");
+            }
+            else{
+                System.out.println(""niumei"");
+            }
+        }
+    }
+}"
+8,D,Java,60150019,2023-01-06 20:00:40,今天一定早点睡,执行出错,"import javax.sound.midi.Soundbank;
+import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        while (n -- > 0) {
+         int a = sc.nextInt(), b = sc.nextInt();
+         if ((a ^ b) > 0) System.out.println(""niuniu"");
+         else System.out.println(""niumei"");
+        }
+    }
+}"
+9,D,Java,60150021,2023-01-06 20:00:41,今天一定早点睡,执行出错,"import javax.sound.midi.Soundbank;
+import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        while (n -- > 0) {
+         int a = sc.nextInt(), b = sc.nextInt();
+         if ((a ^ b) > 0) System.out.println(""niuniu"");
+         else System.out.println(""niumei"");
+        }
+    }
+}"
+10,D,Java,60150386,2023-01-06 20:03:09,我不叫jhy,执行出错,"import java.util.*;
+public class Main {
+    public static void main(String[] args) {
+        Scanner in=new Scanner(System.in);
+        int t= in.nextInt();
+        for (int l = 0; l < t; l++) {
+            long a= in.nextInt();
+            long b= in.nextInt();
+            long n=a;
+            if (a<b){
+                a=b;
+                b=n;
+            }
+            n=b/3;
+            a=a-n*3;
+            b=b%3;
+            if (Math.max(a,b)<2|Math.min(a,b)<0) System.out.println(""niumei"");
+            else System.out.println(""niuniu"");
+            
+        }
+    }
+}"
+11,D,Java,60150486,2023-01-06 20:03:52,it`s_all_good_man,答案错误,"import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+        new Main().process();
+    }
+
+    public void process(){
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        for(int i = 0; i < n; i++){
+            int a = (int)(sc.nextLong() % 3), b = (int)(sc.nextLong() % 3);
+            System.out.println(Math.max(a, b) >= 2 && Math.min(a, b) >= 1 ? ""niuniu"" : ""niumei"");
+        }
+    }
+}"
+12,D,Java,60150658,2023-01-06 20:05:03,我不叫jhy,答案正确,"import java.util.*;
+public class Main {
+    public static void main(String[] args) {
+        Scanner in=new Scanner(System.in);
+        int t= in.nextInt();
+        for (int l = 0; l < t; l++) {
+            long a= in.nextLong();
+            long b= in.nextLong();
+            long n=a;
+            if (a<b){
+                a=b;
+                b=n;
+            }
+            n=b/3;
+            a=a-n*3;
+            b=b%3;
+            if (a<2|b<1) System.out.println(""niumei"");
+            else System.out.println(""niuniu"");
+        }
+    }
+}"
+13,D,Java,60150673,2023-01-06 20:05:11,cyclingle,答案错误,"import java.io.*;
+//import java.math.BigInteger;
+import java.util.*;
+
+import javax.management.MalformedObjectNameException;
+public class Main {
+    static int sum=0;
+    //static int n;
+    static int N=300007;
+    //static char [] arr=new char [300007];
+    static int [] siz=new int [300007];
+    static int [] p=new int[300007];
+    static int fa[]=new int [10];
+    //static List<Integer>pth[]=new List[300007];
+    //static List<Integer>pth[]=new List[N];
+    public static int gcd(int x,int y){
+         if(x==0) return y;
+         else return gcd(y%x,x);
+    }
+    public static void main(String [] args)throws IOException
+    {
+        FastScanner f = new FastScanner();
+        PrintWriter w = new PrintWriter(System.out);
+        int t=f.nextInt();
+        while(t>0)
+        {
+            long a,b;
+            a=f.nextLong();b=f.nextLong();
+            
+            if(a==1&&b==1)
+            {
+                w.println(""niumei"");
+                w.flush();
+                --t;
+                continue;
+            }
+            
+            long ans=Math.min(a,b);
+            if(ans%3==0)
+            {
+                w.println(""niumei"");
+            }
+            else w.println(""niuniu"");
+            w.flush();
+           //w.println(""niumei"");
+            --t;
+        }
+    }    
+    private static class FastScanner {
+        final private int BUFFER_SIZE = 1 << 16;
+        private DataInputStream din;
+        private byte[] buffer;
+        private int bufferPointer, bytesRead;
+ 
+        private FastScanner() throws IOException {
+            din = new DataInputStream(System.in);
+            buffer = new byte[BUFFER_SIZE];
+            bufferPointer = bytesRead = 0;
+        }
+ 
+        private short nextShort() throws IOException {
+            short ret = 0;
+            byte c = read();
+            while (c <= ' ') c = read();
+            boolean neg = (c == '-');
+            if (neg) c = read();
+            do ret = (short) (ret * 10 + c - '0');
+            while ((c = read()) >= '0' && c <= '9');
+            if (neg) return (short) -ret;
+            return ret;
+        }
+ 
+        private int nextInt() throws IOException {
+            int ret = 0;
+            byte c = read();
+            while (c <= ' ') c = read();
+            boolean neg = (c == '-');
+            if (neg) c = read();
+            do ret = ret * 10 + c - '0';
+            while ((c = read()) >= '0' && c <= '9');
+            if (neg) return -ret;
+            return ret;
+        }
+ 
+        public long nextLong() throws IOException {
+            long ret = 0;
+            byte c = read();
+            while (c <= ' ') c = read();
+            boolean neg = (c == '-');
+            if (neg) c = read();
+            do ret = ret * 10 + c - '0';
+            while ((c = read()) >= '0' && c <= '9');
+            if (neg) return -ret;
+            return ret;
+        }
+ 
+        private char nextChar() throws IOException {
+            byte c = read();
+            while (c <= ' ') c = read();
+            return (char) c;
+        }
+ 
+        private String nextString() throws IOException {
+            StringBuilder ret = new StringBuilder();
+            byte c = read();
+            while (c <= ' ') c = read();
+            do {
+                ret.append((char) c);
+            } while ((c = read()) > ' ');
+            return ret.toString();
+        }
+ 
+        private void fillBuffer() throws IOException {
+            bytesRead = din.read(buffer, bufferPointer = 0, BUFFER_SIZE);
+            if (bytesRead == -1) buffer[0] = -1;
+        }
+ 
+        private byte read() throws IOException {
+            if (bufferPointer == bytesRead) fillBuffer();
+            return buffer[bufferPointer++];
+        }
+    }
+}
+"
+14,D,Java,60150723,2023-01-06 20:05:35,shitter,答案错误,"import java.io.*;
+import java.util.*;
+
+public class Main {
+    static InputReader in;
+    static OutputWriter out;
+
+    private static void ezpz() throws IOException {
+        long a=in.nextLong();
+        long b=in.nextLong();
+
+        /*if(a>=2*b)
+            out.println(b%3==0 ? ""niumei"" : ""niuniu"");
+        else if(b>=2*a)
+            out.println(a%3==0 ? ""niumei"" : ""niuniu"");
+        else {
+
+        }*/
+
+        if(a>b)
+            out.println(b%3==0 ? ""niumei"" : ""niuniu"");
+        else
+            out.println(a%3==0 ? ""niumei"" : ""niuniu"");
+    }
+
+    public static void main(String[] args) throws Exception {
+        in=new InputReader(System.in);
+        out=new OutputWriter(System.out);
+
+        int Cases=1;
+        Cases=in.nextInt();
+        while(Cases-->0)
+            ezpz();
+
+        out.gg();
+    }
+
+
+    static class InputReader  {
+        private final BufferedReader reader;
+
+        public InputReader(InputStream stream) {
+            reader=new BufferedReader(new InputStreamReader(stream));
+        }
+
+        public int nextInt() throws IOException {
+            int c=reader.read();
+            while(c<=32) {
+                c=reader.read();
+            }
+            boolean negative=false;
+            if (c=='-') {
+                negative=true;
+                c=reader.read();
+            }
+            int x=0;
+            while(c>32) {
+                x=x*10+c-'0';
+                c=reader.read();
+            }
+            return negative ? -x : x;
+        }
+
+        public long nextLong() throws IOException {
+            int c=reader.read();
+            while(c<=32) {
+                c=reader.read();
+            }
+            boolean negative=false;
+            if (c=='-') {
+                negative=true;
+                c=reader.read();
+            }
+            long x=0;
+            while(c>32) {
+                x=x*10+c-'0';
+                c=reader.read();
+            }
+            return negative ? -x : x;
+        }
+
+        public String next() throws IOException {
+            int c=reader.read();
+            while(c<=32) {
+                c=reader.read();
+            }
+            StringBuilder sb=new StringBuilder();
+            while(c>32) {
+                sb.append((char)c);
+                c=reader.read();
+            }
+            return sb.toString();
+        }
+
+        public double nextDouble() throws IOException {
+            return Double.parseDouble(next());
+        }
+    }
+
+    static class OutputWriter {
+
+        private final BufferedWriter writer;
+
+        public OutputWriter(OutputStream out) {
+            writer=new BufferedWriter(new OutputStreamWriter(out));
+        }
+
+        public void print(String str) throws IOException {
+            writer.write(str);
+        }
+
+        public void print(Object obj) throws IOException {
+            print(String.valueOf(obj));
+        }
+
+        public void println(String str) throws IOException {
+            print(str+""\n"");
+        }
+
+        public void println() throws IOException {
+            print('\n');
+        }
+
+        public void println(Object obj) throws IOException {
+            println(String.valueOf(obj));
+        }
+
+        public void gg() throws IOException {
+            writer.flush();
+        }
+    }
+
+}"
+15,D,Java,60150998,2023-01-06 20:07:32,迷你滨,答案错误,"import java.util.*;
+import java.io.*;
+import java.math.*;
+//那就是希望
+//即使需要取模，也是光明
+
+public class Main{
+	static int maxn = 200005,n,m,mod = (int)1e9+7;
+	static long INF = (long)1e18,ans = 0;
+	
+	static Scanner sc = new Scanner (System.in);
+	static BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+    static StreamTokenizer st  =new StreamTokenizer(bf);
+    static PrintWriter pw = new PrintWriter(new OutputStreamWriter(System.out));
+    public static void main(String[]args) throws IOException{
+    	int T = 1;
+    	T = sc.nextInt();
+        while(T-->0) solve();
+        pw.flush();
+    }
+    static int I() throws IOException {
+    	st.nextToken();
+    	return (int)st.nval;
+    }
+    
+    static long gcd(long a,long b) {
+    	if(b == 0) return a;
+    	return gcd(b,a%b);
+    }
+    
+    static long fpow(long a,long b,long mod) {
+    	long res = 1;
+    	a%=mod;
+    	while(b>0) {
+    		if(b%2 == 1) res = res*a%mod;
+    		a = a*a%mod;
+    		b/=2;
+    	}
+    	return res;
+    }
+    
+    
+    static void solve() throws IOException{
+    	long a = sc.nextLong(),b = sc.nextLong();
+    	long x = a%3, y = b%3;
+    	if(x == y && x == 0) pw.println(""niumei"");
+    	else {
+    		long xx = a/3, yy = b/3;
+    		if(x>0 && y >0) {
+    			pw.println(""niuniu"");
+    		}
+    		else {
+    			if(x > 0) {
+    				if(xx <= yy) pw.println(""niuniu"");
+    				else pw.println(""niumei"");
+    			}
+    			else {
+    				if(xx >= yy) pw.println(""niuniu"");
+    				else pw.println(""niumei"");
+    			}
+    		}
+    	}
+    }
+}"
+16,D,Java,60151497,2023-01-06 20:11:13,三月吃桃子吗,答案错误,"import java.math.BigInteger;
+import java.util.Scanner;
+
+public class Main {
+
+ public static void main(String[] args) {
+  Scanner in = new Scanner(System.in);
+  while (in.hasNext()) {
+   int a=in.nextInt();
+   for(int i=0;i<a;i++)
+   {
+	   BigInteger b=in.nextBigInteger();
+	   BigInteger c=in.nextBigInteger();
+	 
+	   int flag=b.compareTo(c);  
+	   BigInteger aa=BigInteger.valueOf(3);
+       if(flag==-1)  
+       {
+    	   c=c.mod(aa);
+    	   if(c.equals(BigInteger.valueOf(0)))
+    	   {
+    		   System.out.println(""niumei"");
+    	   }
+    	   else{System.out.println(""niuniu"");}
+       } 
+       else if(flag==0)  
+    	   {c=c.mod(aa);
+	   if(c.equals(BigInteger.valueOf(0)))
+	   {
+		   System.out.println(""niumei"");
+	   }
+	   else{System.out.println(""niuniu"");}
+	   }
+       else  
+       {
+    	   b=b.mod(aa);
+    	   if(b.equals(BigInteger.valueOf(0)))
+    	   {
+    		   System.out.println(""niumei"");
+    	   }
+    	   else{System.out.println(""niuniu"");}
+       }
+       }  
+	   {
+		   
+	   }
+   
+  
+ 
+  }
+
+ }
+ }
+ "
+17,D,Java,60151873,2023-01-06 20:14:17,三月吃桃子吗,答案错误,"import java.math.BigInteger;
+import java.util.Scanner;
+
+public class Main {
+
+ public static void main(String[] args) {
+  Scanner in = new Scanner(System.in);
+  while (in.hasNext()) {
+   int a=in.nextInt();
+   for(int i=0;i<a;i++)
+   {
+	   BigInteger b=in.nextBigInteger();
+	   BigInteger c=in.nextBigInteger();
+	 
+	   int flag=b.compareTo(c);  
+	   BigInteger aa=BigInteger.valueOf(3);
+       if(flag==-1)  
+       {
+    	   b=b.mod(aa);
+    	   if(b.equals(BigInteger.valueOf(0)))
+    	   {
+    		   System.out.println(""niumei"");
+    	   }
+    	   else{System.out.println(""niuniu"");}
+       } 
+       else if(flag==0)  
+    	   {c=c.mod(aa);
+	   if(c.equals(BigInteger.valueOf(0)))
+	   {
+		   System.out.println(""niumei"");
+	   }
+	   else{System.out.println(""niuniu"");}
+	   }
+       else  
+       {
+    	   c=c.mod(aa);
+    	   if(c.equals(BigInteger.valueOf(0)))
+    	   {
+    		   System.out.println(""niumei"");
+    	   }
+    	   else{System.out.println(""niuniu"");}
+       }
+       }  
+	   {
+		   
+	   }
+   
+  
+ 
+  }
+
+ }
+ }
+ "
+18,D,Java,60151977,2023-01-06 20:15:02,WonderfulD,答案错误,"import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        int circle = scan.nextInt();
+        for(int i=0; i<circle; i++){
+            int a = scan.nextInt();
+            int b = scan.nextInt();
+            while(a>=3 && b>=3){
+                a -= 3;
+                b -= 3;
+            }
+            if((a==2 && b>=1) || (a>=1 && b==2)){
+                System.out.println(""niuniu"");
+            }else{
+                System.out.println(""niumei"");
+            }
+        }
+    }
+}"
+19,D,Java,60152203,2023-01-06 20:16:44,acm_team22311,答案正确,"import java.io.DataInputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) throws IOException {
+        FastScanner f = new FastScanner();
+        PrintWriter w = new PrintWriter(System.out);
+        int T = f.nextInt();
+        while (T-- > 0) {
+            long a = f.nextLong(), b = f.nextLong();
+            if (a > b) {
+                long t = a;
+                a = b;
+                b = t;
+            }
+            if (a == b) {
+                if (a % 3 == 1) {
+                    w.println(""niumei"");
+                } else if (a % 3 == 0) {
+                    w.println(""niumei"");
+                } else w.println(""niuniu"");
+                continue;
+            }
+            long x = a / 3;
+            long y = a % 3;
+            if (y == 0) {
+                w.println(""niumei"");
+            } else {
+                w.println(""niuniu"");
+            }
+        }
+        w.flush();
+    }
+
+
+    private static class FastScanner {
+        final private int BUFFER_SIZE = 1 << 16;
+        private DataInputStream din;
+        private byte[] buffer;
+        private int bufferPointer, bytesRead;
+
+        private FastScanner() throws IOException {
+            din = new DataInputStream(System.in);
+            buffer = new byte[BUFFER_SIZE];
+            bufferPointer = bytesRead = 0;
+        }
+
+        private short nextShort() throws IOException {
+            short ret = 0;
+            byte c = read();
+            while (c <= ' ') c = read();
+            boolean neg = (c == '-');
+            if (neg) c = read();
+            do ret = (short) (ret * 10 + c - '0');
+            while ((c = read()) >= '0' && c <= '9');
+            if (neg) return (short) -ret;
+            return ret;
+        }
+
+        private int nextInt() throws IOException {
+            int ret = 0;
+            byte c = read();
+            while (c <= ' ') c = read();
+            boolean neg = (c == '-');
+            if (neg) c = read();
+            do ret = ret * 10 + c - '0';
+            while ((c = read()) >= '0' && c <= '9');
+            if (neg) return -ret;
+            return ret;
+        }
+
+        public long nextLong() throws IOException {
+            long ret = 0;
+            byte c = read();
+            while (c <= ' ') c = read();
+            boolean neg = (c == '-');
+            if (neg) c = read();
+            do ret = ret * 10 + c - '0';
+            while ((c = read()) >= '0' && c <= '9');
+            if (neg) return -ret;
+            return ret;
+        }
+
+        private char nextChar() throws IOException {
+            byte c = read();
+            while (c <= ' ') c = read();
+            return (char) c;
+        }
+
+        private String nextString() throws IOException {
+            StringBuilder ret = new StringBuilder();
+            byte c = read();
+            while (c <= ' ') c = read();
+            do {
+                ret.append((char) c);
+            } while ((c = read()) > ' ');
+            return ret.toString();
+        }
+
+        private void fillBuffer() throws IOException {
+            bytesRead = din.read(buffer, bufferPointer = 0, BUFFER_SIZE);
+            if (bytesRead == -1) buffer[0] = -1;
+        }
+
+        private byte read() throws IOException {
+            if (bufferPointer == bytesRead) fillBuffer();
+            return buffer[bufferPointer++];
+        }
+    }
+}"
+20,D,Java,60152325,2023-01-06 20:17:41,it`s_all_good_man,答案错误,"import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+        new Main().process();
+    }
+
+    public void process(){
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        for(int i = 0; i < n; i++){
+            int a = (int)(sc.nextLong() % 3l), b = (int)(sc.nextLong() % 3l);
+            System.out.println(Math.max(a, b) >= 2 && Math.min(a, b) >= 1 ? ""niuniu"" : ""niumei"");
+        }
+    }
+}"
+21,D,Java,60152961,2023-01-06 20:23:12,第六序列,执行出错,"import java.util.*;
+public class Main{
+    public static void main(String[]args){
+        Scanner in=new Scanner(System.in);
+        int n=in.nextInt();
+        while(n-->0){
+            long a=in.nextInt();
+            long b=in.nextInt();
+            if(a>b){
+                if(b%3!=0)System.out.println(""niuniu"");
+                else System.out.println(""niumei"");
+            }else{
+                if(a%3!=0)System.out.println(""niuniu"");
+                else System.out.println(""niumei"");
+            }
+            
+        }
+    }
+    
+}"
+22,D,Java,60153143,2023-01-06 20:24:47,人工智能3211江海洋,答案错误,"import java.io.*;
+import java.util.*;
+import java.math.*;
+
+public class Main {
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader in = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        TaskA solver = new TaskA();
+        solver.solve(1, in, out);
+        out.close();
+    }
+
+    static class TaskA {
+        public void solve(int testNumber, InputReader in, PrintWriter out) {
+            int t = in.nextInt();
+            while (t-->0){
+                long a = in.nextLong();
+                long b = in.nextLong();
+                if(a>b){
+                    long tt = a;
+                    a = b;
+                    b = tt;
+                }
+                if(a>=1&&b>=2){
+                    long c1 = (a-1)/3,yu1 = (a-1)%3;
+                    long c2 = (b-2)/3,yu2 = (b-2)%3;
+                    if (c1==c2&&yu1==0&&yu2==0)
+                        out.println(""niuniu"");
+                    else
+                        out.println(""niumei"");
+                }
+                else
+                    out.println(""niumei"");
+            }
+
+        }
+    }
+
+    static class InputReader {
+        public BufferedReader reader;
+        public StringTokenizer tokenizer;
+
+        public InputReader(InputStream stream) {
+            reader = new BufferedReader(new InputStreamReader(stream), 32768);
+            tokenizer = null;
+        }
+
+        boolean hasNext() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (Exception e) {
+                    return false;
+                    // TODO: handle exception
+                }
+            }
+            return true;
+        }
+
+        public String next() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return tokenizer.nextToken();
+        }
+
+        public String nextLine() {
+            String str = null;
+            try {
+                str = reader.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return str;
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        public double nextDouble() {
+            return Double.parseDouble(next());
+        }
+
+        public long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        public BigInteger nextBigInteger() {
+            return new BigInteger(next());
+        }
+
+        public BigDecimal nextBigDecimal() {
+            return new BigDecimal(next());
+        }
+
+
+    }
+}
+"
+23,D,Java,60153148,2023-01-06 20:24:49,第六序列,答案错误,"import java.util.*;
+public class Main{
+    public static void main(String[]args){
+        Scanner in=new Scanner(System.in);
+        int n=in.nextInt();
+        while(n-->0){
+            long a=in.nextLong();
+            long b=in.nextLong();
+            if(a>b){
+                if(b%3!=0)System.out.println(""niuniu"");
+                else System.out.println(""niumei"");
+            }else{
+                if(a%3!=0)System.out.println(""niuniu"");
+                else System.out.println(""niumei"");
+            }
+            
+        }
+    }
+    
+}"
+24,D,Java,60153233,2023-01-06 20:25:34,shitter,答案正确,"import java.io.*;
+import java.util.*;
+
+public class Main {
+    static InputReader in;
+    static OutputWriter out;
+
+    private static void ezpz() throws IOException {
+        /*boolean[][] dp=new boolean[100][100];
+        for(int i=1;i<100;i++) {
+            for(int j=1;j<100;j++) {
+                if((i!=1 || j!=1)) {
+                    dp[i][j]=(!dp[Math.max(i-2,0)][Math.max(j-1,0)]) || (!dp[Math.max(i-1,0)][Math.max(j-2,0)]);
+                    //out.println(""dp[""+i+""][""+j+""]=""+dp[i][j]+"" ""+(!dp[Math.max(i-2,0)][Math.max(j-1,0)])+"" ""+(!dp[Math.max(i-1,0)][Math.max(j-2,0)]));
+                }
+            }
+        }
+        for(int i=1;i<100;i++) {
+            for(int j=1;j<100;j++) {
+                if(i==j && !dp[i][j])
+                    out.println(""dp[""+i+""][""+j+""]=""+dp[i][j]);
+            }
+        }*/
+
+        long a=in.nextLong();
+        long b=in.nextLong();
+
+        if(a!=b)
+            out.println(Math.min(a,b)%3==0 ? ""niumei"" : ""niuniu"");
+        else
+            out.println((a%3==1 || a%3==0) ? ""niumei"" : ""niuniu"");
+    }
+
+    public static void main(String[] args) throws Exception {
+        in=new InputReader(System.in);
+        out=new OutputWriter(System.out);
+
+        int Cases=1;
+        Cases=in.nextInt();
+        while(Cases-->0)
+            ezpz();
+
+        out.gg();
+    }
+
+
+    static class InputReader  {
+        private final BufferedReader reader;
+
+        public InputReader(InputStream stream) {
+            reader=new BufferedReader(new InputStreamReader(stream));
+        }
+
+        public int nextInt() throws IOException {
+            int c=reader.read();
+            while(c<=32) {
+                c=reader.read();
+            }
+            boolean negative=false;
+            if (c=='-') {
+                negative=true;
+                c=reader.read();
+            }
+            int x=0;
+            while(c>32) {
+                x=x*10+c-'0';
+                c=reader.read();
+            }
+            return negative ? -x : x;
+        }
+
+        public long nextLong() throws IOException {
+            int c=reader.read();
+            while(c<=32) {
+                c=reader.read();
+            }
+            boolean negative=false;
+            if (c=='-') {
+                negative=true;
+                c=reader.read();
+            }
+            long x=0;
+            while(c>32) {
+                x=x*10+c-'0';
+                c=reader.read();
+            }
+            return negative ? -x : x;
+        }
+
+        public String next() throws IOException {
+            int c=reader.read();
+            while(c<=32) {
+                c=reader.read();
+            }
+            StringBuilder sb=new StringBuilder();
+            while(c>32) {
+                sb.append((char)c);
+                c=reader.read();
+            }
+            return sb.toString();
+        }
+
+        public double nextDouble() throws IOException {
+            return Double.parseDouble(next());
+        }
+    }
+
+    static class OutputWriter {
+
+        private final BufferedWriter writer;
+
+        public OutputWriter(OutputStream out) {
+            writer=new BufferedWriter(new OutputStreamWriter(out));
+        }
+
+        public void print(String str) throws IOException {
+            writer.write(str);
+        }
+
+        public void print(Object obj) throws IOException {
+            print(String.valueOf(obj));
+        }
+
+        public void println(String str) throws IOException {
+            print(str+""\n"");
+        }
+
+        public void println() throws IOException {
+            print('\n');
+        }
+
+        public void println(Object obj) throws IOException {
+            println(String.valueOf(obj));
+        }
+
+        public void gg() throws IOException {
+            writer.flush();
+        }
+    }
+
+}"
+25,D,Java,60153979,2023-01-06 20:31:57,迷你滨,答案错误,"import java.util.*;
+import java.io.*;
+import java.math.*;
+//那就是希望
+//即使需要取模，也是光明
+
+public class Main{
+	static int maxn = 200005,n,m,mod = (int)1e9+7;
+	static long INF = (long)1e18,ans = 0;
+	
+	static Scanner sc = new Scanner (System.in);
+	static BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+    static StreamTokenizer st  =new StreamTokenizer(bf);
+    static PrintWriter pw = new PrintWriter(new OutputStreamWriter(System.out));
+    public static void main(String[]args) throws IOException{
+    	int T = 1;
+    	T = sc.nextInt();
+        while(T-->0) solve();
+        pw.flush();
+    }
+    static int I() throws IOException {
+    	st.nextToken();
+    	return (int)st.nval;
+    }
+    
+    static long gcd(long a,long b) {
+    	if(b == 0) return a;
+    	return gcd(b,a%b);
+    }
+    
+    static long fpow(long a,long b,long mod) {
+    	long res = 1;
+    	a%=mod;
+    	while(b>0) {
+    		if(b%2 == 1) res = res*a%mod;
+    		a = a*a%mod;
+    		b/=2;
+    	}
+    	return res;
+    }
+    
+    
+    static void solve() throws IOException{
+    	long a = sc.nextLong(),b = sc.nextLong();
+    	if(a >b) {
+    		long z = a;
+    		z = b;b = z;
+    	}
+    	if(a == 1 || a == 2) {
+    		pw.println(""niuniu"");return;
+    	}
+    	if(a == b) {
+    		pw.println(""niumei"");return;
+    	}
+    	else {
+    		pw.println(""niuniu"");
+    	}
+    }
+}"
+26,D,Java,60154007,2023-01-06 20:32:10,人工智能3211江海洋,答案错误,"import java.io.*;
+import java.util.*;
+import java.math.*;
+
+public class Main {
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader in = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        TaskA solver = new TaskA();
+        solver.solve(1, in, out);
+        out.close();
+    }
+
+    static class TaskA {
+        public void solve(int testNumber, InputReader in, PrintWriter out) {
+            int t = in.nextInt();
+            while (t-->0){
+                long a = in.nextLong();
+                long b = in.nextLong();
+                if(a>b){
+                    long tt = a;
+                    a = b;
+                    b = tt;
+                }
+                if(a>=3&&b>=3){
+                    long c1 = (a-3)/3,yu1 = (a-3)%3;
+                    long c2 = (b-3)/3,yu2 = (b-3)%3;
+                    if (c1==c2&&yu1==0&&yu2==0)
+                        out.println(""niumei"");
+                    else
+                        out.println(""niuniu"");
+                }
+                else
+                    out.println(""niuniu"");
+            }
+
+        }
+    }
+
+    static class InputReader {
+        public BufferedReader reader;
+        public StringTokenizer tokenizer;
+
+        public InputReader(InputStream stream) {
+            reader = new BufferedReader(new InputStreamReader(stream), 32768);
+            tokenizer = null;
+        }
+
+        boolean hasNext() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (Exception e) {
+                    return false;
+                    // TODO: handle exception
+                }
+            }
+            return true;
+        }
+
+        public String next() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return tokenizer.nextToken();
+        }
+
+        public String nextLine() {
+            String str = null;
+            try {
+                str = reader.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return str;
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        public double nextDouble() {
+            return Double.parseDouble(next());
+        }
+
+        public long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        public BigInteger nextBigInteger() {
+            return new BigInteger(next());
+        }
+
+        public BigDecimal nextBigDecimal() {
+            return new BigDecimal(next());
+        }
+
+
+    }
+}
+"
+27,D,Java,60154072,2023-01-06 20:32:50,it`s_all_good_man,答案错误,"import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+        new Main().process();
+    }
+
+    public void process(){
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        for(int i = 0; i < n; i++){
+            long a = sc.nextLong(), b = sc.nextLong();
+            if(a == b)  System.out.println(""niumei"");
+            else {
+                a = a < b ? a : b;
+                System.out.println(a % 3 != 0 ? ""niuniu"" : ""niumei"");
+            }
+            //System.out.println(Math.max(a, b) >= 2 && Math.min(a, b) >= 1 ? ""niuniu"" : ""niumei"");
+        }
+    }
+}"
+28,D,Java,60154301,2023-01-06 20:34:43,人工智能3211江海洋,答案错误,"import java.io.*;
+import java.util.*;
+import java.math.*;
+
+public class Main {
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader in = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        TaskA solver = new TaskA();
+        solver.solve(1, in, out);
+        out.close();
+    }
+
+    static class TaskA {
+        public void solve(int testNumber, InputReader in, PrintWriter out) {
+            int t = in.nextInt();
+            while (t-->0){
+                long a = in.nextLong();
+                long b = in.nextLong();
+                if(a>b){
+                    long tt = a;
+                    a = b;
+                    b = tt;
+                }
+                
+                if(a>=3&&b>=3){
+                    long c1 = (a-3)/3,yu1 = (a-3)%3;
+                    long c2 = (b-3)/3,yu2 = (b-3)%3;
+                    if (c1==c2&&yu1==0&&yu2==0)
+                        out.println(""niumei"");
+                    else
+                        out.println(""niuniu"");
+                }
+                else if(a==1&&b==1)
+                    out.println(""niumei"");
+                else 
+                    out.println(""niuniu"");
+            }
+
+        }
+    }
+
+    static class InputReader {
+        public BufferedReader reader;
+        public StringTokenizer tokenizer;
+
+        public InputReader(InputStream stream) {
+            reader = new BufferedReader(new InputStreamReader(stream), 32768);
+            tokenizer = null;
+        }
+
+        boolean hasNext() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (Exception e) {
+                    return false;
+                    // TODO: handle exception
+                }
+            }
+            return true;
+        }
+
+        public String next() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return tokenizer.nextToken();
+        }
+
+        public String nextLine() {
+            String str = null;
+            try {
+                str = reader.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return str;
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        public double nextDouble() {
+            return Double.parseDouble(next());
+        }
+
+        public long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        public BigInteger nextBigInteger() {
+            return new BigInteger(next());
+        }
+
+        public BigDecimal nextBigDecimal() {
+            return new BigDecimal(next());
+        }
+
+
+    }
+}
+"
+29,D,Java,60154331,2023-01-06 20:35:08,PhantomBluRay,执行出错,"import java.util.Scanner;
+
+public class Main {
+    public static void output(long a,long b){
+        long min = Math.min(a/3, b/3);
+        int aless = (int)(a - min*3);
+        int bless = (int)(b - min*3);
+
+        if(Math.min(aless, bless)>0){
+            System.out.println(""niuniu"");
+        }else{
+            System.out.println(""niumei"");
+        }
+    }
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        long[][] stone = new long[n][2];
+
+        for(int i = 0;i < n;i++){
+            stone[i][0] = sc.nextInt();
+            stone[i][1] = sc.nextInt();
+        }
+
+        for(int i = 0;i < n;i++){
+            output(stone[i][0], stone[i][1]);
+        }
+    }
+}"
+30,D,Java,60154783,2023-01-06 20:38:52,人工智能3211江海洋,答案错误,"import java.io.*;
+import java.util.*;
+import java.math.*;
+
+public class Main {
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader in = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        TaskA solver = new TaskA();
+        solver.solve(1, in, out);
+        out.close();
+    }
+
+    static class TaskA {
+        public void solve(int testNumber, InputReader in, PrintWriter out) {
+            int t = in.nextInt();
+            while (t-->0){
+                long a = in.nextLong();
+                long b = in.nextLong();
+                if(a>b){
+                    long tt = a;
+                    a = b;
+                    b = tt;
+                }
+
+                if(a>=3&&b>=3){
+                    long c1 = a/3;
+                    long c2 = b/3;
+                    if (c1==c2)
+                        out.println(""niumei"");
+                    else
+                        out.println(""niuniu"");
+                }
+                else if(a==1&&b==1)
+                    out.println(""niumei"");
+                else
+                    out.println(""niuniu"");
+            }
+
+        }
+    }
+
+    static class InputReader {
+        public BufferedReader reader;
+        public StringTokenizer tokenizer;
+
+        public InputReader(InputStream stream) {
+            reader = new BufferedReader(new InputStreamReader(stream), 32768);
+            tokenizer = null;
+        }
+
+        boolean hasNext() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (Exception e) {
+                    return false;
+                    // TODO: handle exception
+                }
+            }
+            return true;
+        }
+
+        public String next() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return tokenizer.nextToken();
+        }
+
+        public String nextLine() {
+            String str = null;
+            try {
+                str = reader.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return str;
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        public double nextDouble() {
+            return Double.parseDouble(next());
+        }
+
+        public long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        public BigInteger nextBigInteger() {
+            return new BigInteger(next());
+        }
+
+        public BigDecimal nextBigDecimal() {
+            return new BigDecimal(next());
+        }
+
+
+    }
+}
+"
+31,D,Java,60154898,2023-01-06 20:39:52,牛客935801330号（人工智能3211吴华聪）,答案错误,"
+
+
+
+
+
+
+
+
+
+
+
+import java.io.*;
+import java.util.*;
+import java.math.*;
+
+public class Main {
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader in = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        TaskA solver = new TaskA();
+        solver.solve(1, in, out);
+        out.close();
+    }
+
+    static class TaskA {
+
+        public void solve(int testNumber, InputReader in, PrintWriter out) {
+            int t=in.nextInt();
+            for (int i = 0; i <t ; i++) {
+                long a=in.nextLong();
+                long b=in.nextLong();
+                long x1=2,x2=3;
+                long min=a>b?b:a;
+                if(min==1){
+                    out.println(""niuniu"");
+                }
+                else {
+                    if(min%x1==0){
+                        long z=min/x1;
+                        if(z%x1==0){
+                            out.println(""niumei"");
+                        }
+                        else {
+                            out.println(""niuniu"");
+                        }
+                    }
+                    else {
+                        if(min%x2==0){
+                            out.println(""niumei"");
+                        }
+                        else {
+                            out.println(""niuniu"");
+                        }
+                    }
+                }
+            }
+
+        }
+
+
+    }
+    static class InputReader {
+        public BufferedReader reader;
+        public StringTokenizer tokenizer;
+
+        public InputReader(InputStream stream) {
+            reader = new BufferedReader(new InputStreamReader(stream), 32768);
+            tokenizer = null;
+        }
+        boolean hasNext()
+        {
+            while (tokenizer == null || !tokenizer.hasMoreTokens())
+            {
+                try
+                {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (Exception e)
+                {
+                    return false;
+                    // TODO: handle exception
+                }
+            }
+            return true;
+        }
+        public String next() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return tokenizer.nextToken();
+        }
+        public String nextLine()
+        {
+            String str = null;
+            try
+            {
+                str = reader.readLine();
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            return str;
+        }
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+        public double nextDouble(){
+            return Double.parseDouble(next());
+        }
+        public long nextLong(){
+            return Long.parseLong(next());
+        }
+        public BigInteger nextBigInteger()
+        {
+            return new BigInteger(next());
+        }
+        public BigDecimal nextBigDecimal()
+        {
+            return new BigDecimal(next());
+        }
+
+    }
+}"
+32,D,Java,60154949,2023-01-06 20:40:13,人工智能3212卢明涛,执行出错,"import java.util.Arrays;
+import java.io.*;
+import java.util.*;
+import java.math.*;
+
+public class Main {
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader in = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        TaskA solver = new TaskA();
+        solver.solve(1, in, out);
+        out.close();
+    }
+
+    static class TaskA {
+        static int f2(int n){
+            if (n==1){
+                return 1;
+            }
+            else if (n==2){
+                return 2;
+            }
+            else{
+                return f2(n-1)+f2(n-2);
+            }
+        }
+        static int qpow(int a, int n)
+        {
+            if (n == 0)
+                return 1;
+            else if (n % 2 == 1)
+                return qpow(a, n - 1) * 2 % 10000;
+            else
+            {
+                int temp = qpow(a, n / 2) % 10000;
+                return temp * temp % 10000;
+            }
+        }
+        static int f3(int a){
+            if (a==1){
+                return 1;
+            }
+            else if (a==2){
+                return 2;
+            }
+            else{
+                return (f3(a-1)+(a-1)*f3(a-2)) % 1000000007;
+            }
+        }
+        int Two(List<Integer> list, int target){
+            int l = 0, r = list.size() - 1;
+            while(l <= r){
+                int mid = l + (r-l) / 2;
+                if(list.get(mid) == target){
+                    return mid;
+                }else if(list.get(mid)  < target) {
+                    l = mid + 1;
+                }else {
+                    r = mid - 1;
+                }
+            }
+            return -1;
+        }
+        public void solve(int testNumber, InputReader in, PrintWriter out) {
+            int n = in.nextInt();
+            while (n-->0){
+                int a = in.nextInt();
+                int b = in.nextInt();
+                int min = Math.min(a,b) %3;
+                if (min>0){
+                    out.println(""niuniu"");
+                }
+                else{
+                    out.println(""niumei"");
+                }
+            }
+        }
+    }
+
+    static class InputReader {
+        public BufferedReader reader;
+        public StringTokenizer tokenizer;
+
+        public InputReader(InputStream stream) {
+            reader = new BufferedReader(new InputStreamReader(stream), 32768);
+            tokenizer = null;
+        }
+        boolean hasNext()
+        {
+            while (tokenizer == null || !tokenizer.hasMoreTokens())
+            {
+                try
+                {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (Exception e)
+                {
+                    return false;
+                    // TODO: handle exception
+                }
+            }
+            return true;
+        }
+        public String next() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return tokenizer.nextToken();
+        }
+        public String nextLine()
+        {
+            String str = null;
+            try
+            {
+                str = reader.readLine();
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            return str;
+        }
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+        public double nextDouble(){
+            return Double.parseDouble(next());
+        }
+        public long nextLong(){
+            return Long.parseLong(next());
+        }
+        public BigInteger nextBigInteger()
+        {
+            return new BigInteger(next());
+        }
+        public BigDecimal nextBigDecimal()
+        {
+            return new BigDecimal(next());
+        }
+
+    }
+}"
+33,D,Java,60155119,2023-01-06 20:41:40,迷你滨,答案错误,"import java.util.*;
+import java.io.*;
+import java.math.*;
+//那就是希望
+//即使需要取模，也是光明
+
+public class Main{
+	static int maxn = 200005,n,m,mod = (int)1e9+7;
+	static long INF = (long)1e18,ans = 0;
+	
+	static Scanner sc = new Scanner (System.in);
+	static BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+    static StreamTokenizer st  =new StreamTokenizer(bf);
+    static PrintWriter pw = new PrintWriter(new OutputStreamWriter(System.out));
+    public static void main(String[]args) throws IOException{
+    	int T = 1;
+    	T = sc.nextInt();
+        while(T-->0) solve();
+        pw.flush();
+    }
+    static int I() throws IOException {
+    	st.nextToken();
+    	return (int)st.nval;
+    }
+    
+    static long gcd(long a,long b) {
+    	if(b == 0) return a;
+    	return gcd(b,a%b);
+    }
+    
+    static long fpow(long a,long b,long mod) {
+    	long res = 1;
+    	a%=mod;
+    	while(b>0) {
+    		if(b%2 == 1) res = res*a%mod;
+    		a = a*a%mod;
+    		b/=2;
+    	}
+    	return res;
+    }
+    
+    
+    static void solve() throws IOException{
+    	long a = sc.nextLong(),b = sc.nextLong();
+    	if(a >b) {
+    		long z = a;
+    		z = b;b = z;
+    	}
+    	if(a == 1 || a == 2) {
+    		pw.println(""niuniu"");return;
+    	}
+    	if(a == b && ((a+2%3 == 0) || a%3 == 0)) {
+    		pw.println(""niumei"");return;
+    	}
+    	else {
+    		pw.println(""niuniu"");
+    	}
+    }
+}"
+34,D,Java,60155120,2023-01-06 20:41:41,人工智能3212卢明涛,答案错误,"import java.util.Arrays;
+import java.io.*;
+import java.util.*;
+import java.math.*;
+
+public class Main {
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader in = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        TaskA solver = new TaskA();
+        solver.solve(1, in, out);
+        out.close();
+    }
+
+    static class TaskA {
+        static int f2(int n){
+            if (n==1){
+                return 1;
+            }
+            else if (n==2){
+                return 2;
+            }
+            else{
+                return f2(n-1)+f2(n-2);
+            }
+        }
+        static int qpow(int a, int n)
+        {
+            if (n == 0)
+                return 1;
+            else if (n % 2 == 1)
+                return qpow(a, n - 1) * 2 % 10000;
+            else
+            {
+                int temp = qpow(a, n / 2) % 10000;
+                return temp * temp % 10000;
+            }
+        }
+        static int f3(int a){
+            if (a==1){
+                return 1;
+            }
+            else if (a==2){
+                return 2;
+            }
+            else{
+                return (f3(a-1)+(a-1)*f3(a-2)) % 1000000007;
+            }
+        }
+        int Two(List<Integer> list, int target){
+            int l = 0, r = list.size() - 1;
+            while(l <= r){
+                int mid = l + (r-l) / 2;
+                if(list.get(mid) == target){
+                    return mid;
+                }else if(list.get(mid)  < target) {
+                    l = mid + 1;
+                }else {
+                    r = mid - 1;
+                }
+            }
+            return -1;
+        }
+        public void solve(int testNumber, InputReader in, PrintWriter out) {
+            int n = in.nextInt();
+            while (n-->0){
+                long a = in.nextLong();
+                long b = in.nextLong();
+                long min = Math.min(a,b) %3;
+                if (min>0){
+                    out.println(""niuniu"");
+                }
+                else{
+                    out.println(""niumei"");
+                }
+            }
+        }
+    }
+
+    static class InputReader {
+        public BufferedReader reader;
+        public StringTokenizer tokenizer;
+
+        public InputReader(InputStream stream) {
+            reader = new BufferedReader(new InputStreamReader(stream), 32768);
+            tokenizer = null;
+        }
+        boolean hasNext()
+        {
+            while (tokenizer == null || !tokenizer.hasMoreTokens())
+            {
+                try
+                {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (Exception e)
+                {
+                    return false;
+                    // TODO: handle exception
+                }
+            }
+            return true;
+        }
+        public String next() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return tokenizer.nextToken();
+        }
+        public String nextLine()
+        {
+            String str = null;
+            try
+            {
+                str = reader.readLine();
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            return str;
+        }
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+        public double nextDouble(){
+            return Double.parseDouble(next());
+        }
+        public long nextLong(){
+            return Long.parseLong(next());
+        }
+        public BigInteger nextBigInteger()
+        {
+            return new BigInteger(next());
+        }
+        public BigDecimal nextBigDecimal()
+        {
+            return new BigDecimal(next());
+        }
+
+    }
+}"
+35,D,Java,60155192,2023-01-06 20:42:20,迷你滨,答案错误,"import java.util.*;
+import java.io.*;
+import java.math.*;
+//那就是希望
+//即使需要取模，也是光明
+
+public class Main{
+	static int maxn = 200005,n,m,mod = (int)1e9+7;
+	static long INF = (long)1e18,ans = 0;
+	
+	static Scanner sc = new Scanner (System.in);
+	static BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+    static StreamTokenizer st  =new StreamTokenizer(bf);
+    static PrintWriter pw = new PrintWriter(new OutputStreamWriter(System.out));
+    public static void main(String[]args) throws IOException{
+    	int T = 1;
+    	T = sc.nextInt();
+        while(T-->0) solve();
+        pw.flush();
+    }
+    static int I() throws IOException {
+    	st.nextToken();
+    	return (int)st.nval;
+    }
+    
+    static long gcd(long a,long b) {
+    	if(b == 0) return a;
+    	return gcd(b,a%b);
+    }
+    
+    static long fpow(long a,long b,long mod) {
+    	long res = 1;
+    	a%=mod;
+    	while(b>0) {
+    		if(b%2 == 1) res = res*a%mod;
+    		a = a*a%mod;
+    		b/=2;
+    	}
+    	return res;
+    }
+    
+    
+    static void solve() throws IOException{
+    	long a = sc.nextLong(),b = sc.nextLong();
+    	if(a >b) {
+    		long z = a;
+    		z = b;b = z;
+    	}
+    	if(a == 1 || a == 2) {
+    		pw.println(""niuniu"");return;
+    	}
+    	if(a == b && (((a+2) %3 == 0) || a%3 == 0)) {
+    		pw.println(""niumei"");return;
+    	}
+    	else {
+    		pw.println(""niuniu"");
+    	}
+    }
+}"
+36,D,Java,60155250,2023-01-06 20:42:52,刘映辰,执行出错,"import java.util.*;
+import java.lang.*;
+
+public class Main {
+    
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int test_count = in.nextInt();
+        boolean[][] state = new boolean[10][10];
+        for(int i = 0; i < 10; i++){
+            for(int j = 0; j < 10; j++){
+                if((i < 1 || j < 2) && (i < 2 || j < 1)){
+                    state[i][j] = false;
+                }
+                else{
+                    if(i - 1 >= 0 && j - 2 >= 0){
+                        state[i][j] = state[i][j] ? true : !state[i-1][j-2];
+                    }
+                    if(i - 2 >= 0 && j - 1 >= 0){
+                        state[i][j] = state[i][j] ? true : !state[i-2][j-1];
+                    }
+                }
+            }
+        }
+        for(int i = 0; i < test_count; i++){
+            long a = in.nextLong();
+            long b = in.nextLong();
+            long max = Math.min(a / 3, b / 3);
+            max = Math.max(max - 3, 0);
+            a -= max * 3;
+            b -= max * 3;
+            
+            if(state[(int)a][(int)b]){
+                System.out.println(""niuniu"");
+            }
+            else{
+                System.out.println(""niumei"");
+            }
+        }
+    }
+}"
+37,D,Java,60155515,2023-01-06 20:45:19,迷你滨,答案错误,"import java.util.*;
+import java.io.*;
+import java.math.*;
+//那就是希望
+//即使需要取模，也是光明
+
+public class Main{
+	static int maxn = 200005,n,m,mod = (int)1e9+7;
+	static long INF = (long)1e18,ans = 0;
+	
+	static Scanner sc = new Scanner (System.in);
+	static BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+    static StreamTokenizer st  =new StreamTokenizer(bf);
+    static PrintWriter pw = new PrintWriter(new OutputStreamWriter(System.out));
+    public static void main(String[]args) throws IOException{
+    	int T = 1;
+    	T = sc.nextInt();
+        while(T-->0) solve();
+        pw.flush();
+    }
+    static int I() throws IOException {
+    	st.nextToken();
+    	return (int)st.nval;
+    }
+    
+    static long gcd(long a,long b) {
+    	if(b == 0) return a;
+    	return gcd(b,a%b);
+    }
+    
+    static long fpow(long a,long b,long mod) {
+    	long res = 1;
+    	a%=mod;
+    	while(b>0) {
+    		if(b%2 == 1) res = res*a%mod;
+    		a = a*a%mod;
+    		b/=2;
+    	}
+    	return res;
+    }
+    
+    
+    static void solve() throws IOException{
+    	long a = sc.nextLong(),b = sc.nextLong();
+    	if(a >b) {
+    		long z = a;
+    		z = b;b = z;
+    	}
+    	if(a == 1 || a == 2) {
+    		pw.println(""niuniu"");return;
+    	}
+        if(a == 3) {
+    		pw.println(""niumei"");return;
+    	}
+    	if(a == b && (((a+2) %3 == 0) || a%3 == 0)) {
+    		pw.println(""niumei"");return;
+    	}
+    	else {
+    		pw.println(""niuniu"");
+    	}
+    }
+}"
+38,D,Java,60155870,2023-01-06 20:48:33,牛客935801330号（人工智能3211吴华聪）,答案错误,"
+
+
+
+
+
+
+
+
+
+
+
+import java.io.*;
+import java.util.*;
+import java.math.*;
+
+public class Main {
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader in = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        TaskA solver = new TaskA();
+        solver.solve(1, in, out);
+        out.close();
+    }
+
+    static class TaskA {
+
+        public void solve(int testNumber, InputReader in, PrintWriter out) {
+            int t=in.nextInt();
+            for (int i = 0; i <t ; i++) {
+                long a=in.nextLong();
+                long b=in.nextLong();
+                long x2=3;
+                long min=a>b?b:a;
+                if(min==1){
+                    out.println(""niuniu"");
+                }
+                else {
+                        if(min%x2==0){
+                            out.println(""niumei"");
+                        }
+                        else {
+                            out.println(""niuniu"");
+                        }
+                   
+                }
+            }
+
+        }
+
+
+    }
+    static class InputReader {
+        public BufferedReader reader;
+        public StringTokenizer tokenizer;
+
+        public InputReader(InputStream stream) {
+            reader = new BufferedReader(new InputStreamReader(stream), 32768);
+            tokenizer = null;
+        }
+        boolean hasNext()
+        {
+            while (tokenizer == null || !tokenizer.hasMoreTokens())
+            {
+                try
+                {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (Exception e)
+                {
+                    return false;
+                    // TODO: handle exception
+                }
+            }
+            return true;
+        }
+        public String next() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return tokenizer.nextToken();
+        }
+        public String nextLine()
+        {
+            String str = null;
+            try
+            {
+                str = reader.readLine();
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            return str;
+        }
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+        public double nextDouble(){
+            return Double.parseDouble(next());
+        }
+        public long nextLong(){
+            return Long.parseLong(next());
+        }
+        public BigInteger nextBigInteger()
+        {
+            return new BigInteger(next());
+        }
+        public BigDecimal nextBigDecimal()
+        {
+            return new BigDecimal(next());
+        }
+
+    }
+}"
+39,D,Java,60155962,2023-01-06 20:49:11,刘映辰,答案错误,"import java.util.*;
+import java.lang.*;
+
+public class Main {
+    
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int test_count = in.nextInt();
+        
+        for(int i = 0; i < test_count; i++){
+            long a = in.nextLong();
+            long b = in.nextLong();
+            long max = Math.min(a / 3, b / 3);
+            max = Math.max(max - 3, 0);
+            a -= max * 3;
+            b -= max * 3;
+            
+            int test = Math.min((int)a, (int)b);
+            
+            boolean[] state = new boolean[Math.max(test + 1, 10)];
+            state[1] = true;
+            state[2] = true;
+            for(int j = 3; j <= Math.max(test, 9); j++){
+                state[j] = !state[j - 1] && !state[j - 2];
+            }
+            
+            if(state[test]){
+                System.out.println(""niuniu"");
+            }
+            else{
+                System.out.println(""niumei"");
+            }
+        }
+    }
+}"
+40,D,Java,60155985,2023-01-06 20:49:25,人工智能3212卢明涛,答案错误,"import java.util.Arrays;
+import java.io.*;
+import java.util.*;
+import java.math.*;
+
+public class Main {
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader in = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        TaskA solver = new TaskA();
+        solver.solve(1, in, out);
+        out.close();
+    }
+
+    static class TaskA {
+        static int f2(int n){
+            if (n==1){
+                return 1;
+            }
+            else if (n==2){
+                return 2;
+            }
+            else{
+                return f2(n-1)+f2(n-2);
+            }
+        }
+        static int qpow(int a, int n)
+        {
+            if (n == 0)
+                return 1;
+            else if (n % 2 == 1)
+                return qpow(a, n - 1) * 2 % 10000;
+            else
+            {
+                int temp = qpow(a, n / 2) % 10000;
+                return temp * temp % 10000;
+            }
+        }
+        static int f3(int a){
+            if (a==1){
+                return 1;
+            }
+            else if (a==2){
+                return 2;
+            }
+            else{
+                return (f3(a-1)+(a-1)*f3(a-2)) % 1000000007;
+            }
+        }
+        int Two(List<Integer> list, int target){
+            int l = 0, r = list.size() - 1;
+            while(l <= r){
+                int mid = l + (r-l) / 2;
+                if(list.get(mid) == target){
+                    return mid;
+                }else if(list.get(mid)  < target) {
+                    l = mid + 1;
+                }else {
+                    r = mid - 1;
+                }
+            }
+            return -1;
+        }
+        public void solve(int testNumber, InputReader in, PrintWriter out) {
+            int n = in.nextInt();
+            while (n-->0){
+                long a = in.nextLong();
+                long b = in.nextLong();
+                long min = Math.min(a,b);
+                long max = Math.max(a,b);
+                if (min<1 || max<2){
+                    out.println(""niumei"");
+                }
+                else if (min==1 && max==2){
+                    out.println(""niuniu"");
+                }
+                else if (min %3==1){
+                    out.println(""niumei"");
+                }
+                else if (min %3==2){
+                    out.println(""niuniu"");
+                }
+                else {
+                    out.println(""niumei"");
+                }
+            }
+        }
+    }
+
+    static class InputReader {
+        public BufferedReader reader;
+        public StringTokenizer tokenizer;
+
+        public InputReader(InputStream stream) {
+            reader = new BufferedReader(new InputStreamReader(stream), 32768);
+            tokenizer = null;
+        }
+        boolean hasNext()
+        {
+            while (tokenizer == null || !tokenizer.hasMoreTokens())
+            {
+                try
+                {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (Exception e)
+                {
+                    return false;
+                    // TODO: handle exception
+                }
+            }
+            return true;
+        }
+        public String next() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return tokenizer.nextToken();
+        }
+        public String nextLine()
+        {
+            String str = null;
+            try
+            {
+                str = reader.readLine();
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            return str;
+        }
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+        public double nextDouble(){
+            return Double.parseDouble(next());
+        }
+        public long nextLong(){
+            return Long.parseLong(next());
+        }
+        public BigInteger nextBigInteger()
+        {
+            return new BigInteger(next());
+        }
+        public BigDecimal nextBigDecimal()
+        {
+            return new BigDecimal(next());
+        }
+
+    }
+}"
+41,D,Java,60156198,2023-01-06 20:51:18,刘映辰,答案错误,"import java.util.*;
+import java.lang.*;
+
+public class Main {
+    
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int test_count = in.nextInt();
+        
+        for(int i = 0; i < test_count; i++){
+            long a = in.nextLong();
+            long b = in.nextLong();
+            long max = Math.min(a / 3, b / 3);
+            max = Math.max(max - 1, 0);
+            a -= max * 3;
+            b -= max * 3;
+            
+            long test = Math.min(a, b);
+            
+            boolean[] state = new boolean[6];
+            state[1] = true;
+            state[2] = true;
+            for(int j = 3; j <= 5; j++){
+                state[j] = !state[j - 1] && !state[j - 2];
+            }
+            
+            if(state[(int)test]){
+                System.out.println(""niuniu"");
+            }
+            else{
+                System.out.println(""niumei"");
+            }
+        }
+    }
+}"
+42,D,Java,60156321,2023-01-06 20:52:24,Floating_Ocean,答案错误,"import java.math.BigInteger;
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int t = scanner.nextInt();
+        while(t -- > 0){
+            BigInteger a = new BigInteger(scanner.next()), b = new BigInteger(scanner.next());
+            if(a.divide(b).compareTo(BigInteger.valueOf(2)) > 0){
+                System.out.println(b.mod(BigInteger.valueOf(2)).compareTo(BigInteger.ZERO) == 0 ? ""niumei"" : ""niuniu"");
+            }else if(b.divide(a).compareTo(BigInteger.valueOf(2)) > 0){
+                System.out.println(a.mod(BigInteger.valueOf(2)).compareTo(BigInteger.ZERO) == 0 ? ""niumei"" : ""niuniu"");
+            }else{
+                BigInteger ans = a.subtract(b).abs(), min = a.compareTo(b) > 0 ? a : b;
+                ans.add(min.divide(BigInteger.valueOf(2)));
+                System.out.println(ans.mod(BigInteger.valueOf(2)).compareTo(BigInteger.ZERO) == 0 ? ""niumei"" : ""niuniu"");
+            }
+        }
+    }
+}"
+43,D,Java,60156478,2023-01-06 20:53:40,人工智能3211江海洋,答案错误,"import java.io.*;
+import java.util.*;
+import java.math.*;
+
+public class Main {
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader in = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        TaskA solver = new TaskA();
+        solver.solve(1, in, out);
+        out.close();
+    }
+
+    static class TaskA {
+        public void solve(int testNumber, InputReader in, PrintWriter out) {
+            int t = in.nextInt();
+            while (t-->0){
+                long a = in.nextLong();
+                long b = in.nextLong();
+                if(a>b){
+                    long tt = a;
+                    a = b;
+                    b = tt;
+                }
+
+                long c1 = a%3;
+                long c2 = b%3;
+                if(c1==0||c2==0||(c1==1&&c2==1))
+                    out.println(""niumei"");
+                else
+                    out.println(""niuniu"");
+            }
+
+        }
+    }
+
+    static class InputReader {
+        public BufferedReader reader;
+        public StringTokenizer tokenizer;
+
+        public InputReader(InputStream stream) {
+            reader = new BufferedReader(new InputStreamReader(stream), 32768);
+            tokenizer = null;
+        }
+
+        boolean hasNext() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (Exception e) {
+                    return false;
+                    // TODO: handle exception
+                }
+            }
+            return true;
+        }
+
+        public String next() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return tokenizer.nextToken();
+        }
+
+        public String nextLine() {
+            String str = null;
+            try {
+                str = reader.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return str;
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        public double nextDouble() {
+            return Double.parseDouble(next());
+        }
+
+        public long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        public BigInteger nextBigInteger() {
+            return new BigInteger(next());
+        }
+
+        public BigDecimal nextBigDecimal() {
+            return new BigDecimal(next());
+        }
+
+
+    }
+}
+"
+44,D,Java,60156622,2023-01-06 20:55:09,刘映辰,执行出错,"import java.util.*;
+import java.lang.*;
+
+public class Main {
+    
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int test_count = in.nextInt();
+        
+        for(int i = 0; i < test_count; i++){
+            long a = in.nextLong();
+            long b = in.nextLong();
+            long max = Math.min(a / 3, b / 3);
+            max = Math.max(max - 7, 0);
+            a -= max * 3;
+            b -= max * 3;
+            
+            long test = Math.min(a, b);
+            
+            boolean[] state = new boolean[22];
+            state[1] = true;
+            state[2] = true;
+            for(int j = 3; j <= 21; j++){
+                state[j] = !state[j - 1] && !state[j - 2];
+            }
+            
+            if(state[(int)test]){
+                System.out.println(""niuniu"");
+            }
+            else{
+                System.out.println(""niumei"");
+            }
+        }
+    }
+}"
+45,D,Java,60156668,2023-01-06 20:55:34,人工智能3212卢明涛,答案错误,"import java.util.Arrays;
+import java.io.*;
+import java.util.*;
+import java.math.*;
+
+public class Main {
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader in = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        TaskA solver = new TaskA();
+        solver.solve(1, in, out);
+        out.close();
+    }
+
+    static class TaskA {
+        static int f2(int n){
+            if (n==1){
+                return 1;
+            }
+            else if (n==2){
+                return 2;
+            }
+            else{
+                return f2(n-1)+f2(n-2);
+            }
+        }
+        static int qpow(int a, int n)
+        {
+            if (n == 0)
+                return 1;
+            else if (n % 2 == 1)
+                return qpow(a, n - 1) * 2 % 10000;
+            else
+            {
+                int temp = qpow(a, n / 2) % 10000;
+                return temp * temp % 10000;
+            }
+        }
+        static int f3(int a){
+            if (a==1){
+                return 1;
+            }
+            else if (a==2){
+                return 2;
+            }
+            else{
+                return (f3(a-1)+(a-1)*f3(a-2)) % 1000000007;
+            }
+        }
+        int Two(List<Integer> list, int target){
+            int l = 0, r = list.size() - 1;
+            while(l <= r){
+                int mid = l + (r-l) / 2;
+                if(list.get(mid) == target){
+                    return mid;
+                }else if(list.get(mid)  < target) {
+                    l = mid + 1;
+                }else {
+                    r = mid - 1;
+                }
+            }
+            return -1;
+        }
+        public void solve(int testNumber, InputReader in, PrintWriter out) {
+            int n = in.nextInt();
+            while (n-->0){
+                long a = in.nextLong();
+                long b = in.nextLong();
+                long min = Math.min(a,b);
+                long max = Math.max(a,b);
+                long cha = max-min;
+                if (min<1 || max<2){
+                    out.println(""niumei"");
+                }
+                else if (min==1 && max==2){
+                    out.println(""niuniu"");
+                }
+                else if (min %3==1 && min ==max){
+                    out.println(""niumei"");
+                }
+                else if (min %3==2 && min == max){
+                    out.println(""niuniu"");
+                }
+                else if (min %3==0 && min == max){
+                    out.println(""niumei"");
+                }
+                else if (min % 3==1 && max-min>=2){
+                    out.println(""niuniu"");
+                }
+            }
+        }
+    }
+
+    static class InputReader {
+        public BufferedReader reader;
+        public StringTokenizer tokenizer;
+
+        public InputReader(InputStream stream) {
+            reader = new BufferedReader(new InputStreamReader(stream), 32768);
+            tokenizer = null;
+        }
+        boolean hasNext()
+        {
+            while (tokenizer == null || !tokenizer.hasMoreTokens())
+            {
+                try
+                {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (Exception e)
+                {
+                    return false;
+                    // TODO: handle exception
+                }
+            }
+            return true;
+        }
+        public String next() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return tokenizer.nextToken();
+        }
+        public String nextLine()
+        {
+            String str = null;
+            try
+            {
+                str = reader.readLine();
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            return str;
+        }
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+        public double nextDouble(){
+            return Double.parseDouble(next());
+        }
+        public long nextLong(){
+            return Long.parseLong(next());
+        }
+        public BigInteger nextBigInteger()
+        {
+            return new BigInteger(next());
+        }
+        public BigDecimal nextBigDecimal()
+        {
+            return new BigDecimal(next());
+        }
+
+    }
+}"
+46,D,Java,60156700,2023-01-06 20:55:58,刘映辰,执行出错,"import java.util.*;
+import java.lang.*;
+
+public class Main {
+    
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int test_count = in.nextInt();
+        
+        for(int i = 0; i < test_count; i++){
+            long a = in.nextLong();
+            long b = in.nextLong();
+            long max = Math.min(a / 3, b / 3);
+            max = Math.max(max - 7, 0);
+            a -= max * 3;
+            b -= max * 3;
+            
+            long test = Math.min(a, b);
+            
+            boolean[] state = new boolean[22];
+            state[1] = true;
+            state[2] = true;
+            for(int j = 3; j <= 21; j++){
+                state[j] = !state[j - 1] & !state[j - 2];
+            }
+            
+            if(state[(int)test]){
+                System.out.println(""niuniu"");
+            }
+            else{
+                System.out.println(""niumei"");
+            }
+        }
+    }
+}"
+47,D,Java,60156892,2023-01-06 20:57:33,Floating_Ocean,答案错误,"import java.math.BigInteger;
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int t = scanner.nextInt();
+        while(t -- > 0){
+            BigInteger a = new BigInteger(scanner.next()), b = new BigInteger(scanner.next());
+            if(a.divide(b).compareTo(BigInteger.valueOf(2)) > 0){
+                System.out.println(b.mod(BigInteger.valueOf(2)).compareTo(BigInteger.ZERO) == 0 ? ""niumei"" : ""niuniu"");
+            }else if(b.divide(a).compareTo(BigInteger.valueOf(2)) > 0){
+                System.out.println(a.mod(BigInteger.valueOf(2)).compareTo(BigInteger.ZERO) == 0 ? ""niumei"" : ""niuniu"");
+            }else{
+                BigInteger ans = a.subtract(b).abs();
+                System.out.println(ans.mod(BigInteger.valueOf(2)).compareTo(BigInteger.ZERO) == 0 ? ""niumei"" : ""niuniu"");
+            }
+        }
+    }
+}"
+48,D,Java,60157079,2023-01-06 20:59:06,迷你滨,答案错误,"import java.util.*;
+import java.io.*;
+import java.math.*;
+//那就是希望
+//即使需要取模，也是光明
+
+public class Main{
+	static int maxn = 200005,n,m,mod = (int)1e9+7;
+	static long INF = (long)1e18,ans = 0;
+	
+	static Scanner sc = new Scanner (System.in);
+	static BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+    static StreamTokenizer st  =new StreamTokenizer(bf);
+    static PrintWriter pw = new PrintWriter(new OutputStreamWriter(System.out));
+    public static void main(String[]args) throws IOException{
+    	int T = 1;
+    	T = sc.nextInt();
+        while(T-->0) solve();
+        pw.flush();
+    }
+    static int I() throws IOException {
+    	st.nextToken();
+    	return (int)st.nval;
+    }
+    
+    static long gcd(long a,long b) {
+    	if(b == 0) return a;
+    	return gcd(b,a%b);
+    }
+    
+    static long fpow(long a,long b,long mod) {
+    	long res = 1;
+    	a%=mod;
+    	while(b>0) {
+    		if(b%2 == 1) res = res*a%mod;
+    		a = a*a%mod;
+    		b/=2;
+    	}
+    	return res;
+    }
+    
+    
+    static void solve() throws IOException{
+    	long a = sc.nextLong(),b = sc.nextLong();
+    	if(a >b) {
+    		long z = a;
+    		z = b;b = z;
+    	}
+    	if(a == 1 || a == 2) {
+    		pw.println(""niuniu"");return;
+    	}
+        if(a == 3) {
+    		pw.println(""niumei"");return;
+    	}
+    	if(a == b && (((a+2) %3 == 0) || a%3 == 0)) {
+    		pw.println(""niumei"");return;
+    	}
+    	else {
+    		pw.println(""niuniu"");
+    	}
+    }
+}"
+49,D,Java,60157187,2023-01-06 20:59:44,人工智能3212卢明涛,答案错误,"import java.util.Arrays;
+import java.io.*;
+import java.util.*;
+import java.math.*;
+
+public class Main {
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader in = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        TaskA solver = new TaskA();
+        solver.solve(1, in, out);
+        out.close();
+    }
+
+    static class TaskA {
+        static int f2(int n){
+            if (n==1){
+                return 1;
+            }
+            else if (n==2){
+                return 2;
+            }
+            else{
+                return f2(n-1)+f2(n-2);
+            }
+        }
+        static int qpow(int a, int n)
+        {
+            if (n == 0)
+                return 1;
+            else if (n % 2 == 1)
+                return qpow(a, n - 1) * 2 % 10000;
+            else
+            {
+                int temp = qpow(a, n / 2) % 10000;
+                return temp * temp % 10000;
+            }
+        }
+        static int f3(int a){
+            if (a==1){
+                return 1;
+            }
+            else if (a==2){
+                return 2;
+            }
+            else{
+                return (f3(a-1)+(a-1)*f3(a-2)) % 1000000007;
+            }
+        }
+        int Two(List<Integer> list, int target){
+            int l = 0, r = list.size() - 1;
+            while(l <= r){
+                int mid = l + (r-l) / 2;
+                if(list.get(mid) == target){
+                    return mid;
+                }else if(list.get(mid)  < target) {
+                    l = mid + 1;
+                }else {
+                    r = mid - 1;
+                }
+            }
+            return -1;
+        }
+        public void solve(int testNumber, InputReader in, PrintWriter out) {
+            int n = in.nextInt();
+            while (n-->0){
+                long a = in.nextLong();
+                long b = in.nextLong();
+                long min = Math.min(a,b);
+                long max = Math.max(a,b);
+                long cha = max-min;
+                if (min<1 || max<2){
+                    out.println(""niumei"");
+                }
+                else if (min==1 && max==2){
+                    out.println(""niuniu"");
+                }
+                else if (min %3==1 && min ==max){
+                    out.println(""niumei"");
+                }
+                else if (min %3==2 && min == max){
+                    out.println(""niuniu"");
+                }
+                else if (min %3==0 && min == max){
+                    out.println(""niumei"");
+                }
+                else if (min % 3==1 && max-min>=2){
+                    out.println(""niuniu"");
+                }
+                else {
+                    out.println(""niuniu"");
+                }
+            }
+        }
+    }
+
+    static class InputReader {
+        public BufferedReader reader;
+        public StringTokenizer tokenizer;
+
+        public InputReader(InputStream stream) {
+            reader = new BufferedReader(new InputStreamReader(stream), 32768);
+            tokenizer = null;
+        }
+        boolean hasNext()
+        {
+            while (tokenizer == null || !tokenizer.hasMoreTokens())
+            {
+                try
+                {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (Exception e)
+                {
+                    return false;
+                    // TODO: handle exception
+                }
+            }
+            return true;
+        }
+        public String next() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return tokenizer.nextToken();
+        }
+        public String nextLine()
+        {
+            String str = null;
+            try
+            {
+                str = reader.readLine();
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            return str;
+        }
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+        public double nextDouble(){
+            return Double.parseDouble(next());
+        }
+        public long nextLong(){
+            return Long.parseLong(next());
+        }
+        public BigInteger nextBigInteger()
+        {
+            return new BigInteger(next());
+        }
+        public BigDecimal nextBigDecimal()
+        {
+            return new BigDecimal(next());
+        }
+
+    }
+}"
+50,D,Java,60157231,2023-01-06 20:59:57,acwing-青山_12,答案错误,"import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
+
+// 注意类名必须为 Main, 不要有任何 package xxx 信息
+public class Main {
+    public static void main(String[] args) {
+        MyScanner in = new MyScanner();
+        // 注意 hasNext 和 hasNextLine 的区别
+        int t = in.nextInt();
+        long a, b;
+        while (t-- > 0) {
+            a = in.nextLong(); b = in.nextLong();
+            long u = Math.min(a / 3, b / 3);
+            if (u % 2 == 0) System.out.println(""niuniu"");
+            else System.out.println(""niumei"");
+        }
+    }
+    public static class MyScanner {
+        BufferedReader br;
+        StringTokenizer st;
+
+        public MyScanner() {
+            br = new BufferedReader(new InputStreamReader(System.in));
+        }
+
+        String next() {
+            while (st == null || !st.hasMoreElements()) {
+                try {
+                    st = new StringTokenizer(br.readLine());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return st.nextToken();
+        }
+
+        int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        double nextDouble() {
+            return Double.parseDouble(next());
+        }
+
+        String nextLine() {
+            String str = """";
+            try {
+                str = br.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return str;
+        }
+    }
+
+}"
+51,D,Java,60157361,2023-01-06 21:00:56,迷你滨,答案错误,"import java.util.*;
+import java.io.*;
+import java.math.*;
+//那就是希望
+//即使需要取模，也是光明
+
+public class Main{
+	static int maxn = 200005,n,m,mod = (int)1e9+7;
+	static long INF = (long)1e18,ans = 0;
+	
+	static Scanner sc = new Scanner (System.in);
+	static BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+    static StreamTokenizer st  =new StreamTokenizer(bf);
+    static PrintWriter pw = new PrintWriter(new OutputStreamWriter(System.out));
+    public static void main(String[]args) throws IOException{
+    	int T = 1;
+    	T = sc.nextInt();
+        while(T-->0) solve();
+        pw.flush();
+    }
+    static int I() throws IOException {
+    	st.nextToken();
+    	return (int)st.nval;
+    }
+    
+    static long gcd(long a,long b) {
+    	if(b == 0) return a;
+    	return gcd(b,a%b);
+    }
+    
+    static long fpow(long a,long b,long mod) {
+    	long res = 1;
+    	a%=mod;
+    	while(b>0) {
+    		if(b%2 == 1) res = res*a%mod;
+    		a = a*a%mod;
+    		b/=2;
+    	}
+    	return res;
+    }
+    
+    
+    static void solve() throws IOException{
+    	long a = sc.nextLong(),b = sc.nextLong();
+    	if(a >b) {
+    		long z = a;
+    		z = b;b = z;
+    	}
+    	if(a == 1 || a == 2) {
+    		pw.println(""niuniu"");return;
+    	}
+        if(a == 3) {
+    		pw.println(""niumei"");return;
+    	}
+    	if(a == b && (((a+2) %3 == 0) || a%3 == 0)) {
+    		pw.println(""niumei"");return;
+    	}
+    	else {
+    		if(a %3 == 0) pw.print(""niumei"");
+            else pw.print(""niuniu"");
+            
+    	}
+    }
+}"
+52,D,Java,60157406,2023-01-06 21:01:22,人工智能3211江海洋,答案错误,"import java.io.*;
+import java.util.*;
+import java.math.*;
+
+public class Main {
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader in = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        TaskA solver = new TaskA();
+        solver.solve(1, in, out);
+        out.close();
+    }
+
+    static class TaskA {
+        public void solve(int testNumber, InputReader in, PrintWriter out) {
+            int t = in.nextInt();
+            while (t-->0){
+                long a = in.nextLong();
+                long b = in.nextLong();
+                if(a>b){
+                    long tt = a;
+                    a = b;
+                    b = tt;
+                }
+                long c1 = a%3;
+                long c2 = b%3;
+                
+                if(c1==0||c2==0||(c1==1&&c2==1&&a==b))
+                    out.println(""niumei"");
+                else
+                    out.println(""niuniu"");
+            }
+
+        }
+    }
+
+    static class InputReader {
+        public BufferedReader reader;
+        public StringTokenizer tokenizer;
+
+        public InputReader(InputStream stream) {
+            reader = new BufferedReader(new InputStreamReader(stream), 32768);
+            tokenizer = null;
+        }
+
+        boolean hasNext() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (Exception e) {
+                    return false;
+                    // TODO: handle exception
+                }
+            }
+            return true;
+        }
+
+        public String next() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return tokenizer.nextToken();
+        }
+
+        public String nextLine() {
+            String str = null;
+            try {
+                str = reader.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return str;
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        public double nextDouble() {
+            return Double.parseDouble(next());
+        }
+
+        public long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        public BigInteger nextBigInteger() {
+            return new BigInteger(next());
+        }
+
+        public BigDecimal nextBigDecimal() {
+            return new BigDecimal(next());
+        }
+
+
+    }
+}
+"
+53,D,Java,60157484,2023-01-06 21:02:25,迷你滨,答案错误,"import java.util.*;
+import java.io.*;
+import java.math.*;
+//那就是希望
+//即使需要取模，也是光明
+
+public class Main{
+	static int maxn = 200005,n,m,mod = (int)1e9+7;
+	static long INF = (long)1e18,ans = 0;
+	
+	static Scanner sc = new Scanner (System.in);
+	static BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+    static StreamTokenizer st  =new StreamTokenizer(bf);
+    static PrintWriter pw = new PrintWriter(new OutputStreamWriter(System.out));
+    public static void main(String[]args) throws IOException{
+    	int T = 1;
+    	T = sc.nextInt();
+        while(T-->0) solve();
+        pw.flush();
+    }
+    static int I() throws IOException {
+    	st.nextToken();
+    	return (int)st.nval;
+    }
+    
+    static long gcd(long a,long b) {
+    	if(b == 0) return a;
+    	return gcd(b,a%b);
+    }
+    
+    static long fpow(long a,long b,long mod) {
+    	long res = 1;
+    	a%=mod;
+    	while(b>0) {
+    		if(b%2 == 1) res = res*a%mod;
+    		a = a*a%mod;
+    		b/=2;
+    	}
+    	return res;
+    }
+    
+    
+    static void solve() throws IOException{
+    	long a = sc.nextLong(),b = sc.nextLong();
+    	if(a >b) {
+    		long z = a;
+    		z = b;b = z;
+    	}
+    	if(a == 1 || a == 2) {
+    		pw.println(""niuniu"");return;
+    	}
+        if(a == 3) {
+    		pw.println(""niumei"");return;
+    	}
+    	if(a == b && (((a+2) %3 == 0) || a%3 == 0)) {
+    		pw.println(""niumei"");return;
+    	}
+    	else {
+    		pw.println(""niuniu"");
+    	}
+    }
+}"
+54,D,Java,60157831,2023-01-06 21:07:11,迷你滨,答案错误,"import java.util.*;
+import java.io.*;
+import java.math.*;
+//那就是希望
+//即使需要取模，也是光明
+
+public class Main{
+	static int maxn = 200005,n,m,mod = (int)1e9+7;
+	static long INF = (long)1e18,ans = 0;
+	
+	static Scanner sc = new Scanner (System.in);
+	static BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+    static StreamTokenizer st  =new StreamTokenizer(bf);
+    static PrintWriter pw = new PrintWriter(new OutputStreamWriter(System.out));
+    public static void main(String[]args) throws IOException{
+    	int T = 1;
+    	T = sc.nextInt();
+        while(T-->0) solve();
+        pw.flush();
+    }
+    static int I() throws IOException {
+    	st.nextToken();
+    	return (int)st.nval;
+    }
+    
+    static long gcd(long a,long b) {
+    	if(b == 0) return a;
+    	return gcd(b,a%b);
+    }
+    
+    static long fpow(long a,long b,long mod) {
+    	long res = 1;
+    	a%=mod;
+    	while(b>0) {
+    		if(b%2 == 1) res = res*a%mod;
+    		a = a*a%mod;
+    		b/=2;
+    	}
+    	return res;
+    }
+    
+    
+    static void solve() throws IOException{
+    	long a = sc.nextLong(),b = sc.nextLong();
+    	if(a >b) {
+    		long z = a;
+    		z = b;b = z;
+    	}
+    	if(a == 1 || a == 2) {
+    		pw.println(""niuniu"");return;
+    	}
+        if(a == 3) {
+    		pw.println(""niumei"");return;
+    	}
+    	if(a == b && (((a+2) %3 == 0) || a%3 == 0)) {
+    		pw.println(""niumei"");return;
+    	}
+    	else {
+    		if(a%3 == 0) pw.println(""niumei"");
+            else pw.println(""niuniu"");
+    	}
+    }
+}"
+55,D,Java,60157900,2023-01-06 21:08:25,人工智能3211江海洋,答案正确,"import java.io.*;
+import java.util.*;
+import java.math.*;
+
+public class Main {
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader in = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        TaskA solver = new TaskA();
+        solver.solve(1, in, out);
+        out.close();
+    }
+
+    static class TaskA {
+        public void solve(int testNumber, InputReader in, PrintWriter out) {
+            int t = in.nextInt();
+            while (t-->0){
+                long a = in.nextLong();
+                long b = in.nextLong();
+                if(a>b){
+                    long tt = a;
+                    a = b;
+                    b = tt;
+                }
+                long c1 = a%3;
+                long c2 = b%3;
+
+                if(c1==0||(a==b&&c1==1&&c2==1))
+                    out.println(""niumei"");
+                else
+                    out.println(""niuniu"");
+            }
+
+        }
+    }
+
+    static class InputReader {
+        public BufferedReader reader;
+        public StringTokenizer tokenizer;
+
+        public InputReader(InputStream stream) {
+            reader = new BufferedReader(new InputStreamReader(stream), 32768);
+            tokenizer = null;
+        }
+
+        boolean hasNext() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (Exception e) {
+                    return false;
+                    // TODO: handle exception
+                }
+            }
+            return true;
+        }
+
+        public String next() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return tokenizer.nextToken();
+        }
+
+        public String nextLine() {
+            String str = null;
+            try {
+                str = reader.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return str;
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        public double nextDouble() {
+            return Double.parseDouble(next());
+        }
+
+        public long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        public BigInteger nextBigInteger() {
+            return new BigInteger(next());
+        }
+
+        public BigDecimal nextBigDecimal() {
+            return new BigDecimal(next());
+        }
+
+
+    }
+}
+"
+56,D,Java,60157972,2023-01-06 21:09:33,人工智能3211江海洋,答案错误,"import java.io.*;
+import java.util.*;
+import java.math.*;
+
+public class Main {
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader in = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        TaskA solver = new TaskA();
+        solver.solve(1, in, out);
+        out.close();
+    }
+
+    static class TaskA {
+        public void solve(int testNumber, InputReader in, PrintWriter out) {
+            int t = in.nextInt();
+            while (t-->0){
+                long a = in.nextLong();
+                long b = in.nextLong();
+                if(a>b){
+                    long tt = a;
+                    a = b;
+                    b = tt;
+                }
+                long c1 = a%3;
+                long c2 = b%3;
+
+                if(c1==0||(c1==1&&c2==1))
+                    out.println(""niumei"");
+                else
+                    out.println(""niuniu"");
+            }
+
+        }
+    }
+
+    static class InputReader {
+        public BufferedReader reader;
+        public StringTokenizer tokenizer;
+
+        public InputReader(InputStream stream) {
+            reader = new BufferedReader(new InputStreamReader(stream), 32768);
+            tokenizer = null;
+        }
+
+        boolean hasNext() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (Exception e) {
+                    return false;
+                    // TODO: handle exception
+                }
+            }
+            return true;
+        }
+
+        public String next() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return tokenizer.nextToken();
+        }
+
+        public String nextLine() {
+            String str = null;
+            try {
+                str = reader.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return str;
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        public double nextDouble() {
+            return Double.parseDouble(next());
+        }
+
+        public long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        public BigInteger nextBigInteger() {
+            return new BigInteger(next());
+        }
+
+        public BigDecimal nextBigDecimal() {
+            return new BigDecimal(next());
+        }
+
+
+    }
+}
+"
+57,D,Java,60158017,2023-01-06 21:10:21,迷你滨,答案错误,"import java.util.*;
+import java.io.*;
+import java.math.*;
+//那就是希望
+//即使需要取模，也是光明
+
+public class Main{
+	static int maxn = 200005,n,m,mod = (int)1e9+7;
+	static long INF = (long)1e18,ans = 0;
+	
+	static Scanner sc = new Scanner (System.in);
+	static BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+    static StreamTokenizer st  =new StreamTokenizer(bf);
+    static PrintWriter pw = new PrintWriter(new OutputStreamWriter(System.out));
+    public static void main(String[]args) throws IOException{
+    	int T = 1;
+    	T = sc.nextInt();
+        while(T-->0) solve();
+        pw.flush();
+    }
+    static int I() throws IOException {
+    	st.nextToken();
+    	return (int)st.nval;
+    }
+    
+    static long gcd(long a,long b) {
+    	if(b == 0) return a;
+    	return gcd(b,a%b);
+    }
+    
+    static long fpow(long a,long b,long mod) {
+    	long res = 1;
+    	a%=mod;
+    	while(b>0) {
+    		if(b%2 == 1) res = res*a%mod;
+    		a = a*a%mod;
+    		b/=2;
+    	}
+    	return res;
+    }
+    
+    
+    static void solve() throws IOException{
+    	long a = sc.nextLong(),b = sc.nextLong();
+    	if(a >b) {
+    		long z = a;
+    		z = b;b = z;
+    	}
+    	if(a == 1 || a == 2) {
+    		pw.println(""niuniu"");return;
+    	}
+        if(a == 3) {
+    		pw.println(""niumei"");return;
+    	}
+    	if(a == b && (((a+2) %3 == 0) || a%3 == 0)) {
+    		pw.println(""niumei"");return;
+    	}
+    	else {
+    		if(a%3 == 0) pw.println(""niumei"");
+            else pw.println(""niuniu"");
+    	}
+        pw.flush();
+    }
+}"
+58,D,Java,60158039,2023-01-06 21:10:49,迷你滨,答案错误,"import java.util.*;
+import java.io.*;
+import java.math.*;
+//那就是希望
+//即使需要取模，也是光明
+
+public class Main{
+	static int maxn = 200005,n,m,mod = (int)1e9+7;
+	static long INF = (long)1e18,ans = 0;
+	
+	static Scanner sc = new Scanner (System.in);
+	static BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+    static StreamTokenizer st  =new StreamTokenizer(bf);
+    static PrintWriter pw = new PrintWriter(new OutputStreamWriter(System.out));
+    public static void main(String[]args) throws IOException{
+    	int T = 1;
+    	T = sc.nextInt();
+        while(T-->0) solve();
+        pw.flush();
+    }
+    static int I() throws IOException {
+    	st.nextToken();
+    	return (int)st.nval;
+    }
+    
+    static long gcd(long a,long b) {
+    	if(b == 0) return a;
+    	return gcd(b,a%b);
+    }
+    
+    static long fpow(long a,long b,long mod) {
+    	long res = 1;
+    	a%=mod;
+    	while(b>0) {
+    		if(b%2 == 1) res = res*a%mod;
+    		a = a*a%mod;
+    		b/=2;
+    	}
+    	return res;
+    }
+    
+    
+    static void solve() throws IOException{
+    	long a = sc.nextLong(),b = sc.nextLong();
+    	if(a >b) {
+    		long z = a;
+    		a = b;b = z;
+    	}
+    	if(a == 1 || a == 2) {
+    		pw.println(""niuniu"");return;
+    	}
+        if(a == 3) {
+    		pw.println(""niumei"");return;
+    	}
+    	if(a == b && (((a+2) %3 == 0) || a%3 == 0)) {
+    		pw.println(""niumei"");return;
+    	}
+    	else {
+    		if(a%3 == 0) pw.println(""niumei"");
+            else pw.println(""niuniu"");
+    	}
+        pw.flush();
+    }
+}"
+59,D,Java,60158073,2023-01-06 21:11:29,Floating_Ocean,答案错误,"import java.math.BigInteger;
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int t = scanner.nextInt();
+        while(t -- > 0){
+            long a = scanner.nextLong(), b = scanner.nextLong();
+            if(Math.max(a, b) / Math.min(a, b) >= 2)
+                System.out.println(Math.min(a, b) % 2 == 0 ? ""niumei"" : ""niuniu"");
+            else{
+                long ans = Math.abs(a - b), last = Math.min(a, b) - ans;
+                if(last % 3 != 0) ans ++;
+                System.out.println(ans % 2 == 0 ? ""niumei"" : ""niuniu"");
+            }
+        }
+    }
+}"
+60,D,Java,60158240,2023-01-06 21:14:27,Floating_Ocean,答案错误,"import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int t = scanner.nextInt();
+        while(t -- > 0){
+            long a = scanner.nextLong(), b = scanner.nextLong();
+            if(Math.max(a, b) / Math.min(a, b) >= 2)
+                System.out.println(Math.min(a, b) % 2 == 0 ? ""niumei"" : ""niuniu"");
+            else{
+                long ans = Math.abs(a - b), last = Math.min(a, b) - ans;
+                if(last % 3 == 2) ans ++;
+                System.out.println(ans % 2 == 0 ? ""niumei"" : ""niuniu"");
+            }
+        }
+    }
+}"
+61,D,Java,60158246,2023-01-06 21:14:36,迷你滨,答案错误,"import java.util.*;
+import java.io.*;
+import java.math.*;
+//那就是希望
+//即使需要取模，也是光明
+
+public class Main{
+	static int maxn = 200005,n,m,mod = (int)1e9+7;
+	static long INF = (long)1e18,ans = 0;
+	
+	static Scanner sc = new Scanner (System.in);
+	static BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+    static StreamTokenizer st  =new StreamTokenizer(bf);
+    static PrintWriter pw = new PrintWriter(new OutputStreamWriter(System.out));
+    public static void main(String[]args) throws IOException{
+    	int T = 1;
+    	T = sc.nextInt();
+        while(T-->0) solve();
+        pw.flush();
+    }
+    static int I() throws IOException {
+    	st.nextToken();
+    	return (int)st.nval;
+    }
+    
+    static long gcd(long a,long b) {
+    	if(b == 0) return a;
+    	return gcd(b,a%b);
+    }
+    
+    static long fpow(long a,long b,long mod) {
+    	long res = 1;
+    	a%=mod;
+    	while(b>0) {
+    		if(b%2 == 1) res = res*a%mod;
+    		a = a*a%mod;
+    		b/=2;
+    	}
+    	return res;
+    }
+    
+    
+    static void solve() throws IOException{
+    	long a = sc.nextLong(),b = sc.nextLong();
+    	if(a >b) {
+    		long z = a;
+    		a = b;b = z;
+    	}
+    	if(a == 1 || a == 2) {
+    		pw.println(""niuniu"");return;
+    	}
+        if(a == 3) {
+    		pw.println(""niumei"");return;
+    	}
+    	if(a == b && ( (a+2) %3 == 0 || a%3 == 0)) {
+    		pw.println(""niumei"");return;
+    	}
+    	else {
+    		if(a%3 == 0) pw.println(""niumei"");
+            else pw.println(""niuniu"");
+    	}
+    }
+}"
+62,D,Java,60158289,2023-01-06 21:15:16,迷你滨,答案错误,"import java.util.*;
+import java.io.*;
+import java.math.*;
+//那就是希望
+//即使需要取模，也是光明
+
+public class Main{
+	static int maxn = 200005,n,m,mod = (int)1e9+7;
+	static long INF = (long)1e18,ans = 0;
+	
+	static Scanner sc = new Scanner (System.in);
+	static BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+    static StreamTokenizer st  =new StreamTokenizer(bf);
+    static PrintWriter pw = new PrintWriter(new OutputStreamWriter(System.out));
+    public static void main(String[]args) throws IOException{
+    	int T = 1;
+    	T = sc.nextInt();
+        while(T-->0) solve();
+        pw.flush();
+    }
+    static int I() throws IOException {
+    	st.nextToken();
+    	return (int)st.nval;
+    }
+    
+    static long gcd(long a,long b) {
+    	if(b == 0) return a;
+    	return gcd(b,a%b);
+    }
+    
+    static long fpow(long a,long b,long mod) {
+    	long res = 1;
+    	a%=mod;
+    	while(b>0) {
+    		if(b%2 == 1) res = res*a%mod;
+    		a = a*a%mod;
+    		b/=2;
+    	}
+    	return res;
+    }
+    
+    
+    static void solve() throws IOException{
+    	long a = sc.nextLong(),b = sc.nextLong();
+    	if(a >b) {
+    		long z = a;
+    		a = b;b = z;
+    	}
+    	if(a == 1 || a == 2) {
+    		pw.println(""niuniu"");return;
+    	}
+        if(a == 3) {
+    		pw.println(""niumei"");return;
+    	}
+    	if(a == b && (a+2) %3 == 0) {
+    		pw.println(""niumei"");return;
+    	}
+    	else {
+    		if(a%3 == 0) pw.println(""niumei"");
+            else pw.println(""niuniu"");
+    	}
+    }
+}"
+63,D,Java,60158353,2023-01-06 21:16:27,迷你滨,答案正确,"import java.util.*;
+import java.io.*;
+import java.math.*;
+//那就是希望
+//即使需要取模，也是光明
+
+public class Main{
+	static int maxn = 200005,n,m,mod = (int)1e9+7;
+	static long INF = (long)1e18,ans = 0;
+	
+	static Scanner sc = new Scanner (System.in);
+	static BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+    static StreamTokenizer st  =new StreamTokenizer(bf);
+    static PrintWriter pw = new PrintWriter(new OutputStreamWriter(System.out));
+    public static void main(String[]args) throws IOException{
+    	int T = 1;
+    	T = sc.nextInt();
+        while(T-->0) solve();
+        pw.flush();
+    }
+    static int I() throws IOException {
+    	st.nextToken();
+    	return (int)st.nval;
+    }
+    
+    static long gcd(long a,long b) {
+    	if(b == 0) return a;
+    	return gcd(b,a%b);
+    }
+    
+    static long fpow(long a,long b,long mod) {
+    	long res = 1;
+    	a%=mod;
+    	while(b>0) {
+    		if(b%2 == 1) res = res*a%mod;
+    		a = a*a%mod;
+    		b/=2;
+    	}
+    	return res;
+    }
+    
+    
+    static void solve() throws IOException{
+    	long a = sc.nextLong(),b = sc.nextLong();
+    	if(a >b) {
+    		long z = a;
+    		a = b;b = z;
+    	}
+    	if(a == 2) {
+    		pw.println(""niuniu"");return;
+    	}
+        if(a == 3) {
+    		pw.println(""niumei"");return;
+    	}
+    	if(a == b && (a+2) %3 == 0) {
+    		pw.println(""niumei"");return;
+    	}
+    	else {
+    		if(a%3 == 0) pw.println(""niumei"");
+            else pw.println(""niuniu"");
+    	}
+    }
+}"
+64,D,Java,60158767,2023-01-06 21:24:16,Mosyi.,答案正确,"import java.io.*;
+import java.lang.reflect.Array;
+import java.util.*;
+import java.math.*;
+
+public class Main {
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader in = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        TaskA solver = new TaskA();
+        solver.solve(1, in, out);
+        out.close();
+    }
+
+    static class TaskA {
+        public void solve(int testNumber, InputReader in, PrintWriter out) {
+            int t = in.nextInt();
+            while (t-- > 0){
+                long a = in.nextLong();
+                long b = in.nextLong();
+                long tmp = a;
+                if(a < b){
+                    a = b;
+                    b = tmp;
+                }
+                tmp = b/3;
+                a -= tmp * 3;
+                b %= 3;
+                if(a < 2 || b < 1)
+                    out.println(""niumei"");
+                else
+                    out.println(""niuniu"");
+            }
+        }
+    }
+
+    static class InputReader {
+        public BufferedReader reader;
+        public StringTokenizer tokenizer;
+
+        public InputReader(InputStream stream) {
+            reader = new BufferedReader(new InputStreamReader(stream), 32768);
+            tokenizer = null;
+        }
+        boolean hasNext()
+        {
+            while (tokenizer == null || !tokenizer.hasMoreTokens())
+            {
+                try
+                {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (Exception e)
+                {
+                    return false;
+                    // TODO: handle exception
+                }
+            }
+            return true;
+        }
+        public String next() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return tokenizer.nextToken();
+        }
+        public String nextLine()
+        {
+            String str = null;
+            try
+            {
+                str = reader.readLine();
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            return str;
+        }
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+        public double nextDouble(){
+            return Double.parseDouble(next());
+        }
+        public long nextLong(){
+            return Long.parseLong(next());
+        }
+        public BigInteger nextBigInteger()
+        {
+            return new BigInteger(next());
+        }
+        public BigDecimal nextBigDecimal()
+        {
+            return new BigDecimal(next());
+        }
+
+    }
+}"
+65,D,Java,60159285,2023-01-06 21:37:45,Floating_Ocean,答案正确,"import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int t = scanner.nextInt();
+        while(t -- > 0){
+            long a = scanner.nextLong(), b = scanner.nextLong();
+            if(a == 1 && b == 1) System.out.println(""niumei"");
+            else if(Math.max(a, b) < 3) System.out.println(""niuniu"");
+            else if(Math.min(a, b) % 3 == 0) System.out.println(""niumei"");
+            else if(a == b && a % 3 == 1) System.out.println(""niumei"");
+            else System.out.println(""niuniu"");
+        }
+    }
+}"
+66,D,Java,60159960,2023-01-06 21:58:47,giao1,运行超时,"import java.util.*;
+import java.io.*;
+
+public class Main{
+    public static void main(String[] args) throws IOException {
+        initReader();
+        int t = nextInt();
+        while(t -- > 0){
+            long a = nextLong(), b = nextLong();
+            if(a>b){
+                long swap = a;
+                a = b;
+                b = a;
+            }
+            while(a>=3&&b>=3){a-=3;b-=3;}
+            if(a>=1&&b>=2) pw.println(""niuniu"");
+            else pw.println(""niumei"");
+        }
+        pw.close();
+    }
+    static BufferedReader reader;
+    static StringTokenizer tokenizer;
+    static PrintWriter pw;
+
+    public static void initReader() throws IOException {
+        reader = new BufferedReader(new InputStreamReader(System.in));
+        tokenizer = new StringTokenizer("""");
+        pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+    }
+
+
+    public static boolean hasNext() {
+        try {
+            while (!tokenizer.hasMoreTokens()) {
+                tokenizer = new StringTokenizer(reader.readLine());
+            }
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
+    public static String next() throws IOException {
+        while (!tokenizer.hasMoreTokens()) {
+            tokenizer = new StringTokenizer(reader.readLine());
+        }
+        return tokenizer.nextToken();
+    }
+
+    public static String nextLine() {
+        try {
+            return reader.readLine();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public static int nextInt() throws IOException {
+        return Integer.parseInt(next());
+    }
+
+    public static long nextLong() throws IOException {
+        return Long.parseLong(next());
+    }
+
+    public static double nextDouble() throws IOException {
+        return Double.parseDouble(next());
+    }
+
+    public static char nextChar() throws IOException {
+        return next().charAt(0);
+    }
+}"
+67,D,Java,60159985,2023-01-06 22:00:13,giao1,答案错误,"import java.util.*;
+import java.io.*;
+
+public class Main{
+    public static void main(String[] args) throws IOException {
+        initReader();
+        int t = nextInt();
+        while(t -- > 0){
+            long a = nextLong(), b = nextLong();
+            if(a>b){
+                long swap = a;
+                a = b;
+                b = a;
+            }
+            while(a>=3&&b>=3){a=a%3;b=b%3;}
+            if(a>=1&&b>=2) pw.println(""niuniu"");
+            else pw.println(""niumei"");
+        }
+        pw.close();
+    }
+    static BufferedReader reader;
+    static StringTokenizer tokenizer;
+    static PrintWriter pw;
+
+    public static void initReader() throws IOException {
+        reader = new BufferedReader(new InputStreamReader(System.in));
+        tokenizer = new StringTokenizer("""");
+        pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+    }
+
+
+    public static boolean hasNext() {
+        try {
+            while (!tokenizer.hasMoreTokens()) {
+                tokenizer = new StringTokenizer(reader.readLine());
+            }
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
+    public static String next() throws IOException {
+        while (!tokenizer.hasMoreTokens()) {
+            tokenizer = new StringTokenizer(reader.readLine());
+        }
+        return tokenizer.nextToken();
+    }
+
+    public static String nextLine() {
+        try {
+            return reader.readLine();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public static int nextInt() throws IOException {
+        return Integer.parseInt(next());
+    }
+
+    public static long nextLong() throws IOException {
+        return Long.parseLong(next());
+    }
+
+    public static double nextDouble() throws IOException {
+        return Double.parseDouble(next());
+    }
+
+    public static char nextChar() throws IOException {
+        return next().charAt(0);
+    }
+}"
+68,D,Java,60160006,2023-01-06 22:01:02,giao1,答案正确,"import java.util.*;
+import java.io.*;
+
+public class Main{
+    public static void main(String[] args) throws IOException {
+        initReader();
+        int t = nextInt();
+        while(t -- > 0){
+            long a =nextLong(), b =nextLong();
+            if(a == 1 && b == 1) System.out.println(""niumei"");
+            else if(Math.max(a, b) < 3) System.out.println(""niuniu"");
+            else if(Math.min(a, b) % 3 == 0) System.out.println(""niumei"");
+            else if(a == b && a % 3 == 1) System.out.println(""niumei"");
+            else System.out.println(""niuniu"");
+        }
+        pw.close();
+    }
+    static BufferedReader reader;
+    static StringTokenizer tokenizer;
+    static PrintWriter pw;
+
+    public static void initReader() throws IOException {
+        reader = new BufferedReader(new InputStreamReader(System.in));
+        tokenizer = new StringTokenizer("""");
+        pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+    }
+
+
+    public static boolean hasNext() {
+        try {
+            while (!tokenizer.hasMoreTokens()) {
+                tokenizer = new StringTokenizer(reader.readLine());
+            }
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
+    public static String next() throws IOException {
+        while (!tokenizer.hasMoreTokens()) {
+            tokenizer = new StringTokenizer(reader.readLine());
+        }
+        return tokenizer.nextToken();
+    }
+
+    public static String nextLine() {
+        try {
+            return reader.readLine();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public static int nextInt() throws IOException {
+        return Integer.parseInt(next());
+    }
+
+    public static long nextLong() throws IOException {
+        return Long.parseLong(next());
+    }
+
+    public static double nextDouble() throws IOException {
+        return Double.parseDouble(next());
+    }
+
+    public static char nextChar() throws IOException {
+        return next().charAt(0);
+    }
+}"
+69,D,Java,60160539,2023-01-06 22:23:14,今天一定早点睡,执行出错,"import javax.sound.midi.Soundbank;
+import java.io.*;
+
+public class Main {
+    static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+    static PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+
+    public static void main(String[] args) throws IOException {
+        int t = Integer.parseInt(in.readLine());
+        while (t -- > 0) {
+            String[] s = in.readLine().split("" "");
+            int a = Integer.parseInt(s[0]), b = Integer.parseInt(s[1]);
+            
+            if (a > b) {
+                int tem = a;
+                a = b;
+                b = tem;
+            }
+            if (a < 3) out.println(""niuniu"");
+            else if (a % 3 == 0 || (a == b && a % 3 == 1)) out.println(""niumei"");
+            else out.println(""niuniu"");
+
+        }
+        out.flush();
+    }
+}"
+70,D,Java,60160581,2023-01-06 22:25:24,今天一定早点睡,答案错误,"import java.io.*;
+
+public class Main {
+    static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+    static PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+
+    public static void main(String[] args) throws IOException {
+        int t = Integer.parseInt(in.readLine());
+        while (t -- > 0) {
+            String[] s = in.readLine().split("" "");
+            long a = Long.parseLong(s[0]), b = Long.parseLong(s[1]);
+
+            if (a > b) {
+                long tem = a;
+                a = b;
+                b = tem;
+            }
+            if (a < 3) out.println(""niuniu"");
+            else if (a % 3 == 0 || (a == b && a % 3 == 1)) out.println(""niumei"");
+            else out.println(""niuniu"");
+
+        }
+        out.flush();
+    }
+}"
+71,D,Java,60160612,2023-01-06 22:26:44,今天一定早点睡,答案正确,"import java.io.*;
+
+public class Main {
+    static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+    static PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+
+    public static void main(String[] args) throws IOException {
+        int t = Integer.parseInt(in.readLine());
+        while (t -- > 0) {
+            String[] s = in.readLine().split("" "");
+            long a = Long.parseLong(s[0]), b = Long.parseLong(s[1]);
+
+            if (a > b) {
+                long tem = a;
+                a = b;
+                b = tem;
+            }
+            if (a == 1 && b == 1) out.println(""niumei"");
+            else if (a < 3) out.println(""niuniu"");
+            else if (a % 3 == 0 || (a == b && a % 3 == 1)) out.println(""niumei"");
+            else out.println(""niuniu"");
+
+        }
+        out.flush();
+    }
+}"
+72,D,Java,60161538,2023-01-06 23:23:16,摩西摩西1号,答案错误,"import java.io.*;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out));
+        int T = Integer.parseInt(reader.readLine());
+        while (T-->0){
+            String[] s = reader.readLine().split("" "");
+            long a = Long.parseLong(s[0]);
+            long b = Long.parseLong(s[1]);
+            long x = Math.min(a,b);
+            if(x==0)writer.write(""niumei\n"");
+            if(a+b<3)writer.write(""niumei\n"");
+            if(x%3==0)writer.write(""niumei\n"");
+            else writer.write(""niuniu\n"");
+        }
+        writer.flush();
+        writer.close();
+        reader.close();
+    }
+}"
+73,D,Java,60161566,2023-01-06 23:25:38,HMETAO,执行出错,"
+
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) throws IOException {
+        Reader r = new Reader();
+        int t = r.nextInt();
+        while (t-- > 0) {
+            int left = r.nextInt();
+            int right = r.nextInt();
+            if (Math.min(left, right) % 3 == 0) {
+                System.out.println(""niumei"");
+            } else {
+                if(left == right) System.out.println(""niumei"");
+                else System.out.println(""niuniu"");
+            }
+        }
+    }
+
+
+    public static long pow3(int a, int b) {
+        long ans = 1;
+        while (b > 0) {
+            if ((b & 1) == 1) {
+                ans *= a;
+            }
+            a *= a;
+            b >>= 1;
+        }
+        return ans;
+    }
+
+    public static long pow4(long a, long b, int p) {
+        long ans = 1;
+        while (b > 0) {
+            if ((b & 1) == 1) {
+                ans = (ans * a) % p;
+            }
+            a = (a * a) % p;
+            b >>= 1;
+        }
+        return ans;
+    }
+
+    public static List<Integer> euler(int n) {
+        boolean[] check = new boolean[n + 1];
+        List<Integer> ans = new ArrayList<>();
+        for (int i = 2; i <= n; i++) {
+            if (!check[i]) {
+                ans.add(i);
+            }
+            for (Integer item : ans) {
+                if (item * i > n) break;
+                check[item * i] = true;
+                if (i % item == 0) break;
+            }
+        }
+        return ans;
+    }
+
+    public static void euler_phi(int n) {
+        int ans = n;
+        for (int i = 2; i <= n / i; i++) {
+            if (n % i == 0) {
+                ans *= (1 - 1.0 / i);
+                while (n % i == 0) {
+                    n /= i;
+                }
+            }
+        }
+        if (n > 1) ans *= (1 - 1.0 / n);
+        System.out.println(ans);
+    }
+
+    public static int[] eulers(int n) {
+        boolean[] check = new boolean[n + 1];
+        int[] phi = new int[n + 1];
+        phi[1] = 1;
+        ArrayList<Integer> primes = new ArrayList<>();
+        for (int i = 2; i <= n; i++) {
+            if (!check[i]) {
+                primes.add(i);
+                phi[i] = i - 1;
+            }
+
+            for (Integer item : primes) {
+                if (item * i > n) break;
+                check[item * i] = true;
+                if (i % item == 0) {
+                    phi[item * i] = item * phi[i];
+                    break;
+                }
+                phi[item * i] = (item - 1) * phi[i];
+            }
+        }
+        return phi;
+    }
+
+    static class Reader {
+        BufferedReader buf;
+        StringTokenizer tok;
+
+        Reader() {
+            buf = new BufferedReader(new InputStreamReader(System.in));
+        }
+
+        boolean hasNext() {
+            while (tok == null || !tok.hasMoreElements()) {
+                try {
+                    tok = new StringTokenizer(buf.readLine());
+                } catch (Exception e) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        String nextLine() {
+            try {
+                return buf.readLine();
+            } catch (IOException e) {
+                return null;
+            }
+        }
+
+        String next() {
+            if (hasNext())
+                return tok.nextToken();
+            return null;
+        }
+
+        int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        double nextDouble() {
+            return Double.parseDouble(next());
+        }
+    }
+
+}
+
+
+"
+74,D,Java,60161579,2023-01-06 23:26:27,HMETAO,答案错误,"
+
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) throws IOException {
+        Reader r = new Reader();
+        int t = r.nextInt();
+        while (t-- > 0) {
+            long left = r.nextLong();
+            long right = r.nextLong();
+            if (Math.min(left, right) % 3 == 0) {
+                System.out.println(""niumei"");
+            } else {
+                if(left == right) System.out.println(""niumei"");
+                else System.out.println(""niuniu"");
+            }
+        }
+    }
+
+
+    public static long pow3(int a, int b) {
+        long ans = 1;
+        while (b > 0) {
+            if ((b & 1) == 1) {
+                ans *= a;
+            }
+            a *= a;
+            b >>= 1;
+        }
+        return ans;
+    }
+
+    public static long pow4(long a, long b, int p) {
+        long ans = 1;
+        while (b > 0) {
+            if ((b & 1) == 1) {
+                ans = (ans * a) % p;
+            }
+            a = (a * a) % p;
+            b >>= 1;
+        }
+        return ans;
+    }
+
+    public static List<Integer> euler(int n) {
+        boolean[] check = new boolean[n + 1];
+        List<Integer> ans = new ArrayList<>();
+        for (int i = 2; i <= n; i++) {
+            if (!check[i]) {
+                ans.add(i);
+            }
+            for (Integer item : ans) {
+                if (item * i > n) break;
+                check[item * i] = true;
+                if (i % item == 0) break;
+            }
+        }
+        return ans;
+    }
+
+    public static void euler_phi(int n) {
+        int ans = n;
+        for (int i = 2; i <= n / i; i++) {
+            if (n % i == 0) {
+                ans *= (1 - 1.0 / i);
+                while (n % i == 0) {
+                    n /= i;
+                }
+            }
+        }
+        if (n > 1) ans *= (1 - 1.0 / n);
+        System.out.println(ans);
+    }
+
+    public static int[] eulers(int n) {
+        boolean[] check = new boolean[n + 1];
+        int[] phi = new int[n + 1];
+        phi[1] = 1;
+        ArrayList<Integer> primes = new ArrayList<>();
+        for (int i = 2; i <= n; i++) {
+            if (!check[i]) {
+                primes.add(i);
+                phi[i] = i - 1;
+            }
+
+            for (Integer item : primes) {
+                if (item * i > n) break;
+                check[item * i] = true;
+                if (i % item == 0) {
+                    phi[item * i] = item * phi[i];
+                    break;
+                }
+                phi[item * i] = (item - 1) * phi[i];
+            }
+        }
+        return phi;
+    }
+
+    static class Reader {
+        BufferedReader buf;
+        StringTokenizer tok;
+
+        Reader() {
+            buf = new BufferedReader(new InputStreamReader(System.in));
+        }
+
+        boolean hasNext() {
+            while (tok == null || !tok.hasMoreElements()) {
+                try {
+                    tok = new StringTokenizer(buf.readLine());
+                } catch (Exception e) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        String nextLine() {
+            try {
+                return buf.readLine();
+            } catch (IOException e) {
+                return null;
+            }
+        }
+
+        String next() {
+            if (hasNext())
+                return tok.nextToken();
+            return null;
+        }
+
+        int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        double nextDouble() {
+            return Double.parseDouble(next());
+        }
+    }
+
+}
+
+
+"
+75,D,Java,60161584,2023-01-06 23:26:55,摩西摩西1号,答案错误,"import java.io.*;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out));
+        int T = Integer.parseInt(reader.readLine());
+        while (T-->0){
+            String[] s = reader.readLine().split("" "");
+            long a = Long.parseLong(s[0]);
+            long b = Long.parseLong(s[1]);
+            if(a==b){
+                if(a%3==1)writer.write(""niumei\n"");
+                else writer.write(""niuniu\n"");
+            }else {
+                long x = Math.min(a,b);
+                if(x==0)writer.write(""niumei\n"");
+                if(a+b<3)writer.write(""niumei\n"");
+                if(x%3==0)writer.write(""niumei\n"");
+                else writer.write(""niuniu\n"");
+            }
+            
+        }
+        writer.flush();
+        writer.close();
+        reader.close();
+    }
+}"
+76,D,Java,60161602,2023-01-06 23:29:41,摩西摩西1号,答案错误,"import java.io.*;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out));
+        int T = Integer.parseInt(reader.readLine());
+        while (T-->0){
+            String[] s = reader.readLine().split("" "");
+            long a = Long.parseLong(s[0]);
+            long b = Long.parseLong(s[1]);
+            if(a==b){
+                if((a-1)%3==0)writer.write(""niumei\n"");
+            }
+            long x = Math.min(a,b);
+            if(x==0)writer.write(""niumei\n"");
+            if(a+b<3)writer.write(""niumei\n"");
+            if(x%3==0)writer.write(""niumei\n"");
+            else writer.write(""niuniu\n"");
+        }
+        writer.flush();
+        writer.close();
+        reader.close();
+    }
+}"
+77,D,Java,60161618,2023-01-06 23:31:16,HMETAO,答案正确,"
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) throws IOException {
+        Reader r = new Reader();
+        int t = r.nextInt();
+        while (t-- > 0) {
+            long left = r.nextLong();
+            long right = r.nextLong();
+            long i = Math.min(left, right) % 3;
+            if (i == 0) {
+                System.out.println(""niumei"");
+            } else {
+                if(i == 1 && left == right) System.out.println(""niumei"");
+                else System.out.println(""niuniu"");
+            }
+        }
+    }
+
+
+    public static long pow3(int a, int b) {
+        long ans = 1;
+        while (b > 0) {
+            if ((b & 1) == 1) {
+                ans *= a;
+            }
+            a *= a;
+            b >>= 1;
+        }
+        return ans;
+    }
+
+    public static long pow4(long a, long b, int p) {
+        long ans = 1;
+        while (b > 0) {
+            if ((b & 1) == 1) {
+                ans = (ans * a) % p;
+            }
+            a = (a * a) % p;
+            b >>= 1;
+        }
+        return ans;
+    }
+
+    public static List<Integer> euler(int n) {
+        boolean[] check = new boolean[n + 1];
+        List<Integer> ans = new ArrayList<>();
+        for (int i = 2; i <= n; i++) {
+            if (!check[i]) {
+                ans.add(i);
+            }
+            for (Integer item : ans) {
+                if (item * i > n) break;
+                check[item * i] = true;
+                if (i % item == 0) break;
+            }
+        }
+        return ans;
+    }
+
+    public static void euler_phi(int n) {
+        int ans = n;
+        for (int i = 2; i <= n / i; i++) {
+            if (n % i == 0) {
+                ans *= (1 - 1.0 / i);
+                while (n % i == 0) {
+                    n /= i;
+                }
+            }
+        }
+        if (n > 1) ans *= (1 - 1.0 / n);
+        System.out.println(ans);
+    }
+
+    public static int[] eulers(int n) {
+        boolean[] check = new boolean[n + 1];
+        int[] phi = new int[n + 1];
+        phi[1] = 1;
+        ArrayList<Integer> primes = new ArrayList<>();
+        for (int i = 2; i <= n; i++) {
+            if (!check[i]) {
+                primes.add(i);
+                phi[i] = i - 1;
+            }
+
+            for (Integer item : primes) {
+                if (item * i > n) break;
+                check[item * i] = true;
+                if (i % item == 0) {
+                    phi[item * i] = item * phi[i];
+                    break;
+                }
+                phi[item * i] = (item - 1) * phi[i];
+            }
+        }
+        return phi;
+    }
+
+    static class Reader {
+        BufferedReader buf;
+        StringTokenizer tok;
+
+        Reader() {
+            buf = new BufferedReader(new InputStreamReader(System.in));
+        }
+
+        boolean hasNext() {
+            while (tok == null || !tok.hasMoreElements()) {
+                try {
+                    tok = new StringTokenizer(buf.readLine());
+                } catch (Exception e) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        String nextLine() {
+            try {
+                return buf.readLine();
+            } catch (IOException e) {
+                return null;
+            }
+        }
+
+        String next() {
+            if (hasNext())
+                return tok.nextToken();
+            return null;
+        }
+
+        int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        double nextDouble() {
+            return Double.parseDouble(next());
+        }
+    }
+
+}
+
+
+"
+78,D,Java,60161634,2023-01-06 23:32:18,摩西摩西1号,答案错误,"import java.io.*;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out));
+        int T = Integer.parseInt(reader.readLine());
+        while (T-->0){
+            String[] s = reader.readLine().split("" "");
+            long a = Long.parseLong(s[0]);
+            long b = Long.parseLong(s[1]);
+            if(a==b){
+                if((a-1)%3==0)writer.write(""niumei\n"");
+            }
+            long x = Math.min(a,b);
+            if(x%3==0)writer.write(""niumei\n"");
+            else writer.write(""niuniu\n"");
+        }
+        writer.flush();
+        writer.close();
+        reader.close();
+    }
+}"
+79,D,Java,60161655,2023-01-06 23:34:00,摩西摩西1号,答案错误,"import java.io.*;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out));
+        int T = Integer.parseInt(reader.readLine());
+        while (T-->0){
+            String[] s = reader.readLine().split("" "");
+            long a = Long.parseLong(s[0]);
+            long b = Long.parseLong(s[1]);
+            if(a==b){
+                if((a-1)%3==0)writer.write(""niumei\n"");
+                writer.flush();
+                writer.close();
+                reader.close();
+                return;
+            }
+            long x = Math.min(a,b);
+            if(x%3==0)writer.write(""niumei\n"");
+            else writer.write(""niuniu\n"");
+        }
+        writer.flush();
+        writer.close();
+        reader.close();
+    }
+}"
+80,D,Java,60161669,2023-01-06 23:34:50,摩西摩西1号,答案错误,"import java.io.*;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out));
+        int T = Integer.parseInt(reader.readLine());
+        while (T-->0){
+            String[] s = reader.readLine().split("" "");
+            long a = Long.parseLong(s[0]);
+            long b = Long.parseLong(s[1]);
+            if(a==b){
+                if((a-1)%3==0)writer.write(""niumei\n"");
+                break;
+            }
+            long x = Math.min(a,b);
+            if(x%3==0)writer.write(""niumei\n"");
+            else writer.write(""niuniu\n"");
+        }
+        writer.flush();
+        writer.close();
+        reader.close();
+    }
+}"
+81,D,Java,60161673,2023-01-06 23:35:10,摩西摩西1号,答案错误,"import java.io.*;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out));
+        int T = Integer.parseInt(reader.readLine());
+        while (T-->0){
+            String[] s = reader.readLine().split("" "");
+            long a = Long.parseLong(s[0]);
+            long b = Long.parseLong(s[1]);
+            if(a==b){
+                if((a-1)%3==0)writer.write(""niumei\n"");
+                continue;
+            }
+            long x = Math.min(a,b);
+            if(x%3==0)writer.write(""niumei\n"");
+            else writer.write(""niuniu\n"");
+        }
+        writer.flush();
+        writer.close();
+        reader.close();
+    }
+}"
+82,D,Java,60161680,2023-01-06 23:35:36,摩西摩西1号,答案正确,"import java.io.*;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out));
+        int T = Integer.parseInt(reader.readLine());
+        while (T-->0){
+            String[] s = reader.readLine().split("" "");
+            long a = Long.parseLong(s[0]);
+            long b = Long.parseLong(s[1]);
+            if(a==b){
+                if((a-1)%3==0){
+                    writer.write(""niumei\n"");
+                    continue;
+                }  
+            }
+            long x = Math.min(a,b);
+            if(x%3==0)writer.write(""niumei\n"");
+            else writer.write(""niuniu\n"");
+        }
+        writer.flush();
+        writer.close();
+        reader.close();
+    }
+}"
+83,D,Java,60163501,2023-01-07 10:27:29,panther125,答案正确,"import java.util.Scanner;
+
+// 注意类名必须为 Main, 不要有任何 package xxx 信息
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int test = in.nextInt();
+        // 注意 hasNext 和 hasNextLine 的区别
+        while (test-->0) { // 注意 while 处理多个 case
+            long a = in.nextLong();
+            long b = in.nextLong();
+            
+            if(a == b){
+                if((a-1)%3==0){
+                    System.out.println(""niumei"");
+                    continue;
+                }  
+            }
+            long x = Math.min(a,b);
+            if(x%3==0)
+                System.out.println(""niumei"");
+            else
+                 System.out.println(""niuniu"");
+        }
+    }
+}"
+84,D,Java,60165587,2023-01-07 13:28:33,zzl064,执行出错,"import java.util.*;
+
+public class Main{
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        while(n -- > 0){
+            long a = sc.nextInt(), b = sc.nextInt();
+            if(Math.min(a, b) % 3 == 0){
+                System.out.println(""niumei"");
+            } else{
+                System.out.println(""niuniu"");
+            }
+        }
+        
+    }
+}"
+85,D,Java,60165654,2023-01-07 13:32:41,zzl064,运行超时,"import java.util.*;
+
+public class Main{
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        while(n -- > 0){
+            long a = sc.nextLong(), b = sc.nextLong();
+            if(Math.min(a, b) % 3 == 0){
+                System.out.println(""niumei"");
+            } else{
+                System.out.println(""niuniu"");
+            }
+        }
+        
+    }
+}"
+86,D,Java,60165709,2023-01-07 13:34:37,zzl064,答案错误,"import java.util.*;
+
+public class Main{
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        StringBuilder sb = new StringBuilder();
+        while(n -- > 0){
+            long a = sc.nextLong(), b = sc.nextLong();
+            sb.append(Math.min(a, b) % 3 == 0? ""niumei\n"": ""niuniu\n"");
+        }
+        System.out.println(sb);
+    }
+}"
+87,D,Java,60165815,2023-01-07 13:41:15,zzl064,答案错误,"import java.util.*;
+
+public class Main{
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        StringBuilder sb = new StringBuilder();
+        while(n -- > 0){
+            long a = sc.nextLong(), b = sc.nextLong();
+            sb.append(Math.min(a, b) % 3 == 0 || Math.max(a, b) < 2? ""niumei\n"": ""niuniu\n"");
+        }
+        System.out.println(sb);
+    }
+}"
+88,D,Java,60165978,2023-01-07 13:49:40,Ytuyx,答案错误,"import java.io.*;
+import java.util.Scanner;
+public class Main {
+	static int t;
+	public static void main(String[] args) {
+		Scanner sc=new Scanner(System.in);
+		t=sc.nextInt();
+		while(t--!=0) {
+			long a=sc.nextLong();
+			long b=sc.nextLong();
+			long c=Math.min(a,b)%3;
+			if(c==0)
+				System.out.println(""nuimei"");
+			else {
+				if(c==1&&a==b)
+					System.out.println(""niumei"");
+				else
+					System.out.println(""niuniu"");
+			}
+		}
+	}
+}
+"
+89,D,Java,60165984,2023-01-07 13:49:51,zzl064,答案正确,"import java.util.*;
+
+public class Main{
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        StringBuilder sb = new StringBuilder();
+        while(n -- > 0){
+            long a = sc.nextLong(), b = sc.nextLong();
+            if(Math.min(a, b) % 3 == 0 || (a == b && a % 3 == 1)){
+                sb.append(""niumei\n"");
+            }else{
+                sb.append(""niuniu\n"");
+            }
+        }
+        System.out.println(sb);
+    }
+}"
+90,D,Java,60166090,2023-01-07 13:56:43,Ytuyx,答案正确,"import java.io.*;
+import java.util.Scanner;
+public class Main{
+	static int t;
+	public static void main(String[] args) {
+		Scanner sc=new Scanner(System.in);
+		t=sc.nextInt();
+		while(t--!=0) {
+			long a=sc.nextLong();
+			long b=sc.nextLong();
+			long c=Math.min(a,b)%3;
+			if(c==0)
+				System.out.println(""niumei"");
+			else {
+				if(c==1&&a==b)
+					System.out.println(""niumei"");
+				else
+					System.out.println(""niuniu"");
+			}
+		}
+	}
+}
+"
+91,D,Java,60166118,2023-01-07 13:58:59,Ytuyx,答案正确,"import java.io.*;
+import java.util.Scanner;
+public class Main{
+	static int t;
+	public static void main(String[] args) {
+		Scanner sc=new Scanner(System.in);
+		t=sc.nextInt();
+		while(t--!=0) {
+			long a=sc.nextLong();
+			long b=sc.nextLong();
+			long c=Math.min(a,b)%3;
+			if(c==0)
+				System.out.println(""niumei"");
+			else {
+				if(c==1&&a==b)
+					System.out.println(""niumei"");
+				else
+					System.out.println(""niuniu"");
+			}
+		}
+	}
+}
+"
+92,D,Java,60166280,2023-01-07 14:08:55,Ytuyx,答案正确,"import java.io.*;
+import java.util.Scanner;
+public class Main{
+	static int t;
+	public static void main(String[] args) {
+		Scanner sc=new Scanner(System.in);
+		t=sc.nextInt();
+		while(t--!=0) {
+			long a=sc.nextLong();
+			long b=sc.nextLong();
+			long c=Math.min(a,b)%3;
+			if(c==0)
+				System.out.println(""niumei"");
+			else {
+				if(c==1&&a==b)
+					System.out.println(""niumei"");
+				else
+					System.out.println(""niuniu"");
+			}
+		}
+	}
+}
+"
+93,D,Java,60166481,2023-01-07 14:19:03,一周的,答案正确,"import java.io.*;
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) throws IOException {
+        Kattio io = new Kattio();
+        int t = io.nextInt();
+        while (t--!=0){
+            long a = io.nextLong();
+            long b = io.nextLong();
+            long c = Math.min(a,b)%3;
+            if (c==0){
+                io.println(""niumei"");
+            }else {
+                if (c==1&&a==b) io.println(""niumei"");
+                else io.println(""niuniu"");
+            }
+            io.flush();
+        }
+    }
+}
+
+class Kattio extends PrintWriter {
+    private BufferedReader r;
+    private StringTokenizer st;
+
+    // 标准 IO
+    public Kattio() {
+        this(System.in, System.out);
+    }
+
+    public Kattio(InputStream i, OutputStream o) {
+        super(o);
+        r = new BufferedReader(new InputStreamReader(i));
+    }
+
+    // 文件 IO
+    public Kattio(String intput, String output) throws IOException {
+        super(output);
+        r = new BufferedReader(new FileReader(intput));
+    }
+
+    // 在没有其他输入时返回 null
+    public String next() {
+        try {
+            while (st == null || !st.hasMoreTokens())
+                st = new StringTokenizer(r.readLine());
+            return st.nextToken();
+        } catch (Exception e) {
+        }
+        return null;
+    }
+
+    public int nextInt() {
+        return Integer.parseInt(next());
+    }
+
+    public double nextDouble() {
+        return Double.parseDouble(next());
+    }
+
+    public long nextLong() {
+        return Long.parseLong(next());
+    }
+}
+"
+94,D,Java,60166505,2023-01-07 14:20:22,一周的,答案正确,"import java.io.*;
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) throws IOException {
+        Kattio io = new Kattio();
+        int t = io.nextInt();
+        while (t--!=0){
+            long a = io.nextLong();
+            long b = io.nextLong();
+            long c = Math.min(a,b)%3;
+            if (c==0){
+                io.println(""niumei"");
+            }else {
+                if (c==1&&a==b) io.println(""niumei"");
+                else io.println(""niuniu"");
+            }
+        }
+        io.flush();
+    }
+}
+
+class Kattio extends PrintWriter {
+    private BufferedReader r;
+    private StringTokenizer st;
+
+    // 标准 IO
+    public Kattio() {
+        this(System.in, System.out);
+    }
+
+    public Kattio(InputStream i, OutputStream o) {
+        super(o);
+        r = new BufferedReader(new InputStreamReader(i));
+    }
+
+    // 文件 IO
+    public Kattio(String intput, String output) throws IOException {
+        super(output);
+        r = new BufferedReader(new FileReader(intput));
+    }
+
+    // 在没有其他输入时返回 null
+    public String next() {
+        try {
+            while (st == null || !st.hasMoreTokens())
+                st = new StringTokenizer(r.readLine());
+            return st.nextToken();
+        } catch (Exception e) {
+        }
+        return null;
+    }
+
+    public int nextInt() {
+        return Integer.parseInt(next());
+    }
+
+    public double nextDouble() {
+        return Double.parseDouble(next());
+    }
+
+    public long nextLong() {
+        return Long.parseLong(next());
+    }
+}
+"
+95,D,Java,60167490,2023-01-07 15:08:21,牛客232703472号,答案错误,"import java.util.Scanner;
+public class Main{
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        while(n -- > 0) {
+            long a = sc.nextLong();
+            long b = sc.nextLong();
+            a = Math.min(a, b);
+            if(a % 3 == 0) System.out.println(""niumei"");
+            else System.out.println(""niuniu"");
+        }
+    }
+}"
+96,D,Java,60167849,2023-01-07 15:24:48,牛客232703472号,答案正确,"import java.util.Scanner;
+public class Main{
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        while(n -- > 0) {
+            long a = sc.nextLong();
+            long b = sc.nextLong();
+            long r = Math.min(a, b) % 3;
+            if(r == 0 || r == 1 && a == b) System.out.println(""niumei"");
+            else System.out.println(""niuniu"");
+        }
+    }
+}"
+97,D,Java,60169270,2023-01-07 16:31:21,Faith-cxz,答案错误,"import java.util.*;
+
+public class Main{
+    public static void main(String[] args){
+        Scanner scanner = new Scanner(System.in);
+        int t = scanner.nextInt();
+        while(t-- > 0){
+            long a = scanner.nextLong();
+            long b = scanner.nextLong();
+            if(Math.min(a, b) % 3 == 0) System.out.println(""niumei"");
+            else System.out.println(""niuniu"");
+        }
+    }
+}"
+98,D,Java,60169328,2023-01-07 16:35:17,Faith-cxz,答案正确,"import java.util.*;
+
+public class Main{
+    public static void main(String[] args){
+        Scanner scanner = new Scanner(System.in);
+        int t = scanner.nextInt();
+        while(t-- > 0){
+            long a = scanner.nextLong();
+            long b = scanner.nextLong();
+            if(Math.min(a, b) % 3 == 0) System.out.println(""niumei"");
+            else{
+                if(Math.min(a - 1, b - 2) % 3 == 0 || Math.min(a - 2, b - 1) % 3 == 0) System.out.println(""niuniu"");
+                else System.out.println(""niumei"");
+            }
+        }
+    }
+}"
+99,D,Java,60170921,2023-01-07 18:12:37,第六序列,答案正确,"import java.util.*;
+public class Main{
+    public static void main(String[]args){
+        Scanner in=new Scanner(System.in);
+        int n=in.nextInt();
+        while(n-->0){
+            long a=in.nextLong();
+            long b=in.nextLong();
+            if(Math.min(a-1,b-2)%3==0)System.out.println(""niuniu"");
+            else if(Math.min(a-2,b-1)%3==0)System.out.println(""niuniu"");
+            else System.out.println(""niumei"");
+        }
+    }
+    
+}"
+100,D,Java,60171650,2023-01-07 19:13:33,codingj,答案正确,"import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+
+public class Main {
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+	public static void main(String[] args) throws Exception, Exception {
+		int t = Integer.parseInt(br.readLine());
+		while((t--) > 0) {
+			String ab[] = br.readLine().split("" "");
+			long a = Long.parseLong(ab[0]);
+			long b = Long.parseLong(ab[1]);
+			if(Math.min(a - 1, b - 2) % 3 == 0) {
+				xian();
+			}else if(Math.min(a - 2, b - 1) % 3 == 0) {
+				xian();
+			}else {
+				hou();
+			}
+			out.flush();
+		}
+	}
+	private static void xian() {
+		out.println(""niuniu"");
+	}
+	private static void hou() {
+		out.println(""niumei"");
+		
+	}
+
+}
+"
+101,D,Java,60172402,2023-01-07 20:07:36,acm_alone,执行出错,"
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    static int ans = Integer.MAX_VALUE;
+
+    public static void main(String[] args) throws IOException {
+        sc = new MScanner(System.in);
+        pw = new PrintWriter(System.out);
+        int t = sc.nextInt();
+        for (int i = 0; i < t; i++) {
+            solver();
+        }
+    }
+
+    public static void solver() throws IOException {
+        int a=sc.nextInt();
+        int b=sc.nextInt();
+        int min=Math.min(a,b);
+        if(min==3){
+            pw.println(""niumei"");
+        }else{
+            pw.println(""niuniu"");
+        }
+        
+        pw.flush();
+    }
+
+    static int curt;
+    static PrintWriter pw;
+    static MScanner sc;
+
+    static class MScanner {
+        StringTokenizer st;
+        BufferedReader br;
+
+        public MScanner(InputStream system) {
+            br = new BufferedReader(new InputStreamReader(system));
+        }
+
+        public MScanner(String file) throws Exception {
+            br = new BufferedReader(new FileReader(file));
+        }
+
+        public String next() throws IOException {
+            while (st == null || !st.hasMoreTokens())
+                st = new StringTokenizer(br.readLine());
+            return st.nextToken();
+        }
+
+        public String nextLine() throws IOException {
+            return br.readLine();
+        }
+
+        public int nextInt() throws IOException {
+            return Integer.parseInt(next());
+        }
+
+        public double nextDouble() throws IOException {
+            return Double.parseDouble(next());
+        }
+
+        public char nextChar() throws IOException {
+            return next().charAt(0);
+        }
+
+        public long nextLong() throws IOException {
+            return Long.parseLong(next());
+        }
+    }
+}
+"
+102,D,Java,60172409,2023-01-07 20:08:26,acm_alone,答案错误,"
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    static int ans = Integer.MAX_VALUE;
+
+    public static void main(String[] args) throws IOException {
+        sc = new MScanner(System.in);
+        pw = new PrintWriter(System.out);
+        int t = sc.nextInt();
+        for (int i = 0; i < t; i++) {
+            solver();
+        }
+    }
+
+    public static void solver() throws IOException {
+        long a=sc.nextLong();
+        long b=sc.nextLong();
+        long min=Math.min(a,b);
+        if(min==3){
+            pw.println(""niumei"");
+        }else{
+            pw.println(""niuniu"");
+        }
+        
+        pw.flush();
+    }
+
+    static int curt;
+    static PrintWriter pw;
+    static MScanner sc;
+
+    static class MScanner {
+        StringTokenizer st;
+        BufferedReader br;
+
+        public MScanner(InputStream system) {
+            br = new BufferedReader(new InputStreamReader(system));
+        }
+
+        public MScanner(String file) throws Exception {
+            br = new BufferedReader(new FileReader(file));
+        }
+
+        public String next() throws IOException {
+            while (st == null || !st.hasMoreTokens())
+                st = new StringTokenizer(br.readLine());
+            return st.nextToken();
+        }
+
+        public String nextLine() throws IOException {
+            return br.readLine();
+        }
+
+        public int nextInt() throws IOException {
+            return Integer.parseInt(next());
+        }
+
+        public double nextDouble() throws IOException {
+            return Double.parseDouble(next());
+        }
+
+        public char nextChar() throws IOException {
+            return next().charAt(0);
+        }
+
+        public long nextLong() throws IOException {
+            return Long.parseLong(next());
+        }
+    }
+}
+"
+103,D,Java,60172486,2023-01-07 20:14:26,acm_alone,答案错误,"
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    static int ans = Integer.MAX_VALUE;
+
+    public static void main(String[] args) throws IOException {
+        sc = new MScanner(System.in);
+        pw = new PrintWriter(System.out);
+        int t = sc.nextInt();
+        for (int i = 0; i < t; i++) {
+            solver();
+        }
+    }
+
+    public static void solver() throws IOException {
+        long a=sc.nextLong();
+        long b=sc.nextLong();
+        long min=Math.min(a,b);
+        if(min%3==0){
+            pw.println(""niumei"");
+        }else{
+            pw.println(""niuniu"");
+        }
+        
+        pw.flush();
+    }
+
+    static int curt;
+    static PrintWriter pw;
+    static MScanner sc;
+
+    static class MScanner {
+        StringTokenizer st;
+        BufferedReader br;
+
+        public MScanner(InputStream system) {
+            br = new BufferedReader(new InputStreamReader(system));
+        }
+
+        public MScanner(String file) throws Exception {
+            br = new BufferedReader(new FileReader(file));
+        }
+
+        public String next() throws IOException {
+            while (st == null || !st.hasMoreTokens())
+                st = new StringTokenizer(br.readLine());
+            return st.nextToken();
+        }
+
+        public String nextLine() throws IOException {
+            return br.readLine();
+        }
+
+        public int nextInt() throws IOException {
+            return Integer.parseInt(next());
+        }
+
+        public double nextDouble() throws IOException {
+            return Double.parseDouble(next());
+        }
+
+        public char nextChar() throws IOException {
+            return next().charAt(0);
+        }
+
+        public long nextLong() throws IOException {
+            return Long.parseLong(next());
+        }
+    }
+}
+"
+104,D,Java,60172694,2023-01-07 20:30:22,acm_alone,答案错误,"
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    static int ans = Integer.MAX_VALUE;
+
+    public static void main(String[] args) throws IOException {
+        sc = new MScanner(System.in);
+        pw = new PrintWriter(System.out);
+        int t = sc.nextInt();
+        for (int i = 0; i < t; i++) {
+            solver();
+        }
+    }
+
+    public static void solver() throws IOException {
+        long a=sc.nextLong();
+        long b=sc.nextLong();
+        if(a%3==0 ||b%3==0){
+            pw.println(""niumei"");
+        }else{
+            pw.println(""niuniu"");
+        }
+        
+        pw.flush();
+    }
+
+    static int curt;
+    static PrintWriter pw;
+    static MScanner sc;
+
+    static class MScanner {
+        StringTokenizer st;
+        BufferedReader br;
+
+        public MScanner(InputStream system) {
+            br = new BufferedReader(new InputStreamReader(system));
+        }
+
+        public MScanner(String file) throws Exception {
+            br = new BufferedReader(new FileReader(file));
+        }
+
+        public String next() throws IOException {
+            while (st == null || !st.hasMoreTokens())
+                st = new StringTokenizer(br.readLine());
+            return st.nextToken();
+        }
+
+        public String nextLine() throws IOException {
+            return br.readLine();
+        }
+
+        public int nextInt() throws IOException {
+            return Integer.parseInt(next());
+        }
+
+        public double nextDouble() throws IOException {
+            return Double.parseDouble(next());
+        }
+
+        public char nextChar() throws IOException {
+            return next().charAt(0);
+        }
+
+        public long nextLong() throws IOException {
+            return Long.parseLong(next());
+        }
+    }
+}
+"
+105,D,Java,60172707,2023-01-07 20:30:57,acm_alone,答案错误,"
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    static int ans = Integer.MAX_VALUE;
+
+    public static void main(String[] args) throws IOException {
+        sc = new MScanner(System.in);
+        pw = new PrintWriter(System.out);
+        int t = sc.nextInt();
+        for (int i = 0; i < t; i++) {
+            solver();
+        }
+    }
+
+    public static void solver() throws IOException {
+        long a=sc.nextLong();
+        long b=sc.nextLong();
+        if(a%3==0 && b%3==0){
+            pw.println(""niumei"");
+        }else{
+            pw.println(""niuniu"");
+        }
+        
+        pw.flush();
+    }
+
+    static int curt;
+    static PrintWriter pw;
+    static MScanner sc;
+
+    static class MScanner {
+        StringTokenizer st;
+        BufferedReader br;
+
+        public MScanner(InputStream system) {
+            br = new BufferedReader(new InputStreamReader(system));
+        }
+
+        public MScanner(String file) throws Exception {
+            br = new BufferedReader(new FileReader(file));
+        }
+
+        public String next() throws IOException {
+            while (st == null || !st.hasMoreTokens())
+                st = new StringTokenizer(br.readLine());
+            return st.nextToken();
+        }
+
+        public String nextLine() throws IOException {
+            return br.readLine();
+        }
+
+        public int nextInt() throws IOException {
+            return Integer.parseInt(next());
+        }
+
+        public double nextDouble() throws IOException {
+            return Double.parseDouble(next());
+        }
+
+        public char nextChar() throws IOException {
+            return next().charAt(0);
+        }
+
+        public long nextLong() throws IOException {
+            return Long.parseLong(next());
+        }
+    }
+}
+"
+106,D,Java,60172723,2023-01-07 20:31:43,acm_alone,答案错误,"
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    static int ans = Integer.MAX_VALUE;
+
+    public static void main(String[] args) throws IOException {
+        sc = new MScanner(System.in);
+        pw = new PrintWriter(System.out);
+        int t = sc.nextInt();
+        for (int i = 0; i < t; i++) {
+            solver();
+        }
+    }
+
+    public static void solver() throws IOException {
+        long a=sc.nextLong();
+        long b=sc.nextLong();
+        long min=Math.min(a,b);
+        if(min%3==0){
+            pw.println(""niumei"");
+        }else{
+            pw.println(""niuniu"");
+        }
+        
+        pw.flush();
+    }
+
+    static int curt;
+    static PrintWriter pw;
+    static MScanner sc;
+
+    static class MScanner {
+        StringTokenizer st;
+        BufferedReader br;
+
+        public MScanner(InputStream system) {
+            br = new BufferedReader(new InputStreamReader(system));
+        }
+
+        public MScanner(String file) throws Exception {
+            br = new BufferedReader(new FileReader(file));
+        }
+
+        public String next() throws IOException {
+            while (st == null || !st.hasMoreTokens())
+                st = new StringTokenizer(br.readLine());
+            return st.nextToken();
+        }
+
+        public String nextLine() throws IOException {
+            return br.readLine();
+        }
+
+        public int nextInt() throws IOException {
+            return Integer.parseInt(next());
+        }
+
+        public double nextDouble() throws IOException {
+            return Double.parseDouble(next());
+        }
+
+        public char nextChar() throws IOException {
+            return next().charAt(0);
+        }
+
+        public long nextLong() throws IOException {
+            return Long.parseLong(next());
+        }
+    }
+}
+"
+107,D,Java,60172745,2023-01-07 20:33:18,acm_alone,答案错误,"
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    static int ans = Integer.MAX_VALUE;
+
+    public static void main(String[] args) throws IOException {
+        sc = new MScanner(System.in);
+        pw = new PrintWriter(System.out);
+        int t = sc.nextInt();
+        for (int i = 0; i < t; i++) {
+            solver();
+        }
+    }
+
+    public static void solver() throws IOException {
+        long a=sc.nextLong();
+        long b=sc.nextLong();
+        long min=Math.min(a,b);
+        if(min%3==0 && a!=b){
+            pw.println(""niumei"");
+        }else{
+            pw.println(""niuniu"");
+        }
+        
+        pw.flush();
+    }
+
+    static int curt;
+    static PrintWriter pw;
+    static MScanner sc;
+
+    static class MScanner {
+        StringTokenizer st;
+        BufferedReader br;
+
+        public MScanner(InputStream system) {
+            br = new BufferedReader(new InputStreamReader(system));
+        }
+
+        public MScanner(String file) throws Exception {
+            br = new BufferedReader(new FileReader(file));
+        }
+
+        public String next() throws IOException {
+            while (st == null || !st.hasMoreTokens())
+                st = new StringTokenizer(br.readLine());
+            return st.nextToken();
+        }
+
+        public String nextLine() throws IOException {
+            return br.readLine();
+        }
+
+        public int nextInt() throws IOException {
+            return Integer.parseInt(next());
+        }
+
+        public double nextDouble() throws IOException {
+            return Double.parseDouble(next());
+        }
+
+        public char nextChar() throws IOException {
+            return next().charAt(0);
+        }
+
+        public long nextLong() throws IOException {
+            return Long.parseLong(next());
+        }
+    }
+}
+"
+108,D,Java,60172787,2023-01-07 20:35:31,acm_alone,答案错误,"
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    static int ans = Integer.MAX_VALUE;
+
+    public static void main(String[] args) throws IOException {
+        sc = new MScanner(System.in);
+        pw = new PrintWriter(System.out);
+        int t = sc.nextInt();
+        for (int i = 0; i < t; i++) {
+            solver();
+        }
+    }
+
+    public static void solver() throws IOException {
+        long a=sc.nextLong();
+        long b=sc.nextLong();
+        long min=Math.min(a,b);
+        if(a==b){
+            if(a%3==2) pw.println(""niuniu"");
+            else if(a%3==1) pw.println(""niumei"");
+            pw.flush();
+            return;
+        }
+        if(min%3==0){
+            pw.println(""niumei"");
+        }else{
+            pw.println(""niuniu"");
+        }
+        
+        pw.flush();
+    }
+
+    static int curt;
+    static PrintWriter pw;
+    static MScanner sc;
+
+    static class MScanner {
+        StringTokenizer st;
+        BufferedReader br;
+
+        public MScanner(InputStream system) {
+            br = new BufferedReader(new InputStreamReader(system));
+        }
+
+        public MScanner(String file) throws Exception {
+            br = new BufferedReader(new FileReader(file));
+        }
+
+        public String next() throws IOException {
+            while (st == null || !st.hasMoreTokens())
+                st = new StringTokenizer(br.readLine());
+            return st.nextToken();
+        }
+
+        public String nextLine() throws IOException {
+            return br.readLine();
+        }
+
+        public int nextInt() throws IOException {
+            return Integer.parseInt(next());
+        }
+
+        public double nextDouble() throws IOException {
+            return Double.parseDouble(next());
+        }
+
+        public char nextChar() throws IOException {
+            return next().charAt(0);
+        }
+
+        public long nextLong() throws IOException {
+            return Long.parseLong(next());
+        }
+    }
+}
+"
+109,D,Java,60172879,2023-01-07 20:41:55,acm_alone,答案正确,"
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    static int ans = Integer.MAX_VALUE;
+
+    public static void main(String[] args) throws IOException {
+        sc = new MScanner(System.in);
+        pw = new PrintWriter(System.out);
+        int t = sc.nextInt();
+        for (int i = 0; i < t; i++) {
+            solver();
+        }
+    }
+
+    public static void solver() throws IOException {
+        long a=sc.nextLong();
+        long b=sc.nextLong();
+        long min=Math.min(a,b);
+        if(a==b){
+            if(a%3==2) pw.println(""niuniu"");
+            else pw.println(""niumei"");
+            pw.flush();
+            return;
+        }
+        if(min%3==0){
+            pw.println(""niumei"");
+        }else{
+            pw.println(""niuniu"");
+        }
+        
+        pw.flush();
+    }
+
+    static int curt;
+    static PrintWriter pw;
+    static MScanner sc;
+
+    static class MScanner {
+        StringTokenizer st;
+        BufferedReader br;
+
+        public MScanner(InputStream system) {
+            br = new BufferedReader(new InputStreamReader(system));
+        }
+
+        public MScanner(String file) throws Exception {
+            br = new BufferedReader(new FileReader(file));
+        }
+
+        public String next() throws IOException {
+            while (st == null || !st.hasMoreTokens())
+                st = new StringTokenizer(br.readLine());
+            return st.nextToken();
+        }
+
+        public String nextLine() throws IOException {
+            return br.readLine();
+        }
+
+        public int nextInt() throws IOException {
+            return Integer.parseInt(next());
+        }
+
+        public double nextDouble() throws IOException {
+            return Double.parseDouble(next());
+        }
+
+        public char nextChar() throws IOException {
+            return next().charAt(0);
+        }
+
+        public long nextLong() throws IOException {
+            return Long.parseLong(next());
+        }
+    }
+}
+"
+110,D,Java,60188746,2023-01-09 15:39:03,牛客935801330号（人工智能3211吴华聪）,答案错误,"
+
+import java.io.*;
+import java.util.*;
+import java.math.*;
+
+public class Main {
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader in = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        TaskA solver = new TaskA();
+        solver.solve(1, in, out);
+        out.close();
+    }
+
+    static class TaskA {
+
+        public void solve(int testNumber, InputReader in, PrintWriter out) {
+            int t=in.nextInt();
+            while (t-->0){
+               long a=in.nextLong();
+               long b=in.nextLong();
+               long min=Math.min(a/3,b/3);
+               a-=3*min;
+               b-=3*min;
+               if(a*b==0){
+                   System.out.println(""niumei"");
+               }
+               else {
+                   if(a*b==2){
+                       System.out.println(""niuniu"");
+                   }
+                   else {
+                       System.out.println(""niumei"");
+                   }
+               }
+            }
+        }
+
+    }
+    static class InputReader {
+        public BufferedReader reader;
+        public StringTokenizer tokenizer;
+
+        public InputReader(InputStream stream) {
+            reader = new BufferedReader(new InputStreamReader(stream), 32768);
+            tokenizer = null;
+        }
+        boolean hasNext()
+        {
+            while (tokenizer == null || !tokenizer.hasMoreTokens())
+            {
+                try
+                {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (Exception e)
+                {
+                    return false;
+                    // TODO: handle exception
+                }
+            }
+            return true;
+        }
+        public String next() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return tokenizer.nextToken();
+        }
+        public String nextLine()
+        {
+            String str = null;
+            try
+            {
+                str = reader.readLine();
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            return str;
+        }
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+        public double nextDouble(){
+            return Double.parseDouble(next());
+        }
+        public long nextLong(){
+            return Long.parseLong(next());
+        }
+        public BigInteger nextBigInteger()
+        {
+            return new BigInteger(next());
+        }
+        public BigDecimal nextBigDecimal()
+        {
+            return new BigDecimal(next());
+        }
+
+    }
+}"
+111,D,Java,60188769,2023-01-09 15:40:47,牛客935801330号（人工智能3211吴华聪）,答案正确,"
+
+import java.io.*;
+import java.util.*;
+import java.math.*;
+
+public class Main {
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader in = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        TaskA solver = new TaskA();
+        solver.solve(1, in, out);
+        out.close();
+    }
+
+    static class TaskA {
+
+        public void solve(int testNumber, InputReader in, PrintWriter out) {
+            int t=in.nextInt();
+            while (t-->0){
+               long a=in.nextLong();
+               long b=in.nextLong();
+               long min=Math.min(a/3,b/3);
+               a-=3*min;
+               b-=3*min;
+               if(a*b==0){
+                   out.println(""niumei"");
+               }
+               else {
+                   if(a*b>=2){
+                       out.println(""niuniu"");
+                   }
+                   else {
+                       out.println(""niumei"");
+                   }
+               }
+            }
+        }
+
+    }
+    static class InputReader {
+        public BufferedReader reader;
+        public StringTokenizer tokenizer;
+
+        public InputReader(InputStream stream) {
+            reader = new BufferedReader(new InputStreamReader(stream), 32768);
+            tokenizer = null;
+        }
+        boolean hasNext()
+        {
+            while (tokenizer == null || !tokenizer.hasMoreTokens())
+            {
+                try
+                {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (Exception e)
+                {
+                    return false;
+                    // TODO: handle exception
+                }
+            }
+            return true;
+        }
+        public String next() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return tokenizer.nextToken();
+        }
+        public String nextLine()
+        {
+            String str = null;
+            try
+            {
+                str = reader.readLine();
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            return str;
+        }
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+        public double nextDouble(){
+            return Double.parseDouble(next());
+        }
+        public long nextLong(){
+            return Long.parseLong(next());
+        }
+        public BigInteger nextBigInteger()
+        {
+            return new BigInteger(next());
+        }
+        public BigDecimal nextBigDecimal()
+        {
+            return new BigDecimal(next());
+        }
+
+    }
+}"
+112,D,Java,60237608,2023-01-13 21:14:25,出去玩9964,答案错误,"import java.util.*;
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int T = sc.nextInt();
+        while(T-- > 0) {
+            long a = sc.nextLong();
+            long b = sc.nextLong();
+            int modA = (int)(a % 3);
+            int modB = (int)(b % 3);
+            boolean isVictory1 = modA == 1 || modA == 2;
+            boolean isVictory2 = modB == 1 || modB == 2;
+            if(isVictory1 && isVictory2) {
+                System.out.println(""niuniu"");
+            }else if(!isVictory1 && !isVictory2) {
+                System.out.println(""niumei"");
+            }else if(!isVictory1 && isVictory2) {
+                if(a < b) {
+                    System.out.println(""niumei"");
+                }else {
+                    System.out.println(""niuniu"");
+                }
+            }else {
+                if(a < b) {
+                    System.out.println(""niuniu"");
+                }else {
+                    System.out.println(""niumei"");
+                }
+            }
+        }
+    }
+}"
+113,D,Java,60238267,2023-01-13 21:53:33,出去玩9964,答案错误,"import java.util.*;
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int T = sc.nextInt();
+        while(T-- > 0) {
+            long a = sc.nextLong();
+            long b = sc.nextLong();
+            int modA = (int)(a % 3);
+            int modB = (int)(b % 3);
+            boolean isVictory1 = modA == 1 || modA == 2;
+            boolean isVictory2 = modB == 1 || modB == 2;
+            if(!(isVictory1) && !(isVictory2)) {
+                System.out.println(""niumei"");
+            }else if(isVictory1 && isVictory2) {
+                if(modA == modB) {
+                    if(modA == 1) {
+                        System.out.println(""niumei"");
+                    }else {
+                        System.out.println(""niuniu"");
+                    }
+                }else {
+                    System.out.println(""niuniu"");
+                }
+            }else {
+                if(!isVictory1) {
+                    if(a < b) {
+                        System.out.println(""niumei"");
+                    }else {
+                        System.out.println(""niuniu"");
+                    }
+                }else {
+                    if(a < b) {
+                        System.out.println(""niuniu"");
+                    }else {
+                        System.out.println(""niumei"");
+                    }
+                }
+            }
+        }
+    }
+}"
+114,D,Java,60238505,2023-01-13 22:05:13,出去玩9964,答案正确,"import java.util.*;
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int T = sc.nextInt();
+        while(T-- > 0) {
+            long a = sc.nextLong();
+            long b = sc.nextLong();
+            int modA = (int)(a % 3);
+            int modB = (int)(b % 3);
+            boolean isVictory1 = modA == 1 || modA == 2;
+            boolean isVictory2 = modB == 1 || modB == 2;
+            if(!(isVictory1) && !(isVictory2)) {
+                System.out.println(""niumei"");
+            }else if(isVictory1 && isVictory2) {
+                if(modA == modB) {
+                    if(modA == 1) {
+                        if(a == b) {
+                            System.out.println(""niumei"");
+                        }else {
+                            System.out.println(""niuniu"");
+                        }
+                    }else {
+                        System.out.println(""niuniu"");
+                    }
+                }else {
+                    System.out.println(""niuniu"");
+                }
+            }else {
+                if(!isVictory1) {
+                    if(a < b) {
+                        System.out.println(""niumei"");
+                    }else {
+                        System.out.println(""niuniu"");
+                    }
+                }else {
+                    if(a < b) {
+                        System.out.println(""niuniu"");
+                    }else {
+                        System.out.println(""niumei"");
+                    }
+                }
+            }
+        }
+    }
+}"
+115,D,Java,60238528,2023-01-13 22:07:22,出去玩9964,答案正确,"import java.util.*;
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int T = sc.nextInt();
+        while(T-- > 0) {
+            long a = sc.nextLong();
+            long b = sc.nextLong();
+            int modA = (int)(a % 3);
+            int modB = (int)(b % 3);
+            boolean isVictory1 = modA == 1 || modA == 2;
+            boolean isVictory2 = modB == 1 || modB == 2;
+            if(!(isVictory1) && !(isVictory2)) {
+                System.out.println(""niumei"");
+            }else if(isVictory1 && isVictory2) {
+                if(modA == modB) {
+                    if(modA == 1) {
+                        if(a == b) {
+                            System.out.println(""niumei"");
+                        }else {
+                            System.out.println(""niuniu"");
+                        }
+                    }else {
+                        System.out.println(""niuniu"");
+                    }
+                }else {
+                    System.out.println(""niuniu"");
+                }
+            }else {
+                if(!isVictory1) {
+                    if(a < b) {
+                        System.out.println(""niumei"");
+                    }else {
+                        System.out.println(""niuniu"");
+                    }
+                }else {
+                    if(a < b) {
+                        System.out.println(""niuniu"");
+                    }else {
+                        System.out.println(""niumei"");
+                    }
+                }
+            }
+        }
+    }
+}"
+116,D,Java,60841608,2023-02-09 18:46:34,牛客775249987号,执行出错,"import java.util.*;
+public class Main{
+    public static void main(String[] args){
+        Scanner cin=new Scanner(System.in);
+        int n=cin.nextInt();
+        StringBuilder res=new StringBuilder();
+        while(n>0){
+            int v1=cin.nextInt(),v2=cin.nextInt(); 
+            int min=Math.min(v1,v2);
+            String cur=min%3==0?""niumei"":""niuniu"";
+            if(res.length()==0){
+                res.append(cur);
+            }else{
+                res.append(""\n"").append(cur);
+            }
+            n--;
+        }
+        System.out.println(res.toString());
+    }
+}"
+117,D,Java,60841611,2023-02-09 18:47:24,牛客775249987号,执行出错,"import java.util.*;
+public class Main{
+    public static void main(String[] args){
+        Scanner cin=new Scanner(System.in);
+        int n=cin.nextInt();
+        StringBuilder res=new StringBuilder();
+        while(n>0){
+            int v1=cin.nextInt(),v2=cin.nextInt(); 
+            int min=Math.min(v1,v2);
+            String cur=min%3==0?""niumei"":""niuniu"";
+            if(res.length()==0){
+                res.append(cur);
+            }else{
+                res.append(""\n"").append(cur);
+            }
+            n--;
+        }
+        System.out.println(res.toString());
+    }
+}"
+118,D,Java,60841618,2023-02-09 18:48:46,牛客775249987号,答案错误,"import java.util.*;
+public class Main{
+    public static void main(String[] args){
+        Scanner cin=new Scanner(System.in);
+        int n=cin.nextInt();
+        StringBuilder res=new StringBuilder();
+        while(n>0){
+            long v1=cin.nextLong(),v2=cin.nextLong(); 
+            long min=Math.min(v1,v2);
+            String cur=min%3==0?""niumei"":""niuniu"";
+            if(res.length()==0){
+                res.append(cur);
+            }else{
+                res.append(""\n"").append(cur);
+            }
+            n--;
+        }
+        System.out.println(res.toString());
+    }
+}"
+119,D,Java,60841638,2023-02-09 18:55:32,牛客775249987号,答案正确,"import java.util.*;
+public class Main{
+    public static void main(String[] args){
+        Scanner cin=new Scanner(System.in);
+        int n=cin.nextInt();
+        StringBuilder res=new StringBuilder();
+        while(n>0){
+            long v1=cin.nextLong(),v2=cin.nextLong(); 
+            long min=Math.min(v1,v2);
+            String cur=""niuniu"";
+            if(min%3==0){
+                cur=""niumei"";
+            }else if(v1==v2&&v1%3==1){
+                cur=""niumei"";
+            }
+            if(res.length()==0){
+                res.append(cur);
+            }else{
+                res.append(""\n"").append(cur);
+            }
+            n--;
+        }
+        System.out.println(res.toString());
+    }
+}"
+120,D,Java,60898720,2023-02-16 15:09:21,Eunoiay,答案错误,"import java.util.Scanner;
+
+public class Main {
+    
+    public static void main(String[] args) {
+        Scanner sc  = new Scanner(System.in);
+        
+        int T = sc.nextInt();
+        while (T-- != 0) {
+            long a = sc.nextLong();
+            long b = sc.nextLong();
+            
+            if (Math.min(a - 2, b - 2) % 3 == 0 || Math.min(a - 1, b - 2) % 3 == 0)
+                System.out.println(""niuniu"");
+            else
+                System.out.println(""niumei"");
+                
+        }
+    }
+}"
+121,D,Java,60898730,2023-02-16 15:10:10,Eunoiay,答案正确,"import java.util.Scanner;
+
+public class Main {
+    
+    public static void main(String[] args) {
+        Scanner sc  = new Scanner(System.in);
+        
+        int T = sc.nextInt();
+        while (T-- != 0) {
+            long a = sc.nextLong();
+            long b = sc.nextLong();
+            
+            if (Math.min(a - 2, b - 1) % 3 == 0 || Math.min(a - 1, b - 2) % 3 == 0)
+                System.out.println(""niuniu"");
+            else
+                System.out.println(""niumei"");
+                
+        }
+    }
+}"

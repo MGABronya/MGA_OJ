@@ -1,0 +1,912 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,B,Python3,54979047,2022-11-25 19:13:27,书生alin,答案错误,"t = int(input())
+for i in range(t):
+    l, r = map(int, input().split())
+    s = 0
+    for j in range(l, r+1):
+        s += j
+    m = int(input())
+    for j in range(m):
+        x = int(input())
+        yu = s % x
+        print(yu)
+
+"
+1,B,Python3,54980181,2022-11-25 19:24:28,WTIAWTIAW,答案错误,"T = int(input())
+while T != 0:
+    T -= 1
+    x,y = map(int,input().split())
+    m = int(input())
+    for i in range(m):
+        n = int(input())
+        print(((y - x + 1) * (x + y) // 2) %n)
+        "
+2,B,Python3,54981088,2022-11-25 19:32:50,WTIAWTIAW,答案正确,"T = int(input())
+while T != 0:
+    T -= 1
+    x,y = map(int,input().split())
+    m = int(input())
+    for i in range(m):
+        n = int(input())
+        if ((y - x + 1) * (x + y) // 2) % n == 0:
+            print(0)
+        else:print(1)
+        "
+3,B,Python3,54981103,2022-11-25 19:32:55,WTIAWTIAW,答案正确,"T = int(input())
+while T != 0:
+    T -= 1
+    x,y = map(int,input().split())
+    m = int(input())
+    for i in range(m):
+        n = int(input())
+        if ((y - x + 1) * (x + y) // 2) % n == 0:
+            print(0)
+        else:print(1)
+        "
+4,B,Python3,54981398,2022-11-25 19:35:51,又熬夜了的牛油果很自来熟,答案错误,"times = eval(input())
+for i in range(times):
+	info1 = list(map(int, input().split()))
+	sum = info1[1] - info1[0] + 1
+	m = int(input())
+	for j in range(m):
+		x = int(input())
+		if sum<x:
+			print(0)
+		else:
+			k = 1
+			while x//k != 0:
+				k = k+1
+			k = k-1
+			sum = sum - k*x
+			print(sum)"
+5,B,Python3,54981452,2022-11-25 19:36:21,又熬夜了的牛油果很自来熟,答案错误,"times = eval(input())
+for i in range(times):
+	info1 = list(map(int, input().split()))
+	sum = info1[1] - info1[0] + 1
+	m = int(input())
+	for j in range(m):
+		x = int(input())
+		if sum<=x:
+			print(0)
+		else:
+			k = 1
+			while x//k != 0:
+				k = k+1
+			k = k-1
+			sum = sum - k*x
+			print(sum)
+	"
+6,B,Python3,54981923,2022-11-25 19:40:50,眼里_有光,执行出错,"'''
+由 l…r 共 r−l+1 个整数组成的环
+进行了 m 次询问，每次给定一个整数 x 问牛牛操作到不能继续操作时最少会剩下几个数
+
+
+
+
+
+'''
+import sys
+
+
+def func(l:int,r:int,num:int):
+    if((r*(r+1)//2-l*(l-1)//2)%num==0):
+        print(1)
+        return
+    print(0)
+    
+    
+
+
+
+list1=[]
+for line in sys.stdin:
+    a=line.split()
+    list1+=[a]
+T=int(list1[0][0])
+len1=len(list1)
+count=1
+while(count<=len1-1):
+    l,r=int(list1[count][0]),int(list1[count][1])
+    count+=1
+    m=int(list1[count][0])
+    for time in range(m):
+        count+=1
+        num=int(list1[count][0])
+        func(l,r,num)
+    if(count==len1-1):break
+        "
+7,B,Python3,54981995,2022-11-25 19:41:37,又熬夜了的牛油果很自来熟,答案错误,"times = eval(input())
+for i in range(times):
+	info1 = list(map(int, input().split()))
+	sum = info1[1] - info1[0] + 1
+	m = int(input())
+	for j in range(m):
+		x = int(input())
+		if (sum-x)<0:
+			print(0)
+		else:
+			k = 1
+			while x//k != 0:
+				k = k+1
+			k = k-1
+			sum = sum - k*x
+			print(sum)
+	"
+8,B,Python3,54982074,2022-11-25 19:42:29,枫絮凝语,答案错误,"t=int(input())
+for _ in range(t):
+    l,r=map(int,input().split())
+    m=int(input())
+    for i in range(m):
+        x=int(input())
+        remainder=(l+r)*(r-l+1)//2%x
+#         if remainder>=l and remainder<=r:
+#             print()
+        if remainder==0:
+            print(0)
+        else:
+            print(remainder)
+            
+        
+
+
+
+
+"
+9,B,Python3,54982275,2022-11-25 19:44:24,眼里_有光,答案正确,"'''
+由 l…r 共 r−l+1 个整数组成的环
+进行了 m 次询问，每次给定一个整数 x 问牛牛操作到不能继续操作时最少会剩下几个数
+
+
+
+
+
+'''
+import sys
+def func(l:int,r:int,num:int):
+    if((r*(r+1)//2-l*(l-1)//2)%num==0):
+        print(0)
+        return
+    print(1)
+    return 
+    
+
+list1=[]
+for line in sys.stdin:
+    a=line.split()
+    list1+=[a]
+T=int(list1[0][0])
+len1=len(list1)
+count=1
+while(count<=len1-1):
+    l,r=int(list1[count][0]),int(list1[count][1])
+    count+=1
+    m=int(list1[count][0])
+    for time in range(m):
+        count+=1
+        num=int(list1[count][0])
+        func(l,r,num)
+    if(count==len1-1):break
+    count+=1
+        "
+10,B,Python3,54982370,2022-11-25 19:45:21,又熬夜了的牛油果很自来熟,答案错误,"times = int(input())
+for i in range(times):
+	info1 = list(map(int, input().split()))
+	sum = info1[1] - info1[0] + 1
+	m = int(input())
+	for j in range(m):
+		x = int(input())
+		if (sum-x)<0:
+			print(0)
+		else:
+			k = 1
+			while x//k != 0:
+				k = k+1
+			k = k-1
+			sum = sum - k*x
+			if sum<0:
+				print(0)
+			else:
+				print(sum)
+	"
+11,B,Python3,54982569,2022-11-25 19:47:12,qdljerry,答案正确,"t=int(input())
+for i in range(t):
+    l,r=map(int,input().split())
+    m=int(input())
+    c=0
+    for j in range(m):
+        x=int(input())
+        y=((l+r)*(r-l+1)//2)%x
+        if y==0:
+            print(0)
+        else:
+            print(1)"
+12,B,Python3,54982955,2022-11-25 19:50:41,书生alin,运行超时,"t = int(input())
+for i in range(t):
+    l, r = map(int, input().split())
+    s = 0
+    for j in range(l, r+1):
+        s += j
+    m = int(input())
+    for j in range(m):
+        x = int(input())
+        yu = s % x
+        if yu != 0:
+            print(1)
+        else:
+            print(0)
+
+"
+13,B,Python3,54983756,2022-11-25 19:57:35,书生alin,运行超时,"t = int(input())
+for i in range(t):
+    l, r = map(int, input().split())
+    s = 0
+    for j in range(l, r+1):
+        s += j
+    m = int(input())
+    for j in range(m):
+        x = int(input())
+        if s % x == 0:
+            print(0)
+        else:
+            print(1)
+
+"
+14,B,Python3,54983812,2022-11-25 19:57:56,又熬夜了的牛油果很自来熟,答案错误,"times = int(input())
+for i in range(times):
+	info1 = list(map(int, input().split()))
+	sum = info1[1] - info1[0] + 1
+	m = int(input())
+	for j in range(m):
+		x = int(input())
+		if (sum-x)<0:
+			print(0)
+		else:
+			k = 2
+			while x%k >1:
+				k = k+1
+			sum = sum - k*x
+			print(sum)"
+15,B,Python3,54983879,2022-11-25 19:58:38,又熬夜了的牛油果很自来熟,答案错误,"times = int(input())
+for i in range(times):
+	info1 = list(map(int, input().split()))
+	sum = info1[1] - info1[0] + 1
+	m = int(input())
+	for j in range(m):
+		x = int(input())
+		if (sum-x)<0:
+			print(0)
+		else:
+			k = 2
+			while x%k >1:
+				k = k+1
+			sum = sum - k*x
+			if sum<0:
+				print(0)
+			else:
+				print(sum)"
+16,B,Python3,54984179,2022-11-25 20:01:26,OvHaozzZ,执行出错,"import sys
+lst1 = []
+for line in sys.stdin:
+    a = line.split()
+    lst1 += [a]
+T = int(lst1[0][0])
+for t in range(T):
+    l = int(lst1[3 * t + 1][0])
+    r = int(lst1[3 * t + 1][1])
+    m = int(lst1[3 * t + 2][0])
+    for i in range(m):
+        s = 0
+        k = l
+        c = r - l + 1
+        x = int(lst1[3 * t + 3][0])
+        for j in range(k, r + 1):
+            count = j - k + 1
+            number = l
+            for i in range(count):
+                s += number
+                number += 1
+            if s % x == 0:
+                k = l + count
+                c -= number
+        print(c)
+                
+                "
+17,B,Python3,54984372,2022-11-25 20:03:23,又熬夜了的牛油果很自来熟,答案错误,"times = int(input())
+for i in range(times):
+	info1 = list(map(int, input().split()))
+	sum = info1[1] - info1[0] + 1
+	m = int(input())
+	for j in range(m):
+		x = int(input())
+		if (sum-x)<0:
+			print(0)
+		else:
+			k = 2
+			while sum%(x*k) != sum:
+				k = k+1
+			k = k-1
+			sum = sum - k*x
+			if sum<0:
+				print(0)
+			else:
+				print(sum)"
+18,B,Python3,54984513,2022-11-25 20:04:33,OvHaozzZ,执行出错,"import sys
+lst1 = []
+for line in sys.stdin:
+    a = line.split()
+    lst1 += [a]
+T = int(lst1[0][0])
+for t in range(T):
+    l = int(lst1[3 * t + 1][0])
+    r = int(lst1[3 * t + 1][1])
+    m = int(lst1[3 * t + 2][0])
+    for i in range(m):
+        s = 0
+        k = l
+        c = r - l + 1
+        x = int(lst1[3 * t + 3][0])
+        for j in range(k, r + 1):
+            count = j - k + 1
+            number = l
+            for i in range(count):
+                s += number
+                number += 1
+            if s % x == 0:
+                k = l + count
+                c -= number
+        print(c)
+                
+                "
+19,B,Python3,54984545,2022-11-25 20:04:52,又熬夜了的牛油果很自来熟,运行超时,"times = int(input())
+for i in range(times):
+	info1 = list(map(int, input().split()))
+	sum = info1[1] - info1[0] + 1
+	m = int(input())
+	for j in range(m):
+		x = int(input())
+		k = 2
+		while sum%(x*k) != sum:
+			k = k+1
+		k = k-1
+		sum = sum - k*x
+		if sum<0:
+			print(0)
+		else:
+			print(sum)"
+20,B,Python3,54984761,2022-11-25 20:06:48,又熬夜了的牛油果很自来熟,答案错误,"times = int(input())
+for i in range(times):
+	info1 = list(map(int, input().split()))
+	sum = info1[1] - info1[0] + 1
+	m = int(input())
+	for j in range(m):
+		x = int(input())
+		if sum<x:
+			print(0)
+		else:
+			k = 1
+			while sum%(x*k) != sum:
+				k = k+1
+			k = k-1
+			sum = sum - k*x
+			if sum<0:
+				print(0)
+			else:
+				print(sum)"
+21,B,Python3,54985435,2022-11-25 20:13:19,又熬夜了的牛油果很自来熟,答案错误,"times = int(input())
+for i in range(times):
+	info1 = list(map(int, input().split()))
+	sum = info1[1] - info1[0] + 1
+	m = int(input())
+	for j in range(m):
+		x = int(input())
+		if sum<=x:
+			print(0)
+		else:
+			k = 1
+			while sum%(x*k) != sum:
+				k = k+1
+			k = k-1
+			sum = sum - k*x
+			if sum<0:
+				print(0)
+			else:
+				print(sum)"
+22,B,Python3,54989303,2022-11-25 20:54:40,carnation13,答案错误,"t=int(input())
+for i in range(t):
+    l,r=map(int,input().split());m=int(input())
+    for j in range(m):
+        x=int(input())
+        if int((l+r)*(r-l+1)/2)%x==0:print(0)
+        else:print(1)"
+23,B,Python3,54989350,2022-11-25 20:55:11,carnation13,答案错误,"t=int(input())
+for i in range(t):
+    l,r=map(int,input().split());m=int(input())
+    for j in range(m):
+        x=int(input())
+        if int(int(int(l+r)*int(r-l+1))/2)%x==0:print(0)
+        else:print(1)"
+24,B,Python3,54989696,2022-11-25 20:58:40,carnation13,答案错误,"t=int(input())
+for i in range(t):
+    l,r=map(int,input().split())
+    m=int(input())
+    for j in range(m):
+        x=int(input())
+        if int((l+r)*(r-l+1)/2)%x==0:print(0)
+        else:print(1)"
+25,B,Python3,54989780,2022-11-25 20:59:25,王成成666,执行出错,"T = II()
+for _ in range(T):
+    l, r = MI()
+    m = II()
+    for i in range(m):
+        x = II()
+        n = (l+r)*(r-l+1)//2
+        if n%x==0:
+            print(0)
+        else:
+            print(1)"
+26,B,Python3,54989835,2022-11-25 20:59:50,carnation13,答案错误,"t=int(input())
+for i in range(t):
+    l,r=map(int,input().split())
+    m=int(input())
+    for j in range(m):
+        x=int(input())
+        y=int((l+r)*(r-l+1)/2)
+        if y%2==1:y=y-1
+        if y%x==0:print(0)
+        else:print(1)"
+27,B,Python3,54990110,2022-11-25 21:03:03,枫絮凝语,答案正确,"t=int(input())
+for _ in range(t):
+    l,r=map(int,input().split())
+    m=int(input())
+    for i in range(m):
+        x=int(input())
+        remainder=(l+r)*(r-l+1)//2%x
+#         if remainder>=l and remainder<=r:
+#             print()
+        if remainder==0:
+            print(0)
+        else:
+            print(1)
+            
+        
+
+
+
+
+"
+28,B,Python3,54990213,2022-11-25 21:04:20,枫絮凝语,答案正确,"t=int(input())
+for _ in range(t):
+    l,r=map(int,input().split())
+    m=int(input())
+    for i in range(m):
+        x=int(input())
+        remainder=(l+r)*(r-l+1)//2%x
+        if remainder==0:
+            print(0)
+        else:
+            print(1)
+            
+        
+
+
+
+
+"
+29,B,Python3,54990581,2022-11-25 21:09:41,Kshqsz,答案错误,"T = int(input())
+while T != 0:
+    T -= 1
+    x,y = map(int,input().split())
+    m = int(input())
+    for i in range(m):
+        n = int(input())
+        if ((y - x + 1) * (y-x) // 2) % n == 0:
+            print(0)
+        else:print(1)"
+30,B,Python3,54990875,2022-11-25 21:15:41,Kshqsz,答案正确,"a=int(input())
+for i in range(a):
+    x,y = map(int,input().split())
+    m = int(input())
+    for i in range(m):
+        n = int(input())
+        if ((y - x + 1) * (y+x) // 2) % n == 0:
+            print(0)
+        else:print(1)"
+31,B,Python3,54991388,2022-11-25 21:27:48,牛客956373253号,内存超限,"eg = input()
+def check(tt):
+    li = [i for i in range(int(l),int(r)+1)]
+    total = sum(li)
+    if total <int(tt):
+        return len(li)
+    return 1 if total%int(tt) else 0   
+
+while True:
+    try:
+        l,r = input().split()
+        m = int(input())
+        for _ in range(m):
+            print(check(input()))
+    except:
+        break"
+32,B,Python3,54991434,2022-11-25 21:29:03,牛客956373253号,答案错误,"eg = input()
+def check(tt):
+    li = [i for i in range(int(l),int(r)+1)]
+    total = sum(li)
+    if total <int(tt):
+        return len(li)
+    return 1 if total%int(tt) else 0   
+
+
+   
+l,r = input().split()
+m = int(input())
+for _ in range(m):
+        print(check(input()))
+   "
+33,B,Python3,54991501,2022-11-25 21:31:08,相ཽ信ཽ光ཽ的ཽ少ཽ年ཽ,答案正确,"import random
+import sys
+import os
+import math
+from collections import Counter, defaultdict, deque
+from functools import lru_cache, reduce
+from itertools import accumulate, combinations, permutations
+from heapq import nsmallest, nlargest, heapify, heappop, heappush
+from io import BytesIO, IOBase
+from copy import deepcopy
+import threading
+import bisect
+BUFSIZE = 4096
+
+
+class FastIO(IOBase):
+    newlines = 0
+
+    def __init__(self, file):
+        self._fd = file.fileno()
+        self.buffer = BytesIO()
+        self.writable = ""x"" in file.mode or ""r"" not in file.mode
+        self.write = self.buffer.write if self.writable else None
+
+    def read(self):
+        while True:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            if not b:
+                break
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines = 0
+        return self.buffer.read()
+
+    def readline(self):
+        while self.newlines == 0:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            self.newlines = b.count(b""\n"") + (not b)
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines -= 1
+        return self.buffer.readline()
+
+    def flush(self):
+        if self.writable:
+            os.write(self._fd, self.buffer.getvalue())
+            self.buffer.truncate(0), self.buffer.seek(0)
+
+class IOWrapper(IOBase):
+    def __init__(self, file):
+        self.buffer = FastIO(file)
+        self.flush = self.buffer.flush
+        self.writable = self.buffer.writable
+        self.write = lambda s: self.buffer.write(s.encode(""ascii""))
+        self.read = lambda: self.buffer.read().decode(""ascii"")
+        self.readline = lambda: self.buffer.readline().decode(""ascii"")
+
+sys.stdin = IOWrapper(sys.stdin)
+sys.stdout = IOWrapper(sys.stdout)
+input = lambda: sys.stdin.readline().rstrip(""\r\n"")
+
+def I():
+    return input()
+
+def II():
+    return int(input())
+
+def MI():
+    return map(int, input().split())
+
+def LI():
+    return list(input().split())
+
+def LII():
+    return list(map(int, input().split()))
+
+def GMI():
+    return map(lambda x: int(x) - 1, input().split())
+
+def LGMI():
+    return list(map(lambda x: int(x) - 1, input().split()))
+
+
+
+T = II()
+for _ in range(T):
+    l, r = MI()
+    m = II()
+    sums = (l+r)*(r-l+1) //2
+    for i in range(m):
+        x = II()
+        if sums % x != 0:
+            print(1)
+        else:
+            print(0)
+        
+    "
+34,B,Python3,54992479,2022-11-25 22:07:10,牛客114504161号,执行出错,"T = int(input())
+for i in range(T):
+    l,r = map(int,input().split())
+    m = int(input())
+    for i in range(m):
+        n = int(input())
+        sum = (l+r)*(r-l+1)//2%x
+        if sum != 0:
+            print(1)
+        else:
+            print(0)"
+35,B,Python3,54992488,2022-11-25 22:07:27,牛客114504161号,答案正确,"T = int(input())
+for i in range(T):
+    l,r = map(int,input().split())
+    m = int(input())
+    for i in range(m):
+        n = int(input())
+        sum = (l+r)*(r-l+1)//2%n
+        if sum != 0:
+            print(1)
+        else:
+            print(0)"
+36,B,Python3,54992836,2022-11-25 22:22:56,风度翩翩的秋田犬很强大,运行超时,"T = int(input())
+while T:
+    s = 0
+    l, r = map(int, input().split())
+    for i in range(l, r + 1):
+        s += i
+    q = int(input())
+    for i in range(q):
+        x = int(input())
+        if s % x == 0:
+            print(0)
+        else:
+            print(1)
+    T -= 1"
+37,B,Python3,54992977,2022-11-25 22:30:51,风度翩翩的秋田犬很强大,运行超时,"T = int(input())
+while T:
+    s = 0
+    l, r = map(int, input().split())
+    for i in range(l, r + 1):
+        s += i
+    q = int(input())
+    for i in range(q):
+        x = int(input())
+        if s % x == 0:
+            print(0)
+        else:
+            print(1)
+    T -= 1"
+38,B,Python3,54992997,2022-11-25 22:31:53,风度翩翩的秋田犬很强大,答案正确,"T = int(input())
+while T:
+    s = 0
+    l, r = map(int, input().split())
+    s = (r + l) * (r - l + 1) // 2
+    q = int(input())
+    for i in range(q):
+        x = int(input())
+        if s % x == 0:
+            print(0)
+        else:
+            print(1)
+    T -= 1"
+39,B,Python3,54998553,2022-11-26 13:20:34,LIboshun,答案错误,"for i in range(int(input())):
+    l,r=map(int,input().split())
+    sum=(r-l+1)*(l+r)//2 
+    for j in range(int(input())):
+        print(sum%int(input()))"
+40,B,Python3,54998597,2022-11-26 13:23:47,LIboshun,答案错误,"for i in range(int(input())):
+    l,r=map(int,input().split())
+    sum=(r-l+1)*(l+r)//2 
+    for j in range(int(input())):
+        print(sum%int(input()))"
+41,B,Python3,54998606,2022-11-26 13:24:38,LIboshun,执行出错,"for i in range(int(input())):
+    l,r=map(int,input().split())
+    sum=(r-l+1)*(l+r)//2 
+    for j in range(int(input())):
+        print([0,1][sum%int(input())])"
+42,B,Python3,54998608,2022-11-26 13:25:11,LIboshun,答案正确,"for i in range(int(input())):
+    l,r=map(int,input().split())
+    sum=(r-l+1)*(l+r)//2 
+    for j in range(int(input())):
+        print([0,1][sum%int(input())!=0])"
+43,B,Python3,55005414,2022-11-26 17:33:05,又被画饼了的猕猴桃很大胆,答案错误,"for _ in range(int(input())):
+    l, r = map(int, input().split())
+    n = r-l+1
+    for _ in range(int(input())):
+        x = int(input())
+        res = 0
+        ls = [i for i in range(l, r+1)]
+        while sum(ls) % x != 0:
+            ls.pop()
+            res += 1
+        print(res)"
+44,B,Python3,55007350,2022-11-26 18:56:11,书生alin,答案错误,"t = int(input())
+for i in range(t):
+    l, r = map(int, input().split())
+    s = (r-l+1)*(r+l)//2
+    m = int(input())
+    for j in range(m):
+        x = int(input())
+        yu = s % x
+        print(yu)
+
+"
+45,B,Python3,55007372,2022-11-26 18:57:18,书生alin,答案正确,"t = int(input())
+for i in range(t):
+    l, r = map(int, input().split())
+    s = (r-l+1)*(r+l)//2
+    m = int(input())
+    for j in range(m):
+        x = int(input())
+        yu = s % x
+        if yu == 0:
+            print(0)
+        else:
+            print(1)
+
+"
+46,B,Python3,55038771,2022-11-29 08:54:05,书生alin,答案正确,"t = int(input())
+for i in range(t):
+    l, r = map(int, input().split())
+    s = (r-l+1)*(r+l)//2
+    m = int(input())
+    for j in range(m):
+        x = int(input())
+        yu = s % x
+        if yu == 0:
+            print(0)
+        else:
+            print(1)
+
+"
+47,B,Python3,55043552,2022-11-29 19:16:15,onlybaoli,格式错误,"t = int(input())
+for i in range(t):
+    l,r = map(int,input().split())
+    res = [i for i in range(l,r+1)]
+    m = int(input())
+    for i in range(m):
+        x = int(input())
+        if sum(res) % x == 0:
+            print(0)
+        else:
+            print(1)
+    print()
+        "
+48,B,Python3,55043605,2022-11-29 19:18:34,onlybaoli,内存超限,"t = int(input())
+for i in range(t):
+    l,r = map(int,input().split())
+    res = [i for i in range(l,r+1)]
+    m = int(input())
+    for i in range(m):
+        x = int(input())
+        if sum(res) % x == 0:
+            print(0)
+        else:
+            print(1)
+        "
+49,B,Python3,55043608,2022-11-29 19:18:38,onlybaoli,内存超限,"t = int(input())
+for i in range(t):
+    l,r = map(int,input().split())
+    res = [i for i in range(l,r+1)]
+    m = int(input())
+    for i in range(m):
+        x = int(input())
+        if sum(res) % x == 0:
+            print(0)
+        else:
+            print(1)
+        "
+50,B,Python3,55043677,2022-11-29 19:20:52,onlybaoli,答案错误,"t = int(input())
+for i in range(t):
+    l,r = map(int,input().split())
+    res = (l+r)*(r-l+1)/2
+    m = int(input())
+    for i in range(m):
+        x = int(input())
+        if res % x == 0:
+            print(0)
+        else:
+            print(1)
+        "
+51,B,Python3,55043725,2022-11-29 19:22:12,onlybaoli,答案错误,"t = int(input())
+for i in range(t):
+    l,r = map(int,input().split())
+    res = (l+r)*(r-l+1)/2
+    m = int(input())
+    for i in range(m):
+        x = int(input())
+        if res % x == 0:
+            print(0)
+        else:
+            print(1)       "
+52,B,Python3,55043729,2022-11-29 19:22:22,onlybaoli,答案错误,"t = int(input())
+for i in range(t):
+    l,r = map(int,input().split())
+    res = (l+r)*(r-l+1)/2
+    m = int(input())
+    for i in range(m):
+        x = int(input())
+        if res % x == 0:
+            print(0)
+        else:
+            print(1)       "
+53,B,Python3,55044073,2022-11-29 19:33:55,onlybaoli,答案错误,"t = int(input())
+for i in range(t):
+    l,r = map(int,input().split())
+    res = (l+r)*(r-l+1)/2
+    m = int(input())
+    for i in range(m):
+        x = int(input())
+        if res % x == 0:
+            print(0)
+        else:
+            print(1)       "
+54,B,Python3,55044123,2022-11-29 19:35:23,onlybaoli,运行超时,"t = int(input())
+for i in range(t):
+    l,r = map(int,input().split())
+    res = 0
+    for i in range(l,r+1):
+        res +=i
+    m = int(input())
+    for i in range(m):
+        x = int(input())
+        if res % x == 0:
+            print(0)
+        else:
+            print(1)       "
+55,B,Python3,60002906,2022-12-30 10:31:31,懒得改了,答案正确,"for _ in range(int(input())):
+    l,r=map(int,input().split())
+    s=(l+r)*(r-l+1)>>1
+    for _ in range(int(input())):
+        if s%int(input()):
+            print(1)
+        else:
+            print(0)"
+56,B,Python3,60229389,2023-01-13 11:39:51,牛客233537359号,答案正确,"T = int(input())
+for _ in range(T):
+    l,r = map(int,input().split())
+    sm = (l+r)*(r-l+1)>>1
+    m = int(input())
+    for i in range(m):
+        x = int(input())
+        if sm % x == 0:
+            print(0)
+        else:
+            print(1)"
+57,B,Python3,60229508,2023-01-13 11:52:33,一半醒,答案正确,"
+'''
+l,r固定 从 l....r 共  (l+r)(r-l+1)//2
+我放一个x，那么最多消去    0...x-2++x-1+x+x+1+x+2 n*x<=r: 找到n把前面的都
+删除在从 nx+1，到开始
+解题：失败
+'''
+
+def solve():
+    l,r=map(int,input().split())
+    m = int(input())
+    s = (l+r)*(r-l+1)//2
+    for _ in range(m):
+       x = int(input())
+       if s%x==0:
+           print(""0"")
+       else:
+           print(""1"")
+
+t = int(input())
+
+for _ in range(t):
+    solve()
+"

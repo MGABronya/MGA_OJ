@@ -1,0 +1,4146 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,A,Java,60007218,2022-12-30 19:02:34,rookie1号,答案正确,"import java.io.*;
+import java.util.*;
+public class Main {
+    
+    static PrintWriter out = new PrintWriter(System.out);
+    static Scanner in = new Scanner(System.in);
+    static BufferedReader re = new BufferedReader(new InputStreamReader(System.in));
+    static BufferedWriter wr = new BufferedWriter(new OutputStreamWriter(System.out));
+    //String[] strs = re.readLine().split("" ""); int a = Integer.parseInt(strs[0]);
+    public static void main(String[] args) throws IOException {
+        PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+        //String[] strs = re.readLine().split("" "");
+        //int T=Integer.parseInt(strs[0]);
+        
+        //int T=in.nextInt();
+        int T=1;
+        while(T>0){
+            //String[] strs1 = re.readLine().split("" "");
+            //int n=Integer.parseInt(strs1[0]);
+            //String s=re.readLine();
+            //char arr[]=s.toCharArray();
+
+            //Set<Integer>set=new HashSet<>();
+            //Map<Long,Integer>map=new HashMap<>();26
+            //abcdefghijklmnopqrstuvwxyz
+            //Map<Integer,List<Integer>>map=new HashMap<>();
+            //TreeSet<Integer> set = new TreeSet<>();
+            //int max=0;int min=2100000000;
+            int n=in.nextInt();
+            int k=in.nextInt();
+            int a=in.nextInt();
+            int b=in.nextInt();
+            int t=0;
+            int sum=(n-1)*a;
+            int sum1=(k-1)*b+(n-1)*b;
+            if(sum>sum1){
+                out.println(""1"");
+            }
+            else if(sum<sum1){
+                out.println(""2"");
+            }
+            else out.println(""0"");
+            T--;
+        }
+        out.flush();
+    }
+}"
+1,A,Java,60007310,2022-12-30 19:02:58,我不叫jhy,答案正确,"import java.util.*;
+public class Main {
+    public static void main(String[] args) {
+        Scanner in=new Scanner(System.in);
+        int n= in.nextInt();
+        int k= in.nextInt();
+        int a= in.nextInt();
+        int b= in.nextInt();
+        int aa=(k+n-2)*b;
+        int bb=(n-1)*a;
+        if (aa<bb) System.out.println(1);
+        else if (aa>bb) System.out.println(2);
+        else System.out.println(0);
+    }
+}"
+2,A,Java,60007312,2022-12-30 19:02:59,acm_team22311,答案正确,"import java.io.*;
+import java.math.BigInteger;
+import java.util.*;
+
+public class Main {
+    static int N = 1000010;
+
+    public static void main(String[] args) throws IOException {
+        FastScanner f = new FastScanner();
+        PrintWriter w = new PrintWriter(System.out);
+        long n = f.nextInt(), k = f.nextInt(), a = f.nextInt(), b = f.nextInt();
+        long ans1 = (k - 1) * b + b * (n - 1);
+        long ans2 = a * (n - 1);
+        if (ans1 < ans2) w.println(1);
+        else if (ans1 > ans2)w.println(2);
+        else w.println(0);
+        w.flush();
+    }
+
+    private static class FastScanner {
+        final private int BUFFER_SIZE = 1 << 16;
+        private DataInputStream din;
+        private byte[] buffer;
+        private int bufferPointer, bytesRead;
+
+        private FastScanner() throws IOException {
+            din = new DataInputStream(System.in);
+            buffer = new byte[BUFFER_SIZE];
+            bufferPointer = bytesRead = 0;
+        }
+
+        private short nextShort() throws IOException {
+            short ret = 0;
+            byte c = read();
+            while (c <= ' ') c = read();
+            boolean neg = (c == '-');
+            if (neg) c = read();
+            do ret = (short) (ret * 10 + c - '0');
+            while ((c = read()) >= '0' && c <= '9');
+            if (neg) return (short) -ret;
+            return ret;
+        }
+
+        private int nextInt() throws IOException {
+            int ret = 0;
+            byte c = read();
+            while (c <= ' ') c = read();
+            boolean neg = (c == '-');
+            if (neg) c = read();
+            do ret = ret * 10 + c - '0';
+            while ((c = read()) >= '0' && c <= '9');
+            if (neg) return -ret;
+            return ret;
+        }
+
+        public long nextLong() throws IOException {
+            long ret = 0;
+            byte c = read();
+            while (c <= ' ') c = read();
+            boolean neg = (c == '-');
+            if (neg) c = read();
+            do ret = ret * 10 + c - '0';
+            while ((c = read()) >= '0' && c <= '9');
+            if (neg) return -ret;
+            return ret;
+        }
+
+        private char nextChar() throws IOException {
+            byte c = read();
+            while (c <= ' ') c = read();
+            return (char) c;
+        }
+
+        private String nextString() throws IOException {
+            StringBuilder ret = new StringBuilder();
+            byte c = read();
+            while (c <= ' ') c = read();
+            do {
+                ret.append((char) c);
+            } while ((c = read()) > ' ');
+            return ret.toString();
+        }
+
+        private void fillBuffer() throws IOException {
+            bytesRead = din.read(buffer, bufferPointer = 0, BUFFER_SIZE);
+            if (bytesRead == -1) buffer[0] = -1;
+        }
+
+        private byte read() throws IOException {
+            if (bufferPointer == bytesRead) fillBuffer();
+            return buffer[bufferPointer++];
+        }
+    }
+}"
+3,A,Java,60007332,2022-12-30 19:03:03,Mosyi.,答案正确,"import java.io.*;
+import java.lang.reflect.Array;
+import java.util.*;
+import java.math.*;
+
+public class Main {
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader in = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        TaskA solver = new TaskA();
+        solver.solve(1, in, out);
+        out.close();
+    }
+
+    static class TaskA {
+        public void solve(int testNumber, InputReader in, PrintWriter out) {
+            int n = in.nextInt();
+            int k = in.nextInt();
+            int a = in.nextInt();
+            int b = in.nextInt();
+            int sum1 = (n-1)*a;
+            int sum2 = ((k-1)+(n-1))*b;
+            if(sum1 < sum2){
+                out.println(2);
+            }else if(sum1 > sum2){
+                out.println(1);
+            }else{
+                out.println(0);
+            }
+        }
+    }
+
+    static class InputReader {
+        public BufferedReader reader;
+        public StringTokenizer tokenizer;
+
+        public InputReader(InputStream stream) {
+            reader = new BufferedReader(new InputStreamReader(stream), 32768);
+            tokenizer = null;
+        }
+        boolean hasNext()
+        {
+            while (tokenizer == null || !tokenizer.hasMoreTokens())
+            {
+                try
+                {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (Exception e)
+                {
+                    return false;
+                    // TODO: handle exception
+                }
+            }
+            return true;
+        }
+        public String next() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return tokenizer.nextToken();
+        }
+        public String nextLine()
+        {
+            String str = null;
+            try
+            {
+                str = reader.readLine();
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            return str;
+        }
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+        public double nextDouble(){
+            return Double.parseDouble(next());
+        }
+        public long nextLong(){
+            return Long.parseLong(next());
+        }
+        public BigInteger nextBigInteger()
+        {
+            return new BigInteger(next());
+        }
+        public BigDecimal nextBigDecimal()
+        {
+            return new BigDecimal(next());
+        }
+
+    }
+}"
+4,A,Java,60007402,2022-12-30 19:03:19,232132323,答案正确,"import javax.swing.plaf.IconUIResource;
+import java.io.*;
+import java.util.*;
+import java.math.*;
+
+public class Main {
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader in = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        TaskA solver = new TaskA();
+        solver.solve(1, in, out);
+        out.close();
+    }
+
+    static class TaskA {
+        public void solve(int testNumber, InputReader in, PrintWriter out) {
+            int n = in.nextInt();
+            int k = in.nextInt();
+            int a = in.nextInt();
+            int b = in.nextInt();
+            int aa = a * (n-1);
+            int bb = b * (k + n - 2);
+//            out.println(aa + "" "" + bb);
+            if (aa == bb)
+                out.println(""0"");
+            else if (aa < bb)
+                out.println(""2"");
+            else
+                out.println(""1"");
+        }
+    }
+    static class InputReader {
+        public BufferedReader reader;
+        public StringTokenizer tokenizer;
+
+        public InputReader(InputStream stream) {
+            reader = new BufferedReader(new InputStreamReader(stream), 32768);
+            tokenizer = null;
+        }
+        boolean hasNext()
+        {
+            while (tokenizer == null || !tokenizer.hasMoreTokens())
+            {
+                try
+                {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (Exception e)
+                {
+                    return false;
+                    // TODO: handle exception
+                }
+            }
+            return true;
+        }
+        public String next() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return tokenizer.nextToken();
+        }
+        public String nextLine()
+        {
+            String str = null;
+            try
+            {
+                str = reader.readLine();
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            return str;
+        }
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+        public double nextDouble(){
+            return Double.parseDouble(next());
+        }
+        public long nextLong(){
+            return Long.parseLong(next());
+        }
+        public BigInteger nextBigInteger()
+        {
+            return new BigInteger(next());
+        }
+        public BigDecimal nextBigDecimal()
+        {
+            return new BigDecimal(next());
+        }
+
+    }
+}"
+5,A,Java,60007425,2022-12-30 19:03:25,chuyb,答案正确,"
+import java.text.DecimalFormat;
+import java.util.*;
+
+
+public class Main {
+	
+	public static void main(String[] args) {
+      Scanner sc=new Scanner(System.in);
+      int n=sc.nextInt();
+      int k=sc.nextInt();
+      int a=sc.nextInt();
+      int b=sc.nextInt();
+      int time1=a*(n-1);
+      int time2=(k-1+n-1)*b;
+      if(time1>time2) {
+    	  System.out.println(1);
+      }else if(time1<time2) {
+    	  System.out.println(2);
+      }else {
+    	  System.out.println(0);
+      }
+  }
+}
+"
+6,A,Java,60007427,2022-12-30 19:03:26,longlg,答案错误,"import java.io.*;
+import java.util.*;
+
+
+public class Main {
+
+    public static void main(String[] args) throws IOException {
+        new Solution().fun();
+    }
+}
+
+
+class Solution {
+    public void fun() {
+        Read sc = new Read(System.in);
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+        if((n-1)*a > (k-1+(n-1))*b){
+            System.out.println(""1"");
+        }else if((n-1)/a < (k-1+(n-1))/b){
+            System.out.println(""2"");
+        }else System.out.println(""0"");
+    }
+}
+
+class Read {
+    public BufferedReader in;
+    public StringTokenizer tok;
+
+    public String next() {
+        hasNext();
+        return tok.nextToken();
+    }
+
+    public String nextLine() {
+        try {
+            return in.readLine();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public long nextLong() {
+        return Long.parseLong(next());
+    }
+
+    public int nextInt() {
+        return Integer.parseInt(next());
+    }
+
+    public PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+
+    public boolean hasNext() {
+        while (tok == null || !tok.hasMoreTokens()) try {
+            tok = new StringTokenizer(in.readLine());
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
+    public Read(InputStream inputStream) {
+        in = new BufferedReader(new InputStreamReader(inputStream));
+    }
+}"
+7,A,Java,60007447,2022-12-30 19:03:31,牛客935801330号（人工智能3211吴华聪）,答案正确,"
+
+
+
+import java.io.*;
+import java.util.*;
+import java.math.*;
+
+public class Main {
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader in = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        TaskA solver = new TaskA();
+        solver.solve(1, in, out);
+        out.close();
+    }
+
+    static class TaskA {
+
+        public void solve(int testNumber, InputReader in, PrintWriter out) {
+          int n=in.nextInt();
+          int k=in.nextInt();
+          int a=in.nextInt();
+          int b=in.nextInt();
+          int t1=0,t2=0;
+          t1=(n-1)*a;
+          t2=(k-1)*b+b*(n-1);
+          if(t1==t2){
+              out.println(0);
+          }
+          else if(t1<t2){
+              out.println(2);
+          }
+          else {
+              out.println(1);
+          }
+        }
+    }
+    static class InputReader {
+        public BufferedReader reader;
+        public StringTokenizer tokenizer;
+
+        public InputReader(InputStream stream) {
+            reader = new BufferedReader(new InputStreamReader(stream), 32768);
+            tokenizer = null;
+        }
+        boolean hasNext()
+        {
+            while (tokenizer == null || !tokenizer.hasMoreTokens())
+            {
+                try
+                {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (Exception e)
+                {
+                    return false;
+                    // TODO: handle exception
+                }
+            }
+            return true;
+        }
+        public String next() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return tokenizer.nextToken();
+        }
+        public String nextLine()
+        {
+            String str = null;
+            try
+            {
+                str = reader.readLine();
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            return str;
+        }
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+        public double nextDouble(){
+            return Double.parseDouble(next());
+        }
+        public long nextLong(){
+            return Long.parseLong(next());
+        }
+        public BigInteger nextBigInteger()
+        {
+            return new BigInteger(next());
+        }
+        public BigDecimal nextBigDecimal()
+        {
+            return new BigDecimal(next());
+        }
+
+    }
+}"
+8,A,Java,60007464,2022-12-30 19:03:34,人工智能3211江海洋,答案正确,"import java.io.*;
+import java.util.*;
+import java.math.*;
+
+public class Main {
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader in = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        TaskA solver = new TaskA();
+        solver.solve(1, in, out);
+        out.close();
+    }
+
+    static class TaskA {
+        public void solve(int testNumber, InputReader in, PrintWriter out) {
+            int n = in.nextInt();
+            int k = in.nextInt();
+            int a = in.nextInt();
+            int b = in.nextInt();
+            int sum1 = (n-1)*a;
+            int sum2 = (k-1+n-1)*b;
+//            System.out.println(sum1+"" ""+sum2);
+            if(sum1>sum2)
+                out.println(1);
+            else if(sum1<sum2)
+                out.println(2);
+            else
+                out.println(0);
+
+        }
+    }
+
+    static class InputReader {
+        public BufferedReader reader;
+        public StringTokenizer tokenizer;
+
+        public InputReader(InputStream stream) {
+            reader = new BufferedReader(new InputStreamReader(stream), 32768);
+            tokenizer = null;
+        }
+
+        boolean hasNext() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (Exception e) {
+                    return false;
+                    // TODO: handle exception
+                }
+            }
+            return true;
+        }
+
+        public String next() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return tokenizer.nextToken();
+        }
+
+        public String nextLine() {
+            String str = null;
+            try {
+                str = reader.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return str;
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        public double nextDouble() {
+            return Double.parseDouble(next());
+        }
+
+        public long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        public BigInteger nextBigInteger() {
+            return new BigInteger(next());
+        }
+
+        public BigDecimal nextBigDecimal() {
+            return new BigDecimal(next());
+        }
+
+    }
+}
+"
+9,A,Java,60007495,2022-12-30 19:03:38,皮皮猪小飞侠,答案正确,"import java.util.Scanner;
+
+/**
+ * @author xjf
+ * @date 2022/12/30 18:51:59
+ */
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt(), k = sc.nextInt();
+        int a = sc.nextInt(), b = sc.nextInt();
+        sc.close();
+
+        int time1 = (n - 1) * a;
+        int time2 = (k - 1 + n - 1) * b;
+        if(time1 > time2) System.out.println(1);
+        if(time1 < time2) System.out.println(2);
+        if(time1 == time2) System.out.println(0);
+    }
+}"
+10,A,Java,60007588,2022-12-30 19:03:56,zzl064,答案正确,"import java.util.Scanner;
+
+public class Main{
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt(), k = sc.nextInt(), a = sc.nextInt(), b = sc.nextInt();
+        int x = (n - 1) * a, y = (n - 1 + (k - 1)) * b;
+        if(y < x) {
+            System.out.println(1);
+        }else if(x < y){
+            System.out.println(2);
+        }else{
+            System.out.println(0);
+        }
+    }
+}
+"
+11,A,Java,60007684,2022-12-30 19:04:21,longlg,答案正确,"import java.io.*;
+import java.util.*;
+
+
+public class Main {
+
+    public static void main(String[] args) throws IOException {
+        new Solution().fun();
+    }
+}
+
+
+class Solution {
+    public void fun() {
+        Read sc = new Read(System.in);
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+        if((n-1)*a > (k-1+(n-1))*b){
+            System.out.println(""1"");
+        }else if((n-1)*a < (k-1+(n-1))*b){
+            System.out.println(""2"");
+        }else System.out.println(""0"");
+    }
+}
+
+class Read {
+    public BufferedReader in;
+    public StringTokenizer tok;
+
+    public String next() {
+        hasNext();
+        return tok.nextToken();
+    }
+
+    public String nextLine() {
+        try {
+            return in.readLine();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public long nextLong() {
+        return Long.parseLong(next());
+    }
+
+    public int nextInt() {
+        return Integer.parseInt(next());
+    }
+
+    public PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+
+    public boolean hasNext() {
+        while (tok == null || !tok.hasMoreTokens()) try {
+            tok = new StringTokenizer(in.readLine());
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
+    public Read(InputStream inputStream) {
+        in = new BufferedReader(new InputStreamReader(inputStream));
+    }
+}"
+12,A,Java,60007738,2022-12-30 19:04:32,牛客马小飞,答案正确,"
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sca=new Scanner(System.in);
+        int n=sca.nextInt();
+        int k= sca.nextInt();
+        int a=sca.nextInt();
+        int b=sca.nextInt();
+        if (b*((k-1)+(n-1))>a*(n-1)){
+            System.out.println(2);
+        }else if (b*((k-1)+(n-1))==a*(n-1)){
+            System.out.println(0);
+        }else {
+            System.out.println(1);
+        }
+        sca.close();
+    }
+}
+"
+13,A,Java,60007781,2022-12-30 19:04:40,智破云霄,答案正确,"import java.util.*;
+public class Main {
+public static void main(String[] args) {
+	Scanner sc = new Scanner(System.in);
+	int n=sc.nextInt();
+	int k=sc.nextInt();
+	int a=sc.nextInt();
+	int b=sc.nextInt();
+	int zou=(n-1)*a;
+	int ti=(Math.abs(k-1)+(n-1))*b;
+	if(zou>ti)
+		System.out.println(1);
+	else if(zou<ti)
+		System.out.println(2);
+	else
+		System.out.println(0);
+}
+}"
+14,A,Java,60007805,2022-12-30 19:04:45,codingj,答案错误,"import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+
+public class Main {
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+	static int N = (int)(1e5 + 10);
+	static int []a = new int[N];
+	public static void main(String[] args)throws Exception {
+		String nkab[] = br.readLine().split("" "");
+		int n = Integer.parseInt(nkab[0]);
+		int k = Integer.parseInt(nkab[1]);
+		int a = Integer.parseInt(nkab[2]);
+		int b = Integer.parseInt(nkab[3]);
+		long t1 = (k - 1) * b + (n - 1) * b;
+		long t2 = (n - 1) * a;
+		if(t1 < t2) {
+			out.println(1);
+		}else if(t1 < t2) {
+			out.println(2);
+		}else {
+			out.println(0);
+		}
+		out.flush();
+	}
+
+}
+"
+15,A,Java,60007858,2022-12-30 19:04:57,acwing-青山_12,答案正确,"
+import java.util.Arrays;
+import java.util.Scanner;
+
+
+public class Main {
+
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt(), k = sc.nextInt(), a = sc.nextInt(), b = sc.nextInt();
+        int u = a * (n - 1), ans = 0;
+        int v = (k - 1 + n - 1) * b;
+      
+        if (u > v) {
+            ans = 1;
+        } else if (u < v){
+            ans = 2;
+        }
+        System.out.println(ans);
+    }
+}"
+16,A,Java,60007864,2022-12-30 19:04:59,遇见问题先重启,答案正确,"import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+        int cost1 = 0;
+        int cost2 = 0;
+        cost2 = (n-1)*a;
+        cost1 = (k-1)*b+(n-1)*b;
+        if(cost1==cost2){
+            System.out.println(0);
+        }else if(cost1<cost2){
+            System.out.println(1);
+        }else{
+            System.out.println(2);
+        }
+        sc.close();
+    }
+}"
+17,A,Java,60007866,2022-12-30 19:04:59,牛客562397828号,答案正确,"
+
+import java.util.Scanner;
+
+public class Main {
+    //public static final Logger LOGGER = LoggerFactory.getLogger(""Main.class"");
+    public static void main(String[] args) {
+        int n, k, a, b;
+        Scanner sc = new Scanner (System.in);
+        String ans = new String ();
+        n = sc.nextInt ();
+        k = sc.nextInt ();
+        a = sc.nextInt ();
+        b = sc.nextInt ();
+        int time1 = (n - 1) * a;
+        int time2 = (n + k - 2) * b;
+        if (time1 > time2) ans = ""1"";
+        else if (time1 < time2) ans = ""2"";
+        else ans = ""0"";
+        System.out.println (ans);
+    }
+}
+"
+18,A,Java,60008038,2022-12-30 19:05:45,ikeisshu,答案正确,"import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+            int n= sc.nextInt()-1;
+            int k= sc.nextInt()-1;
+            int a= sc.nextInt();
+            int b= sc.nextInt();
+            int aa=n*a;
+            int bb=k*b+n*b;
+            if (aa!=bb){
+                System.out.println(aa>bb?1:2);
+            }else System.out.println(0);
+    }
+}"
+19,A,Java,60008127,2022-12-30 19:06:10,codingj,答案正确,"import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+
+public class Main {
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+	static int N = (int)(1e5 + 10);
+	static int []a = new int[N];
+	public static void main(String[] args)throws Exception {
+		String nkab[] = br.readLine().split("" "");
+		int n = Integer.parseInt(nkab[0]);
+		int k = Integer.parseInt(nkab[1]);
+		int a = Integer.parseInt(nkab[2]);
+		int b = Integer.parseInt(nkab[3]);
+		long t1 = (k - 1) * b + (n - 1) * b;
+		long t2 = (n - 1) * a;
+		if(t1 < t2) {
+			out.println(1);
+		}else if(t1 > t2) {
+			out.println(2);
+		}else {
+			out.println(0);
+		}
+		out.flush();
+	}
+
+}
+"
+20,A,Java,60008153,2022-12-30 19:06:18,郑钧耀2096183232,答案正确,"
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+        int k = in.nextInt();
+        int a = in.nextInt();
+        int b = in.nextInt();
+
+        if(a*(n-1) ==(k-1)*b+(n-1)*b){
+            System.out.println( ""0"");
+        }else if (a*(n-1) >(k-1)*b+(n-1)*b){
+            System.out.println(""1"");
+        }else System.out.println(""2"");
+    }
+}
+"
+21,A,Java,60008211,2022-12-30 19:06:39,张大王的,答案正确,"import java.io.*;
+import java.math.BigInteger;
+import java.text.DecimalFormat;
+import java.util.*;
+
+
+public class Main {
+
+   public static void main(String[] args) throws IOException {
+      BufferedReader re = new BufferedReader(new InputStreamReader(System.in));
+      PrintWriter pr = new PrintWriter(new OutputStreamWriter(System.out));
+      StreamTokenizer r = new StreamTokenizer(re);
+      r.nextToken();
+      int n=(int) r.nval;
+      r.nextToken();
+      int k=(int)r.nval;
+      r.nextToken();
+      int a=(int) r.nval;
+      r.nextToken();
+      int b=(int) r.nval;
+      int cel=n-1;
+      int t1=cel*a;
+      int t2=(k-1)*b+cel*b;
+      if(t1>t2){
+         System.out.println(""1"");
+      }else if(t1<t2){
+         System.out.println(""2"");
+      }else {
+         System.out.println(""0"");
+      }
+   }
+
+}"
+22,A,Java,60008264,2022-12-30 19:06:57,a..ac!,答案错误,"
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.math.BigInteger;
+import java.util.Arrays;
+
+import java.util.StringTokenizer;
+
+class hgt {
+    public long a, b, c;
+
+    public hgt(long a, long b, long c) {
+        this.a = a;
+        this.b = b;
+        this.c = c;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Input sc = new Input(System.in);
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+        int z = (n - 1) * a;
+        int d = ((k - 1) * b) + ((n - 1) * 2);
+        if (z > d) {
+            System.out.print(1);
+        } else if (z < d) {
+            System.out.println(2);
+        } else {
+            System.out.println(0);
+        }
+
+    }
+
+    static class Input {
+
+        public BufferedReader reader;
+        public StringTokenizer tokenizer;
+
+        public Input(InputStream stream) {
+            reader = new BufferedReader(new InputStreamReader(stream), 32768);
+            tokenizer = null;
+        }
+
+        public String next() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return tokenizer.nextToken();
+        }
+
+        public String nextLine() {
+            String str = null;
+            try {
+                str = reader.readLine();
+            } catch (IOException e) {
+                // TODO 自动生成的 catch 块
+                e.printStackTrace();
+            }
+            return str;
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        public long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        public Double nextDouble() {
+            return Double.parseDouble(next());
+        }
+
+        public BigInteger nextBigInteger() {
+            return new BigInteger(next());
+        }
+    }
+}
+"
+23,A,Java,60008411,2022-12-30 19:07:47,人工智能3221王子龙,答案正确,"import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        while (in.hasNext()) {
+            int n = in.nextInt();
+            int k = in.nextInt();
+            int a = in.nextInt();
+            int b = in.nextInt();
+            long sum1 = (long) (n - 1) * a;
+            long sum2 = (long) (k - 1) * b + (long) (n - 1) * b;
+            if (sum1 > sum2) {
+                System.out.println(""1"");
+            }
+            else if (sum1 < sum2) {
+                System.out.println(""2"");
+            }
+            else {
+                System.out.println(""0"");
+            }
+        }
+    }
+}"
+24,A,Java,60008418,2022-12-30 19:07:49,梁朝戈,答案错误,"import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+        int ans = (k - 1) * b + (n - 1) * 2;
+        int sum = (n - 1) * a;
+        if (ans < sum) System.out.println(""1"");
+        else if (ans == sum) System.out.println(""0"");
+        else System.out.println(""2"");
+    }
+}"
+25,A,Java,60008433,2022-12-30 19:07:52,星海_,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""Main.java:3: error: cannot find symbol\n        Scanner sc = new Scanner(System.in);\n        ^\n  symbol:   class Scanner\n  location: class Main\nMain.java:3: error: cannot find symbol\n        Scanner sc = new Scanner(System.in);\n                         ^\n  symbol:   class Scanner\n  location: class Main\n2 errors""}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+        int num1 = (n - 1) * a;
+        int num2 = (n + k - 2) * b;
+        if (num1 > num2) {
+            System.out.println(1);
+        } else if (num1 < num2) {
+            System.out.println(2);
+        } else {
+            System.out.println(0);
+        }
+    }
+}
+"
+26,A,Java,60008448,2022-12-30 19:07:59,星海_,答案正确,"
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+        int num1 = (n - 1) * a;
+        int num2 = (n + k - 2) * b;
+        if (num1 > num2) {
+            System.out.println(1);
+        } else if (num1 < num2) {
+            System.out.println(2);
+        } else {
+            System.out.println(0);
+        }
+    }
+}
+"
+27,A,Java,60008536,2022-12-30 19:08:33,恰逢青春少年,答案正确,"
+import java.io.*;
+
+public class Main {
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static PrintWriter pr = new PrintWriter(new OutputStreamWriter(System.out));
+
+    public static void main(String[] args) throws IOException {
+        String[] st = br.readLine().split("" "");
+        int n = Integer.parseInt(st[0]); // 去上课的楼层
+        int k = Integer.parseInt(st[1]);  // 电梯所在的楼层
+        int a = Integer.parseInt(st[2]);  // 人的速度
+        int b = Integer.parseInt(st[3]);  // 电梯的速度
+
+        int res = (n - 1) * a;
+        int res2 = (k - 1) * b + (n - 1) * b;
+        
+        if (res > res2) pr.println(""1"");
+        else if (res == res2) pr.println(""0"");
+        else pr.println(""2"");
+
+        pr.flush();
+    }
+}
+"
+28,A,Java,60008548,2022-12-30 19:08:40,认真的菠萝蜜在提需求,答案错误,"import java.util.Arrays;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+        int elevator = (k - 1) * b + (n - 1) * b;
+        int walk = (n - 1) * a;
+        if (elevator - walk > 0) {
+            System.out.println(""1"");
+        } else if (elevator == 0) {
+            System.out.println(0);
+        } else {
+            System.out.println(2);
+        }
+        //如果电梯快，请输出 ""1""；
+        //如果走楼梯快，请输出 ""2""；
+        //如果一样快，请输出 ""0""。
+        //（不包含引号）
+        //7 3 3 2
+        //7-1)*3 = 18 秒，乘电梯需要 (3-1)*2+(7-1)*2 = 16 秒，所以小杜乘电梯更快。
+    }
+
+}
+
+"
+29,A,Java,60008555,2022-12-30 19:08:43,梁朝戈,答案错误,"import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        long n = sc.nextInt();
+        long k = sc.nextInt();
+        long a = sc.nextInt();
+        long b = sc.nextInt();
+        long ans = (k - 1) * b + (n - 1) * 2;
+        long sum = (n - 1) * a;
+        if (ans < sum) System.out.println(""1"");
+        else if (ans == sum) System.out.println(""0"");
+        else System.out.println(""2"");
+    }
+}"
+30,A,Java,60008560,2022-12-30 19:08:47,giao1,答案正确,"import java.util.*;
+import java.io.*;
+
+public class Main{
+    public static void main(String[] args) throws IOException {
+        initReader();
+        int n = nextInt();int k = nextInt();
+        int a = nextInt();int b = nextInt();
+        int As =(n-1)*b+(k-1)*b;
+        int Bs= (n-1)*a;
+        if(As<Bs)pw.println(1);
+        else if(As==Bs) pw.println(0);
+        else pw.println(2);
+        pw.close();
+    }
+    static BufferedReader reader;
+    static StringTokenizer tokenizer;
+    static PrintWriter pw;
+
+    public static void initReader() throws IOException {
+        reader = new BufferedReader(new InputStreamReader(System.in));
+        tokenizer = new StringTokenizer("""");
+        pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+    }
+
+
+    public static boolean hasNext() {
+        try {
+            while (!tokenizer.hasMoreTokens()) {
+                tokenizer = new StringTokenizer(reader.readLine());
+            }
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
+    public static String next() throws IOException {
+        while (!tokenizer.hasMoreTokens()) {
+            tokenizer = new StringTokenizer(reader.readLine());
+        }
+        return tokenizer.nextToken();
+    }
+
+    public static String nextLine() {
+        try {
+            return reader.readLine();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public static int nextInt() throws IOException {
+        return Integer.parseInt(next());
+    }
+
+    public static long nextLong() throws IOException {
+        return Long.parseLong(next());
+    }
+
+    public static double nextDouble() throws IOException {
+        return Double.parseDouble(next());
+    }
+
+    public static char nextChar() throws IOException {
+        return next().charAt(0);
+    }
+}"
+31,A,Java,60008564,2022-12-30 19:08:49,classHello,答案正确,"import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        int n = scan.nextInt();
+        int k = scan.nextInt();
+        int a = scan.nextInt();
+        int b = scan.nextInt();
+        int res = (n-1) *a - (k-1)*b-(n-1)*b;
+        System.out.println(res>0?1:(res==0?0:2));
+    }
+}"
+32,A,Java,60008565,2022-12-30 19:08:49,2014010225杨洪涛,答案错误,"import java.util.Scanner;
+public class Main{
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+        if((n-1)*3 > (k-1)*2 + (n-1)*2){
+            System.out.println(1);
+        }else if((n-1)*3 < (k-1)*2 + (n-1)*2){
+            System.out.println(2);
+        }else{
+            System.out.println(0);
+        }
+    }
+}"
+33,A,Java,60008602,2022-12-30 19:09:04,想听你说晚安,答案正确,"import java.util.Scanner;
+
+// 注意类名必须为 Main, 不要有任何 package xxx 信息
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+        int p=0,q=0;
+        p=a*(n-1);
+        q=b*(n+k-2);
+        if(p>q)
+            System.out.println(1);
+        else if(p<q)
+            System.out.println(2);
+        else
+            System.out.println(0);
+    }
+}"
+34,A,Java,60008632,2022-12-30 19:09:12,牛客720461691号,答案正确,"import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+
+        int ans1 = (n-1)*a;
+        int ans2 = (n-1)*b + (k-1)*b;
+        if (ans1 == ans2) {
+            System.out.println(0);
+        }
+        if (ans1 > ans2) {
+            System.out.println(1);
+        }
+        if (ans1 < ans2) {
+            System.out.println(2);
+        }
+    }
+}
+"
+35,A,Java,60008656,2022-12-30 19:09:20,xiaojianpeng,答案正确,"import java.util.*;
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+        int k = in.nextInt();
+        int a = in.nextInt();
+        int b = in.nextInt();
+        double aa = (n-1)*a;
+        double bb = (k-1 + n-1)*b;
+        if(aa == bb)    System.out.print(0);
+        if(aa > bb)    System.out.print(1);
+        if(aa < bb)    System.out.print(2);
+    }
+
+    
+}
+    "
+36,A,Java,60008670,2022-12-30 19:09:23,a..ac!,答案正确,"
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.math.BigInteger;
+import java.util.Arrays;
+
+import java.util.StringTokenizer;
+
+class hgt {
+    public long a, b, c;
+
+    public hgt(long a, long b, long c) {
+        this.a = a;
+        this.b = b;
+        this.c = c;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Input sc = new Input(System.in);
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+        int z = (n - 1) * a;
+        int d = ((k - 1) * b) + ((n - 1) *b);
+        if (z > d) {
+            System.out.print(1);
+        } else if (z < d) {
+            System.out.println(2);
+        } else {
+            System.out.println(0);
+        }
+
+    }
+
+    static class Input {
+
+        public BufferedReader reader;
+        public StringTokenizer tokenizer;
+
+        public Input(InputStream stream) {
+            reader = new BufferedReader(new InputStreamReader(stream), 32768);
+            tokenizer = null;
+        }
+
+        public String next() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return tokenizer.nextToken();
+        }
+
+        public String nextLine() {
+            String str = null;
+            try {
+                str = reader.readLine();
+            } catch (IOException e) {
+                // TODO 自动生成的 catch 块
+                e.printStackTrace();
+            }
+            return str;
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        public long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        public Double nextDouble() {
+            return Double.parseDouble(next());
+        }
+
+        public BigInteger nextBigInteger() {
+            return new BigInteger(next());
+        }
+    }
+}
+"
+37,A,Java,60008681,2022-12-30 19:09:27,梁朝戈,答案正确,"import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        long n = sc.nextInt();
+        long k = sc.nextInt();
+        long a = sc.nextInt();
+        long b = sc.nextInt();
+        long ans = (k - 1) * b + (n - 1) * b;
+        long sum = (n - 1) * a;
+        if (ans < sum) System.out.println(""1"");
+        else if (ans == sum) System.out.println(""0"");
+        else System.out.println(""2"");
+    }
+}"
+38,A,Java,60008724,2022-12-30 19:09:46,学好c语言的小王同学,答案错误,"
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+        int louti = (n - 1) * 3;
+        int dianti = (k - 1) * b + (n - 1) * b;
+
+        if(louti > dianti){
+            System.out.println(""1"");
+        }else if(louti < dianti){
+            System.out.println(""2"");
+        }else {
+            System.out.println(""0"");
+        }
+    }
+}
+"
+39,A,Java,60008817,2022-12-30 19:10:27,小小小巨人,答案错误,"import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.StreamTokenizer;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Deque;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Map.Entry;
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.Random;
+import java.util.Scanner;
+import java.util.Stack;
+import java.util.StringTokenizer;
+import java.util.TreeMap;
+import java.util.TreeSet;
+/**
+ * 
+ * @author TCchen
+ */
+public class Main {
+	public static void main(String[]args) throws IOException {
+		new Main().run();
+	}
+//	File input=new File(""D:\\test\\P1972_9.in"");
+//	File input=new File(""D:\\test\\input.txt"");
+//	File output=new File(""D:\\test\\P1972_9.out"");
+	void run() throws IOException{
+//		new Solve().setIO(input, output).run();
+		new Solve().setIO(System.in,System.out).run();
+	}
+	class Solve extends ioTask{
+		void solve() throws IOException{
+			int n,k,a,b;
+			n=in.in();
+			k=in.in();
+			a=in.in();
+			b=in.in();
+			k+=n-2;
+			k<<=1;
+			n--;
+			b*=k;
+			a*=n;
+			if(a==b)out.println(0);
+			else if(a>b)out.println(2);
+			else out.println(1);
+		}
+		int te=1;
+		void run()throws IOException{
+			int t=1;
+//			t=in.in();
+			for(te=1;te<=t;te++) {
+				solve();
+//				out.flush();
+			}
+			out.close();
+		}
+//		long timeMillis;
+//		void st() {
+//			timeMillis=System.currentTimeMillis();
+//		}
+//		void ed() {
+//			System.out.println((System.currentTimeMillis()-timeMillis)+""ms"");
+//		}
+	}
+	/**
+	 * Reading MULTIPLE lines of single number will be faster.
+	 */
+	class QIn{
+		StreamTokenizer st = new StreamTokenizer(new BufferedReader(new InputStreamReader(System.in)));
+		int in() throws IOException {
+			st.nextToken();
+			return (int)st.nval;
+		}
+		long inl() throws IOException {
+			st.nextToken();
+			return (long)st.nval;
+		}
+		double ind()throws IOException  {
+			st.nextToken();
+			return st.nval;
+		}
+		String ins() throws IOException {
+			st.nextToken();
+			return st.sval;
+		}
+	}
+	/**
+	 * default
+	 * Reading SINGLE line of multiple numbers will be faster.
+	 */
+	class In{
+		private StringTokenizer in=new StringTokenizer("""");
+		private InputStream is;
+		private BufferedReader bf;
+		public In(File file) throws IOException {
+			is=new FileInputStream(file);
+			init();
+		}
+		public In(InputStream is) throws IOException{
+			this.is=is;
+			init();
+		}
+		private void init() throws IOException {
+			bf=new BufferedReader(new InputStreamReader(is));
+		}
+		/**
+		 * File and OJ only
+		 */
+		boolean hasNext() throws IOException {
+			return in.hasMoreTokens()||bf.ready();
+		}
+		String ins() throws IOException {
+			while(!in.hasMoreTokens()) {
+				in=new StringTokenizer(bf.readLine());
+			}
+			return in.nextToken();
+		}
+		int in() throws IOException {
+			return Integer.parseInt(ins());
+		}
+		long inl() throws IOException {
+			return Long.parseLong(ins());
+		}
+		double ind() throws IOException {
+			return Double.parseDouble(ins());
+		}
+		String line() throws IOException {
+			return bf.readLine();
+		}
+	}
+	class Out{
+		PrintWriter out;
+		private OutputStream os;
+		private void init() {
+			out=new PrintWriter(new BufferedWriter(new OutputStreamWriter(os)));
+		}
+		public Out(File file) throws IOException {
+			os=new FileOutputStream(file);
+			init();
+		}
+		public Out(OutputStream os) throws IOException{
+			this.os=os;
+			init();
+		}
+	}
+	abstract class ioTask{
+		In in;
+		PrintWriter out;
+		public ioTask setIO(File in,File out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		public ioTask setIO(File in,OutputStream out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		public ioTask setIO(InputStream in,OutputStream out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		public ioTask setIO(InputStream in,File out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		void run()throws IOException{}
+	}
+}"
+40,A,Java,60008856,2022-12-30 19:10:49,2014010225杨洪涛,答案错误,"import java.util.Scanner;
+public class Main{
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+        int louti = (n-1)*3;
+        int dianti = (k-1)*2 + (n-1)*2;
+        if(louti >  dianti){
+            System.out.println(1);
+        }else if(louti <  dianti){
+            System.out.println(2);
+        }else{
+            System.out.println(0);
+        }
+    }
+}"
+41,A,Java,60008940,2022-12-30 19:11:25,认真的菠萝蜜在提需求,答案正确,"import java.util.Arrays;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+        int elevator = (k - 1) * b + (n - 1) * b;
+        int walk = (n - 1) * a;
+        if (elevator - walk > 0) {
+            System.out.println(""2"");
+        } else if (elevator-walk == 0) {
+            System.out.println(""0"");
+        } else {
+            System.out.println(""1"");
+        }
+        //如果电梯快，请输出 ""1""；
+        //如果走楼梯快，请输出 ""2""；
+        //如果一样快，请输出 ""0""。
+        //（不包含引号）
+        //7 3 3 2
+        //7-1)*3 = 18 秒，乘电梯需要 (3-1)*2+(7-1)*2 = 16 秒，所以小杜乘电梯更快。
+    }
+
+}
+
+"
+42,A,Java,60008962,2022-12-30 19:11:35,学好c语言的小王同学,答案错误,"
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+       long n = sc.nextLong();
+       long k = sc.nextLong();
+       long a = sc.nextLong();
+       long b = sc.nextLong();
+        long louti = (n - 1) * 3;
+        long dianti = (k - 1) * b + (n - 1) * b;
+
+        if(louti > dianti){
+            System.out.println(""1"");
+        }else if(louti < dianti){
+            System.out.println(""2"");
+        }else {
+            System.out.println(""0"");
+        }
+    }
+}
+"
+43,A,Java,60008968,2022-12-30 19:11:37,想吃火锅的代码渣渣在拧螺丝,答案正确,"import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner in = new Scanner(System.in);
+		while (in.hasNext()) {
+			int n=in.nextInt();
+			int k=in.nextInt();
+			int a=in.nextInt();
+			int b=in.nextInt();
+			int run=(n-1)*a;
+			int dt=(k-1)*b+(n-1)*b;
+			if(run<dt) {
+				System.out.println(""2"");
+			}else if(dt<run){
+				System.out.println(""1"");
+			}else {
+				System.out.println(""0"");
+			}
+		}
+	}
+}
+"
+44,A,Java,60009023,2022-12-30 19:12:06,学好c语言的小王同学,答案错误,"
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+       long n = sc.nextLong();
+       long k = sc.nextLong();
+       long a = sc.nextLong();
+       long b = sc.nextLong();
+        long louti = (n - 1) * 3;
+        long dianti = (k - 1) * b + (n - 1) * b;
+
+        if(louti > dianti){
+            System.out.println(1);
+        }else if(louti < dianti){
+            System.out.println(2);
+        }else {
+            System.out.println(0);
+        }
+    }
+}
+"
+45,A,Java,60009094,2022-12-30 19:12:39,Hengist_Z,答案正确,"
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+
+/**
+ * 小杜要迟到了
+ *
+ * @author Hengist
+ * @date 2022/12/30
+ */
+public class Main {
+  
+  private static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+  private static BufferedWriter out = new BufferedWriter(new OutputStreamWriter(System.out));
+  
+  public static void main(String[] args) {
+    String[] strs = new String[4];
+    try {
+      strs = in.readLine().split("" "");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    int n = Integer.parseInt(strs[0]);
+    int k = Integer.parseInt(strs[1]);
+    int a = Integer.parseInt(strs[2]);
+    int b = Integer.parseInt(strs[3]);
+    int liftTime = (n + k - 2) * b;
+    int stairTime = (n - 1) * a;
+    try {
+      if (liftTime < stairTime) {
+        out.write(""1"");
+      } else if (liftTime > stairTime) {
+        out.write(""2"");
+      } else {
+        out.write(""0"");
+      }
+      out.flush();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+}
+"
+46,A,Java,60009112,2022-12-30 19:12:48,罗海东,答案错误,"import java.util.Scanner;
+
+public class Main{
+    public static void main(String[]args){
+        Scanner sc=new Scanner(System.in);
+        int n=sc.nextInt();
+        int k=sc.nextInt();
+        int a=sc.nextInt();
+        int b=sc.nextInt();
+        if((n-1)/a>(n+k-2)/b){
+            System.out.println(""1"");
+        }else if ((n-1)/a<(n+k-2)/b){
+            System.out.println(""2"");
+        }else if ((n-1)/a==(n+k-2)/b){
+            System.out.println(""0"");
+        }
+    }
+}
+"
+47,A,Java,60009117,2022-12-30 19:12:50,PhantomBluRay,答案正确,"import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+
+        int na = (n-1)*a;
+        int nb = (n + k - 2)*b;
+
+        System.out.println((na==nb)?""0"":((na<nb)?""2"":""1""));
+    }
+}"
+48,A,Java,60009167,2022-12-30 19:13:16,闵其其,答案正确,"import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+        int k = in.nextInt();
+        int a = in.nextInt();
+        int b = in.nextInt();
+        int sum1 = (n-1)*a;
+        int sum2 = (k-1+n-1)*b;
+        if(sum1>sum2)
+            System.out.println(1);
+        else if(sum1<sum2)
+            System.out.println(2);
+        else
+            System.out.println(0);
+    }
+}"
+49,A,Java,60009183,2022-12-30 19:13:24,2014010225杨洪涛,答案正确,"import java.util.Scanner;
+public class Main{
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+        int louti = (n-1)*a;
+        int dianti = (k-1)*b + (n-1)*b;
+        if(louti >  dianti){
+            System.out.println(1);
+        }else if(louti <  dianti){
+            System.out.println(2);
+        }else{
+            System.out.println(0);
+        }
+    }
+}"
+50,A,Java,60009224,2022-12-30 19:13:45,莴苣菜123,答案正确,"import java.util.Scanner;
+
+public class Main {
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int n = sc.nextInt();
+		int k = sc.nextInt();
+		int a = sc.nextInt();
+		int b = sc.nextInt();
+		int sum1 = (n - 1) * a;
+		int sum2 = (k - 1) * b + (n - 1) * b;
+		if(sum1 < sum2) {
+			System.out.println(""2"");
+		} else if(sum1 > sum2) {
+			System.out.println(""1"");
+		} else {
+			System.out.println(""0"");
+		}
+	}
+}"
+51,A,Java,60009240,2022-12-30 19:13:53,学好c语言的小王同学,答案错误,"
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+       long n = sc.nextLong();
+       long k = sc.nextLong();
+       long a = sc.nextLong();
+       long b = sc.nextLong();
+        long louti = (n - 1) * k;
+        long dianti = (k - 1) * b + (n - 1) * b;
+
+        if(louti > dianti){
+            System.out.println(1);
+        }else if(louti < dianti){
+            System.out.println(2);
+        }else {
+            System.out.println(0);
+        }
+    }
+}
+"
+52,A,Java,60009269,2022-12-30 19:14:12,学好c语言的小王同学,答案正确,"
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+       long n = sc.nextLong();
+       long k = sc.nextLong();
+       long a = sc.nextLong();
+       long b = sc.nextLong();
+        long louti = (n - 1) * a;
+        long dianti = (k - 1) * b + (n - 1) * b;
+
+        if(louti > dianti){
+            System.out.println(1);
+        }else if(louti < dianti){
+            System.out.println(2);
+        }else {
+            System.out.println(0);
+        }
+    }
+}
+"
+53,A,Java,60009278,2022-12-30 19:14:17,学好c语言的小王同学,答案正确,"
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+       long n = sc.nextLong();
+       long k = sc.nextLong();
+       long a = sc.nextLong();
+       long b = sc.nextLong();
+        long louti = (n - 1) * a;
+        long dianti = (k - 1) * b + (n - 1) * b;
+
+        if(louti > dianti){
+            System.out.println(1);
+        }else if(louti < dianti){
+            System.out.println(2);
+        }else {
+            System.out.println(0);
+        }
+    }
+}
+"
+54,A,Java,60009336,2022-12-30 19:14:42,牛客542973081号,答案正确,"import java.util.*;
+public class Main {
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+        int n=sc.nextInt();int k=sc.nextInt();
+        int a=sc.nextInt();int b=sc.nextInt();
+        int first=0;int second=0;
+        first=(n-1)*a;
+        second=b*(k-1);
+        second+=b*(n-1);
+        if(first==second) System.out.println(""0"");
+        else if(first>second) System.out.println(""1"");
+        else System.out.println(""2"");
+        sc.close();
+    }
+}"
+55,A,Java,60009387,2022-12-30 19:15:11,牛客338107602号,答案正确,"import java.util.*;
+public class Main{
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        String line = sc.nextLine();
+        String[] ch = line.split("" "");
+        int n = Integer.parseInt(ch[0]);
+        int k = Integer.parseInt(ch[1]);
+        int a = Integer.parseInt(ch[2]);
+        int b = Integer.parseInt(ch[3]);
+        int walk = (n-1)*a;
+        int take = (k-1)*b+(n-1)*b;
+        if(walk>take)
+            System.out.println(1);
+        else if(walk<take)
+            System.out.println(2);
+        else
+            System.out.println(0);
+        
+    }    
+}
+"
+56,A,Java,60009535,2022-12-30 19:16:18,罗海东,答案正确,"import java.util.Scanner;
+
+public class Main{
+    public static void main(String[]args){
+        Scanner sc=new Scanner(System.in);
+        int n=sc.nextInt();
+        int k=sc.nextInt();
+        int a=sc.nextInt();
+        int b=sc.nextInt();
+        if((n-1)*a>(n+k-2)*b){
+            System.out.println(""1"");
+        }else if ((n-1)*a<(n+k-2)*b){
+            System.out.println(""2"");
+        }else if ((n-1)*a==(n+k-2)*b){
+            System.out.println(""0"");
+        }
+    }
+}
+
+"
+57,A,Java,60009602,2022-12-30 19:16:51,牛客902406490号,答案错误,"import java.util.Scanner;
+
+
+public class Main {
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();    //上课楼层
+        int k = sc.nextInt();    //电梯停留楼层
+        int a = sc.nextInt();    //爬楼梯速度
+        int b = sc.nextInt();    //电梯速度
+        
+        int time1 = n * a;    //爬楼时间
+        int time2 = (k+n)*b;  //电
+        if(time1 > time2){
+            System.out.print(1);
+        }else if(time1 == time2){
+            System.out.print(0);
+        }else{
+            System.out.print(2);
+        }
+    }
+}"
+58,A,Java,60009653,2022-12-30 19:17:17,人工智能3223戴晨灏,答案正确,"import java.util.Arrays;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+        int k = in.nextInt();
+        int a = in.nextInt();
+        int b = in.nextInt();
+        int walktime = 0;
+        int subtime = 0;
+        walktime = (n-1)*a;
+        subtime = (k-1)*b+(n-1)*b;
+        if (walktime==subtime){
+            System.out.println(""0"");
+        }else if (walktime<subtime){
+            System.out.println(""2"");
+        }else {
+            System.out.println(""1"");
+        }
+    }
+}"
+59,A,Java,60009745,2022-12-30 19:18:03,牛客495910778号,答案正确,"import java.util.Scanner;
+public class Main {
+    public static void main(String args[]){
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+         int k = sc.nextInt();
+          int a = sc.nextInt();
+           int b = sc.nextInt();
+        int v1 = (n-1)*a;
+        int v2 = (k-1)*b+(n-1)*b;
+        if(v1<v2){
+            System.out.println(""2"");
+        }
+        else if(v2<v1){
+            System.out.println(""1"");
+        }
+        else if(v1==v2){
+            System.out.println(""0"");
+        }
+    }
+}
+"
+60,A,Java,60009788,2022-12-30 19:18:31,牛客902406490号,答案正确,"import java.util.Scanner;
+
+
+public class Main {
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();    //上课楼层
+        int k = sc.nextInt();    //电梯停留楼层
+        int a = sc.nextInt();    //爬楼梯速度
+        int b = sc.nextInt();    //电梯速度
+        
+        int time1 = (n-1) * a;    //爬楼时间
+        int time2 = (k+n-2)*b;  //电
+        if(time1 > time2){
+            System.out.print(1);
+        }else if(time1 == time2){
+            System.out.print(0);
+        }else{
+            System.out.print(2);
+        }
+    }
+}"
+61,A,Java,60009925,2022-12-30 19:19:50,autumn123321,答案正确,"
+
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n=in.nextInt();
+        int k=in.nextInt();
+        int a=in.nextInt();
+        int b=in.nextInt();
+    
+        if (((n-1)*b+(k-1)*b)<(n-1)*a){
+            System.out.println(1);
+        }
+        else if (((n-1)*b+(k-1)*b)>(n-1)*a){
+            System.out.println(2);
+        }
+        else {
+            System.out.println(0);
+        }
+    }
+}
+
+"
+62,A,Java,60010626,2022-12-30 19:26:44,在求佛的豹子很有礼貌,答案正确,"import java.util.*;
+public class Main{
+    public static void main(String[] args){
+        Scanner in=new Scanner(System.in);
+        int n=in.nextInt();
+        int k=in.nextInt();
+        int a=in.nextInt();
+        int b=in.nextInt();
+        if((n-1)*a>(k-1)*b+(n-1)*b)
+            System.out.println(1);
+        else if((n-1)*a<(k-1)*b+(n-1)*b)
+            System.out.println(2);
+        else
+            System.out.println(0);
+    }
+}"
+63,A,Java,60010663,2022-12-30 19:27:08,在求佛的豹子很有礼貌,答案正确,"import java.util.*;
+public class Main{
+    public static void main(String[] args){
+        Scanner in=new Scanner(System.in);
+        int n=in.nextInt();
+        int k=in.nextInt();
+        int a=in.nextInt();
+        int b=in.nextInt();
+        if((n-1)*a>(k-1)*b+(n-1)*b)
+            System.out.println(1);
+        else if((n-1)*a<(k-1)*b+(n-1)*b)
+            System.out.println(2);
+        else
+            System.out.println(0);
+    }
+}"
+64,A,Java,60010741,2022-12-30 19:27:52,小小小巨人,答案正确,"import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.StreamTokenizer;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Deque;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Map.Entry;
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.Random;
+import java.util.Scanner;
+import java.util.Stack;
+import java.util.StringTokenizer;
+import java.util.TreeMap;
+import java.util.TreeSet;
+/**
+ * 
+ * @author TCchen
+ */
+public class Main {
+	public static void main(String[]args) throws IOException {
+		new Main().run();
+	}
+//	File input=new File(""D:\\test\\P1972_9.in"");
+//	File input=new File(""D:\\test\\input.txt"");
+//	File output=new File(""D:\\test\\P1972_9.out"");
+	void run() throws IOException{
+//		new Solve().setIO(input, output).run();
+		new Solve().setIO(System.in,System.out).run();
+	}
+	class Solve extends ioTask{
+		void solve() throws IOException{
+			int n,k,a,b;
+			n=in.in();
+			k=in.in();
+			a=in.in();
+			b=in.in();
+			k+=n-2;
+			n--;
+			b*=k;
+			a*=n;
+			if(a==b)out.println(0);
+			else if(a>b)out.println(1);
+			else out.println(2);
+		}
+		int te=1;
+		void run()throws IOException{
+			int t=1;
+//			t=in.in();
+			for(te=1;te<=t;te++) {
+				solve();
+//				out.flush();
+			}
+			out.close();
+		}
+//		long timeMillis;
+//		void st() {
+//			timeMillis=System.currentTimeMillis();
+//		}
+//		void ed() {
+//			System.out.println((System.currentTimeMillis()-timeMillis)+""ms"");
+//		}
+	}
+	/**
+	 * Reading MULTIPLE lines of single number will be faster.
+	 */
+	class QIn{
+		StreamTokenizer st = new StreamTokenizer(new BufferedReader(new InputStreamReader(System.in)));
+		int in() throws IOException {
+			st.nextToken();
+			return (int)st.nval;
+		}
+		long inl() throws IOException {
+			st.nextToken();
+			return (long)st.nval;
+		}
+		double ind()throws IOException  {
+			st.nextToken();
+			return st.nval;
+		}
+		String ins() throws IOException {
+			st.nextToken();
+			return st.sval;
+		}
+	}
+	/**
+	 * default
+	 * Reading SINGLE line of multiple numbers will be faster.
+	 */
+	class In{
+		private StringTokenizer in=new StringTokenizer("""");
+		private InputStream is;
+		private BufferedReader bf;
+		public In(File file) throws IOException {
+			is=new FileInputStream(file);
+			init();
+		}
+		public In(InputStream is) throws IOException{
+			this.is=is;
+			init();
+		}
+		private void init() throws IOException {
+			bf=new BufferedReader(new InputStreamReader(is));
+		}
+		/**
+		 * File and OJ only
+		 */
+		boolean hasNext() throws IOException {
+			return in.hasMoreTokens()||bf.ready();
+		}
+		String ins() throws IOException {
+			while(!in.hasMoreTokens()) {
+				in=new StringTokenizer(bf.readLine());
+			}
+			return in.nextToken();
+		}
+		int in() throws IOException {
+			return Integer.parseInt(ins());
+		}
+		long inl() throws IOException {
+			return Long.parseLong(ins());
+		}
+		double ind() throws IOException {
+			return Double.parseDouble(ins());
+		}
+		String line() throws IOException {
+			return bf.readLine();
+		}
+	}
+	class Out{
+		PrintWriter out;
+		private OutputStream os;
+		private void init() {
+			out=new PrintWriter(new BufferedWriter(new OutputStreamWriter(os)));
+		}
+		public Out(File file) throws IOException {
+			os=new FileOutputStream(file);
+			init();
+		}
+		public Out(OutputStream os) throws IOException{
+			this.os=os;
+			init();
+		}
+	}
+	abstract class ioTask{
+		In in;
+		PrintWriter out;
+		public ioTask setIO(File in,File out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		public ioTask setIO(File in,OutputStream out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		public ioTask setIO(InputStream in,OutputStream out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		public ioTask setIO(InputStream in,File out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		void run()throws IOException{}
+	}
+}"
+65,A,Java,60010791,2022-12-30 19:28:30,牛客835615858号,答案正确,"import java.util.Scanner;
+public class Main {
+	public static void main(String[] args) {
+		Scanner in=new Scanner(System.in);
+		int n=in.nextInt();
+		int k=in.nextInt();
+		int a=in.nextInt();
+		int b=in.nextInt();
+		int d=(n-1)*a;
+		int e=b*(k-1)+(n-1)*b;
+		if(e>d)System.out.println(""2"");
+		else if(e<d)System.out.println(""1"");
+		else System.out.println(""0"");
+		    }
+		}
+"
+66,A,Java,60010806,2022-12-30 19:28:38,牛客835615858号,答案正确,"import java.util.Scanner;
+public class Main {
+	public static void main(String[] args) {
+		Scanner in=new Scanner(System.in);
+		int n=in.nextInt();
+		int k=in.nextInt();
+		int a=in.nextInt();
+		int b=in.nextInt();
+		int d=(n-1)*a;
+		int e=b*(k-1)+(n-1)*b;
+		if(e>d)System.out.println(""2"");
+		else if(e<d)System.out.println(""1"");
+		else System.out.println(""0"");
+		    }
+		}
+"
+67,A,Java,60010817,2022-12-30 19:28:46,水木加贝,答案正确,"import java.io.*;
+import java.math.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.*;
+import java.util.Map.Entry;
+
+public class Main
+{
+	public static void main(String[] args) throws IOException
+	{
+		int n = sc.nextInt(), k = sc.nextInt();
+		int A = sc.nextInt(), B = sc.nextInt();
+
+		int a = (k - 1 + n - 1) * B;
+		int b = (n - 1) * A;
+
+		if (a == b)
+			out.println(0);
+		else
+			out.println(a < b ? 1 : 2);
+
+		out.flush();
+		out.close();
+	}
+
+	static Scanner sc = new Scanner(System.in);
+	static PrintWriter out = new PrintWriter(System.out);
+}
+"
+68,A,Java,60011306,2022-12-30 19:33:57,ZhaoMine,答案正确,"import java.nio.file.FileSystemNotFoundException;
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt(), k = sc.nextInt(), a = sc.nextInt(), b = sc.nextInt();
+        int s1 = (n - 1) * a, s2 = (k + n - 2) * b;
+        if (s1 > s2) System.out.println(1);
+        else if (s1 < s2) System.out.println(2);
+        else System.out.println(0);
+    }
+}"
+69,A,Java,60011384,2022-12-30 19:34:48,小白试水,答案错误,"import java.util.Scanner;
+public class Main {
+    public static void main(String[] args) {
+        float n,k,a,b;
+        float d=0;
+        float x=0;
+        //System.out.println(""请输入上课地点在几层："");
+        Scanner sc=new Scanner(System.in);
+        n=sc.nextInt();
+        //System.out.println(""电梯停留在几层："");
+        k=sc.nextInt();
+        //System.out.println(""小杜走楼梯速度："");
+        a=sc.nextInt();
+        //System.out.println(""电梯速度："");
+        b=sc.nextInt();
+        d=(k-1+n-1)/b;
+        x=n/a;
+        if(d>x){
+            System.out.println(""1"");
+        }
+        else if(d<x){
+            System.out.println(""2"");
+        }
+        else {
+            System.out.println(""0"");
+        }
+    }
+}
+"
+70,A,Java,60011708,2022-12-30 19:38:03,Radicals.,答案错误,"import java.util.Scanner;
+public class Main{
+    public static void main(String args[]){
+        Scanner sc = new Scanner(System.in);
+        int[] arr  = new int[4];//0:n,1:k,2:a,3:b
+        for(int i = 0; i < 4; i++){
+            arr[i] = sc.nextInt();
+        }
+        int timeRoad = (arr[0] - 1) * arr[2];
+        int timeE = (arr[1] + arr[1] - 1) * arr[3];
+        if(timeRoad > timeE){
+            System.out.println(""2"");
+        }else if(timeRoad < timeE){
+            System.out.println(""1"");
+        }else{
+            System.out.println(""0"");
+        }
+        
+    }
+    
+}"
+71,A,Java,60011845,2022-12-30 19:39:28,Radicals.,答案错误,"import java.util.Scanner;
+public class Main{
+    public static void main(String args[]){
+        Scanner sc = new Scanner(System.in);
+        int[] arr  = new int[4];//0:n,1:k,2:a,3:b
+        for(int i = 0; i < 4; i++){
+            arr[i] = sc.nextInt();
+        }
+        int timeRoad = (arr[0] - 1) * arr[2];
+        int timeE = (arr[1] + arr[1] - 2) * arr[3];
+        if(timeRoad < timeE){
+            System.out.println(""2"");
+        }else if(timeRoad > timeE){
+            System.out.println(""1"");
+        }else{
+            System.out.println(""0"");
+        }
+        
+    }
+    
+}"
+72,A,Java,60011875,2022-12-30 19:39:48,Radicals.,答案错误,"import java.util.Scanner;
+public class Main{
+    public static void main(String args[]){
+        Scanner sc = new Scanner(System.in);
+        int[] arr  = new int[4];//0:n,1:k,2:a,3:b
+        for(int i = 0; i < 4; i++){
+            arr[i] = sc.nextInt();
+        }
+        int timeRoad = (arr[0] - 1) * arr[2];
+        int timeE = (arr[1] + arr[1] - 2) * arr[3];
+        if(timeRoad < timeE){
+            System.out.println(""2"");
+        }else if(timeRoad > timeE){
+            System.out.println(""1"");
+        }else{
+            System.out.println(""0"");
+        }
+        
+    }
+    
+}"
+73,A,Java,60011941,2022-12-30 19:40:34,米提欣,答案正确,"public class Main {
+     public static void main(String args[]){
+        java.util.Scanner reader =new  java.util.Scanner(System.in);
+        int n=reader.nextInt();
+        int k=reader.nextInt();
+        int a=reader.nextInt();
+        int b=reader.nextInt();
+//         for(int i=1;i<n;i++){
+//             for(int j=1;j<k;j++)
+         int result=(n-1)*a-(((k-1)*b)+(n-1)*b);
+         if(result>0)
+             System.out.println(1);
+         else if(result<0)
+             System.out.println(2);
+         else 
+             System.out.println(0);
+//         }
+        
+    }
+}"
+74,A,Java,60011947,2022-12-30 19:40:37,HMETAO,答案正确,"
+
+import java.io.*;
+import java.math.BigInteger;
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) throws IOException {
+        Reader r = new Reader();
+        long n = r.nextInt();
+        long k = r.nextInt();
+        long a = r.nextInt();
+        long b = r.nextInt();
+        long d = b * (k-1) + (n-1) * b;
+        long t = a  * (n-1);
+        if (d < t) {
+            System.out.println(""1"");
+        } else if (d > t) {
+            System.out.println(""2"");
+        } else {
+            System.out.println(0);
+        }
+    }
+
+
+    static class Reader {
+        BufferedReader buf;
+        StringTokenizer tok;
+
+        Reader() {
+            buf = new BufferedReader(new InputStreamReader(System.in));
+        }
+
+        boolean hasNext() {
+            while (tok == null || !tok.hasMoreElements()) {
+                try {
+                    tok = new StringTokenizer(buf.readLine());
+                } catch (Exception e) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        String nextLine() {
+            try {
+                return buf.readLine();
+            } catch (IOException e) {
+                return null;
+            }
+        }
+
+        String next() {
+            if (hasNext())
+                return tok.nextToken();
+            return null;
+        }
+
+        int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        double nextDouble() {
+            return Double.parseDouble(next());
+        }
+    }
+
+}
+
+
+"
+75,A,Java,60011956,2022-12-30 19:40:53,牛客660847826号,答案正确,"
+//小白月赛64小杜要迟到了！
+
+import java.util.Scanner;
+
+/**
+ * @author :chenjie
+ * @date :Created 2022/12/30 19:36
+ */
+public class Main{
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+        int n=sc.nextInt();
+        int k=sc.nextInt();
+        int a=sc.nextInt();
+        int b=sc.nextInt();
+        if((k-1+(n-1))*b<a*(n-1)){
+            System.out.println(1);
+        }else if((k-1+(n-1))*b==a*(n-1)){
+            System.out.println(0);
+        }else {
+            System.out.println(2);
+        }
+    }
+}
+"
+76,A,Java,60012094,2022-12-30 19:42:29,Radicals.,答案正确,"import java.util.Scanner;
+public class Main{
+    public static void main(String args[]){
+        Scanner sc = new Scanner(System.in);
+        int[] arr  = new int[4];//0:n,1:k,2:a,3:b
+        for(int i = 0; i < 4; i++){
+            arr[i] = sc.nextInt();
+        }
+        int timeRoad = (arr[0] - 1) * arr[2];
+        int timeE = (arr[1] + arr[0] - 2) * arr[3];
+        if(timeRoad < timeE){
+            System.out.println(""2"");
+        }else if(timeRoad > timeE){
+            System.out.println(""1"");
+        }else{
+            System.out.println(""0"");
+        }
+        
+    }
+    
+}"
+77,A,Java,60012114,2022-12-30 19:42:40,Radicals.,答案正确,"import java.util.Scanner;
+public class Main{
+    public static void main(String args[]){
+        Scanner sc = new Scanner(System.in);
+        int[] arr  = new int[4];//0:n,1:k,2:a,3:b
+        for(int i = 0; i < 4; i++){
+            arr[i] = sc.nextInt();
+        }
+        int timeRoad = (arr[0] - 1) * arr[2];
+        int timeE = (arr[1] + arr[0] - 2) * arr[3];
+        if(timeRoad < timeE){
+            System.out.println(""2"");
+        }else if(timeRoad > timeE){
+            System.out.println(""1"");
+        }else{
+            System.out.println(""0"");
+        }
+        
+    }
+    
+}"
+78,A,Java,60012236,2022-12-30 19:44:07,小白试水,答案错误,"import java.util.Scanner;
+public class Main {
+    public static void main(String[] args) {
+        float n,k,a,b;
+        float d=0;
+        float x=0;
+        //System.out.println(""请输入上课地点在几层："");
+        Scanner sc=new Scanner(System.in);
+        n=sc.nextInt();
+        //System.out.println(""电梯停留在几层："");
+        k=sc.nextInt();
+        //System.out.println(""小杜走楼梯速度："");
+        a=sc.nextInt();
+        //System.out.println(""电梯速度："");
+        b=sc.nextInt();
+        d=(k-1+n-1)*b;
+        x=(n-1)*a;
+        if(d<x){
+            System.out.println(""1"");
+        }
+        else if(d>x){
+            System.out.println(""2"");
+        }
+        else {
+            System.out.println(""0"");
+        }
+    }
+}
+"
+79,A,Java,60012382,2022-12-30 19:45:56,小白试水,答案错误,"
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        float n,k,a,b;
+        float d=0;
+        float x=0;
+        //System.out.println(""请输入所有信息"");
+        //System.out.println(""请输入上课地点在几层："");
+        Scanner sc=new Scanner(System.in);
+        n=sc.nextInt();
+        //System.out.println(""电梯停留在几层："");
+        k=sc.nextInt();
+        //System.out.println(""小杜走楼梯速度："");
+        a=sc.nextInt();
+        //System.out.println(""电梯速度："");
+        b=sc.nextInt();
+        d=(k-1+n-1)*b;
+        x=(n-1)*a;
+        if(d<x){
+            System.out.println(""1"");
+        }
+        else if(d>x){
+            System.out.println(""2"");
+        }
+        else {
+            System.out.println(""0"");
+        }
+    }
+}
+"
+80,A,Java,60012428,2022-12-30 19:46:30,小白试水,答案错误,"
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        float n,k,a,b;
+        float d=0;
+        float x=0;
+        //System.out.println(""请输入所有信息"");
+        //System.out.println(""请输入上课地点在几层："");
+        Scanner sc=new Scanner(System.in);
+        n=sc.nextInt();
+        //System.out.println(""电梯停留在几层："");
+        k=sc.nextInt();
+        //System.out.println(""小杜走楼梯速度："");
+        a=sc.nextInt();
+        //System.out.println(""电梯速度："");
+        b=sc.nextInt();
+        d=(k-1+n-1)*b;
+        x=(n-1)*a;
+        if(d<x){
+            System.out.println(""1"");
+        }
+        else if(d>x){
+            System.out.println(""2"");
+        }
+        else {
+            System.out.println(""0"");
+        }
+    }
+}
+"
+81,A,Java,60012569,2022-12-30 19:48:13,小白试水,答案错误,"import java.util.Scanner;
+public class Main {
+    public static void main(String[] args) {
+        float n,k,a,b;
+        float d=0;
+        float x=0;
+        //System.out.println(""请输入所有信息"");
+        //System.out.println(""请输入上课地点在几层："");
+        Scanner sc=new Scanner(System.in);
+        n=sc.nextInt();
+        //System.out.println(""电梯停留在几层："");
+        k=sc.nextInt();
+        //System.out.println(""小杜走楼梯速度："");
+        a=sc.nextInt();
+        //System.out.println(""电梯速度："");
+        b=sc.nextInt();
+        d=(k-1+n-1)*b;
+        x=(n-1)*a;
+        if(d<x){
+            System.out.println(""1"");
+        }
+        else if(d>x){
+            System.out.println(""2"");
+        }
+        else {
+            System.out.println(""0"");
+        }
+    }
+}
+"
+82,A,Java,60012670,2022-12-30 19:49:27,小白试水,答案错误,"import java.util.Scanner;
+public class Main {
+    public static void main(String[] args) {
+        float n,k,a,b;
+        float d=0;
+        float x=0;
+        //System.out.println(""请输入所有信息"");
+        //System.out.println(""请输入上课地点在几层："");
+        Scanner sc=new Scanner(System.in);
+        n=sc.nextInt();
+        //System.out.println(""电梯停留在几层："");
+        k=sc.nextInt();
+        //System.out.println(""小杜走楼梯速度："");
+        a=sc.nextInt();
+        //System.out.println(""电梯速度："");
+        b=sc.nextInt();
+        d=(k-1+n-1)*b;
+        x=(n-1)*a;
+        if(d<x){
+            System.out.println(1);
+        }
+        else if(d>x){
+            System.out.println(2);
+        }
+        else {
+            System.out.println(0);
+        }
+    }
+}
+"
+83,A,Java,60013003,2022-12-30 19:52:57,霜鱼丶,答案正确,"import java.util.Scanner;
+
+// 注意类名必须为 Main, 不要有任何 package xxx 信息
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        // 注意 hasNext 和 hasNextLine 的区别
+        int n = in.nextInt();
+        int k = in.nextInt();
+        int a = in.nextInt();
+        int b = in.nextInt();
+        if((n-1)*a>((k-1)*b+(n-1)*b)){
+            System.out.print(1);
+        }else if((n-1)*a<((k-1)*b+(n-1)*b)){
+            System.out.print(2);
+        }else{
+            System.out.print(0);
+        }
+    }
+}"
+84,A,Java,60013395,2022-12-30 19:57:42,Floating_Ocean,答案正确,"import java.util.*;
+
+public class Main{
+
+    public static void main(String[] args){
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt(), k = scanner.nextInt(), a = scanner.nextInt(), b = scanner.nextInt();
+        int walk = a * (n - 1), lift = b * (k - 1 + n - 1);
+        System.out.println(walk == lift ? 0 : walk > lift ? 1 : 2);
+    }
+}"
+85,A,Java,60013513,2022-12-30 19:59:04,孔老大,答案正确,"import java.io.*;
+import java.util.*;
+
+public class Main {
+
+    static Scanner sc;
+    static PrintWriter pw;
+
+    public static void main(String[] args) throws IOException {
+        sc = new Scanner(System.in);
+        pw = new PrintWriter(System.out);
+        solve();
+        pw.close();
+    }
+    
+    public static void solve() throws IOException {
+
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+
+        int x1 = (k + n - 2) * b;
+        int x2 = (n - 1) * a;
+
+        if (x1 == x2) {
+            pw.println(0);
+        }
+        if (x1 < x2) {
+            pw.println(1);
+        }
+        if (x2 < x1) {
+            pw.println(2);
+        }
+    }
+
+
+    static class Scanner {
+        BufferedReader br;
+        StringTokenizer st;
+
+        public Scanner(InputStream s) {
+            br = new BufferedReader(new InputStreamReader(s));
+        }
+
+        public Scanner(FileReader f) {
+            br = new BufferedReader(f);
+        }
+
+        public String next() throws IOException {
+            while (st == null || !st.hasMoreTokens())
+                st = new StringTokenizer(br.readLine());
+            return st.nextToken();
+        }
+
+        public int nextInt() throws IOException {
+            return Integer.parseInt(next());
+        }
+
+        public long nextLong() throws IOException {
+            return Long.parseLong(next());
+        }
+
+        public double nextDouble() throws IOException {
+            return Double.parseDouble(next());
+        }
+
+        public int[] nextIntArr(int n) throws IOException {
+            int[] arr = new int[n];
+            for (int i = 0; i < n; i++) {
+                arr[i] = Integer.parseInt(next());
+            }
+            return arr;
+        }
+
+    }
+}
+"
+86,A,Java,60013616,2022-12-30 20:00:13,阿刁9740,答案错误,"import java.util.Scanner;
+ 
+// 注意类名必须为 Main, 不要有任何 package xxx 信息
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+        int k = in.nextInt();
+        int a = in.nextInt();
+        int b = in.nextInt();
+        // 注意 hasNext 和 hasNextLine 的区别
+        int a1= (n-1)*a;
+        int b1=(k+n-2)*a;
+        System.out.println(b1==a1?0:b1>a1?1:2);
+    }
+}"
+87,A,Java,60013701,2022-12-30 20:01:06,阿刁9740,答案错误,"import java.util.Scanner;
+ 
+// 注意类名必须为 Main, 不要有任何 package xxx 信息
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+        int k = in.nextInt();
+        int a = in.nextInt();
+        int b = in.nextInt();
+        // 注意 hasNext 和 hasNextLine 的区别
+        int a1= (n-1)*a;
+        int b1=(k+n-2)*b;
+        System.out.println(b1==a1?0:b1>a1?1:2);
+    }
+}"
+88,A,Java,60013893,2022-12-30 20:03:15,皓金,答案正确,"import java.util.Scanner;
+
+public class Main {
+  public static void main(String[] args) {
+    Scanner scanner = new Scanner(System.in);
+    int n = scanner.nextInt();
+    int k = scanner.nextInt();
+    int a = scanner.nextInt();
+    int b = scanner.nextInt();
+    scanner.close();
+
+    int timeElevator = (k - 1) * b + (n - 1) * b;
+    int timeStairs = (n - 1) * a;
+
+    if (timeElevator < timeStairs) {
+      System.out.println(1);
+    } else if (timeElevator > timeStairs) {
+      System.out.println(2);
+    } else {
+      System.out.println(0);
+    }
+  }
+}
+"
+89,A,Java,60014031,2022-12-30 20:04:58,阿刁9740,答案正确,"import java.util.Scanner;
+ 
+// 注意类名必须为 Main, 不要有任何 package xxx 信息
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+        int k = in.nextInt();
+        int a = in.nextInt();
+        int b = in.nextInt();
+        // 注意 hasNext 和 hasNextLine 的区别
+        int a1= (n-1)*a;
+        int b1=(k+n-2)*b;
+        System.out.println(b1==a1?0:b1>a1?2:1);
+    }
+}"
+90,A,Java,60015318,2022-12-30 20:22:49,小小海棠,答案错误,"import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n,k,a,b;
+        int time1,time2;
+        n=sc.nextInt();
+        k=sc.nextInt();
+        a=sc.nextInt();
+        b=sc.nextInt();
+        time1=a;
+        time2=k/b+n/b;
+        if(time2>time1)System.out.println(1);
+        else if(time2<time1)System.out.println(2);
+        else if(time1==time2)System.out.print(0);
+   }
+}"
+91,A,Java,60015460,2022-12-30 20:24:42,小小海棠,答案错误,"import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n,k,a,b;
+        int time1,time2;
+        n=sc.nextInt();
+        k=sc.nextInt();
+        a=sc.nextInt();
+        b=sc.nextInt();
+        time1=n/a;
+        time2=k/b+n/b;
+        if(time2>time1)System.out.println(1);
+        else if(time2<time1)System.out.println(2);
+        else if(time1==time2)System.out.print(0);
+   }
+}"
+92,A,Java,60015567,2022-12-30 20:26:14,小小海棠,答案错误,"import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n,k,a,b;
+        int time1,time2;
+        n=sc.nextInt();
+        k=sc.nextInt();
+        a=sc.nextInt();
+        b=sc.nextInt();
+        time1=(n-1)*a;
+        time2=(k-1)*b+(n-1)*b;
+        if(time2>time1)System.out.println(1);
+        else if(time2<time1)System.out.println(2);
+        else if(time1==time2)System.out.print(0);
+   }
+}"
+93,A,Java,60015601,2022-12-30 20:26:44,山东大学-刘洋,答案正确,"import java.util.Scanner;
+public class Main {
+    public static void main(String[]args){
+        Scanner scan=new Scanner(System.in);
+        int n=scan.nextInt();
+        int k=scan.nextInt();
+        int a=scan.nextInt();
+        int b=scan.nextInt();
+        int walktime=(n-1)*a;
+        int lifttime=(k-1)*b+(n-1)*b;
+        if(walktime>lifttime){
+            System.out.println(""1"");
+        } else if (lifttime>walktime) {
+            System.out.println(""2"");
+        }
+        else{
+            System.out.println(""0"");
+        }
+    }
+}"
+94,A,Java,60015956,2022-12-30 20:32:24,小小海棠,答案正确,"import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n,k,a,b;
+        int time1,time2;
+        n=sc.nextInt();
+        k=sc.nextInt();
+        a=sc.nextInt();
+        b=sc.nextInt();
+        time1=(n-1)*a;
+        time2=(k-1)*b+(n-1)*b;
+        if(time2<time1)System.out.println(1);
+        else if(time2>time1)System.out.println(2);
+        else if(time1==time2)System.out.print(0);
+   }
+}"
+95,A,Java,60016122,2022-12-30 20:35:03,牛客703619721号,答案错误,"import java.util.Scanner;
+public class Main{
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        int k = scanner.nextInt();
+        int a = scanner.nextInt();
+        int b = scanner.nextInt();
+
+
+        int kTo1=0;
+        kTo1=(k-1)*a;
+        int louti=b*(n-1);
+        int dianti=b*(n-1)+kTo1;
+        if(louti==dianti){
+            System.out.println(0);
+        }
+        else if(louti>dianti){
+            System.out.println(2);
+        }
+        else {
+            System.out.println(1);
+        }
+    }
+}"
+96,A,Java,60016157,2022-12-30 20:35:39,牛客703619721号,答案错误,"import java.util.Scanner;
+public class Main{
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        int k = scanner.nextInt();
+        int a = scanner.nextInt();
+        int b = scanner.nextInt();
+
+
+        int kTo1=0;
+        kTo1=(k-1)*b;
+        int louti=a*(n-1);
+        int dianti=b*(n-1)+kTo1;
+        if(louti==dianti){
+            System.out.println(0);
+        }
+        else if(louti>dianti){
+            System.out.println(2);
+        }
+        else {
+            System.out.println(1);
+        }
+    }
+}"
+97,A,Java,60016244,2022-12-30 20:37:09,牛客703619721号,答案正确,"import java.util.Scanner;
+public class Main{
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        int k = scanner.nextInt();
+        int a = scanner.nextInt();
+        int b = scanner.nextInt();
+
+
+        int kTo1=0;
+        kTo1=(k-1)*b;
+        int louti=a*(n-1);
+        int dianti=b*(n-1)+kTo1;
+        if(louti==dianti){
+            System.out.println(0);
+        }
+        else if(louti<dianti){
+            System.out.println(2);
+        }
+        else {
+            System.out.println(1);
+        }
+    }
+}"
+98,A,Java,60018545,2022-12-30 21:18:54,小白试水,答案错误,"
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        int n,k,a,b;
+        float d=0;
+        float x=0;
+        //System.out.println(""请输入所有信息"");
+        //System.out.println(""请输入上课地点在几层："");
+        Scanner sc=new Scanner(System.in);
+        n=sc.nextInt();
+        //System.out.println(""电梯停留在几层："");
+        k=sc.nextInt();
+        //System.out.println(""小杜走楼梯速度："");
+        a=sc.nextInt();
+        //System.out.println(""电梯速度："");
+        b=sc.nextInt();
+        d=(k-1+n-1)*b;
+        x=(n-1)*a;
+        if(d<x){
+            System.out.println(1);
+        }
+        else if(d>x){
+            System.out.println(2);
+        }
+        else {
+            System.out.println(0);
+        }
+    }
+}
+"
+99,A,Java,60018550,2022-12-30 21:19:01,小白试水,答案错误,"
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        int n,k,a,b;
+        float d=0;
+        float x=0;
+        //System.out.println(""请输入所有信息"");
+        //System.out.println(""请输入上课地点在几层："");
+        Scanner sc=new Scanner(System.in);
+        n=sc.nextInt();
+        //System.out.println(""电梯停留在几层："");
+        k=sc.nextInt();
+        //System.out.println(""小杜走楼梯速度："");
+        a=sc.nextInt();
+        //System.out.println(""电梯速度："");
+        b=sc.nextInt();
+        d=(k-1+n-1)*b;
+        x=(n-1)*a;
+        if(d<x){
+            System.out.println(1);
+        }
+        else if(d>x){
+            System.out.println(2);
+        }
+        else {
+            System.out.println(0);
+        }
+    }
+}
+"
+100,A,Java,60018625,2022-12-30 21:21:44,小白试水,答案正确,"
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        int n,k,a,b;
+        int d;
+        int x;
+        //System.out.println(""请输入所有信息"");
+        //System.out.println(""请输入上课地点在几层："");
+        Scanner sc=new Scanner(System.in);
+        n=sc.nextInt();
+        //System.out.println(""电梯停留在几层："");
+        k=sc.nextInt();
+        //System.out.println(""小杜走楼梯速度："");
+        a=sc.nextInt();
+        //System.out.println(""电梯速度："");
+        b=sc.nextInt();
+        d=(k-1+n-1)*b;
+        x=(n-1)*a;
+        if(d<x){
+            System.out.println(1);
+        }
+        else if(d>x){
+            System.out.println(2);
+        }
+        else {
+            System.out.println(0);
+        }
+    }
+}
+"
+101,A,Java,60018667,2022-12-30 21:23:14,小白试水,答案正确,"
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        int n,k,a,b;
+        int d;
+        int x;
+        //System.out.println(""请输入所有信息"");
+        //System.out.println(""请输入上课地点在几层："");
+        Scanner sc=new Scanner(System.in);
+        n=sc.nextInt();
+        //System.out.println(""电梯停留在几层："");
+        k=sc.nextInt();
+        //System.out.println(""小杜走楼梯速度："");
+        a=sc.nextInt();
+        //System.out.println(""电梯速度："");
+        b=sc.nextInt();
+        d=(k-1+n-1)*b;
+        x=(n-1)*a;
+        if(d<x){
+            System.out.println(1);
+        }
+        else if(d>x){
+            System.out.println(2);
+        }
+        else {
+            System.out.println(0);
+        }
+    }
+}
+"
+102,A,Java,60019460,2022-12-30 21:49:14,牛客524308315号,答案正确,"import java.util.*;
+
+public class Main {
+   public static void main(String[] args){
+       Scanner sc = new Scanner(System.in);
+       int n = sc.nextInt();
+       int k = sc.nextInt();
+       int a = sc.nextInt();
+       int b = sc.nextInt();
+       
+       int res1 = (n - 1) * a;
+       int res2 = (k - 1) * b + (n - 1) * b;
+       if(res1 < res2)System.out.println(2);
+       else if(res1 > res2) System.out.println(1);
+       else System.out.println(0);
+   }   
+}"
+103,A,Java,60020020,2022-12-30 22:12:52,名字又被占用了！,答案正确,"import java.util.Scanner;
+
+/**
+ * @author zhangjx
+ * @create 2022-12-30-22:08
+ */
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+        int k = in.nextInt();
+        int a = in.nextInt();
+        int b = in.nextInt();
+        if((k-1)*b+(n-1)*b>(n-1)*a){
+            System.out.println(""2"");
+        }else if((k-1)*b+(n-1)*b<(n-1)*a){
+            System.out.println(""1"");
+        }else {
+            System.out.println(""0"");
+        }
+    }
+}"
+104,A,Java,60021631,2022-12-31 09:49:18,牛客777701639号,答案错误,"import java.util.Scanner;
+public class Main{
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+        int n=sc.nextInt();
+        int a=sc.nextInt();
+        int b=sc.nextInt();
+        int k=sc.nextInt();
+        int dian=(k-1)*b+(n-1)*b;
+        int bu=(n-1)*a;
+        if(dian==bu){
+            System.out.println(""0"");
+        }else if(dian>bu){
+            System.out.println(""2"");
+        }else{
+            System.out.println(""1"");
+        }
+    }
+}"
+105,A,Java,60021641,2022-12-31 09:51:25,牛客777701639号,答案错误,"import java.util.Scanner;
+public class Main{
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+        int n=sc.nextInt();
+        int a=sc.nextInt();
+        int b=sc.nextInt();
+        int k=sc.nextInt();
+        int dian=(k-1)*b+(n-1)*b;
+        int bu=(n-1)*a;
+        if(dian<bu){
+            System.out.println(""1"");
+        }else if(dian>bu){
+            System.out.println(""2"");
+        }else{
+            System.out.println(""0"");
+        }
+    }
+}"
+106,A,Java,60021648,2022-12-31 09:52:06,牛客777701639号,答案正确,"import java.util.Scanner;
+public class Main{
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+        int n=sc.nextInt();
+        int k=sc.nextInt();
+        int a=sc.nextInt();
+        int b=sc.nextInt();
+        
+        int dian=(k-1)*b+(n-1)*b;
+        int bu=(n-1)*a;
+        if(dian<bu){
+            System.out.println(""1"");
+        }else if(dian>bu){
+            System.out.println(""2"");
+        }else{
+            System.out.println(""0"");
+        }
+    }
+}"
+107,A,Java,60022499,2022-12-31 11:35:39,牛客722252005号,答案错误,"
+import java.util.*;
+
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+        if(n == 1){
+            System.out.println(""0"");
+            return;
+        }
+        int time1 = (k - 1) * b + (n - 1) * b;
+        int time2 = ( n - 1 ) * a;
+        if(time1 > time2){
+            System.out.println(""2"");}
+        else if(time1 == time2) System.out.println(""0"");
+        else System.out.println(""1"");
+    }
+}"
+108,A,Java,60022511,2022-12-31 11:36:46,牛客722252005号,答案错误,"
+import java.util.*;
+
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+        if(n == 1){
+            System.out.println(""0"");
+            return;
+        }
+        long time1 = (long) (k - 1) * b + (long) (n - 1) * b;
+        long time2 = (long) (n - 1) * a;
+        if(time1 > time2){
+            System.out.println(""2"");}
+        else if(time1 == time2) System.out.println(""0"");
+        else System.out.println(""1"");
+    }
+}"
+109,A,Java,60022540,2022-12-31 11:39:28,牛客722252005号,答案正确,"
+import java.util.*;
+
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+        long time1 = (long) (k - 1) * b + (long) (n - 1) * b;
+        long time2 = (long) (n - 1) * a;
+        if(time1 > time2){
+            System.out.println(""2"");}
+        else if(time1 == time2) System.out.println(""0"");
+        else System.out.println(""1"");
+    }
+}"
+110,A,Java,60023861,2022-12-31 13:39:47,人工智能2312陈啸,答案正确,"import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        while (in.hasNext()) {
+            int n = in.nextInt();
+            int k = in.nextInt();
+            int a = in.nextInt();
+            int b = in.nextInt();
+            int s1 = (n-1) * b + (k-1) * b;
+            int s2 = (n-1) * a;
+            if(s1==s2)
+                System.out.println(0);
+            else if(s1<s2)
+                System.out.println(1);
+            else
+                System.out.println(2);
+        }
+    }
+}
+"
+111,A,Java,60028427,2022-12-31 17:40:09,巴比Q了的长颈鹿很爱看剧,答案正确,"import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+        int k = in.nextInt();
+        int a = in.nextInt();
+        int b = in.nextInt();
+        int x1 = (n-1)*a;
+        int x2 = (k+n-2)*b;
+        if(x1>x2){
+            System.out.print(""1"");
+        }
+        else if(x1==x2){
+            System.out.print(""0"");
+        }
+        else{
+            System.out.print(""2"");
+        }
+    }
+}"
+112,A,Java,60028438,2022-12-31 17:41:06,巴比Q了的长颈鹿很爱看剧,答案正确,"import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+        int k = in.nextInt();
+        int a = in.nextInt();
+        int b = in.nextInt();
+        a = (n-1)*a;
+        b = (k+n-2)*b;
+        if(a>b){
+            System.out.print(""1"");
+        }
+        else if(a==b){
+            System.out.print(""0"");
+        }
+        else{
+            System.out.print(""2"");
+        }
+    }
+}"
+113,A,Java,60093978,2023-01-02 09:01:30,acm_team21935,答案正确,"import java.util.*;
+import java.io.*;
+public class Main {
+    public static void main(String[]args){
+        int del=0,Tdel;
+        Scanner cs=new Scanner(System.in);
+        int  n=cs.nextInt();
+        int  k=cs.nextInt();
+        int  a=cs.nextInt();
+        int  b=cs.nextInt();
+        del=(n-1)*a;
+        Tdel=(k-1)*b+(n-1)*b;
+        if(del>Tdel)
+            System.out.println(""1"");
+        else if(del==Tdel)
+            System.out.println(""0"");
+        else
+            System.out.println(""2"");
+    }       
+}"
+114,A,Java,60093980,2023-01-02 09:01:44,acm_team21935,答案正确,"import java.util.*;
+import java.io.*;
+public class Main {
+    public static void main(String[]args){
+        int del=0,Tdel;
+        Scanner cs=new Scanner(System.in);
+        int  n=cs.nextInt();
+        int  k=cs.nextInt();
+        int  a=cs.nextInt();
+        int  b=cs.nextInt();
+        del=(n-1)*a;
+        Tdel=(k-1)*b+(n-1)*b;
+        if(del>Tdel)
+            System.out.println(""1"");
+        else if(del==Tdel)
+            System.out.println(""0"");
+        else
+            System.out.println(""2"");
+    }       
+}"
+115,A,Java,60104481,2023-01-03 10:30:43,牛客440280733号,答案正确,"
+
+import java.lang.*;
+import java.util.*;
+
+
+public class Main{
+    
+    public static void main(String[] args) {
+        
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+        
+        int res = (n - 1) * a;
+        int ans = (k - 1 + n - 1) * b;
+        
+        if (res == ans) {
+            System.out.println(0);
+        } else if (res > ans) {
+            System.out.println(1);
+        } else {
+            System.out.println(2);
+        }
+    }
+}"
+116,A,Java,60106839,2023-01-03 15:19:41,牛客663823038号,答案正确,"import java.util.Scanner;
+
+public class Main {
+	public static void main(String[] args) {
+		Scanner sc=new Scanner(System.in);
+		int n =sc.nextInt();
+		int k =sc.nextInt();
+		int a =sc.nextInt();
+		int b =sc.nextInt();
+		if((n-1)*a > (k-1+n-1)*b)System.out.println(1);
+		else if((n-1)*a < (k-1+n-1)*b)System.out.println(2);
+		else System.out.println(0);
+	}
+
+}
+"
+117,A,Java,60107655,2023-01-03 16:01:16,cyclingle,答案正确,"import java.util.Scanner;
+public class Main {
+    static int n,k,a,b;
+    public static void main(String [] args)
+    {
+        Scanner sc=new Scanner(System.in);
+        n=sc.nextInt();k=sc.nextInt();a=sc.nextInt();b=sc.nextInt();
+        int ans1=(n-1)*a;int ans2=(k-1+n-1)*b;
+        if(ans1>ans2)
+        {
+            System.out.println(1);
+        }
+        else if(ans1<ans2) System.out.println(2);
+        else System.out.println(0);
+        sc.close();
+    }
+}
+"
+118,A,Java,60111623,2023-01-03 20:55:37,星辰xjccq,答案错误,"import java.util.*;
+public class Main{
+    public static void main(String[]args){
+        Scanner sin=new Scanner(System.in);
+        int n=sin.nextInt();
+        int k=sin.nextInt();
+        int a=sin.nextInt();
+        int b=sin.nextInt();
+        if((b*k+b*n)<a*n)System.out.println(""1"");
+        if((b*k+b*n)==a*n)System.out.println(""0"");
+        if((b*k+b*n)>a*n)System.out.println(""2"");
+    }
+}"
+119,A,Java,60111633,2023-01-03 20:56:12,星辰xjccq,答案错误,"import java.util.*;
+public class Main{
+    public static void main(String[]args){
+        Scanner sin=new Scanner(System.in);
+        int n=sin.nextInt();
+        int k=sin.nextInt();
+        int a=sin.nextInt();
+        int b=sin.nextInt();
+        if((b*k+b*n)<a*n)System.out.println(""1"");
+        if((b*k+b*n)==a*n)System.out.println(""0"");
+        if((b*k+b*n)>a*n)System.out.println(""2"");
+    }
+}"
+120,A,Java,60111650,2023-01-03 20:57:11,星辰xjccq,答案错误,"import java.util.*;
+public class Main{
+    public static void main(String[]args){
+        Scanner sin=new Scanner(System.in);
+        long n=sin.nextInt();
+        long k=sin.nextInt();
+        long a=sin.nextInt();
+        long b=sin.nextInt();
+        if((b*k+b*n)<a*n)System.out.println(""1"");
+        if((b*k+b*n)==a*n)System.out.println(""0"");
+        if((b*k+b*n)>a*n)System.out.println(""2"");
+    }
+}"
+121,A,Java,60111691,2023-01-03 20:59:11,星辰xjccq,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""Main.java:9: error: ')' expected\n        if((b*(k-1)+b*(n-1)<a*(n-1))System.out.println(\""1\"");\n                                    ^\n1 error""}
+
+import java.util.*;
+public class Main{
+    public static void main(String[]args){
+        Scanner sin=new Scanner(System.in);
+        long n=sin.nextInt();
+        long k=sin.nextInt();
+        long a=sin.nextInt();
+        long b=sin.nextInt();
+        if((b*(k-1)+b*(n-1)<a*(n-1))System.out.println(""1"");
+        if((b*(k-1)+b*(n-1))==a*(n-1))System.out.println(""0"");
+        if((b*(k-1)+b*(n-1))>a*(n-1))System.out.println(""2"");
+    }
+}"
+122,A,Java,60111708,2023-01-03 20:59:56,星辰xjccq,答案正确,"import java.util.*;
+public class Main{
+    public static void main(String[]args){
+        Scanner sin=new Scanner(System.in);
+        long n=sin.nextInt();
+        long k=sin.nextInt();
+        long a=sin.nextInt();
+        long b=sin.nextInt();
+        if((b*(k-1)+b*(n-1))<a*(n-1))System.out.println(""1"");
+        if((b*(k-1)+b*(n-1))==a*(n-1))System.out.println(""0"");
+        if((b*(k-1)+b*(n-1))>a*(n-1))System.out.println(""2"");
+    }
+}"
+123,A,Java,60113430,2023-01-03 23:31:59,流光ss,答案正确,"import java.util.Scanner;
+
+// 注意类名必须为 Main, 不要有任何 package xxx 信息
+public class Main {
+    public static int n,k;
+    public static void main(String[] args) {
+        Scanner scanner=new Scanner(System.in);
+        n=scanner.nextInt();
+        k=scanner.nextInt();
+        int a=scanner.nextInt();
+        int b=scanner.nextInt();
+        int a1=(n-1)*a;
+        int b1=(k-1)*b+(n-1)*b;
+        if(a1>b1){
+            System.out.println(1);
+        }else if(a1<b1){
+            System.out.println(2);
+        }else {
+            System.out.println(0);
+        }
+
+    }
+}"
+124,A,Java,60135116,2023-01-06 12:51:53,2022212759漆林虎,答案正确,"import java.util.Scanner;
+
+// 注意类名必须为 Main, 不要有任何 package xxx 信息
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+        int k = in.nextInt();
+        int a = in.nextInt();
+        int b = in.nextInt();
+        int step = (n - 1) * a;
+        int lift = (k - 1 + n - 1) * b;
+        if(lift < step){
+            System.out.println(""1"");
+        }else if(lift > step){
+            System.out.println(""2"");
+        }else{
+            System.out.println(""0"");
+        }
+    }
+}"
+125,A,Java,60226715,2023-01-12 22:56:12,半岛赤夏,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""Main.java:5: error: cannot find symbol\n        Scanner in = new Scanner(System.in);\n        ^\n  symbol:   class Scanner\n  location: class Main\nMain.java:5: error: cannot find symbol\n        Scanner in = new Scanner(System.in);\n                         ^\n  symbol:   class Scanner\n  location: class Main\n2 errors""}
+
+
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n,k,a,b;
+        n=in.nextInt()-1;
+
+        k=in.nextInt()-1;
+        a=in.nextInt();
+        b=in.nextInt();
+
+        int fTime=a*n;
+        int eTime=k*b+n*b;
+        if (fTime>eTime)
+        {
+            System.out.println(1);
+        }
+        if (fTime<eTime)
+        {
+            System.out.println(2);
+        }
+        if (fTime==eTime)
+        {
+            System.out.println(0);
+        }
+    }
+}
+"
+126,A,Java,60226719,2023-01-12 22:56:25,半岛赤夏,答案正确,"import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n,k,a,b;
+        n=in.nextInt()-1;
+
+        k=in.nextInt()-1;
+        a=in.nextInt();
+        b=in.nextInt();
+
+        int fTime=a*n;
+        int eTime=k*b+n*b;
+        if (fTime>eTime)
+        {
+            System.out.println(1);
+        }
+        if (fTime<eTime)
+        {
+            System.out.println(2);
+        }
+        if (fTime==eTime)
+        {
+            System.out.println(0);
+        }
+    }
+}
+"
+127,A,Java,60227561,2023-01-13 00:25:57,Eunoiay,答案错误,"import java.util.Scanner;
+
+public class Main {
+    
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+        
+        int res = a * n - (b * (k + n));
+        if (res > 0) System.out.println(""1"");
+        if (res < 0) System.out.println(""2"");
+        if (res == 0) System.out.println(""0"");
+    }
+}"
+128,A,Java,60227564,2023-01-13 00:27:16,Eunoiay,答案正确,"import java.util.Scanner;
+
+public class Main {
+    
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt() - 1;
+        int k = sc.nextInt() - 1;
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+        
+        int res = a * n - (b * (k + n));
+        if (res > 0) System.out.println(""1"");
+        if (res < 0) System.out.println(""2"");
+        if (res == 0) System.out.println(""0"");
+    }
+}"
+129,A,Java,60229688,2023-01-13 12:13:00,浮水3000,答案正确,"import java.util.Scanner;
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+        int k = in.nextInt();
+        int a = in.nextInt();
+        int b = in.nextInt();
+        if((n+k-2)*b>(n-1)*a){
+            System.out.println(2);
+        }else if((n+k-2)*b<(n-1)*a){
+            System.out.println(1);
+        }else{
+            System.out.println(0);
+        }
+    }
+}"
+130,A,Java,60482739,2023-01-18 16:27:19,Regis,答案正确,"import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        int n, k, a, b;
+
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt();
+        k = sc.nextInt();
+        a = sc.nextInt();
+        b = sc.nextInt();
+        int floor = (n - 1) * a;
+        int elect = (k + n -2) * b;
+        if(floor == elect) {
+            System.out.println(""0"");
+        }else if(elect < floor) {
+            System.out.println(""1"");
+        }else {
+            System.out.println(""2"");
+        }
+    }
+
+}"
+131,A,Java,60618550,2023-01-30 10:05:38,牛客586945号,答案正确,"import java.util.Scanner;
+ 
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+        int k = in.nextInt();
+        int a = in.nextInt();
+        int b = in.nextInt();
+        int time1 = (n-1)*a;
+        int time2 = (k-1)*b+(n-1)*b;
+        if(time1>time2){
+            System.out.println(1);
+        }
+        if(time1==time2){
+            System.out.println(0);
+        }
+        if(time1<time2){
+            System.out.println(2);
+        }
+    }
+}"
+132,A,Java,60680345,2023-01-31 21:25:07,lili2209czw,答案正确,"import java.util.Scanner;
+public class Main {
+    public static void main(String[] args) {
+       Scanner input=new Scanner(System.in);
+       int n= input.nextInt();
+       int k= input.nextInt();
+       int a= input.nextInt();
+       int b= input.nextInt();
+       int ans1=0;
+       int ans2=0;
+       ans1=(n-1)*a;
+       ans2=(k-1)*b+(n-1)*b;
+       if(ans1>ans2)
+       {
+          System.out.println(""1"");
+
+       }
+       else if(ans1==ans2)
+       {
+          System.out.println(""0"");
+       }
+       else{
+          System.out.println(""2"");
+       }
+    }
+}"
+133,A,Java,60739694,2023-02-02 21:24:03,广西职业师范学院21软件3班zsc,答案正确,"import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Scanner input=new Scanner(System.in);
+		int n=input.nextInt();
+		int k=input.nextInt();
+		int a=input.nextInt();
+		int b=input.nextInt();
+		int zlt=(n-1)*a;
+		int cdt=(k-1)*b+(n-1)*b;
+		if (cdt<zlt) {
+			System.out.println(1);
+		}
+		else if(zlt<cdt) {
+			System.out.println(2);
+		}else {
+			System.out.println(0);
+		}
+	}
+
+}"
+134,A,Java,60739712,2023-02-02 21:25:08,广西职业师范学院21软件3班zsc,答案正确,"import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Scanner input=new Scanner(System.in);
+		int n=input.nextInt();
+		int k=input.nextInt();
+		int a=input.nextInt();
+		int b=input.nextInt();
+		int zlt=(n-1)*a;
+		int cdt=(k-1)*b+(n-1)*b;
+		if (cdt<zlt) {
+			System.out.println(1);
+		}
+		else if(zlt<cdt) {
+			System.out.println(2);
+		}else {
+			System.out.println(0);
+		}
+	}
+
+}"
+135,A,Java,60739740,2023-02-02 21:26:59,广西职业师范学院21软件3班zsc,答案正确,"import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Scanner input=new Scanner(System.in);
+		int n=input.nextInt();
+		int k=input.nextInt();
+		int a=input.nextInt();
+		int b=input.nextInt();
+		int zlt=(n-1)*a;
+		int cdt=(k-1)*b+(n-1)*b;
+		if (cdt<zlt) {
+			System.out.println(1);
+		}
+		else if(zlt<cdt) {
+			System.out.println(2);
+		}else {
+			System.out.println(0);
+		}
+	}
+
+}"
+136,A,Java,61580879,2023-03-27 19:16:04,在写bug的小蜗牛很热爱生活,答案正确,"import java.util.Scanner;
+
+// 注意类名必须为 Main, 不要有任何 package xxx 信息
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        // 注意 hasNext 和 hasNextLine 的区别
+        String str = in.nextLine();
+        String[] strArray = str.split("" "");
+        // 走楼梯
+        int num1 = (Integer.parseInt(strArray[0]) - 1) 
+            * Integer.parseInt(strArray[2]);
+        // 电梯
+        int num2 = (Integer.parseInt(strArray[1]) - 1)  
+            * Integer.parseInt(strArray[3]) 
+            + (Integer.parseInt(strArray[0]) - 1) 
+            * Integer.parseInt(strArray[3]);
+        if (num2 < num1) {
+            System.out.println(1);
+        } else if (num2 > num1) {
+             System.out.println(2);
+        } else {
+            System.out.println(0);
+        }
+    }
+}"
+137,A,Java,61580890,2023-03-27 19:16:28,在写bug的小蜗牛很热爱生活,答案正确,"import java.util.Scanner;
+
+// 注意类名必须为 Main, 不要有任何 package xxx 信息
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        // 注意 hasNext 和 hasNextLine 的区别
+        String str = in.nextLine();
+        String[] strArray = str.split("" "");
+        // 走楼梯
+        int num1 = (Integer.parseInt(strArray[0]) - 1) 
+            * Integer.parseInt(strArray[2]);
+        // 电梯
+        int num2 = (Integer.parseInt(strArray[1]) - 1)  
+            * Integer.parseInt(strArray[3]) 
+            + (Integer.parseInt(strArray[0]) - 1) 
+            * Integer.parseInt(strArray[3]);
+        if (num2 < num1) {
+            System.out.println(1);
+        } else if (num2 > num1) {
+             System.out.println(2);
+        } else {
+            System.out.println(0);
+        }
+    }
+}"

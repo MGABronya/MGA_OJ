@@ -1,0 +1,85 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,F,Python3,61162487,2023-03-10 19:51:45,牛客831735725号,执行出错,"n, k = map(int, input().split())
+a = list(map(int, input().split()))
+
+def check(a, k):
+    if abs(a[0] - a[-1]) > k:
+        return False
+    for i in range(1, n):
+        if abs(a[i] - a[i-1]) > k:
+            return False
+    return True
+
+for i in range(n):
+    for j in range(i+1, n):
+        a[i], a[j] = a[j], a[i]
+        if check(a, k):
+            print(1, i+1, j+1)
+            exit()
+        for p in range(n):
+            for q in range(p+1, n):
+                a[p], a[q] = a[q], a[p]
+                if check(a, k):
+                    print(2, i+1, j+1, p+1, q+1)
+                    exit()
+                a[p], a[q] = a[q], a[p]
+        a[i], a[j] = a[j], a[i]
+
+print(-1)
+"
+1,F,Python3,61176858,2023-03-11 10:40:18,1，2，3，4,运行超时,"def f(v, k, dep):
+    n = len(v)
+    p = None
+    for i in range(n):
+        if abs(v[i] - v[(i + 1) % n]) > k:
+            p = i
+    if p == None:
+        return []
+    if dep == 0:
+        return None
+    for i in [p, (p + 1) % n]:
+        for j in range(n):
+            w = v.copy()
+            w[i], w[j] = w[j], w[i]
+            r = f(w, k, dep - 1)
+            if r == None:
+                continue
+            return [[i + 1, j + 1]] + r
+
+
+for _ in range(int(input())):
+    n, k = map(int, input().split())
+    v = list(map(int, input().split()))
+    ans = f(v, k, 2)
+    if ans == None:
+        print(-1)
+    else:
+        print(len(ans))
+        for ansi in ans:
+            print(*ansi)
+"
+2,F,Python3,61335870,2023-03-18 11:04:15,塔子哥学算法,执行出错,"n, x, y = map(int, input().split())
+a, b = [0]*n, [0]*n
+a = [0 for i in range(n)]
+for i in range(n):
+    a[i], b[i] = map(int, input().split())
+dp = [[[-1]*(y+1) for i in range(x+1)] for j in range(2)]
+dp[1][0][0] = 0
+ans = [0,0]
+for i in range(n):
+    for j in range(x+1):
+        for k in range(y+1):
+            dp[i&1][j][k] = -1
+    for j in range(x+1):
+        for k in range(y+1):
+            if dp[i&1^1][j][k] == -1:
+                continue
+            la = dp[i&1^1][j][k]
+            if j <= x-a[i]:
+                dp[i&1][j+a[i]][k] = max(dp[i&1][j+a[i]][k], la+1)
+                ans = min(ans, [-dp[i&1][j+a[i]][k], j+a[i]])
+            if j <= x-b[i] and k < y:
+                dp[i&1][j+b[i]][k+1] = max(dp[i&1][j+b[i]][k+1], la+1)
+                ans = min(ans, [-dp[i&1][j+b[i]][k+1], j+b[i]])
+            dp[i&1][j][k] = max(dp[i&1][j][k], dp[i&1^1][j][k])
+print(-ans[0], ans[1])"

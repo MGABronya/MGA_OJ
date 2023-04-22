@@ -1,0 +1,1958 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,C,C,61160402,2023-03-10 19:30:33,丨阿伟丨,运行超时,"#include<stdio.h>
+#include<string.h>
+double max(double a,double b)
+{
+	if(a>b) return a;
+	return b;
+}
+int C(int i,int o,char a[])
+{
+	int l=0;
+	for(;i<o;i++)
+		for(int k=i+1;k<=o;k++)
+			if(a[i]==a[k])
+				l++;
+	return l;
+}
+int main()
+{
+	int t;
+	scanf(""%d"",&t);
+	while(t--)
+	{
+		int n;
+		double m=0;
+		scanf(""%d"",&n);
+		int s[n];
+		scanf(""%s"",s);
+		for(int i=0;i<strlen(s)-1;i++)
+		{
+			for(int o=i+1;o<strlen(s);o++)
+			{
+				int l=C(i,o,s);
+				double r_=o-i+1;
+				m=max(m,l/r_);
+			}
+		}
+		printf(""%lf\n"",m);
+	}
+}"
+1,C,C(gcc 7.5.0),61161112,2023-03-10 19:37:31,小憕666,答案错误,"#include <stdio.h>
+#include <string.h>
+int hash[27];
+
+int main(void)
+{
+    int t;
+    
+    scanf(""%d"", &t);
+    
+    while(t--)
+    {
+        int n;
+        scanf(""%d"", &n);
+        
+        char str[n+1];
+        scanf(""%s"", str);
+        
+        long long result=0;
+        memset(hash, 0, sizeof(hash));
+        
+        for(int i=0; i<n; i++)
+            hash[str[i]-'a']++;
+        
+        for(int i=0; i<27; i++)
+            if(hash[i]>=2)
+                result+=(hash[i]-1)*hash[i]/2;
+        
+        int l=0, r=n-1;
+        int tag_l=0, tag_r=0;
+        while(l<r)
+        {
+            if(hash[str[l]-'a']<=1)
+            {
+                l++;
+                tag_l=1;
+            }
+            else
+            {
+                if((hash[str[l]-'a']-1)*(r-l+1)<=result)
+                {
+                    result-=hash[str[l]-'a']-1;
+                    hash[str[l]-'a']--;
+                    l++;
+                    tag_l=1;
+                }
+            }
+                
+            if(hash[str[r]-'a']<=1)
+            {
+                r--;
+                tag_r=1;
+            }
+            else
+            {
+                if((hash[str[r]-'a']-1)*(r-l+1)<=result)
+                {
+                    result-=hash[str[r]-'a']-1;
+                    hash[str[r]-'a']--;
+                    r--;
+                    tag_r=1;
+                }
+            }
+            
+            if(!(tag_l||tag_r))
+                break;
+                
+            tag_l=0;
+            tag_r=0;
+        }
+        
+        printf(""%lf\n"", result*1.0/(r-l+1));
+                
+    } 
+    return 0;
+}"
+2,C,C(gcc 7.5.0),61161367,2023-03-10 19:40:09,小憕666,答案错误,"#include <stdio.h>
+#include <string.h>
+int hash[27];
+
+int main(void)
+{
+    int t;
+    
+    scanf(""%d"", &t);
+    
+    while(t--)
+    {
+        int n;
+        scanf(""%d"", &n);
+        
+        char str[n+1];
+        scanf(""%s"", str);
+        
+        long long result=0;
+        memset(hash, 0, sizeof(hash));
+        
+        for(int i=0; i<n; i++)
+            hash[str[i]-'a']++;
+        
+        for(int i=0; i<27; i++)
+            if(hash[i]>=2)
+                result+=(hash[i]-1)*hash[i]/2;
+        
+        int l=0, r=n-1;
+        int tag_l=0, tag_r=0;
+        while(l<=r)
+        {
+            if(hash[str[l]-'a']<=1)
+            {
+                l++;
+                tag_l=1;
+            }
+            else
+            {
+                if((hash[str[l]-'a']-1)*(r-l+1)<=result)
+                {
+                    result-=hash[str[l]-'a']-1;
+                    hash[str[l]-'a']--;
+                    l++;
+                    tag_l=1;
+                }
+            }
+                
+            if(hash[str[r]-'a']<=1)
+            {
+                r--;
+                tag_r=1;
+            }
+            else
+            {
+                if((hash[str[r]-'a']-1)*(r-l+1)<=result)
+                {
+                    result-=hash[str[r]-'a']-1;
+                    hash[str[r]-'a']--;
+                    r--;
+                    tag_r=1;
+                }
+            }
+            
+            if(!(tag_l||tag_r))
+                break;
+                
+            tag_l=0;
+            tag_r=0;
+        }
+        
+        if(l<=r)
+            printf(""%lf\n"", result*1.0/(r-l+1));
+        else
+            printf(""0\n"");
+    }
+    
+    return 0;
+}"
+3,C,C(gcc 7.5.0),61161615,2023-03-10 19:42:40,小憕666,答案错误,"#include <stdio.h>
+#include <string.h>
+int hash[27];
+
+int main(void)
+{
+    int t;
+    
+    scanf(""%d"", &t);
+    
+    while(t--)
+    {
+        int n;
+        scanf(""%d"", &n);
+        
+        char str[n+1];
+        scanf(""%s"", str);
+        
+        long long result=0;
+        memset(hash, 0, sizeof(hash));
+        
+        for(int i=0; i<n; i++)
+            hash[str[i]-'a']++;
+        
+        for(int i=0; i<27; i++)
+            if(hash[i]>=2)
+                result+=(hash[i]-1)*hash[i]/2;
+        
+        int l=0, r=n-1;
+        int tag_l=0, tag_r=0;
+        while(l<=r)
+        {
+            if(hash[str[l]-'a']<=1)
+            {
+                hash[str[l]-'a']--;
+                l++;
+                tag_l=1;
+            }
+            else
+            {
+                if((hash[str[l]-'a']-1)*(r-l+1)<=result)
+                {
+                    result-=hash[str[l]-'a']-1;
+                    hash[str[l]-'a']--;
+                    l++;
+                    tag_l=1;
+                }
+            }
+                
+            if(hash[str[r]-'a']<=1)
+            {
+                hash[str[r]-'a']--;
+                r--;
+                tag_r=1;
+            }
+            else
+            {
+                if((hash[str[r]-'a']-1)*(r-l+1)<=result)
+                {
+                    result-=hash[str[r]-'a']-1;
+                    hash[str[r]-'a']--;
+                    r--;
+                    tag_r=1;
+                }
+            }
+            
+            if(!(tag_l||tag_r))
+                break;
+                
+            tag_l=0;
+            tag_r=0;
+        }
+        
+        printf(""%lf\n"", result*1.0/(r-l+1));          
+    }
+    
+    return 0;
+}"
+4,C,C,61163745,2023-03-10 20:04:45,丨阿伟丨,答案正确,"#include<stdio.h>
+#include<string.h>
+double max(double a,double b)
+{
+	if(a>b) return a;
+	return b;
+}
+int main()
+{
+	int t;
+	scanf(""%d"",&t);
+	while(t--)
+	{
+		int n;
+		double m=0;
+		scanf(""%d"",&n);
+		char s[n];
+        int s2[n][n];
+		scanf(""%s"",s);
+		for(int i=0;i<n-1;i++)
+		{
+            int l=0;
+			for(int o=i+1;o<n;o++)
+			{
+				if(s[i]==s[o]&&i!=o)
+                    l++;
+                s2[i][o]=l;
+			}
+		}
+        for(int i=n-1;i>=1;i--)
+        {
+            double k=0;
+            for(int o=i-1;o>=0;o--)
+            {
+                k=s2[o][i]+k;
+                m=max(m,k/(i-o+1));
+            }
+        }
+		printf(""%lf\n"",m);
+	}
+}"
+5,C,C,61164400,2023-03-10 20:11:36,紫陌.,答案错误,"#include<stdio.h>
+#include<math.h>
+int sorve(char*odds,int i,int j)
+{
+    int count=0;
+    while(j!=0)
+    {
+        int k=i;
+        while(k<j)
+        {
+            if(odds[k]==odds[j])
+                count++;
+            k++;
+        }
+        j--;
+    }
+    return count;
+}
+int main()
+{
+    int t;
+    scanf(""%d"",&t);
+    while(t--)
+    {
+        double ans=0,max=0;
+        int n;
+        scanf(""%d"",&n);
+        char odds[5005];
+        scanf(""%s"",odds);
+        int i=0,j=n-1;
+        while(j>0)
+        {
+            int temp=sorve(odds,i,j);
+            ans=temp*1.0/(j-i+1);
+            max=fmax(max,ans);
+            j--;
+        }
+        printf(""%lf\n"",max);
+    }
+}"
+6,C,C,61164826,2023-03-10 20:16:01,紫陌.,答案错误,"#include<stdio.h>
+#include<math.h>
+long long sorve(char*odds,int i,int j)
+{
+    long long count=0;
+    while(j>0)
+    {
+        int k=i;
+        while(k<j)
+        {
+            if(odds[k]==odds[j])
+                count++;
+            k++;
+        }
+        j--;
+    }
+    return count;
+}
+int main()
+{
+    int t;
+    scanf(""%d"",&t);
+    while(t--)
+    {
+        double ans=0,max=0;
+        int n;
+        scanf(""%d"",&n);
+        char odds[5005];
+        scanf(""%s"",odds);
+        int i=0,j=n-1;
+        while(j>0)
+        {
+            int temp=sorve(odds,i,j);
+            ans=temp*1.0/(j-i+1);
+            max=fmax(max,ans);
+            j--;
+        }
+        printf(""%lf\n"",max);
+    }
+}"
+7,C,C(gcc 7.5.0),61165009,2023-03-10 20:18:08,九竹,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c: In function ‘main’:\nmain.c:6:5: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘scanf’\n     scanf(\""%d\"",&t);\n     ^~~~~\nmain.c:11:9: warning: implicit declaration of function ‘getcahr’; did you mean ‘getchar’? [-Wimplicit-function-declaration]\n         getcahr();\n         ^~~~~~~\n         getchar\nmain.c:12:9: warning: implicit declaration of function ‘gets’; did you mean ‘fgets’? [-Wimplicit-function-declaration]\n         gets(str);\n         ^~~~\n         fgets\nmain.c:12:14: error: ‘str’ undeclared (first use in this function)\n         gets(str);\n              ^~~\nmain.c:12:14: note: each undeclared identifier is reported only once for each function it appears in\nmain.c:6:5: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n     scanf(\""%d\"",&t);\n     ^~~~~~~~~~~~~~\nmain.c:10:9: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n         scanf(\""%d\"",&n);\n         ^~~~~~~~~~~~~~""}
+
+#include<stdio.h>
+int main()
+{
+    int t;
+    char str[5005]
+    scanf(""%d"",&t);
+    while(t--)
+    {
+        int n;
+        scanf(""%d"",&n);
+        getcahr();
+        gets(str);
+        
+    }
+    return 0;
+}"
+8,C,C,61165103,2023-03-10 20:19:04,紫陌.,答案错误,"#include<stdio.h>
+#include<math.h>
+long long sorve(char*odds,int i,int j)
+{
+    long long count=0;
+    while(j>0)
+    {
+        int k=i;
+        while(k<j)
+        {
+            if(odds[k]==odds[j])
+                count++;
+            k++;
+        }
+        j--;
+    }
+    return count;
+}
+int main()
+{
+    int t;
+    scanf(""%d"",&t);
+    while(t--)
+    {
+        double ans=0,max=0;
+        int n;
+        scanf(""%d"",&n);
+        char odds[5005];
+        scanf(""%s"",odds);
+        int i=0,j=n-1;
+        while(j>0)
+        {
+            long long temp=sorve(odds,i,j);
+            ans=temp*1.0/(j-i+1);
+            max=fmax(max,ans);
+            j--;
+        }
+        printf(""%lf\n"",max);
+    }
+}"
+9,C,C(gcc 7.5.0),61165481,2023-03-10 20:22:53,CSDJM,答案错误,"#include<stdio.h>
+#include<string.h>
+#include<math.h>
+#define N 5010
+int main(void)
+{
+	int t,n;
+	char a[N];
+
+	scanf(""%d"",&t);
+	for(int i=0;i<t;i++)
+	{
+		double y[N]={0};
+		int s[26]={0};
+		scanf(""%d"",&n);
+		getchar(); 
+		scanf(""%s"",a);
+		double max=0.0;
+		for(int j=0;j<n;j++)
+		{
+			s[a[j]-'a']++;
+			for(int h=0;h<26;h++)
+			{
+				if(s[h]!=0)
+				{
+					y[j]+=s[h]*(s[h]-1)/2;
+				}
+			}
+			y[j]=y[j]*1.0/(j+1);
+			if(y[j]>max)max=y[j];
+		}
+		
+		printf(""%.6lf\n"",max);
+	} 
+	return 0;
+}"
+10,C,C(gcc 7.5.0),61166382,2023-03-10 20:33:19,2208114081,答案错误,"#include<stdio.h>
+char s[5050];
+int main()
+{
+    int t;
+    scanf(""%d"",&t);
+    while(t--)
+{
+        int n;
+        scanf(""%d"",&n);
+        scanf(""%s"",s);
+        double max=-100.0;
+        if(n==1)
+        {
+            printf(""0.000000\n"");
+        }
+        else
+    {
+            
+       
+        for(int i=1;i<=n;i++)
+        {
+            for(int j=i;j<=n;j++)
+            {
+                int num=0;
+                for(int k=i;k<j;k++)
+                {
+                    for(int m=k+1;m<=j;m++)
+                    {
+                        if(s[k]==s[m]) num++;
+                    }
+                }
+                double f=num/(j-i+1);
+                if(f>max) max=f;
+            }
+        }
+        
+        printf(""%lf\n"",max);
+    }
+}
+    
+    return 0;
+}"
+11,C,C,61171081,2023-03-10 21:30:50,牛客zzm,答案正确,"#include<stdio.h>
+#include<string.h>
+double max(double a,double b)
+{
+	if(a>b) return a;
+	return b;
+}
+int main()
+{
+	int t;
+	scanf(""%d"",&t);
+	while(t--)
+	{
+		int n;
+		double m=0;
+		scanf(""%d"",&n);
+		char s[n];
+        int s2[n][n];
+		scanf(""%s"",s);
+		for(int i=0;i<n-1;i++)
+		{
+            int l=0;
+			for(int o=i+1;o<n;o++)
+			{
+				if(s[i]==s[o]&&i!=o)
+                    l++;
+                s2[i][o]=l;
+			}
+		}
+        for(int i=n-1;i>=1;i--)
+        {
+            double k=0;
+            for(int o=i-1;o>=0;o--)
+            {
+                k=s2[o][i]+k;
+                m=max(m,k/(i-o+1));
+            }
+        }
+		printf(""%lf\n"",m);
+	}
+}"
+12,C,C(gcc 7.5.0),61174514,2023-03-11 00:09:16,OttoShaw,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c: In function ‘main’:\nmain.c:11:9: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘scanf’\n         scanf(\""%s\"",s);\n         ^~~~~\nmain.c:11:20: error: ‘s’ undeclared (first use in this function)\n         scanf(\""%s\"",s);\n                    ^\nmain.c:11:20: note: each undeclared identifier is reported only once for each function it appears in\nmain.c:36:21: warning: implicit declaration of function ‘max’; did you mean ‘main’? [-Wimplicit-function-declaration]\n                 m = max(c[i][j] * 1.0 / (j - i + 1), m);\n                     ^~~\n                     main\nmain.c:6:5: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n     scanf(\""%d\"",&t);\n     ^~~~~~~~~~~~~~\nmain.c:9:9: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n         scanf(\""%d\"",&x);\n         ^~~~~~~~~~~~~~""}
+
+#include<stdio.h>
+int a[5010][30];
+int c[5010][5010];
+int main() {
+    int t;
+    scanf(""%d"",&t);
+    for (int i = 0; i < t; i++) {
+        int x;
+        scanf(""%d"",&x);
+        char s[5010]
+        scanf(""%s"",s);
+        double m;
+        for(int i=1;i<=x;i++)
+        {
+            for(int j=i;j<=x;j++)
+                c[i][j]=0;
+            for(int j=0;j<=26;j++)
+                a[i][j]=0;
+        }
+        for (int i = 1; i <= x; i++) 
+        {
+            for (int j = 1; j <= 26; j++)
+            {
+                if (s[i] - 'a' + 1 == j)
+                    a[i][s[i] - 'a' + 1] += (a[i - 1][s[i] - 'a' + 1] + 1);
+                else
+                    a[i][ j] = a[i - 1][j];
+            }
+        }
+        for (int i = 1; i <= x; i++) 
+        {
+            for (int j = i; j <= x; j++)
+            {
+                if (j == i) c[i][j] = 0;
+                else c[i][j] = c[i][j - 1] + a[j - 1][s[j] - 'a' + 1] - a[i - 1][s[j] - 'a' + 1];
+                m = max(c[i][j] * 1.0 / (j - i + 1), m);
+            }
+        }
+        printf(""%.7lf\n"", m);
+    }
+}
+"
+13,C,C,61176696,2023-03-11 10:32:50,紫陌.,运行超时,"#include<stdio.h>
+#include<math.h>
+long long sorve(char*odds,int i,int j)
+{
+    long long count=0;
+    while(j>0)
+    {
+        int k=i;
+        while(k<j)
+        {
+            if(odds[k]==odds[j])
+                count++;
+            k++;
+        }
+        j--;
+    }
+    return count;
+}
+int main()
+{
+    int t;
+    scanf(""%d"",&t);
+    while(t--)
+    {
+        double ans=0,max=0;
+        int n;
+        scanf(""%d"",&n);
+        char odds[5005];
+        scanf(""%s"",odds);
+        for(int i=0;i<n;i++)
+        {
+            for(int j=i+1;j<n;j++)
+            {
+                long long temp=sorve(odds,i,j);
+                ans=temp*1.0/(j-i+1);
+                max=fmax(max,ans);
+            }
+        }
+        printf(""%lf\n"",max);
+    }
+}"
+14,C,C,61176856,2023-03-11 10:40:09,八荒犬,段错误,"#include<stdio.h>
+double max(double a,double b){
+	int m;
+	if (a >= b) {
+		return a;
+	}
+	else {
+		return b;
+	}
+}
+int main() {
+	int T;
+	char s[50];
+	int n;
+	int a[50][50];
+	int x = 0;
+	double m = 0;
+	scanf(""%d"", &T);
+	for (;T > 0;T--) {
+		 m = 0;
+		scanf(""%d"", &n);
+			scanf(""%s"",s);		
+		int i, j;
+		for (i = 0;i < n;i++) {
+			int l = 0;
+			for (j = i + 1;j < n;j++) {
+				
+				if (s[i] == s[j]&&i!=j) {
+					l++;
+				}
+				a[i][j] = l;
+			}
+		}
+		for (j = n - 1;j > 0;j--) {
+			double k = 0;
+			for (i = j - 1;i >= 0;i--) {
+				k = a[i][j] + k;
+				m=max(m, k / (j - i + 1));
+			}
+		}
+		printf(""%lf\n"", m);
+	}
+	return 0;
+}"
+15,C,C,61176862,2023-03-11 10:40:36,八荒犬,答案正确,"#include<stdio.h>
+double max(double a,double b){
+	int m;
+	if (a >= b) {
+		return a;
+	}
+	else {
+		return b;
+	}
+}
+int main() {
+	int T;
+	char s[5000];
+	int n;
+	int a[5000][5000];
+	int x = 0;
+	double m = 0;
+	scanf(""%d"", &T);
+	for (;T > 0;T--) {
+		 m = 0;
+		scanf(""%d"", &n);
+			scanf(""%s"",s);		
+		int i, j;
+		for (i = 0;i < n;i++) {
+			int l = 0;
+			for (j = i + 1;j < n;j++) {
+				
+				if (s[i] == s[j]&&i!=j) {
+					l++;
+				}
+				a[i][j] = l;
+			}
+		}
+		for (j = n - 1;j > 0;j--) {
+			double k = 0;
+			for (i = j - 1;i >= 0;i--) {
+				k = a[i][j] + k;
+				m=max(m, k / (j - i + 1));
+			}
+		}
+		printf(""%lf\n"", m);
+	}
+	return 0;
+}"
+16,C,C(gcc 7.5.0),61177010,2023-03-11 10:47:31,鱼总怕猪总,答案正确,"#define _CRT_SECURE_NO_WARNINGS 1
+
+#include <stdio.h>
+int arr[26];
+int find(int x)
+{
+    int m = 0, i = 0;
+    m = (x * (x - 1)) / 2;
+    return m;
+}
+int main()
+{
+    int a, i = 0, j = 0, s = 0; char am[5001];
+    int tel; int h = 0; double max = 0;
+    int sum = 0, amo[26] = { 0 };
+    double kk[5000] = { 0 }, n = 0; int m = 0;
+    scanf(""%d"", &a);
+    for (; i < a; i++)
+    {
+        scanf(""%d"", &tel);
+        getchar();
+        gets(am);
+        max = 0; n = 0;
+        for (s = 0; s < tel; s++)
+        {
+          
+            for (int u = 0; u < 26; u++)
+            {
+                amo[u] = 0; arr[u] = 0;
+            }
+            for (int r = s; r < tel; r++)
+            {
+                sum = 0;
+                arr[am[r] - 'a']++;
+                if (arr[am[r]  -'a'] == 1);
+                else {
+                    amo[am[r] -'a'] = (arr[am[r] - 'a']) * (arr[am[r] - 'a'] - 1) / 2;
+                    
+            }
+                for (int y = 0; y < 26; y++)
+                {
+                    if (amo[y] > 0) sum += amo[y];
+                }
+            
+                n = (double)(sum) / (r - s + 1);
+             
+                if (n > max) max = n;
+            }
+        }kk[m] = max;
+        m++;
+
+    }
+    for (i = 0; i < m; i++)
+    {
+        printf(""%lf\n"", kk[i]);
+    }
+    return 0;
+}"
+17,C,C(gcc 7.5.0),61178563,2023-03-11 12:17:59,小憕666,答案正确,"#include <stdio.h>
+#include <string.h>
+int hash[27];
+
+int main(void)
+{
+    int t;
+    
+    scanf(""%d"", &t);
+    
+    while(t--)
+    {
+        int n;
+        scanf(""%d"", &n);
+        
+        char str[n+1];
+        scanf(""%s"", str);
+        
+        
+        double max=0;
+        for(int i=0; i<n; i++)
+        {
+            long long result=0;
+            memset(hash, 0, sizeof(hash));
+            for(int j=i; j<n; j++)
+            {
+                result+=hash[str[j]-'a'];
+                hash[str[j]-'a']++;
+                
+                if(result*1.0/(j-i+1)>max)
+                    max=result*1.0/(j-i+1);
+            }
+        }
+            
+        printf(""%lf\n"", max);
+                
+    }
+    
+    return 0;
+}"
+18,C,C,61181665,2023-03-11 13:13:39,咕噜噜咕,答案错误,"#include<stdio.h>
+int main()
+{
+    int i,t,n,b[10000000]={0},j,m,max=-1;
+    char a[10000009];
+    double f,sum;
+    scanf(""%d"",&t);
+    while(t--)
+    {
+        scanf(""%d\n"",&n);
+        scanf(""%s\n"",a);
+        for(i=0;i<n;i++)
+        {
+            for(j=i;j<=n;j++)
+            {    sum=1;
+                 m=a[j]-'a';
+                  b[m]++;
+                for(m=0;m<26&&b[m]!=0;m++)
+                {
+                    sum=sum*(b[m]*(b[m]-1))/2;
+                }
+             f=sum/(j-i);
+                
+            }
+          if(f>max)
+                 max=f;
+          
+        }
+        printf(""%.4lf\n"",f);
+        
+    }
+    
+}"
+19,C,C,61188990,2023-03-11 13:39:02,咕噜噜咕,答案错误,"#include<stdio.h>
+int main()
+{
+    int i,t,n,j,m;
+    char a[10000009];
+    double f,sum,max=-1;
+    scanf(""%d"",&t);
+    while(t--)
+    {
+        scanf(""%d\n"",&n);
+        scanf(""%s\n"",a);
+        for(i=0;i<n;i++)
+        {
+             int b[1000009]={0};
+            for(j=i;j<n;j++)
+            {    sum=1;
+                 m=a[j]-'a';
+                  b[m]++;
+             //printf(""b[%d]=%d\n"",m,b[m]);
+                for(m=0;m<26&&b[m]!=0;m++)
+                {
+                    sum=sum*(b[m]*(b[m]-1))/2;
+                }
+             if(j!=i)
+             f=(float)sum/(j-i);
+                
+            }
+          if(f>max)
+                 max=f;
+          
+        }
+        printf(""%lf\n"",max);
+        
+    }
+    
+}"
+20,C,C,61189229,2023-03-11 13:39:53,咕噜噜咕,答案错误,"#include<stdio.h>
+int main()
+{
+    int i,t,n,j,m;
+    char a[10000009];
+    double f,sum,max=-1;
+    scanf(""%d"",&t);
+    while(t--)
+    {
+        scanf(""%d\n"",&n);
+        scanf(""%s\n"",a);
+        for(i=0;i<n;i++)
+        {
+             int b[1000009]={0};
+            for(j=i;j<n;j++)
+            {    sum=1;
+                 m=a[j]-'a';
+                  b[m]++;
+             //printf(""b[%d]=%d\n"",m,b[m]);
+                for(m=0;m<26&&b[m]!=0;m++)
+                {
+                    sum=sum*(b[m]*(b[m]-1))/2;
+                }
+             if(j!=i)
+             f=(float)sum/(j-i+1);
+                
+            }
+          if(f>max)
+                 max=f;
+          
+        }
+        printf(""%lf\n"",max);
+        
+    }
+    
+}"
+21,C,C,61191672,2023-03-11 13:48:24,咕噜噜咕,答案错误,"#include<stdio.h>
+int main()
+{
+    int i,t,n,j,m;
+    char a[10000009];
+    float f,sum,max=-1;
+    scanf(""%d"",&t);
+    while(t--)
+    {
+        scanf(""%d\n"",&n);
+        scanf(""%s\n"",a);
+        for(i=0;i<n;i++)
+        {
+             float b[1000009]={0};
+            for(j=i;j<n;j++)
+            {    sum=1;
+                 m=a[j]-'a';
+                  b[m]++;
+             //printf(""b[%d]=%d\n"",m,b[m]);
+                for(m=0;m<26&&b[m]!=0;m++)
+                {
+                    sum=(float)sum*(b[m]*(b[m]-1))/2;
+                }
+             //printf(""%f\n"",sum);
+             if(j!=i)
+             f=(float)sum/(j-i+1);
+              //printf(""%f\n"",f);  
+            }
+          if(f>max)
+                 max=f;
+          
+        }
+        printf(""%lf\n"",max);
+        max=-1;
+        
+    }
+    
+}"
+22,C,C,61222374,2023-03-11 15:43:07,咕噜噜咕,答案错误,"#include<stdio.h>
+int main()
+{
+    int i,t,n,j,m;
+    char a[10000009];
+    float f,sum,max=-1;
+    scanf(""%d"",&t);
+    while(t--)
+    {
+        scanf(""%d\n"",&n);
+        scanf(""%s\n"",a);
+        for(i=0;i<n;i++)
+        {
+             float b[1000009]={0};
+            for(j=i;j<n;j++)
+            {    sum=0;
+                 m=a[j]-'a';
+                  b[m]++;
+             //printf(""b[%d]=%f\n"",m,b[m]);
+                for(m=0;m<26&&b[m]!=0;m++)
+                {
+                    sum=(float)((b[m]*(b[m]-1))/2)+sum;
+                }
+             //printf(""%f\n"",sum);
+             f=sum/(j-i+1);
+              //printf(""%f\n"",f);  
+             if(f>max)
+                 max=f;
+            }
+          
+          
+        }
+        printf(""%f\n"",max);
+        max=-1;
+        
+    }
+    
+}"
+23,C,C,61228791,2023-03-11 16:06:57,咕噜噜咕,运行超时,"#include<stdio.h>
+int main()
+{
+    int i,t,n,j,m;
+    char a[10000009];
+    float f,sum,max=-1;
+    scanf(""%d"",&t);
+    while(t--)
+    {
+        scanf(""%d\n"",&n);
+        scanf(""%s\n"",a);
+        for(i=0;i<n;i++)
+        {
+             float b[1000009]={0};
+            for(j=i;j<n;j++)
+            {    sum=0;
+                 m=a[j]-'a';
+                  b[m]++;
+             //printf(""b[%d]=%f\n"",m,b[m]);
+                for(m=0;m<26;m++)
+                {
+                    if(b[m]==0)
+                        m=m;
+                    else
+                    sum=(b[m]*(b[m]-1))/2+sum;
+                }
+            // printf(""%f\n"",sum);
+             f=sum/(j-i+1);
+              //printf(""%f\n"",f);  
+             if(f>max)
+                 max=f;
+            }
+          
+          
+        }
+        printf(""%f\n"",max);
+        max=-1;
+        
+    }
+    
+}"
+24,C,C,61231745,2023-03-11 16:46:24,ZJGSU_wjh,答案正确,"#include <stdio.h>
+#include <string.h>
+int hash[27];
+
+int main(void)
+{
+    int t;
+    
+    scanf(""%d"", &t);
+    
+    while(t--)
+    {
+        int n;
+        scanf(""%d"", &n);
+        
+        char str[n+1];
+        scanf(""%s"", str);
+        
+        
+        double max=0;
+        for(int i=0; i<n; i++)
+        {
+            long long result=0;
+            memset(hash, 0, sizeof(hash));
+            for(int j=i; j<n; j++)
+            {
+                result+=hash[str[j]-'a'];
+                hash[str[j]-'a']++;
+                
+                if(result*1.0/(j-i+1)>max)
+                    max=result*1.0/(j-i+1);
+            }
+        }
+            
+        printf(""%lf\n"", max);
+                
+    }
+    
+    return 0;
+}"
+25,C,C,61231753,2023-03-11 16:46:29,ZJGSU_wjh,答案正确,"#include <stdio.h>
+#include <string.h>
+int hash[27];
+
+int main(void)
+{
+    int t;
+    
+    scanf(""%d"", &t);
+    
+    while(t--)
+    {
+        int n;
+        scanf(""%d"", &n);
+        
+        char str[n+1];
+        scanf(""%s"", str);
+        
+        
+        double max=0;
+        for(int i=0; i<n; i++)
+        {
+            long long result=0;
+            memset(hash, 0, sizeof(hash));
+            for(int j=i; j<n; j++)
+            {
+                result+=hash[str[j]-'a'];
+                hash[str[j]-'a']++;
+                
+                if(result*1.0/(j-i+1)>max)
+                    max=result*1.0/(j-i+1);
+            }
+        }
+            
+        printf(""%lf\n"", max);
+                
+    }
+    
+    return 0;
+}"
+26,C,C,61238285,2023-03-11 20:30:48,紫陌.,答案正确,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+    int t;
+    scanf(""%d"",&t);
+    while(t--)
+    {
+        int n;
+        double ans,max=-1;
+        char odds[5001];
+        scanf(""%d"",&n);
+        scanf(""%s"",odds);
+        for(int i=0;i<n;i++)
+        {
+            int tmp=0;
+            int arr[26]={0};
+            for(int j=i;j<n;j++)
+            {
+                tmp+=arr[odds[j]-'a']++;
+                ans=tmp*1.0/(j-i+1);
+                max=fmax(ans,max);
+            }
+        }
+        printf(""%lf\n"",max);
+    }
+}"
+27,C,C,61286621,2023-03-14 19:19:03,咕噜噜咕,运行超时,"#include<stdio.h>
+int main()
+{
+    int i,t,n,j,m;
+    char a[10000009];
+    float f,sum,max=-1;
+    scanf(""%d"",&t);
+    while(t--)
+    {
+        scanf(""%d\n"",&n);
+        scanf(""%s\n"",a);
+        for(i=0;i<n;i++)
+        {
+             float b[1000009]={0};
+            for(j=i;j<n;j++)
+            {    sum=0;
+                 m=a[j]-'a';
+                  b[m]++;
+             //printf(""b[%d]=%f\n"",m,b[m]);
+                for(m=0;m<26;m++)
+                {
+                    if(b[m]==0)
+                        m=m;
+                    else
+                    sum=(b[m]*(b[m]-1))/2+sum;
+                }
+            // printf(""%f\n"",sum);
+             f=sum/(j-i+1);
+              //printf(""%f\n"",f);  
+             if(f>max)
+                 max=f;
+            }
+          
+          
+        }
+        printf(""%f\n"",max);
+        max=-1;
+        
+    }
+    
+}"
+28,C,C,61292121,2023-03-15 08:15:32,拒绝pua的小鱼干很爱吃肉,答案错误,"#include <stdio.h>
+int main()
+{
+    int T;
+    scanf(""%d"",&T);
+    
+    while(T--)
+    {
+        char str[5005];
+        int n;
+        scanf(""%d"",&n);
+        scanf(""%s"",str);
+        double max=0;
+        
+        for(int i=0;i<n;i++)
+        {
+            char hash[27]={0};
+            long long cnt=0;
+            
+            for(int j=i;j<n;j++)
+            {
+                int t=str[j]-'a';
+                cnt+=hash[t];
+                hash[t]++;
+                
+                if(cnt*1.0/(j-i+1)>max)
+                {
+                    max=cnt*1.0/(j-i+1);
+                }
+            }
+        }
+        
+        printf(""%lf\n"",max);
+    }
+    return 0;
+}"
+29,C,C,61292124,2023-03-15 08:16:21,拒绝pua的小鱼干很爱吃肉,答案正确,"#include <stdio.h>
+int main()
+{
+    int T;
+    scanf(""%d"",&T);
+    
+    while(T--)
+    {
+        char str[5005];
+        int n;
+        scanf(""%d"",&n);
+        scanf(""%s"",str);
+        double max=0;
+        
+        for(int i=0;i<n;i++)
+        {
+            int hash[27]={0};
+            long long cnt=0;
+            
+            for(int j=i;j<n;j++)
+            {
+                int t=str[j]-'a';
+                cnt+=hash[t];
+                hash[t]++;
+                
+                if(cnt*1.0/(j-i+1)>max)
+                {
+                    max=cnt*1.0/(j-i+1);
+                }
+            }
+        }
+        
+        printf(""%lf\n"",max);
+    }
+    return 0;
+}"
+30,C,C,61292395,2023-03-15 09:31:31,小菜鸡111111,答案正确,"#include <stdio.h>
+int main()
+{
+    int T;
+    scanf(""%d"",&T);
+    while(T--)
+    {
+        char str[5005];
+        int n;
+        scanf(""%d"",&n);
+        scanf(""%s"",str);
+        double max=0;
+        
+        for(int i=0;i<n;i++)
+        {
+            int hash[27]={0};
+            long long cnt=0;
+            
+            for(int j=i;j<n;j++)
+            {
+                int t=str[j]-'a';
+                cnt+=hash[t];
+                hash[t]++;
+                
+                if(cnt*1.0/(j-i+1)>max)
+                {
+                    max=cnt*1.0/(j-i+1);
+                }
+            }
+        }
+        
+        printf(""%lf\n"",max);
+    }
+    return 0;
+}"
+31,C,C,61302250,2023-03-15 21:01:20,咕噜噜咕,运行超时,"#include<stdio.h>
+int main()
+{
+    int i,t,n,j,m;
+    char a[10000009];
+    float f,sum,max=-1;
+    scanf(""%d"",&t);
+    while(t--)
+    {
+        scanf(""%d\n"",&n);
+        scanf(""%s\n"",a);
+        for(i=0;i<n;i++)
+        {
+             float b[1000009]={0};
+            for(j=i;j<n;j++)
+            {    sum=0;
+                 m=a[j]-'a';
+                  b[m]++;
+             //printf(""b[%d]=%f\n"",m,b[m]);
+                for(m=0;m<26;m++)
+                {
+                    if(b[m]==0)
+                        m=m;
+                    else
+                    sum=(b[m]*(b[m]-1))/2+sum;
+                }
+            // printf(""%f\n"",sum);
+             f=sum/(j-i+1);
+              //printf(""%f\n"",f);  
+             if(f>max)
+                 max=f;
+            }
+          
+          
+        }
+        printf(""%f\n"",max);
+        max=-1;
+        
+    }
+    
+}"
+32,C,C,61302280,2023-03-15 21:02:04,咕噜噜咕,运行超时,"#include<stdio.h>
+int main()
+{
+    int i,t,n,j,m;
+    char a[10000009];
+    float f,sum,max=-1;
+    scanf(""%d"",&t);
+    while(t--)
+    {
+        scanf(""%d\n"",&n);
+        scanf(""%s\n"",a);
+        for(i=0;i<n;i++)
+        {
+             float b[1000009]={0};
+            for(j=i;j<n;j++)
+            {    sum=0;
+                 m=a[j]-'a';
+                  b[m]++;
+             //printf(""b[%d]=%f\n"",m,b[m]);
+                for(m=0;m<=26;m++)
+                {
+                    if(b[m]==0)
+                        m=m;
+                    else
+                    sum=(b[m]*(b[m]-1))/2+sum;
+                }
+            // printf(""%f\n"",sum);
+             f=sum/(j-i+1);
+              //printf(""%f\n"",f);  
+             if(f>max)
+                 max=f;
+            }
+          
+          
+        }
+        printf(""%f\n"",max);
+        max=-1;
+        
+    }
+    
+}"
+33,C,C,61311098,2023-03-16 18:34:03,草莓i,运行超时,"#include<stdio.h>
+#include<string.h>
+int main(){
+    int T;
+    scanf(""%d"",&T);
+    while(T--){
+        int n,mid;
+        double f=0,c;
+        scanf(""%d\n"",&n);
+        char s[5000];
+        gets(s);
+        for(int i=0;i<n;i++){
+            for(int j=i;j<n;j++){
+                mid =0;
+                for(int y=i;y<=j;y++){
+                    char a=s[y];
+                    for(int x=(y+1);x<=j;x++){
+                        if(a==s[x])mid++;
+                    }
+                }
+                c=(double)mid/(j-i+1);
+                if(c>f)f=c;
+            }
+        }
+        printf(""%f\n"",f);
+    }
+           
+}"
+34,C,C,61311110,2023-03-16 18:34:59,草莓i,运行超时,"#include<stdio.h>
+#include<string.h>
+int main(){
+    int T;
+    scanf(""%d"",&T);
+    while(T--){
+        int n,mid;
+        double f=0,c;
+        scanf(""%d\n"",&n);
+        char s[5000];
+        gets(s);
+        for(int i=0;i<n;i++){
+            for(int j=i;j<n;j++){
+                mid =0;
+                for(int y=i;y<=j;y++){
+                    char a=s[y];
+                    for(int x=(y+1);x<=j;x++){
+                        if(a==s[x])mid++;
+                    }
+                }
+                c=(double)mid/(j-i+1);
+                if(c>f)f=c;
+            }
+        }
+        printf(""%f\n"",f);
+    }
+           
+}"
+35,C,C,61311121,2023-03-16 18:35:39,草莓i,运行超时,"#include<stdio.h>
+#include<string.h>
+int main(){
+    int T;
+    scanf(""%d"",&T);
+    while(T--){
+        int n,mid;
+        double f=0,c;
+        scanf(""%d\n"",&n);
+        char s[5000];
+        gets(s);
+        for(int i=0;i<n;i++){
+            for(int j=i;j<n;j++){
+                mid =0;
+                for(int y=i;y<=j;y++){
+                    char a=s[y];
+                    for(int x=(y+1);x<=j;x++){
+                        if(a==s[x])mid++;
+                    }
+                }
+                c=(double)mid/(j-i+1);
+                if(c>f)f=c;
+            }
+        }
+        printf(""%f\n"",f);
+    }       
+}"
+36,C,C,61313051,2023-03-16 20:09:56,草莓i,运行超时,"#include<stdio.h>
+#include<string.h>
+int main(){
+    int T;
+    scanf(""%d"",&T);
+    while(T--){
+        int n,mid;
+        double f=0,c;
+        scanf(""%d\n"",&n);
+        char s[5000];
+        gets(s);
+        for(int i=0;i<n;i++){
+            for(int j=i;j<n;j++){
+                mid =0;
+                for(int y=i;y<=j;y++){
+                    char a=s[y];
+                    for(int x=(y+1);x<=j;x++){
+                        if(a==s[x])mid++;
+                    }
+                }
+                c=(double)mid/(j-i+1);
+                if(c>f)f=c;
+            }
+        }
+        printf(""%f\n"",f);
+    }       
+}"
+37,C,C,61370205,2023-03-19 02:50:23,.201803242316477,答案正确,"#include <stdio.h>
+int main()
+{
+    int T;
+    scanf(""%d"",&T);
+    
+    while(T--)
+    {
+        char str[5005];
+        int n;
+        scanf(""%d"",&n);
+        scanf(""%s"",str);
+        double max=0;
+        
+        for(int i=0;i<n;i++)
+        {
+            int hash[27]={0};
+            long long cnt=0;
+            
+            for(int j=i;j<n;j++)
+            {
+                int t=str[j]-'a';
+                cnt+=hash[t];
+                hash[t]++;
+                
+                if(cnt*1.0/(j-i+1)>max)
+                {
+                    max=cnt*1.0/(j-i+1);
+                }
+            }
+        }
+        
+        printf(""%lf\n"",max);
+    }
+    return 0;
+}"
+38,C,C,61403867,2023-03-19 20:14:50,被普调的coder很好奇,运行超时,"#include <stdio.h>
+#include <string.h>
+int f(int l,int r,int c){
+    return c/(r-l+1);
+}
+int main(){
+    int t;
+    scanf(""%d"",&t);
+    while(t--){
+        int r,i,j,c=0,h,re;
+        char p[100];
+        scanf(""%d"",&r);
+        scanf(""%s"",p);
+        for(i=0;i<r;i++)
+        {
+            for(j=i+1;i<r;j++)
+            {
+                if(*p+i==*p+j){h++;}
+            }
+            
+        }
+        if(h>c)
+			{
+				c=h;
+			}
+
+    }
+}"
+39,C,C,61404093,2023-03-19 20:21:11,被普调的coder很好奇,答案正确,"#include <stdio.h>
+#include <string.h>
+int hash[27];
+ 
+int main(void)
+{
+    int t;
+     
+    scanf(""%d"", &t);
+     
+    while(t--)
+    {
+        int n;
+        scanf(""%d"", &n);
+         
+        char str[n+1];
+        scanf(""%s"", str);
+         
+         
+        double max=0;
+        for(int i=0; i<n; i++)
+        {
+            long long result=0;
+            memset(hash, 0, sizeof(hash));
+            for(int j=i; j<n; j++)
+            {
+                result+=hash[str[j]-'a'];
+                hash[str[j]-'a']++;
+                 
+                if(result*1.0/(j-i+1)>max)
+                    max=result*1.0/(j-i+1);
+            }
+        }
+             
+        printf(""%lf\n"", max);
+                 
+    }
+     
+    return 0;
+}"
+40,C,C,61406450,2023-03-19 21:49:34,sana_u,答案错误,"#include <stdio.h>
+#include<memory.h>
+#include <string.h>
+#include <stdlib.h>
+int main ()
+{
+    int T;//组数
+    scanf(""%d"",&T);
+    for (int i=0;i<T;i++)
+    {
+        int n;
+        scanf(""%d"",&n);
+        getchar();
+        char str[5000]={'\0'};
+        fgets(str,n+1,stdin);
+        int hash[26]={0};
+        for (int j=0;j<n;j++)
+        {
+           hash[str[j]-'a']++;         
+        }
+        int sum=0;
+        for (int k=0;k<26;k++)
+        {
+            if (hash[k]>1)
+            {
+                sum+=(hash[k]*(hash[k]-1))/2;
+                
+            }
+        }
+        float F=(float)sum/(n-1+1);
+        printf (""%f\n"",F);
+        
+        
+        
+    }
+
+
+
+
+
+
+
+
+
+   return 0;
+}"
+41,C,C,61579678,2023-03-27 17:55:49,威严满满二小姐,答案正确,"#include <stdio.h>
+#include <string.h>
+int hash[27];
+  
+int main(void)
+{
+    int t;
+      
+    scanf(""%d"", &t);
+      
+    while(t--)
+    {
+        int n;
+        scanf(""%d"", &n);
+          
+        char str[n+1];
+        scanf(""%s"", str);
+          
+          
+        double max=0;
+        for(int i=0; i<n; i++)
+        {
+            long long result=0;
+            memset(hash, 0, sizeof(hash));
+            for(int j=i; j<n; j++)
+            {
+                result+=hash[str[j]-'a'];
+                hash[str[j]-'a']++;
+                  
+                if(result*1.0/(j-i+1)>max)
+                    max=result*1.0/(j-i+1);
+            }
+        }
+              
+        printf(""%lf\n"", max);
+                  
+    }
+      
+    return 0;
+}"
+42,C,C(gcc 7.5.0),61814495,2023-04-08 17:30:18,墨初_,运行超时,"#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+//int cmd(const void *a,const void *b);
+#define N 5000
+int main()
+{
+    //T代表测试数据
+    int T=0;
+    int n=0;
+    //数组s代表输入字符串
+    char s[N];
+    double max[N*N],nums=0.0,max1=0;
+    int i=0,j=0,k1=0,k2=0;
+    int l=0,r=0;
+    scanf(""%d"",&T);
+    if(T<1||T>5000)
+    {
+        exit(0);
+    }
+    while(T--)
+    {
+        scanf(""%d"",&n);
+        if(n<1||n>5000)
+        {
+            exit(0);
+        }
+        scanf(""%s"",s);
+        for(i=0;i<n-1;i++)
+        {
+            l=i;
+            for(j=i+1;j<n;j++)
+            {
+                //r=j;
+                for(k1=l;k1<j;k1++)
+                {
+                    for(k2=k1+1;k2<=j;k2++)
+                    {
+                        if(s[k1]==s[k2])
+                        {
+                            nums++;
+                        }
+                    }
+                }
+                max[r++]=nums/(j-l+1);
+                //printf(""%lf %lf\n"",max[r-1],nums);
+                nums=0;
+            }
+        }
+        for(k1=0;k1<r;k1++)
+        {
+            if(max[k1]>max1)
+            {
+                max1=max[k1];
+            }
+        }
+        //memset(max,0,sizeof(max));
+        r=0;
+        //qsort(max,r,sizeof(double),cmd);
+        printf(""%.6lf\n"",max1);
+        max1=0;
+    }
+    return 0;
+}
+
+/*int cmd(const void *a,const void *b)
+{
+    return *(double *)b-*(double *)a;
+}*/"
+43,C,C(gcc 7.5.0),61814586,2023-04-08 17:41:10,墨初_,运行超时,"#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+//int cmd(const void *a,const void *b);
+#define N 5000
+int main()
+{
+    //T代表测试数据
+    int T=0;
+    int n=0;
+    //数组s代表输入字符串
+    char s[N];
+    //数组max用于存储每一种可以的值，nums用于计算每种相同字符的个数，max1代表其中最大的可能
+    double max[N*N],nums=0.0,max1=0;
+    int i=0,j=0,k1=0,k2=0;
+    int l=0,r=0;
+    scanf(""%d"",&T);
+    if(T<1||T>5000)
+    {
+        exit(0);
+    }
+    while(T--)
+    {
+        scanf(""%d"",&n);
+        if(n<1||n>5000)
+        {
+            exit(0);
+        }
+        scanf(""%s"",s);
+        for(i=0;i<n-1;i++)
+        {
+            l=i;
+            for(j=i+1;j<n;j++)
+            {
+                //r=j;
+                //计算每一种排列的相同字符的个数
+                for(k1=l;k1<j;k1++)
+                {
+                    for(k2=k1+1;k2<=j;k2++)
+                    {
+                        //相等则情况加1
+                        if(s[k1]==s[k2])
+                        {
+                            nums++;
+                        }
+                    }
+                }
+                max[r++]=nums/(j-l+1);
+                //printf(""%lf %lf\n"",max[r-1],nums);
+                nums=0;
+            }
+        }
+        for(k1=0;k1<r;k1++)
+        {
+            if(max[k1]>max1)
+            {
+                max1=max[k1];
+            }
+        }
+        //memset(max,0,sizeof(max));
+        //qsort(max,r,sizeof(double),cmd);
+        printf(""%.6lf\n"",max1);
+        r=0;
+        max1=0;
+    }
+    return 0;
+}
+
+/*int cmd(const void *a,const void *b)
+{
+    return *(double *)a-*(double *)b;
+}*/"
+44,C,C(gcc 7.5.0),61837651,2023-04-10 18:37:31,墨初_,运行超时,"#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+//int cmd(const void *a,const void *b);
+#define N 5000
+int main()
+{
+    //T代表测试数据
+    int T=0;
+    int n=0;
+    //数组s代表输入字符串
+    char s[N];
+    //数组max用于存储每一种可以的值，nums用于计算每种相同字符的个数，max1代表其中最大的可能
+    double max[N*N],nums=0.0,max1=0;
+    int i=0,j=0,k1=0,k2=0;
+    int l=0,r=0;
+    scanf(""%d"",&T);
+    if(T<1||T>5000)
+    {
+        exit(0);
+    }
+    while(T--)
+    {
+        scanf(""%d"",&n);
+        if(n<1||n>5000)
+        {
+            exit(0);
+        }
+        scanf(""%s"",s);
+        for(i=0;i<n-1;i++)
+        {
+            l=i;
+            for(j=i+1;j<n;j++)
+            {
+                //r=j;
+                //计算每一种排列的相同字符的个数
+                for(k1=l;k1<j;k1++)
+                {
+                    for(k2=k1+1;k2<=j;k2++)
+                    {
+                        //相等则情况加1
+                        if(s[k1]==s[k2])
+                        {
+                            nums++;
+                        }
+                    }
+                }
+                max[r++]=nums/(j-l+1);
+                //printf(""%lf %lf\n"",max[r-1],nums);
+                nums=0;
+            }
+        }
+        for(k1=0;k1<r;k1++)
+        {
+            if(max[k1]>max1)
+            {
+                max1=max[k1];
+            }
+        }
+        //memset(max,0,sizeof(max));
+        //qsort(max,r,sizeof(double),cmd);
+        printf(""%.6lf\n"",max1);
+        r=0;
+        max1=0;
+    }
+    return 0;
+}
+
+/*int cmd(const void *a,const void *b)
+{
+    return *(double *)a-*(double *)b;
+}*/"
+45,C,C(gcc 7.5.0),61840151,2023-04-10 20:55:41,墨初_,答案正确,"#include<stdio.h>
+#include<string.h>
+#define N 5001
+int main()
+{
+    //T代表测试用例，n表示字符串长度
+    int T=0,n=0;
+    char s[N];
+    //数组nums用来作为每一个字符的排列总次数，nums1用来计算C
+    int nums[26]={0},nums1=0;
+    //max表示F最大值
+    int i=0,j=0,k=0;
+    double max=0;
+    scanf(""%d"",&T);
+    while(T--)
+    {
+        scanf(""%d"",&n);
+        getchar();
+        scanf(""%s"",s);
+        //printf(""%s\n"",s);
+        for(i=0;i<n-1;i++)
+        {
+            for(j=i;j<n;j++)
+            {
+                nums1+=nums[s[j]-'a']; 
+                //printf(""%d\n"",nums1);
+                //字母出现的字数排列顺序不断累加
+                nums[s[j]-'a']++;
+                if(nums1*1.0/(j-i+1)>max)
+                {
+                    //printf(""%lf\n"",nums1*1.0/(j-i+1));
+                    max=nums1*1.0/(j-i+1);
+                }
+            }
+            //每次都重新赋0
+            memset(nums,0,sizeof(nums));
+            nums1=0;
+        }
+        printf(""%lf\n"",max);
+        max=0;
+    }
+    return 0;
+}"

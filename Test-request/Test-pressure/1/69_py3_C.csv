@@ -1,0 +1,2800 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,C,Python3,61478406,2023-03-24 19:15:08,zronghui,答案错误,"def max_score(n, t, p, problems):
+    problems.sort(key=lambda x: x[0] / x[1], reverse=True)
+    total_score = 0
+    total_time = 0
+
+    for a, b, c, x, y in problems:
+        score = max(c, a - (total_time+x) * b - y * p)
+        if total_time + x > t:
+            break
+        total_score += score
+        total_time += x
+
+    return total_score
+
+
+# 解析输入
+n, t, p = map(int, input().split())
+problems = [list(map(int, input().split())) for _ in range(n)]
+
+# 计算最大得分并输出
+result = max_score(n, t, p, problems)
+print(result)
+"
+1,C,Python3,61478455,2023-03-24 19:15:27,LeiQ,答案错误,"
+n, t, p = map(int, input().strip().split(' '))
+a = [0] * n
+b = [0] * n
+c = [0] * n
+x = [0] * n
+y = [0] * n
+
+def cal(pos, n, used_time, ret):
+    if n == pos: return ret
+    r1 = cal(pos + 1, n, used_time, ret)
+    if used_time + x[pos] <= t:
+        return max(r1, cal(pos + 1, n, used_time + x[pos], ret + \
+                           max(c[pos], a[pos] - (used_time + x[pos]) * b[pos] - y[pos] * p)))
+    return r1
+        
+
+for i in range(n):
+    a[i], b[i], c[i], x[i], y[i] = map(int, input().strip().split(' '))
+    
+visited = [0] * n
+print(cal(0, n, 0, 0))"
+2,C,Python3,61478930,2023-03-24 19:18:27,zronghui,答案正确,"from itertools import permutations
+
+def score(n, t, p, problems):
+    # problems.sort(key=lambda x: x[0] / x[1], reverse=True)
+    total_score = 0
+    total_time = 0
+
+    for a, b, c, x, y in problems:
+        score = max(c, a - (total_time+x) * b - y * p)
+        if total_time + x > t:
+            break
+        total_score += score
+        total_time += x
+
+    return total_score
+def max_score(n, t, p, problems):
+    res = float('-inf')
+    for ps in permutations(problems):
+        res = max(res, score(n, t, p, ps))
+    return res
+
+# 解析输入
+n, t, p = map(int, input().split())
+problems = [list(map(int, input().split())) for _ in range(n)]
+
+# 计算最大得分并输出
+result = max_score(n, t, p, problems)
+print(result)
+"
+3,C,Python3,61479566,2023-03-24 19:22:50,菜鸡崽崽,答案正确,"import itertools
+
+n, t, p = map(int, input().split())
+a, b, c, x, y = [0] * n, [0] * n, [0] * n, [0] * n, [0] * n
+for i in range(n):
+    a[i], b[i], c[i], x[i], y[i] = map(int, input().split())
+ppp = [_ for _ in range(n)]
+ans = 0
+for pp in list(itertools.permutations(ppp)):
+    s = 0
+    tt = 0
+    for _ in pp:
+        tt += x[_]
+        if tt > t:
+            break
+        else:
+            s += max(c[_], a[_] - tt * b[_] - y[_] * p)
+    #print(s)
+    ans = max(ans, s)
+print(ans)
+"
+4,C,Python3,61479888,2023-03-24 19:25:13,是她,答案正确,"import random
+import sys
+import os
+import math
+from collections import Counter, defaultdict, deque
+from functools import lru_cache, reduce
+from itertools import accumulate, combinations, permutations
+from heapq import nsmallest, nlargest, heapify, heappop, heappush
+from io import BytesIO, IOBase
+from copy import deepcopy
+import operator
+import threading
+import bisect
+BUFSIZE = 4096
+Inf = float('inf')
+eps = 1e-6
+class FastIO(IOBase):
+    newlines = 0
+
+    def __init__(self, file):
+        self._fd = file.fileno()
+        self.buffer = BytesIO()
+        self.writable = ""x"" in file.mode or ""r"" not in file.mode
+        self.write = self.buffer.write if self.writable else None
+
+    def read(self):
+        while True:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            if not b:
+                break
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines = 0
+        return self.buffer.read()
+
+    def readline(self):
+        while self.newlines == 0:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            self.newlines = b.count(b""\n"") + (not b)
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines -= 1
+        return self.buffer.readline()
+
+    def flush(self):
+        if self.writable:
+            os.write(self._fd, self.buffer.getvalue())
+            self.buffer.truncate(0), self.buffer.seek(0)
+
+class IOWrapper(IOBase):
+    def __init__(self, file):
+        self.buffer = FastIO(file)
+        self.flush = self.buffer.flush
+        self.writable = self.buffer.writable
+        self.write = lambda s: self.buffer.write(s.encode(""ascii""))
+        self.read = lambda: self.buffer.read().decode(""ascii"")
+        self.readline = lambda: self.buffer.readline().decode(""ascii"")
+
+sys.stdin = IOWrapper(sys.stdin)
+sys.stdout = IOWrapper(sys.stdout)
+input = lambda: sys.stdin.readline().rstrip(""\r\n"")
+def I():
+   return input()
+
+def II():
+   return int(input())
+
+def MI():
+   return map(int, input().split())
+
+def LI():
+   return list(input().split())
+
+def LII():
+   return list(map(int, input().split()))
+
+def GMI():
+   return map(lambda x: int(x) - 1, input().split())
+
+def LGMI():
+   return list(map(lambda x: int(x) - 1, input().split()))
+n, t, p = MI()
+res = []
+for _  in range(n):
+    a, b, c, x, y = MI()
+    res.append((a, b, c, x, y))
+ans = 0
+st = [False] * n
+def dfs(u: int, s: int, m: int):
+    global ans
+    if m > t:
+        return
+    if u == n or m == t:
+        ans = max(ans, s)
+        return
+    ans = max(ans, s)
+    for i in range(n):
+        if not st[i]:
+            st[i] = True
+            a, b, c, x, y = res[i]
+            t1 = max(c, a - (x + m) * b - y * p)
+            dfs(u + 1, s + t1, x + m)
+            st[i] = False
+dfs(0, 0, 0)
+print(ans)
+        "
+5,C,Python3,61480092,2023-03-24 19:26:48,牛客481337953号,答案正确,"n, t, p = map(int, input().split())
+s = [list(map(int, input().split())) for _ in range(n)]
+r = [0]
+f = [False] * n
+def d(i, v, m):
+    r[0] = max(r[0], v)
+    if i == n:
+        return 
+    for j in range(n):
+        if f[j]: continue
+        if t - m < s[j][3]:
+            continue
+        f[j] = True
+        q = s[j]
+        d(i + 1, v + max(q[2], q[0] - (m + q[3]) * q[1] - p * q[4]), m + q[3])
+        f[j] = False
+d(0, 0, 0)
+print(r[0])"
+6,C,Python3,61480450,2023-03-24 19:29:25,Hanonymous,答案错误,"import sys
+sys.setrecursionlimit(10000000)
+def InI(sep=' '): return map(int, input().strip().split(sep))
+def InF(sep=' '): return map(float, input().strip().split(sep))
+
+
+def NInit(n, num=-1, init=0): return [init for i in range(n)
+                                      ] if num == -1 else [[init] * num for i in range(n)]
+
+
+class ty:
+    def __init__(self, a, b, x, c):
+        self.a = a
+        self.b = b
+        self.x = x
+        self.c = c
+
+    def __lt__(self, other):
+        return self.a + max(other.a-self.b*self.x, other.c) > other.a + max(self.a-other.b*other.x, self.c)
+
+
+def main():
+    n, t, p = InI()
+    v = []
+    for i in range(n):
+        a, b, c, x, y = InI()
+        a = max(c, a-y*p-b*x)
+        tmp = ty(a, b, x, c)
+        v.append(tmp)
+    v.sort()
+    xt = 0
+    ans = 0
+    for i in range(n):
+        xt += v[i].x
+        if xt <= t:
+            # print(i, max(v[i].a - v[i].b*(xt-v[i].x), v[i].c))
+            ans += max(v[i].a - v[i].b*(xt-v[i].x), v[i].c)
+        else:
+            break
+       
+    print(ans)
+
+
+main()
+"
+7,C,Python3,61481639,2023-03-24 19:38:03,Hanonymous,答案正确,"import sys
+import itertools
+sys.setrecursionlimit(10000000)
+def InI(sep=' '): return map(int, input().strip().split(sep))
+def InF(sep=' '): return map(float, input().strip().split(sep))
+
+
+def NInit(n, num=-1, init=0): return [init for i in range(n)
+                                      ] if num == -1 else [[init] * num for i in range(n)]
+
+
+class ty:
+    def __init__(self, a, b, c, x, y):
+        self.a = a
+        self.b = b
+        self.x = x
+        self.c = c
+        self.y = y
+
+
+def main():
+    n, t, p = InI()
+    v = []
+    for i in range(n):
+        a, b, c, x, y = InI()
+        tmp = ty(a, b, c, x, y)
+        v.append(tmp)
+    ll = [i for i in range(n)]
+
+    tmp_list = itertools.permutations(ll)
+    ans = 0
+    for res in tmp_list:
+        tmp = 0
+        allx = 0
+        for i in res:
+            allx += v[i].x
+            if allx > t:
+                break
+            tmp += max(v[i].c, v[i].a-v[i].y*p-v[i].b*allx)
+        ans = max(ans, tmp)
+    print(ans)
+
+
+main()
+"
+8,C,Python3,61481718,2023-03-24 19:38:38,牛客801261568号,答案错误,"def f(a):
+    return -a[1]
+n,t,p=map(int,input().split())
+g=[]
+s1=0
+for i in range(n):
+    a,b,c,x,y=map(int,input().split())
+    s1+=x
+    maxx=max(c,a-(s1*b)-(y*p))
+    g.append([x,maxx//x,maxx])
+g.sort(key=f)
+s=0
+summ=0
+i=0
+##print(g)
+while summ<=120:
+    summ+=g[i][1]
+    s+=g[i][2]
+    i+=1
+    if i==n-1:
+        break
+print(s)
+    "
+9,C,Python3,61482074,2023-03-24 19:41:26,LeiQ,答案错误,"
+n, t, p = map(int, input().strip().split(' '))
+a = [0] * n
+b = [0] * n
+c = [0] * n
+x = [0] * n
+y = [0] * n
+        
+dp = [0] * (1 << 10)
+
+def cost(stus):
+    ret = 0
+    for i in range(n):
+        if (stus & (1 << i)):
+            ret += x[i]
+    return ret
+
+for i in range(n):
+    a[i], b[i], c[i], x[i], y[i] = map(int, input().strip().split(' '))
+    
+for i in range(1 << n):
+    for j in range(n):
+        if (1 << j) & i: continue
+        dp[i | (1 << j)] = \
+            max(dp[i | (1 << j)], dp[i] + a[j] - cost(i | (1 << j)) * b[j] - y[j] * p)
+    
+ret = 0
+for i in range(1 << n):
+    if cost(i) <= t: ret = max(ret, dp[i])
+print(ret)"
+10,C,Python3,61482391,2023-03-24 19:43:49,Calabash_yang,答案正确,"import collections
+import math
+import os
+from heapq import heapify, heappop, heappush
+import queue
+from sys import stdin, stdout
+from itertools import *
+import bisect
+import sys
+from collections import deque
+
+MAXN = 200010
+mod = 1000000007
+inf = int(1e6)
+
+n,t,p=map(int,stdin.readline().split())
+a,b,c,x,y=[[0]*(n+5) for i in range(5)]
+for i in range(n):
+    a[i],b[i],c[i],x[i],y[i]=map(int,stdin.readline().split())
+ans=0
+per=[int(i) for i in range(1,n+1)]
+def check(pos):
+    global n,t,p
+    #print(pos)
+    tot,now=0,0
+    for i in pos:
+        now+=x[i-1]
+        if now>t:break
+        tot+=max(c[i-1],a[i-1]-now*b[i-1]-y[i-1]*p)
+    return tot
+
+for i in permutations(per,n):
+    ans=max(ans,check(i))
+print(ans)
+"
+11,C,Python3,61482500,2023-03-24 19:44:40,万恶之源沼跃鱼,答案错误,"n, t, p = map(int, input().split())
+l = []
+for i in range(n):
+    ai, bi, ci, xi, yi = map(int, input().split())
+    if xi > t:
+        pass
+    else:
+        l.append([ai,bi,ci,xi,yi*p])
+l.sort(key=lambda y:y[3])
+
+lmax = 0
+def suan(score,time,i):
+    global lmax
+    global l
+    if i == n:
+        if score > lmax:
+            lmax = score
+    elif time + l[i][3] > t:
+        if score > lmax:
+            lmax = score
+    else:
+        fen = max(l[i][2],l[i][0] - (l[i][1] * (time+l[i][3]) + l[i][4]))
+        suan(score + fen,time + l[i][3],i+1)
+        suan(score,time,i+1)
+suan(0,0,0)
+print(lmax)"
+12,C,Python3,61483002,2023-03-24 19:48:23,LeiQ,答案正确,"
+n, t, p = map(int, input().strip().split(' '))
+a = [0] * n
+b = [0] * n
+c = [0] * n
+x = [0] * n
+y = [0] * n
+        
+dp = [0] * (1 << 10)
+
+def cost(stus):
+    ret = 0
+    for i in range(n):
+        if (stus & (1 << i)):
+            ret += x[i]
+    return ret
+
+for i in range(n):
+    a[i], b[i], c[i], x[i], y[i] = map(int, input().strip().split(' '))
+    
+for i in range(1 << n):
+    for j in range(n):
+        if (1 << j) & i: continue
+        dp[i | (1 << j)] = \
+            max(dp[i | (1 << j)], dp[i] + max(c[j], a[j] - cost(i | (1 << j)) * b[j] - y[j] * p))
+    
+ret = 0
+for i in range(1 << n):
+    if cost(i) <= t: ret = max(ret, dp[i])
+print(ret)"
+13,C,Python3,61483023,2023-03-24 19:48:33,看看怎么说,答案错误,"def main():
+    arry = list(map(int, input().split("" "")))
+    n = arry[0]
+    t = arry[1]
+    p = arry[2]
+    lines = []
+    for i in range(n):
+        cur = list(map(int, input().split("" "")))
+        lines.append(cur)
+    res = 0
+    dp = [[0 for _ in range(t+1)] for _ in range(n+1)]
+    for i in range(1, len(dp)):
+        a,b,c,x,y = lines[i-1][0], lines[i-1][1], lines[i-1][2], lines[i-1][3], lines[i-1][4]
+        for j in range(x, len(dp[0])):
+            dp[i][j] = max(dp[i-1][j-x] + get_value(a, b, c, j, y, p), dp[i-1][j])
+            res = max(res, dp[i][j])
+        
+    print(res)
+    return
+            
+        
+    
+def get_value(a, b, c, x, y, p):
+    return max(c, a - x * b - y * p)
+    
+    
+    
+    
+main()"
+14,C,Python3,61483049,2023-03-24 19:48:42,牛客801261568号,答案错误,"def f(a):
+    return -a[1]
+n,t,p=map(int,input().split())
+g=[]
+s1=0
+for i in range(n):
+    a,b,c,x,y=map(int,input().split())
+    s1+=x
+    maxx=max(c,a-(s1*b)-(y*p))
+    g.append([x,maxx//x,maxx])
+g.sort(key=f)
+s=0
+summ=0
+i=0
+##print(g)
+flag=0
+while summ<=t:
+    summ+=g[i][0]
+    s+=g[i][2]
+    i+=1
+    if i==n-1:
+        flag=1
+        break
+if flag==1:
+    print(s)
+else:
+    print(s-g[i-1][2])
+    "
+15,C,Python3,61483478,2023-03-24 19:52:05,看看怎么说,答案错误,"def main():
+    arry = list(map(int, input().split("" "")))
+    n = arry[0]
+    t = arry[1]
+    p = arry[2]
+    lines = []
+    for i in range(n):
+        cur = list(map(int, input().split("" "")))
+        lines.append(cur)
+    res = 0
+    dp = [[0 for _ in range(t+1)] for _ in range(2)]
+    for i in range(0, len(lines)):
+        a,b,c,x,y = lines[i][0], lines[i][1], lines[i][2], lines[i][3], lines[i][4]
+        for j in range(x, len(dp[0])):
+            dp[i%2][j] = max(dp[1-i%2][j-x] + get_value(a, b, c, j, y, p), dp[1-i%2][j])
+            res = max(res, dp[i%2][j])
+        
+    print(res)
+    return
+            
+        
+    
+def get_value(a, b, c, x, y, p):
+    return max(c, a - x * b - y * p)
+    
+    
+    
+    
+main()"
+16,C,Python3,61483565,2023-03-24 19:52:43,牛客801261568号,答案错误,"def f(a):
+    return -a[1]
+n,t,p=map(int,input().split())
+g=[]
+s1=0
+for i in range(n):
+    a,b,c,x,y=map(int,input().split())
+    s1+=x
+    maxx=max(c,a-(s1*b)-(y*p))
+    g.append([x,maxx//x,maxx])
+g.sort(key=f)
+s=0
+summ=0
+i=0
+j=0
+s3=n
+while s3:
+    s3-=1
+    if g[j][0]>t:
+        del g[j]
+    else:
+        break
+##print(g)
+flag=0
+while summ<=t:
+    summ+=g[i][0]
+    s+=g[i][2]
+    i+=1
+    if i==n-1:
+        flag=1
+        break
+if flag==1:
+    print(s)
+else:
+    print(s-g[i-1][2])
+    "
+17,C,Python3,61483750,2023-03-24 19:54:07,牛客801261568号,答案错误,"def f(a):
+    return a[0]
+n,t,p=map(int,input().split())
+g=[]
+s1=0
+for i in range(n):
+    a,b,c,x,y=map(int,input().split())
+    s1+=x
+    maxx=max(c,a-(s1*b)-(y*p))
+    g.append([x,maxx//x,maxx])
+g.sort(key=f)
+s=0
+summ=0
+i=0
+j=0
+##print(g)
+flag=0
+while summ<=t:
+    summ+=g[i][0]
+    s+=g[i][2]
+    i+=1
+    if i==n-1:
+        flag=1
+        break
+if flag==1:
+    print(s)
+else:
+    print(s-g[i-1][2])
+    "
+18,C,Python3,61484076,2023-03-24 19:56:31,万恶之源沼跃鱼,答案错误,"n, t, p = map(int, input().split())
+l = []
+for i in range(n):
+    ai, bi, ci, xi, yi = map(int, input().split())
+    l.append([ai,bi,ci,xi,yi*p])
+l.sort(key=lambda y:y[3])
+
+lmax = 0
+def suan(score,time,i):
+    global lmax
+    global l
+    if i == n:
+        if score > lmax:
+            lmax = score
+    elif time + l[i][3] > t:
+        if score > lmax:
+            lmax = score
+    else:
+        fen = max(l[i][2],l[i][0] - (l[i][1] * (time+l[i][3]) + l[i][4]))
+        suan(score + fen,time + l[i][3],i+1)
+        suan(score,time,i+1)
+suan(0,0,0)
+print(lmax)"
+19,C,Python3,61484456,2023-03-24 19:59:50,Python-Rookie,运行超时,"def dfs(x):
+    if x == n:
+        tep = st = 0
+        global ans
+        for i in range(n):
+            idx = stk[i]
+            if st + lst[idx][3] > t:
+                continue
+            st += lst[idx][3]
+            tep = tep + max(lst[idx][2], lst[idx][0] - lst[idx][1] * st - lst[idx][4] * p)
+        ans = max(ans, tep)
+        return
+    for i in range(n):
+        if chose[i] == 1:
+            continue
+        chose[i] = 1
+        stk[x] = a[i]
+        dfs(x + 1)
+        chose[i] = 0
+
+
+ans = float(""-inf"")
+n, t, p = map(int, input().split())
+stk = [0] * n
+chose = [0] * n
+a = [i for i in range(0, n)]
+lst = [[] * 5 for i in range(n)]
+for i in range(n):
+    lst[i] = list(map(int, input().split()))
+dfs(0)
+print(ans)
+"
+20,C,Python3,61484551,2023-03-24 20:00:38,Python-Rookie,运行超时,"def dfs(x):
+    if x == n:
+        tep = st = 0
+        global ans
+        for i in range(n):
+            idx = stk[i]
+            if st + lst[idx][3] > t:
+                continue
+            st += lst[idx][3]
+            tep = tep + max(lst[idx][2], lst[idx][0] - lst[idx][1] * st - lst[idx][4] * p)
+        ans = max(ans, tep)
+        return
+    for i in range(n):
+        if chose[i] == 1:
+            continue
+        chose[i] = 1
+        stk[x] = a[i]
+        dfs(x + 1)
+        chose[i] = 0
+
+
+ans = float(""-inf"")
+n, t, p = map(int, input().split())
+stk = [0] * n
+chose = [0] * n
+a = [i for i in range(0, n)]
+lst = [[] * 5 for i in range(n)]
+for i in range(n):
+    lst[i] = list(map(int, input().split()))
+dfs(0)
+print(ans)
+"
+21,C,Python3,61485387,2023-03-24 20:06:55,落山-123,答案错误,"n,t,p = map(int,input().split())
+s = []
+T = mark = 0
+for i in range(n):
+    a,b,c,x,y = map(int,input().split())
+    tmax = (a - c - y*p)/b - x
+    s.append([a,b,c,x,y,tmax])
+while T <= t or len(s) > 0:
+    maxmark = j = 0
+    for i in range(len(s)):
+        if max(s[i][2],s[i][0] - (T + s[i][3]) * s[i][1] - s[i][4] * p) > maxmark and T + s[i][3] <= t:
+            maxmark = max(s[i][2],s[i][0] - (T + s[i][3]) * s[i][1] - s[i][4] * p)
+            j = i
+    T += s[j][3]
+    del s[j]
+    mark += maxmark
+print(mark)
+    
+    "
+22,C,Python3,61485566,2023-03-24 20:08:18,牛客801261568号,答案错误,"def f(a):
+    return a[3],-a[0]
+n,t,p=map(int,input().split())
+g=[]
+h=[]
+s1=0
+for i in range(n):
+    a=list(map(int,input().split()))
+    ##s1+=x
+    h.append(a)
+h.sort(key=f)
+s=0
+summ=0
+i=0
+j=0
+##print(g)
+maxx=0
+flag=0
+while s1<=t:
+    s1+=h[i][3]
+    maxx=max(h[i][2],h[i][0]-(s1*h[i][1])-(h[i][4]*p)) 
+    s+=maxx
+    i+=1
+    if i==n-1:
+        flag=1
+        break
+##print(h)
+if flag==1:
+    print(s)
+else:
+    print(s-maxx)
+    "
+23,C,Python3,61485587,2023-03-24 20:08:28,hhz-usst,答案错误,"[n, t, p] = [int(i) for i in input().split(' ')]
+a = [0] * n
+b = [0] * n
+c = [0] * n
+x = [0] * n
+y = [0] * n
+for i in range(n):
+    a[i], b[i], c[i], x[i], y[i] = input().split(' ')
+    a[i], b[i], c[i], x[i], y[i] = int(a[i]), int(b[i]), int(c[i]), int(x[i]), int(y[i])
+score = []
+for i in range(n):
+    score.append([a[i], b[i], c[i], x[i], y[i], max(c[i], a[i] - x[i] * b[i] - y[i] * p) / x[i]])
+score = sorted(score)
+time = 0
+g = 0
+i = 0
+while True:
+    time = time + score[i][3]
+    if i >= len(score)-1 and time >= t:
+        break
+    g = g + max(score[i][2], score[i][0] - time * score[i][1] - score[i][4] * p)
+    i = i + 1
+print(g)
+
+"
+24,C,Python3,61485677,2023-03-24 20:09:12,牛客801261568号,答案错误,"def f(a):
+    return a[3]
+n,t,p=map(int,input().split())
+g=[]
+h=[]
+s1=0
+for i in range(n):
+    a=list(map(int,input().split()))
+    ##s1+=x
+    h.append(a)
+h.sort(key=f)
+s=0
+summ=0
+i=0
+j=0
+##print(g)
+maxx=0
+flag=0
+while s1<=t:
+    s1+=h[i][3]
+    maxx=max(h[i][2],h[i][0]-(s1*h[i][1])-(h[i][4]*p)) 
+    s+=maxx
+    i+=1
+    if i==n-1:
+        flag=1
+        break
+##print(h)
+if flag==1:
+    print(s)
+else:
+    print(s-maxx)
+    "
+25,C,Python3,61485952,2023-03-24 20:11:31,lllllllllan,答案错误,"import sys
+sys.setrecursionlimit(int(1e6))
+n, t, p = map(int, input().split())
+l = []
+for i in range(n):
+    a, b, c, x, y = map(int, input().split())
+    l.append([a, b, c, x, y])
+l.sort(key=lambda x:x[3])
+ans = 0
+res = 0
+st = [False] * (n + 1)
+
+T=0
+def dfs(i):
+    global n, t, p, ans, res,T
+    if i > n - 1:return
+    if t < l[i][3]: return
+    if (t >= l[i][3]):
+        T+=l[i][3]
+        ans += max(l[i][2], l[i][0] - T * l[i][1] - l[i][4] * p)
+        # print('i:',i+1,'ans:',ans)
+        t -= l[i][3]
+    res = max(res, ans)
+    dfs(i + 1)
+    t += l[i][3];T-=l[i][3]
+    ans = 0
+    dfs(i + 1)
+
+
+dfs(0)
+print(res)
+
+
+
+
+"
+26,C,Python3,61485992,2023-03-24 20:11:50,lllllllllan,答案错误,"import sys
+sys.setrecursionlimit(int(1e6))
+n, t, p = map(int, input().split())
+l = []
+for i in range(n):
+    a, b, c, x, y = map(int, input().split())
+    l.append([a, b, c, x, y])
+l.sort(key=lambda x:x[3])
+ans = 0
+res = 0
+st = [False] * (n + 1)
+
+T=0
+def dfs(i):
+    global n, t, p, ans, res,T
+    if i > n - 1:return
+    if t < l[i][3]: return
+    if (t >= l[i][3]):
+        T+=l[i][3]
+        ans += max(l[i][2], l[i][0] - T * l[i][1] - l[i][4] * p)
+        # print('i:',i+1,'ans:',ans)
+        t -= l[i][3]
+    res = max(res, ans)
+    dfs(i + 1)
+    t += l[i][3];T-=l[i][3]
+    ans = 0
+    dfs(i + 1)
+
+dfs(0)
+print(res)
+
+
+
+
+"
+27,C,Python3,61486275,2023-03-24 20:14:10,lllllllllan,答案错误,"import sys
+sys.setrecursionlimit(int(1e6))
+n, t, p = map(int, input().split())
+l = []
+for i in range(n):
+    a, b, c, x, y = map(int, input().split())
+    l.append([a, b, c, x, y])
+l.sort(key=lambda x:x[3])
+ans = 0
+res = 0
+st = [False] * (n + 1)
+
+T=0
+def dfs(i):
+    global n, t, p, ans, res,T
+    if i > n - 1:return
+    if t < l[i][3]: return
+    if (t >= l[i][3]):
+        T+=l[i][3]
+        ans += max(l[i][2], l[i][0] - T * l[i][1] - l[i][4] * p)
+        # print('i:',i+1,'ans:',ans)
+        t -= l[i][3]
+    res = max(res, ans)
+    dfs(i + 1)
+    ans -= max(l[i][2], l[i][0] - T * l[i][1] - l[i][4] * p)
+    t += l[i][3];T-=l[i][3]
+    dfs(i + 1)
+
+
+dfs(0)
+print(res)
+
+
+
+
+"
+28,C,Python3,61486656,2023-03-24 20:17:13,晓星晨曦,答案错误,"# n道题目
+# t 分钟内完成的题目可计入总分
+# p 错题提交罚p分
+
+# a 满分
+# b 时间系数
+# c 保底分
+# x 第x分钟，完成该题
+# y 错误提交次数
+
+'''
+900 - 828 = 72 
+'''
+
+
+dd = [int(s) for s in input().split()]
+n = dd[0]
+t = dd[1]
+p = dd[-1]
+allData = []
+sumD = 0
+
+
+useTime = 0
+for i in range(n):
+    allData.append([int(s) for s in input().split()])
+for data in allData:
+    a = data[0]
+    b = data[1]
+    c = data[2]
+    x = data[3]
+    y = data[4]
+    if data[-2] <= t:
+        useTime += b
+        t -= b
+        sumD += max(c, a - x * useTime - y * p)
+print(sumD)
+
+"
+29,C,Python3,61486746,2023-03-24 20:18:05,lllllllllan,答案错误,"import sys
+sys.setrecursionlimit(int(1e6))
+n, t, p = map(int, input().split())
+l = []
+for i in range(n):
+    a, b, c, x, y = map(int, input().split())
+    l.append([a, b, c, x, y])
+l.sort(key=lambda x:x[3])
+ans = 0
+res = 0
+st = [False] * (n + 1)
+
+T=0
+def dfs(i):
+    global n, t, p, ans, res,T
+    if i > n - 1:return
+    if t < l[i][3]: return
+    if (t >= l[i][3]):
+        T+=l[i][3]
+        ans += max(l[i][2], l[i][0] - T * l[i][1] - l[i][4] * p)
+        t -= l[i][3]
+    res = max(res, ans)
+    # print('i:', i, 'ans:', ans,'res:',res)
+    dfs(i + 1)
+    ans -= max(l[i][2], l[i][0] - T * l[i][1] - l[i][4] * p)
+    t += l[i][3];T-=l[i][3]
+    dfs(i + 1)
+
+
+dfs(0)
+print(res)
+
+
+
+
+"
+30,C,Python3,61487296,2023-03-24 20:22:47,万恶之源沼跃鱼,答案正确,"n, t, p = map(int, input().split())
+l = []
+ln = []
+for i1 in range(n):
+    ai, bi, ci, xi, yi = map(int, input().split())
+    l.append([ai, bi, ci, xi, yi * p])
+    ln.append(1)
+l.sort(key=lambda y: y[3])
+
+lmax = 0
+
+def suan(l1,sum,time):
+    global n
+    global t
+    global lmax
+    global l
+    if l1 == [0] * n:
+        if sum > lmax:
+            lmax = sum
+    else:
+        for j in range(n):
+            if l1[j] == 0:
+                pass
+            else:
+                if time + l[j][3] > t:
+                    if sum > lmax:
+                        lmax = sum
+                else:
+                    l2 = l1.copy()
+                    l2[j] = 0
+                    suan(l2,sum + max(l[j][2],l[j][0] - l[j][1] * (time + l[j][3]) - l[j][4]),time + l[j][3])
+suan(ln,0,0)
+print(lmax)"
+31,C,Python3,61488627,2023-03-24 20:33:17,在抱佛脚的肖恩很害怕一个人,答案错误,"n, t, p = map(int, input().split())
+a = [0 for i in range(n + 1)]
+for i in range(1, 1 + n):
+    a[i] = list(map(int, input().split()))
+f = [[0 for i in range(1000)]for i in range(10)]
+for i in range(1, 1 + n):
+    for j in range(0, t + 1):
+        if a[i][3] <= j:
+            f[i][j] = max(f[i - 1][j] + a[i][2], f[i - 1][j - a[i][3]] + a[i][0] - a[i][3] * a[i][1] - a[i][4] * p)
+        else:
+            f[i][j] = f[i - 1][j] + a[i][2]
+print(f[n][t])"
+32,C,Python3,61488866,2023-03-24 20:35:32,晓星晨曦,答案错误,"# n道题目
+# t 分钟内完成的题目可计入总分
+# p 错题提交罚p分
+
+# a 满分
+# b 时间系数
+# c 保底分
+# x 第x分钟，完成该题
+# y 错误提交次数
+
+'''
+900 - 828 = 72 
+'''
+
+
+dd = [int(s) for s in input().split()]
+n = dd[0]
+t = dd[1]
+p = dd[-1]
+allData = []
+sumA = []
+def getScore(data, useTime, t2, sumD):
+    global p
+    a = data[0]
+    b = data[1]
+    c = data[2]
+    x = data[3]
+    y = data[4]
+    if data[-2] <= t2:
+        useTime += b
+        t2 -= b
+        sumD += max(c, a - x * useTime - y * p)
+        print(sumD)
+
+for i in range(n):
+    allData.append([int(s) for s in input().split()])
+for i, data in enumerate(allData):
+    useTime = 0
+    sumD = 0
+    t2 = t
+    a = data[0]
+    b = data[1]
+    c = data[2]
+    x = data[3]
+    y = data[4]
+    t2 -= x
+    if t2 > 0:
+        useTime += b
+        sumD += max(c, a - x * useTime - y * p)
+        
+    for j, data2 in enumerate(allData):
+        if i != j:
+            a = data2[0]
+            b = data2[1]
+            c = data2[2]
+            x = data2[3]
+            y = data2[4]
+            t2 -= x
+            if t2 > 0:
+                useTime += b
+                sumD += max(c, a - x * useTime - y * p)
+    sumA.append(sumD)
+        
+print(max(sumA))
+
+"
+33,C,Python3,61489007,2023-03-24 20:36:39,zf854,答案错误,"import sys
+
+def main():
+    input_data = sys.stdin.readline().strip().split(' ')
+    n, t, p = int(input_data[0]), int(input_data[1]), int(input_data[2])
+    a = []
+    ans = 0
+    for i in range(0, n):
+        b = [int(i) for i in input().split()]
+        a.append(b)
+    def dfs(a:list,n:int,t:int,p:int,pos:int,time:int,result:int):
+        if pos == n:
+            nonlocal ans
+            ans = max(ans, result)
+            return
+        if a[pos][3] > t - time:
+            pos += 1
+            dfs(a,n,t,p,pos,time,result)
+        else:
+            time += a[pos][3]
+            result +=max(a[pos][2],a[pos][0] - a[pos][1] * time - a[pos][4] * p)
+            pos += 1
+            dfs(a,n,t,p,pos,time,result)
+            pos -= 1
+            time -= a[pos][3]
+            result -= max(a[pos][2],a[pos][0] - a[pos][1] * time - a[pos][4] * p)
+            pos += 1
+            dfs(a,n,t,p,pos,time,result)
+    dfs(a,n,t,p,0,0,0)
+    print(ans)
+if __name__ == '__main__':
+    
+    main()"
+34,C,Python3,61489067,2023-03-24 20:37:08,晓星晨曦,答案错误,"# n道题目
+# t 分钟内完成的题目可计入总分
+# p 错题提交罚p分
+
+# a 满分
+# b 时间系数
+# c 保底分
+# x 第x分钟，完成该题
+# y 错误提交次数
+
+'''
+900 - 828 = 72 
+'''
+
+
+dd = [int(s) for s in input().split()]
+n = dd[0]
+t = dd[1]
+p = dd[-1]
+allData = []
+sumA = []
+def getScore(data, useTime, t2, sumD):
+    global p
+    a = data[0]
+    b = data[1]
+    c = data[2]
+    x = data[3]
+    y = data[4]
+    if data[-2] <= t2:
+        useTime += b
+        t2 -= b
+        sumD += max(c, a - x * useTime - y * p)
+        print(sumD)
+
+for i in range(n):
+    allData.append([int(s) for s in input().split()])
+for i, data in enumerate(allData):
+    useTime = 0
+    sumD = 0
+    t2 = t
+    a = data[0]
+    b = data[1]
+    c = data[2]
+    x = data[3]
+    y = data[4]
+    t2 -= x
+    if t2 >= 0:
+        useTime += b
+        sumD += max(c, a - x * useTime - y * p)
+    for j, data2 in enumerate(allData):
+        if i != j:
+            a = data2[0]
+            b = data2[1]
+            c = data2[2]
+            x = data2[3]
+            y = data2[4]
+            t2 -= x
+            if t2 >= 0:
+                useTime += b
+                sumD += max(c, a - x * useTime - y * p)
+                
+    sumA.append(sumD)
+print(max(sumA))
+
+"
+35,C,Python3,61489142,2023-03-24 20:37:44,晓星晨曦,答案错误,"# n道题目
+# t 分钟内完成的题目可计入总分
+# p 错题提交罚p分
+
+# a 满分
+# b 时间系数
+# c 保底分
+# x 第x分钟，完成该题
+# y 错误提交次数
+
+'''
+900 - 828 = 72 
+'''
+
+
+dd = [int(s) for s in input().split()]
+n = dd[0]
+t = dd[1]
+p = dd[-1]
+allData = []
+sumA = []
+
+for i in range(n):
+    allData.append([int(s) for s in input().split()])
+for i, data in enumerate(allData):
+    useTime = 0
+    sumD = 0
+    t2 = t
+    a = data[0]
+    b = data[1]
+    c = data[2]
+    x = data[3]
+    y = data[4]
+    t2 -= x
+    if t2 >= 0:
+        useTime += b
+        sumD += max(c, a - x * useTime - y * p)
+    for j, data2 in enumerate(allData):
+        if i != j:
+            a = data2[0]
+            b = data2[1]
+            c = data2[2]
+            x = data2[3]
+            y = data2[4]
+            t2 -= x
+            if t2 >= 0:
+                useTime += b
+                sumD += max(c, a - x * useTime - y * p)
+                
+    sumA.append(sumD)
+print(max(sumA))
+
+"
+36,C,Python3,61489603,2023-03-24 20:41:39,晓星晨曦,答案错误,"# n道题目
+# t 分钟内完成的题目可计入总分
+# p 错题提交罚p分
+
+# a 满分
+# b 时间系数
+# c 保底分
+# x 第x分钟，完成该题
+# y 错误提交次数
+
+'''
+900 - 828 = 72 
+'''
+
+
+dd = [int(s) for s in input().split()]
+n = dd[0]
+t = dd[1]
+p = dd[-1]
+allData = []
+sumA = []
+
+for i in range(n):
+    allData.append([int(s) for s in input().split()])
+for i, data in enumerate(allData):
+    useTime = 0
+    sumD = 0
+    t2 = t
+    a = data[0]
+    b = data[1]
+    c = data[2]
+    x = data[3]
+    y = data[4]
+    t2 -= x
+    if t2 >= 0:
+        useTime += b
+        score = max(c, a - x * useTime - y * p)
+        sumD += score
+    for j, data2 in enumerate(allData):
+        if i != j:
+            a = data2[0]
+            b = data2[1]
+            c = data2[2]
+            x = data2[3]
+            y = data2[4]
+            t2 -= x
+            if t2 >= 0:
+                useTime += b
+                score = max(c, a - x * useTime - y * p)
+                sumD += score
+    sumA.append(sumD)
+print(max(sumA))
+
+"
+37,C,Python3,61491064,2023-03-24 20:54:27,zf854,答案错误,"import sys
+
+def main():
+    input_data = sys.stdin.readline().strip().split(' ')
+    n, t, p = int(input_data[0]), int(input_data[1]), int(input_data[2])
+    a = []
+    ans = 0
+    for i in range(0, n):
+        b = [int(i) for i in input().split()]
+        a.append(b)
+    def dfs(a:list,n:int,t:int,p:int,pos:int,time:int,result:int):
+        if pos == n:
+            nonlocal ans
+            ans = max(ans, result)
+            return
+        if a[pos][3] > t - time:
+            dfs(a,n,t,p,pos+1,time,result)
+        else:
+            time += a[pos][3]
+            result +=max(a[pos][2],a[pos][0] - a[pos][1] * time - a[pos][4] * p)
+            dfs(a,n,t,p,pos + 1,time,result)
+            time -= a[pos][3]
+            result -= max(a[pos][2],a[pos][0] - a[pos][1] * time - a[pos][4] * p)
+            dfs(a,n,t,p,pos + 1,time,result)
+    dfs(a,n,t,p,0,0,0)
+    print(ans)
+if __name__ == '__main__':
+    
+    main()"
+38,C,Python3,61491185,2023-03-24 20:55:25,zf854,答案错误,"import sys
+
+def main():
+    input_data = sys.stdin.readline().strip().split(' ')
+    n, t, p = int(input_data[0]), int(input_data[1]), int(input_data[2])
+    a = []
+    ans = 0
+    for i in range(0, n):
+        b = [int(i) for i in input().split()]
+        a.append(b)
+    def dfs(a:list,n:int,t:int,p:int,pos:int,time:int,result:int):
+        if pos == n:
+            nonlocal ans
+            ans = max(ans, result)
+            return
+        dfs(a,n,t,p,pos + 1,time,result)
+        if a[pos][3] <= t -time:
+            time += a[pos][3]
+            result +=max(a[pos][2],a[pos][0] - a[pos][1] * time - a[pos][4] * p)
+            dfs(a,n,t,p,pos + 1,time,result)
+            time -= a[pos][3]
+            result -= max(a[pos][2],a[pos][0] - a[pos][1] * time - a[pos][4] * p)
+#             dfs(a,n,t,p,pos + 1,time,result)
+    dfs(a,n,t,p,0,0,0)
+    print(ans)
+if __name__ == '__main__':
+    
+    main()"
+39,C,Python3,61491500,2023-03-24 20:58:00,lllllllllan,答案错误,"import sys
+sys.setrecursionlimit(int(1e6))
+n, t, p = map(int, input().split())
+l = []
+for i in range(n):
+    a, b, c, x, y = map(int, input().split())
+    l.append([a, b, c, x, y])
+l.sort(key=lambda x:x[3])
+ans = 0
+res = 0
+st = [False] * (n + 1)
+T=0
+test=[]
+
+def dfs(i):
+    global n,t,p,ans,res,T
+    if i > n - 1:return
+    # test.append(i)
+    if t<l[i][3]:
+        T+=0
+        ans+=0
+        t-=0
+    else:
+        T += l[i][3]
+        ans += max(l[i][2], l[i][0] - T * l[i][1] - l[i][4] * p)
+        t -= l[i][3]
+    res = max(res, ans)
+    # print('i:', i, 'ans:', ans,'res:',res,test)
+    dfs(i + 1)
+
+
+    # print(test)
+    st[i]=False
+    ans -= max(l[i][2], l[i][0] - T * l[i][1] - l[i][4] * p)
+    t += l[i][3];T-=l[i][3]
+    # test.remove(i)
+    dfs(i + 1)
+
+# n=3
+# st = [False] * (n + 1)
+# test=[]
+# t=0
+# def dfs(i):
+#     global t
+#     if i>n-1:return
+#     test.append(i);t+=1
+#     print(test,t)
+#     dfs(i+1)
+#     st[i]=False
+#     test.remove(i);t-=1
+#     dfs(i+1)
+
+dfs(0)
+print(res)
+
+
+
+
+"
+40,C,Python3,61491528,2023-03-24 20:58:17,zf854,答案错误,"import sys
+
+def main():
+    input_data = sys.stdin.readline().strip().split(' ')
+    n, t, p = int(input_data[0]), int(input_data[1]), int(input_data[2])
+    a = []
+    ans = 0
+    for i in range(0, n):
+        b = [int(i) for i in input().split()]
+        a.append(b)
+    def dfs(a:list,n:int,t:int,p:int,pos:int,time:int,result:int):
+        if pos == n or t == time:
+            nonlocal ans
+            ans = max(ans, result)
+            return
+        dfs(a,n,t,p,pos + 1,time,result)
+        if a[pos][3] <= t - time:
+            time += a[pos][3]
+            result += max(a[pos][2],a[pos][0] - a[pos][1] * time - a[pos][4] * p)
+            dfs(a,n,t,p,pos + 1,time,result)
+            time -= a[pos][3]
+            result -= max(a[pos][2],a[pos][0] - a[pos][1] * time - a[pos][4] * p)
+#             dfs(a,n,t,p,pos + 1,time,result)
+    dfs(a,n,t,p,0,0,0)
+    print(ans)
+if __name__ == '__main__':
+    
+    main()"
+41,C,Python3,61491636,2023-03-24 20:59:02,zf854,答案错误,"import sys
+
+def main():
+    input_data = sys.stdin.readline().strip().split(' ')
+    n, t, p = int(input_data[0]), int(input_data[1]), int(input_data[2])
+    a = []
+    ans = 0
+    for i in range(0, n):
+        b = [int(i) for i in input().split()]
+        a.append(b)
+    def dfs(a:list,n:int,t:int,p:int,pos:int,time:int,result:int):
+        if pos == n or time >= t:
+            nonlocal ans
+            ans = max(ans, result)
+            return
+        dfs(a,n,t,p,pos + 1,time,result)
+        if a[pos][3] <= t - time:
+            time += a[pos][3]
+            result += max(a[pos][2],a[pos][0] - a[pos][1] * time - a[pos][4] * p)
+            dfs(a,n,t,p,pos + 1,time,result)
+            time -= a[pos][3]
+            result -= max(a[pos][2],a[pos][0] - a[pos][1] * time - a[pos][4] * p)
+#             dfs(a,n,t,p,pos + 1,time,result)
+    dfs(a,n,t,p,0,0,0)
+    print(ans)
+if __name__ == '__main__':
+    
+    main()"
+42,C,Python3,61492284,2023-03-24 21:04:40,zf854,答案错误,"import sys
+ans = 0
+def dfs(a:list,n:int,t:int,p:int,pos:int,time:int,result:int):
+        if pos == n or time >= t:
+            global ans
+            ans = max(ans, result)
+            return
+        dfs(a,n,t,p,pos + 1,time,result)
+        if a[pos][3] <= t - time:
+            time += a[pos][3]
+            result += max(a[pos][2],a[pos][0] - a[pos][1] * time - a[pos][4] * p)
+            dfs(a,n,t,p,pos + 1,time,result)
+            time -= a[pos][3]
+            result -= max(a[pos][2],a[pos][0] - a[pos][1] * time - a[pos][4] * p)
+def main():
+    input_data = sys.stdin.readline().strip().split(' ')
+    n, t, p = int(input_data[0]), int(input_data[1]), int(input_data[2])
+    a = []
+    for i in range(0, n):
+        b = [int(i) for i in input().split()]
+        a.append(b)
+    dfs(a,n,t,p,0,0,0)
+    print(ans)
+if __name__ == '__main__':
+    
+    main()"
+43,C,Python3,61492456,2023-03-24 21:07:03,lllllllllan,答案错误,"import sys
+sys.setrecursionlimit(int(1e6))
+n, t, p = map(int, input().split())
+l = []
+for i in range(n):
+    a, b, c, x, y = map(int, input().split())
+    l.append([a, b, c, x, y])
+l.sort(key=lambda x:x[3])
+ans = 0
+res = 0
+st = [False] * (n + 1)
+T=0
+test=[]
+
+def dfs(i):
+    global n,t,p,ans,res,T
+    if i > n - 1:return
+    test.append(i)
+    if t<l[i][3]:
+        T+=0
+        ans+=0
+        t-=0
+    else:
+        T += l[i][3]
+        ans += max(l[i][2], l[i][0] - T * l[i][1] - l[i][4] * p)
+        t -= l[i][3]
+    res = max(res, ans)
+    # print('i:', i, 'ans:', ans,'res:',res,test)
+    dfs(i + 1)
+
+
+    # print(test)
+    if t<l[i][3]:
+        test.remove(i)
+        dfs(i+1)
+    else:
+        ans -= max(l[i][2], l[i][0] - T * l[i][1] - l[i][4] * p)
+        t += l[i][3];
+        T -= l[i][3]
+        test.remove(i)
+        dfs(i + 1)
+
+
+
+# n=3
+# st = [False] * (n + 1)
+# test=[]
+# t=0
+# def dfs(i):
+#     global t
+#     if i>n-1:return
+#     test.append(i);t+=1
+#     print(test,t)
+#     dfs(i+1)
+#     st[i]=False
+#     test.remove(i);t-=1
+#     dfs(i+1)
+
+dfs(0)
+print(res)
+
+
+
+
+"
+44,C,Python3,61495788,2023-03-24 22:25:02,lllllllllan,运行超时,"from itertools import*
+n, t, p = map(int, input().split())
+l = []
+for i in range(n):
+    a, b, c, x, y = map(int, input().split())
+    l.append([a, b, c, x, y])
+# a=[i for i in range(n)]
+# print(a)
+# for v in combinations(l,1):
+#     print(v)
+
+# from itertools import *##import 所有函数
+# a=[1,2,4]
+res=0
+for v in permutations(l,n):
+    T=t
+    ans=0
+    cnt=0    #计时
+    for i in range(n):
+        if v[i][3]<=T:
+            # print(i,end=' ')
+            T-=v[i][3]
+            cnt+=v[i][3]
+            ans+=max(v[i][2], v[i][0] - cnt * v[i][1] - v[i][4] * p)
+        else:
+            continue
+        res=max(res,ans)
+print(res)
+
+
+"
+45,C,Python3,61496259,2023-03-24 22:43:35,.201803242316477,答案错误,"n, t, p = map(int, input().split()) # n道题，t时间，p惩罚分
+
+# 每道题的a,b,c,x,y - (最大分，时间系数，保底分，x分钟，y次错误) 
+s = [list(map(int, input().split())) for _ in range(n)] 
+r = [0]
+f = [False] * n
+
+# i, v 得分， m已经消耗的时间
+def dfs(i, v, m):
+    r[0] = max(r[0], v)
+    if i == n:
+        return 
+    for j in range(n):
+        if f[j]: continue
+        if t - m < s[j][3]: # 剩余时间少于本题时间
+            continue
+        f[j] = True
+        q = s[j] # 当前题目做完
+        print(i, j, f[j])
+        dfs(i + 1, v + max(q[2], q[0] - (m + q[3]) * q[1] - p * q[4]), m + q[3])
+        f[j] = False
+dfs(0, 0, 0)
+print(r[0])"
+46,C,Python3,61496272,2023-03-24 22:43:58,.201803242316477,答案正确,"n, t, p = map(int, input().split()) # n道题，t时间，p惩罚分
+
+# 每道题的a,b,c,x,y - (最大分，时间系数，保底分，x分钟，y次错误) 
+s = [list(map(int, input().split())) for _ in range(n)] 
+r = [0]
+f = [False] * n
+
+# i, v 得分， m已经消耗的时间
+def dfs(i, v, m):
+    r[0] = max(r[0], v)
+    if i == n:
+        return 
+    for j in range(n):
+        if f[j]: continue
+        if t - m < s[j][3]: # 剩余时间少于本题时间
+            continue
+        f[j] = True
+        q = s[j] # 当前题目做完
+        dfs(i + 1, v + max(q[2], q[0] - (m + q[3]) * q[1] - p * q[4]), m + q[3])
+        f[j] = False
+dfs(0, 0, 0)
+print(r[0])"
+47,C,Python3,61496340,2023-03-24 22:47:05,晓星晨曦,答案错误,"# n道题目
+# t 分钟内完成的题目可计入总分
+# p 错题提交罚p分
+
+# a 满分
+# b 时间系数
+# c 保底分
+# x 第x分钟，完成该题
+# y 错误提交次数
+
+'''
+900 - 828 = 72 
+'''
+
+
+dd = [int(s) for s in input().split()]
+n = dd[0]
+t = dd[1]
+p = dd[-1]
+allData = []
+sumA = []
+
+for i in range(n):
+    allData.append([int(s) for s in input().split()])
+for i, data in enumerate(allData):
+    useTime = 0
+    sumD = 0
+    t2 = t
+    a = data[0]
+    b = data[1]
+    c = data[2]
+    x = data[3]
+    y = data[4]
+    t2 -= x
+    if t2 >= 0:
+        useTime += b
+        score = max(c, a - x * useTime - y * p)
+        sumD += score
+    for j, data2 in enumerate(allData):
+        if i != j:
+            a = data2[0]
+            b = data2[1]
+            c = data2[2]
+            x = data2[3]
+            y = data2[4]
+            t2 -= x
+            if t2 >= 0:
+                useTime += b
+                score = max(c, a - x * useTime - y * p)
+                sumD += score
+    sumA.append(sumD)
+print(max(sumA))
+
+"
+48,C,Python3,61496351,2023-03-24 22:47:22,晓星晨曦,答案错误,"# n道题目
+# t 分钟内完成的题目可计入总分
+# p 错题提交罚p分
+
+# a 满分
+# b 时间系数
+# c 保底分
+# x 第x分钟，完成该题
+# y 错误提交次数
+
+'''
+900 - 828 = 72 
+'''
+
+
+dd = [int(s) for s in input().split()]
+n = dd[0]
+t = dd[1]
+p = dd[-1]
+allData = []
+sumA = []
+
+for i in range(n):
+    allData.append([int(s) for s in input().split()])
+for i, data in enumerate(allData):
+    useTime = 0
+    sumD = 0
+    t2 = t
+    a = data[0]
+    b = data[1]
+    c = data[2]
+    x = data[3]
+    y = data[4]
+    t2 -= x
+    if t2 >= 0:
+        useTime += b
+        score = max(c, a - x * useTime - y * p)
+        sumD += score
+    for j, data2 in enumerate(allData):
+        if i != j:
+            a = data2[0]
+            b = data2[1]
+            c = data2[2]
+            x = data2[3]
+            y = data2[4]
+            t2 -= x
+            if t2 >= 0:
+                useTime += b
+                score = max(c, a - x * useTime - y * p)
+                sumD += score
+    sumA.append(sumD)
+print(max(sumA))
+
+"
+49,C,Python3,61496378,2023-03-24 22:48:52,lllllllllan,答案正确,"n, t, p = map(int, input().split())
+a=[0]*(n+1)
+b=[0]*(n+1)
+c=[0]*(n+1)
+x=[0]*(n+1)
+y=[0]*(n+1)
+st=[False]*10
+for i in range(n):
+    a[i], b[i], c[i], x[i], y[i] = map(int, input().split())
+res=0
+ans=0
+def dfs(tt):
+    global ans,res
+    for i in range(n):
+        if st[i] or tt+x[i]>t:continue
+        st[i]=True
+        ans+=max(c[i],a[i]-(tt+x[i])*b[i]-y[i]*p);
+        res=max(ans,res)
+        dfs(tt+x[i])
+        ans-=max(c[i],a[i]-(tt+x[i])*b[i]-y[i]*p);
+        st[i]=False
+    return
+dfs(0)
+print(res)"
+50,C,Python3,61496404,2023-03-24 22:49:35,晓星晨曦,答案错误,"# n道题目
+# t 分钟内完成的题目可计入总分
+# p 错题提交罚p分
+
+# a 满分
+# b 时间系数
+# c 保底分
+# x 第x分钟，完成该题
+# y 错误提交次数
+
+dd = [int(s) for s in input().split()]
+n = dd[0]
+t = dd[1]
+p = dd[-1]
+allData = []
+sumA = []
+
+for i in range(n):
+    allData.append([int(s) for s in input().split()])
+solutions = []
+for i, data in enumerate(allData):
+    solution = []
+    useTime = 0
+    sumD = 0
+    t2 = t
+    a = data[0]
+    b = data[1]
+    c = data[2]
+    x = data[3]
+    y = data[4]
+    t2 -= x
+    if t2 >= 0:
+        solution.append(i)
+        useTime += b
+        score = max(c, a - x * useTime - y * p)
+        sumD += score
+    for j, data2 in enumerate(allData):
+        if i != j:
+            a = data2[0]
+            b = data2[1]
+            c = data2[2]
+            x = data2[3]
+            y = data2[4]
+            t2 -= x
+            if t2 >= 0:
+                solution.append(j)
+                useTime += b
+                score = max(c, a - x * useTime - y * p)
+                sumD += score
+    solution.append(sumD)
+    solutions.append(solution)
+    sumA.append(sumD)
+print(solutions)
+print(max(sumA))
+
+"
+51,C,Python3,61496415,2023-03-24 22:50:00,晓星晨曦,答案错误,"# n道题目
+# t 分钟内完成的题目可计入总分
+# p 错题提交罚p分
+
+# a 满分
+# b 时间系数
+# c 保底分
+# x 第x分钟，完成该题
+# y 错误提交次数
+
+dd = [int(s) for s in input().split()]
+n = dd[0]
+t = dd[1]
+p = dd[-1]
+allData = []
+sumA = []
+
+for i in range(n):
+    allData.append([int(s) for s in input().split()])
+solutions = []
+for i, data in enumerate(allData):
+    solution = []
+    useTime = 0
+    sumD = 0
+    t2 = t
+    a = data[0]
+    b = data[1]
+    c = data[2]
+    x = data[3]
+    y = data[4]
+    t2 -= x
+    if t2 >= 0:
+        solution.append(i)
+        useTime += b
+        score = max(c, a - x * useTime - y * p)
+        sumD += score
+    for j, data2 in enumerate(allData):
+        if i != j:
+            a = data2[0]
+            b = data2[1]
+            c = data2[2]
+            x = data2[3]
+            y = data2[4]
+            t2 -= x
+            if t2 >= 0:
+                solution.append(j)
+                useTime += b
+                score = max(c, a - x * useTime - y * p)
+                sumD += score
+    solution.append(sumD)
+    solutions.append(solution)
+    sumA.append(sumD)
+# print(solutions)
+print(max(sumA))
+
+"
+52,C,Python3,61496741,2023-03-24 23:07:21,晓星晨曦,答案错误,"# n道题目
+# t 分钟内完成的题目可计入总分
+# p 错题提交罚p分
+
+# a 满分
+# b 时间系数
+# c 保底分
+# x 第x分钟，完成该题
+# y 错误提交次数
+while True:
+    try:
+        dd = [int(s) for s in input().split()]
+        n = dd[0]
+        t = dd[1]
+        p = dd[-1]
+        allData = []
+        sumA = []
+
+        for i in range(n):
+            allData.append([int(s) for s in input().split()])
+        solutions = []
+        for i, data in enumerate(allData):
+            solution = []
+            useTime = 0
+            sumD = 0
+            t2 = t
+            a = data[0]
+            b = data[1]
+            c = data[2]
+            x = data[3]
+            y = data[4]
+            t2 -= x
+            if t2 >= 0:
+                solution.append(i)
+                useTime += b
+                score = max(c, a - x * useTime - y * p)
+                sumD += score
+            for j, data2 in enumerate(allData):
+                if i != j:
+                    a = data2[0]
+                    b = data2[1]
+                    c = data2[2]
+                    x = data2[3]
+                    y = data2[4]
+                    t2 -= x
+                    if t2 >= 0:
+                        solution.append(j)
+                        useTime += b
+                        score = max(c, a - x * useTime - y * p)
+                        sumD += score
+            solution.append(sumD)
+            solutions.append(solution)
+            sumA.append(sumD)
+        # print(solutions)
+        print(max(sumA))
+    except:
+        break
+"
+53,C,Python3,61496869,2023-03-24 23:13:16,晓星晨曦,答案错误,"# n道题目
+# t 分钟内完成的题目可计入总分
+# p 错题提交罚p分
+
+# a 满分
+# b 时间系数
+# c 保底分
+# x 第x分钟，完成该题
+# y 错误提交次数
+while True:
+    try:
+        dd = [int(s) for s in input().split()]
+        n = dd[0]
+        t = dd[1]
+        p = dd[-1]
+        allData = []
+        sumA = []
+
+        for i in range(n):
+            allData.append([int(s) for s in input().split()])
+        solutions = []
+        for i, data in enumerate(allData):
+            solution = []
+            useTime = 0
+            sumD = 0
+            t2 = t
+            a = data[0]
+            b = data[1]
+            c = data[2]
+            x = data[3]
+            y = data[4]
+            t2 -= x
+            
+            if c > a:
+                break
+            
+            if t2 >= 0:
+                solution.append(i)
+                useTime += b
+                score = max(c, a - x * useTime - y * p)
+                sumD += score
+            for j, data2 in enumerate(allData):
+                if i != j:
+                    a = data2[0]
+                    b = data2[1]
+                    c = data2[2]
+                    x = data2[3]
+                    y = data2[4]
+                    t2 -= x
+                    if c > a:
+                        break
+                    if t2 >= 0:
+                        solution.append(j)
+                        useTime += b
+                        score = max(c, a - x * useTime - y * p)
+                        sumD += score
+            solution.append(sumD)
+            solutions.append(solution)
+            sumA.append(sumD)
+        # print(solutions)
+        print(sumA)
+        print(max(sumA))
+    except:
+        break
+"
+54,C,Python3,61496872,2023-03-24 23:13:22,晓星晨曦,答案错误,"# n道题目
+# t 分钟内完成的题目可计入总分
+# p 错题提交罚p分
+
+# a 满分
+# b 时间系数
+# c 保底分
+# x 第x分钟，完成该题
+# y 错误提交次数
+while True:
+    try:
+        dd = [int(s) for s in input().split()]
+        n = dd[0]
+        t = dd[1]
+        p = dd[-1]
+        allData = []
+        sumA = []
+
+        for i in range(n):
+            allData.append([int(s) for s in input().split()])
+        solutions = []
+        for i, data in enumerate(allData):
+            solution = []
+            useTime = 0
+            sumD = 0
+            t2 = t
+            a = data[0]
+            b = data[1]
+            c = data[2]
+            x = data[3]
+            y = data[4]
+            t2 -= x
+            
+            if c > a:
+                break
+            
+            if t2 >= 0:
+                solution.append(i)
+                useTime += b
+                score = max(c, a - x * useTime - y * p)
+                sumD += score
+            for j, data2 in enumerate(allData):
+                if i != j:
+                    a = data2[0]
+                    b = data2[1]
+                    c = data2[2]
+                    x = data2[3]
+                    y = data2[4]
+                    t2 -= x
+                    if c > a:
+                        break
+                    if t2 >= 0:
+                        solution.append(j)
+                        useTime += b
+                        score = max(c, a - x * useTime - y * p)
+                        sumD += score
+            solution.append(sumD)
+            solutions.append(solution)
+            sumA.append(sumD)
+        # print(solutions)
+#         print(sumA)
+        print(max(sumA))
+    except:
+        break
+"
+55,C,Python3,61497542,2023-03-24 23:48:40,晓星晨曦,答案错误,"# n 道题目
+# t 分钟内完成的题目可计入总分
+# p 错题提交罚p分
+
+# a 满分
+# b 时间系数
+# c 保底分
+# x 第x分钟，完成该题
+# y 错误提交次数
+dd = [int(s) for s in input().split()]
+n = dd[0]
+t = dd[1]
+p = dd[-1]
+allData = []
+sumA = []
+
+for i in range(n):
+    allData.append([int(s) for s in input().split()])
+solutions = []
+for i, data in enumerate(allData):
+    solution = []
+    useTime = 0
+    sumD = 0
+    t2 = t
+    a = data[0]
+    b = data[1]
+    c = data[2]
+    x = data[3]
+    y = data[4]
+    t2 -= x
+
+    if c > a:
+        continue
+
+    if t2 >= 0:
+        solution.append(i)
+        useTime += b
+        score = max(c, a - x * useTime - y * p)
+        sumD += score
+    for j, data2 in enumerate(allData):
+        if i != j:
+            a = data2[0]
+            b = data2[1]
+            c = data2[2]
+            x = data2[3]
+            y = data2[4]
+            t2 -= x
+            if c > a:
+                continue
+            if t2 >= 0:
+                solution.append(j)
+                useTime += b
+                score = max(c, a - x * useTime - y * p)
+                sumD += score
+    solution.append(sumD)
+    solutions.append(solution)
+    sumA.append(sumD)
+# print(solutions)
+# print(sumA)
+print(max(sumA))
+
+"
+56,C,Python3,61497707,2023-03-25 00:04:19,晓星晨曦,答案错误,"# n 道题目
+# t 分钟内完成的题目可计入总分
+# p 错题提交罚p分
+
+# a 满分
+# b 时间系数
+# c 保底分
+# x 第x分钟，完成该题
+# y 错误提交次数
+
+'''
+478
+
+'''
+
+# dd = [int(s) for s in input().split()]
+# n = dd[0]
+# t = dd[1]
+# p = dd[-1]
+# allData = []
+# sumA = []
+
+# for i in range(n):
+#     allData.append([int(s) for s in input().split()])
+# solutions = []
+# for i, data in enumerate(allData):
+#     solution = []
+#     useTime = 0
+#     sumD = 0
+#     t2 = t
+#     a = data[0]
+#     b = data[1]
+#     c = data[2]
+#     x = data[3]
+#     y = data[4]
+#     t2 -= x
+
+#     if c > a:
+#         continue
+
+#     if t2 >= 0:
+#         solution.append(i)
+#         useTime += b
+#         score = max(c, a - x * useTime - y * p)
+#         sumD += score
+#     for j, data2 in enumerate(allData):
+#         if i != j:
+#             a2 = data2[0]
+#             b2 = data2[1]
+#             c2 = data2[2]
+#             x2 = data2[3]
+#             y2 = data2[4]
+#             t2 -= x2
+#             if c2 > a2:
+#                 continue
+#             if t2 >= 0:
+#                 solution.append(j)
+#                 useTime += b2
+#                 score = max(c2, a2 - x2 * useTime - y2 * p)
+#                 sumD += score
+#     solution.append(sumD)
+#     solutions.append(solution)
+#     sumA.append(sumD)
+# # print(solutions)
+# # print(sumA)
+# print(max(sumA))
+
+dd = [int(s) for s in input().split()]
+n = dd[0]
+t = dd[1]
+p = dd[-1]
+allData = []
+sumA = []
+
+for i in range(n):
+    allData.append([int(s) for s in input().split()])
+solutions = []
+for i, data in enumerate(allData):
+    solution = []
+    useTime = 0
+    sumD = 0
+    t2 = t
+    a = data[0]
+    b = data[1]
+    c = data[2]
+    x = data[3]
+    y = data[4]
+    t2 -= x
+
+    if c > a:
+        continue
+
+    if t2 >= 0:
+        solution.append(i)
+        useTime += b
+        score = max(c, a - x * useTime - y * p)
+        sumD += score
+    for j, data2 in enumerate(allData):
+        if i != j:
+            a2 = data2[0]
+            b2 = data2[1]
+            c2 = data2[2]
+            x2 = data2[3]
+            y2 = data2[4]
+            t3 = t2 - x2
+            if c2 > a2:
+                continue
+            if t3 >= 0:
+                solution.append(j)
+                useTime += b2
+                score = max(c2, a2 - x2 * useTime - y2 * p)
+                sumD += score
+    solution.append(sumD)
+    solutions.append(solution)
+    sumA.append(sumD)
+print(max(sumA))
+
+"
+57,C,Python3,61499337,2023-03-25 10:08:03,zf854,答案正确,"import sys
+
+def main():
+    input_data = sys.stdin.readline().strip().split(' ')
+    n, t, p = int(input_data[0]), int(input_data[1]), int(input_data[2])
+    a = []
+    ans = 0
+    vis = [False] *  n 
+    for i in range(0, n):
+        b = [int(i) for i in input().split()]
+        a.append(b)
+    def dfs(a:list,n:int,t:int,p:int,pos:int,time:int,result:int,vis:list):
+        nonlocal ans
+        ans = max(ans, result)
+        if pos == n:
+            return
+        i = 0
+        while i < n:
+                u, b, c, x, y = a[i]
+                if not vis[i] and t - time >= x:
+                    vis[i] = True
+                    dfs(a,n,t,p,i + 1,time + x,result + max(c, u - b * (time + x) - y * p),vis)
+                    vis[i] = False
+#                     time -= a[i][3]
+#                     result -= max(a[i][2],a[i][0] - a[i][1] * time - a[i][4] * p)
+                i += 1
+    dfs(a,n,t,p,0,0,0,vis)
+    print(ans)
+if __name__ == '__main__':
+    
+    main()"
+58,C,Python3,61499379,2023-03-25 10:12:07,zf854,答案错误,"import sys
+
+def main():
+    input_data = sys.stdin.readline().strip().split(' ')
+    n, t, p = int(input_data[0]), int(input_data[1]), int(input_data[2])
+    a = []
+    ans = 0
+    for i in range(0, n):
+        b = [int(i) for i in input().split()]
+        a.append(b)
+    def dfs(a:list,n:int,t:int,p:int,pos:int,time:int,result:int):
+        if pos == n:
+            nonlocal ans
+            ans = max(ans, result)
+            return
+        u,b,c,x,y = a[pos]
+        if x > t - time:
+            dfs(a,n,t,p,pos+1,time,result)
+        else:
+            dfs(a,n,t,p,pos + 1,time + x,result + max(c, u - b * (time + x) - y * p))
+            dfs(a,n,t,p,pos + 1,time,result)
+    dfs(a,n,t,p,0,0,0)
+    print(ans)
+if __name__ == '__main__':
+    
+    main()"
+59,C,Python3,61499389,2023-03-25 10:12:54,zf854,答案错误,"import sys
+
+def main():
+    input_data = sys.stdin.readline().strip().split(' ')
+    n, t, p = int(input_data[0]), int(input_data[1]), int(input_data[2])
+    a = []
+    ans = 0
+    for i in range(0, n):
+        b = [int(i) for i in input().split()]
+        a.append(b)
+    def dfs(a:list,n:int,t:int,p:int,pos:int,time:int,result:int):
+        if pos == n:
+            nonlocal ans
+            ans = max(ans, result)
+            return
+        u,b,c,x,y = a[pos]
+        dfs(a,n,t,p,pos+1,time,result)
+        if t - time >= x:
+            dfs(a,n,t,p,pos + 1,time + x,result + max(c, u - b * (time + x) - y * p))
+    dfs(a,n,t,p,0,0,0)
+    print(ans)
+if __name__ == '__main__':
+    
+    main()"
+60,C,Python3,61499407,2023-03-25 10:14:42,zf854,答案错误,"import sys
+
+def main():
+    input_data = sys.stdin.readline().strip().split(' ')
+    n, t, p = int(input_data[0]), int(input_data[1]), int(input_data[2])
+    a = []
+    ans = 0
+    for i in range(0, n):
+        b = [int(i) for i in input().split()]
+        a.append(b)
+    def dfs(a:list,n:int,t:int,p:int,pos:int,time:int,result:int):
+        nonlocal ans
+        ans = max(ans, result)
+        if pos == n:
+            return
+        u,b,c,x,y = a[pos]
+        dfs(a,n,t,p,pos+1,time,result)
+        if t - time >= x:
+            dfs(a,n,t,p,pos + 1,time + x,result + max(c, u - b * (time + x) - y * p))
+    dfs(a,n,t,p,0,0,0)
+    print(ans)
+if __name__ == '__main__':
+    
+    main()"
+61,C,Python3,61499518,2023-03-25 10:22:48,zf854,答案错误,"import sys
+
+def main():
+    input_data = sys.stdin.readline().strip().split(' ')
+    n, t, p = int(input_data[0]), int(input_data[1]), int(input_data[2])
+    a = []
+    ans = 0
+    for i in range(0, n):
+        b = [int(i) for i in input().split()]
+        a.append(b)
+    def dfs(a:list,n:int,t:int,p:int,pos:int,time:int,result:int):
+        if pos == n or time > t:
+            return
+        nonlocal ans
+        ans = max(ans, result)
+        u,b,c,x,y = a[pos]
+        dfs(a,n,t,p,pos+1,time,result)
+        if t - time >= x:
+            dfs(a,n,t,p,pos + 1,time + x,result + max(c, u - b * (time + x) - y * p))
+    dfs(a,n,t,p,0,0,0)
+    print(ans)
+if __name__ == '__main__':
+    
+    main()"
+62,C,Python3,61499523,2023-03-25 10:23:02,zf854,答案错误,"import sys
+
+def main():
+    input_data = sys.stdin.readline().strip().split(' ')
+    n, t, p = int(input_data[0]), int(input_data[1]), int(input_data[2])
+    a = []
+    ans = 0
+    for i in range(0, n):
+        b = [int(i) for i in input().split()]
+        a.append(b)
+    def dfs(a:list,n:int,t:int,p:int,pos:int,time:int,result:int):
+        if pos == n:
+            return
+        nonlocal ans
+        ans = max(ans, result)
+        u,b,c,x,y = a[pos]
+        dfs(a,n,t,p,pos+1,time,result)
+        if t - time >= x:
+            dfs(a,n,t,p,pos + 1,time + x,result + max(c, u - b * (time + x) - y * p))
+    dfs(a,n,t,p,0,0,0)
+    print(ans)
+if __name__ == '__main__':
+    
+    main()"
+63,C,Python3,61499538,2023-03-25 10:24:03,zf854,答案错误,"import sys
+
+def main():
+    input_data = sys.stdin.readline().strip().split(' ')
+    n, t, p = int(input_data[0]), int(input_data[1]), int(input_data[2])
+    a = []
+    ans = 0
+    for i in range(0, n):
+        b = [int(i) for i in input().split()]
+        a.append(b)
+    def dfs(a:list,n:int,t:int,p:int,pos:int,time:int,result:int):
+        if time <= t:
+            nonlocal ans
+            ans = max(ans, result)
+        if pos == n:
+            return
+        u,b,c,x,y = a[pos]
+        dfs(a,n,t,p,pos+1,time,result)
+        if t - time >= x:
+            dfs(a,n,t,p,pos + 1,time + x,result + max(c, u - b * (time + x) - y * p))
+    dfs(a,n,t,p,0,0,0)
+    print(ans)
+if __name__ == '__main__':
+    
+    main()"
+64,C,Python3,61499793,2023-03-25 10:39:42,zf854,答案错误,"import sys
+
+def main():
+    input_data = sys.stdin.readline().strip().split(' ')
+    n, t, p = int(input_data[0]), int(input_data[1]), int(input_data[2])
+    a = []
+    ans = 0
+    for i in range(0, n):
+        b = [int(i) for i in input().split()]
+        a.append(b)
+    def dfs(a:list,n:int,t:int,p:int,pos:int,time:int,result:int):
+        if time <= t:
+            nonlocal ans
+            ans = max(ans, result)
+        if pos == n:
+            return
+        u,b,c,x,y = a[pos]
+        dfs(a,n,t,p,pos + 1,time,result)
+#         if t - time >= x:
+        dfs(a,n,t,p,pos + 1,time + x,result + max(c, u - b * (time + x) - y * p))
+    dfs(a,n,t,p,0,0,0)
+    print(ans)
+if __name__ == '__main__':
+    
+    main()"
+65,C,Python3,61499846,2023-03-25 10:43:15,zf854,答案正确,"import sys
+
+def main():
+    input_data = sys.stdin.readline().strip().split(' ')
+    n, t, p = int(input_data[0]), int(input_data[1]), int(input_data[2])
+    a = []
+    ans = 0
+    vis = [False] *  n 
+    for i in range(0, n):
+        b = [int(i) for i in input().split()]
+        a.append(b)
+    def dfs(a:list,n:int,t:int,p:int,pos:int,time:int,result:int,vis:list):
+        if time <= t:
+            nonlocal ans
+            ans = max(ans, result)
+        if pos == n:
+            return
+        i = 0
+        while i < n:
+                u, b, c, x, y = a[i]
+                if not vis[i]:
+                    vis[i] = True
+                    dfs(a,n,t,p,i + 1,time + x,result + max(c, u - b * (time + x) - y * p),vis)
+                    vis[i] = False
+#                     time -= a[i][3]
+#                     result -= max(a[i][2],a[i][0] - a[i][1] * time - a[i][4] * p)
+                i += 1
+    dfs(a,n,t,p,0,0,0,vis)
+    print(ans)
+if __name__ == '__main__':
+    
+    main()"
+66,C,Python3,61499915,2023-03-25 10:46:51,zf854,答案错误,"import sys
+
+def main():
+    input_data = sys.stdin.readline().strip().split(' ')
+    n, t, p = int(input_data[0]), int(input_data[1]), int(input_data[2])
+    a = []
+    ans = 0
+    for i in range(0, n):
+        b = [int(i) for i in input().split()]
+        a.append(b)
+    def dfs(a:list,n:int,t:int,p:int,pos:int,time:int,result:int):
+        if time <= t:
+            nonlocal ans
+            ans = max(ans, result)
+        if pos == n:
+            return
+        u,b,c,x,y = a[pos]
+        dfs(a,n,t,p,pos + 1,time,result)
+        dfs(a,n,t,p,pos + 1,time + x,result + max(c, u - b * (time + x) - y * p))
+    dfs(a,n,t,p,0,0,0)
+    print(ans)
+if __name__ == '__main__':
+    
+    main()"
+67,C,Python3,61500246,2023-03-25 11:07:16,zf854,答案错误,"import sys
+
+def main():
+    input_data = sys.stdin.readline().strip().split(' ')
+    n, t, p = int(input_data[0]), int(input_data[1]), int(input_data[2])
+    a = []
+    ans = 0
+    vis = []
+    res = []
+    for i in range(0, n):
+        b = [int(i) for i in input().split()]
+        a.append(b)
+    def dfs(a:list,n:int,t:int,p:int,pos:int,time:int,result:int):
+        if time <= t:
+            nonlocal ans
+            ans = max(ans, result)
+        if pos == n:
+            return
+        u,b,c,x,y = a[pos]
+        dfs(a,n,t,p,pos + 1,time,result)
+        dfs(a,n,t,p,pos + 1,time + x,result + max(c, u - b * (time + x) - y * p))
+    dfs(a,n,t,p,0,0,0)
+    print(ans)
+if __name__ == '__main__':
+    
+    main()"
+68,C,Python3,61500282,2023-03-25 11:09:30,zf854,答案错误,"import sys
+
+def main():
+    input_data = sys.stdin.readline().strip().split(' ')
+    n, t, p = int(input_data[0]), int(input_data[1]), int(input_data[2])
+    a = []
+    ans = 0
+    vis = []
+    res = []
+    for i in range(0, n):
+        b = [int(i) for i in input().split()]
+        a.append(b)
+    def dfs(a:list,n:int,t:int,p:int,pos:int,ti:int,result:int):
+        if ti <= t:
+            nonlocal ans
+            ans = max(ans, result)
+        if pos == n:
+            return
+        u,b,c,x,y = a[pos]
+        dfs(a,n,t,p,pos + 1,ti,result)
+        dfs(a,n,t,p,pos + 1,ti + x,result + max(c, u - b * (ti + x) - y * p))
+    dfs(a,n,t,p,0,0,0)
+    print(ans)
+if __name__ == '__main__':
+    
+    main()"
+69,C,Python3,61500451,2023-03-25 11:19:03,zf854,答案错误,"import sys
+
+def main():
+    input_data = sys.stdin.readline().strip().split(' ')
+    n, t, p = int(input_data[0]), int(input_data[1]), int(input_data[2])
+    a = []
+    ans = 0
+    vis = [False] *  n 
+    for i in range(0, n):
+        b = [int(i) for i in input().split()]
+        a.append(b)
+    def dfs(a:list,n:int,t:int,p:int,pos:int,time:int,result:int,vis:list):
+        if time <= t:
+            nonlocal ans
+            ans = max(ans, result)
+        if pos == n:
+            return
+        while pos < n:
+                u, b, c, x, y = a[pos]
+#                 vis[pos] = True
+                dfs(a,n,t,p,pos + 1,time + x,result + max(c, u - b * (time + x) - y * p),vis)
+#                 vis[pos] = False
+#                     time -= a[i][3]
+#                     result -= max(a[i][2],a[i][0] - a[i][1] * time - a[i][4] * p)
+                pos += 1
+    dfs(a,n,t,p,0,0,0,vis)
+    print(ans)
+if __name__ == '__main__':
+    
+    main()"
+70,C,Python3,61500574,2023-03-25 11:25:02,zf854,答案错误,"import sys
+
+def main():
+    input_data = sys.stdin.readline().strip().split(' ')
+    n, t, p = int(input_data[0]), int(input_data[1]), int(input_data[2])
+    a = []
+    ans = 0
+    vis = [False] *  n 
+    for i in range(0, n):
+        b = [int(i) for i in input().split()]
+        a.append(b)
+    def dfs(a:list,n:int,t:int,p:int,pos:int,time:int,result:int,vis:list):
+        if time <= t:
+            nonlocal ans
+            ans = max(ans, result)
+        if pos == n:
+            return
+        i = 0
+        while i < n:
+                u, b, c, x, y = a[i]
+                if not vis[i]:
+                    vis[i] = True
+                    dfs(a,n,t,p,i + 1,time + x,result + max(c, u - b * (time + x) - y * p),vis)
+#                     vis[i] = False
+                i += 1
+    dfs(a,n,t,p,0,0,0,vis)
+    print(ans)
+if __name__ == '__main__':
+    
+    main()"
+71,C,Python3,61500590,2023-03-25 11:26:05,zf854,答案错误,"import sys
+
+def main():
+    input_data = sys.stdin.readline().strip().split(' ')
+    n, t, p = int(input_data[0]), int(input_data[1]), int(input_data[2])
+    a = []
+    ans = 0
+    vis = [False] *  n 
+    for i in range(0, n):
+        b = [int(i) for i in input().split()]
+        a.append(b)
+    def dfs(a:list,n:int,t:int,p:int,pos:int,time:int,result:int):
+        nonlocal vis
+        if time <= t:
+            nonlocal ans
+            ans = max(ans, result)
+        if pos == n:
+            print(vis)
+            return
+        i = 0
+        while i < n:
+                u, b, c, x, y = a[i]
+                if not vis[i]:
+                    vis[i] = True
+                    dfs(a,n,t,p,i + 1,time + x,result + max(c, u - b * (time + x) - y * p))
+                    vis[i] = False
+                i += 1
+    dfs(a,n,t,p,0,0,0)
+    print(ans)
+if __name__ == '__main__':
+    
+    main()"
+72,C,Python3,61500593,2023-03-25 11:26:13,zf854,答案正确,"import sys
+
+def main():
+    input_data = sys.stdin.readline().strip().split(' ')
+    n, t, p = int(input_data[0]), int(input_data[1]), int(input_data[2])
+    a = []
+    ans = 0
+    vis = [False] *  n 
+    for i in range(0, n):
+        b = [int(i) for i in input().split()]
+        a.append(b)
+    def dfs(a:list,n:int,t:int,p:int,pos:int,time:int,result:int):
+        nonlocal vis
+        if time <= t:
+            nonlocal ans
+            ans = max(ans, result)
+        if pos == n:
+            return
+        i = 0
+        while i < n:
+                u, b, c, x, y = a[i]
+                if not vis[i]:
+                    vis[i] = True
+                    dfs(a,n,t,p,i + 1,time + x,result + max(c, u - b * (time + x) - y * p))
+                    vis[i] = False
+                i += 1
+    dfs(a,n,t,p,0,0,0)
+    print(ans)
+if __name__ == '__main__':
+    
+    main()"
+73,C,Python3,61580901,2023-03-27 19:16:52,newko,答案错误,"# n个题目，时间t,做错一次罚p分
+n,t,p = map(int,input().split())
+arr = []
+# 满分a,时间系数b,保底分c,分钟x,y次错误 
+for i in range(n):
+    arr.append(list(map(int,input().split())))
+ans = 0
+def dfs(i:int,time:int,s:int):
+    if i == n:
+        global ans
+        ans = max(ans,s)
+        return 
+    dfs(i+1,time,s)
+    if time+arr[i][3] <= t:
+        dfs(i+1,time+arr[i][3],s + max(arr[i][2],arr[i][0]-(time+arr[i][3]) * arr[i][1] - arr[i][4] * p))
+dfs(0,0,0)
+print(ans)"
+74,C,Python3,61581826,2023-03-27 19:45:51,newko,答案错误,"# n个题目，时间t,做错一次罚p分
+n,t,p = map(int,input().split())
+arr = []
+# 满分a,时间系数b,保底分c,分钟x,y次错误 
+for i in range(n):
+    arr.append(list(map(int,input().split())))
+ans = 0
+vis = [False] * n
+def dfs(cur:int,time:int,s:int,pre:int):
+    if time+arr[cur][3] > t:
+        global ans
+        ans = max(ans,pre )
+        return 
+    for i in range(n):
+        if not vis[i]:
+            vis[i] = True
+            dfs(i+1,time+arr[i][3],s + max(i,arr[i][2],arr[i][0]-(time+arr[i][3]) * arr[i][1] - arr[i][4] * p),s)
+            vis[i] = False
+for i in range(n):
+    vis[i] = True
+    if arr[i][2] <= t:
+        dfs(i,arr[i][3],arr[i][0]-(0+arr[i][3]) * arr[i][1] - arr[i][4] * p,0)
+    vis[i] = False
+print(ans)"
+75,C,Python3,61582051,2023-03-27 19:54:30,newko,答案正确,"# n个题目，时间t,做错一次罚p分
+n,t,p = map(int,input().split())
+arr = []
+# 满分a,时间系数b,保底分c,分钟x,y次错误 
+for i in range(n):
+    arr.append(list(map(int,input().split())))
+ans = 0
+vis = [False] * n
+def dfs(time:int,s:int,pre:int):
+    if time > t:
+        global ans
+        ans = max(ans,pre)
+        return 
+    for i in range(n):
+        if not vis[i]:
+            vis[i] = True
+            dfs(time+arr[i][3],s + max(i,arr[i][2],arr[i][0]-(time+arr[i][3]) * arr[i][1] - arr[i][4] * p),s)
+            vis[i] = False
+for i in range(n):
+    vis[i] = True
+    dfs(arr[i][3],arr[i][0]-(0+arr[i][3]) * arr[i][1] - arr[i][4] * p,0)
+    vis[i] = False
+print(ans)"
+76,C,Python3,61739794,2023-04-03 21:36:33,牛客39905829号,答案正确,"n, t, p = map(int, input().split())
+
+arr = []
+for i in range(n):
+    arr.append(list(map(int,input().split())))
+    
+ans = 0
+vis = [False] * n
+def dfs(time:int,s:int,pre:int):
+    if time > t:
+        global ans
+        ans = max(ans,pre)
+        return
+    
+    for i in range(n):
+        if not vis[i]:
+            vis[i] = True
+            dfs(time+arr[i][3],s + max(i,arr[i][2],arr[i][0]-(time+arr[i][3]) * arr[i][1] - arr[i][4] * p),s)
+            vis[i] = False
+            
+for i in range(n):
+    vis[i] = True
+    dfs(arr[i][3],arr[i][0]-(0+arr[i][3]) * arr[i][1] - arr[i][4] * p,0)
+    vis[i] = False
+print(ans)"
+77,C,Python3,61742221,2023-04-04 09:08:43,想去三亚看海的艾伦少糖去冰,答案正确,"n,t,p = map(int,input().split())
+recordList = []
+visit = [False]*n
+result = 0
+for i in range(n):
+    exam = list(map(int, input().split()))
+    recordList.append(exam)
+
+def dfs(time, score, pre):
+    if time>t:
+        global result
+        result = max(result, pre)
+        return
+    for i in range(n):
+        if not visit[i]:
+            visit[i] = True
+            dfs(time+recordList[i][3], 
+                score+max(recordList[i][2], recordList[i][0]-(time+recordList[i][3])*recordList[i][1]-recordList[i][4]*p),
+                score)
+            visit[i] = False
+            
+for i in range(n):
+    visit[i] = True
+    dfs(recordList[i][3],
+        max(recordList[i][2], recordList[i][0]-recordList[i][3]*recordList[i][1]-recordList[i][4]*p),
+        0)
+    visit[i] = False
+print(result)"

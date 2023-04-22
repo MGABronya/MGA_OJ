@@ -1,0 +1,2116 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,A,Python3,54978016,2022-11-25 19:02:41,ouql,执行出错,"#include <bits/stdc++.h>
+using namespace std;
+#define fo(i,j,k) for(int i=(j),end_i=(k);i<=end_i;i++)
+#define ff(i,j,k) for(int i=(j),end_i=(k);i< end_i;i++)
+#define fd(i,j,k) for(int i=(j),end_i=(k);i>=end_i;i--)
+#define DEBUG(x) cerr<<#x<<""=""<<x<<endl
+#define all(x) (x).begin(),(x).end()
+#define cle(x) memset(x,0,sizeof(x))
+#define lowbit(x) ((x)&-(x))
+#define VI vector<int>
+#define ll long long
+#define ull unsigned ll
+#define db double
+#define lb long db
+#define pb push_back
+#define mp make_pair
+#define fi first
+#define se second
+template<class T>inline void read(T &x) {
+    x=0; char ch=getchar(); bool f=0;
+    for(;ch<'0'||ch>'9';ch=getchar()) f|=(ch=='-');
+    for(;ch>='0'&&ch<='9';ch=getchar()) x=x*10+(ch^48);
+    if(f) x=-x;
+}
+template<class T,class... V>
+inline void read(T &a,V&... b){read(a); read(b...);}
+#define CASES int ___;for(read(___);___--;)
+mt19937 rnd(random_device{}());
+
+int main() {
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    CASES {
+        int n,a,b,k,m;
+        read(n);
+        vector<int> h(n+1,0);
+        fo(i,1,n) {
+            read(h[i]);
+        }
+        read(a,k,b,m);
+        fo(j,1,m-1) {
+            fo(i,1,n) {
+                h[i] += a;
+                if(h[i] > k) h[i] = b;
+            }
+        }
+        fo(i,1,n) printf(""%d "",h[i]);
+        printf(""\n"");
+    }
+    return 0;
+}"
+1,A,Python3,54978227,2022-11-25 19:05:35,牛客963741707号,答案正确,"t = int(input())
+for _ in range(t):
+    n = int(input())
+    nums = list(map(int,input().strip().split()))
+    a,k,b = map(int,input().strip().split())
+    m = int(input())
+    for i in range(m-1):
+        for j in range(n):
+            nums[j] += a
+            if nums[j] > k:
+                nums[j] = b
+    for i in range(n):
+        print(nums[i],end=' ')
+    print()
+
+"
+2,A,Python3,54978402,2022-11-25 19:07:16,书生alin,答案正确,"t = int(input())
+for i in range(t):
+    n = int(input())
+    h = list(map(int, input().split()))
+    a, k, b = map(int, input().split())
+    m = int(input())
+    for j in range(m-1):
+        for x in range(n):
+            h[x] += a
+            if h[x] > k:
+                h[x] = b
+    for j in range(n):
+        if j != n-1:
+            print(h[j], end="" "")
+        else:
+            print(h[j])
+            
+
+"
+3,A,Python3,54978420,2022-11-25 19:07:25,牛客972825279号,答案正确,"n=int(input())
+while n>0:
+    t=int(input())
+    H=list(map(int,input().split()))
+    a,k,b=map(int,input().split())
+    m=int(input())
+    for i in range(m-1):
+        for index,value in enumerate(H):
+            H[index]+=a
+            if H[index]>k:
+                H[index]=b
+    H=map(str,H)
+    r="" "".join(H)
+    print(r)
+    n-=1"
+4,A,Python3,54978591,2022-11-25 19:08:56,牛客481337953号,答案正确,"for _ in range(int(input())):
+    n=int(input())
+    s=list(map(int, input().split()))
+    a,k,b=map(int, input().split())
+    m=int(input())
+    for t in range(m - 1):
+        for i in range(n):
+            s[i] += a
+            if s[i] > k:
+                s[i] = b
+    print("" "".join([str(i) for i in s]))"
+5,A,Python3,54978784,2022-11-25 19:10:43,风度翩翩的秋田犬很强大,答案正确,"T = int(input())
+while T:
+    n = int(input())
+    arr = list(map(int, input().split()))
+    a, k, b = map(int, input().split())
+    m = int(input())
+    for i in range(m - 1):
+        for j, num in enumerate(arr):
+            arr[j] += a
+            if arr[j] > k: arr[j] = b
+    for i in arr:
+        print(i, end="" "")
+    print()
+    T -= 1"
+6,A,Python3,54978892,2022-11-25 19:11:58,李迪锴,答案错误,"T=int(input())
+b=0
+a=0
+k=0
+def change(x):
+    if x>=k:
+        return b
+    else:
+        return x+a
+for i in range(T):
+    n=int(input())
+    L=list(map(int,input().split()))
+    a,k,b=map(int,input().split())
+    m=int(input())
+    for j in range(m-1):
+           L=map(change,L)
+    print(*L)
+            
+"
+7,A,Python3,54978973,2022-11-25 19:12:35,W-Fox,答案正确,"t = int(input())
+for i in range(t):
+    n = int(input())
+    hi = [j for j in map(int,input().split())]
+    a,k,b = map(int,input().split())
+    m = int(input())
+    for j in range(m-1):
+        for r in range(n):
+            hi[r] += a
+            if hi[r] > k:
+                hi[r] = b
+            
+    for e in hi:
+        print(e,end=' ')
+    print()"
+8,A,Python3,54979001,2022-11-25 19:12:59,牛客956373253号,答案正确,"gro = input()
+def check(treenum,treelist,grow,limit,cur,days):
+    grow = int(grow)
+    limit = int(limit)
+    cur = int(cur)
+    for _ in range(days-1):
+        for dd in range(treenum):
+            if int(treelist[dd])+grow<=limit:
+                treelist[dd] = int(treelist[dd]) + grow
+            else:
+                treelist[dd] = cur
+    return treelist            
+
+while True:
+    try:
+        treenum = int(input())
+        treelist = input().split()
+        grow,limit,cur = input().split()
+        days = int(input())
+        for i in check(treenum,treelist,grow,limit,cur,days):
+            print(i,end = ' ')
+        print()
+    except:
+        break"
+9,A,Python3,54979096,2022-11-25 19:13:59,WTIAWTIAW,答案正确,"def s(y,a,k,b):
+    y += a
+    if y > k:
+        y = b
+    return y
+T = int(input())
+while T != 0:
+    T -= 1
+    n = int(input())
+    x = list(map(int, input().split()))
+    a,k,b = map(int, input().split())
+    m = int(input())
+    for i in range(m - 1):
+        x = list(map(lambda y:s(y,a,k,b),x))
+    for i in x:
+        print(i,end="" "")
+    print("""")"
+10,A,Python3,54979135,2022-11-25 19:14:22,qdljerry,答案正确,"t=int(input())
+for i in range(t):
+    n=int(input())
+    l=list(map(int,input().split()))
+    a,k,b=map(int,input().split())
+    m=int(input())
+    
+    for j in range(m-1):
+        for x in range(n):
+            l[x]+=a
+            if l[x]>k:
+                l[x]=b
+    for j in range(n-1):
+        print(l[j],end=' ')
+    print(l[n-1])"
+11,A,Python3,54979223,2022-11-25 19:15:05,又熬夜了的牛油果很自来熟,答案正确,"times = eval(input())
+for i in range(times):
+	count = eval(input())	
+	list1 = list(map(int, input().split()))
+	info1 = list(map(int, input().split()))
+	m = int(input())
+	for k in range(m-1):
+		for j in range(count):
+			list1[j] = list1[j] + info1[0]
+			if list1[j] > info1[1]:
+				list1[j] = info1[2]
+	for j in range(count):
+		if j == count-1:
+			print(list1[j])
+		else:
+			print(list1[j],end="" "")"
+12,A,Python3,54979539,2022-11-25 19:18:10,眼里_有光,答案正确,"import sys
+list1=[]
+for line in sys.stdin:
+    a=line.split()
+    list1+=[a]
+T=int(list1[0][0])
+for t in range(T):
+    n=list1[4*t+1][0]
+    h_list=[int(x) for x in list1[4*t+2]]
+    a=int(list1[4*t+3][0])
+    k=int(list1[4*t+3][1])
+    b=int(list1[4*t+3][2])
+    m=int(list1[4*t+4][0])
+    for day in range(m-1):
+        h_list=[b if h+a>k else h+a for h in h_list]
+    for x in h_list:
+        print(x,end="" "")
+    print()
+    
+
+    "
+13,A,Python3,54979666,2022-11-25 19:19:18,枫絮凝语,答案正确,"t=int(input())
+for _ in range(t):
+    n=int(input())
+    s=list(map(int,input().split()))
+    a,k,b=map(int,input().split())
+    m=int(input())
+    for day in range(2,m+1):
+        for i in range(n):
+            s[i]+=a 
+            if  s[i]>k:
+                s[i]=b 
+    s=list(map(str,s))
+    print(' '.join(s))
+            
+
+
+
+
+
+
+"
+14,A,Python3,54979822,2022-11-25 19:20:48,普麒,答案错误,"n = int(input())
+out=[]
+for i in range(n):
+    number = int(input())
+    h = list(map(int, list(input().split())))
+    a, k, b = map(int, input().split())
+    m = int(input())
+    for x in range(m-1):
+        for tree in range(len(h)):
+            h[tree]+=a
+        for tree in range(len(h)):
+            if h[tree]>=k:
+                h[tree]=b
+    out.append(h)
+for i in out:
+    print("" "".join(map(str,i)))
+"
+15,A,Python3,54979918,2022-11-25 19:21:43,普麒,答案正确,"n = int(input())
+out=[]
+for i in range(n):
+    number = int(input())
+    h = list(map(int, list(input().split())))
+    a, k, b = map(int, input().split())
+    m = int(input())
+    for x in range(m-1):
+        for tree in range(len(h)):
+            h[tree]+=a
+        for tree in range(len(h)):
+            if h[tree]>k:
+                h[tree]=b
+    out.append(h)
+for i in out:
+    print("" "".join(map(str,i)))
+"
+16,A,Python3,54980156,2022-11-25 19:24:18,李迪锴,答案正确,"T=int(input())
+b=0
+a=0
+k=0
+def change(x):
+        return x+a
+def change2(x):
+    if x>k:
+        return b
+    else:
+        return x
+for i in range(T):
+    n=int(input())
+    L=list(map(int,input().split()))
+    a,k,b=map(int,input().split())
+    m=int(input())
+    for j in range(m-1):
+           L=map(change,L)
+           L=map(change2,L)
+    print(' '.join(list(map(str,L))))
+            
+"
+17,A,Python3,54980776,2022-11-25 19:30:02,Kshqsz,运行超时,"def f(ls,a,b,c,d):
+    for i in range(d-1):
+        for k in range(len(ls)):
+            ls[k]+=a
+            for q in range(len(ls)):
+                if ls[q]>b:
+
+                    ls[q]=c
+    else:
+        for w in ls:
+            print(w,end=' ')
+        print()
+n = int(input())
+for i in range(n):
+    m=input()
+    ls=[int(j) for j in input().split()]
+    a,b,c=map(int,input().split())
+    d=int(input())
+    f(ls,a,b,c,d)
+
+
+
+
+
+
+
+
+
+"
+18,A,Python3,54980836,2022-11-25 19:30:37,Kshqsz,运行超时,"def f(ls,a,b,c,d):
+    for i in range(d-1):
+        for k in range(len(ls)):
+            ls[k]+=a
+            for q in range(len(ls)):
+                if ls[q]>b:
+
+                    ls[q]=c
+    else:
+        for w in ls:
+            print(w,end=' ')
+        print()
+n = int(input())
+for i in range(n):
+    m=input()
+    ls=[int(j) for j in input().split()]
+    a,b,c=map(int,input().split())
+    d=int(input())
+    f(ls,a,b,c,d)
+
+
+
+
+
+
+
+
+
+"
+19,A,Python3,54981012,2022-11-25 19:32:03,Kshqsz,运行超时,"def f(ls,a,b,c,d):
+    for i in range(d-1):
+        for k in range(len(ls)):
+            ls[k]+=a
+            for q in range(len(ls)):
+                if ls[q]>b:
+
+                    ls[q]=c
+    else:
+        for w in ls:
+            print(w,end=' ')
+        print()
+n = int(input())
+for i in range(n):
+    m=input()
+    ls=[int(j) for j in input().split()]
+    a,b,c=map(int,input().split())
+    d=int(input())
+    f(ls,a,b,c,d)
+
+
+
+
+
+
+
+
+
+"
+20,A,Python3,54981017,2022-11-25 19:32:05,襟背思树萱,答案正确,"import sys
+lst = []
+for line in sys.stdin:
+    a = line.split()
+    lst.append(a)
+T = int(lst[0][0])
+for t in range(T):
+    lst1 = [int(x) for x in lst[4*t+2]]
+    a = int(lst[4*t+3][0])
+    k = int(lst[4*t+3][1])
+    b = int(lst[4*t+3][2])
+    m = int(lst[4*t+4][0])
+    for day in range(m-1):
+        lst1 = [b if h+a > k else h+a for h in lst1]
+    for x in lst1:
+        print(x,end=' ')
+    print()"
+21,A,Python3,54981503,2022-11-25 19:36:46,Kshqsz,运行超时,"def f(ls,a,b,c,d):
+    for i in range(d-1):
+        for k in range(len(ls)):
+            ls[k]+=a
+            for q in range(len(ls)):
+                if ls[q]>b:
+
+                    ls[q]=c
+    else:
+        for w in ls:
+            print(w,end=' ')
+        print()
+n = int(input())
+for i in range(n):
+    m=input()
+    ls=[int(j) for j in input().split()]
+    a,b,c=map(int,input().split())
+    d=int(input())
+    f(ls,a,b,c,d)
+
+
+
+
+
+
+
+
+
+"
+22,A,Python3,54981720,2022-11-25 19:38:55,HiRadon,答案正确,"T = int(input())
+for i in range(T):
+    n = int(input())
+    h = list(map(int, input().split(' ')))
+    a, k, b = map(int, input().split(' '))
+    m = int(input())
+    for _ in range(m-1):
+        for j in range(len(h)):
+            h[j] += a
+            if h[j] > k:
+                h[j] = b
+    ans = [str(x) for x in h]
+    print(' '.join(ans))"
+23,A,Python3,54981741,2022-11-25 19:39:10,Kshqsz,运行超时,"def f(ls,a,b,c,d):
+    for i in range(d-1):
+        for k in range(len(ls)):
+            ls[k]+=a
+            for q in range(len(ls)):
+                if ls[q]>b:
+
+                    ls[q]=c
+    else:
+        for w in ls:
+            print(w,end=' ')
+        print()
+n = int(input())
+for i in range(n):
+    m=input()
+    ls=[int(j) for j in input().split()]
+    a,b,c=map(int,input().split())
+    d=int(input())
+    f(ls,a,b,c,d)
+
+
+
+
+
+
+
+
+
+"
+24,A,Python3,54981743,2022-11-25 19:39:11,Kshqsz,运行超时,"def f(ls,a,b,c,d):
+    for i in range(d-1):
+        for k in range(len(ls)):
+            ls[k]+=a
+            for q in range(len(ls)):
+                if ls[q]>b:
+
+                    ls[q]=c
+    else:
+        for w in ls:
+            print(w,end=' ')
+        print()
+n = int(input())
+for i in range(n):
+    m=input()
+    ls=[int(j) for j in input().split()]
+    a,b,c=map(int,input().split())
+    d=int(input())
+    f(ls,a,b,c,d)
+
+
+
+
+
+
+
+
+
+"
+25,A,Python3,54981778,2022-11-25 19:39:32,Kshqsz,运行超时,"def f(ls,a,b,c,d):
+    for i in range(d-1):
+        for k in range(len(ls)):
+            ls[k]+=a
+            for q in range(len(ls)):
+                if ls[q]>b:
+
+                    ls[q]=c
+    else:
+        for w in ls:
+            print(w,end=' ')
+        print()
+n = int(input())
+for i in range(n):
+    m=input()
+    ls=[int(j) for j in input().split()]
+    a,b,c=map(int,input().split())
+    d=int(input())
+    f(ls,a,b,c,d)
+
+
+
+
+
+
+
+
+
+"
+26,A,Python3,54982486,2022-11-25 19:46:31,Kshqsz,运行超时,"def f(ls,a,b,c,d):
+    for i in range(d-1):
+        for k in range(len(ls)):
+            ls[k]+=a
+            for q in range(len(ls)):
+                if ls[q]>b:
+
+                    ls[q]=c
+    else:
+        for w in ls:
+            print(w,end=' ')
+        print()
+n = int(input())
+for i in range(n):
+    m=input()
+    ls=[int(j) for j in input().split()]
+    a,b,c=map(int,input().split())
+    d=int(input())
+    f(ls,a,b,c,d)
+
+
+
+
+
+
+
+
+
+"
+27,A,Python3,54984632,2022-11-25 20:05:47,多少分,执行出错,"import numpy
+n=int(input())
+n1=int(input())
+n2=input()
+n3=input()
+da1=int(input())
+b1=[]
+b2=[]
+for i in n2.split():
+    b1.append(int(i))
+c1=numpy.array(b1)
+for j in n3.split():
+    b2.append(int(j))
+c2=numpy.array(b2)
+for y in range(da1):
+    for i in range(len(c1)):
+        if c1[i]>=c2[1]:
+            c1[i]=c2[2]
+        else:
+            c1[i]+=c2[0]
+print(c1)
+m1=int(input())
+m2=input()
+m3=input()
+da2=int(input())
+g1=[]
+g2=[]
+for i in m2.split():
+    g1.append(int(i))
+x1=numpy.array(g1)
+for j in m3.split():
+    g2.append(int(j))
+x2=numpy.array(g2)
+for y in range(da2):
+    for i in range(len(x1)):
+        if x1[i]>=x2[1]:
+            x1[i]=x2[2]
+        else:
+            x1[i]+=x2[0]
+print(x1)
+"
+28,A,Python3,54984648,2022-11-25 20:05:57,多少分,执行出错,"import numpy
+n=int(input())
+n1=int(input())
+n2=input()
+n3=input()
+da1=int(input())
+b1=[]
+b2=[]
+for i in n2.split():
+    b1.append(int(i))
+c1=numpy.array(b1)
+for j in n3.split():
+    b2.append(int(j))
+c2=numpy.array(b2)
+for y in range(da1):
+    for i in range(len(c1)):
+        if c1[i]>=c2[1]:
+            c1[i]=c2[2]
+        else:
+            c1[i]+=c2[0]
+print(c1)
+m1=int(input())
+m2=input()
+m3=input()
+da2=int(input())
+g1=[]
+g2=[]
+for i in m2.split():
+    g1.append(int(i))
+x1=numpy.array(g1)
+for j in m3.split():
+    g2.append(int(j))
+x2=numpy.array(g2)
+for y in range(da2):
+    for i in range(len(x1)):
+        if x1[i]>=x2[1]:
+            x1[i]=x2[2]
+        else:
+            x1[i]+=x2[0]
+print(x1)
+"
+29,A,Python3,54984770,2022-11-25 20:06:50,安逸_12138,答案正确,"t=int(input())
+i=0
+s=[]
+c=[]
+while i<t:
+    n=int(input())
+    lis=list(map(int,input().split()))
+    lis2=list(map(int,input().split()))
+    m = int(input())
+    a=lis2[0]
+    k=lis2[1]
+    b=lis2[2]
+    j=1
+    while j<m:
+        z=0
+        while z<len(lis):
+            lis[z]+=a
+            z+=1
+
+        z = 0
+        while z < len(lis):
+            if lis[z]>k:
+                lis[z]=b
+            z+=1
+        j+=1
+    c.append(n)
+    s.append(lis)
+    i+=1
+for x in s:
+    for y in x:
+        print(y,end="" "")
+    print(""\n"",end="""")"
+30,A,Python3,54985089,2022-11-25 20:09:53,Kshqsz,运行超时,"def f(ls,a,b,c,d):
+    for i in range(d-1):
+        for k in range(len(ls)):
+            ls[k]+=a
+            for q in range(len(ls)):
+                if ls[q]>b:
+
+                    ls[q]=c
+    else:
+        for w in ls:
+            print(w,end=' ')
+        print()
+n = int(input())
+for i in range(n):
+    m=input()
+    ls=[int(j) for j in input().split()]
+    a,b,c=map(int,input().split())
+    d=int(input())
+    f(ls,a,b,c,d)
+
+
+
+
+
+
+
+
+
+"
+31,A,Python3,54985222,2022-11-25 20:11:12,牛客943289953号,答案错误,"t = int(input())
+while t:
+    n = int(input())
+    h = list(map(int, input().split()))
+    a, k, b = map(int, input().split())
+    m = int(input())
+    #for i in range(n):
+        #h[i] += a
+    m -= 1
+    while m:
+        for i in range(n):
+            h[i] += a
+            if h[i] > k:
+                h[i] -= b
+
+        m -= 1
+    print("" "".join(str(i) for i in h))
+    t -= 1
+
+    "
+32,A,Python3,54985410,2022-11-25 20:13:07,牛客193671210号,答案错误,"T=int(input())
+for j in range(T):
+    n=int(input())
+    h=list(map(int,input().split()))
+    a,k,b=map(int,input().split())
+    m=int(input())
+    for w in range(1,m):
+        for i in range(n):
+            if h[i]+a>k:
+                h[i]=h[i]+a-b
+            else:
+                h[i]=h[i]+a
+    for ij in h:
+        print(ij,end="" "")
+    print()
+        
+"
+33,A,Python3,54985509,2022-11-25 20:14:04,牛客943289953号,答案错误,"t = int(input())
+for i in range(t):
+    n = int(input())
+    h = list(map(int, input().split()))
+    a, k, b = map(int, input().split())
+    m = int(input())
+    m -= 1
+    for i in range(m):
+        for i in range(n):
+            h[i] += a
+            if h[i] > k:
+                h[i] -= b
+    print("" "".join(str(i) for i in h))
+    t -= 1"
+34,A,Python3,54985852,2022-11-25 20:17:33,牛客943289953号,答案正确,"t = int(input())
+for i in range(t):
+    n = int(input())
+    h = list(map(int, input().split()))
+    a, k, b = map(int, input().split())
+    m = int(input())
+    m -= 1
+    for i in range(m):
+        for i in range(n):
+            h[i] += a
+            if h[i] > k: # 若某颗树的高度超过了 k 厘米牛牛就会将它的高度修剪为 b 厘米。
+                h[i] = b
+    print("" "".join(str(i) for i in h))
+    t -= 1"
+35,A,Python3,54985887,2022-11-25 20:17:50,牛客943289953号,答案正确,"t = int(input())
+for i in range(t):
+    n = int(input())
+    h = list(map(int, input().split()))
+    a, k, b = map(int, input().split())
+    m = int(input())
+    m -= 1
+    for i in range(m):
+        for i in range(n):
+            h[i] += a
+            if h[i] > k: # 若某颗树的高度超过了 k 厘米牛牛就会将它的高度修剪为 b 厘米。
+                h[i] = b
+    print("" "".join(str(i) for i in h))
+    t -= 1"
+36,A,Python3,54985908,2022-11-25 20:18:02,牛客943289953号,答案正确,"t = int(input())
+for i in range(t):
+    n = int(input())
+    h = list(map(int, input().split()))
+    a, k, b = map(int, input().split())
+    m = int(input())
+    m -= 1
+    for i in range(m):
+        for i in range(n):
+            h[i] += a
+            if h[i] > k: # 若某颗树的高度超过了 k 厘米牛牛就会将它的高度修剪为 b 厘米。
+                h[i] = b
+    print("" "".join(str(i) for i in h))
+    t -= 1"
+37,A,Python3,54986424,2022-11-25 20:23:17,蔡福临2227405079,答案正确,"import sys
+lst=[]
+for line in sys.stdin:
+    a = line.split()
+    lst+=[[int(i)for i in a]] 
+for i in range(lst[0][0]):
+    for ii in range(lst[4*i+1][0]):
+        for iii in range(lst[4*i+4][0]-1):
+            lst[4*i+2][ii]=lst[4*i+3][0]+lst[4*i+2][ii]
+            if lst[4*i+2][ii]>lst[4*i+3][1]:
+                lst[4*i+2][ii]=lst[4*i+3][2]
+        print(lst[4*i+2][ii],end="" "")
+    print("""")"
+38,A,Python3,54986801,2022-11-25 20:26:53,Kshqsz,答案正确,"def f(ls,a,b,c,d):
+    for i in range(d-1):
+        for k in range(len(ls)):
+            ls[k]+=a
+        for q in range(len(ls)):
+            if ls[q]>b:
+                ls[q]=c
+    else:
+        for w in ls:
+            print(w,end=' ')
+        print()
+n = int(input())
+for i in range(n):
+    m=input()
+    ls=[int(j) for j in input().split()]
+    a,b,c=map(int,input().split())
+    d=int(input())
+    f(ls,a,b,c,d)
+
+
+
+
+
+
+
+
+
+"
+39,A,Python3,54987025,2022-11-25 20:29:24,Kshqsz,答案正确,"def f(ls,a,b,c,d):
+    for i in range(d-1):
+        for k in range(len(ls)):
+            ls[k]+=a
+        for q in range(len(ls)):
+            if ls[q]>b:
+                ls[q]=c
+    else:
+        for w in ls:
+            print(w,end=' ')
+        print()
+n = int(input())
+for i in range(n):
+    m=input()
+    ls=[int(j) for j in input().split()]
+    a,b,c=map(int,input().split())
+    d=int(input())
+    f(ls,a,b,c,d)
+
+
+
+
+
+
+
+
+
+"
+40,A,Python3,54987033,2022-11-25 20:29:28,Kshqsz,答案正确,"def f(ls,a,b,c,d):
+    for i in range(d-1):
+        for k in range(len(ls)):
+            ls[k]+=a
+        for q in range(len(ls)):
+            if ls[q]>b:
+                ls[q]=c
+    else:
+        for w in ls:
+            print(w,end=' ')
+        print()
+n = int(input())
+for i in range(n):
+    m=input()
+    ls=[int(j) for j in input().split()]
+    a,b,c=map(int,input().split())
+    d=int(input())
+    f(ls,a,b,c,d)
+
+
+
+
+
+
+
+
+
+"
+41,A,Python3,54987425,2022-11-25 20:33:25,牛客114504161号,答案错误,"T = int(input())
+lenth = 0
+for i in range(T):
+    n = int(input())
+    lis = list(map(int,input().split("" "")))
+    a,k,b = map(int,input().split("" ""))
+    m = int(input())
+    for j in range(len(lis)):
+        if lis[j]+a*(m-1)>k or lis[j]>k:
+            lenth = b + a*(m-2)
+        else:
+            lenth = lis[j] + a*(m-1)
+        print(lenth,end="" "")
+    print()"
+42,A,Python3,54987494,2022-11-25 20:34:01,我是牛仔我不是牛客,执行出错,"n = int(input())
+for i in range(n):
+    tmp = int(input())
+    h = list(map(int, input().split()))
+    a,k,b = list(map(int, input().split()))
+    m = int(input())
+    for j in range(m-1):
+        for t in range(len(h)):
+            h[t]+=a
+            if h[t]>k:
+                h[t]=b
+
+    for o in range(len(h)-1):
+        print(h[o]+' ')
+    print(h[-1])"
+43,A,Python3,54987579,2022-11-25 20:35:00,我是牛仔我不是牛客,答案正确,"n = int(input())
+for i in range(n):
+    tmp = int(input())
+    h = list(map(int, input().split()))
+    a,k,b = list(map(int, input().split()))
+    m = int(input())
+    for j in range(m-1):
+        for t in range(len(h)):
+            h[t]+=a
+            if h[t]>k:
+                h[t]=b
+
+    for o in range(len(h)-1):
+        print(str(h[o]),end=' ')
+    print(str(h[-1]))"
+44,A,Python3,54987626,2022-11-25 20:35:36,牛客943289953号,答案正确,"t = int(input()) # 多组案例输入，整数 T 代表案例组数
+for i in range(t):
+    n = int(input()) #  n表示有几颗树
+    h = list(map(int, input().split())) # h表示树的高度
+    a, k, b = map(int, input().split()) # 每一天的晚上每棵树的高度都会增加 a 厘米，而牛牛的任务则是在第二天的清晨检查每一颗树的高度，若某颗树的高度超过了 k 厘米牛牛就会将它的高度修剪为 b 厘米。
+    m = int(input())
+    m -= 1 # 第一天是生长，第二天才会修剪
+    for i in range(m):
+        for i in range(n):
+            h[i] += a # 每天都会长
+            if h[i] > k: # 若某颗树的高度超过了 k 厘米牛牛就会将它的高度修剪为 b 厘米。
+                h[i] = b # 注意，不是h[i] -= b，这表示修剪了b厘米
+    print("" "".join(str(i) for i in h)) # 以空格进行输出
+    t -= 1 # 多组案例输入，T 代表案例组数"
+45,A,Python3,54987752,2022-11-25 20:36:47,牛客193671210号,答案正确,"T=int(input())
+for j in range(T):
+    n=int(input())
+    h=list(map(int,input().split()))
+    a,k,b=map(int,input().split())
+    m=int(input())
+    for w in range(1,m):
+        for i in range(n):
+            if h[i]+a>k:
+                h[i]=b
+            else:
+                h[i]=h[i]+a
+    for ij in h:
+        print(ij,end="" "")
+    print()
+        
+"
+46,A,Python3,54987861,2022-11-25 20:38:02,lllllllllan,答案正确,"t=int(input())
+for i in range(t):
+    n=int(input())
+    h=list(map(int,input().split()))
+    a,k,b=map(int,input().split())
+    m=int(input())
+    for j in range(m-1):
+        for l in range(n):
+            h[l]+=a;
+            if h[l]>k:
+                h[l]=b
+    print(*h)"
+47,A,Python3,54988931,2022-11-25 20:50:50,辉白,答案正确,"t = int(input())
+res = []
+for i in range(t):
+    n = int(input())
+    h = list(map(int, input().split()))
+    a, k, b = list(map(int, input().split()))
+    m = int(input())
+    x = 1
+    while x < m:
+        h = [j+a if j+a <= k else b for j in h]
+        x += 1
+    res.append(h)
+for i in res:
+    print(*i, sep=' ')
+
+"
+48,A,Python3,54989154,2022-11-25 20:53:05,小会儿来敲代码啊,答案正确,"    
+T = int(input())
+h = []
+w = []
+for i in range(T):
+    n = int(input())
+    h = list(map(int,input().split()))
+    w = list(map(int,input().split()))
+    m = int(input())
+    m -= 1
+    for j in range(m):
+        for k in range(n):
+            h[k] += w[0]
+        for k in range(n):
+            if(h[k] > w[1]):
+                h[k] = w[2]
+    for j in range(n):
+        print(h[j],end = "" "")
+    print()
+    
+            
+    
+    "
+49,A,Python3,54990157,2022-11-25 21:03:39,凤梨酥酥酥,答案正确,"t = int(input())
+for _ in range(t):
+    n = int(input())
+    nums = list(map(int,input().strip().split()))
+    a,k,b = map(int,input().strip().split())
+    m = int(input())
+    for i in range(m-1):
+        for j in range(n):
+            nums[j] += a
+            if nums[j] > k:
+                nums[j] = b
+    for i in range(n):
+        print(nums[i],end=' ')
+    print()
+
+"
+50,A,Python3,54991124,2022-11-25 21:21:34,相ཽ信ཽ光ཽ的ཽ少ཽ年ཽ,答案正确,"import random
+import sys
+import os
+import math
+from collections import Counter, defaultdict, deque
+from functools import lru_cache, reduce
+from itertools import accumulate, combinations, permutations
+from heapq import nsmallest, nlargest, heapify, heappop, heappush
+from io import BytesIO, IOBase
+from copy import deepcopy
+import threading
+import bisect
+BUFSIZE = 4096
+
+
+class FastIO(IOBase):
+    newlines = 0
+
+    def __init__(self, file):
+        self._fd = file.fileno()
+        self.buffer = BytesIO()
+        self.writable = ""x"" in file.mode or ""r"" not in file.mode
+        self.write = self.buffer.write if self.writable else None
+
+    def read(self):
+        while True:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            if not b:
+                break
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines = 0
+        return self.buffer.read()
+
+    def readline(self):
+        while self.newlines == 0:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            self.newlines = b.count(b""\n"") + (not b)
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines -= 1
+        return self.buffer.readline()
+
+    def flush(self):
+        if self.writable:
+            os.write(self._fd, self.buffer.getvalue())
+            self.buffer.truncate(0), self.buffer.seek(0)
+
+class IOWrapper(IOBase):
+    def __init__(self, file):
+        self.buffer = FastIO(file)
+        self.flush = self.buffer.flush
+        self.writable = self.buffer.writable
+        self.write = lambda s: self.buffer.write(s.encode(""ascii""))
+        self.read = lambda: self.buffer.read().decode(""ascii"")
+        self.readline = lambda: self.buffer.readline().decode(""ascii"")
+
+sys.stdin = IOWrapper(sys.stdin)
+sys.stdout = IOWrapper(sys.stdout)
+input = lambda: sys.stdin.readline().rstrip(""\r\n"")
+
+def I():
+    return input()
+
+def II():
+    return int(input())
+
+def MI():
+    return map(int, input().split())
+
+def LI():
+    return list(input().split())
+
+def LII():
+    return list(map(int, input().split()))
+
+def GMI():
+    return map(lambda x: int(x) - 1, input().split())
+
+def LGMI():
+    return list(map(lambda x: int(x) - 1, input().split()))
+
+def solve(hs, a, b, k, m):
+    for i in range(m-1):
+        for j in range(len(hs)):
+            hs[j] += a
+        for j in range(len(hs)):    
+            if  hs[j] > k:
+                hs[j] = b
+    for i in range(len(hs)):
+        if i != len(hs) - 1:
+            print(hs[i], end="" "")
+        else:
+            print(hs[i])
+
+T = II()
+for _ in range(T):
+    n = II()
+    nums = LII()
+    a,k,b = MI()
+    m = II()
+    solve(nums, a, b, k, m)
+    "
+51,A,Python3,54991673,2022-11-25 21:36:25,牛客114504161号,答案正确,"t = int(input())
+for _ in range(t):
+    n = int(input())
+    nums = list(map(int,input().strip().split()))
+    a,k,b = map(int,input().strip().split())
+    m = int(input())
+    for i in range(m-1):
+        for j in range(n):
+            nums[j] += a
+            if nums[j] > k:
+                nums[j] = b
+    for i in range(n):
+        print(nums[i],end=' ')
+    print()
+
+"
+52,A,Python3,54991747,2022-11-25 21:38:40,牛客114504161号,答案正确,"T = int(input())
+for i in range(T):
+    n = int(input())
+    num = list(map(int,input().split()))
+    a,k,b = map(int,input().split())
+    m = int(input())
+    for i in range(m-1):
+        for j in range(len(num)):
+            num[j] += a
+            if num[j] > k:
+                num[j] = b
+    for i in range(n):
+        print(num[i],end=' ')
+    print()
+
+"
+53,A,Python3,54992951,2022-11-25 22:29:01,JesseChan,执行出错,"#include <bits/stdc++.h>
+
+#define endl ""\n""
+#define i128  __int128
+#define ll long long
+#define ull unsigned long long
+#define INF 0x3f3f3f3f
+#define lowbit(x) ((x) & (-x))
+#define popcount(x) __builtin_popcount(x)
+#define all(x) x.begin() ,x.end()
+
+using namespace std;
+const int N = 1e3 + 5;
+int h[N];
+
+
+int main()
+{
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int T;
+    cin >> T;
+    while(T--)
+    {
+        int n, a, k, b, m;
+        cin >> n;
+        for(int i = 1; i <= n; i++) cin >> h[i];
+        cin >> a >> k >> b >> m;
+        for(int i = 1; i <= n; i++)
+        {
+            for(int j = 1; j < m; j++)
+            {
+                h[i] += a;
+                if(h[i] > k) h[i] = b;
+            }
+        }
+        for(int i = 1; i <= n; i++) cout << h[i] << "" "";
+        cout << endl;
+
+    }
+
+    return 0;
+}
+"
+54,A,Python3,54995602,2022-11-26 09:39:40,前程似锦的历颜珑很放浪,答案错误,"n = int(input())
+for i in range(n):
+    x=int(input())
+    lit=list(map(int,input().split()))
+    a,k,b=map(int,input().split())
+    m=int(input())
+    for j in range(x):
+        for z in range(m-1):
+            if lit[j] > k:
+                lit[j] = b
+            lit[j] += a
+        print(lit[j],end="" "")
+    print()"
+55,A,Python3,54995631,2022-11-26 09:42:00,前程似锦的历颜珑很放浪,答案错误,"n = int(input())
+for i in range(n):
+    x=int(input())
+    lit=list(map(int,input().split()))
+    a,k,b=map(int,input().split())
+    m=int(input())
+    for j in range(x):
+        for z in range(m):
+            if lit[j] > k:
+                lit[j] = b
+            lit[j] += a
+        print(lit[j],end="" "")
+    print()"
+56,A,Python3,54995636,2022-11-26 09:42:14,前程似锦的历颜珑很放浪,答案错误,"n = int(input())
+for i in range(n):
+    x=int(input())
+    lit=list(map(int,input().split()))
+    a,k,b=map(int,input().split())
+    m=int(input())
+    for j in range(x):
+        for z in range(m-1):
+            if lit[j] > k:
+                lit[j] = b
+            lit[j] += a
+        print(lit[j],end="" "")
+    print()"
+57,A,Python3,54995870,2022-11-26 09:57:17,Genius樱满集,答案正确,"t=int(input())
+while t:
+    t-=1
+    n=int(input())
+    l=list(map(int,input().split()))
+    a,k,b=map(int,input().split())
+    m=int(input())
+    m-=1
+    while m:
+        m-=1
+        for i in range(n):
+#             print(l[i])
+            l[i]+=a 
+            if l[i]>k:
+                l[i]=b;
+    for i in range(n):
+        print(l[i],end=' ')
+    print()"
+58,A,Python3,54996225,2022-11-26 10:21:46,前程似锦的历颜珑很放浪,执行出错,"T = int(input())
+for i in range(T):
+    n=int(input())
+    lit=list(map(int,input().split()))
+    a,k,b=map(int,input().split())
+    m=int(input())
+    for j in range(n):
+        s1 = (m-1)*a
+        lit[j] += s1
+        kb = k-b
+        if lit[j] > k:
+            s2 = (lit[j] - k) // kb
+            if s2 == (lit[j] - k) / kb:
+                pass
+            else:
+                s2 += 1
+            lit[j] = lit[j] - s2*kb -a
+        print(lit[j],end="" "")
+    print()"
+59,A,Python3,54996537,2022-11-26 10:41:51,前程似锦的历颜珑很放浪,答案错误,"T = int(input())
+for i in range(T):
+    n=int(input())
+    lit=list(map(int,input().split()))
+    a,k,b=map(int,input().split())
+    m=int(input())
+    for j in range(n):
+        s1 = (m-1)*a
+        lit[j] += s1
+        kb = k-b
+        if lit[j] > k:
+            if kb != 0:
+                s2 = (lit[j] - k) // kb
+                if s2 == (lit[j] - k) / kb:
+                    pass
+                else:
+                    s2 += 1
+                lit[j] = lit[j] - s2*kb -a
+        print(lit[j],end="" "")
+    print()"
+60,A,Python3,54997389,2022-11-26 11:33:50,牛客632869927号,答案正确,"times = int(input())
+
+for time in range(times):
+    length = int(input())
+    arr = list(map(int,input().split(' ')))
+    a ,k ,b = map(int,input().split(' '))
+    m = int(input())
+    for day in range(m - 1):
+        for i in range(len(arr)):
+            arr[i] += a
+            if arr[i] > k:
+                arr[i] = b
+    for item in arr:
+        print(item,end=' ')
+    print()
+"
+61,A,Python3,54999189,2022-11-26 14:16:39,爱打牌的登子,答案错误,"def s (num):
+    r = [-1 for i in range(20)]
+    r[0] = 0
+    r[1] = 1
+    r[6] = 9
+    r[8] = 8
+    r[9] = 6
+    s = ''
+    for i in reversed(range(len(num))):
+        x = ord(num[i])-ord('0') # num的第i个字符转为数字
+        if(r[x]== -1):
+            return False
+        x = r[x]
+        s += chr(x+ord('0')) # 将数字x转为字符，并加到s后面
+    return s == num
+
+print(""69"")"
+62,A,Python3,55003870,2022-11-26 16:48:33,又被画饼了的猕猴桃很大胆,答案正确,"T = int(input())
+for _ in range(T):
+    n = int(input())
+    h_ls = list(map(int, input().split()))
+    a, k, b = map(int, input().split())
+    m = int(input())
+    for _ in range(m-1):
+        h_ls = [i+a if i+a <= k else b for i in h_ls]
+    print(*h_ls)"
+63,A,Python3,55021387,2022-11-27 16:36:39,牛客694081956号,答案正确,"t = int(input()) # 多组案例输入，整数 T 代表案例组数
+for i in range(t):
+    n = int(input()) #  n表示有几颗树
+    h = list(map(int, input().split())) # h表示树的高度
+    a, k, b = map(int, input().split()) # 每一天的晚上每棵树的高度都会增加 a 厘米，而牛牛的任务则是在第二天的清晨检查每一颗树的高度，若某颗树的高度超过了 k 厘米牛牛就会将它的高度修剪为 b 厘米。
+    m = int(input())
+    m -= 1 # 第一天是生长，第二天才会修剪
+    for i in range(m):
+        for i in range(n):
+            h[i] += a # 每天都会长
+            if h[i] > k: # 若某颗树的高度超过了 k 厘米牛牛就会将它的高度修剪为 b 厘米。
+                h[i] = b # 注意，不是h[i] -= b，这表示修剪了b厘米
+    print("" "".join(str(i) for i in h)) # 以空格进行输出
+    t -= 1 # 多组案例输入，T 代表案例组
+"
+64,A,Python3,55029570,2022-11-28 01:21:22,理塘の绝凶猛虎,答案正确,"T = int(input())
+for i in range(T):
+    n = int(input())
+    h = list(map(int,input().split()))
+    a, k, b = map(int,input().split())
+    m = int(input())
+    for d in h:
+        for j in range(m-1):
+            d+=a
+            if d>k:
+                d=b
+        print(d,end=' ')
+    print()"
+65,A,Python3,55029571,2022-11-28 01:21:34,理塘の绝凶猛虎,答案正确,"T = int(input())
+for i in range(T):
+    n = int(input())
+    h = list(map(int,input().split()))
+    a, k, b = map(int,input().split())
+    m = int(input())
+    for d in h:
+        for j in range(m-1):
+            d+=a
+            if d>k:
+                d=b
+        print(d,end=' ')
+    print()"
+66,A,Python3,55037632,2022-11-28 22:28:35,kidoil,答案正确,"t = int(input())
+for _ in range(t):
+    n = int(input())
+    h = list(map(int, input().split()))
+    a, k, b = map(int, input().split())
+    m = int(input())
+    for _ in range(m-1):
+        for i, v in enumerate(h):
+            if v+a > k:
+                h[i] = b
+            else:
+                h[i] += a
+    print("" "".join(map(str, h)))
+"
+67,A,Python3,55038866,2022-11-29 09:24:30,爱打牌的登子,答案正确,"T = int(input())
+for _ in range(T):
+    n = int(input())
+    arr = list(map(int , input().split()))
+    a , k , b = list(map(int , input().split()))
+    m = int(input())
+    for i in range(n):
+        for j in range(m - 1):
+            arr[i] += a 
+            if arr[i] > k:
+                arr[i] = b 
+    arr = [str(x) for x in arr]
+    print("" "".join(arr))
+    "
+68,A,Python3,55042872,2022-11-29 18:31:00,onlybaoli,答案正确,"t = int(input())
+for i in range(t):
+    n = int(input())
+    h = list(map(int,input().split()))
+    a,k,b=map(int,input().split())
+    m = int(input())
+
+    for i in range(1,m):
+        for j in range(n):
+            h[j] += a
+            if h[j] > k:
+                h[j] = b
+    for i in h:
+        print(i,end = ' ')
+    print()"
+69,A,Python3,55048738,2022-11-29 23:19:07,Mr.Rongrong,答案正确,"
+
+t = int(input())
+for _ in range(t):
+    n = int(input())
+    hs = list(map(int,input().split()))
+    a,k,b = map(int,input().split())
+    m = int(input())
+    
+    for i in range(m - 1):
+        for h in range(n):
+            hs[h] += a 
+            if hs[h] > k:  hs[h] = b
+    
+    for i in hs:
+        print (i,end = ' ')
+    print()
+                
+                
+"
+70,A,Python3,55071166,2022-12-01 19:07:35,小许刷题,答案正确,"from bisect import *
+from heapq import *
+from collections import *
+from functools import *
+from itertools import *
+from time import *
+from random import *
+from math import log, gcd
+MOD = int(1e9+7)
+INF = int(1e20)
+def I():
+    return input()
+def II():
+    return int(input())
+def MI():
+    return map(int, input().split())
+def LI():
+    return list(input().split())
+def LII():
+    return list(map(int, input().split()))
+def GMI():
+    return map(lambda x: int(x) - 1, input().split())
+
+def solve():
+    n = II()
+    nums = LII()
+    a, k , b = MI()
+    m = II()
+    for _ in range(m-1):
+        for i in range(n):
+            nums[i] += a
+            if nums[i] > k:
+                nums[i] = b
+    print(*nums)
+
+for _ in range(II()):solve()"
+71,A,Python3,55158366,2022-12-04 23:32:27,新手丫丫呀,答案错误,# for i in range(2):print(1);
+72,A,Python3,55224162,2022-12-10 16:04:58,济南大学刘铭宇,答案正确,"t = int(input()) # 多组案例输入，整数 T 代表案例组数
+for i in range(t):
+    n = int(input()) #  n表示有几颗树
+    h = list(map(int, input().split())) # h表示树的高度
+    a, k, b = map(int, input().split()) # 每一天的晚上每棵树的高度都会增加 a 厘米，而牛牛的任务则是在第二天的清晨检查每一颗树的高度，若某颗树的高度超过了 k 厘米牛牛就会将它的高度修剪为 b 厘米。
+    m = int(input())
+    m -= 1 # 第一天是生长，第二天才会修剪
+    for i in range(m):
+        for i in range(n):
+            h[i] += a # 每天都会长
+            if h[i] > k: # 若某颗树的高度超过了 k 厘米牛牛就会将它的高度修剪为 b 厘米。
+                h[i] = b # 注意，不是h[i] -= b，这表示修剪了b厘米
+    print("" "".join(str(i) for i in h)) # 以空格进行输出
+    t -= 1 # 多组案例输入，T 代表案例组
+"
+73,A,Python3,55273156,2022-12-13 20:04:45,刘星浩,答案正确,"t = int(input()) # 多组案例输入，整数 T 代表案例组数
+for i in range(t):
+    n = int(input()) #  n表示有几颗树
+    h = list(map(int, input().split())) # h表示树的高度
+    a, k, b = map(int, input().split()) # 每一天的晚上每棵树的高度都会增加 a 厘米，而牛牛的任务则是在第二天的清晨检查每一颗树的高度，若某颗树的高度超过了 k 厘米牛牛就会将它的高度修剪为 b 厘米。
+    m = int(input())
+    m -= 1 # 第一天是生长，第二天才会修剪
+    for i in range(m):
+        for i in range(n):
+            h[i] += a # 每天都会长
+            if h[i] > k: # 若某颗树的高度超过了 k 厘米牛牛就会将它的高度修剪为 b 厘米。
+                h[i] = b # 注意，不是h[i] -= b，这表示修剪了b厘米
+    print("" "".join(str(i) for i in h)) # 以空格进行输出
+    t -= 1 # 多组案例输入，T 代表案例组
+"
+74,A,Python3,55273161,2022-12-13 20:04:53,刘星浩,答案正确,"t = int(input()) # 多组案例输入，整数 T 代表案例组数
+for i in range(t):
+    n = int(input()) #  n表示有几颗树
+    h = list(map(int, input().split())) # h表示树的高度
+    a, k, b = map(int, input().split()) # 每一天的晚上每棵树的高度都会增加 a 厘米，而牛牛的任务则是在第二天的清晨检查每一颗树的高度，若某颗树的高度超过了 k 厘米牛牛就会将它的高度修剪为 b 厘米。
+    m = int(input())
+    m -= 1 # 第一天是生长，第二天才会修剪
+    for i in range(m):
+        for i in range(n):
+            h[i] += a # 每天都会长
+            if h[i] > k: # 若某颗树的高度超过了 k 厘米牛牛就会将它的高度修剪为 b 厘米。
+                h[i] = b # 注意，不是h[i] -= b，这表示修剪了b厘米
+    print("" "".join(str(i) for i in h)) # 以空格进行输出
+    t -= 1 # 多组案例输入，T 代表案例组
+"
+75,A,Python3,60229021,2023-01-13 10:58:09,牛客233537359号,答案正确,"T = int(input())
+for _ in range(T):
+    n = int(input())
+    h = list(map(int,input().split()))
+    a,k,b = map(int,input().split())
+    m = int(input())
+    m -= 1
+    for i in range(m):
+        for j in range(n):
+            h[j] += a
+            if h[j] > k:
+                h[j] = b
+    print(*h)"
+76,A,Python3,60683278,2023-02-01 11:32:17,牛客660948461号,执行出错,"t=int(input())
+lst=[]
+for x in range(t+1):
+    n =int(input())
+    for y in range(n+1):
+        h=int(input().split())
+        lst.append(h)
+    a,k,b= int(input().split())
+    m=int(input())
+    for i in lst:
+        le= lst[i] + a*(m-1)
+        print(le,end="" "")
+"
+77,A,Python3,60683432,2023-02-01 11:52:00,牛客660948461号,执行出错,"t=int(input())
+lst=[]
+for x in range(t+1):
+    n =int(input())
+    for y in range(n+1):
+        h=int(input().split())
+        lst.append(h)
+    a,k,b= map(int,input().split())
+    m=int(input())
+    for i in lst:
+        le= lst[i] + a*(m-1)
+        if le >k:
+            le=b
+            print(le)
+        else:
+            print(le)
+"
+78,A,Python3,60683434,2023-02-01 11:52:16,牛客660948461号,执行出错,"t=int(input())
+lst=[]
+for x in range(t):
+    n =int(input())
+    for y in range(n+1):
+        h=int(input().split())
+        lst.append(h)
+    a,k,b= map(int,input().split())
+    m=int(input())
+    for i in lst:
+        le= lst[i] + a*(m-1)
+        if le >k:
+            le=b
+            print(le)
+        else:
+            print(le)
+"
+79,A,Python3,60683439,2023-02-01 11:52:26,牛客660948461号,执行出错,"t=int(input())
+lst=[]
+for x in range(t):
+    n =int(input())
+    for y in range(n):
+        h=int(input().split())
+        lst.append(h)
+    a,k,b= map(int,input().split())
+    m=int(input())
+    for i in lst:
+        le= lst[i] + a*(m-1)
+        if le >k:
+            le=b
+            print(le)
+        else:
+            print(le)
+"
+80,A,Python3,60683457,2023-02-01 11:54:32,牛客660948461号,执行出错,"t=int(input())
+lst=[]
+for x in range(t):
+    n =int(input())
+    for y in range(n):
+        h=int(input().split())
+        lst.append(h)
+    a,k,b= map(int,input().split())
+    m=int(input())
+    for i in lst:
+        le= lst[i] + a*(m-1)
+        if le >k:
+            le=b
+            print(le,sep=' ')
+        else:
+            print(le,sep=' ')
+"
+81,A,Python3,60705672,2023-02-01 14:58:06,牛客660948461号,执行出错,"t=int(input())
+lst=[]
+for x in range(t):
+    n =int(input())
+    for y in range(n):
+        h=int(input().split())
+        lst.append(h)
+    a,k,b= map(int,input().split())
+    m=int(input())
+    for i in lst:
+        for j in range(m-1)
+        le= lst[i] + a
+        if le >k:
+            le=b
+            print(le,sep=' ')
+        else:
+            print(le,sep=' ')
+"
+82,A,Python3,60705734,2023-02-01 14:58:28,牛客660948461号,执行出错,"t=int(input())
+lst=[]
+for x in range(t):
+    n =int(input())
+    for y in range(n):
+        h=int(input().split())
+        lst.append(h)
+    a,k,b= map(int,input().split())
+    m=int(input())
+    for i in lst:
+        for j in range(m-1):
+            le= lst[i] + a
+            if le >k:
+                le=b
+                print(le,sep=' ')
+            else:
+                print(le,sep=' ')
+"
+83,A,Python3,60706054,2023-02-01 15:00:45,牛客660948461号,执行出错,"t=int(input())
+lst=[]
+for x in range(t):
+    n =int(input())
+    for y in range(n):
+        h=int(input().split())
+        lst.append(h)
+    a,k,b= map(int,input().split())
+    m=int(input())
+    for j in range(m-1):
+        for i in range(n):
+            le= lst[i] + a
+            if le >k:
+                le=b
+                print(le,sep=' ')
+            else:
+                print(le,sep=' ')
+"
+84,A,Python3,60706096,2023-02-01 15:01:06,牛客660948461号,执行出错,"t=int(input())
+lst=[]
+for x in range(t):
+    n =int(input())
+    for y in range(n):
+        h=int(input().split())
+        lst.append(h)
+    a,k,b= map(int,input().split())
+    m=int(input())
+    for j in range(m-1):
+        for i in range(n):
+            le= lst[i] + a
+            if le >k:
+                le=b
+                print(le)
+            else:
+                print(le,sep=' ')
+"
+85,A,Python3,60706335,2023-02-01 15:02:51,牛客660948461号,执行出错,"t=int(input())
+lst=[]
+for x in range(t):
+    n =int(input())
+    for y in range(n):
+        h=int(input().split())
+        lst.append(h)
+    a,k,b= map(int,input().split())
+    m=int(input())
+    for j in range(m-1):
+        for i in range(n):
+            lst[i]= lst[i] + a
+            if lst[i] >k:
+                lst[i]=b
+                print(lst[i])
+            else:
+                print(lst[i],sep=' ')
+"
+86,A,Python3,60706374,2023-02-01 15:03:09,牛客660948461号,执行出错,"t=int(input())
+lst=[]
+for x in range(t):
+    n =int(input())
+    for y in range(n):
+        h=int(input().split())
+        lst.append(h)
+    a,k,b= map(int,input().split())
+    m=int(input())
+    for j in range(m-1):
+        for i in range(n):
+            lst[i]= lst[i] + a
+            if lst[i] >k:
+                lst[i]=b
+                print(lst[i])
+            else:
+                print(lst[i],sep=' ')
+    print()
+"
+87,A,Python3,60706669,2023-02-01 15:05:13,牛客660948461号,执行出错,"t=int(input())
+lst=[]
+for x in range(t):
+    n =int(input())
+    for y in range(n):
+        h=int(input().split())
+        lst.append(h)
+    a,k,b= map(int,input().split())
+    m=int(input())
+    for j in range(m-1):
+        for i in lst:
+            i= i + a
+            if lst[i] >k:
+                i=b
+                print(lst[i])
+            else:
+                print(lst[i],sep=' ')
+    print()
+"
+88,A,Python3,60706741,2023-02-01 15:05:45,牛客660948461号,执行出错,"t=int(input())
+lst=[]
+for x in range(t):
+    n =int(input())
+    for y in range(n):
+        h=int(input().split())
+        lst.append(h)
+    a,k,b= map(int,input().split())
+    m=int(input())
+    for j in range(m-1):
+        for i in lst:
+            i= i + a
+            if lst[i] >k:
+                i=b
+             
+         
+            print(i,sep=' ')
+  
+"
+89,A,Python3,60706781,2023-02-01 15:06:01,牛客660948461号,执行出错,"t=int(input())
+lst=[]
+for x in range(t):
+    n =int(input())
+    for y in range(n):
+        h=int(input().split())
+        lst.append(h)
+    a,k,b= map(int,input().split())
+    m=int(input())
+    for j in range(m-1):
+        for i in lst:
+            i= i + a
+            if lst[i] >k:
+                i=b
+            print(i,sep=' ')
+  
+"
+90,A,Python3,60706880,2023-02-01 15:06:46,牛客660948461号,答案错误,"t=int(input())
+lst=[]
+for x in range(t):
+    n =int(input())
+    
+    h=list(map(int,input().split()))
+        
+    a,k,b= map(int,input().split())
+    m=int(input())
+    for j in range(m-1):
+        for i in lst:
+            i= i + a
+            if lst[i] >k:
+                i=b
+            print(i,sep=' ')
+  
+"
+91,A,Python3,60706919,2023-02-01 15:07:08,牛客660948461号,答案错误,"t=int(input())
+lst=[]
+for x in range(t):
+    n =int(input())
+    
+    h=list(map(int,input().split()))
+        
+    a,k,b= map(int,input().split())
+    m=int(input())
+    for j in range(m-1):
+        for i in lst:
+            i= i + a
+            if i >k:
+                i=b
+            print(i,sep=' ')
+  
+"
+92,A,Python3,60706955,2023-02-01 15:07:26,牛客660948461号,执行出错,"t=int(input())
+
+for x in range(t):
+    n =int(input())
+    
+    h=list(map(int,input().split()))
+    
+    a,k,b= map(int,input().split())
+    m=int(input())
+    for j in range(m-1):
+        for i in lst:
+            i= i + a
+            if i >k:
+                i=b
+            print(i,sep=' ')
+  
+"
+93,A,Python3,60707002,2023-02-01 15:07:43,牛客660948461号,答案错误,"t=int(input())
+
+for x in range(t):
+    n =int(input())
+    
+    h=list(map(int,input().split()))
+    
+    a,k,b= map(int,input().split())
+    m=int(input())
+    for j in range(m-1):
+        for i in h:
+            i= i + a
+            if i >k:
+                i=b
+            print(i,sep=' ')
+  
+"
+94,A,Python3,60707063,2023-02-01 15:08:10,牛客660948461号,答案错误,"t=int(input())
+
+for x in range(t):
+    n =int(input())
+    
+    h=list(map(int,input().split()))
+    
+    a,k,b= map(int,input().split())
+    m=int(input())
+    for j in range(m-1):
+        for i in h:
+            i= i + a
+            if i >k:
+                i=b
+            print(i,sep=' ')
+  
+"
+95,A,Python3,60707101,2023-02-01 15:08:30,牛客660948461号,答案错误,"t=int(input())
+
+for x in range(t):
+    n =int(input())
+    
+    h=list(map(int,input().split()))
+    
+    a,k,b= map(int,input().split())
+    m=int(input())
+    for j in range(m-1):
+        for i in h:
+            i= i + a
+            if i >k:
+                i=b
+            print(i,sep=' ')
+  
+"
+96,A,Python3,60707208,2023-02-01 15:09:29,牛客660948461号,答案错误,"t=int(input())
+
+for x in range(t):
+    n =int(input())
+    
+    h=list(map(int,input().split()))
+    
+    a,k,b= map(int,input().split())
+    m=int(input())
+    for j in range(m-1):
+        for i in h:
+            i= i + a
+            if i >k:
+                i=b
+            print(i)
+  
+"
+97,A,Python3,60707283,2023-02-01 15:10:01,牛客660948461号,答案错误,"t=int(input())
+
+for x in range(t):
+    n =int(input())
+    
+    h=list(map(int,input().split()))
+    
+    a,k,b= map(int,input().split())
+    m=int(input())
+    for j in range(m-1):
+        for i in h:
+            i= i + a
+            if i >k:
+                i=b
+            print(i,end=' ')
+  
+"
+98,A,Python3,60707469,2023-02-01 15:11:42,牛客660948461号,执行出错,"t=int(input())
+
+for x in range(t):
+    n =int(input())
+    
+    h=list(map(int,input().split()))
+    
+    a,k,b= map(int,input().split())
+    m=int(input())
+        for i in h:
+            i= i + a*(m-1)
+            if i >k:
+                i=b
+            print(i,end=' ')
+  
+"
+99,A,Python3,60707493,2023-02-01 15:11:53,牛客660948461号,答案错误,"t=int(input())
+
+for x in range(t):
+    n =int(input())
+    
+    h=list(map(int,input().split()))
+    
+    a,k,b= map(int,input().split())
+    m=int(input())
+    for i in h:
+        i= i + a*(m-1)
+        if i >k:
+            i=b
+        print(i,end=' ')
+
+"
+100,A,Python3,60707637,2023-02-01 15:12:49,牛客660948461号,答案错误,"t=int(input())
+
+for x in range(t):
+    n =int(input())
+    
+    h=list(map(int,input().split()))
+    
+    a,k,b= map(int,input().split())
+    m=int(input())
+    for i in h:
+        i= i + a*(m-1)
+        if i >k:
+            i=b
+        #print(i,end=' ')
+        print(i)
+
+"
+101,A,Python3,60707711,2023-02-01 15:13:26,牛客660948461号,答案错误,"t=int(input())
+
+for x in range(t):
+    n =int(input())
+    
+    h=list(map(int,input().split()))
+    
+    a,k,b= map(int,input().split())
+    m=int(input())
+    for i in h:
+        i= i + a*(m-1)
+        if i >k:
+            i=b
+        print(i,end=' ')
+    print(i)
+
+"
+102,A,Python3,60707723,2023-02-01 15:13:33,牛客660948461号,答案错误,"t=int(input())
+
+for x in range(t):
+    n =int(input())
+    
+    h=list(map(int,input().split()))
+    
+    a,k,b= map(int,input().split())
+    m=int(input())
+    for i in h:
+        i= i + a*(m-1)
+        if i >k:
+            i=b
+        print(i,end=' ')
+    print()
+
+"
+103,A,Python3,60707777,2023-02-01 15:13:58,牛客660948461号,答案错误,"t=int(input())
+
+for x in range(t):
+    n =int(input())
+    
+    h=list(map(int,input().split()))
+    
+    a,k,b= map(int,input().split())
+    m=int(input())
+    for i in h:
+        i= i + a*(m-1)
+        if i >k:
+            i=b
+        print(i,end=' ')
+    print( )
+
+"
+104,A,Python3,60707939,2023-02-01 15:15:14,牛客660948461号,答案错误,"t=int(input())
+for x in range(t):
+    n =int(input())
+    
+    h=list(map(int,input().split()))
+    
+    a,k,b= map(int,input().split())
+    m=int(input())
+    for i in h:
+        i= i + a*(m-1)
+        if i >k:
+            i=b
+        print(i,end='')
+    print( )
+
+"
+105,A,Python3,60708756,2023-02-01 15:22:00,牛客660948461号,答案正确,"t=int(input())
+for x in range(t):
+    n =int(input())
+    h=list(map(int,input().split()))
+    a,k,b= map(int,input().split())
+    m=int(input())
+    
+    for i in h:
+        #i= i + a*(m-1)
+        for j in range(m-1):
+            i=i+a
+            if i >k:
+                i=b
+        print(i,end=' ')
+    print( )
+
+"
+106,A,Python3,60709385,2023-02-01 15:27:15,牛客660948461号,答案正确,"t=int(input())
+for x in range(t):
+    n =int(input())
+    h=list(map(int,input().split()))
+    a,k,b= map(int,input().split())
+    m=int(input())
+    
+    for i in h:
+        #i= i + a*(m-1) 用这个表达式直接计算，通不过，用下面的for循环就行，暂不清楚原因
+        for j in range(m-1):
+            i=i+a
+            if i >k:
+                i=b
+        print(i,end=' ')  #使得单个案例中第m天树的高度在一行中以逗号分隔
+    print( ) #这行作用是将不同案列换行区分开，否则所有案例数据都会排在一行，不符题意
+
+"

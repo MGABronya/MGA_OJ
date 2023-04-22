@@ -1,0 +1,1399 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,B,Python3,60966744,2023-02-24 19:07:23,刘雨晖,答案错误,"import sys
+input = sys.stdin.readline
+import random
+import math
+from collections import namedtuple as np
+from collections import defaultdict as ded
+from operator import attrgetter
+from collections import Counter as CT
+from queue import PriorityQueue as PQ
+from itertools import permutations as PE
+mod=1000000007
+
+#n=int(input())
+#n,m=map(int,input().split())
+#a=list(map(int,input().split()))
+#d=ded(lambda: 0)
+
+
+
+def solve():
+    m,q=map(int,input().split())
+    st=[]
+    f=[1]*(m+1)
+    for T in range(q):
+        op,num=map(int,input().split())
+        if op==1:
+            st.append(num)
+            f[num]=0
+            ans=0
+            for i in range(1,m+1):
+                if f[i] and (i+3 in st or i-3 in st):
+                    ans+=1
+            print(ans)
+        else:
+            st.remove(num)
+            ans=0
+            for i in range(1,m+1):
+                if f[i] and (i+3 in st or i-3 in st):
+                    ans+=1
+            print(ans)
+
+
+
+
+if __name__==""__main__"":
+    solve()"
+1,B,Python3,60966820,2023-02-24 19:08:12,Garett,答案错误,"n,q=map(int,input().split())
+ans=[]
+cnt=[0]*(n+1)
+for i in range(q):
+    op,num=map(int,input().split())
+    if op==1:
+        cnt[num]+=1
+    else:
+        cnt[num]-=1
+    cur=0
+    for i in range(1,n):
+        flag=False
+        if i-3>=1:
+            flag|=cnt[i-3]>0
+        if i+3<=n:
+            flag|=cnt[i+3]>0
+        if flag:
+            cur+=1
+    ans.append(str(cur))
+print('\n'.join(ans))
+"
+2,B,Python3,60966828,2023-02-24 19:08:19,刘雨晖,答案正确,"import sys
+input = sys.stdin.readline
+import random
+import math
+from collections import namedtuple as np
+from collections import defaultdict as ded
+from operator import attrgetter
+from collections import Counter as CT
+from queue import PriorityQueue as PQ
+from itertools import permutations as PE
+mod=1000000007
+
+#n=int(input())
+#n,m=map(int,input().split())
+#a=list(map(int,input().split()))
+#d=ded(lambda: 0)
+
+
+
+def solve():
+    m,q=map(int,input().split())
+    st=[]
+    for T in range(q):
+        op,num=map(int,input().split())
+        if op==1:
+            st.append(num)
+            ans=0
+            for i in range(1,m+1):
+                if (i+3 in st or i-3 in st):
+                    ans+=1
+            print(ans)
+        else:
+            st.remove(num)
+            ans=0
+            for i in range(1,m+1):
+                if (i+3 in st or i-3 in st):
+                    ans+=1
+            print(ans)
+
+
+
+
+if __name__==""__main__"":
+    solve()"
+3,B,Python3,60966975,2023-02-24 19:09:34,Garett,答案错误,"n,q=map(int,input().split())
+ans=[]
+cnt=[0]*(n+1)
+for i in range(q):
+    op,num=map(int,input().split())
+    if op==1:
+        cnt[num]+=1
+    else:
+        cnt[num]-=1
+    cur=0
+    for j in range(1,n):
+        flag=False
+        if j-3>=1:
+            flag|=cnt[j-3]>0
+        if j+3<=n:
+            flag|=cnt[j+3]>0
+        if flag:
+            cur+=1
+    ans.append(str(cur))
+print('\n'.join(ans))
+"
+4,B,Python3,60967007,2023-02-24 19:09:49,Garett,答案正确,"n,q=map(int,input().split())
+ans=[]
+cnt=[0]*(n+1)
+for i in range(q):
+    op,num=map(int,input().split())
+    if op==1:
+        cnt[num]+=1
+    else:
+        cnt[num]-=1
+    cur=0
+    for j in range(1,n+1):
+        flag=False
+        if j-3>=1:
+            flag|=cnt[j-3]>0
+        if j+3<=n:
+            flag|=cnt[j+3]>0
+        if flag:
+            cur+=1
+    ans.append(str(cur))
+print('\n'.join(ans))
+"
+5,B,Python3,60967185,2023-02-24 19:11:37,zxcv0112358,答案正确,"m,q=map(int,input().split())
+d=dict()
+for qcase in range(0,q,1):
+    op,num=map(int,input().split())
+    if op==1:
+        if num not in d:
+            d[num]=1
+        else:
+            d[num]+=1
+    elif op==2:
+        if num not in d:
+            d[num]=-1
+        else:
+            d[num]-=1
+    s=set()
+    for key in d:
+        if d[key]>0:
+            if key+3<=m:
+                s.add(key+3)
+            if key-3>=1:
+                s.add(key-3)
+#     print(s)
+    print(len(s))
+        "
+6,B,Python3,60967321,2023-02-24 19:12:59,摆渡人和211,答案正确,"s = input().split()
+m = int(s[0])
+q = int(s[1])
+ans = [0]*(m+1)
+for i in range(0,q):
+    s = input().split()
+    op = int(s[0])
+    num = int(s[1])
+    if op == 1:
+        ans[num]+=1
+    else:
+        ans[num]-=1
+    ret = 0
+    for i in range(1,m+1):
+        if i-3 > 0:
+            if ans[i-3] > 0:
+                ret+=1
+                continue
+        if i+3 <= m:
+            if ans[i+3] > 0:
+                ret+=1
+#         for j in range(max(1,i-3),min(m,i+3)+1):
+#             if ans[i] > 0:
+#                 ret+=1
+#                 break
+    print(ret)
+                "
+7,B,Python3,60967484,2023-02-24 19:14:30,GHOSTANDBREAD,答案正确,"import sys
+a = [0] * 110
+m, q = map(int, sys.stdin.readline().split())
+
+for _ in range(q):
+    op, num = map(int, sys.stdin.readline().split())
+    if op == 1:
+        tmp1 = num - 3; tmp2 = num + 3
+        if tmp1 >= 1 and tmp1 <= m: a[tmp1] += 1
+        if tmp2 >= 1 and tmp2 <= m: a[tmp2] += 1
+        res = 0 
+        for i in range(1, m + 1):
+            if a[i] != 0: res += 1
+        print(res)
+    elif op == 2:
+        tmp1 = num - 3; tmp2 = num + 3
+        if tmp1 >= 1 and tmp1 <= m: a[tmp1] -= 1
+        if tmp2 >= 1 and tmp2 <= m: a[tmp2] -= 1
+        res = 0 
+        for i in range(1, m + 1): 
+            if a[i] != 0: res += 1
+        print(res)
+        
+        
+        
+        "
+8,B,Python3,60967672,2023-02-24 19:16:31,书生alin,答案正确,"m, q = map(int, input().split())
+lis = []
+for i in range(q):
+    safe = []
+    op, num = map(int, input().split())
+    if op == 1:
+        lis.append(num)
+    else:
+        lis[lis.index(num)] = -1
+    for j in range(1, m+1):
+        a = j+3
+        b = j-3
+        if a <= 0 or a>m:
+            a = -10
+        if b<=0 or b>m:
+            b=-10
+        if (a in lis) or (b in lis):
+            safe.append(j)
+    print(len(safe))
+        
+    "
+9,B,Python3,60968119,2023-02-24 19:21:16,牛客481337953号,答案正确,"c = 0
+m, n = map(int, input().split())
+d = [0] * (m + 3)
+for _ in range(n):
+    a, b = map(int, input().split())
+    l, r = b - 3, b + 3
+    if a == 1:
+        if l >= 1:
+            if d[l] == 0:
+                c += 1
+            d[l] += 1
+        if r <= m:
+            if d[r] == 0:
+                c += 1
+            d[r] += 1
+    else:
+        if l >= 1:
+            if d[l] == 1:
+                c -= 1
+            d[l] -= 1
+        if r <= m:
+            if d[r] == 1:
+                c -= 1
+            d[r] -= 1
+    print(c)"
+10,B,Python3,60968933,2023-02-24 19:29:49,謝拾叁,答案错误,"m,q = map(int,input().split())
+book = [0 for i in range(m+100)]
+cnt = 0
+for i in range(q):
+    op,num = map(int,input().split())
+    for j in [num-3,num+3]:
+        if j > m or j < 1:
+            break
+        if op == 1:
+            if book[j] == 0:
+                cnt += 1
+            book[j] += 1
+        else:
+            if book[j] == 1:
+                cnt -= 1
+            book[j] -= 1
+    print(cnt)
+
+    "
+11,B,Python3,60969147,2023-02-24 19:32:21,Fei_xiangShi,执行出错,"m,q = map(int,input().split())
+paihe = []
+safe = []
+for _ in range(q):
+    op, num = map(int,input().split())
+    if op == 1:
+        safe.append(num+3)
+        safe.append(num-3)
+    else:
+        safe.remove(num+3)
+        safe.remove(num-3)
+    safe = [x for x in safe if x > 0 and x < m]
+    print(len(set(safe)))"
+12,B,Python3,60969293,2023-02-24 19:34:01,Fei_xiangShi,答案错误,"m,q = map(int,input().split())
+paihe = []
+safe = []
+for _ in range(q):
+    op, num = map(int,input().split())
+    if op == 1:
+        safe.append(num+3)
+        safe.append(num-3)
+    else:
+        safe.remove(num+3)
+        safe.remove(num-3)
+    print(len(set([x for x in safe if x > 0 and x < m])))"
+13,B,Python3,60969303,2023-02-24 19:34:05,謝拾叁,答案正确,"m,q = map(int,input().split())
+book = [0 for i in range(m+100)]
+cnt = 0
+for i in range(q):
+    op,num = map(int,input().split())
+    for j in [num-3,num+3]:
+        if j > m or j < 1:
+            continue
+        if op == 1:
+            if book[j] == 0:
+                cnt += 1
+            book[j] += 1
+        else:
+            if book[j] == 1:
+                cnt -= 1
+            book[j] -= 1
+    print(cnt)
+
+    "
+14,B,Python3,60969369,2023-02-24 19:34:46,Fei_xiangShi,答案正确,"m,q = map(int,input().split())
+paihe = []
+safe = []
+for _ in range(q):
+    op, num = map(int,input().split())
+    if op == 1:
+        safe.append(num+3)
+        safe.append(num-3)
+    else:
+        safe.remove(num+3)
+        safe.remove(num-3)
+    print(len(set([x for x in safe if x > 0 and x <= m])))"
+15,B,Python3,60969386,2023-02-24 19:34:59,zxcv0112358,答案正确,"m,q=map(int,input().split())
+
+from collections import defaultdict
+d = defaultdict(int)
+# d=dict()
+
+
+
+for qcase in range(0,q,1):
+    op,num=map(int,input().split())
+    if op==1:
+        if num not in d:
+            d[num]=1
+        else:
+            d[num]+=1
+    elif op==2:
+        if num not in d:
+            d[num]=-1
+        else:
+            d[num]-=1
+    s=set()
+    for key in d:
+        if d[key]>0:
+            if key+3<=m:
+                s.add(key+3)
+            if key-3>=1:
+                s.add(key-3)
+#     print(s)
+    print(len(s))
+        "
+16,B,Python3,60969414,2023-02-24 19:35:17,牛客396138626号,答案正确,"m,q = map(int,input().split())
+s = range(1,m+1)
+l = []
+for i in range(q):
+    op,num = map(int,input().split())
+    ans = 0
+    if op==1:
+        l.append(num)
+    else:
+        l.remove(num)
+    t = set()
+    for j in l:
+        
+        a = j-3
+        b = j+3
+        if a in s:
+            t.add(a)
+        if b in s:
+            t.add(b)
+    print(len(t))"
+17,B,Python3,60970051,2023-02-24 19:42:28,KevinSo,答案正确,"v = [0] * 205
+
+def add(x, n):
+    if x < 1 or x > n:
+        return 0
+    v[x] += 1
+    if v[x] == 1:
+        return 1
+    return 0
+
+def suf(x, n):
+    if x < 1 or x > n:
+        return 0
+    v[x] -= 1
+    if v[x] == 0:
+        return 1
+    return 0
+    
+if __name__ == ""__main__"":
+    ans = 0
+    n, q = map(int, input().split())
+    while q > 0:
+        q -= 1
+        a, b = map(int, input().split())
+        if a == 1:
+            ans += add(b + 3, n)
+            ans += add(b - 3, n)
+        else:
+            ans -= suf(b + 3, n)
+            ans -= suf(b - 3, n)
+        print(ans)
+            "
+18,B,Python3,60970690,2023-02-24 19:50:20,牛客213363272号,答案正确,"m, q = map(int, input().split())
+s = [0] * 105
+k = set()
+for _ in range(q):
+    op, num = map(int, input().split())
+    if op == 1:
+        s[num + 3] += 1
+        if num - 3 >= 0:
+            s[num - 3] += 1
+        k.add(num + 3)
+        k.add(num - 3)
+    else:
+        s[num + 3] -= 1
+        if num - 3 >= 0:
+            s[num - 3] -= 1
+    ans = 0
+    for i in k:
+        if 1 <= i <= m and s[i] > 0:
+            ans += 1
+    print(ans)
+"
+19,B,Python3,60970762,2023-02-24 19:51:15,牛客545811652号,答案错误,"m,p=map(int,input().split())
+a=[]
+b=[]
+for i in range(1,m+1):
+    a.append(i)
+for i in range(p):
+    op,num=map(int,input().split())
+    if op==1:
+        b.append(num)
+    elif op==2:
+        b.remove(num)
+    count=0
+    for i in a:
+        if i-3 in b:
+            count+=1
+        elif i+3 in b:
+            count+=1
+    print(count)
+    if b==[]:
+        print(1)"
+20,B,Python3,60971126,2023-02-24 19:56:18,牛客545811652号,答案错误,"m,p=map(int,input().split())
+a=[]
+b=[]
+c=[]
+for i in range(1,m+1):
+    a.append(i)
+for i in range(p):
+    caozuo=list(map(int,input().split()))
+    c.append(caozuo)
+for i in c:
+
+    if i[0]==1:
+        b.append(i[1])
+    elif i[0]==2:
+        b.remove(i[1])
+    count=0
+    for j in a:
+        if j-3 in b:
+            count+=1
+        elif j+3 in b:
+            count+=1
+    print(count)
+    if b==[]:
+        print(1)"
+21,B,Python3,60971333,2023-02-24 19:59:03,牛客545811652号,答案正确,"m,p=map(int,input().split())
+a=[]
+b=[]
+c=[]
+for i in range(1,m+1):
+    a.append(i)
+for i in range(p):
+    caozuo=list(map(int,input().split()))
+    c.append(caozuo)
+for i in c:
+
+    if i[0]==1:
+        b.append(i[1])
+    elif i[0]==2:
+        b.remove(i[1])
+    count=0
+    for j in a:
+        if j-3 in b:
+            count+=1
+        elif j+3 in b:
+            count+=1
+    print(count)"
+22,B,Python3,60971424,2023-02-24 20:00:02,aaaacme,答案正确,"def safe(m,card:list):
+    sc=[]
+    for i in range(len(card)):
+        if card[i]-3>=1 and card[i]+3<=m:
+            sc.append(card[i]-3)
+            sc.append(card[i]+3)
+        elif card[i]-3>=1:
+            sc.append(card[i]-3)
+        elif card[i]+3<=m:
+            sc.append(card[i]+3)
+    sc_res=[]
+    for i in sc:
+        if i not in sc_res:
+            sc_res.append(i)
+    return len(sc_res)
+m,q=input().split()
+m=int(m)
+q=int(q)
+scc=[]
+for _ in range(q):
+    op,num=input().split()
+    op=int(op)
+    num=int(num)
+    if op==1:
+        scc.append(num)
+    else:
+        scc.remove(num)
+    print(safe(m,scc))"
+23,B,Python3,60973188,2023-02-24 20:23:59,牛客616043488号,答案错误,"m,q=map(int,input().split())
+lst=[]
+lst2=[]
+l3=[]
+for i in range(q):
+    op,num=map(int,input().split())
+    if op==1:
+        lst.append(num)
+    elif op==2:
+        lst.remove(num)
+    safe = num+3
+    safe1 = num-3
+    if safe not in lst2 and safe <= m:
+        lst2.append(safe)
+    if safe1 not in lst2 and safe1 >= 0:
+        lst2.append(safe1)
+    for j in lst2:
+        if(j+3) in lst or (j-3) in lst:
+            pass
+        else:
+            lst2.remove(j)
+    l3.append(len(lst2))
+print(*l3,sep='\n')"
+24,B,Python3,60973234,2023-02-24 20:24:57,牛客616043488号,答案错误,"m,q=map(int,input().split())
+lst=[]
+lst2=[]
+l3=[]
+for i in range(q):
+    op,num=map(int,input().split())
+    if op==1:
+        lst.append(num)
+    elif op==2:
+        lst.remove(num)
+    safe = num+3
+    safe1 = num-3
+    if safe not in lst2 and safe <= m:
+        lst2.append(safe)
+    if safe1 not in lst2 and safe1 >= 0:
+        lst2.append(safe1)
+    for j in lst2:
+        if(j+3) in lst or (j-3) in lst:
+            pass
+        else:
+            lst2.remove(j)
+    l3.append(len(lst2))
+print(*l3,sep='\n')"
+25,B,Python3,60973317,2023-02-24 20:26:06,牛客616043488号,答案错误,"m,q=map(int,input().split())
+lst=[]
+lst2=[]
+l3=[]
+for i in range(q):
+    op,num=map(int,input().split())
+    if op==1:
+        lst.append(num)
+    elif op==2:
+        lst.remove(num)
+    safe = num+3
+    safe1 = num-3
+    if safe not in lst2 and safe <= m:
+        lst2.append(safe)
+    if safe1 not in lst2 and safe1 > 0:
+        lst2.append(safe1)
+    for j in lst2:
+        if(j+3) in lst or (j-3) in lst:
+            pass
+        else:
+            lst2.remove(j)
+    l3.append(len(lst2))
+print(*l3,sep='\n')"
+26,B,Python3,60973387,2023-02-24 20:27:03,牛客616043488号,答案正确,"m,p=map(int,input().split())
+a=[]
+b=[]
+c=[]
+for i in range(1,m+1):
+    a.append(i)
+for i in range(p):
+    caozuo=list(map(int,input().split()))
+    c.append(caozuo)
+for i in c:
+
+    if i[0]==1:
+        b.append(i[1])
+    elif i[0]==2:
+        b.remove(i[1])
+    count=0
+    for j in a:
+        if j-3 in b:
+            count+=1
+        elif j+3 in b:
+            count+=1
+    print(count)"
+27,B,Python3,60974013,2023-02-24 20:37:36,真的离谱,答案错误,"m,q=map(int,input().split())
+ls=[]
+for i in range(q):
+    kp=[]
+    res=0
+    a,b=map(int,input().split())
+    if(a==1):
+        ls.append(b)
+    else:
+        ls.remove(b)
+    k=list(set(ls))
+    for i in range(len(k)):
+        if(k[i]-3>=1 and ((k[i]-3) not in kp)):
+            res+=1
+            kp.append(k[i]-3)
+        if(k[i]+3<=m and ((k[i]+3) not in kp)):
+            res+=1
+    print(res)
+            
+        "
+28,B,Python3,60974171,2023-02-24 20:40:44,真的离谱,答案正确,"m,q=map(int,input().split())
+ls=[]
+for i in range(q):
+    kp=[]
+    res=0
+    a,b=map(int,input().split())
+    if(a==1):
+        ls.append(b)
+    else:
+        ls.remove(b)
+    k=list(set(ls))
+    for i in range(len(k)):
+        if(k[i]-3>=1 and ((k[i]-3) not in kp)):
+            res+=1
+            kp.append(k[i]-3)
+        if(k[i]+3<=m and ((k[i]+3) not in kp)):
+            res+=1
+            kp.append(k[i]+3)
+    print(res)
+            
+        
+            
+        "
+29,B,Python3,60975081,2023-02-24 20:54:41,真的离谱,答案正确,"# m,q=map(int,input().split())
+# ls=[]
+# for i in range(q):
+#     kp=[]
+#     res=0
+#     a,b=map(int,input().split())
+#     if(a==1):
+#         ls.append(b)
+#     else:
+#         ls.remove(b)
+#     k=list(set(ls))
+#     for i in range(len(k)):
+#         if(k[i]-3>=1 and ((k[i]-3) not in kp)):
+#             res+=1
+#             kp.append(k[i]-3)
+#         if(k[i]+3<=m and ((k[i]+3) not in kp)):
+#             res+=1
+#             kp.append(k[i]+3)
+#     print(res)
+
+m,q=map(int,input().split())
+ls=[]
+for i in range(q):
+    kp=[]
+    res=0
+    a,b=map(int,input().split())
+    if(a==1):
+        ls.append(b)
+    else:
+        ls.remove(b)
+    k=list(set(ls))
+    for i in range(len(k)):
+        if(k[i]-3>=1):
+            res+=1
+        if(k[i]+3<=m):
+            res+=1
+    for i in k:
+        if((i+6) in ls):
+            res-=1
+    print(res)
+            
+        
+            
+        
+            
+        "
+30,B,Python3,60977194,2023-02-24 21:59:10,Spinoza7,执行出错,"#include<bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+const int N=3e5+10;
+const int mod=1000000007;
+#define FORfront(i,x,y) for(ll i=x;i<=y;i++)
+#define FORback(i,x,y) for (ll i=x;i>=y;i--)
+void solve(){
+	ll m,q;
+	cin>>m>>q;
+	ll cnt=0;
+	vector<ll> exist(m+1);
+	while(q--){
+		ll op,num;
+		cin>>op>>num;
+		if (op==1){
+			ll back=num-3;
+			ll front=num+3;
+			if (back>=1&&back<=m){
+				exist[back]++;
+				if (exist[back]==1)
+					cnt++;
+			}
+			if (front>=1&&front<=m){
+				exist[front]++;
+				if (exist[front]==1)
+					cnt++;
+			}
+			cout<<cnt<<'\n';
+		}
+		else{
+			ll back=num-3;
+			ll front=num+3;
+			if (back>=1&&back<=m){
+				exist[back]--;
+				if (exist[back]==0)
+					cnt--;
+			}
+			if (front>=1&&front<=m){
+				exist[front]--;
+				if (exist[front]==0)
+					cnt--;
+			}
+			cout<<cnt<<'\n';
+		}
+	}
+	return;
+}
+
+int main(){
+	ios::sync_with_stdio(false);
+	cin.tie(nullptr);
+	//cout<<fixed<<setprecision(8);
+	int t=1;
+	//cin>>t;
+	while(t--)
+		solve();
+	return 0;
+}"
+31,B,Python3,60978222,2023-02-24 23:19:19,正在卷的艾伦很能干,答案错误,"m,q = map(int,input().split())
+s = []
+for i in range(q):
+    b = []
+    op,num = map(int,input().split())
+    if op == 1:
+        s.append(num)
+    else:
+        s.remove(num)
+    t = list(set(s.copy()))
+    for i in t:
+        if 0<i+3<=10 :
+            b.append(i+3)
+        if 0 < i-3 <= 10:
+            b.append(i-3)
+    b = list(set(b))
+    print(len(b))"
+32,B,Python3,60978280,2023-02-24 23:25:33,正在卷的艾伦很能干,答案错误,"m,q = map(int,input().split())
+s = []
+for i in range(q):
+    b = []
+    op,num = map(int,input().split())
+    if op == 1:
+        s.append(num)
+    else:
+        s.remove(num)
+    for i in s:
+        if 0<i+3<=10 :
+            b.append(i+3)
+        if 0 < i-3 <= 10:
+            b.append(i-3)
+    b = list(set(b))
+    print(len(b))"
+33,B,Python3,60980173,2023-02-25 11:18:19,大大业,执行出错,"m, q = map(int, input().split())
+
+check = [0 for _ in range(103)]
+ans = 0
+
+while q > 0:
+    q -= 1
+    ans = 0
+    op, num = map(int, input().split())
+    if op == 1:
+        check[num] += 1
+    else:
+        check[num] -= 1
+    for i in range(1, 4):
+        if check[i+3] > 0: ans += 1
+    for i in range(4, m+1):
+        if check[i-3] or check[i+3]: ans += 1
+    print(ans)"
+34,B,Python3,60980178,2023-02-25 11:18:35,大大业,答案正确,"m, q = map(int, input().split())
+
+check = [0 for _ in range(110)]
+ans = 0
+
+while q > 0:
+    q -= 1
+    ans = 0
+    op, num = map(int, input().split())
+    if op == 1:
+        check[num] += 1
+    else:
+        check[num] -= 1
+    for i in range(1, 4):
+        if check[i+3] > 0: ans += 1
+    for i in range(4, m+1):
+        if check[i-3] or check[i+3]: ans += 1
+    print(ans)"
+35,B,Python3,60999075,2023-02-26 21:09:58,许大大1,答案正确,"m,q = map(int,input().split())
+c = []
+t = 0
+for i in range(q):
+    a,b = map(int,input().split())
+    if a == 1:
+        c.append(b)    
+    elif a==2:
+        c.remove(b)
+    for j in range(1,m+1):
+            if j+3 in c:
+                t+=1
+            elif j-3 in c:
+                t+=1
+    print(t)
+    t = 0"
+36,B,Python3,61010759,2023-02-28 11:36:42,牛客810746421号,执行出错,"m, q = map(int, input().split())
+safe_count = 0
+cards = set()
+
+for i in range(1, m+1):
+    cards.add(i)
+
+def is_safe(card, oppo_hand):
+    return (card - 3 in oppo_hand or card + 3 in oppo_hand)
+
+oppo_hand = set()
+
+for i in range(q):
+    op, card = input().split()
+    card = int(card)
+    if op == 'ADD':
+        oppo_hand.add(card)
+    else:
+        oppo_hand.remove(card)
+    safe_count = sum([is_safe(card, oppo_hand) for card in cards])
+    print(safe_count)
+"
+37,B,Python3,61019484,2023-02-28 19:01:22,Python-Rookie,答案正确,"m,q=map(int,input().split())
+ans=0
+mp=dict()
+while q>0:
+    q-=1
+    op,num=map(int,input().split())
+    if op==1:
+        if num-3>=1 and num-3<=m:
+            if mp.__contains__(num - 3):
+                mp[num - 3] += 1
+            else:
+                mp[num - 3] = 1
+                ans += 1
+        if num+3>=1 and num+3<=m:
+            if mp.__contains__(num + 3):
+                mp[num + 3] += 1
+            else:
+                mp[num + 3] = 1
+                ans += 1
+    else:
+        if num-3>=1 and num-3<=m:
+            if mp[num - 3] == 1:
+                mp.__delitem__(num - 3)
+                ans -= 1
+            else:
+                mp[num - 3] -= 1
+        if num+3>= 1 and num+3<=m:
+            if mp[num + 3] == 1:
+                mp.__delitem__(num + 3)
+                ans -= 1
+            else:
+                mp[num + 3] -= 1
+    print(ans)
+
+"
+38,B,Python3,61034819,2023-03-02 00:20:18,AsunaTaisiki,答案正确,"m, q = map(int, input().split())
+a = [0] * (m + 10)
+cnt = [0] * (m + 10)
+while q > 0 :
+    op, num = map(int, input().split())
+    if op == 1 :
+        cnt[num] = cnt[num] + 1
+        if num - 3 >= 1 :
+            a[num - 3] = a[num - 3] + 1
+        a[num + 3] = a[num + 3] + 1
+    else :
+        if num - 3 >= 1 :
+            a[num - 3] = a[num - 3] - 1
+        a[num + 3] = a[num + 3] - 1
+    ans = 0
+    for i in range(1, m + 1) :
+        if a[i] >= 1 :
+            #print(i, end = "" ****** "")
+            ans = ans + 1
+    print(ans)
+    q = q - 1"
+39,B,Python3,61128744,2023-03-07 23:59:59,虚无xw,执行出错,"m,q=map(int,input().split())
+x=[]
+def jj(a,b,args=[]):
+    if a==1:
+        args.append(b)
+    elif a==2:
+        l=args.index(b)
+        args.pop(l)
+    return args
+def aq(args=[]):
+    aqs=[]
+    for i in args:
+        a=i+3
+        b=i-3
+        aqs.append(a)
+        aqs.append(b)
+    aqs.reverse()
+    for i in range(len(aqs)):
+        if aqs[i]<=0:
+            aqs=aqs[:i]
+    aqs.sort()
+    for i in range(len(aqs)):
+        if aqs[i]>m:
+            aqs=aqs[:i]
+    aqs=list(set(list(aqs)))
+    return aqs
+tt=[]
+for i in range(q):
+    x=[]
+    op,oq=map(int,input().split())
+    tt=jj(op,oq,tt)
+    aqs=aq(tt)
+    #print(aqs)
+    yy=len(aqs)
+    print(yy)"
+40,B,Python3,61128770,2023-03-08 00:04:20,虚无xw,执行出错,"m,q=map(int,input().split())
+x=[]
+def jj(a,b,args=[]):
+    if a==1:
+        args.append(b)
+    elif a==2:
+        l=args.index(b)
+        args.pop(l)
+    return args
+def aq(args=[]):
+    aqs=[]
+    for i in args:
+        a=i+3
+        b=i-3
+        aqs.append(a)
+        aqs.append(b)
+    aqs.reverse()
+    for i in aqs:
+        if i<=0:
+            ii=aqs.index(i)
+            aqs=aqs[:ii
+    aqs.sort()
+    for i in range(len(aqs)):
+        if aqs[i]>m:
+            aqs=aqs[:i]
+    aqs=list(set(list(aqs)))
+    return aqs
+tt=[]
+for i in range(q):
+    x=[]
+    op,oq=map(int,input().split())
+    tt=jj(op,oq,tt)
+    aqs=aq(tt)
+    print(tt)
+    yy=len(aqs)
+    print(yy)"
+41,B,Python3,61128774,2023-03-08 00:05:28,虚无xw,执行出错,"m,q=map(int,input().split())
+x=[]
+def jj(a,b,args=[]):
+    if a==1:
+        args.append(b)
+    elif a==2:
+        l=args.index(b)
+        args.pop(l)
+    return args
+def aq(args=[]):
+    aqs=[]
+    for i in args:
+        a=i+3
+        b=i-3
+        aqs.append(a)
+        aqs.append(b)
+    aqs.reverse()
+    for i in aqs:
+        if i<=0:
+            ii=aqs.index(i)
+            aqs=aqs[:ii]
+    aqs.sort()
+    for i in aqs:
+        if i>m:
+            ii=aqs.index(i)
+            aqs=aqs[:ii]
+    aqs=list(set(list(aqs)))
+    return aqs
+tt=[]
+for i in range(q):
+    x=[]
+    op,oq=map(int,input().split())
+    tt=jj(op,oq,tt)
+    aqs=aq(tt)
+    #print(tt)
+    yy=len(aqs)
+    print(yy)"
+42,B,Python3,61128812,2023-03-08 00:13:48,虚无xw,答案正确,"m, q = map(int, input().split())
+a = [0] * (m + 10)
+cnt = [0] * (m + 10)
+while q > 0 :
+    op, num = map(int, input().split())
+    if op == 1 :
+        cnt[num] = cnt[num] + 1
+        if num - 3 >= 1 :
+            a[num - 3] = a[num - 3] + 1
+        a[num + 3] = a[num + 3] + 1
+    else :
+        if num - 3 >= 1 :
+            a[num - 3] = a[num - 3] - 1
+        a[num + 3] = a[num + 3] - 1
+    ans = 0
+    for i in range(1, m + 1) :
+        if a[i] >= 1 :
+            ans = ans + 1
+    print(ans)
+    q = q - 1"
+43,B,Python3,61150158,2023-03-09 23:44:12,阿来想AC,答案正确,"m,q = input().split(' ')
+m,q = int(m),int(q)
+river = []
+for i in range(q):
+    result = []
+    op,num = input().split(' ')
+    if op == '1':
+        river.append(int(num))
+    if op == '2':
+        river.remove(int(num))
+    for i in river:
+        if i+3<=m:
+            result.append(i+3)
+        if i-3>0:
+            result.append(i-3)
+    print(len(set(result)))"
+44,B,Python3,61279902,2023-03-14 11:14:42,ZhongHaoWang,答案正确,"import sys, collections, math, bisect, heapq, random, functools, io, os, copy
+from heapq import *
+from io import BytesIO, IOBase
+ 
+sys.setrecursionlimit(100000)
+BUFSIZE = 4096
+ 
+mod1,mod2 = 10 ** 15 + 7,998244353
+class FastIO(IOBase):
+    newlines = 0
+ 
+    def __init__(self, file):
+        self._fd = file.fileno()
+        self.buffer = BytesIO()
+        self.writable = ""x"" in file.mode or ""r"" not in file.mode
+        self.write = self.buffer.write if self.writable else None
+ 
+    def read(self):
+        while True:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            if not b:
+                break
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines = 0
+        return self.buffer.read()
+ 
+    def readline(self):
+        while self.newlines == 0:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            self.newlines = b.count(b""\n"") + (not b)
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines -= 1
+        return self.buffer.readline()
+ 
+    def flush(self):
+        if self.writable:
+            os.write(self._fd, self.buffer.getvalue())
+            self.buffer.truncate(0), self.buffer.seek(0)
+ 
+ 
+class IOWrapper(IOBase):
+    def __init__(self, file):
+        self.buffer = FastIO(file)
+        self.flush = self.buffer.flush
+        self.writable = self.buffer.writable
+        self.write = lambda s: self.buffer.write(s.encode(""ascii""))
+        self.read = lambda: self.buffer.read().decode(""ascii"")
+        self.readline = lambda: self.buffer.readline().decode(""ascii"")
+ 
+ 
+sys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)
+input = lambda: sys.stdin.readline().rstrip(""\r\n"")
+ 
+ 
+def rep():
+    a = list(map(int, input().split()))
+    return a
+ 
+ 
+def sep():
+    a = input().rstrip('\n')
+    return a
+ 
+ 
+def qpow(x, y, mod):
+    ans = 1
+    while y:
+        if y & 1:
+            ans *= x
+            ans %= mod
+        x *= x
+        x %= mod
+        y >>= 1
+    return ans
+ 
+ 
+def Comb(n, m, p):
+    a = (math.factorial(n)) % p
+    b = (qpow(math.factorial(m), (p - 2), p)) % p
+    c = (qpow(math.factorial(n - m), (p - 2), p)) % p
+    return a * b * c % p
+ 
+ 
+def Lucas(n, m, p):
+    if m == 0:
+        return 1
+    return Comb(n % p, m % p, p) * Lucas(n // p, m // p, p) % p
+ 
+ 
+class Trie:
+    def __init__(self):
+        self.trie = {}
+ 
+    def insert(self, word):
+        cur = self.trie
+        for c in word:
+            if c not in cur:
+                cur[c] = {}
+            cur = cur[c]
+        if 'end' not in cur:
+            cur['end'] = 0
+        cur['end'] += 1
+ 
+    def isprefix(self, word):
+        cur = self.trie
+        for c in word:
+            if c not in word:
+                return 0
+            cur = cur[c]
+        if 'end' not in cur:
+            return 0
+        return cur['end']
+ 
+ 
+class UnionFind:
+    def __init__(self, x) -> None:
+        self.uf = [-1] * x
+ 
+    def find(self, x):
+        r = x
+        while self.uf[x] >= 0:
+            x = self.uf[x]
+ 
+        while r != x:
+            self.uf[r], r = x, self.uf[r]
+        return x
+ 
+    def union(self, x, y):
+        ux, uy = self.find(x), self.find(y)
+        if ux == uy:
+            return
+        if self.uf[ux] >= self.uf[uy]:
+            self.uf[uy] += self.uf[ux]
+            self.uf[ux] = uy
+        else:
+            self.uf[ux] += self.uf[uy]
+            self.uf[uy] = ux
+        return
+ 
+    def count(self):
+        ans = 0
+        for c in self.uf:
+            if c < 0 and c != -1:
+                ans += 1
+        return ans
+ 
+    def valid(self):
+        n = len(self.uf)
+        for c in range(n):
+            if self.uf[c] == -n:
+                return True
+        return False
+ 
+    def __print__(self):
+        return self.uf
+ 
+ 
+def spfa(x, g, n):
+    dis = [float('inf') for i in range(n)]
+    dis[x] = 0
+    state = [False for i in range(n)]
+    state[x] = True
+    queue = collections.deque()
+    queue.append(x)
+    while queue:
+        cur = queue.popleft()
+        state[cur] = False
+        for next_ in g[cur]:
+            if dis[next_] > dis[cur] + 1:
+                dis[next_] = dis[cur] + 1
+                if state[next_] == False:
+                    state[next_] = True
+                    if queue and dis[queue[0]] > dis[next_]:
+                        queue.appendleft(next_)
+                    else:
+                        queue.append(next_)
+    return dis
+ 
+ 
+def gcd(x, y):
+    if y == 0:
+        return x
+    return gcd(y, x % y)
+ 
+ 
+def lcm(x, y):
+    return x * y // gcd(x, y)
+ 
+ 
+def Topsort(G, deg, n):
+    queue = collections.deque()
+    #vis = set()
+    ans = n
+    for i in range(n):
+        if deg[i] == 0:
+            #vis.add(i)
+            queue.append(i)
+    while queue:
+        ans -= 1
+        cur = queue.popleft()
+        for next_ in G[cur]:
+            deg[next_] -= 1
+            if deg[next_] == 0:
+                queue.append(next_)
+ 
+    return ans
+ 
+class BinaryIndexTree:
+ 
+    def __init__(self, array: list):
+        '''初始化，总时间 O(n)'''
+        self._array = [0] + array
+        n = len(array)
+        for i in range(1, n + 1):
+            j = i + (i & -i)
+            if j < n + 1:
+                self._array[j] += self._array[i]
+ 
+    def lowbit(self, x: int) -> int:
+        return x & (-x)
+ 
+    def update(self, idx: int, val: int):
+       
+        #prev = self.query(idx, idx + 1)    # 计算出原来的值
+        idx += 1
+        #val -= prev    # val 是要增加的值
+        while idx < len(self._array):
+            self._array[idx] += val
+            idx += self.lowbit(idx)
+ 
+    def query(self, begin: int, end: int) -> int:
+        '''返回数组[begin, end) 的和'''
+        return self._query(end) - self._query(begin)
+ 
+    def _query(self, idx: int) -> int:
+        '''计算数组[0, idx)的元素之和'''
+        res = 0
+        while idx > 0:
+            res += self._array[idx]
+            idx -= self.lowbit(idx)
+        return res
+ 
+ 
+def solve():
+    m,q = map(int,input().split())
+    vis = set()
+    cnt = {}
+    for i in range(q):
+        op,num = map(int,input().split())
+        if op == 1:
+            vis.add(num)
+            if num not in cnt:
+                cnt[num] = 0
+            cnt[num] += 1
+        else:
+            cnt[num] -= 1
+            if cnt[num] == 0:
+                del cnt[num]
+                vis.remove(num)
+        tmp = 0
+        for j in range(1,m + 1):
+            if j - 3 in vis or j + 3 in vis:
+                   tmp += 1
+        print(tmp)
+            
+    
+                
+                
+            
+        
+    
+        
+            
+        
+                
+    
+    
+
+if __name__ == '__main__':
+   #for i in range(int(input())):
+       solve()"
+45,B,Python3,61312021,2023-03-16 19:24:42,DuNai0524,答案正确,"m,q = map(int,input().split())
+book = [0 for i in range(m+10)]
+cnt = 0
+for i in range(q):
+    op,num = map(int,input().split())
+    #拿到数直接判安全牌
+    for j in [num-3,num+3]:
+        if j > m or j < 1:
+            continue
+            #加入
+        if op == 1:
+            #判断该数是否使用过
+            if book[j] == 0:
+                cnt += 1
+            book[j] += 1
+            #抛出
+        else:
+            if book[j] == 1:
+                cnt -= 1
+            book[j] -= 1
+    print(cnt)"

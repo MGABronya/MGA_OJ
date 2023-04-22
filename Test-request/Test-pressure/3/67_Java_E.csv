@@ -1,0 +1,1629 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,E,Java,60967478,2023-02-24 19:14:28,皓金,答案错误,"import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int t = scanner.nextInt();
+        for (int i = 0; i < t; i++) {
+            int n = scanner.nextInt();
+            int[][] dp = new int[n + 1][2];
+            int[] a = new int[n];
+            int[] b = new int[n];
+            for (int j = 0; j < n; j++) {
+                a[j] = scanner.nextInt();
+            }
+            for (int j = 0; j < n; j++) {
+                b[j] = scanner.nextInt();
+            }
+            dp[0][0] = Integer.MAX_VALUE / 2; 
+            dp[0][1] = 0;
+            for (int j = 1; j <= n; j++) {
+                dp[j][0] = Math.min(dp[j-1][0] + Math.min(a[j-1], b[j-1]), dp[j-1][1] + Math.max(a[j-1], b[j-1]));
+                dp[j][1] = Math.min(dp[j-1][0] + Math.max(a[j-1], b[j-1]), dp[j-1][1] + Math.min(a[j-1], b[j-1]));
+            }
+
+            System.out.printf(""%.6f\n"", (double) dp[n][0]);
+        }
+        scanner.close();
+    }
+}
+"
+1,E,Java,60973053,2023-02-24 20:22:05,Garett,答案错误,"import java.math.BigInteger;
+import java.util.*;
+import java.io.*;
+
+
+/**
+ * Built using CHelper plug-in
+ * Actual solution is at the top
+ */
+public class Main {
+    public static void main(String[] args) throws IOException {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader sc = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        Task solver = new Task();
+        solver.solve(1, sc, out);
+        out.close();
+    }
+
+    static class Task {
+
+        public void solve(int testNumber, InputReader sc, PrintWriter out) throws IOException {
+            int T=sc.nextInt();
+            BIT bit=new BIT();
+            while(T-->0){
+                int n=sc.nextInt();
+                int[] a=new int[n];
+                int[] b=new int[n];
+                for(int i=0;i<n;i++){
+                    a[i]=sc.nextInt();
+                }
+                for(int i=0;i<n;i++){
+                    b[i]=sc.nextInt();
+                }
+                long ans= Long.MAX_VALUE;
+                for(int i=0;i<n;i++){
+                    int cur=Math.min(a[i],b[i]);
+                    if(a[i]!=b[i])
+                        ans=Math.min(ans, bit.ask(cur)+a[i]+b[i]);
+                    else
+                        ans=Math.min(ans, bit.ask(cur)+cur);
+              
+                    bit.add(cur,cur);
+                }
+                out.println(ans*0.5);
+                for(int i=0;i<n;i++){
+                    int cur=Math.min(a[i],b[i]);
+                    bit.add(cur,-cur);
+                }
+            }
+        }
+
+    }
+
+    static class BIT{
+        public long[] C;
+
+        public BIT(){
+            this.C=new long[1000010];
+        }
+
+        public int lowbit(int x){
+            return x&(-x);
+        }
+
+        public void add(int x,long y){
+            while(x<C.length){
+                C[x]+=y;
+                x+=lowbit(x);
+            }
+        }
+
+        public long ask(int x){
+            long res=0;
+            while(x>0){
+                res+=C[x];
+                x-=lowbit(x);
+            }
+            return res;
+        }
+    }
+
+    static class InputReader {
+        private InputStreamReader reader;
+        private char[] buf;
+        private int len, now;
+
+        public InputReader(InputStream stream) {
+            reader = new InputStreamReader(stream);
+            buf = new char[1024];
+            len = 0;
+            now = 0;
+        }
+
+        public String next() throws IOException {
+            if (!hasNext()) throw new NullPointerException();
+            StringBuilder sb = new StringBuilder();
+            while (!isSpaceChar(buf[now])) {
+                sb.append(buf[now]);
+                if (!move()) break;
+            }
+            return sb.toString();
+        }
+
+        public int nextInt() throws IOException {
+            if (!hasNext()) throw new NullPointerException();
+            boolean x = false;
+            if (buf[now] == '-') {
+                x = true;
+                if (!move()) throw new NumberFormatException();
+            }
+            int ans = 0;
+            while (!isSpaceChar(buf[now])) {
+                if (isNum(buf[now])) ans = ans * 10 + buf[now] - '0';
+                else throw new NumberFormatException();
+                if (!move()) break;
+            }
+            return (x ? -1 : 1) * ans;
+        }
+
+        public String nextLine() throws IOException {
+            if (!hasNextLine()) throw new NullPointerException();
+            StringBuilder sb = new StringBuilder();
+            while (buf[now] != '\n') {
+                sb.append(buf[now]);
+                if (!move()) return sb.toString();
+            }
+            now++;
+            return sb.toString();
+        }
+
+        public long nextLong() throws IOException {
+            if (!hasNext()) throw new NullPointerException();
+            boolean x = false;
+            if (buf[now] == '-') {
+                x = true;
+                if (!move()) throw new NumberFormatException();
+            }
+            long ans = 0;
+            while (!isSpaceChar(buf[now])) {
+                if (isNum(buf[now])) ans = ans * 10 + buf[now] - '0';
+                else throw new NumberFormatException();
+                if (!move()) break;
+            }
+            return (x ? -1 : 1) * ans;
+        }
+
+        public double nextDouble() throws IOException {
+            return Double.parseDouble(next());
+        }
+
+        public int nextHexInt() throws IOException {
+            if (!hasNext()) throw new NullPointerException();
+            boolean x = false;
+            if (buf[now] == '-') {
+                x = true;
+                if (!move()) throw new NumberFormatException();
+            }
+            int ans = 0;
+            while (!isSpaceChar(buf[now])) {
+                if (isHex(buf[now])) ans = (ans << 4) + toHex(buf[now]);
+                else throw new NumberFormatException();
+                if (!move()) break;
+            }
+            return (x ? -1 : 1) * ans;
+        }
+
+        public char nextChar() throws IOException {
+            if (!hasNext()) throw new NullPointerException();
+            char tmp = buf[now];
+            move();
+            return tmp;
+        }
+        public int next(char[] s) throws IOException {
+            if (!hasNext()) throw new NullPointerException();
+            int len=0;
+            while (!isSpaceChar(buf[now])&&len<s.length) {
+                s[len++]=buf[now];
+                if (!move()) break;
+            }
+            return len;
+        }
+        public boolean hasNext() throws IOException {
+            return skip();
+        }
+
+        public boolean hasNextLine() throws IOException {
+            return now < len || refill();
+        }
+
+        private boolean move() throws IOException {
+            now++;
+            return hasNextLine();
+        }
+
+        private boolean skip() throws IOException {
+            if (!hasNextLine()) return false;
+            while (isSpaceChar(buf[now])) {
+                if (!move()) return false;
+            }
+            return true;
+        }
+
+        private boolean isSpaceChar(char c) {
+            return !(c >= 33 && c <= 126);
+        }
+
+        private boolean isNum(char c) {
+            return c >= '0' && c <= '9';
+        }
+
+        private boolean isHex(char c) {
+            return c >= '0' && c <= '9' || c >= 'A' && c <= 'F';
+        }
+
+        private int toHex(char c) {
+            if (c >= '0' && c <= '9') return c - '0';
+            else return c - 'A' + 10;
+        }
+
+        private boolean refill() throws IOException {
+            len = reader.read(buf);
+            now = 0;
+            return len > 0;
+        }
+    }
+}
+"
+2,E,Java,60973401,2023-02-24 20:27:15,cuit_zx,答案错误,"import java.util.Scanner;
+
+public class Main {
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		String T  = sc.nextLine();
+		for(int i = 0; i < Integer.parseInt(T);i++) {
+			String n  = sc.nextLine();
+			String[] as = sc.nextLine().split("" "");
+			String[] bs = sc.nextLine().split("" "");
+			int d = 0;
+			int g = 0;
+			if(Integer.parseInt(as[0]) <  Integer.parseInt(bs[0])) {
+				 d = Integer.parseInt(as[0]);
+				 g = Integer.parseInt(bs[0]);
+			}else {
+				d = Integer.parseInt(bs[0]);
+				g = Integer.parseInt(as[0]);
+			}
+	
+			double sum = 0;
+			for(int x = 1; x < Integer.parseInt(n);x++) {
+				int a = Integer.parseInt(as[x]);
+				int b = Integer.parseInt(as[x]);
+				
+				if(a < d && a < b) {
+					d = a;
+				}else if(b < d && b < a  ) {
+					d = b;
+				}
+				if(a < g && a <= b) {
+					g = a;
+				}else if(b < g && b <= a  ) {
+					g = b;
+				}
+//				System.out.println(""di:""+d);
+//				System.out.println(""gao:""+g);
+				sum+= ((d +g) /2.0);
+			}
+			System.out.println(sum);
+		}
+	}
+}
+"
+3,E,Java,60973879,2023-02-24 20:35:26,里卡多·伊泽克松·多斯·桑托斯·莱特,答案正确,"import java.util.Scanner;
+public class Main {
+    public static void main(String[] args) {
+        Scanner in=new Scanner(System.in);
+        int t= in.nextInt();
+        for (int i = 0; i <t; i++) {
+            int n= in.nextInt();
+            double[]a=new double[n];
+            double[]b=new double[n];
+            double[]big=new double[n];
+            double[]small=new double[n];
+            double sum=0;
+            for (int j = 0; j <n; j++) {
+                a[j]= in.nextInt();
+            }
+            for (int j = 0; j <n; j++) {
+                b[j]= in.nextInt();
+                big[j]=Math.max(a[j],b[j]);
+                small[j]=Math.min(a[j],b[j]);
+            }
+            sum=(a[n-1]+b[n-1])/2;
+            for (int j =n-2; j>=0; j--) {
+                if (small[j]>=sum){
+                    continue;
+                }
+                else if (big[j]<=sum){
+                    sum=(big[j]+small[j])/2;
+                }
+                else {
+                    sum/=2;
+                    sum+=small[j]/2;
+                }
+            }
+
+
+            System.out.println(sum);
+
+
+
+        }
+
+
+
+    }
+}
+"
+4,E,Java,60974798,2023-02-24 20:50:09,人工智能3211江海洋,答案错误,"import java.io.*;
+import java.util.*;
+import java.math.*;
+
+public class Main {
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader in = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        TaskA solver = new TaskA();
+        solver.solve(1, in, out);
+        out.close();
+    }
+
+    static class TaskA {
+        public void solve(int testNumber, InputReader in, PrintWriter out) {
+            int t = in.nextInt();
+            while (t-->0){
+                int n = in.nextInt();
+                double[] a = new double[n];
+                double[] b = new double[n];
+                for (int i = 0; i < n; i++) {
+                    a[i] = in.nextDouble();
+                }
+                for (int i = 0; i < n; i++) {
+                    b[i] = in.nextDouble();
+                }
+                double ans = 0;
+                double[] ttt = new double[3];
+                for (int i = n-1; i >=0 ; i--) {
+                    if(i==n-1){
+                        ans = (a[i]+b[i])/2;
+                    }
+                    else {
+                        ttt[0]=a[i];
+                        ttt[1]=b[i];
+                        ttt[2]=Math.max(a[i+1],b[i+1]);
+                        Arrays.sort(ttt);
+                        double avg = (ttt[0]+ttt[1])/2;
+                        if(avg<ans)
+                            ans = avg;
+                    }
+                }
+                out.println(ans);
+            }
+
+
+
+        }
+    }
+
+    static class InputReader {
+        public BufferedReader reader;
+        public StringTokenizer tokenizer;
+
+        public InputReader(InputStream stream) {
+            reader = new BufferedReader(new InputStreamReader(stream), 32768);
+            tokenizer = null;
+        }
+
+        boolean hasNext() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (Exception e) {
+                    return false;
+                    // TODO: handle exception
+                }
+            }
+            return true;
+        }
+
+        public String next() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return tokenizer.nextToken();
+        }
+
+        public String nextLine() {
+            String str = null;
+            try {
+                str = reader.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return str;
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        public double nextDouble() {
+            return Double.parseDouble(next());
+        }
+
+        public long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        public BigInteger nextBigInteger() {
+            return new BigInteger(next());
+        }
+
+        public BigDecimal nextBigDecimal() {
+            return new BigDecimal(next());
+        }
+
+    }
+}
+"
+5,E,Java,60974868,2023-02-24 20:51:29,迷你滨,答案错误,"import java.util.*;
+import java.io.*;
+
+
+public class Main {
+	static int n,m,mod=(int)1e9+7,maxn=1000002;
+	static long ans=0,INF=(long)1e18;
+	static Scanner sc = new Scanner (System.in);
+	static BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+	static StreamTokenizer st = new StreamTokenizer(bf);
+	static PrintWriter pw = new PrintWriter(System.out);
+	
+	public static void main(String[]args) throws IOException{
+		int t = 1;
+		t = Integer.parseInt(bf.readLine());
+		while(t-->0) solve();
+		pw.flush();
+	}
+	
+	static int I() throws IOException{
+		st.nextToken();
+		return (int)st.nval;
+	}
+	
+	
+	static void solve() throws IOException{
+		n = I();
+		int a[] = new int [n],b[] = new int [n];
+		for (int i = 0 ; i <n ; i++) a[i] = I();
+		for (int i = 0 ; i <n ; i++) b[i] = I();
+		double d=2;
+		double dp[][] = new double[n][2];
+		dp[0][0] = dp[0][1] = 1;
+		for (int i = 0 ; i <n-1 ; i++) {
+			if(a[i] > a[i+1] && a[i] >b[i+1]) {
+				dp[i+1][0] += dp[i][0];
+				dp[i+1][1] += dp[i][0];dp[i][0] = 0;
+			}
+			if(a[i] > a[i+1]) dp[i+1][0] += dp[i][0];
+            if(a[i] > b[i+1]) dp[i+1][1] += dp[i][0];
+			if(b[i] > a[i+1] && b[i] >b[i+1]) {
+				dp[i+1][0] += dp[i][1];
+				dp[i+1][1] += dp[i][1];dp[i][1] = 0;
+			}
+			if(b[i] > a[i+1]) dp[i+1][0] += dp[i][1];
+            if(b[i] > b[i+1]) dp[i+1][1] += dp[i][1];
+		}
+		d = 2;
+        double ans = 0;
+		for (int i = 0 ; i <n ; i++) {
+			if(dp[i][0] > 0) ans += dp[i][0]*a[i]/d;
+            if(dp[i][1] > 0) ans += dp[i][0]*b[i]/d;d*=2;
+		}
+		pw.printf(""%.7f\n"",ans);
+	}
+	
+}
+"
+6,E,Java,60975099,2023-02-24 20:54:59,人工智能3211江海洋,答案错误,"import java.io.*;
+import java.util.*;
+import java.math.*;
+
+public class Main {
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader in = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        TaskA solver = new TaskA();
+        solver.solve(1, in, out);
+        out.close();
+    }
+
+    static class TaskA {
+        public void solve(int testNumber, InputReader in, PrintWriter out) {
+            int t = in.nextInt();
+            while (t-->0){
+                int n = in.nextInt();
+                double[] a = new double[n];
+                double[] b = new double[n];
+                for (int i = 0; i < n; i++) {
+                    a[i] = in.nextDouble();
+                }
+                for (int i = 0; i < n; i++) {
+                    b[i] = in.nextDouble();
+                }
+                double ans = 0;
+                double[] ttt = new double[3];
+                for (int i = n-1; i >=0 ; i--) {
+                    if(i==n-1){
+                        ans = (a[i]+b[i])/2;
+                    }
+                    else {
+                        ttt[0]=a[i];
+                        ttt[1]=b[i];
+                        ttt[2]=Math.max(a[i+1],b[i+1]);
+                        Arrays.sort(ttt);
+                        double avg = (ttt[0]+ttt[1])/2;
+                        if(avg<ans)
+                            ans = avg;
+                    }
+                }
+                out.printf(""%.6f\n"",ans);
+            }
+
+
+
+        }
+    }
+
+    static class InputReader {
+        public BufferedReader reader;
+        public StringTokenizer tokenizer;
+
+        public InputReader(InputStream stream) {
+            reader = new BufferedReader(new InputStreamReader(stream), 32768);
+            tokenizer = null;
+        }
+
+        boolean hasNext() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (Exception e) {
+                    return false;
+                    // TODO: handle exception
+                }
+            }
+            return true;
+        }
+
+        public String next() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return tokenizer.nextToken();
+        }
+
+        public String nextLine() {
+            String str = null;
+            try {
+                str = reader.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return str;
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        public double nextDouble() {
+            return Double.parseDouble(next());
+        }
+
+        public long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        public BigInteger nextBigInteger() {
+            return new BigInteger(next());
+        }
+
+        public BigDecimal nextBigDecimal() {
+            return new BigDecimal(next());
+        }
+
+    }
+}
+"
+7,E,Java,60975116,2023-02-24 20:55:11,迷你滨,答案错误,"import java.util.*;
+import java.io.*;
+
+
+public class Main {
+	static int n,m,mod=(int)1e9+7,maxn=1000002;
+	static long ans=0,INF=(long)1e18;
+	static Scanner sc = new Scanner (System.in);
+	static BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+	static StreamTokenizer st = new StreamTokenizer(bf);
+	static PrintWriter pw = new PrintWriter(System.out);
+	
+	public static void main(String[]args) throws IOException{
+		int t = 1;
+		t = Integer.parseInt(bf.readLine());
+		while(t-->0) solve();
+		pw.flush();
+	}
+	
+	static int I() throws IOException{
+		st.nextToken();
+		return (int)st.nval;
+	}
+	
+	
+	static void solve() throws IOException{
+		n = I();
+		int a[] = new int [n],b[] = new int [n];
+		for (int i = 0 ; i <n ; i++) a[i] = I();
+		for (int i = 0 ; i <n ; i++) b[i] = I();
+        int op = 0;
+        int max = Math.min(a[0],b[0]);
+        for (int i = 1 ; i<n ; i++){
+            if(Math.max(a[i],b[i]) < max){
+                op=i;max = Math.min(a[i],b[i]);
+            }
+        }
+		double d=2;
+		double dp[][] = new double[n][2];
+		dp[op][0] = dp[op][1] = 1;
+		for (int i = op ; i <n-1 ; i++) {
+			if(a[i] > a[i+1] && a[i] >b[i+1]) {
+				dp[i+1][0] += dp[i][0];
+				dp[i+1][1] += dp[i][0];dp[i][0] = 0;
+			}
+			if(a[i] > a[i+1]) dp[i+1][0] += dp[i][0];
+            if(a[i] > b[i+1]) dp[i+1][1] += dp[i][0];
+			if(b[i] > a[i+1] && b[i] >b[i+1]) {
+				dp[i+1][0] += dp[i][1];
+				dp[i+1][1] += dp[i][1];dp[i][1] = 0;
+			}
+			if(b[i] > a[i+1]) dp[i+1][0] += dp[i][1];
+            if(b[i] > b[i+1]) dp[i+1][1] += dp[i][1];
+		}
+		d = 2;
+        double ans = 0;
+		for (int i = op ; i <n ; i++) {
+			if(dp[i][0] > 0) ans += dp[i][0]*a[i]/d;
+            if(dp[i][1] > 0) ans += dp[i][0]*b[i]/d;d*=2;
+		}
+		pw.printf(""%.5f\n"",ans);
+	}
+	
+}
+"
+8,E,Java,60975636,2023-02-24 21:03:47,人工智能3211江海洋,答案错误,"import java.io.*;
+import java.util.*;
+import java.math.*;
+
+public class Main {
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader in = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        TaskA solver = new TaskA();
+        solver.solve(1, in, out);
+        out.close();
+    }
+
+    static class TaskA {
+        public void solve(int testNumber, InputReader in, PrintWriter out) {
+            int t = in.nextInt();
+            while (t-->0){
+                int n = in.nextInt();
+                double[] a = new double[n];
+                double[] b = new double[n];
+                for (int i = 0; i < n; i++) {
+                    a[i] = in.nextDouble();
+                }
+                for (int i = 0; i < n; i++) {
+                    b[i] = in.nextDouble();
+                }
+                double ans = 0;
+                double[] ttt = new double[3];
+                for (int i = n-1; i >=0 ; i--) {
+                    if(i==n-1){
+                        ans = (a[i]+b[i])/2;
+                    }
+                    else {
+                        ttt[0]=a[i];
+                        ttt[1]=b[i];
+                        ttt[2]=Math.min(a[i],b[i]);
+                        double x=Math.min(ans,Math.max(a[i],b[i]));
+                        ans=(x+ttt[2])/2;
+                    }
+                }
+                out.printf(""%.6f\n"",ans);
+            }
+
+
+
+        }
+    }
+
+    static class InputReader {
+        public BufferedReader reader;
+        public StringTokenizer tokenizer;
+
+        public InputReader(InputStream stream) {
+            reader = new BufferedReader(new InputStreamReader(stream), 32768);
+            tokenizer = null;
+        }
+
+        boolean hasNext() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (Exception e) {
+                    return false;
+                    // TODO: handle exception
+                }
+            }
+            return true;
+        }
+
+        public String next() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return tokenizer.nextToken();
+        }
+
+        public String nextLine() {
+            String str = null;
+            try {
+                str = reader.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return str;
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        public double nextDouble() {
+            return Double.parseDouble(next());
+        }
+
+        public long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        public BigInteger nextBigInteger() {
+            return new BigInteger(next());
+        }
+
+        public BigDecimal nextBigDecimal() {
+            return new BigDecimal(next());
+        }
+
+    }
+}
+"
+9,E,Java,60975729,2023-02-24 21:05:44,人工智能3211江海洋,答案错误,"import java.io.*;
+import java.util.*;
+import java.math.*;
+
+public class Main {
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader in = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        TaskA solver = new TaskA();
+        solver.solve(1, in, out);
+        out.close();
+    }
+
+    static class TaskA {
+        public void solve(int testNumber, InputReader in, PrintWriter out) {
+            int t = in.nextInt();
+            while (t-->0){
+                int n = in.nextInt();
+                double[] a = new double[n];
+                double[] b = new double[n];
+                for (int i = 0; i < n; i++) {
+                    a[i] = in.nextDouble();
+                }
+                for (int i = 0; i < n; i++) {
+                    b[i] = in.nextDouble();
+                }
+                double ans =1000000000;
+                double[] ttt = new double[3];
+                for (int i = n-1; i >=0 ; i--) {
+                    if(i==n-1){
+                        ans = (a[i]+b[i])/2;
+                    }
+                    else {
+                        ttt[2]=Math.min(a[i],b[i]);
+                        double x=Math.min(ans,Math.max(a[i],b[i]));
+                        ans=(x+ttt[2])/2;
+                    }
+                }
+                out.println(ans);
+            }
+
+
+
+        }
+    }
+
+    static class InputReader {
+        public BufferedReader reader;
+        public StringTokenizer tokenizer;
+
+        public InputReader(InputStream stream) {
+            reader = new BufferedReader(new InputStreamReader(stream), 32768);
+            tokenizer = null;
+        }
+
+        boolean hasNext() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (Exception e) {
+                    return false;
+                    // TODO: handle exception
+                }
+            }
+            return true;
+        }
+
+        public String next() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return tokenizer.nextToken();
+        }
+
+        public String nextLine() {
+            String str = null;
+            try {
+                str = reader.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return str;
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        public double nextDouble() {
+            return Double.parseDouble(next());
+        }
+
+        public long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        public BigInteger nextBigInteger() {
+            return new BigInteger(next());
+        }
+
+        public BigDecimal nextBigDecimal() {
+            return new BigDecimal(next());
+        }
+
+    }
+}
+"
+10,E,Java,60975777,2023-02-24 21:07:06,迷你滨,答案正确,"import java.util.*;
+import java.io.*;
+
+
+public class Main {
+	static int n,m,mod=(int)1e9+7,maxn=1000002;
+	static long ans=0,INF=(long)1e18;
+	static Scanner sc = new Scanner (System.in);
+	static BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+	static StreamTokenizer st = new StreamTokenizer(bf);
+	static PrintWriter pw = new PrintWriter(System.out);
+	
+	public static void main(String[]args) throws IOException{
+		int t = 1;
+		t = Integer.parseInt(bf.readLine());
+		while(t-->0) solve();
+		pw.flush();
+	}
+	
+	static int I() throws IOException{
+		st.nextToken();
+		return (int)st.nval;
+	}
+	
+	
+	static void solve() throws IOException{
+		n = I();
+		int a[] = new int [n],b[] = new int [n];
+		for (int i = 0 ; i <n ; i++) a[i] = I();
+		for (int i = 0 ; i <n ; i++) b[i] = I();
+        double ans = (double)(a[n-1]+b[n-1])/2;
+        for (int i = n-2 ; i >=0 ; i--)
+            ans = 0.5*Math.min(a[i],ans) + 0.5*Math.min(b[i],ans);
+		pw.printf(""%.5f\n"",ans);
+	}
+	
+}
+"
+11,E,Java,60975839,2023-02-24 21:08:55,人工智能3211江海洋,答案正确,"import java.io.*;
+import java.util.*;
+import java.math.*;
+
+public class Main {
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader in = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        TaskA solver = new TaskA();
+        solver.solve(1, in, out);
+        out.close();
+    }
+
+    static class TaskA {
+        public void solve(int testNumber, InputReader in, PrintWriter out) {
+            int t = in.nextInt();
+            while (t-->0){
+                int n = in.nextInt();
+                double[] a = new double[n];
+                double[] b = new double[n];
+                for (int i = 0; i < n; i++) {
+                    a[i] = in.nextDouble();
+                }
+                for (int i = 0; i < n; i++) {
+                    b[i] = in.nextDouble();
+                }
+                double ans =1000000000;
+                double[] ttt = new double[3];
+                for (int i = n-1; i >=0 ; i--) {
+                    if(i==n-1){
+                        ans = (a[i]+b[i])/2;
+                    }
+                    else {
+                        
+                        ttt[0]=a[i];
+                        ttt[1]=b[i];
+                        ttt[2]=ans;
+                        Arrays.sort(ttt);
+                        if(ans==ttt[0])
+                            continue;
+                        ans=(ttt[0]+ttt[1])/2;
+                    }
+                }
+                out.println(ans);
+            }
+
+
+
+        }
+    }
+
+    static class InputReader {
+        public BufferedReader reader;
+        public StringTokenizer tokenizer;
+
+        public InputReader(InputStream stream) {
+            reader = new BufferedReader(new InputStreamReader(stream), 32768);
+            tokenizer = null;
+        }
+
+        boolean hasNext() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (Exception e) {
+                    return false;
+                    // TODO: handle exception
+                }
+            }
+            return true;
+        }
+
+        public String next() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return tokenizer.nextToken();
+        }
+
+        public String nextLine() {
+            String str = null;
+            try {
+                str = reader.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return str;
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        public double nextDouble() {
+            return Double.parseDouble(next());
+        }
+
+        public long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        public BigInteger nextBigInteger() {
+            return new BigInteger(next());
+        }
+
+        public BigDecimal nextBigDecimal() {
+            return new BigDecimal(next());
+        }
+
+    }
+}
+"
+12,E,Java,60975842,2023-02-24 21:09:01,Garett,答案正确,"import java.math.BigInteger;
+import java.util.*;
+import java.io.*;
+
+
+/**
+ * Built using CHelper plug-in
+ * Actual solution is at the top
+ */
+public class Main {
+    public static void main(String[] args) throws IOException {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader sc = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        Task solver = new Task();
+        solver.solve(1, sc, out);
+        out.close();
+    }
+
+    static class Task {
+
+        public void solve(int testNumber, InputReader sc, PrintWriter out) throws IOException {
+            int T=sc.nextInt();
+            BIT bit=new BIT();
+            while(T-->0){
+                int n=sc.nextInt();
+                int[] a=new int[n];
+                int[] b=new int[n];
+                for(int i=0;i<n;i++){
+                    a[i]=sc.nextInt();
+                }
+                for(int i=0;i<n;i++){
+                    b[i]=sc.nextInt();
+                }
+                
+                double[] f=new double[n];
+                f[n-1]=0.5*(a[n-1]+b[n-1]);
+                for(int i=n-2;i>=0;i--){
+                    int x=Math.min(a[i],b[i]);
+                    int y=Math.max(a[i],b[i]);
+                    if(y<f[i+1]){
+                        f[i]=0.5*(x+y);
+                    }else if(x<f[i+1]){
+                        f[i]=0.5*(x+f[i+1]);
+                    }else{
+                        f[i]=f[i+1];
+                    }
+                }
+                out.println(f[0]);
+            }
+        }
+
+    }
+
+    static class BIT{
+        public long[] C;
+
+        public BIT(){
+            this.C=new long[1000010];
+        }
+
+        public int lowbit(int x){
+            return x&(-x);
+        }
+
+        public void add(int x,long y){
+            while(x<C.length){
+                C[x]+=y;
+                x+=lowbit(x);
+            }
+        }
+
+        public long ask(int x){
+            long res=0;
+            while(x>0){
+                res+=C[x];
+                x-=lowbit(x);
+            }
+            return res;
+        }
+    }
+
+    static class InputReader {
+        private InputStreamReader reader;
+        private char[] buf;
+        private int len, now;
+
+        public InputReader(InputStream stream) {
+            reader = new InputStreamReader(stream);
+            buf = new char[1024];
+            len = 0;
+            now = 0;
+        }
+
+        public String next() throws IOException {
+            if (!hasNext()) throw new NullPointerException();
+            StringBuilder sb = new StringBuilder();
+            while (!isSpaceChar(buf[now])) {
+                sb.append(buf[now]);
+                if (!move()) break;
+            }
+            return sb.toString();
+        }
+
+        public int nextInt() throws IOException {
+            if (!hasNext()) throw new NullPointerException();
+            boolean x = false;
+            if (buf[now] == '-') {
+                x = true;
+                if (!move()) throw new NumberFormatException();
+            }
+            int ans = 0;
+            while (!isSpaceChar(buf[now])) {
+                if (isNum(buf[now])) ans = ans * 10 + buf[now] - '0';
+                else throw new NumberFormatException();
+                if (!move()) break;
+            }
+            return (x ? -1 : 1) * ans;
+        }
+
+        public String nextLine() throws IOException {
+            if (!hasNextLine()) throw new NullPointerException();
+            StringBuilder sb = new StringBuilder();
+            while (buf[now] != '\n') {
+                sb.append(buf[now]);
+                if (!move()) return sb.toString();
+            }
+            now++;
+            return sb.toString();
+        }
+
+        public long nextLong() throws IOException {
+            if (!hasNext()) throw new NullPointerException();
+            boolean x = false;
+            if (buf[now] == '-') {
+                x = true;
+                if (!move()) throw new NumberFormatException();
+            }
+            long ans = 0;
+            while (!isSpaceChar(buf[now])) {
+                if (isNum(buf[now])) ans = ans * 10 + buf[now] - '0';
+                else throw new NumberFormatException();
+                if (!move()) break;
+            }
+            return (x ? -1 : 1) * ans;
+        }
+
+        public double nextDouble() throws IOException {
+            return Double.parseDouble(next());
+        }
+
+        public int nextHexInt() throws IOException {
+            if (!hasNext()) throw new NullPointerException();
+            boolean x = false;
+            if (buf[now] == '-') {
+                x = true;
+                if (!move()) throw new NumberFormatException();
+            }
+            int ans = 0;
+            while (!isSpaceChar(buf[now])) {
+                if (isHex(buf[now])) ans = (ans << 4) + toHex(buf[now]);
+                else throw new NumberFormatException();
+                if (!move()) break;
+            }
+            return (x ? -1 : 1) * ans;
+        }
+
+        public char nextChar() throws IOException {
+            if (!hasNext()) throw new NullPointerException();
+            char tmp = buf[now];
+            move();
+            return tmp;
+        }
+        public int next(char[] s) throws IOException {
+            if (!hasNext()) throw new NullPointerException();
+            int len=0;
+            while (!isSpaceChar(buf[now])&&len<s.length) {
+                s[len++]=buf[now];
+                if (!move()) break;
+            }
+            return len;
+        }
+        public boolean hasNext() throws IOException {
+            return skip();
+        }
+
+        public boolean hasNextLine() throws IOException {
+            return now < len || refill();
+        }
+
+        private boolean move() throws IOException {
+            now++;
+            return hasNextLine();
+        }
+
+        private boolean skip() throws IOException {
+            if (!hasNextLine()) return false;
+            while (isSpaceChar(buf[now])) {
+                if (!move()) return false;
+            }
+            return true;
+        }
+
+        private boolean isSpaceChar(char c) {
+            return !(c >= 33 && c <= 126);
+        }
+
+        private boolean isNum(char c) {
+            return c >= '0' && c <= '9';
+        }
+
+        private boolean isHex(char c) {
+            return c >= '0' && c <= '9' || c >= 'A' && c <= 'F';
+        }
+
+        private int toHex(char c) {
+            if (c >= '0' && c <= '9') return c - '0';
+            else return c - 'A' + 10;
+        }
+
+        private boolean refill() throws IOException {
+            len = reader.read(buf);
+            now = 0;
+            return len > 0;
+        }
+    }
+}
+"
+13,E,Java,60976289,2023-02-24 21:22:26,Leoncn,答案正确,"import java.util.Scanner;
+
+/**
+ * @Description TODO
+ * @Author Leon
+ * @Date 2023/2/24
+ */
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int t = sc.nextInt();
+        while (t-->0){
+            int n =sc.nextInt();
+            int arr[] = new int[n];
+            int arrB[] = new int[n];
+            for (int i = 0; i < n; i++) {
+                arr[i] = sc.nextInt();
+            }
+            for (int i = 0; i < n; i++) {
+                arrB[i] = sc.nextInt();
+            }
+            double[] ar = new double[n];
+            double dp[] = new double[n+1];
+            dp[n] = Integer.MAX_VALUE;
+            for (int i = n-1; i >=0; i--) {
+                int max = Math.max(arr[i], arrB[i]);
+                int min = Math.min(arr[i], arrB[i]);
+                if(min>=dp[i+1]){
+                    dp[i] = dp[i+1];
+                }else if(max<=dp[i+1]){
+                    dp[i] = (double) (arr[i]+ arrB[i])/2;
+                }else {
+                    dp[i] = (dp[i+1] + min)/2;
+                }
+            }
+            System.out.println(dp[0]);
+        }
+    }
+}"
+14,E,Java,60979340,2023-02-25 10:01:49,cuit_zx,答案正确,"import java.util.Scanner;
+
+public class Main {
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		String T = sc.nextLine();
+		for (int i = 0; i < Integer.parseInt(T); i++) {
+			String n = sc.nextLine();
+			String[] as = sc.nextLine().split("" "");
+			String[] bs = sc.nextLine().split("" "");
+			double[] dp = new double[Integer.parseInt(n) + 1];
+			dp[Integer.parseInt(n)] = Integer.MAX_VALUE;
+			for (int j = Integer.parseInt(n) - 1; j >= 0; j--) {
+				dp[j] = (0.5 * Math.min(dp[j + 1], Integer.parseInt(as[j]))
+						+ 0.5 * Math.min(dp[j + 1], Integer.parseInt(bs[j])));
+			}
+			System.out.println(dp[0]);
+		}
+
+	}
+}
+"
+15,E,Java,60984644,2023-02-25 16:02:58,giao1,答案正确,"import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int t = sc.nextInt();
+        while (t-->0){
+            int n =sc.nextInt();
+            int arr[] = new int[n];
+            int arrB[] = new int[n];
+            for (int i = 0; i < n; i++) {
+                arr[i] = sc.nextInt();
+            }
+            for (int i = 0; i < n; i++) {
+                arrB[i] = sc.nextInt();
+            }
+            double[] ar = new double[n];
+            double dp[] = new double[n+1];
+            dp[n] = Integer.MAX_VALUE;
+            for (int i = n-1; i >=0; i--) {
+                int max = Math.max(arr[i], arrB[i]);
+                int min = Math.min(arr[i], arrB[i]);
+                if(min>=dp[i+1]){
+                    dp[i] = dp[i+1];
+                }else if(max<=dp[i+1]){
+                    dp[i] = (double) (arr[i]+ arrB[i])/2;
+                }else {
+                    dp[i] = (dp[i+1] + min)/2;
+                }
+            }
+            System.out.println(dp[0]);
+        }
+    }
+}"
+16,E,Java,60984742,2023-02-25 16:12:45,40lc,答案正确,"import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int t=sc.nextInt();
+        float[] a=new float[(int) (1e5+10)],b=new float[(int) (1e5+10)],dp=new float[(int) (1e5+10)];
+        while(t-->0){
+            int n= sc.nextInt();
+            for(int i=1;i<=n;i++) a[i]=sc.nextInt();
+            for(int i=1;i<=n;i++) b[i]=sc.nextInt();
+            dp[n]=(a[n]+b[n])/2;
+            for(int i=n-1;i>0;i--){
+                dp[i]=(Math.min(a[i],dp[i+1])+Math.min(b[i],dp[i+1]))/2;
+            }
+            System.out.println(dp[1]);
+        }
+    }
+}
+"
+17,E,Java,60984766,2023-02-25 16:14:11,40lc,答案正确,"import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int t=sc.nextInt();
+        float[] a=new float[(int) (1e5+10)],b=new float[(int) (1e5+10)],dp=new float[(int) (1e5+10)];
+        while(t-->0){
+            int n= sc.nextInt();
+            for(int i=1;i<=n;i++) a[i]=sc.nextInt();
+            for(int i=1;i<=n;i++) b[i]=sc.nextInt();
+            dp[n]=(a[n]+b[n])/2;
+            for(int i=n-1;i>0;i--){
+                dp[i]=(Math.min(a[i],dp[i+1])+Math.min(b[i],dp[i+1]))/2;
+            }
+            System.out.printf(""%.6f\n"",dp[1]);
+        }
+    }
+}
+"
+18,E,Java,60985253,2023-02-25 16:56:54,hhdhhd,答案正确,"import java.util.*;
+public class Main{
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int T = sc.nextInt();
+        while(T > 0)
+        {
+            T--;
+            int n = sc.nextInt();
+            int[] a = new int[n + 1];
+            int[] b = new int[n + 1];
+            for(int i = 0;i < n;i++)a[i] = sc.nextInt();
+            for(int i = 0;i < n;i++)b[i] = sc.nextInt();
+            double[] f = new double[n + 1];
+            Arrays.fill(f,1000000);
+            for(int i = n - 1;i >= 0;i--)
+            {
+                f[i] = (Math.min(f[i + 1],a[i]) + Math.min(f[i + 1],b[i])) / 2;
+            }
+            System.out.printf(""%.6f\n"",f[0]);
+        }
+    }
+}"
+19,E,Java,61005351,2023-02-27 17:41:57,牛客48509928号,答案错误,"import java.util.Scanner;
+public class Main{
+    public static void main(String [] args){
+        Scanner ms = new Scanner(System.in);
+        int T = ms.nextInt();
+        for (int i = 0;i < T; i ++){
+            int n = ms.nextInt();
+            float[] ai= new float[n];
+            float[] bi= new float[n];
+            float min;
+            for(int j = 0;j < n;j ++){
+                ai[j] = ms.nextInt();
+            }
+            for(int j = 0;j < n;j ++){
+                bi[j] = ms.nextInt();
+            }
+            min = (ai[n-1] + bi[n-1])/2;
+            for(int j = n-2;j >= 0;j -- ){
+                if(min > (ai[j] + bi[j])/2){
+                    min = (ai[j] + bi[j])/2;
+                }
+            }
+            System.out.println(min);
+
+        }
+    }
+}"
+20,E,Java,61005560,2023-02-27 18:15:07,牛客48509928号,答案正确,"
+import java.util.Scanner;
+
+
+public class Main{
+    public static void main(String [] args){
+        Scanner ms = new Scanner(System.in);
+        int T = ms.nextInt();
+        for (int i = 0;i < T; i ++){
+            int n = ms.nextInt();
+            double[] ai= new double[n];
+            double[] bi= new double[n];
+            double[] dp = new double[n];
+            for(int j = 0;j < n;j ++){
+                ai[j] = ms.nextInt();
+            }
+            for(int j = 0;j < n;j ++){
+                bi[j] = ms.nextInt();
+            }
+            dp[n-1] = (ai[n-1] + bi[n-1])/2;
+            for(int j = n-2;j >= 0;j -- ){
+                dp[j] = Math.min((dp[j+1]),ai[j])/2 + Math.min((dp[j+1]),bi[j])/2;
+            }
+            System.out.println(dp[0]);
+
+        }
+    }
+}"
+21,E,Java,61006866,2023-02-27 20:01:00,huvz,答案错误,"
+
+import java.util.*;
+import java.io.*;
+
+public class Main {
+	static int t;
+	static int n;
+	public static void main(String[] args) throws IOException {
+	        //StreamTokenizer st = new StreamTokenizer(new BufferedReader(new InputStreamReader(System.in)));
+            Scanner st = new Scanner(System.in);
+	        t = st.nextInt();
+	        while(t-->0)
+	        {
+	        	n = st.nextInt();
+	        	int[] a = new int[n+2];
+	        	int[] b = new int[n+2];
+	        	double[] dp = new double[n+2];
+	        	for(int i=1;i<=n;i++){a[i]=st.nextInt();}
+	        	for(int i=1;i<=n;i++){b[i]=st.nextInt();}
+	        	Arrays.fill(dp,10000);
+	        	for(int i=n;i>0;i--)
+	        	{
+	        		dp[i]=(Math.min(a[i], dp[i+1])+Math.min(b[i], dp[i+1]))/2;
+	        	}
+	        	System.out.printf(""%.6f\n"",dp[1]);
+	        	
+	        
+	        } 
+	}
+}
+"
+22,E,Java,61007177,2023-02-27 20:10:07,huvz,答案错误,"
+
+import java.util.*;
+import java.io.*;
+
+public class Main {
+	static int t;
+	static int n;
+	public static void main(String[] args) throws IOException {
+	        //StreamTokenizer st = new StreamTokenizer(new BufferedReader(new InputStreamReader(System.in)));
+            Scanner st = new Scanner(System.in);
+	        t = st.nextInt();
+	        while(t-->0)
+	        {
+	        	n = st.nextInt();
+	        	int[] a = new int[n+2];
+	        	int[] b = new int[n+2];
+	        	double[] dp = new double[n+2];
+	        	for(int i=0;i<n;i++){a[i]=st.nextInt();}
+	        	for(int i=0;i<n;i++){b[i]=st.nextInt();}
+	        	Arrays.fill(dp,10000);
+	        	for(int i=n-1;i>=0;i--)
+	        	{
+	        		dp[i]=(Math.min(a[i], dp[i+1])+Math.min(b[i], dp[i+1]))/2;
+	        	}
+	        	System.out.printf(""%.6f\n"",dp[0]);
+	        	
+	        
+	        } 
+	}
+}
+"
+23,E,Java,61007187,2023-02-27 20:10:30,huvz,答案正确,"
+
+import java.util.*;
+import java.io.*;
+
+public class Main {
+	static int t;
+	static int n;
+	public static void main(String[] args) throws IOException {
+	        //StreamTokenizer st = new StreamTokenizer(new BufferedReader(new InputStreamReader(System.in)));
+            Scanner st = new Scanner(System.in);
+	        t = st.nextInt();
+	        while(t-->0)
+	        {
+	        	n = st.nextInt();
+	        	int[] a = new int[n+2];
+	        	int[] b = new int[n+2];
+	        	double[] dp = new double[n+2];
+	        	for(int i=0;i<n;i++){a[i]=st.nextInt();}
+	        	for(int i=0;i<n;i++){b[i]=st.nextInt();}
+	        	Arrays.fill(dp,1000000);
+	        	for(int i=n-1;i>=0;i--)
+	        	{
+	        		dp[i]=(Math.min(a[i], dp[i+1])+Math.min(b[i], dp[i+1]))/2;
+	        	}
+	        	System.out.printf(""%.6f\n"",dp[0]);
+	        	
+	        
+	        } 
+	}
+}
+"

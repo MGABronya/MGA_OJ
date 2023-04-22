@@ -1,0 +1,1729 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,E,C,54837473,2022-11-18 19:57:42,牛客503423742号,答案错误,"#include<stdio.h>
+void swap(int a[],int i,int j){
+	int temp = a[i];
+	a[i] = a[j];
+	a[j] = temp;
+}
+// void print(int a[],int n){
+// 	int i;
+// 	for(i = 0;i < n;i++){
+// 		printf(""%d "",a[i]);
+// 	}
+// 	printf(""\n""); 
+// }
+void perm(int a[],int p,int q){
+    int count ;
+	if(p == q){
+// 		print(a,q + 1);
+        for(int i = 0; i < q;i++){
+            for(int j = i + 1; j < q;j++){
+                if(a[j + 1] > a[j]){
+                    count ++;
+                }
+            }
+        }
+        printf(""%d"",count);
+	}
+	else{
+		for(int i = p;i <= q; i++){
+		swap(a,p,i);
+		perm(a,p + 1,q);
+		swap(a,p,i);
+		}	
+	}
+	
+}
+int main(){
+	int n;
+	scanf(""%d"",&n);
+	int a[n];
+	for(int i = 0; i < n;i++){
+		scanf(""%d"",&a[i]);
+	}
+	perm(a,0,n - 1);
+
+} "
+1,E,C,54847062,2022-11-18 20:49:11,崔浩宇,运行超时,"#include<stdio.h>
+#include<stdlib.h>
+int n,count=0;
+int a[100001],box[100001],judge[100001];	
+
+int cnt()
+{
+    int i,j, number;
+    number = 0;
+    for(i=1;i<=n;i++)
+    {
+        for(j=i+1;j<=n;j++)
+        {
+            if(box[i]>box[j])
+            {
+                number++;
+            }
+        }
+    }
+    return number;
+}
+
+void dfs(int step)
+{		
+	int i,j;
+	if(step==n+1)
+	{    
+        count += cnt();
+		return;
+	}
+	for(i = 1 ; i <= n ; i++ )
+		if(judge[i]==0)
+		{
+			box[step]=a[i];
+			judge[i]=1;
+			dfs(step+1);
+			judge[i]=0;
+		}
+	return;
+}
+
+int main()
+{
+	scanf(""%d"",&n);
+	for( int i = 1 ; i <= n ; i++)
+		scanf(""%d"",&a[i]);
+	dfs(1);
+	printf(""%d"",count%1000000007);
+	return 0;
+}
+
+
+"
+2,E,C,54847199,2022-11-18 20:50:09,崔浩宇,运行超时,"#include<stdio.h>
+#include<stdlib.h>
+int n,count=0;
+int a[100001],box[100001],judge[100001];	
+
+int cnt()
+{
+    int i,j, number;
+    number = 0;
+    for(i=1;i<=n;i++)
+    {
+        for(j=i+1;j<=n;j++)
+        {
+            if(box[i]>box[j])
+            {
+                number++;
+            }
+        }
+    }
+    return number;
+}
+
+void dfs(int step)
+{		
+	int i,j;
+	if(step==n+1)
+	{    
+        count += cnt();
+		return;
+	}
+	for(i = 1 ; i <= n ; i++ )
+		if(judge[i]==0)
+		{
+			box[step]=a[i];
+			judge[i]=1;
+			dfs(step+1);
+			judge[i]=0;
+		}
+	return;
+}
+
+int main()
+{
+	scanf(""%d"",&n);
+	for( int i = 1 ; i <= n ; i++)
+		scanf(""%d"",&a[i]);
+	dfs(1);
+	printf(""%d"",count%1000000007);
+	return 0;
+}
+
+
+"
+3,E,C,54847584,2022-11-18 20:52:39,崔浩宇,运行超时,"#include<stdio.h>
+#include<stdlib.h>
+int n,count=0;
+int a[100001],box[100001],judge[100001];	
+
+int cnt()
+{
+    int i,j, number;
+    number = 0;
+    for(i=1;i<=n;i++)
+    {
+        for(j=i+1;j<=n;j++)
+        {
+            if(box[i]>box[j])
+            {
+                number++;
+            }
+        }
+    }
+    return number;
+}
+
+void dfs(int step)
+{		
+	int i,j;
+	if(step==n+1)
+	{    
+        count += cnt();
+		return;
+	}
+	for(i = 1 ; i <= n ; i++ )
+		if(judge[i]==0)
+		{
+			box[step]=a[i];
+			judge[i]=1;
+			dfs(step+1);
+			judge[i]=0;
+		}
+	return;
+}
+
+int main()
+{
+	scanf(""%d"",&n);
+	for( int i = 1 ; i <= n ; i++)
+		scanf(""%d"",&a[i]);
+	dfs(1);
+	printf(""%d"",count%1000000007);
+	return 0;
+}
+
+
+"
+4,E,C,54857736,2022-11-18 23:02:57,s丿,段错误,"#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+int sum = 0;
+int n;
+int a[10000];
+int b[10000];
+int book[10000];
+int reverse_cnt(int* a,int size) {
+	int cnt = 0;
+	for (int i = 0; i < size - 1; i++) {
+		for (int j = i+1; j < size; j++) {
+			if (a[i] > a[j]) {
+				cnt++;
+			}
+		}
+	}
+	return cnt;
+}
+void dfs(int step) {
+	static int k = 0;
+	if (step == n) {
+		sum += reverse_cnt(b, n);
+		return;
+	}
+	 
+		for (int i = 0; i < n; i++) {
+			if (!book[i]) {
+				b[step] = a[i];
+				book[i] = 1;
+				dfs(step + 1);
+				book[i] = 0;
+			}
+		}
+		
+}
+int main() {
+	scanf(""%d"", &n);
+	for (int i = 0; i < n; i++) {
+		scanf(""%d"", &a[i]);
+	}
+	memset(book, 0, 4 * n);;
+	dfs(0);
+	printf(""%d"", sum);
+}"
+5,E,C,54868613,2022-11-19 14:17:38,s丿,答案错误,"#include<stdio.h>
+#include<stdlib.h>
+#pragma warning(disable:4996)
+int fac(int n) {
+	if (n == 1) {
+		return 1;
+	}
+	return n * fac(n - 1) %(int) (1e9 + 7);
+}
+int cmp(const void* a, const void* b) {
+	return *(int*)a - *(int*)b;
+}
+int main() {
+	int n;
+	int a[100000];
+	int cnt = 0;
+	scanf(""%d"", &n);
+	for (int i = 0; i < n; i++) {
+		scanf(""%d"", &a[i]);
+	}
+	qsort(a, n, 4, cmp);
+	for (int i = 0; i < n; i++) {
+		if (a[i] != a[i + 1]) {
+			cnt += n - i - 1;
+		}
+		else {
+			cnt += n - i - 2;
+		}
+	}
+	printf(""%d"", fac(n)/2*cnt);
+
+}"
+6,E,C,54868699,2022-11-19 14:18:57,s丿,答案错误,"#include<stdio.h>
+#include<stdlib.h>
+#pragma warning(disable:4996)
+int fac(int n) {
+	if (n == 1) {
+		return 1;
+	}
+	return n * fac(n - 1) %(int) (1e9 + 7);
+}
+int cmp(const void* a, const void* b) {
+	return *(int*)a - *(int*)b;
+}
+int main() {
+	int n;
+	int a[100000];
+	int cnt = 0;
+	scanf(""%d"", &n);
+	for (int i = 0; i < n; i++) {
+		scanf(""%d"", &a[i]);
+	}
+	qsort(a, n, 4, cmp);
+	for (int i = 0; i < n; i++) {
+		if (a[i] != a[i + 1]) {
+			cnt += n - i - 1;
+		}
+		else {
+			cnt += n - i - 2;
+		}
+	}
+	printf(""%d"", fac(n)/2*cnt%(int)(1e9+7));
+
+}"
+7,E,C,54868764,2022-11-19 14:19:58,s丿,答案错误,"#include<stdio.h>
+#include<stdlib.h>
+#pragma warning(disable:4996)
+int fac(int n) {
+	if (n == 1) {
+		return 1;
+	}
+	return n * fac(n - 1) %(int) (1e9 + 7);
+}
+int cmp(const void* a, const void* b) {
+	return *(int*)a - *(int*)b;
+}
+int main() {
+	int n;
+	int a[100000];
+	int cnt = 0;
+	scanf(""%d"", &n);
+	for (int i = 0; i < n; i++) {
+		scanf(""%d"", &a[i]);
+	}
+	qsort(a, n, 4, cmp);
+	for (int i = 0; i < n-1; i++) {
+		if (a[i] != a[i + 1]) {
+			cnt += n - i - 1;
+		}
+		else {
+			cnt += n - i - 2;
+		}
+	}
+	printf(""%d"", fac(n)/2*cnt%(int)(1e9+7));
+
+}"
+8,E,C,54870442,2022-11-19 14:50:06,s丿,答案错误,"#include<stdio.h>
+#include<stdlib.h>
+#pragma warning(disable:4996)
+long long fac(long long n) {
+	if (n == 1) {
+		return 1;
+	}
+	return n * fac(n - 1) %(long long) (1e9 + 7);
+}
+int cmp(const void* a, const void* b) {
+	return *(int*)a - *(int*)b;
+}
+int main() {
+	int n;
+	int a[100000];
+	int cnt = 0;
+	scanf(""%d"", &n);
+		for (int i = 0; i < n; i++) {
+			scanf(""%d"", &a[i]);
+		}
+		qsort(a, n, 4, cmp);
+		for (int i = 0; i < n; i++) {
+			if (a[i] != a[i + 1]) {
+				cnt += n - i - 1;
+			}
+			else {
+				cnt += n - i - 2;
+			}
+		}
+		printf(""%lld"", fac(n)/2*cnt%(long long)(1e9+7));
+}
+"
+9,E,C,54870801,2022-11-19 14:57:08,s丿,答案错误,"#include<stdio.h>
+#include<stdlib.h>
+#pragma warning(disable:4996)
+long long fac(long long n) {
+	if (n == 1) {
+		return 1;
+	}
+	return n * fac(n - 1) %(long long) (1e9 + 7);
+}
+int cmp(const void* a, const void* b) {
+	return *(int*)a - *(int*)b;
+}
+int main() {
+	int n;
+	int a[100000];
+	int cnt = 0;
+	scanf(""%d"", &n);
+		for (int i = 0; i < n; i++) {
+			scanf(""%d"", &a[i]);
+		}
+		qsort(a, n, 4, cmp);
+		for (int i = 0; i < n - 1; i++) {
+			for (int j = i + 1;j<n; j++) {
+				if (a[j] != a[i]) {
+					cnt += n - j;
+					break;
+				}
+			}
+		}
+		printf(""%lld"", fac(n)/2*cnt%(long long)(1e9+7));
+}
+"
+10,E,C,54871306,2022-11-19 15:06:53,s丿,答案错误,"#include<stdio.h>
+#include<stdlib.h>
+#pragma warning(disable:4996)
+long long fac(long long n) {
+	if (n == 1) {
+		return 1;
+	}
+	return (long long)n * fac(n - 1) %(long long) (1e9 + 7);
+}
+int cmp(const void* a, const void* b) {
+	return *(int*)a - *(int*)b;
+}
+int main() {
+	int n;
+	int a[100000];
+	int cnt = 0;
+	scanf(""%d"", &n);
+		for (int i = 0; i < n; i++) {
+			scanf(""%d"", &a[i]);
+		}
+		qsort(a, n, 4, cmp);
+		for (int i = 0; i < n - 1; i++) {
+			for (int j = i + 1;j<n; j++) {
+				if (a[j] != a[i]) {
+					cnt += n - j;
+					break;
+				}
+			}
+		}
+		printf(""%lld"", fac(n)/2*cnt%(long long)(1e9+7));
+}
+"
+11,E,C,54872102,2022-11-19 15:19:52,s丿,答案错误,"#include<stdio.h>
+#include<stdlib.h>
+#pragma warning(disable:4996)
+long long fac(long long n) {
+	if (n == 1) {
+		return 1;
+	}
+	return n * fac(n - 1) %(long long) (1e9 + 7);
+}
+int cmp(const void* a, const void* b) {
+	return *(int*)a - *(int*)b;
+}
+int main() {
+	int n;
+	int a[100000];
+	int cnt = 0;
+	scanf(""%d"", &n);
+		for (int i = 0; i < n; i++) {
+			scanf(""%d"", &a[i]);
+		}
+		qsort(a, n, 4, cmp);
+		for (int i = 0; i < n - 1; i++) {
+			for (int j = i + 1;j<n; j++) {
+				if (a[j] != a[i]) {
+					cnt += n - j;
+                    i=j-1;
+					break;
+				}
+			}
+		}
+		printf(""%lld"", fac(n)/2*cnt%(long long)(1e9+7));
+}
+"
+12,E,C,54872333,2022-11-19 15:24:16,s丿,答案错误,"#include<stdio.h>
+#include<stdlib.h>
+#pragma warning(disable:4996)
+long long fac(long long n) {
+	if (n == 1) {
+		return 1;
+	}
+	return n * fac(n - 1) %(long long) (1e9 + 7);
+}
+int cmp(const void* a, const void* b) {
+	return *(int*)a - *(int*)b;
+}
+int main() {
+	int n;
+	int a[100000];
+	int cnt = 0;
+	scanf(""%d"", &n);
+		for (int i = 0; i < n; i++) {
+			scanf(""%d"", &a[i]);
+		}
+		qsort(a, n, 4, cmp);
+	for (int i = 0; i < n - 1; i++) {
+			for (int j = i + 1;j<n; j++) {
+				if (a[i] < a[j]) {
+					cnt++;
+				}
+			}
+		}
+		printf(""%lld"", fac(n)/2*cnt%(long long)(1e9+7));
+}
+"
+13,E,C,54872391,2022-11-19 15:25:11,s丿,答案错误,"#include<stdio.h>
+#include<stdlib.h>
+#pragma warning(disable:4996)
+long long fac(long long n) {
+	if (n == 1) {
+		return 1;
+	}
+	return n * fac(n - 1) %(long long) (1e9 + 7);
+}
+int cmp(const void* a, const void* b) {
+	return *(int*)a - *(int*)b;
+}
+int main() {
+	int n;
+	int a[100000];
+	long long cnt = 0;
+	scanf(""%d"", &n);
+		for (int i = 0; i < n; i++) {
+			scanf(""%d"", &a[i]);
+		}
+		qsort(a, n, 4, cmp);
+	   for (int i = 0; i < n - 1; i++) {
+			for (int j = i + 1;j<n; j++) {
+				if (a[i] < a[j]) {
+					cnt++;
+				}
+			}
+		}
+		printf(""%lld"", fac(n)/2*cnt%(long long)(1e9+7));
+}
+"
+14,E,C,54872524,2022-11-19 15:27:28,s丿,答案错误,"#include<stdio.h>
+#include<stdlib.h>
+#pragma warning(disable:4996)
+long long fac(long long n) {
+	if (n == 1) {
+		return 1;
+	}
+	return n * fac(n - 1) %(long long) (1e9 + 7);
+}
+int cmp(const void* a, const void* b) {
+	return *(int*)a - *(int*)b;
+}
+int main() {
+	int n;
+	int a[100000];
+	int cnt = 0;
+	scanf(""%d"", &n);
+		for (int i = 0; i < n; i++) {
+			scanf(""%d"", &a[i]);
+		}
+		qsort(a, n, 4, cmp);
+	   for (int i = 0; i < n - 1; i++) {
+			for (int j = i + 1;j<n;j++) {
+				if (a[i] < a[j]) {
+					cnt++;
+				}
+			}
+		}
+		printf(""%lld"", fac(n)/2*cnt%(long long)(1e9+7));
+}
+"
+15,E,C,54873176,2022-11-19 15:39:46,s丿,答案错误,"#include<stdio.h>
+#include<stdlib.h>
+#pragma warning(disable:4996)
+long long fac(long long n) {
+	if (n == 1) {
+		return 1;
+	}
+	return n * fac(n - 1) %(long long) (1e9 + 7);
+}
+int cmp(const void* a, const void* b) {
+	return *(int*)a - *(int*)b;
+}
+int main() {
+	int n;
+	int a[100000];
+	int cnt = 0;
+	scanf(""%d"", &n);
+		for (int i = 0; i < n; i++) {
+			scanf(""%d"", &a[i]);
+		}
+		qsort(a, n, 4, cmp);
+	   for (int i = 0; i < n - 1; i++) {
+			for (int j = i + 1;j<n;j++) {
+				if (a[i] < a[j]) {
+					cnt++;
+				}
+			}
+		}
+        int inv=5e8+4;
+		printf(""%lld"", fac(n)*inv%(long long)(1e9+7)*cnt%(long long)(1e9+7));
+}
+"
+16,E,C,54873634,2022-11-19 15:48:36,s丿,运行超时,"#include<stdio.h>
+#include<stdlib.h>
+#pragma warning(disable:4996)
+long long fac(long long n) {
+	if (n == 1) {
+		return 1;
+	}
+	return n * fac(n - 1) %(long long) (1e9 + 7);
+}
+int cmp(const void* a, const void* b) {
+	return *(int*)a - *(int*)b;
+}
+	int n;
+	int a[100000];
+	int cnt = 0;
+int main() {
+	scanf(""%d"", &n);
+		for (int i = 0; i < n; i++) {
+			scanf(""%d"", &a[i]);
+		}
+		qsort(a, n, 4, cmp);
+	   for (int i = 0; i < n - 1; i++) {
+			for (int j = i + 1;j<n;j++) {
+				if (a[i] < a[j]) {
+					cnt++;
+				}
+			}
+		}
+        int inv=5e8+4;
+		printf(""%lld"",( fac(n)*inv%(long long)(1e9+7)*cnt%(long long)(1e9+7))%(long long)(1e9+7));
+}
+"
+17,E,C,54873663,2022-11-19 15:49:04,s丿,运行超时,"#include<stdio.h>
+#include<stdlib.h>
+#pragma warning(disable:4996)
+long long fac(long long n) {
+	if (n == 1) {
+		return 1;
+	}
+	return n * fac(n - 1) %(long long) (1e9 + 7);
+}
+int cmp(const void* a, const void* b) {
+	return *(int*)a - *(int*)b;
+}
+	int n;
+	int a[100000];
+	int cnt = 0;
+int main() {
+	scanf(""%d"", &n);
+		for (int i = 0; i < n; i++) {
+			scanf(""%d"", &a[i]);
+		}
+		qsort(a, n, 4, cmp);
+	   for (int i = 0; i < n - 1; i++) {
+			for (int j = i + 1;j<n;j++) {
+				if (a[i] < a[j]) {
+					cnt++;
+				}
+			}
+		}
+        int inv=5e8+4;
+		printf(""%lld"", fac(n)*inv%(long long)(1e9+7)*cnt%(long long)(1e9+7));
+}
+"
+18,E,C,54873709,2022-11-19 15:49:54,s丿,运行超时,"#include<stdio.h>
+#include<stdlib.h>
+#pragma warning(disable:4996)
+long long fac(long long n) {
+	if (n == 1) {
+		return 1;
+	}
+	return n * fac(n - 1) %(long long) (1e9 + 7);
+}
+int cmp(const void* a, const void* b) {
+	return *(int*)a - *(int*)b;
+}
+	int n;
+	int a[100000];
+	int cnt = 0;
+int main() {
+	scanf(""%d"", &n);
+		for (int i = 0; i < n; i++) {
+			scanf(""%d"", &a[i]);
+		}
+		qsort(a, n, 4, cmp);
+	   for (int i = 0; i < n - 1; i++) {
+			for (int j = i + 1;j<n;j++) {
+				if (a[i] != a[j]) {
+					cnt++;
+				}
+			}
+		}
+        int inv=5e8+4;
+		printf(""%lld"", fac(n)*inv%(long long)(1e9+7)*cnt%(long long)(1e9+7));
+}
+"
+19,E,C,54873737,2022-11-19 15:50:14,s丿,运行超时,"#include<stdio.h>
+#include<stdlib.h>
+#pragma warning(disable:4996)
+long long fac(long long n) {
+	if (n == 1) {
+		return 1;
+	}
+	return n * fac(n - 1) %(long long) (1e9 + 7);
+}
+int cmp(const void* a, const void* b) {
+	return *(int*)a - *(int*)b;
+}
+	int n;
+	int a[100000];
+	int cnt = 0;
+int main() {
+	scanf(""%d"", &n);
+		for (int i = 0; i < n; i++) {
+			scanf(""%d"", &a[i]);
+		}
+		//qsort(a, n, 4, cmp);
+	   for (int i = 0; i < n - 1; i++) {
+			for (int j = i + 1;j<n;j++) {
+				if (a[i] != a[j]) {
+					cnt++;
+				}
+			}
+		}
+        int inv=5e8+4;
+		printf(""%lld"", fac(n)*inv%(long long)(1e9+7)*cnt%(long long)(1e9+7));
+}
+"
+20,E,C,54873775,2022-11-19 15:51:24,s丿,答案错误,"#include<stdio.h>
+#include<stdlib.h>
+#pragma warning(disable:4996)
+long long fac(long long n) {
+	if (n == 1) {
+		return 1;
+	}
+	return n * fac(n - 1) %(long long) (1e9 + 7);
+}
+int cmp(const void* a, const void* b) {
+	return *(int*)a - *(int*)b;
+}
+	int n;
+	int a[100000];
+	int cnt = 0;
+int main() {
+	scanf(""%d"", &n);
+		for (int i = 0; i < n; i++) {
+			scanf(""%d"", &a[i]);
+		}
+		//qsort(a, n, 4, cmp);
+	   for (int i = 0; i < n - 1; i++) {
+			for (int j = 0;j<n;j++) {
+				if (a[i] != a[j]) {
+					cnt++;
+				}
+			}
+		}
+        cnt/=2;
+        int inv=5e8+4;
+		printf(""%lld"", fac(n)*inv%(long long)(1e9+7)*cnt%(long long)(1e9+7));
+}
+"
+21,E,C,54873811,2022-11-19 15:52:10,s丿,运行超时,"#include<stdio.h>
+#include<stdlib.h>
+#pragma warning(disable:4996)
+long long fac(long long n) {
+	if (n == 1) {
+		return 1;
+	}
+	return n * fac(n - 1) %(long long) (1e9 + 7);
+}
+int cmp(const void* a, const void* b) {
+	return *(int*)a - *(int*)b;
+}
+	int n;
+	int a[100000];
+	long long cnt = 0;
+int main() {
+	scanf(""%d"", &n);
+		for (int i = 0; i < n; i++) {
+			scanf(""%d"", &a[i]);
+		}
+		//qsort(a, n, 4, cmp);
+	   for (int i = 0; i < n; i++) {
+			for (int j = 0;j<n;j++) {
+				if (a[i] != a[j]) {
+					cnt++;
+				}
+			}
+		}
+        cnt/=2;
+        int inv=5e8+4;
+		printf(""%lld"", fac(n)*inv%(long long)(1e9+7)*cnt%(long long)(1e9+7));
+}
+"
+22,E,C,54873947,2022-11-19 15:55:07,s丿,运行超时,"#include<stdio.h>
+#include<stdlib.h>
+#pragma warning(disable:4996)
+long long fac(long long n) {
+	if (n == 1) {
+		return 1;
+	}
+	return n * fac(n - 1) %(long long) (1e9 + 7);
+}
+int cmp(const void* a, const void* b) {
+	return *(int*)a - *(int*)b;
+}
+	int n;
+	int a[100000];
+	int cnt = 0;
+int main() {
+	scanf(""%d"", &n);
+		for (int i = 0; i < n; i++) {
+			scanf(""%d"", &a[i]);
+		}
+		qsort(a, n, 4, cmp);
+	   for (int i = 0; i < n - 1; i++) {
+			for (int j = i + 1;j<n;j++) {
+				if (a[i] < a[j]) {
+					cnt++;
+				}
+			}
+		}
+        int inv=5e8+4;
+		printf(""%lld"", fac(n)*inv%(long long)(1e9+7)*cnt%(long long)(1e9+7));
+}
+"
+23,E,C,54874320,2022-11-19 16:02:47,s丿,运行超时,"#include<stdio.h>
+#include<stdlib.h>
+#pragma warning(disable:4996)
+long long fac(long long n) {
+	if (n == 1) {
+		return 1;
+	}
+	return n * fac(n - 1) %(long long) (1e9 + 7);
+}
+int cmp(const void* a, const void* b) {
+	return *(int*)a - *(int*)b;
+}
+	int n;
+	int a[100000];
+	int cnt = 0;
+int main() {
+	scanf(""%d"", &n);
+		for (int i = 0; i < n; i++) {
+			scanf(""%d"", &a[i]);
+		}
+		qsort(a, n, 4, cmp);
+		for (int i = 0; i < n - 1; i++) {
+			for (int j = i + 1;j<n; j++) {
+				if (a[j] != a[i]) {
+					cnt += n - j;
+					break;
+				}
+			}
+		}
+        int inv=5e8+4;
+		printf(""%lld"", fac(n)*inv%(long long)(1e9+7)*cnt%(long long)(1e9+7));
+}
+"
+24,E,C,54874731,2022-11-19 16:10:45,s丿,答案错误,"#include<stdio.h>
+#include<stdlib.h>
+#pragma warning(disable:4996)
+long long fac(long long n) {
+	if (n == 1) {
+		return 1;
+	}
+	return n * fac(n - 1) %(long long) (1e9 + 7);
+}
+int cmp(const void* a, const void* b) {
+	return *(int*)a - *(int*)b;
+}
+int main() {
+	int n;
+	int a[100000];
+	int cnt = 0;
+	scanf(""%d"", &n);
+		for (int i = 0; i < n; i++) {
+			scanf(""%d"", &a[i]);
+		}
+		qsort(a, n, 4, cmp);
+	   for (int i = 0; i < n - 1; i++) {
+			for (int j = i + 1;j<n;j++) {
+				if (a[i] < a[j]) {
+					cnt++;
+				}
+			}
+		}
+		if(n==1){
+            printf(""%d"",0);
+        }else if(n==2){
+            printf(""%d"",1);
+        }else{
+            printf(""%lld"", fac(n-2)*n*(n-1)/2*cnt%(long long)(1e9+7));
+        }
+}
+"
+25,E,C,54874804,2022-11-19 16:12:10,s丿,答案错误,"#include<stdio.h>
+#include<stdlib.h>
+#pragma warning(disable:4996)
+long long fac(long long n) {
+	if (n == 1) {
+		return 1;
+	}
+	return n * fac(n - 1) %(long long) (1e9 + 7);
+}
+int cmp(const void* a, const void* b) {
+	return *(int*)a - *(int*)b;
+}
+int main() {
+	int n;
+	int a[100000];
+	int cnt = 0;
+	scanf(""%d"", &n);
+		for (int i = 0; i < n; i++) {
+			scanf(""%d"", &a[i]);
+		}
+		qsort(a, n, 4, cmp);
+	   for (int i = 0; i < n - 1; i++) {
+			for (int j = i + 1;j<n;j++) {
+				if (a[i] < a[j]) {
+					cnt++;
+				}
+			}
+		}
+		if(n==1){
+            printf(""%d"",0);
+        }else if(n==2){
+            printf(""%d"",1);
+        }else{
+            printf(""%lld"", fac(n-2)*(n*(n-1)/2%(long long)(1e9+7))*cnt%(long long)(1e9+7));
+        }
+}
+"
+26,E,C,54874889,2022-11-19 16:13:37,s丿,答案错误,"#include<stdio.h>
+#include<stdlib.h>
+#pragma warning(disable:4996)
+long long fac(long long n) {
+	if (n == 1) {
+		return 1;
+	}
+	return n * fac(n - 1) %(long long) (1e9 + 7);
+}
+int cmp(const void* a, const void* b) {
+	return *(int*)a - *(int*)b;
+}
+int main() {
+	int n;
+	int a[100000];
+	int cnt = 0;
+	scanf(""%d"", &n);
+		for (int i = 0; i < n; i++) {
+			scanf(""%d"", &a[i]);
+		}
+		qsort(a, n, 4, cmp);
+	   for (int i = 0; i < n - 1; i++) {
+			for (int j = i + 1;j<n;j++) {
+				if (a[i] < a[j]) {
+					cnt++;
+				}
+			}
+		}
+		if(n==1){
+            printf(""%d"",0);
+        }else if(n==2){
+            printf(""%d"",1);
+        }else{
+            printf(""%lld"", fac(n-2)*(n*(n-1)/2%(long long)(1e9+7))*(cnt%(long long)(1e9+7))%(long long)(1e9+7));
+        }
+}
+"
+27,E,C,54874899,2022-11-19 16:13:48,s丿,答案错误,"#include<stdio.h>
+#include<stdlib.h>
+#pragma warning(disable:4996)
+long long fac(long long n) {
+	if (n == 1) {
+		return 1;
+	}
+	return n * fac(n - 1) %(long long) (1e9 + 7);
+}
+int cmp(const void* a, const void* b) {
+	return *(int*)a - *(int*)b;
+}
+int main() {
+	int n;
+	int a[100000];
+	int cnt = 0;
+	scanf(""%d"", &n);
+		for (int i = 0; i < n; i++) {
+			scanf(""%d"", &a[i]);
+		}
+		qsort(a, n, 4, cmp);
+	   for (int i = 0; i < n - 1; i++) {
+			for (int j = i + 1;j<n;j++) {
+				if (a[i] < a[j]) {
+					cnt++;
+				}
+			}
+		}
+		if(n==1){
+            printf(""%d"",0);
+        }else if(n==2){
+            printf(""%d"",1);
+        }else{
+            printf(""%lld"", fac(n-2)*(n*(n-1)/2%(long long)(1e9+7))*(cnt%(long long)(1e9+7))%(long long)(1e9+7));
+        }
+}
+"
+28,E,C,54874923,2022-11-19 16:14:15,s丿,答案错误,"#include<stdio.h>
+#include<stdlib.h>
+#pragma warning(disable:4996)
+long long fac(long long n) {
+	if (n == 1) {
+		return 1;
+	}
+	return n * fac(n - 1) %(long long) (1e9 + 7);
+}
+int cmp(const void* a, const void* b) {
+	return *(int*)a - *(int*)b;
+}
+int main() {
+	int n;
+	int a[100000];
+	int cnt = 0;
+	scanf(""%d"", &n);
+		for (int i = 0; i < n; i++) {
+			scanf(""%d"", &a[i]);
+		}
+		qsort(a, n, 4, cmp);
+	   for (int i = 0; i < n - 1; i++) {
+			for (int j = i + 1;j<n;j++) {
+				if (a[i] < a[j]) {
+					cnt++;
+				}
+			}
+		}
+		printf(""%lld"", fac(n)/2*cnt%(long long)(1e9+7));
+}
+"
+29,E,C,54891043,2022-11-19 23:46:29,s丿,答案错误,"#include<stdio.h>
+#include<stdlib.h>
+#pragma warning(disable:4996)
+long long fac(long long n) {
+	if (n == 1) {
+		return 1;
+	}
+	return n * fac(n - 1) %(long long) (1e9 + 7);
+}
+int cmp(const void* a, const void* b) {
+	return *(int*)a - *(int*)b;
+}
+int main() {
+	int n;
+	int a[100000];
+	int cnt = 0;
+	scanf(""%d"", &n);
+		for (int i = 0; i < n; i++) {
+			scanf(""%d"", &a[i]);
+		}
+		qsort(a, n, 4, cmp);
+	   for (int i = 0; i < n - 1; i++) {
+			for (int j = i + 1;j<n;j++) {
+				if (a[i] < a[j]) {
+					cnt++;
+				}
+			}
+		}
+		printf(""%lld"", fac(n)/2*cnt%(long long)(1e9+7));
+}
+"
+30,E,C,54891064,2022-11-19 23:48:20,s丿,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c:3:9: warning: unknown pragma ignored [-Wunknown-pragmas]\n#pragma warning(disable:4996)\n        ^\nmain.c:5:8: error: expression is not assignable\n        fac(1)=1;\n        ~~~~~~^\n1 warning and 1 error generated.""}
+
+#include<stdio.h>
+#include<stdlib.h>
+#pragma warning(disable:4996)
+long long fac(long long n) {
+	fac(1)=1;
+	return n * fac(n - 1) %(long long) (1e9 + 7);
+}
+int cmp(const void* a, const void* b) {
+	return *(int*)a - *(int*)b;
+}
+int main() {
+	int n;
+	int a[100000];
+	int cnt = 0;
+	scanf(""%d"", &n);
+		for (int i = 0; i < n; i++) {
+			scanf(""%d"", &a[i]);
+		}
+		qsort(a, n, 4, cmp);
+	   for (int i = 0; i < n - 1; i++) {
+			for (int j = i + 1;j<n;j++) {
+				if (a[i] < a[j]) {
+					cnt++;
+				}
+			}
+		}
+		printf(""%lld"", fac(n)/2*cnt%(long long)(1e9+7));
+}
+"
+31,E,C,54891065,2022-11-19 23:48:34,s丿,答案错误,"#include<stdio.h>
+#include<stdlib.h>
+#pragma warning(disable:4996)
+long long fac(long long n) {
+	if(n==1){
+        return 1;
+    }
+	return n * fac(n - 1) %(long long) (1e9 + 7);
+}
+int cmp(const void* a, const void* b) {
+	return *(int*)a - *(int*)b;
+}
+int main() {
+	int n;
+	int a[100000];
+	int cnt = 0;
+	scanf(""%d"", &n);
+		for (int i = 0; i < n; i++) {
+			scanf(""%d"", &a[i]);
+		}
+		qsort(a, n, 4, cmp);
+	   for (int i = 0; i < n - 1; i++) {
+			for (int j = i + 1;j<n;j++) {
+				if (a[i] < a[j]) {
+					cnt++;
+				}
+			}
+		}
+		printf(""%lld"", fac(n)/2*cnt%(long long)(1e9+7));
+}
+"
+32,E,C,54891110,2022-11-19 23:53:07,s丿,答案错误,"#include<stdio.h>
+#include<stdlib.h>
+#pragma warning(disable:4996)
+const long long mod=1e9 + 7;
+long long fac(long long n) {
+	if(n==1){
+        return 1;
+    }
+	return n * fac(n - 1) %mod;
+}
+int cmp(const void* a, const void* b) {
+	return *(int*)a - *(int*)b;
+}
+int main() {
+	int n;
+	int a[100000];
+	int cnt = 0;
+	scanf(""%d"", &n);
+		for (int i = 0; i < n; i++) {
+			scanf(""%d"", &a[i]);
+		}
+		qsort(a, n, 4, cmp);
+	   for (int i = 0; i < n - 1; i++) {
+			for (int j = i + 1;j<n;j++) {
+				if (a[i] < a[j]) {
+					cnt++;
+				}
+			}
+		}
+		printf(""%lld"", fac(n-2)*(n*(n-1)/2%mod)*cnt%mod);
+}
+"
+33,E,C,54914291,2022-11-20 21:16:00,s丿,答案错误,"#include<stdio.h>
+#include<stdlib.h>
+#pragma warning(disable:4996)
+const long long mod=1e9 + 7;
+long long fac(long long n) {
+	if(n==1){
+        return 1;
+    }
+	return n * fac(n - 1) %mod;
+}
+int cmp(const void* a, const void* b) {
+	return *(int*)a - *(int*)b;
+}
+int main() {
+	int n;
+	int a[100000];
+	int cnt = 0;
+	scanf(""%d"", &n);
+		for (int i = 0; i < n; i++) {
+			scanf(""%d"", &a[i]);
+		}
+		qsort(a, n, 4, cmp);
+	   for (int i = 0; i < n - 1; i++) {
+			for (int j = i + 1;j<n;j++) {
+				if (a[i] < a[j]) {
+					cnt++;
+				}
+			}
+		}
+		if(n>=3){
+            printf(""%lld"", fac(n-2)*(n*(n-1)/2%mod)%mod*cnt%mod);
+        }else if(n==1){
+            printf(""0"");
+            }
+        else if(n==2){
+            printf(""1"");
+        }
+}
+"
+34,E,C,54914296,2022-11-20 21:16:09,s丿,运行超时,"#include<stdio.h>
+#include<stdlib.h>
+#pragma warning(disable:4996)
+const long long mod=1e9 + 7;
+long long fac(long long n) {
+	if(n==1){
+        return 1;
+    }
+	return n * fac(n - 1) %mod;
+}
+int cmp(const void* a, const void* b) {
+	return *(int*)a - *(int*)b;
+}
+int main() {
+	int n;
+	int a[100000];
+	int cnt = 0;
+	scanf(""%d"", &n);
+		for (int i = 0; i < n; i++) {
+			scanf(""%d"", &a[i]);
+		}
+		qsort(a, n, 4, cmp);
+	   for (int i = 0; i < n - 1; i++) {
+			for (int j = i + 1;j<n;j++) {
+				if (a[i] < a[j]) {
+					cnt++;
+				}
+			}
+		}
+		if(n>=3){
+            printf(""%lld"", fac(n-2)*(n*(n-1)/2%mod)%mod*cnt%mod);
+        }else if(n==1){
+            printf(""0"");
+            }
+        else if(n==2){
+            printf(""1"");
+        }
+}
+"
+35,E,C,54936023,2022-11-22 18:25:20,s丿,运行超时,"#include<stdio.h>
+#include<stdlib.h>
+#pragma warning(disable:4996)
+const long long mod=1e9 + 7;
+long long fac(long long n) {
+	if(n==1){
+        return 1;
+    }
+	return n * fac(n - 1) %mod;
+}
+int cmp(const void* a, const void* b) {
+	return *(int*)a - *(int*)b;
+}
+int main() {
+	int n;
+	int a[100000];
+	int cnt = 0;
+	scanf(""%d"", &n);
+		for (int i = 0; i < n; i++) {
+			scanf(""%d"", &a[i]);
+		}
+		qsort(a, n, 4, cmp);
+	   for (int i = 0; i < n - 1; i++) {
+			for (int j = i + 1;j<n;j++) {
+				if (a[i] < a[j]) {
+					cnt++;
+				}
+			}
+		}
+		if(n>=3){
+            printf(""%lld"", fac(n-2)*(n*(n-1)/2%mod)%mod*cnt%mod);
+        }else if(n==1){
+            printf(""%d"",0);
+            }
+        else if(n==2){
+            printf(""%d"",1);
+        }
+}
+"
+36,E,C,54936391,2022-11-22 18:40:55,s丿,答案错误,"#include<stdio.h>
+#include<stdlib.h>
+#pragma warning(disable:4996)
+const long long mod=1e9 + 7;
+long long fac(long long n) {
+	if(n==1){
+        return 1;
+    }
+	return n * fac(n - 1) %mod;
+}
+int cmp(const void* a, const void* b) {
+	return *(int*)a - *(int*)b;
+}
+int main() {
+	int n;
+	int a[100000];
+    int b[100001];
+	int cnt = 0,sum=0;
+	scanf(""%d"", &n);
+		for (int i = 0; i < n; i++) {
+			scanf(""%d"", &a[i]);
+		}
+		qsort(a, n, 4, cmp);
+	 for (int i = 0; i < n; i++) {
+		b[a[i]]++;
+		if (a[i] > a[i - 1]&&i>0) {
+			sum += b[a[i-1]];
+		}
+		cnt += sum;
+	}
+		if(n>=3){
+            printf(""%lld"", fac(n-2)*(n*(n-1)/2%mod)%mod*cnt%mod);
+        }else if(n==1){
+            printf(""%d"",0);
+            }
+        else if(n==2){
+            printf(""%d"",1);
+        }
+}
+"
+37,E,C,54936399,2022-11-22 18:41:03,s丿,答案错误,"#include<stdio.h>
+#include<stdlib.h>
+#pragma warning(disable:4996)
+const long long mod=1e9 + 7;
+long long fac(long long n) {
+	if(n==1){
+        return 1;
+    }
+	return n * fac(n - 1) %mod;
+}
+int cmp(const void* a, const void* b) {
+	return *(int*)a - *(int*)b;
+}
+int main() {
+	int n;
+	int a[100000];
+    int b[100001];
+	int cnt = 0,sum=0;
+	scanf(""%d"", &n);
+		for (int i = 0; i < n; i++) {
+			scanf(""%d"", &a[i]);
+		}
+		qsort(a, n, 4, cmp);
+	 for (int i = 0; i < n; i++) {
+		b[a[i]]++;
+		if (a[i] > a[i - 1]&&i>0) {
+			sum += b[a[i-1]];
+		}
+		cnt += sum;
+	}
+		if(n>=3){
+            printf(""%lld"", fac(n-2)*(n*(n-1)/2%mod)%mod*cnt%mod);
+        }else if(n==1){
+            printf(""%d"",0);
+            }
+        else if(n==2){
+            printf(""%d"",1);
+        }
+}
+"
+38,E,C,54936557,2022-11-22 18:47:23,s丿,答案错误,"#include<stdio.h>
+#include<stdlib.h>
+#pragma warning(disable:4996)
+const long long mod=1e9 + 7;
+long long fac(long long n) {
+	if(n==1){
+        return 1;
+    }
+	return n * fac(n - 1) %mod;
+}
+int cmp(const void* a, const void* b) {
+	return *(int*)a - *(int*)b;
+}
+int main() {
+	int n;
+	int a[100000];
+    int b[100001];
+	int cnt = 0,sum=0;
+	scanf(""%d"", &n);
+		for (int i = 0; i < n; i++) {
+			scanf(""%d"", &a[i]);
+		}
+		qsort(a, n, 4, cmp);
+	 for (int i = 0; i < n; i++) {
+		b[a[i]]++;
+		if (a[i] > a[i - 1]&&i>0) {
+			sum += b[a[i-1]];
+		}
+		cnt += sum;
+	}
+		if(n>=3){
+            printf(""%lld"", fac(n-2)*(n*(n-1)/2%mod)%mod*cnt%mod);
+        }else if(n==1){
+            printf(""%d"",0);
+            }
+        else if(n==2){
+            printf(""%d"",1);
+        }
+}
+"
+39,E,C,54936569,2022-11-22 18:47:57,s丿,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c:3:9: warning: unknown pragma ignored [-Wunknown-pragmas]\n#pragma warning(disable:4996)\n        ^\nmain.c:18:14: error: expected identifier or '('\n        int cnt = 0,long long sum=0;\n                    ^\nmain.c:18:14: error: expected ';' at end of declaration\n        int cnt = 0,long long sum=0;\n                    ^\n                    ;\n1 warning and 2 errors generated.""}
+
+#include<stdio.h>
+#include<stdlib.h>
+#pragma warning(disable:4996)
+const long long mod=1e9 + 7;
+long long fac(long long n) {
+	if(n==1){
+        return 1;
+    }
+	return n * fac(n - 1) %mod;
+}
+int cmp(const void* a, const void* b) {
+	return *(int*)a - *(int*)b;
+}
+int main() {
+	int n;
+	int a[100000];
+    int b[100001];
+	int cnt = 0,long long sum=0;
+	scanf(""%d"", &n);
+		for (int i = 0; i < n; i++) {
+			scanf(""%d"", &a[i]);
+		}
+		qsort(a, n, 4, cmp);
+	 for (int i = 0; i < n; i++) {
+		b[a[i]]++;
+		if (a[i] > a[i - 1]&&i>0) {
+			sum += b[a[i-1]];
+		}
+		cnt += sum;
+	}
+		if(n>=3){
+            printf(""%lld"", fac(n-2)*(n*(n-1)/2%mod)%mod*cnt%mod);
+        }else if(n==1){
+            printf(""%d"",0);
+            }
+        else if(n==2){
+            printf(""%d"",1);
+        }
+}
+"
+40,E,C,54936578,2022-11-22 18:48:14,s丿,答案错误,"#include<stdio.h>
+#include<stdlib.h>
+#pragma warning(disable:4996)
+const long long mod=1e9 + 7;
+long long fac(long long n) {
+	if(n==1){
+        return 1;
+    }
+	return n * fac(n - 1) %mod;
+}
+int cmp(const void* a, const void* b) {
+	return *(int*)a - *(int*)b;
+}
+int main() {
+	int n;
+	int a[100000];
+    int b[100001];
+	int cnt = 0;
+    long long sum=0;
+	scanf(""%d"", &n);
+		for (int i = 0; i < n; i++) {
+			scanf(""%d"", &a[i]);
+		}
+		qsort(a, n, 4, cmp);
+	 for (int i = 0; i < n; i++) {
+		b[a[i]]++;
+		if (a[i] > a[i - 1]&&i>0) {
+			sum += b[a[i-1]];
+		}
+		cnt += sum;
+	}
+		if(n>=3){
+            printf(""%lld"", fac(n-2)*(n*(n-1)/2%mod)%mod*cnt%mod);
+        }else if(n==1){
+            printf(""%d"",0);
+            }
+        else if(n==2){
+            printf(""%d"",1);
+        }
+}
+"
+41,E,C,54936597,2022-11-22 18:48:59,s丿,答案错误,"#include<stdio.h>
+#include<stdlib.h>
+#pragma warning(disable:4996)
+const long long mod=1e9 + 7;
+long long fac(long long n) {
+	if(n==1){
+        return 1;
+    }
+	return n * fac(n - 1) %mod;
+}
+int cmp(const void* a, const void* b) {
+	return *(int*)a - *(int*)b;
+}
+int main() {
+	int n;
+	int a[100000];
+    int b[100001];
+	int cnt = 0;
+    int sum=0;
+	scanf(""%d"", &n);
+		for (int i = 0; i < n; i++) {
+			scanf(""%d"", &a[i]);
+		}
+		qsort(a, n, 4, cmp);
+	 for (int i = 0; i < n; i++) {
+		b[a[i]]++;
+		if(a[i] > a[i - 1]&&i>0) {
+			sum += b[a[i-1]];
+		}
+		cnt += sum;
+	}
+		if(n>=3){
+            printf(""%lld"", fac(n-2)*(n*(n-1)/2%mod)%mod*cnt%mod);
+        }else if(n==1){
+            printf(""%d"",0);
+            }
+        else if(n==2){
+            printf(""%d"",1);
+        }
+}
+"
+42,E,C,54936695,2022-11-22 18:53:17,s丿,答案错误,"#include<stdio.h>
+#include<stdlib.h>
+#pragma warning(disable:4996)
+const long long mod=1e9 + 7;
+long long fac(long long n) {
+	if(n==1){
+        return 1;
+    }
+	return n * fac(n - 1) %mod;
+}
+int cmp(const void* a, const void* b) {
+	return *(int*)a - *(int*)b;
+}
+int main() {
+	int n;
+	int a[100000];
+    int b[100001];
+	int cnt = 0;
+    int sum=0;
+	scanf(""%d"", &n);
+		for (int i = 0; i < n; i++) {
+			scanf(""%d"", &a[i]);
+		}
+		qsort(a, n, 4, cmp);
+	 for (int i = 0; i < n; i++) {
+		b[a[i]]++;
+		if(a[i] > a[i - 1]&&i>0) {
+			sum += b[a[i-1]];
+		}
+		cnt += sum;
+	}
+		if(n>=3){
+            printf(""%lld"", fac(n-2)*(1ll*n*(n-1)/2)%mod*cnt%mod);
+        }else if(n==1){
+            printf(""%d"",0);
+            }
+        else if(n==2){
+            printf(""%d"",1);
+        }
+}
+"
+43,E,C,54936725,2022-11-22 18:54:25,s丿,答案错误,"#include<stdio.h>
+#include<stdlib.h>
+#pragma warning(disable:4996)
+const long long mod=1e9 + 7;
+long long fac(long long n) {
+	if(n==1){
+        return 1;
+    }
+	return n * fac(n - 1) %mod;
+}
+int cmp(const void* a, const void* b) {
+	return *(int*)a - *(int*)b;
+}
+int main() {
+	int n;
+	int a[100000];
+    int b[100001];
+	long long cnt = 0;
+    long long sum=0;
+	scanf(""%d"", &n);
+		for (int i = 0; i < n; i++) {
+			scanf(""%d"", &a[i]);
+		}
+		qsort(a, n, 4, cmp);
+	 for (int i = 0; i < n; i++) {
+		b[a[i]]++;
+		if(a[i] > a[i - 1]&&i>0) {
+			sum += b[a[i-1]];
+		}
+		cnt += sum;
+	}
+		if(n>=3){
+            printf(""%lld"", fac(n-2)*(1ll*n*(n-1)/2)%mod*cnt%mod);
+        }else if(n==1){
+            printf(""%d"",0);
+            }
+        else if(n==2){
+            printf(""%d"",1);
+        }
+}
+"
+44,E,C,54936765,2022-11-22 18:55:32,s丿,答案错误,"#include<stdio.h>
+#include<stdlib.h>
+#pragma warning(disable:4996)
+const long long mod=1e9 + 7;
+long long fac(long long n) {
+	if(n==1){
+        return 1;
+    }
+	return n * fac(n - 1) %mod;
+}
+int cmp(const void* a, const void* b) {
+	return *(int*)a - *(int*)b;
+}
+int main() {
+	int n;
+	int a[100000];
+    int b[100001];
+	long long cnt = 0;
+    long long sum=0;
+	scanf(""%d"", &n);
+		for (int i = 0; i < n; i++) {
+			scanf(""%d"", &a[i]);
+		}
+		qsort(a, n, 4, cmp);
+	 for (int i = 0; i < n; i++) {
+		b[a[i]]++;
+		if(a[i] > a[i - 1]&&i>0) {
+			sum += 1ll*b[a[i-1]];
+		}
+		cnt += sum;
+	}
+		if(n>=3){
+            printf(""%lld"", fac(n-2)*(1ll*n*(n-1)/2)%mod*cnt%mod);
+        }else if(n==1){
+            printf(""%d"",0);
+            }
+        else if(n==2){
+            printf(""%d"",1);
+        }
+}
+"
+45,E,C,54937031,2022-11-22 19:03:58,s丿,答案错误,"#include<stdio.h>
+#include<stdlib.h>
+#pragma warning(disable:4996)
+const long long mod=1e9 + 7;
+long long fac(long long n) {
+	if(n==1){
+        return 1;
+    }
+	return n * fac(n - 1) %mod;
+}
+int cmp(const void* a, const void* b) {
+	return *(int*)a - *(int*)b;
+}
+int main() {
+	int n;
+	int a[100000];
+    int b[100001];
+	long long cnt = 0;
+    long long sum=0;
+	scanf(""%d"", &n);
+		for (int i = 0; i < n; i++) {
+			scanf(""%d"", &a[i]);
+		}
+		qsort(a, n, 4, cmp);
+	 for (int i = 0; i < n; i++) {
+		b[a[i]]++;
+		if(a[i] > a[i - 1]&&i>0) {
+			sum += b[a[i-1]];
+		}
+		cnt += sum;
+	}
+		if(n>=3){
+            printf(""%lld"", fac(n-2)*(1ll*n*(n-1)/2)%mod*cnt%mod);
+        }else if(n==1){
+            printf(""%lld"",0);
+            }
+        else if(n==2){
+            printf(""%lld"",1);
+        }
+}
+"
+46,E,C,54937095,2022-11-22 19:05:45,s丿,答案错误,"#include<stdio.h>
+#include<stdlib.h>
+#pragma warning(disable:4996)
+const long long mod=1e9 + 7;
+long long fac(long long n) {
+	if(n==1){
+        return 1;
+    }
+	return n * fac(n - 1) %mod;
+}
+int cmp(const void* a, const void* b) {
+	return *(int*)a - *(int*)b;
+}
+int main() {
+	int n;
+	int a[100000];
+    int b[100001];
+	long long cnt = 0;
+    long long sum=0;
+	scanf(""%d"", &n);
+		for (int i = 0; i < n; i++) {
+			scanf(""%d"", &a[i]);
+		}
+		qsort(a, n, 4, cmp);
+	 for (int i = 0; i < n; i++) {
+		b[a[i]]++;
+		if(a[i] > a[i - 1]&&i>0) {
+			sum += b[a[i-1]];
+		}
+		cnt += sum;
+	}
+		if(n>=3){
+            printf(""%lld"", fac(n-2)*(1ll*n*(n-1)/2)%mod*cnt%mod);
+        }else if(n==1){
+            printf(""%lld"",0ll);
+            }
+        else if(n==2){
+            printf(""%lld"",1ll);
+        }
+}
+"

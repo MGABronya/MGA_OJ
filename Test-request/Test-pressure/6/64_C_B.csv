@@ -1,0 +1,7359 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,B,C(gcc 7.5.0),60009722,2022-12-30 19:17:48,-练习两年半,答案错误,"#include<stdio.h>
+#include<math.h>
+int book[1000][2];
+main()
+{
+	int n,m;
+	scanf(""%d %d"",&n,&m);
+	char a[n][m];
+	for(int i=0;i<n;i++){
+		scanf(""%s"",a[i]);
+	}
+	int y=0;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+			if(a[i][j]=='#'){
+				book[y][0]=i;
+				book[y][1]=j;
+				y++;
+			}
+		}
+	}
+	int max=0;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+			for(int q=0;q<y;q++){
+				int sum=abs(book[q][0]-i)+abs(book[q][1]-j);
+				if(sum>max){
+					max=sum;
+				}
+			}
+		}
+	}
+	printf(""%d"",max);
+}"
+1,B,C(gcc 7.5.0),60009764,2022-12-30 19:18:13,-练习两年半,答案错误,"#include<stdio.h>
+#include<math.h>
+int book[1005][2];
+main()
+{
+	int n,m;
+	scanf(""%d %d"",&n,&m);
+	char a[n][m];
+	for(int i=0;i<n;i++){
+		scanf(""%s"",a[i]);
+	}
+	int y=0;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+			if(a[i][j]=='#'){
+				book[y][0]=i;
+				book[y][1]=j;
+				y++;
+			}
+		}
+	}
+	int max=0;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+			for(int q=0;q<y;q++){
+				int sum=abs(book[q][0]-i)+abs(book[q][1]-j);
+				if(sum>max){
+					max=sum;
+				}
+			}
+		}
+	}
+	printf(""%d"",max);
+}"
+2,B,C,60009787,2022-12-30 19:18:31,鸡鸣寺花不再,答案正确,"#include<stdio.h>
+int main()
+{
+    int n,m;
+    scanf(""%d%d"",&n,&m);
+    char arr[n][m+1];
+    for(int i=0;i<n;i++)
+    {
+        scanf(""%s"",arr[i]);
+    }
+    int max=0;
+   for(int i=0;i<n;i++)
+   {
+       for(int j=0;j<m;j++)
+       {
+           if(arr[i][j]=='#')
+           {
+               if(i+j>max)
+                   max=i+j;
+               if(n-1-i+j>max)
+                   max=n-1-i+j;
+               if(i+m-1-j>max)
+                   max=i+m-1-j;
+               if(n-1-i+m-1-j>max)
+                   max=n-1-i+m-1-j;
+           }
+       }
+   }
+    printf(""%d\n"",max);
+}"
+3,B,C,60009802,2022-12-30 19:18:42,HTU_22_许浩,答案错误,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+    char q[1020][1020];
+    int n,m;
+    int x=0,y=0;
+    scanf(""%d%d"",&n,&m);
+    getchar();
+    for(int i=1;i<=n;++i)
+    {
+        for(int j=1;j<=n;++j)
+        {
+            scanf("" %c "",&q[i][j]);
+            if(q[i][j]=='#')
+            {
+                x=i;
+                y=j;
+            }
+        }
+    }
+    int max=-1,num;
+    for(int i=1;i<=n;++i)
+    {
+        for(int j=1;j<=n;++j)
+        {
+            num=fabs(i-x)+fabs(j-y);
+            if(num>max) max=num;
+        }
+    }
+    if(n==1&&m==1) printf(""0"");
+    else
+    printf(""%d"",num);
+    return 0;
+}"
+4,B,C,60009908,2022-12-30 19:19:39,ygyyds1231,答案错误,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+   int n,m,k,a,b,max=0;
+    char y[1005][1005];
+    scanf(""%d%d"",&n,&m);
+    for(int i=1;i<=n;i++)
+    {
+        for(int j=1;j<=m;j++)
+        {
+            scanf(""%c"",&y[i][j]);
+        }
+    }
+     for(int i=1;i<=n;i++)
+     {
+          for(int j=1;j<=n;j++)
+          {
+              if(y[i][j]==""#"")
+              {
+                  a=i,b=j;
+              }
+          }
+     }
+     for(int i=1;i<=n;i++)
+     {
+          for(int j=1;j<=n;j++)
+          {
+              if((abs(i-a)+abs(j-b))>max)
+              {
+                  max=(abs(i-a)+abs(j-b));
+              }
+          }
+     }
+    printf(""%d"",max);
+    return 0;
+}"
+5,B,C(gcc 7.5.0),60009978,2022-12-30 19:20:24,-练习两年半,答案错误,"#include<stdio.h>
+#include<math.h>
+int book[1000000][2];
+main()
+{
+	int n,m;
+	scanf(""%d %d"",&n,&m);
+	char a[n][m];
+	for(int i=0;i<n;i++){
+		scanf(""%s"",a[i]);
+	}
+	int y=0;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+			if(a[i][j]=='#'){
+				book[y][0]=i;
+				book[y][1]=j;
+				y++;
+			}
+		}
+	}
+	int max=0;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+			for(int q=0;q<y;q++){
+				int sum=abs(book[q][0]-i)+abs(book[q][1]-j);
+				if(sum>max){
+					max=sum;
+				}
+			}
+		}
+	}
+	printf(""%d"",max);
+}"
+6,B,C,60010015,2022-12-30 19:20:51,缘泽,答案错误,"#include <stdio.h>
+#include <math.h>
+int main ()
+{
+	int n,m;
+	char a[1001][1001];
+	scanf(""%d %d"",&n,&m);
+	getchar();
+	for(int i=0;i<n;i++)
+	{
+		for(int j=0;j<m;j++)
+		{
+			scanf(""%c"",&a[i][j]);
+		}
+	}
+	int t1,t2;
+	for(int i=0;i<n;i++)
+	{
+		for(int j=0;j<m;j++)
+		{
+			
+			if(a[i][j]=='#')
+			{
+				t1=i;
+				t2=j;
+			}
+		}
+	}
+	int max=0,k;
+	for(int i=0;i<n;i++)
+	{
+		for(int j=0;j<m;j++)
+		{
+			if(i*i+j*j>=max)
+			{
+				max=i*i+j*j;
+				k=abs(i-t1)+abs(j-t2);
+			}
+			
+		}
+	}
+	printf(""%d"",k);
+	return 0;
+}"
+7,B,C(gcc 7.5.0),60010029,2022-12-30 19:20:56,htu2208114240cy,答案错误,"#include<stdio.h>
+#include<math.h>
+char str[1010][1010];
+int main()
+{
+    int m,n;
+    scanf(""%d%d"",&m,&n);
+    int man=0;
+    int x0,y0;
+    for(int i=0;i<n;i++)
+    {
+        scanf(""%s"",str[i]);
+        for(int j=0;j<m;j++)
+        {
+            if(str[i][j]=='#')
+            {
+                x0=i;
+                y0=j;
+            }
+            for(int k=0;k<n;k++)
+            {
+                for(int c=0;c<m;c++)
+                {
+                    if(man<fabs(x0-i)+fabs(y0-j))
+                        man=fabs(x0-i)+fabs(y0-j);
+                }
+            }
+        }
+    }
+    printf(""%d\n"",man);
+    return 0;
+}"
+8,B,C(gcc 7.5.0),60010032,2022-12-30 19:20:57,-练习两年半,答案错误,"#include<stdio.h>
+#include<math.h>
+int book[1000001][2];
+main()
+{
+	int n,m;
+	scanf(""%d %d"",&n,&m);
+	char a[n][m];
+	for(int i=0;i<n;i++){
+		scanf(""%s"",a[i]);
+	}
+	int y=0;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+			if(a[i][j]=='#'){
+				book[y][0]=i;
+				book[y][1]=j;
+				y++;
+			}
+		}
+	}
+	int max=0;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+			for(int q=0;q<y;q++){
+				int sum=abs(book[q][0]-i)+abs(book[q][1]-j);
+				if(sum>max){
+					max=sum;
+				}
+			}
+		}
+	}
+	printf(""%d"",max);
+}"
+9,B,C,60010124,2022-12-30 19:21:37,ygyyds1231,答案错误,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+   int n,m,a,b,max=0;
+    char y[1005][1005];
+    scanf(""%d%d"",&n,&m);
+    for(int i=1;i<=n;i++)
+    {
+        for(int j=1;j<=m;j++)
+        {
+            scanf(""%c"",&y[i][j]);
+        }
+    }
+     for(int i=1;i<=n;i++)
+     {
+          for(int j=1;j<=n;j++)
+          {
+              if(y[i][j]==""#"")
+              {
+                  a=i,b=j;
+              }
+          }
+     }
+     for(int i=1;i<=n;i++)
+     {
+          for(int j=1;j<=n;j++)
+          {
+              if((abs(i-a)+abs(j-b))>max)
+              {
+                  max=(abs(i-a)+abs(j-b));
+              }
+          }
+     }
+    printf(""%d"",max);
+    return 0;
+}"
+10,B,C(gcc 7.5.0),60010128,2022-12-30 19:21:39,知月来,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c: In function ‘main’:\nmain.c:6:22: error: expected identifier before ‘&’ token\n     scanf(\""%d %d\"",&n.&m);\n                      ^\nmain.c:10:13: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n             scanf(\""%c\"",&a[i][j]);\n             ^~~~~~~~~~~~~~~~~~~~""}
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<math.h>
+int main(){
+    int n,m,k;
+    scanf(""%d %d"",&n.&m);
+    char a[n][m];
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            scanf(""%c"",&a[i][j]);
+        }
+    }
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+           for(int a=0;a<n,a!=i;a++){
+               for(int b=0;b<m,b!=j;j++){
+                   if(fabs(b-j)+fabs(a-i)>k)
+                   k=fabs(b-j)+fabs(a-i);
+        }
+    } 
+        }
+    }
+    printf(""%d"",k);
+    return 0;
+}"
+11,B,C(gcc 7.5.0),60010198,2022-12-30 19:22:25,知月来,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c: In function ‘main’:\nmain.c:6:22: error: expected identifier before ‘&’ token\n     scanf(\""%d %d\"",&n.&m);\n                      ^\nmain.c:10:13: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n             scanf(\""%c\"",&a[i][j]);\n             ^~~~~~~~~~~~~~~~~~~~""}
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<math.h>
+int main(){
+    int n,m,k;
+    scanf(""%d %d"",&n.&m);
+    char a[n][m];
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            scanf(""%c"",&a[i][j]);
+        }
+    }
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+           for(int a=0;a<n,a!=i;a++){
+               for(int b=0;b<m,b!=j;j++){
+                   if(abs(b-j)+abs(a-i)>k)
+                   k=abs(b-j)+abs(a-i);
+        }
+    } 
+        }
+    }
+    printf(""%d"",k);
+    return 0;
+}"
+12,B,C,60010214,2022-12-30 19:22:37,ygyyds1231,答案错误,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+   int n,m,a,b,max=0;
+    char y[1005][1005];
+    scanf(""%d%d"",&n,&m);
+    for(int i=1;i<=n;i++)
+    {
+        for(int j=1;j<=m;j++)
+        {
+            scanf(""%c"",&y[i][j]);
+        }
+    }
+     for(int i=1;i<=n;i++)
+     {
+          for(int j=1;j<=n;j++)
+          {
+              if(y[i][j]==""#"")
+              {
+                  a=i,b=j;
+              }
+              else
+              {
+              a=b=1;    
+              }
+          }
+     }
+     for(int i=1;i<=n;i++)
+     {
+          for(int j=1;j<=n;j++)
+          {
+              if((abs(i-a)+abs(j-b))>max)
+              {
+                  max=(abs(i-a)+abs(j-b));
+              }
+          }
+     }
+    printf(""%d"",max);
+    return 0;
+}"
+13,B,C(gcc 7.5.0),60010234,2022-12-30 19:22:47,-练习两年半,答案错误,"#include<stdio.h>
+#include<math.h>
+int book[1000001][2];
+main()
+{
+	int n,m;
+	scanf(""%d %d"",&n,&m);
+	char a[n][m];
+	for(int i=0;i<n;i++){
+		scanf(""%s"",a[i]);
+	}
+	long long y=0;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+			if(a[i][j]=='#'){
+				book[y][0]=i;
+				book[y][1]=j;
+				y++;
+			}
+		}
+	}
+	int max=0;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+			for(long long q=0;q<y;q++){
+				int sum=abs(book[q][0]-i)+abs(book[q][1]-j);
+				if(sum>max){
+					max=sum;
+				}
+			}
+		}
+	}
+	printf(""%d"",max);
+}"
+14,B,C,60010240,2022-12-30 19:22:50,白日做梦daydream,答案错误,"#include<stdio.h>
+#include<string.h>
+#include<math.h>
+int skk(int a, int b,int x,int y)
+{
+	return abs(a - x) + abs(b - y);
+}
+int main()
+{
+	int a, b,i,j;
+	char arr[1002][1002];
+	scanf(""%d%d"", &a, &b);
+	for (i = 1; i <= a; i++)
+		scanf(""%s"", arr[i]);
+	for (i = 1; i <= a; i++)
+	{
+		for (j = 0; j < b; j++)
+		{
+			if (arr[i][j] == '#')
+				printf(""%d"", skk(i, j+1, a, b));
+		}
+	}
+	return 0;
+}"
+15,B,C(gcc 7.5.0),60010314,2022-12-30 19:23:33,知月来,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c: In function ‘main’:\nmain.c:6:21: error: stray ‘\\357’ in program\n     scanf(\""%d %d\"",&n，&m);\n                     ^\nmain.c:6:22: error: stray ‘\\274’ in program\n     scanf(\""%d %d\"",&n，&m);\n                      ^\nmain.c:6:23: error: stray ‘\\214’ in program\n     scanf(\""%d %d\"",&n，&m);\n                       ^\nmain.c:6:24: error: invalid operands to binary & (have ‘int *’ and ‘int’)\n     scanf(\""%d %d\"",&n，&m);\n                   ~~   ^\nmain.c:10:13: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n             scanf(\""%c\"",&a[i][j]);\n             ^~~~~~~~~~~~~~~~~~~~""}
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<math.h>
+int main(){
+    int n,m,k;
+    scanf(""%d %d"",&n，&m);
+    char a[n][m];
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            scanf(""%c"",&a[i][j]);
+        }
+    }
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+           for(int a=0;a<n,a!=i;a++){
+               for(int b=0;b<m,b!=j;j++){
+                   if(abs(b-j)+abs(a-i)>k)
+                   k=abs(b-j)+abs(a-i);
+                }
+           } 
+        }
+    }
+    printf(""%d"",k);
+    return 0;
+}"
+16,B,C(gcc 7.5.0),60010337,2022-12-30 19:23:44,知月来,运行超时,"#include<stdio.h>
+#include<stdlib.h>
+#include<math.h>
+int main(){
+    int n,m,k;
+    scanf(""%d %d"",&n,&m);
+    char a[n][m];
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            scanf(""%c"",&a[i][j]);
+        }
+    }
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+           for(int a=0;a<n,a!=i;a++){
+               for(int b=0;b<m,b!=j;j++){
+                   if(abs(b-j)+abs(a-i)>k)
+                   k=abs(b-j)+abs(a-i);
+                }
+           } 
+        }
+    }
+    printf(""%d"",k);
+    return 0;
+}"
+17,B,C(gcc 7.5.0),60010347,2022-12-30 19:23:49,知月来,运行超时,"#include<stdio.h>
+#include<stdlib.h>
+#include<math.h>
+int main(){
+    int n,m,k;
+    scanf(""%d %d"",&n,&m);
+    char a[n][m];
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            scanf(""%c"",&a[i][j]);
+        }
+    }
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+           for(int a=0;a<n,a!=i;a++){
+               for(int b=0;b<m,b!=j;j++){
+                   if(abs(b-j)+abs(a-i)>k)
+                   k=abs(b-j)+abs(a-i);
+                }
+           } 
+        }
+    }
+    printf(""%d"",k);
+    return 0;
+}"
+18,B,C(gcc 7.5.0),60010350,2022-12-30 19:23:52,知月来,运行超时,"#include<stdio.h>
+#include<stdlib.h>
+#include<math.h>
+int main(){
+    int n,m,k;
+    scanf(""%d %d"",&n,&m);
+    char a[n][m];
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            scanf(""%c"",&a[i][j]);
+        }
+    }
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+           for(int a=0;a<n,a!=i;a++){
+               for(int b=0;b<m,b!=j;j++){
+                   if(abs(b-j)+abs(a-i)>k)
+                   k=abs(b-j)+abs(a-i);
+                }
+           } 
+        }
+    }
+    printf(""%d"",k);
+    return 0;
+}"
+19,B,C(gcc 7.5.0),60010375,2022-12-30 19:24:12,-练习两年半,答案错误,"#include<stdio.h>
+#include<math.h>
+int book[1000001][2];
+main()
+{
+	int n,m;
+	scanf(""%d %d"",&n,&m);
+	char a[n][m];
+	for(int i=0;i<n;i++){
+		scanf(""%s"",a[i]);
+	}
+	long long y=0;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+			if(a[i][j]=='#'){
+				book[y][0]=i;
+				book[y][1]=j;
+				y++;
+			}
+		}
+	}
+	long long max=0;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+			for(long long q=0;q<y;q++){
+				long long sum=abs(book[q][0]-i)+abs(book[q][1]-j);
+				if(sum>max){
+					max=sum;
+				}
+			}
+		}
+	}
+	printf(""%lld"",max);
+}"
+20,B,C,60010376,2022-12-30 19:24:13,lsq147,答案错误,"#include<stdio.h>
+#define N 1000
+int main()
+{
+	int n,m,i,j,p,q,k;
+	char str[N][N]; 
+	scanf(""%d %d"",&n,&m);
+	for(i=0;i<n;i++)
+	{
+		for(j=0;j<m;j++)
+		{
+			scanf(""%c"",&str[i][j]);
+			if(str[i][j]=='#')
+			{
+				p=i;
+				q=j;
+			}
+		}
+	}
+	k=n-1-p+m-1-q;
+	printf(""%d"",k);
+	return 0;
+}"
+21,B,C,60010421,2022-12-30 19:24:43,独孤谜拟,答案错误,"#include <stdio.h>
+#define MAX(a, b) (a) > (b) ? (a) : (b)
+int main(){
+    int m, n, res = 0;
+    char a[1005][1005] = {0};
+    scanf(""%d%d"", &n, &m);
+    for(int i = 0; i < n; i++)
+        for(int j = 0; j < n; j++){
+            scanf(""%c"", &a[i][j]);
+            if(a[i][j] == '#')
+                res = MAX(res, MAX(MAX(i, n - i - 1), MAX(j, n - j - 1)));
+        }
+    if(n == 1 && m == 1)
+        printf(""0\n"");
+    else
+        printf(""%d"", res);
+}"
+22,B,C,60010454,2022-12-30 19:25:02,7777777pg,答案正确,"#include<stdio.h>
+#include<math.h>
+#define N 1010
+int main()
+{
+int n,m;
+    scanf(""%d %d"",&n,&m);
+    char arr[N][N];
+    int i,j,max=0;
+    int a,b,l,e,t=0;
+    for(i=0;i<n;i++)
+            scanf(""%s"",arr[i]);
+        for(i=0;i<n;i++)
+            for(j=0;j<m;j++)
+            {
+               if(arr[i][j]=='#')
+               {
+                   a=fabs(0-i)+fabs(0-j);
+                   if(max<a) max=a;
+                   b=fabs(m-1-j)+fabs(0-i);
+                   if(max<b) max=b;
+                   l=fabs(m-1-j)+fabs(n-1-i);
+                   if(max<l) max=l;
+                   e=fabs(n-1-i)+fabs(0-j);
+                   if(max<e) max=e;
+                   
+                   
+               }
+                
+                
+                
+                
+                
+            }
+        
+        
+     printf(""%d"",max);
+    
+    
+    
+    return 0;
+}"
+23,B,C(gcc 7.5.0),60010470,2022-12-30 19:25:09,htu2208114240cy,答案错误,"#include<stdio.h>
+#include<math.h>
+char str[1010][1010];
+int main()
+{
+    int m,n;
+    scanf(""%d%d"",&m,&n);
+    int man=0;
+    int x0,y0;
+    for(int i=0;i<n;i++)
+    {
+        scanf(""%s"",str[i]);
+        for(int j=0;j<m;j++)
+        {
+            if(str[i][j]=='#')
+            {
+                x0=i;
+                y0=j;
+            }
+            for(int k=0;k<n;k++)
+            {
+                for(int c=0;c<m;c++)
+                {
+                    if(man<fabs(x0-k)+fabs(y0-c))
+                        man=fabs(x0-k)+fabs(y0-c);
+                }
+            }
+        }
+    }
+    printf(""%d\n"",man);
+    return 0;
+}"
+24,B,C(gcc 7.5.0),60010480,2022-12-30 19:25:18,yangzeyu,答案错误,"#include<stdio.h>
+#include<math.h>
+char a[10010][10010];
+int main()
+{
+	int b,c,d,e,f,g,h,t=0;
+	char n;
+	scanf(""%d%d"",&b,&c);
+	for(d=0;d<b;d++)
+	{
+		scanf(""%c"",&n);
+		for(e=0;e<c;e++)
+		{
+			scanf(""%c"",&a[d][e]);
+			if(a[d][e]=='#')
+			{f=d;g=e;}
+		}
+	}
+	for(d=0;d<b;d++)
+	{
+		for(e=0;e<c;e++)
+		{
+			h=abs(d-f)+abs(e-g);
+			if(h>t) t=h;
+		}
+	}
+	printf(""%d"",t);
+		return 0;
+}"
+25,B,C(gcc 7.5.0),60010487,2022-12-30 19:25:22,yangzeyu,答案错误,"#include<stdio.h>
+#include<math.h>
+char a[10010][10010];
+int main()
+{
+	int b,c,d,e,f,g,h,t=0;
+	char n;
+	scanf(""%d%d"",&b,&c);
+	for(d=0;d<b;d++)
+	{
+		scanf(""%c"",&n);
+		for(e=0;e<c;e++)
+		{
+			scanf(""%c"",&a[d][e]);
+			if(a[d][e]=='#')
+			{f=d;g=e;}
+		}
+	}
+	for(d=0;d<b;d++)
+	{
+		for(e=0;e<c;e++)
+		{
+			h=abs(d-f)+abs(e-g);
+			if(h>t) t=h;
+		}
+	}
+	printf(""%d"",t);
+		return 0;
+}"
+26,B,C,60010499,2022-12-30 19:25:30,HTU_22_许浩,段错误,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+    char q[1020][1020];
+    int x[1020],y[1020];
+    int n,m;
+    scanf(""%d%d"",&n,&m);
+    getchar();
+    int o=1,p=1;
+    for(int i=1;i<=n;++i)
+    {
+        for(int j=1;j<=n;++j)
+        {
+            scanf("" %c "",&q[i][j]);
+            if(q[i][j]=='#')
+            {
+                x[o]=i;
+                ++o;
+                y[p]=j;
+                ++p;
+            }
+        }
+    }
+    int max=-1,num;
+    for(int i=1;i<=n;++i)
+    {
+        for(int j=1;j<=n;++j)
+        {
+            for(int l=1;l<o;++l)
+            {
+                num=fabs(i-x[l])+fabs(j-y[l]);
+                if(num>max) max=num;
+            }
+        }
+    }
+    if(n==1&&m==1) printf(""0"");
+    else
+    printf(""%d"",max);
+    return 0;
+}"
+27,B,C(gcc 7.5.0),60010555,2022-12-30 19:26:03,yangzeyu,答案错误,"#include<stdio.h>
+#include<math.h>
+char a[10010][10010];
+int main()
+{
+	int b,c,d,e,f,g,h,t=0;
+	char n;
+	scanf(""%d%d"",&b,&c);
+	for(d=0;d<b;d++)
+	{
+		scanf(""%c"",&n);
+		for(e=0;e<c;e++)
+		{
+			scanf(""%c"",&a[d][e]);
+			if(a[d][e]=='#')
+			{f=d;g=e;}
+		}
+	}
+	for(d=0;d<b;d++)
+	{
+		for(e=0;e<c;e++)
+		{
+			h=fabs(d-f)+fabs(e-g);
+			if(h>t) t=h;
+		}
+	}
+	printf(""%d"",t);
+		return 0;
+}"
+28,B,C(gcc 7.5.0),60010567,2022-12-30 19:26:07,yangzeyu,答案错误,"#include<stdio.h>
+#include<math.h>
+char a[10010][10010];
+int main()
+{
+	int b,c,d,e,f,g,h,t=0;
+	char n;
+	scanf(""%d%d"",&b,&c);
+	for(d=0;d<b;d++)
+	{
+		scanf(""%c"",&n);
+		for(e=0;e<c;e++)
+		{
+			scanf(""%c"",&a[d][e]);
+			if(a[d][e]=='#')
+			{f=d;g=e;}
+		}
+	}
+	for(d=0;d<b;d++)
+	{
+		for(e=0;e<c;e++)
+		{
+			h=fabs(d-f)+fabs(e-g);
+			if(h>t) t=h;
+		}
+	}
+	printf(""%d"",t);
+		return 0;
+}"
+29,B,C,60010654,2022-12-30 19:27:05,HTU_22_许浩,运行超时,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+    char q[2020][2020];
+    int x[2020],y[2020];
+    int n,m;
+    scanf(""%d%d"",&n,&m);
+    getchar();
+    int o=1,p=1;
+    for(int i=1;i<=n;++i)
+    {
+        for(int j=1;j<=n;++j)
+        {
+            scanf("" %c "",&q[i][j]);
+            if(q[i][j]=='#')
+            {
+                x[o]=i;
+                ++o;
+                y[p]=j;
+                ++p;
+            }
+        }
+    }
+    int max=-1,num;
+    for(int i=1;i<=n;++i)
+    {
+        for(int j=1;j<=n;++j)
+        {
+            for(int l=1;l<o;++l)
+            {
+                num=fabs(i-x[l])+fabs(j-y[l]);
+                if(num>max) max=num;
+            }
+        }
+    }
+    if(n==1&&m==1) printf(""0"");
+    else
+    printf(""%d"",max);
+    return 0;
+}"
+30,B,C,60010701,2022-12-30 19:27:28,逸尘-忆城,答案错误,"#include<stdio.h>
+int main()
+{
+    int n,m,i,j,k=0,b;
+    scanf(""%d %d\n"",&n,&m);
+    char a[n][m],t;
+    for(i=0;i<n;i++)
+        for(j=0;j<m;j++){
+            if(""(t=getchar())!='\n'"")
+                a[i][j]=t;
+        }
+    for(i=0;i<n;i++)
+        for(j=0;j<m;j++){
+            if(a[i][j]=='#'){
+                b=m+n-i-j-2;
+            }
+            if(b>k) k=b;
+        }
+    printf(""%d"",k);
+    return 0;
+}"
+31,B,C,60010745,2022-12-30 19:27:55,白日做梦daydream,答案错误,"#include<stdio.h>
+#include<string.h>
+#include<math.h>
+int skk(int a, int b,int x,int y)
+{
+	return abs(a - x) + abs(b - y);
+}
+int main()
+{
+	int a, b,i,j;
+	char arr[1002][1002];
+	int max=0;
+	int min = 0;
+	scanf(""%d%d"", &a, &b);
+	for (i = 1; i <= a; i++)
+		scanf(""%s"", arr[i]);
+	for (i = 1; i <= a; i++)
+	{
+		for (j = 0; j < b; j++)
+		{
+			if (arr[i][j] == '#')
+				if (max < skk(i, j + 1, a, b))
+					max = skk(i, j + 1, a, b);
+		}
+	}
+	printf(""%d"", max);
+	return 0;
+}"
+32,B,C(gcc 7.5.0),60010763,2022-12-30 19:28:09,htu2208114240cy,运行超时,"#define _CRT_SECURE_NO_WARNINGS
+#include<stdio.h>
+#include<math.h>
+char str[1010][1010];
+int main()
+{
+    int m,n;
+    scanf(""%d%d"",&m,&n);
+    int man=0;
+    for(int i=0;i<n;i++)
+    {
+        scanf(""%s"",str[i]);
+        for(int j=0;j<m;j++)
+        {
+            if(str[i][j]=='#')
+            {
+                for (int k = 0; k < n; k++)
+                {
+                    for (int c = 0; c < m; c++)
+                    {
+                        if (man < fabs(i - k) + fabs(j - c))
+                            man = fabs(i - k) + fabs(j - c);
+                    }
+                }
+            }
+        }
+    }
+    printf(""%d\n"",man);
+    return 0;
+}"
+33,B,C,60010772,2022-12-30 19:28:18,姓杨名有钱,答案正确,"#include<stdio.h>
+int abs(int n){
+    if(n<0) return -n;
+    else return n;
+}
+int main(){
+    int hs(int n,int m,int k,int z);
+    int n,m,i,j,k=0,s,s1,s2,s3,s4;
+    char a[1010][1010];
+    scanf(""%d %d\n"",&n,&m);
+    for(i=0;i<n;i++)
+    {   for(j=0;j<m;j++)
+        { scanf(""%c"",&a[i][j]);
+         if(a[i][j]=='#'){
+             s1=abs(i-0)+abs(j-0);
+             s2=abs(n-1-i)+abs(m-1-j);
+             s3=abs(i-0)+abs(m-1-j);
+             s4=abs(n-1-i)+abs(j-0);
+             s=hs(s1,s2,s3,s4);
+             if(k<s) k=s;
+           //  printf(""%d\n"",s);
+         }
+    }
+    getchar();
+}
+    printf(""%d"",k);
+}
+int hs(int n,int m,int k,int z){
+    int x,y;
+    x=n>m?n:m;
+    y=k>z?k:z;
+    return x>y?x:y;
+}"
+34,B,C,60010829,2022-12-30 19:28:52,bavin,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c:34:17: error: use of undeclared identifier 'max'\n    printf(\""%d\"",max);\n                ^\n1 error generated.""}
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+    int len,wid;
+    scanf(""%d %d"",&len,&wid);
+    int i1,j1;
+    int i,j;
+    int web[i][j];
+    for(i=0;i<len;i++)
+    {
+        for(j=0;j<wid;j++)
+        {
+            char c;
+            c=getchar();
+            if(c=='#')
+            {
+                i1=len;
+                j1=wid;
+            }       
+        }
+    }
+    for(i=0;i<len;i++)
+    {
+        for(j=0;j<wid;j++)
+        {
+            int ins;
+            int max=0;
+            ins=abs(i-len)+abs(j-wid);
+            if(ins>max) max=ins;
+        }
+    }
+    printf(""%d"",max);
+    
+    return 0;
+}"
+35,B,C(gcc 7.5.0),60010849,2022-12-30 19:29:04,yangzeyu,运行超时,"#include<stdio.h>
+#include<math.h>
+char a[10010][10010];
+int f[10010];
+int g[10010];
+int main()
+{
+	int b,c,d,e,h,t=0,i=0,j=0;
+	char n;
+	scanf(""%d%d"",&b,&c);
+	for(d=0;d<b;d++)
+	{
+		scanf(""%c"",&n);
+		for(e=0;e<c;e++)
+		{
+			scanf(""%c"",&a[d][e]);
+			if(a[d][e]=='#')
+			{f[i]=d;g[i]=e;i++;}
+		}
+	}
+	for(d=0;d<b;d++)
+	{
+		for(e=0;e<c;e++)
+		{
+			for(j=0;j<i;j++)
+			{
+				h=abs(d-f[j])+abs(e-g[j]);
+				if(h>t) t=h;
+			}
+		}
+	}
+	printf(""%d"",t);
+		return 0;
+}"
+36,B,C,60010994,2022-12-30 19:30:33,HTU_22_许浩,答案错误,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+    char q[2020][2020];
+    int x[2020],y[2020];
+    int n,m;
+    scanf(""%d%d"",&n,&m);
+    getchar();
+    int o=1,p=1;
+    for(int i=1;i<=n;++i)
+    {
+        for(int j=1;j<=n;++j)
+        {
+            scanf("" %c "",&q[i][j]);
+            if(q[i][j]=='#')
+            {
+                x[o]=i;
+                ++o;
+                y[p]=j;
+                ++p;
+            }
+        }
+    }
+    int max=-1,num1,num2;
+    num1=fabs(x[1]-n)+fabs(y[1]-m);
+    num2=fabs(x[o]-1)+fabs(y[p]-1);
+    if(num1>=num2) max=num1;
+    else max=num2;
+    if(n==1&&m==1) printf(""0"");
+    else
+    printf(""%d"",max);
+    return 0;
+}"
+37,B,C,60011060,2022-12-30 19:31:22,HNU_22_刘慧蕾,答案正确,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+	int n,m,max=0,d1,d2,d3,d4;
+	char a[1001][1001];
+	scanf(""%d%d"",&n,&m);
+	getchar();
+	if(n==1&&m==1)
+	{
+		printf(""0"");
+	}
+	else
+	{
+		for(int i=1;i<=n;i++)
+		{
+			for(int j=1;j<=m;j++)
+			{
+				scanf(""%c"",&a[i][j]);
+				if(a[i][j]=='#')
+				{
+					d1=abs(i-1)+abs(j-1);
+					d2=abs(n-i)+abs(j-1);
+					d3=abs(m-j)+abs(i-1);
+					d4=abs(m-j)+abs(n-i);
+					if(d1>max)
+					{
+						max=d1;
+					}
+					if(d2>max)
+					{
+						max=d2;
+					}
+					if(d3>max)
+					{
+						max=d3;
+					}
+					if(d4>max)
+					{
+						max=d4;
+					}
+				}
+			}
+			getchar();	
+		}
+		printf(""%d"",max);
+	}
+	return 0;
+}"
+38,B,C,60011179,2022-12-30 19:32:41,河南师范大学石康强,答案错误,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+    int n,m;
+    scanf(""%d%d"",&n,&m);
+    int q[1009][1009];
+    int i;
+    int j;
+    int a,b;
+    getchar();
+    for(i = 0;i < n;i++)
+    {
+        for(j = 0;j < m;j++)
+        {
+            char c;
+            scanf(""%c"",&c);
+            if(c == '.')
+            {
+                q[i][j] = 0;
+            }
+            else
+            {
+                q[i][j] = 1;
+                a = i,b = j;
+            }
+        }
+        getchar();
+    }
+
+    int s[4];
+    s[0] = abs(0 - a) + abs(0 - b);
+    s[1]= abs(n - 1 - a) + abs(0 - b);
+    s[2]= abs(n - 1 - a) + abs(m - 1 - b);
+    s[3] = abs(0 - a) + abs(m - 1 - b);
+    for(i = 0;i < 3;i++)
+    {
+        for(j = i + 1;j < 4;j++)
+        {
+            int x;
+            if(s[i] < s[j])
+            {
+                x = s[i];
+                s[i] = s[j];
+                s[j] = x;
+            }
+        }
+    }
+    printf(""%d"",s[0]);
+    return 0;
+}
+"
+39,B,C(gcc 7.5.0),60011186,2022-12-30 19:32:46,爱因兹贝伦,答案错误,"#include <stdio.h>
+#include <math.h>
+long distance(long,long,long,long);
+int main(void)
+{
+    long n,m,i,j;
+    int k=0;
+    scanf(""%ld %ld"",&n,&m);
+    char c;
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<m;j++)
+        {
+            scanf(""%c"",&c);
+            if(c==35)
+            {
+                if(distance(i,j,0,0)>k)
+                    k=distance(i,j,0,0);
+                if(distance(i,j,0,m-1)>k)
+                    k=distance(i,j,0,m-1);
+                if(distance(i,j,n-1,0)>k)
+                    k=distance(i,j,n-1,0);
+                if(distance(i,j,n-1,m-1)>k)
+                    k=distance(i,j,n-1,m-1);
+            }
+        }
+    }
+    printf(""%d\n"",k);
+    return 0;
+}
+long distance(long x1,long y1,long x2,long y2)
+{
+    long d;
+    d=fabs(x1-x2)+fabs(y1-y2);
+    return d;
+}"
+40,B,C,60011195,2022-12-30 19:32:54,独孤谜拟,答案错误,"#include <stdio.h>
+#define MAX(a, b) (a) > (b) ? (a) : (b)
+int fun(int a, int b){
+    return a > b ? a - b : b - a;
+}
+int main(){
+    int m, n, res = 0;
+    char a[1005][1005] = {0};
+    scanf(""%d%d"", &n, &m);
+    for(int i = 0; i < n; i++)
+        for(int j = 0; j < n; j++){
+            scanf(""%c"", &a[i][j]);
+            if(a[i][j] == '#')
+                res = MAX(res, MAX(MAX(i + j, fun(n - 1, i + j)), fun(2 * n - 2, i + j)));
+        }
+    if(n == 1 && m == 1)
+        printf(""0\n"");
+    else
+        printf(""%d"", res);
+}"
+41,B,C,60011201,2022-12-30 19:32:57,lsq147,答案错误,"#include<stdio.h>
+#define N 1000
+int main()
+{
+	int n,m,i,j,p,q,k;
+	char str[N][N]; 
+	scanf(""%d %d"",&n,&m);
+	for(i=0;i<n;i++)
+	{
+		for(j=0;j<m;j++)
+		{
+			scanf("" %c"",&str[i][j]);
+			if(str[i][j]=='#')
+			{
+				p=i;
+				q=j;
+			}
+		}
+	}
+	k=n-1-p+m-1-q;
+	printf(""%d"",k);
+	return 0;
+}"
+42,B,C,60011246,2022-12-30 19:33:25,肥蕉,答案错误,"#include<stdio.h>
+	int n,m,i,j,max,key;
+	char c1;
+	int maxi(int a,int b,int c,int d){
+		if (a>=b&&a>=c&&a>=d) return a;
+		if (b>=a&&b>=c&&b>=d) return b;
+		if (c>=a&&c>=b&&a>=d) return a;
+		else return d;
+	}
+	void solve(void){
+		for(i=0;i<n;i++){
+			for(j=0;j<m;j++){
+				scanf(""%c"",&c1);
+				if(c1=='#'){
+					key=maxi(i+j,j+n-i-1,i+m-j-1,m+n-i-j-2);
+					if (key>max) max=key;
+				}
+				
+			}
+		}
+		printf(""%d"",max);
+	}
+	int main(void){
+		scanf(""%d %d"",&n,&m);
+		solve();
+		
+	}"
+43,B,C(gcc 7.5.0),60011258,2022-12-30 19:33:32,锦麝,运行超时,"#include<stdio.h>
+#include<math.h>
+
+struct wang
+{
+	char ch;
+};
+
+int main()
+{
+    int n, m, i, j, x, y, t;
+    int b = 0, c = 0, d = 0, e = 0;
+    struct wang a[1001][1001];
+    scanf(""%d %d"", &n, &m);
+    getchar();
+    for (i = 0; i < n; i++)
+    {
+    	for (j = 0; j < m; j++)
+    	{
+    		scanf(""%c"", &a[i][j].ch);
+		}
+		getchar();
+	}
+//	for (i = 0; i < n; i++)
+//    {
+//    	for (j = 0; j < n; j++)
+//    	{
+//    		printf(""%c "", a[i][j].ch);
+//		}
+//		printf(""\n"");
+//	}
+	for (j = 0; j < m; j++)
+	{
+		i = 0;
+		for (x = 0; x < n; x++)
+		{
+			for (y = 0; y < m; y++)
+			{
+				if (a[x][y].ch == '#')
+				{
+					t = fabs(x - i) + fabs(y - j);
+				}
+				if (t > b)
+				{
+					b = t;
+				}
+			}
+		}
+	}
+	for (j = 0; j < m; j++)
+	{
+		i = n - 1;
+		for (x = 0; x < n; x++)
+		{
+			for (y = 0; y < m; y++)
+			{
+				if (a[x][y].ch == '#')
+				{
+					t = fabs(x - i) + fabs(y - j);
+				}
+				if (t > b)
+				{
+					b = t;
+				}
+			}
+		}
+	}
+	for (i = 0; i < n; i++)
+	{
+		j = 0;
+		for (x = 0; x < n; x++)
+		{
+			for (y = 0; y < m; y++)
+			{
+				if (a[x][y].ch == '#')
+				{
+					t = fabs(x - i) + fabs(y - j);
+				}
+				if (t > b)
+				{
+					b = t;
+				}
+			}
+		}
+	}
+	for (i = 0; i < n; i++)
+	{
+		j = m - 2;
+		for (x = 0; x < n; x++)
+		{
+			for (y = 0; y < m; y++)
+			{
+				if (a[x][y].ch == '#')
+				{
+					t = fabs(x - i) + fabs(y - j);
+				}
+				if (t > b)
+				{
+					b = t;
+				}
+			}
+		}
+	}
+	printf(""%d"", b);
+		
+    return 0;
+}"
+44,B,C,60011297,2022-12-30 19:33:51,-练习两年半,段错误,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+    int book[10000][2];
+	int n,m;
+	scanf(""%d %d"",&n,&m);
+	char a[n][m];
+	for(int i=0;i<n;i++){
+		scanf(""%s"",a[i]);
+	}
+	long long y=0;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+			if(a[i][j]=='#'){
+				book[y][0]=i;
+				book[y][1]=j;
+				y++;
+			}
+		}
+	}
+	int max=0;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+			for(long long q=0;q<y;q++){
+				int sum=abs(book[q][0]-i)+abs(book[q][1]-j);
+				if(sum>max){
+					max=sum;
+				}
+			}
+		}
+	}
+	printf(""%d"",max);
+}"
+45,B,C(gcc 7.5.0),60011316,2022-12-30 19:34:04,小明C_,答案错误,"#include<stdio.h>
+int main()
+{int n,m,i,j;
+ 
+scanf(""%d %d\n"",&n,&m);
+ char a[m][n];
+ for(int i=0;i<m;i++)
+ {
+     for(int j=0;j<n;j++)
+     {
+         scanf(""%c"",&a[i][j]);
+         if(a[i][j]=='#')
+             break;
+     }
+      if(a[i][j]=='#')
+             break;
+ }
+ int sum[4];
+sum[0]=i+1-1+j+1-1;
+ sum[1]=i+1-1+n-j-1;
+ sum[2]=m-i-1+j+1-1;
+ sum[3]=m-i-1+n-j-1;
+ int d=sum[0];
+ for(int i=0;i<4;i++)
+ {
+     if(sum[i]>d)
+         d=sum[i];
+ }
+ 
+printf(""%d"",d);
+ return 0;
+
+}"
+46,B,C,60011319,2022-12-30 19:34:05,-练习两年半,段错误,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+    int book[1000][2];
+	int n,m;
+	scanf(""%d %d"",&n,&m);
+	char a[n][m];
+	for(int i=0;i<n;i++){
+		scanf(""%s"",a[i]);
+	}
+	long long y=0;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+			if(a[i][j]=='#'){
+				book[y][0]=i;
+				book[y][1]=j;
+				y++;
+			}
+		}
+	}
+	int max=0;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+			for(long long q=0;q<y;q++){
+				int sum=abs(book[q][0]-i)+abs(book[q][1]-j);
+				if(sum>max){
+					max=sum;
+				}
+			}
+		}
+	}
+	printf(""%d"",max);
+}"
+47,B,C(gcc 7.5.0),60011423,2022-12-30 19:35:12,-练习两年半,段错误,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+    int book[1000][2];
+	int n,m;
+	scanf(""%d %d"",&n,&m);
+	char a[n][m];
+	for(int i=0;i<n;i++){
+		scanf(""%s"",a[i]);
+	}
+	int y=0;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+			if(a[i][j]=='#'){
+				book[y][0]=i;
+				book[y][1]=j;
+				y++;
+			}
+		}
+	}
+	int max=0;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+			for(long long q=0;q<y;q++){
+				int sum=abs(book[q][0]-i)+abs(book[q][1]-j);
+				if(sum>max){
+					max=sum;
+				}
+			}
+		}
+	}
+	printf(""%d"",max);
+}"
+48,B,C,60011447,2022-12-30 19:35:28,bavin,答案错误,"#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+    int len,wid;
+    scanf(""%d %d"",&len,&wid);
+    int i1,j1;
+    int i,j;
+    int max=0;
+    int web[i][j];
+    for(i=0;i<len;i++)
+    {
+        for(j=0;j<wid;j++)
+        {
+            char c;
+            c=getchar();
+            if(c=='#')
+            {
+                i1=len;
+                j1=wid;
+            }       
+        }
+    }
+    for(i=0;i<len;i++)
+    {
+        for(j=0;j<wid;j++)
+        {
+            int ins=abs(i1-len)+abs(j1-wid);
+            if(ins>max) 
+                max=ins;
+        }
+    }
+    printf(""%d"",max);
+    
+    return 0;
+}"
+49,B,C(gcc 7.5.0),60011466,2022-12-30 19:35:40,htu2208114240cy,答案错误,"#define _CRT_SECURE_NO_WARNINGS
+#include<stdio.h>
+#include<math.h>
+char str[1010];
+int x[100010];
+int y[100010];
+int main()
+{
+    int m,n;
+    scanf(""%d%d"",&m,&n);
+    int man=0;
+    int k = 0;
+    for(int i=0;i<n;i++)
+    {
+        scanf(""%s"",str);
+        for(int j=0;j<m;j++)
+        {
+            if(str[j]=='#')
+            {
+                x[k] = i;
+                y[k] = j;
+                k++;
+            }
+        }
+    }
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < m; j++)
+        {
+            int c = 0;
+            if (man < fabs(i - x[c]) + fabs(j - y[c]))
+                man = fabs(i - x[c]) + fabs(j - y[c]);
+            c++;
+        }
+    }
+    printf(""%d\n"",man);
+    return 0;
+}"
+50,B,C(gcc 7.5.0),60011477,2022-12-30 19:35:49,yangzeyu,运行超时,"#include<stdio.h>
+#include<math.h>
+char a[10010][10010];
+int f[10010];
+int g[10010];
+int main()
+{
+	int b,c,d,e,h,t=0,i=0,j=0;
+	char n;
+	scanf(""%d%d"",&b,&c);
+	for(d=0;d<b;d++)
+	{
+		scanf(""%c"",&n);
+		for(e=0;e<c;e++)
+		{
+			scanf(""%c"",&a[d][e]);
+			if(a[d][e]=='#')
+			{f[i]=d;g[i]=e;i++;}
+		}
+	}
+	for(d=0;d<b;d++)
+	{
+		for(e=0;e<c;e++)
+		{
+			for(j=0;j<i;j++)
+			{
+				h=abs(d-f[j])+abs(e-g[j]);
+				if(h>t) t=h;
+			}
+		}
+	}
+	printf(""%d"",t);
+		return 0;
+}"
+51,B,C(gcc 7.5.0),60011486,2022-12-30 19:35:54,yangzeyu,运行超时,"#include<stdio.h>
+#include<math.h>
+char a[10010][10010];
+int f[10010];
+int g[10010];
+int main()
+{
+	int b,c,d,e,h,t=0,i=0,j=0;
+	char n;
+	scanf(""%d%d"",&b,&c);
+	for(d=0;d<b;d++)
+	{
+		scanf(""%c"",&n);
+		for(e=0;e<c;e++)
+		{
+			scanf(""%c"",&a[d][e]);
+			if(a[d][e]=='#')
+			{f[i]=d;g[i]=e;i++;}
+		}
+	}
+	for(d=0;d<b;d++)
+	{
+		for(e=0;e<c;e++)
+		{
+			for(j=0;j<i;j++)
+			{
+				h=abs(d-f[j])+abs(e-g[j]);
+				if(h>t) t=h;
+			}
+		}
+	}
+	printf(""%d"",t);
+		return 0;
+}"
+52,B,C(gcc 7.5.0),60011487,2022-12-30 19:35:54,小明C_,答案错误,"#include<stdio.h>
+int main()
+{int n,m,i,j;
+ 
+scanf(""%d %d\n"",&n,&m);
+ char a[m][n];
+ for(int i=0;i<m;i++)
+ {
+     for(int j=0;j<n;j++)
+     {
+         scanf(""%c"",&a[i][j]);
+         if(a[i][j]=='#')
+             break;
+     }
+      if(a[i][j]=='#')
+             break;
+ }
+ int sum[4];
+sum[0]=i+1-1+j+1-1;
+ sum[1]=i+1-1+n-j-1;
+ sum[2]=m-i-1+j+1-1;
+ sum[3]=m-i-1+n-j-1;
+ int d=sum[0];
+ for(int i=0;i<4;i++)
+ {
+     if(sum[i]>d)
+         d=sum[i];
+ }
+ 
+printf(""%d"",d-2);
+ return 0;
+
+}"
+53,B,C(gcc 7.5.0),60011501,2022-12-30 19:35:58,-练习两年半,答案错误,"#include<stdio.h>
+#include<math.h>
+int book[1000][2];
+int main()
+{
+	int n,m;
+	scanf(""%d %d"",&n,&m);
+	char a[n][m];
+	for(int i=0;i<n;i++){
+		scanf(""%s"",a[i]);
+	}
+	int y=0;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+			if(a[i][j]=='#'){
+				book[y][0]=i;
+				book[y][1]=j;
+				y++;
+			}
+		}
+	}
+	int max=0;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+			for(long long q=0;q<y;q++){
+				int sum=abs(book[q][0]-i)+abs(book[q][1]-j);
+				if(sum>max){
+					max=sum;
+				}
+			}
+		}
+	}
+	printf(""%d"",max);
+}"
+54,B,C,60011528,2022-12-30 19:36:10,lsq147,答案错误,"#include<stdio.h>
+#define N 1000
+char str[N][N];
+int main()
+{
+	int n,m,i,j,p,q,k; 
+	scanf(""%d %d"",&n,&m);
+	for(i=0;i<n;i++)
+	{
+		for(j=0;j<m;j++)
+		{
+			scanf("" %c"",&str[i][j]);
+		}
+	}
+	for(i=0;i<n;i++)
+	{
+		for(j=0;j<m;j++)
+		{
+			if(str[i][j]=='#')
+			{
+				p=i;
+				q=j;
+			}
+		}
+	}
+	k=n-1-p+m-1-q;
+	printf(""%d"",k);
+	return 0;
+}"
+55,B,C,60011532,2022-12-30 19:36:13,杨莫轩,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c:19:11: error: subscripted value is not an array, pointer, or vector\n                                                if(s[a][s]=='#'){\n                                                   ~^~\n1 error generated.""}
+
+#include<stdio.h>
+char s[10000][10000];
+int main(){
+	int n,m;
+	scanf(""%d %d"",&n,&m);
+	for(int i=0;i<n;i++){
+		for(int j=0;j<n;j++){
+			scanf(""%c"",&s[i][j]);
+		}
+	}
+	int juedui(int x);
+	int i,j,k,a,s,mink,yes;
+	for(i=0;i<n;i++){
+		for(j=0;j<m;j++){
+			for(k=0;k<(m>=n?m:n);k++){
+				yes=1;
+				for(a=0;a<n;a++){
+					for(s=0;s<m;s++){
+						if(s[a][s]=='#'){
+							if(juedui(a-i)+juedui(s-j)>k){
+								yes=0;
+							}
+						}
+					}
+				}
+				if(yes==1){
+					mink=k;
+				}
+			}
+		}
+	}
+	printf(""%d"",mink);
+	return 0;
+}
+int juedui(int x){
+	if(x<0)
+		x=-x;
+	return x;
+}"
+56,B,C(gcc 7.5.0),60011538,2022-12-30 19:36:18,-练习两年半,段错误,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+    int book[1000][2];
+	int n,m;
+	scanf(""%d %d"",&n,&m);
+	char a[n][m];
+	for(int i=0;i<n;i++){
+		scanf(""%s"",a[i]);
+	}
+	int y=0;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+			if(a[i][j]=='#'){
+				book[y][0]=i;
+				book[y][1]=j;
+				y++;
+			}
+		}
+	}
+	int max=0;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+			for(int q=0;q<y;q++){
+				int sum=abs(book[q][0]-i)+abs(book[q][1]-j);
+				if(sum>max){
+					max=sum;
+				}
+			}
+		}
+	}
+	printf(""%d"",max);
+}"
+57,B,C(gcc 7.5.0),60011560,2022-12-30 19:36:31,yangzeyu,答案错误,"#include<stdio.h>
+#include<math.h>
+char a[10010][10010];
+int f[10010];
+int g[10010];
+int main()
+{
+	int b,c,d,e,h,t=0,i=0,j=0;
+	char n;
+	scanf(""%d%d"",&b,&c);
+	for(d=0;d<b;d++)
+	{
+		scanf(""%c"",&n);
+		for(e=0;e<c;e++)
+		{
+			scanf(""%c"",&a[d][e]);
+			if(a[d][e]=='#')
+			{f[i]=d;g[i]=e;i++;}
+		}
+	}
+	for(j=0;j<i;j++)
+	{
+		h=abs(0-f[j])+abs(0-g[j]);
+		if(h>t) t=h;
+	}
+	for(j=0;j<i;j++)
+	{
+		h=abs(0-f[j])+abs(c-1-g[j]);
+		if(h>t) t=h;
+	}
+	for(j=0;j<i;j++)
+	{
+		h=abs(b-1-f[j])+abs(0-g[j]);
+		if(h>t) t=h;
+	}
+	for(j=0;j<i;j++)
+	{
+		h=abs(c-1-f[j])+abs(b-1-g[j]);
+		if(h>t) t=h;
+	}
+	printf(""%d"",t);
+		return 0;
+}"
+58,B,C(gcc 7.5.0),60011564,2022-12-30 19:36:32,阿建头很痛,答案错误,"#include<stdio.h>
+#include<string.h>
+int main(){
+	int n,m;
+	scanf(""%d %d"",&n,&m);
+	char s[n][m];
+	for(int i=0;i<m;i++){
+		gets(s[i]);
+	}
+	if(n==1&&m==1){
+			printf(""0"");
+            return 0;
+	}
+	int max,p=0;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+			if(s[i][j]=='#'){
+				int c=0;
+				if(i>n/2){
+					c+=(i-1);
+				}else{
+					c+=(n-i);
+				}
+				if(j>m/2){
+					c+=(j-1);
+				}else{
+					c+=(m-i);
+				}
+				if(p==0){
+					p++;
+					max=c;
+				}else{
+					if(c>max){
+						max=c;
+					}
+				}
+			}
+			
+		}
+	}
+	printf(""%d"",max);
+	return 0;
+} "
+59,B,C(gcc 7.5.0),60011603,2022-12-30 19:36:54,yangzeyu,答案错误,"#include<stdio.h>
+#include<math.h>
+char a[10010][10010];
+int f[10010];
+int g[10010];
+int main()
+{
+	int b,c,d,e,h,t=0,i=0,j=0;
+	char n;
+	scanf(""%d%d"",&b,&c);
+	for(d=0;d<b;d++)
+	{
+		scanf(""%c"",&n);
+		for(e=0;e<c;e++)
+		{
+			scanf(""%c"",&a[d][e]);
+			if(a[d][e]=='#')
+			{f[i]=d;g[i]=e;i++;}
+		}
+	}
+	for(j=0;j<i;j++)
+	{
+		h=abs(0-f[j])+abs(0-g[j]);
+		if(h>t) t=h;
+	}
+	for(j=0;j<i;j++)
+	{
+		h=abs(0-f[j])+abs(c-1-g[j]);
+		if(h>t) t=h;
+	}
+	for(j=0;j<i;j++)
+	{
+		h=abs(b-1-f[j])+abs(0-g[j]);
+		if(h>t) t=h;
+	}
+	for(j=0;j<i;j++)
+	{
+		h=abs(c-1-f[j])+abs(b-1-g[j]);
+		if(h>t) t=h;
+	}
+	printf(""%d"",t);
+		return 0;
+}"
+60,B,C(gcc 7.5.0),60011610,2022-12-30 19:36:59,yangzeyu,答案错误,"#include<stdio.h>
+#include<math.h>
+char a[10010][10010];
+int f[10010];
+int g[10010];
+int main()
+{
+	int b,c,d,e,h,t=0,i=0,j=0;
+	char n;
+	scanf(""%d%d"",&b,&c);
+	for(d=0;d<b;d++)
+	{
+		scanf(""%c"",&n);
+		for(e=0;e<c;e++)
+		{
+			scanf(""%c"",&a[d][e]);
+			if(a[d][e]=='#')
+			{f[i]=d;g[i]=e;i++;}
+		}
+	}
+	for(j=0;j<i;j++)
+	{
+		h=abs(0-f[j])+abs(0-g[j]);
+		if(h>t) t=h;
+	}
+	for(j=0;j<i;j++)
+	{
+		h=abs(0-f[j])+abs(c-1-g[j]);
+		if(h>t) t=h;
+	}
+	for(j=0;j<i;j++)
+	{
+		h=abs(b-1-f[j])+abs(0-g[j]);
+		if(h>t) t=h;
+	}
+	for(j=0;j<i;j++)
+	{
+		h=abs(c-1-f[j])+abs(b-1-g[j]);
+		if(h>t) t=h;
+	}
+	printf(""%d"",t);
+		return 0;
+}"
+61,B,C(gcc 7.5.0),60011641,2022-12-30 19:37:21,huihui不行了,答案错误,"#include<stdio.h>
+#include<string.h>
+#include<math.h>
+char a[1000];
+int arr[1000][1000];
+int max(int i, int j);
+int main(){
+	int n,m;
+	
+	int c,d;
+	int ant = 0;
+	scanf(""%d%d"",&n,&m);
+	int i,j;
+	for(i=0;i<n;i++){
+		scanf(""%s"",a);
+		for(j=0;j<m;j++){
+			if(a[j]=='#') {
+				arr[i][j] = 1;
+				c  = i;
+				d  = j;
+			}
+			
+		}
+	}
+	int e = max(abs(n-1-c),abs(c));
+	int f = max(abs(m-1-d),abs(d));
+	printf(""%d\n"",e+f);
+    return 0;
+}
+int max(int i,int j){
+	if(i>=j) return i;
+	else return j;
+}"
+62,B,C,60011674,2022-12-30 19:37:46,缘泽,答案错误,"#include <stdio.h>
+#include <math.h>
+int main ()
+{
+	int n,m;
+	char a[1001][1001];
+	scanf(""%d %d"",&n,&m);
+	getchar();
+	for(int i=0;i<n;i++)
+	{
+		for(int j=0;j<m;j++)
+		{
+			scanf(""%c"",&a[i][j]);
+		}
+		getchar();
+	}
+	int i,j;
+	int x,y;
+	for(i=0;i<n;i++)
+	{
+		for(j=0;j<m;j++)
+		{
+			
+			if(a[i][j]=='#')
+			{
+				y=i;
+				x=j;
+				break;
+			}
+		}
+	}
+	int max=0,k;
+	for(int i=0;i<n;i++)
+	{
+		for(int j=0;j<m;j++)
+		{
+			if(i*i+j*j>=max)
+			{
+				max=i*i+j*j;
+				k=abs(i-y)+abs(j-x);
+			}
+			
+		}
+	}
+	printf(""%d"",k);
+	return 0;
+}"
+63,B,C(gcc 7.5.0),60011684,2022-12-30 19:37:52,yangzeyu,答案错误,"#include<stdio.h>
+#include<math.h>
+char a[10010][10010];
+int f[10010];
+int g[10010];
+int main()
+{
+	int b,c,d,e,h,t=0,i=0,j=0;
+	char n;
+	scanf(""%d%d"",&b,&c);
+	for(d=0;d<b;d++)
+	{
+		scanf(""%c"",&n);
+		for(e=0;e<c;e++)
+		{
+			scanf(""%c"",&a[d][e]);
+			if(a[d][e]=='#')
+			{f[i]=d;g[i]=e;i++;}
+		}
+	}
+	for(j=0;j<i;j++)
+	{
+		h=abs(0-f[j])+abs(0-g[j]);
+		if(h>t) t=h;
+	}
+	for(j=0;j<i;j++)
+	{
+		h=abs(0-f[j])+abs(c-1-g[j]);
+		if(h>t) t=h;
+	}
+	for(j=0;j<i;j++)
+	{
+		h=abs(b-1-f[j])+abs(0-g[j]);
+		if(h>t) t=h;
+	}
+	for(j=0;j<i;j++)
+	{
+		h=abs(b-1-f[j])+abs(c-1-g[j]);
+		if(h>t) t=h;
+	}
+	printf(""%d"",t);
+		return 0;
+}"
+64,B,C(gcc 7.5.0),60011722,2022-12-30 19:38:07,htu2208114240cy,段错误,"#define _CRT_SECURE_NO_WARNINGS
+#include<stdio.h>
+#include<math.h>
+char str[1010];
+int x[100010];
+int y[100010];
+int main()
+{
+    int m,n;
+    scanf(""%d%d"",&m,&n);
+    int man=0;
+    int k = 0;
+    for(int i=0;i<n;i++)
+    {
+        scanf(""%s"",str);
+        for(int j=0;j<m;j++)
+        {
+            if(str[j]=='#')
+            {
+                x[k] = i;
+                y[k] = j;
+                k++;
+            }
+        }
+    }
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < m; j++)
+        {
+            for (int c = 0; c < k; c++)
+            {
+                if (man < fabs(i - x[c]) + fabs(j - y[c]))
+                    man = fabs(i - x[c]) + fabs(j - y[c]);
+            }
+        }
+    }
+    printf(""%d\n"",man);
+    return 0;
+}"
+65,B,C,60011725,2022-12-30 19:38:09,缘泽,答案错误,"#include <stdio.h>
+#include <math.h>
+int main ()
+{
+	int n,m;
+	char a[1001][1001];
+	scanf(""%d %d"",&n,&m);
+	getchar();
+	for(int i=0;i<n;i++)
+	{
+		for(int j=0;j<m;j++)
+		{
+			scanf(""%c"",&a[i][j]);
+		}
+		getchar();
+	}
+	int i,j;
+	int x,y;
+	for(i=0;i<n;i++)
+	{
+		for(j=0;j<m;j++)
+		{
+			
+			if(a[i][j]=='#')
+			{
+				y=i;
+				x=j;
+				break;
+			}
+		}
+	}
+	int max=0,k;
+	for(int i=0;i<n;i++)
+	{
+		for(int j=0;j<m;j++)
+		{
+			if(i*i+j*j>=max)
+			{
+				max=i*i+j*j;
+				k=abs(i-y)+abs(j-x);
+			}
+			
+		}
+	}
+	printf(""%d"",k);
+	return 0;
+}"
+66,B,C,60011747,2022-12-30 19:38:22,东师第一蒟蒻,答案错误,"#include<stdio.h>
+void f(int a,int b)
+{
+    if(a>b)
+    {
+        printf(""%d"",a);
+    }
+    if(a<b)
+    {
+        printf(""%d"",b);
+    }
+    if(a==b)
+    {
+        printf(""%d"",a);
+    }
+}
+int main()
+{
+    int n,m,i,j,k,q;
+    char a[100][100];
+    scanf(""%d%d"",&n,&m);
+    if(m==1&&n==1)
+    {
+        printf(""0"");
+        return 0;
+    }
+    for(i=0;i<=n;i++)
+    {
+        for(j=0;j<=m;j++)
+        {
+            scanf(""%c"",&a[i][j]);
+            if(a[i][j]=='#')
+            {
+                k=i+j;
+                q=n+m-k;
+                f(k-1,q-1);
+            }
+        }
+    }
+       
+}"
+67,B,C(gcc 7.5.0),60011773,2022-12-30 19:38:37,htu2208114240cy,运行超时,"#define _CRT_SECURE_NO_WARNINGS
+#include<stdio.h>
+#include<math.h>
+char str[10010];
+int x[1000010];
+int y[1000010];
+int main()
+{
+    int m,n;
+    scanf(""%d%d"",&m,&n);
+    int man=0;
+    int k = 0;
+    for(int i=0;i<n;i++)
+    {
+        scanf(""%s"",str);
+        for(int j=0;j<m;j++)
+        {
+            if(str[j]=='#')
+            {
+                x[k] = i;
+                y[k] = j;
+                k++;
+            }
+        }
+    }
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < m; j++)
+        {
+            for (int c = 0; c < k; c++)
+            {
+                if (man < fabs(i - x[c]) + fabs(j - y[c]))
+                    man = fabs(i - x[c]) + fabs(j - y[c]);
+            }
+        }
+    }
+    printf(""%d\n"",man);
+    return 0;
+}"
+68,B,C(gcc 7.5.0),60011782,2022-12-30 19:38:43,济南大学_刘峰旭,运行超时,"#include <stdio.h>
+#include <math.h>
+int main()
+{
+    int n,m,x,y,i,j,max,t=0,o,k,num1[1000],num2[1000];
+    char pool[1000][1000];
+    scanf(""%d%d"",&n,&m);
+    for(i=0;i<n;i++)
+    {
+        scanf(""%s"",pool[i]); 
+    }
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<m;j++)
+        {
+            if(pool[i][j]=='#')
+            {
+                num1[t]=i;
+                num2[t]=j;
+                t++;
+            }
+        }
+    }
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<m;j++)
+        {
+            for(o=0;o<t;o++)
+            {
+                k=abs(i-num1[o])+abs(j-num2[o]);
+                if(k>max)
+                max=k;
+            }
+        }
+    }
+    printf(""%d"",max);
+    return 0;
+}"
+69,B,C,60011817,2022-12-30 19:39:13,河南师范大学_张博文,答案正确,"#include<stdio.h>
+#include<math.h>
+#include<string.h>
+int main()
+{
+	int n,m,b,c,d,e,max=0,k;
+	
+	scanf(""%d %d"",&n,&m);
+	char a[m+5];
+	
+	for(int i=0;i<n;i++)
+	{
+		scanf(""%s"",a);
+		k=strlen(a);
+		for(int j=0;j<k;j++)
+		{
+		if(a[j]=='#')
+		{
+				b=abs(i-0)+abs(j-0);
+				c=abs(i-n+1)+abs(j-0);
+				if(b>c) c=b;
+				d=abs(i-0)+abs(j-m+1);
+				if(c>d) d=c;
+				e=abs(i-n+1)+abs(j-m+1);
+				if(d>e) e=d;
+				if(e>max) max=e;
+		}
+		}
+	}
+	
+	printf(""%d"",max);
+}"
+70,B,C,60011852,2022-12-30 19:39:33,缘泽,答案错误,"#include <stdio.h>
+#include <math.h>
+int main ()
+{
+	int n,m;
+	char a[1001][1001];
+	scanf(""%d %d"",&n,&m);
+	getchar();
+	for(int i=0;i<n;i++)
+	{
+		for(int j=0;j<m;j++)
+		{
+			scanf(""%c"",&a[i][j]);
+		}
+		getchar();
+	}
+	int i,j;
+	int x,y;
+	for(i=0;i<n;i++)
+	{
+		for(j=0;j<m;j++)
+		{
+			
+			if(a[i][j]=='#')
+			{
+				y=i;
+				x=j;
+				break;
+			}
+		}
+	}
+	int max=0,k=0;
+	for(int i=0;i<n;i++)
+	{
+		for(int j=0;j<m;j++)
+		{
+			if(i*i+j*j>=max)
+			{
+				max=i*i+j*j;
+				k=abs(i-y)+abs(j-x);
+			}
+			
+		}
+	}
+	printf(""%d"",k);
+	return 0;
+}"
+71,B,C,60011864,2022-12-30 19:39:39,HTU_22_许浩,答案错误,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+    char q[2020][2020];
+    int x[2020],y[2020];
+    int n,m;
+    scanf(""%d%d"",&n,&m);
+    getchar();
+    int o=1,p=1;
+    for(int i=1;i<=n;++i)
+    {
+        for(int j=1;j<=n;++j)
+        {
+            scanf("" %c "",&q[i][j]);
+            if(q[i][j]=='#')
+            {
+                x[o]=i;
+                ++o;
+                y[p]=j;
+                ++p;
+            }
+        }
+    }
+    int max=-1,num;
+    for(int i=1;i<=n;++i)
+    {
+        for(int j=1;j<=n;++j)
+        {
+            if(q[i][j]=='.')
+            for(int l=1;l<o;++l)
+            {
+                num=fabs(i-x[l])+fabs(j-y[l]);
+                if(num>max) max=num;
+            }
+        }
+    }
+    if(n==1&&m==1) printf(""0"");
+    else
+    printf(""%d"",max);
+    return 0;
+}"
+72,B,C,60011872,2022-12-30 19:39:45,牛客71383912号,答案错误,"#include<stdio.h>
+#include<math.h>
+int main ()
+{
+    int m,n,i,j,k,flag_x,flag_y;
+    char x[1005][1005];
+    scanf(""%d %d"",&n,&m);
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<m;j++)
+        {
+            scanf(""%c"",&x[i][j]);
+            getchar();
+            if(x[i][j]=='#'){
+                flag_x=i;
+                flag_y=j;
+            }
+        }
+    }
+    double d1,d2,d3,d4,max;
+    int s;
+    d1=fabs(flag_x)+fabs(flag_y);
+    d2=fabs(flag_x-n+1)+fabs(flag_y);
+    d3=fabs(flag_x-n+1)+fabs(flag_y-m+1);
+    d4=fabs(flag_x)+fabs(flag_y-m+1);
+    max=d1;
+    if(d2>max)
+        max=d2;
+    if(d3>max)
+        max=d3;
+    if(d4>max)
+        max=d4;
+    printf(""%.0lf"",max-1);
+}"
+73,B,C(gcc 7.5.0),60011902,2022-12-30 19:40:07,yangzeyu,答案正确,"#include<stdio.h>
+#include<math.h>
+char a[1010][1010];
+int f[1000010];
+int g[1000010];
+int main()
+{
+	int b,c,d,e,h,t=0,i=0,j=0;
+	char n;
+	scanf(""%d%d"",&b,&c);
+	for(d=0;d<b;d++)
+	{
+		scanf(""%c"",&n);
+		for(e=0;e<c;e++)
+		{
+			scanf(""%c"",&a[d][e]);
+			if(a[d][e]=='#')
+			{f[i]=d;g[i]=e;i++;}
+		}
+	}
+	for(j=0;j<i;j++)
+	{
+		h=abs(0-f[j])+abs(0-g[j]);
+		if(h>t) t=h;
+	}
+	for(j=0;j<i;j++)
+	{
+		h=abs(0-f[j])+abs(c-1-g[j]);
+		if(h>t) t=h;
+	}
+	for(j=0;j<i;j++)
+	{
+		h=abs(b-1-f[j])+abs(0-g[j]);
+		if(h>t) t=h;
+	}
+	for(j=0;j<i;j++)
+	{
+		h=abs(b-1-f[j])+abs(c-1-g[j]);
+		if(h>t) t=h;
+	}
+	printf(""%d"",t);
+		return 0;
+}"
+74,B,C,60011936,2022-12-30 19:40:29,逸尘-忆城,答案错误,"#include<stdio.h>
+int main()
+{
+    int n,m,i,j,k=0,b;
+    scanf(""%d %d\n"",&n,&m);
+    char a[n][m],t;
+    for(i=0;i<n;i++)
+        for(j=0;j<m;j++){
+            scanf(""%c"",&t);
+                if(t!='\n')
+                a[i][j]=t;
+            else continue;
+        }
+    for(i=0;i<n;i++)
+        for(j=0;j<m;j++){
+            if(a[i][j]=='#'){
+                b=m+n-i-j-2;
+               
+            }
+            if(b>k) k=b;
+        }
+    printf(""%d"",k);
+    return 0;
+}"
+75,B,C,60011946,2022-12-30 19:40:37,htu_22_王鹏睿,答案错误,"#include<stdio.h>
+
+int main()
+{
+    int n,k,a,b;
+    scanf(""%d%d%d%d"",&n,&k,&a,&b);
+    int x=(n-1)*b+(k-1)*b;
+    int y=(n-1)*a;
+    if(x>y)
+        printf(""2"");
+    else if(x<y)
+        printf(""1"");
+    else if(x==y)
+        printf(""0"");
+    return 0;
+}"
+76,B,C(gcc 7.5.0),60011953,2022-12-30 19:40:51,bxzzh,答案错误,"#include<stdio.h>
+#include<string.h>
+#include<math.h>
+#define n1 1010
+#define n2 1010
+
+int main()
+{
+	char s[n1][n2];
+	int i,j,n,m,p,q,ans,t;
+	scanf(""%d%d"",&n,&m);
+	getchar();
+	for(i=0;i<n;i++)
+	{
+		for(j=0;j<m;j++)
+		{
+			scanf(""%c"",&s[i][j]);
+		}
+		if(i!=(n-1))
+			getchar();
+	}
+	
+	for(i=0;i<n;i++)
+		for(j=0;j<m;j++)
+		{
+			if(s[i][j]=='#')
+			{
+				p=i;
+				q=j;	
+			}	
+		}
+
+	ans=abs(p)+abs(q);
+	
+	for(i=0;i<n;i++)
+	{
+		for(j=0;j<m;j++)
+		{
+			t=abs(p-i)+abs(q-j);
+			if(t>ans)
+				ans=t;
+		}
+	}
+	printf(""%d"",ans);
+	return 0;
+}"
+77,B,C(gcc 7.5.0),60011998,2022-12-30 19:41:22,-练习两年半,段错误,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+    int book[100][2];
+	int n,m;
+	scanf(""%d %d"",&n,&m);
+	char a[n][m];
+	for(int i=0;i<n;i++){
+		scanf(""%s"",a[i]);
+	}
+	int y=0;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+			if(a[i][j]=='#'){
+				book[y][0]=i;
+				book[y][1]=j;
+				y++;
+			}
+		}
+	}
+	int max=0;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+			for(int q=0;q<y;q++){
+				int sum=abs(book[q][0]-i)+abs(book[q][1]-j);
+				if(sum>max){
+					max=sum;
+				}
+			}
+		}
+	}
+	printf(""%d"",max);
+}"
+78,B,C(gcc 7.5.0),60012005,2022-12-30 19:41:28,-练习两年半,段错误,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+    int book[10000][2];
+	int n,m;
+	scanf(""%d %d"",&n,&m);
+	char a[n][m];
+	for(int i=0;i<n;i++){
+		scanf(""%s"",a[i]);
+	}
+	int y=0;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+			if(a[i][j]=='#'){
+				book[y][0]=i;
+				book[y][1]=j;
+				y++;
+			}
+		}
+	}
+	int max=0;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+			for(int q=0;q<y;q++){
+				int sum=abs(book[q][0]-i)+abs(book[q][1]-j);
+				if(sum>max){
+					max=sum;
+				}
+			}
+		}
+	}
+	printf(""%d"",max);
+}"
+79,B,C(gcc 7.5.0),60012012,2022-12-30 19:41:34,-练习两年半,段错误,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+    int book[100000][2];
+	int n,m;
+	scanf(""%d %d"",&n,&m);
+	char a[n][m];
+	for(int i=0;i<n;i++){
+		scanf(""%s"",a[i]);
+	}
+	int y=0;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+			if(a[i][j]=='#'){
+				book[y][0]=i;
+				book[y][1]=j;
+				y++;
+			}
+		}
+	}
+	int max=0;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+			for(int q=0;q<y;q++){
+				int sum=abs(book[q][0]-i)+abs(book[q][1]-j);
+				if(sum>max){
+					max=sum;
+				}
+			}
+		}
+	}
+	printf(""%d"",max);
+}"
+80,B,C(gcc 7.5.0),60012020,2022-12-30 19:41:42,-练习两年半,运行超时,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+    int book[1000000][2];
+	int n,m;
+	scanf(""%d %d"",&n,&m);
+	char a[n][m];
+	for(int i=0;i<n;i++){
+		scanf(""%s"",a[i]);
+	}
+	int y=0;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+			if(a[i][j]=='#'){
+				book[y][0]=i;
+				book[y][1]=j;
+				y++;
+			}
+		}
+	}
+	int max=0;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+			for(int q=0;q<y;q++){
+				int sum=abs(book[q][0]-i)+abs(book[q][1]-j);
+				if(sum>max){
+					max=sum;
+				}
+			}
+		}
+	}
+	printf(""%d"",max);
+}"
+81,B,C,60012022,2022-12-30 19:41:42,河南师范大学石康强,段错误,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+    int n,m;
+    scanf(""%d%d"",&n,&m);
+    int q[1009][1009];
+    int i;
+    int j;
+    int a[1000][2],k = 0;
+    getchar();
+    for(i = 0;i < n;i++)
+    {
+        for(j = 0;j < m;j++)
+        {
+            char c;
+            scanf(""%c"",&c);
+            if(c == '.')
+            {
+                q[i][j] = 0;
+            }
+            else
+            {
+                q[i][j] = 1;
+                a[k][0] = i;
+                a[k][1] = j;
+                k++;
+            }
+        }
+        getchar();
+    }
+    int s[4005],se = 0;
+    for(i = 0;i < k;i++)
+    {
+        s[se] = abs(0 - a[i][0]) + abs(0 - a[i][1]);
+        se++;
+        s[se] = abs(n - 1 - a[i][0]) + abs(0 - a[i][1]);
+        se++;
+        s[se] = abs(n - 1 - a[i][0]) + abs(m - 1 - a[i][1]);
+        se++;
+        s[se] = abs(0 - a[i][0]) + abs(m - 1 - a[i][1]);
+        se++;
+    }
+    for(i = 0;i < se - 1;i++)
+    {
+        for(j = i + 1;j < se;j++)
+        {
+            if(s[i] < s[j])
+            {
+                int t;
+                t = s[i];
+                s[i] = s[j];
+                s[j] = t;
+            }
+        }
+    }
+    printf(""%d"",s[0]);
+  
+    return 0;
+}
+"
+82,B,C(gcc 7.5.0),60012037,2022-12-30 19:41:53,小明C_,答案错误,"#include<stdio.h>
+int main()
+{int n,m,i,j;
+ 
+scanf(""%d %d\n"",&n,&m);
+ char a[m][n];
+ for(int i=0;i<m;i++)
+ {
+     for(int j=0;j<n;j++)
+     {
+         scanf(""%c"",&a[i][j]);
+         if(a[i][j]=='#')
+             break;
+     }
+      if(a[i][j]=='#')
+             break;
+ }
+ int sum[4];
+sum[0]=i+1-1+j+1-1;
+ sum[1]=i+1-1+n-j-1;
+ sum[2]=m-i-1+j+1-1;
+ sum[3]=m-i-1+n-j-1;
+ int d=sum[0];
+ for(int k=0;k<4;k++)
+ {
+     if(sum[k]>d)
+         d=sum[k];
+ }
+ 
+printf(""%d"",d);
+ return 0;
+
+}"
+83,B,C,60012078,2022-12-30 19:42:20,肥蕉,答案错误,"#include<stdio.h>
+	int n,m,i,j,max,key;
+	char c1[1010];
+	int maxi(int a,int b,int c,int d){
+		if (a>=b&&a>=c&&a>=d) return a;
+		if (b>=a&&b>=c&&b>=d) return b;
+		if (c>=a&&c>=b&&a>=d) return a;
+		else return d;
+	}
+	void solve(void){
+		for(i=0;i<n;i++){
+			scanf(""%s"",c1);
+			for(j=0;j<m;j++){
+				
+				if(c1[j]=='#'){
+					key=maxi(i+j,j+n-i-1,i+m-j-1,m+n-i-j-2);
+					if (key>max) max=key;
+				}
+				
+			}
+		}
+		printf(""%d"",max);
+	}
+	int main(void){
+		scanf(""%d %d"",&n,&m);
+		solve();
+		
+	}"
+84,B,C(gcc 7.5.0),60012098,2022-12-30 19:42:30,-练习两年半,运行超时,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+    int book[9999999][2];
+	int n,m;
+	scanf(""%d %d"",&n,&m);
+	char a[n][m];
+	for(int i=0;i<n;i++){
+		scanf(""%s"",a[i]);
+	}
+	int y=0;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+			if(a[i][j]=='#'){
+				book[y][0]=i;
+				book[y][1]=j;
+				y++;
+			}
+		}
+	}
+	int max=0;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+			for(int q=0;q<y;q++){
+				int sum=abs(book[q][0]-i)+abs(book[q][1]-j);
+				if(sum>max){
+					max=sum;
+				}
+			}
+		}
+	}
+	printf(""%d"",max);
+}"
+85,B,C,60012130,2022-12-30 19:42:50,河南师范大学石康强,答案错误,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+    int n,m;
+    scanf(""%d%d"",&n,&m);
+    int q[1009][1009];
+    int i;
+    int j;
+    int a[1000009][2],k = 0;
+    getchar();
+    for(i = 0;i < n;i++)
+    {
+        for(j = 0;j < m;j++)
+        {
+            char c;
+            scanf(""%c"",&c);
+            if(c == '.')
+            {
+                q[i][j] = 0;
+            }
+            else
+            {
+                q[i][j] = 1;
+                a[k][0] = i;
+                a[k][1] = j;
+                k++;
+            }
+        }
+        getchar();
+    }
+    int s[4005],se = 0;
+    for(i = 0;i < k;i++)
+    {
+        s[se] = abs(0 - a[i][0]) + abs(0 - a[i][1]);
+        se++;
+        s[se] = abs(n - 1 - a[i][0]) + abs(0 - a[i][1]);
+        se++;
+        s[se] = abs(n - 1 - a[i][0]) + abs(m - 1 - a[i][1]);
+        se++;
+        s[se] = abs(0 - a[i][0]) + abs(m - 1 - a[i][1]);
+        se++;
+    }
+    for(i = 0;i < se - 1;i++)
+    {
+        for(j = i + 1;j < se;j++)
+        {
+            if(s[i] < s[j])
+            {
+                int t;
+                t = s[i];
+                s[i] = s[j];
+                s[j] = t;
+            }
+        }
+    }
+    printf(""%d"",s[0]);
+  
+    return 0;
+}
+"
+86,B,C(gcc 7.5.0),60012140,2022-12-30 19:42:57,杨莫轩,答案错误,"#include<stdio.h>
+
+int main(){
+	char s[10000][10000];
+	int n,m;
+	scanf(""%d %d"",&n,&m);
+	for(int i=0;i<n;i++){
+		for(int j=0;j<n;j++){
+			scanf(""%c"",&s[i][j]);
+		}
+	}
+	int juedui(int x);
+	int i,j,k,a,b,mink,yes;
+	for(i=0;i<n;i++){
+		for(j=0;j<m;j++){
+			for(k=0;k<(m>=n?m:n);k++){
+				yes=1;
+				for(a=0;a<n;a++){
+					for(b=0;b<m;b++){
+						if(s[a][b]=='#'){
+							if(juedui(a-i)+juedui(b-j)>k){
+								yes=0;
+							}
+						}
+					}
+				}
+				if(yes==1){
+					mink=k;
+				}
+			}
+		}
+	}
+	printf(""%d"",mink);
+	return 0;
+}
+int juedui(int x){
+	if(x<0)
+		x=-x;
+	return x;
+}"
+87,B,C,60012189,2022-12-30 19:43:28,计科2204胡金博,答案错误,"#include <stdio.h>
+#include <string.h>
+int main()
+{
+    int n,m;
+    scanf(""%d %d"",&n,&m);
+    char a[n][1001];
+    int i;
+    for (i=0;i<n;i++)
+    {
+        scanf(""%s"",&a[i]);
+    }
+    int j,x,y;
+    for (i=0;i<n;i++)
+    {
+        for (j=0;j<m;j++)
+        {
+            if (a[i][j]=='#')
+            {
+                x=i;
+                y=j;
+                break;
+            }
+        }
+    }
+    printf(""%d"",n-x-1+m-y-1);
+        return 0;
+}"
+88,B,C,60012200,2022-12-30 19:43:42,fync王萌,答案错误,"#include <stdio.h>
+#include <math.h>
+int main(){
+    int m,n,i,j,k,l;
+    scanf(""%d %d\n"",&n,&m);
+    int p[n*m][2];
+    char a;
+    l=0;
+    k=0;
+    for(i=0;i<n;i++){
+        for(j=0;j<m;j++){
+            if(j==m-1){
+                scanf(""%1c\n"",&a);
+            }else{
+                scanf(""%1c"",&a);
+            }
+            if(a=='#'){
+                p[l][0]=i;
+                p[l][1]=j;
+                l++;
+            }
+        }
+    }
+    for(i=0;i<l;i++){
+        if(p[i][0]+p[i][1]>k){
+            k=p[i][0]+p[i][1];
+        }
+        if(m+n-2-(p[i][0]+p[i][1])>k){
+            k=m+n-(p[i][0]+p[i][1]);
+        }
+        if(n-1-p[i][0]+p[i][1]>k){
+            k=n-p[i][0]+p[i][1];
+        }
+        if(m-1-p[i][1]+p[i][0]>k){
+            k=m-p[i][1]+p[i][0];
+        }
+    }
+    printf(""%d"",k);
+}"
+89,B,C,60012215,2022-12-30 19:43:50,白日做梦daydream,答案正确,"#include<stdio.h>
+#include<string.h>
+#include<math.h>
+int skk(int a, int b,int x,int y)
+{
+	int arr[4];
+	arr[0] = abs(a - x) + abs(b - y);
+	arr[1]=abs(a-1)+ abs(b - y);
+	arr[2] = abs(a - x) + abs(b-1);
+	arr[3] = abs(a-1)+abs(b-1);
+	int max = arr[0];
+	int i;
+	for (i = 1; i < 4; i++)
+		if (max < arr[i])
+			max = arr[i];
+	return max;
+}
+int main()
+{
+	int a, b,i,j;
+	char arr[1002][1002];
+	int max=0;
+	int min = 0;
+	scanf(""%d%d"", &a, &b);
+	for (i = 0; i < a; i++)
+		scanf(""%s"", arr[i]);
+	for (i = 0; i < a; i++)
+	{
+		for (j = 0; j < b; j++)
+		{
+			if (arr[i][j] == '#')
+				if (max < skk(i+1, j + 1, a, b))
+					max = skk(i+1, j + 1, a, b);
+		}
+	}
+	printf(""%d"", max);
+	return 0;
+}"
+90,B,C,60012273,2022-12-30 19:44:31,某岩大混子,运行超时,"#include<stdio.h>
+#include<math.h>
+#include<stdlib.h>
+int getlen(int i,int j,int n,int m)
+{
+    int max=0;
+    for(int tmpi=0;tmpi<n;tmpi++)
+    {
+        for(int tmpj=0;tmpj<m;tmpj++)
+        {
+            int tmp=abs(tmpj-j)+abs(tmpi-i);
+            if(tmp>max)
+            {
+                max=tmp;
+            }
+        }
+    }
+    return max;
+}
+int main()
+{
+    int n,m;
+    scanf(""%d %d"",&n,&m);
+    char all[n][m];
+    for(int i=0;i<n;i++)
+    {
+        getchar();
+        for(int j=0;j<m;j++)
+        {
+            scanf(""%c"",&all[i][j]);
+        }
+    }
+    int max=0;
+    int tmp=0;
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<m;j++)
+        {
+            if(all[i][j]=='#')
+            {
+                tmp=getlen(i,j,n,m);
+            }
+            if(max<tmp)
+            {
+                max=tmp;
+            }
+        }
+    }
+    printf(""%d"",max);
+    return 0;
+}"
+91,B,C,60012290,2022-12-30 19:44:43,labaji_,答案正确,"#include <stdio.h>
+#include <string.h>
+int main()
+{
+    int n,m;
+    char pool[1145][1145]={};
+    scanf(""%d %d"",&n,&m);
+    getchar();
+    int i,j,k;
+    for(i=0;i<n;i++)
+        gets(pool[i]);
+    int min_mhtd=3000;
+    int d1,d2;
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<m;j++)
+        {
+            if(pool[i][j]=='#')
+            {
+                if(i<=n/2)
+                    d1=i;
+                else d1=n-i-1;
+                if(j<=m/2)
+                    d2=j;
+                else d2=m-j-1;
+                if(d1+d2<min_mhtd)
+                    min_mhtd=d1+d2;
+            }
+        }
+    }
+    printf(""%d"",m+n-min_mhtd-2);
+}"
+92,B,C(gcc 7.5.0),60012303,2022-12-30 19:44:55,-练习两年半,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c: In function ‘main’:\nmain.c:18:33: warning: implicit declaration of function ‘abs’ [-Wimplicit-function-declaration]\n                         int sum=abs(q-i)+abs(w-j);\n                                 ^~~\nmain.c: At top level:\nmain.c:29:9: error: expected declaration specifiers or ‘...’ before string constant\n  printf(\""%d\"",max);\n         ^~~~\nmain.c:29:14: error: unknown type name ‘max’\n  printf(\""%d\"",max);\n              ^~~\nmain.c:30:1: error: expected identifier or ‘(’ before ‘}’ token\n }\n ^\nmain.c: In function ‘main’:\nmain.c:6:2: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n  scanf(\""%d %d\"",&n,&m);\n  ^~~~~~~~~~~~~~~~~~~~\nmain.c:9:3: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n   scanf(\""%s\"",a[i]);\n   ^~~~~~~~~~~~~~~~""}
+
+#include<stdio.h>
+#include<math.h>
+int main()
+{
+	int n,m;
+	scanf(""%d %d"",&n,&m);
+	char a[n][m];
+	for(int i=0;i<n;i++){
+		scanf(""%s"",a[i]);
+	}
+	int y=0;
+	int max=0;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+			for(int q=0;q<n;q++){
+                for(int w=0;w<m;w++){
+                    if(a[q][w]=='#'){
+                        int sum=abs(q-i)+abs(w-j);
+                        if(sum>max){
+                            max=sum;
+                        }
+                    }
+                }
+				
+				}
+			}
+		}
+	}
+	printf(""%d"",max);
+}"
+93,B,C,60012304,2022-12-30 19:44:55,某岩大混子,运行超时,"#include<stdio.h>
+#include<math.h>
+#include<stdlib.h>
+int getlen(int i,int j,int n,int m)
+{
+    int max=0;
+    for(int tmpi=0;tmpi<n;tmpi++)
+    {
+        for(int tmpj=0;tmpj<m;tmpj++)
+        {
+            int tmp=abs(tmpj-j)+abs(tmpi-i);
+            if(tmp>max)
+            {
+                max=tmp;
+            }
+        }
+    }
+    return max;
+}
+int main()
+{
+    int n,m;
+    scanf(""%d %d"",&n,&m);
+    char all[n][m];
+    for(int i=0;i<n;i++)
+    {
+        getchar();
+        for(int j=0;j<m;j++)
+        {
+            scanf(""%c"",&all[i][j]);
+        }
+    }
+    int max=0;
+    int tmp=0;
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<m;j++)
+        {
+            if(all[i][j]=='#')
+            {
+                tmp=getlen(i,j,n,m);
+            }
+            if(max<tmp)
+            {
+                max=tmp;
+            }
+        }
+    }
+    printf(""%d"",max);
+    return 0;
+}"
+94,B,C,60012324,2022-12-30 19:45:16,某岩大混子,运行超时,"#include<stdio.h>
+#include<math.h>
+#include<stdlib.h>
+int getlen(int i,int j,int n,int m)
+{
+    int max=0;
+    for(int tmpi=0;tmpi<n;tmpi++)
+    {
+        for(int tmpj=0;tmpj<m;tmpj++)
+        {
+            int tmp=abs(tmpj-j)+abs(tmpi-i);
+            if(tmp>max)
+            {
+                max=tmp;
+            }
+        }
+    }
+    return max;
+}
+int main()
+{
+    int n,m;
+    scanf(""%d %d"",&n,&m);
+    char all[n][m];
+    for(int i=0;i<n;i++)
+    {
+        getchar();
+        for(int j=0;j<m;j++)
+        {
+            scanf(""%c"",&all[i][j]);
+        }
+    }
+    int max=0;
+    int tmp=0;
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<m;j++)
+        {
+            if(all[i][j]=='#')
+            {
+                tmp=getlen(i,j,n,m);
+            }
+            if(max<tmp)
+            {
+                max=tmp;
+            }
+        }
+    }
+    printf(""%d"",max);
+    return 0;
+}"
+95,B,C(gcc 7.5.0),60012343,2022-12-30 19:45:28,珸琨珸,答案错误,"#include <stdio.h>
+#include <math.h>
+int sw(int a,int b,int c,int d);
+int main()
+{
+    int a,b;
+    scanf(""%d%d"",&a,&b);
+    char w[a][b*2-1];
+    int number1[a+b];
+    int number2[a+b];
+    int i,k,s=0,f;
+    for(i=0;i<a;i++){
+        for(k=0;k<b*2-1;k++){
+            scanf(""%c"",&w[i][k]);
+            if(w[i][k]=='#'){
+                number1[s]=i;
+                number2[s]=(k+1)/2;
+                s++;
+            }
+        }
+    }
+    int index=0;
+    for(i=0;i<a;i++){
+        for(k=0;k<b;k++){
+            for(f=0;f<s;f++){
+                if(index<sw(i,k,number1[f],number2[f])) index=sw(i,k,number1[f],number2[f]);
+            }
+        }
+    }
+    printf(""%d"",index);
+}
+int sw(int a,int b,int c,int d){
+    int k=abs(a-c)+abs(b-d);
+    return k;
+}"
+96,B,C,60012362,2022-12-30 19:45:43,牛客71383912号,答案错误,"#include<stdio.h>
+#include<math.h>
+int main ()
+{
+    int m,n,i,j,k,flag_x,flag_y;
+    char x[1005][1005];
+    scanf(""%d %d"",&n,&m);
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<m;j++)
+        {
+        	getchar();
+            scanf(""%c"",&x[i][j]);
+            if(x[i][j]=='#'){
+                flag_x=i;
+                flag_y=j;
+            }
+        }
+    }
+    int d1,d2,d3,d4,max=0;
+    d1=fabs(flag_x)+fabs(flag_y);
+    d2=fabs(flag_x-n+1)+fabs(flag_y);
+    d3=fabs(flag_x-n+1)+fabs(flag_y-m+1);
+    d4=fabs(flag_x)+fabs(flag_y-m+1);
+    max=d1;
+    if(d2>max)
+        max=d2;
+    if(d3>max)
+        max=d3;
+    if(d4>max)
+        max=d4;
+    printf(""%d"",max);
+}"
+97,B,C,60012384,2022-12-30 19:45:57,肥蕉,答案错误,"#include<stdio.h>
+	int n,m,i,j,max,key;
+	char c1[1010];
+	int maxi(int a,int b,int c,int d){
+		if (a>=b&&a>=c&&a>=d) return a;
+		else if (b>=a&&b>=c&&b>=d) return b;
+		else if (c>=a&&c>=b&&a>=d) return a;
+		else return d;
+	}
+	void solve(void){
+		for(i=0;i<n;i++){
+			scanf(""%s"",c1);
+			for(j=0;j<m;j++){
+				
+				if(c1[j]=='#'){
+					key=maxi(i+j,j+n-i-1,i+m-j-1,m+n-i-j-2);
+					if (key>max) max=key;
+				}
+				
+			}
+		}
+		printf(""%d"",max);
+	}
+	int main(void){
+		scanf(""%d %d"",&n,&m);
+		solve();
+		
+	}"
+98,B,C,60012404,2022-12-30 19:46:13,某岩大混子,执行出错,"#include<stdio.h>
+#include<math.h>
+#include<stdlib.h>
+int getlen(int i,int j,int n,int m)
+{
+    int max=0;
+    for(int tmpi=0;tmpi<n;tmpi++)
+    {
+        for(int tmpj=0;tmpj<m;tmpj++)
+        {
+            int tmp=abs(tmpj-j)+abs(tmpi-i);
+            if(tmp>max)
+            {
+                max=tmp;
+            }
+        }
+    }
+    return max;
+}
+int main()
+{
+    int n,m;
+    scanf(""%d %d"",&n,&m);
+    char all[n][m];
+    for(int i=0;i<n;i++)
+    {
+        getchar();
+        for(int j=0;j<m;j++)
+        {
+            scanf(""%c"",&all[i][j]);
+        }
+    }
+    int max=0;
+    int tmp=0;
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<m;j++)
+        {
+            if(all[i][j]=='#')
+            {
+                tmp=getlen(i,j,n,m);
+            }
+            if(max<tmp)
+            {
+                max=tmp;
+                if(max==m+n-2)
+                {
+                    return max;
+                }
+            }
+        }
+    }
+    printf(""%d"",max);
+    return 0;
+}"
+99,B,C(gcc 7.5.0),60012407,2022-12-30 19:46:14,-练习两年半,答案错误,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+	int n,m;
+	scanf(""%d %d"",&n,&m);
+	char a[n][m];
+	for(int i=0;i<n;i++){
+		scanf(""%s"",a[i]);
+	}
+	int max=0;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+			for(int q=0;q<n;q++){
+                for(int w=0;w<m;w++){
+                    if(a[q][w]=='#'){
+                        int sum=abs(q-i)+abs(w-j);
+                        if(sum>max){
+                            max=sum;
+                        }
+                    }
+                }
+				}
+			}
+		}
+	printf(""%d"",max);
+}"
+100,B,C,60012412,2022-12-30 19:46:19,独孤谜拟,答案正确,"#include <stdio.h>
+#define MAX(a, b) (a) > (b) ? (a) : (b)
+int fun(int a, int b){
+    return a > b ? a - b : b - a;
+}
+int main(){
+    int m, n, res = 0;
+    char a[1005][1005] = {0};
+    scanf(""%d%d "", &n, &m);
+    for(int i = 1; i <= n; i++){
+        for(int j = 1; j <= m; j++){
+            scanf(""%c"", &a[i][j]);
+            if(a[i][j] == '#'){
+                res = MAX(res, MAX(MAX(i + j - 2, fun(i, n) + j - 1), MAX(fun(j, m) + i - 1, fun(i, n) + fun(j, m))));
+                //printf(""a[%d][%d] = %c\n"", i, j, a[i][j]);
+            }
+        }
+        getchar();
+    }
+    if(n == 1 && m == 1)
+        printf(""0\n"");
+    else
+        printf(""%d"", res);
+}"
+101,B,C,60012433,2022-12-30 19:46:34,某岩大混子,运行超时,"#include<stdio.h>
+#include<math.h>
+#include<stdlib.h>
+int getlen(int i,int j,int n,int m)
+{
+    int max=0;
+    for(int tmpi=0;tmpi<n;tmpi++)
+    {
+        for(int tmpj=0;tmpj<m;tmpj++)
+        {
+            int tmp=abs(tmpj-j)+abs(tmpi-i);
+            if(tmp>max)
+            {
+                max=tmp;
+            }
+        }
+    }
+    return max;
+}
+int main()
+{
+    int n,m;
+    scanf(""%d %d"",&n,&m);
+    char all[n][m];
+    for(int i=0;i<n;i++)
+    {
+        getchar();
+        for(int j=0;j<m;j++)
+        {
+            scanf(""%c"",&all[i][j]);
+        }
+    }
+    int max=0;
+    int tmp=0;
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<m;j++)
+        {
+            if(all[i][j]=='#')
+            {
+                tmp=getlen(i,j,n,m);
+            }
+            if(max<tmp)
+            {
+                max=tmp;
+                if(max==m+n-2)
+                {
+                    printf(""%d"",max);
+                    return 0;
+                }
+            }
+        }
+    }
+    printf(""%d"",max);
+    return 0;
+}"
+102,B,C(gcc 7.5.0),60012441,2022-12-30 19:46:39,杨莫轩,答案错误,"#include<stdio.h>
+char s[10000][10000];
+int main(){
+	int n,m;
+	scanf(""%d %d"",&n,&m);
+	for(int i=0;i<n;i++){
+		for(int j=0;j<n;j++){
+			scanf(""%c"",&s[i][j]);
+		}
+	}
+	int juedui(int x);
+	int i,j,k,a,b,mink,yes;
+	for(i=0;i<n;i++){
+		for(j=0;j<m;j++){
+			for(k=0;k<(m>=n?m:n);k++){
+				yes=1;
+				for(a=0;a<n;a++){
+					for(b=0;b<m;b++){
+						if(s[a][b]=='#'){
+							if(juedui(a-i)+juedui(b-j)>k){
+								yes=0;
+							}
+						}
+					}
+				}
+				if(yes==1&&mink>k){
+					mink=k;
+				}
+			}
+		}
+	}
+	printf(""%d"",mink);
+	return 0;
+}
+int juedui(int x){
+	if(x<0)
+		x=-x;
+	return x;
+}"
+103,B,C(gcc 7.5.0),60012442,2022-12-30 19:46:40,htu2208114240cy,答案错误,"#define _CRT_SECURE_NO_WARNINGS
+#include<stdio.h>
+#include<math.h>
+char str[1010];
+int x[100010];
+int y[100010];
+int main()
+{
+    int m,n;
+    scanf(""%d%d"",&m,&n);
+    int man=0;
+    int k = 0;
+    for(int i=0;i<n;i++)
+    {
+        scanf(""%s"",str);
+        for(int j=0;j<m;j++)
+        {
+            if(str[j]=='#')
+            {
+                x[k] = i;
+                y[k] = j;
+                k++;
+            }
+        }
+    }
+    for (int c = 0; c < k; c++)
+    {
+        man = fabs(0 - x[c]) + fabs(0 - y[c]);
+        if (fabs(0 - x[c]) + fabs(m - 1 - y[c]) > man)
+            man = fabs(0 - x[c]) + fabs(m - 1 - y[c]);
+        if (fabs(n - 1 - x[c]) + fabs(m - 1 - y[c]) > man)
+            man = fabs(n - 1 - x[c]) + fabs(m - 1 - y[c]);
+        if (fabs(n - 1 - x[c]) + fabs(0 - y[c]) > man)
+            man = fabs(n - 1 - x[c]) + fabs(0 - y[c]);
+    }
+    printf(""%d\n"",man);
+    return 0;
+}"
+104,B,C(gcc 7.5.0),60012447,2022-12-30 19:46:45,爱因兹贝伦,答案错误,"#include <stdio.h>
+#include <math.h>
+long distance(long,long,long,long);
+int main(void)
+{
+    long n,m,i,j;
+    int k=0;
+    scanf(""%ld %ld"",&n,&m);
+    char c;
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<m;j++)
+        {
+            scanf(""%c"",&c);
+            if(c==35)
+            {
+                if(distance(i,j,0,0)>k)
+                    k=distance(i,j,0,0);
+                if(distance(i,j,0,m-1)>k)
+                    k=distance(i,j,0,m-1);
+                if(distance(i,j,n-1,0)>k)
+                    k=distance(i,j,n-1,0);
+                if(distance(i,j,n-1,m-1)>k)
+                    k=distance(i,j,n-1,m-1);
+            }
+        }
+    }
+    printf(""%d\n"",k);
+    return 0;
+}
+long distance(long x1,long y1,long x2,long y2)
+{
+    long d;
+    d=fabs(x1-x2)+fabs(y1-y2);
+    return d;
+}"
+105,B,C,60012460,2022-12-30 19:46:55,-练习两年半,运行超时,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+	int n,m;
+	scanf(""%d %d"",&n,&m);
+	char a[n][m];
+	for(int i=0;i<n;i++){
+		scanf(""%s"",a[i]);
+	}
+	int max=0;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+			for(int q=0;q<n;q++){
+                for(int w=0;w<m;w++){
+                    if(a[q][w]=='#'){
+                        int sum=abs(q-i)+abs(w-j);
+                        if(sum>max){
+                            max=sum;
+                        }
+                    }
+                }
+				}
+			}
+		}
+	printf(""%d"",max);
+}"
+106,B,C(gcc 7.5.0),60012511,2022-12-30 19:47:36,杨莫轩,答案错误,"#include<stdio.h>
+char s[10000][10000];
+int main(){
+	int n,m;
+	scanf(""%d %d"",&n,&m);
+	for(int i=0;i<n;i++){
+		for(int j=0;j<n;j++){
+			scanf(""%c"",&s[i][j]);
+		}
+	}
+	int juedui(int x);
+	int i,j,k,a,b,mink=0,yes;
+	for(i=0;i<n;i++){
+		for(j=0;j<m;j++){
+			for(k=0;k<(m>=n?m:n);k++){
+				yes=1;
+				for(a=0;a<n;a++){
+					for(b=0;b<m;b++){
+						if(s[a][b]=='#'){
+							if(juedui(a-i)+juedui(b-j)>k){
+								yes=0;
+							}
+						}
+					}
+				}
+				if(yes==1&&mink>k){
+					mink=k;
+				}
+			}
+		}
+	}
+	printf(""%d"",mink);
+	return 0;
+}
+int juedui(int x){
+	if(x<0)
+		x=-x;
+	return x;
+}"
+107,B,C,60012527,2022-12-30 19:47:44,lowww,答案错误,"#include<stdio.h>
+int a[110][110],k[110];
+int main()
+{
+	char c;
+	int i,j,n,m,add=1;
+	int x,y;
+	scanf(""%d %d"",&n,&m);
+	for(i=1;i<=n;i++)
+	{fflush(stdin);
+		for(j=1;j<=m;j++)
+		{
+			scanf(""%c"",&c);
+			if(c=='#')
+			a[i][j]++;
+		}
+	}
+	for(i=1;i<=n;i++)
+		{
+			for(j=1;j<=m;j++)
+			{
+				x=(int)(m*1.0/2+0.5);
+				y=(int)(n*1.0/2+0.5);
+				if(a[i][j])
+				{
+					if(i<=y&&j<=x)
+					k[add]=m+n-j-i;
+					if(i>=y&&j>=x)
+					k[add]=i+j-1-1;
+					if(i<y&&j>x)
+					k[add]=n+j-1-i;
+					if(i>y&&j<x)
+					k[add]=i+m-1-j;
+					add++;
+				}
+			}
+		}
+		int flag=0;
+	for(i=1;i<110;i++)
+	{
+		for(j=i+1;j<=110;j++)
+		{
+			if(k[i]<k[j])
+			{
+				flag=k[i];
+				k[i]=k[j];
+				k[j]=flag;
+			}
+		}
+	}
+	printf(""%d"",k[1]);
+	return 0;
+}"
+108,B,C(gcc 7.5.0),60012539,2022-12-30 19:47:55,济南大学_刘峰旭,答案错误,"#include <stdio.h>
+#include <math.h>
+int main()
+{
+    int n,m,x,y,i,j,max,t=0,o,k,num1[1000],num2[1000];
+    char pool[1000][1000];
+    scanf(""%d%d"",&n,&m);
+    for(i=0;i<n;i++)
+    {
+        scanf(""%s"",pool[i]); 
+    }
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<m;j++)
+        {
+            if(pool[i][j]=='#')
+            {
+                num1[t]=i;
+                num2[t]=j;
+                t++;
+            }
+        }
+    }
+    for(o=0;o<t;o++)
+    {
+        k=abs(0-num1[o])+abs(0-num2[o]);
+        if(k>max)
+        max=k;
+        k=abs(0-num1[o])+abs(m-1-num2[o]);
+        if(k>max)
+        max=k;
+        k=abs(n-1-num1[o])+abs(0-num2[o]);
+        if(k>max)
+        max=k;
+        k=abs(n-1-num1[o])+abs(m-1-num2[o]);
+        if(k>max)
+        max=k;
+    }  
+    printf(""%d"",max);
+    return 0;
+}"
+109,B,C,60012563,2022-12-30 19:48:11,lowww,答案错误,"#include<stdio.h>
+int a[110][110],k[110];
+int main()
+{
+	char c;
+	int i,j,n,m,add=1;
+	int x,y;
+	scanf(""%d %d"",&n,&m);
+	for(i=1;i<=n;i++)
+	{
+      scanf(""\n"");
+		for(j=1;j<=m;j++)
+		{
+			scanf(""%c"",&c);
+			if(c=='#')
+			a[i][j]++;
+		}
+	}
+	for(i=1;i<=n;i++)
+		{
+			for(j=1;j<=m;j++)
+			{
+				x=(int)(m*1.0/2+0.5);
+				y=(int)(n*1.0/2+0.5);
+				if(a[i][j])
+				{
+					if(i<=y&&j<=x)
+					k[add]=m+n-j-i;
+					if(i>=y&&j>=x)
+					k[add]=i+j-1-1;
+					if(i<y&&j>x)
+					k[add]=n+j-1-i;
+					if(i>y&&j<x)
+					k[add]=i+m-1-j;
+					add++;
+				}
+			}
+		}
+		int flag=0;
+	for(i=1;i<110;i++)
+	{
+		for(j=i+1;j<=110;j++)
+		{
+			if(k[i]<k[j])
+			{
+				flag=k[i];
+				k[i]=k[j];
+				k[j]=flag;
+			}
+		}
+	}
+	printf(""%d"",k[1]);
+	return 0;
+}"
+110,B,C,60012616,2022-12-30 19:48:47,东师第一蒟蒻,答案错误,"#include<stdio.h>
+int f(int a,int b)
+{
+    int c; 
+        if(a>b)
+    {
+        c=a;
+    }
+    if(a<b)
+    {
+        c=b;
+    }
+    if(a==b)
+    {
+        c=a;
+    }
+    return(c);
+}
+int main()
+{
+    int n,m,i,j,k,q,l=0,s;
+    char a[100][100];
+    scanf(""%d%d"",&n,&m);
+    if(m==1&&n==1)
+    {
+        printf(""0"");
+        return 0;
+    }
+    for(i=0;i<=n;i++)
+    {
+        for(j=0;j<=m;j++)
+        {
+            scanf(""%c"",&a[i][j]);
+            if(a[i][j]=='#')
+            {
+                k=i+j;
+                q=n+m-k;
+                s = f(k-1,q-1);
+                if(s>=l)
+                {
+                    l=s;
+                }
+            }
+        }
+    }
+    printf(""%d"",l);
+        
+       
+}"
+111,B,C,60012664,2022-12-30 19:49:24,计科2204胡金博,答案错误,"#include <stdio.h>
+#include <string.h>
+int main()
+{
+    int n,m;
+    scanf(""%d %d"",&n,&m);
+    char a[n][1001];
+
+    int i;
+    for (i=0;i<n;i++)
+    {
+        scanf(""%s"",&a[i]);
+    }
+    int j,c=0,d=0,t=n*m,z=0,p;
+    int x[t],y[t];
+    for (i=0;i<n;i++)
+    {
+        for (j=0;j<m;j++)
+        {
+            if (a[i][j]=='#')
+            {
+                x[c]=i;
+                y[d]=j;
+                c++;
+                d++;
+            }
+        }
+    }
+    for (i=0;i<c;i++)
+    {
+        p=n-1-x[i]+m-1-y[i];
+        if (z<p)
+        {
+            z=p;
+        }
+    }
+    printf(""%d"",z);
+        return 0;
+}"
+112,B,C(gcc 7.5.0),60012666,2022-12-30 19:49:24,济南大学_刘峰旭,答案错误,"#include <stdio.h>
+#include <math.h>
+int main()
+{
+    int n,m,x,y,i,j,max,t=0,o,k,num1[1000],num2[1000];
+    char pool[1000][1000];
+    scanf(""%d%d"",&n,&m);
+    for(i=0;i<n;i++)
+    {
+        scanf(""%s"",pool[i]); 
+    }
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<m;j++)
+        {
+            if(pool[i][j]=='#')
+            {
+                num1[t]=i;
+                num2[t]=j;
+                t++;
+            }
+        }
+    }
+    for(o=0;o<t;o++)
+    {
+        k=abs(0-num1[o])+abs(0-num2[o]);
+        if(k>max)
+        max=k;
+        k=abs(0-num1[o])+abs(m-1-num2[o]);
+        if(k>max)
+        max=k;
+        k=abs(n-1-num1[o])+abs(0-num2[o]);
+        if(k>max)
+        max=k;
+        k=abs(n-1-num1[o])+abs(m-1-num2[o]);
+        if(k>max)
+        max=k;
+    }  
+    printf(""%d"",max);
+    return 0;
+}"
+113,B,C,60012700,2022-12-30 19:49:46,lowww,答案错误,"#include<stdio.h>
+int a[110][110],k[11000];
+int main()
+{
+	char c;
+	int i,j,n,m,add=1;
+	int x,y;
+	scanf(""%d %d"",&n,&m);
+	for(i=1;i<=n;i++)
+	{
+      scanf(""\n"");
+		for(j=1;j<=m;j++)
+		{
+			scanf(""%c"",&c);
+			if(c=='#')
+			a[i][j]++;
+		}
+	}
+	for(i=1;i<=n;i++)
+		{
+			for(j=1;j<=m;j++)
+			{
+				x=(int)(m*1.0/2+0.5);
+				y=(int)(n*1.0/2+0.5);
+				if(a[i][j])
+				{
+					if(i<=y&&j<=x)
+					k[add]=m+n-j-i;
+					if(i>=y&&j>=x)
+					k[add]=i+j-1-1;
+					if(i<y&&j>x)
+					k[add]=n+j-1-i;
+					if(i>y&&j<x)
+					k[add]=i+m-1-j;
+					add++;
+				}
+			}
+		}
+		int flag=0;
+	for(i=1;i<11000;i++)
+	{
+		for(j=i+1;j<=11000;j++)
+		{
+			if(k[i]<k[j])
+			{
+				flag=k[i];
+				k[i]=k[j];
+				k[j]=flag;
+			}
+		}
+	}
+	printf(""%d"",k[1]);
+	return 0;
+}"
+114,B,C,60012734,2022-12-30 19:50:05,计科2204胡金博,答案错误,"#include <stdio.h>
+#include <string.h>
+int main()
+{
+    int n,m;
+    scanf(""%d %d"",&n,&m);
+    char a[n][1001];
+
+    int i;
+    for (i=0;i<n;i++)
+    {
+        scanf(""%s"",&a[i]);
+    }
+    long long int j,c=0,d=0,t=n*m,z=0,p;
+     long long int x[t],y[t];
+    for (i=0;i<n;i++)
+    {
+        for (j=0;j<m;j++)
+        {
+            if (a[i][j]=='#')
+            {
+                x[c]=i;
+                y[d]=j;
+                c++;
+                d++;
+            }
+        }
+    }
+    for (i=0;i<c;i++)
+    {
+        p=n-1-x[i]+m-1-y[i];
+        if (z<p)
+        {
+            z=p;
+        }
+    }
+    printf(""%lld"",z);
+        return 0;
+}"
+115,B,C(gcc 7.5.0),60012765,2022-12-30 19:50:20,bxzzh,答案错误,"#include<stdio.h>
+#include<string.h>
+#include<math.h>
+#define n1 1010
+#define n2 1010
+
+int main()
+{
+	char s[n1][n2];
+	int i,j,n,m,p,q,ans,t;
+	scanf(""%d%d"",&n,&m);
+	getchar();
+	for(i=0;i<n;i++)
+	{
+		for(j=0;j<m;j++)
+		{
+			scanf(""%c"",&s[i][j]);
+			if(s[i][j]=='#')
+			{
+				p=i;
+				q=j;	
+			}	
+		}
+		if(i!=(n-1))
+			getchar();
+	}
+
+	ans=abs(p)+abs(q);
+	
+	for(i=0;i<n;i++)
+	{
+		for(j=0;j<m;j++)
+		{
+			t=abs(p-i)+abs(q-j);
+			if(t>ans)
+				ans=t;
+		}
+	}
+	printf(""%d"",ans);
+	return 0;
+}"
+116,B,C(gcc 7.5.0),60012772,2022-12-30 19:50:25,bxzzh,答案错误,"#include<stdio.h>
+#include<string.h>
+#include<math.h>
+#define n1 1010
+#define n2 1010
+
+int main()
+{
+	char s[n1][n2];
+	int i,j,n,m,p,q,ans,t;
+	scanf(""%d%d"",&n,&m);
+	getchar();
+	for(i=0;i<n;i++)
+	{
+		for(j=0;j<m;j++)
+		{
+			scanf(""%c"",&s[i][j]);
+			if(s[i][j]=='#')
+			{
+				p=i;
+				q=j;	
+			}	
+		}
+		if(i!=(n-1))
+			getchar();
+	}
+
+	ans=abs(p)+abs(q);
+	
+	for(i=0;i<n;i++)
+	{
+		for(j=0;j<m;j++)
+		{
+			t=abs(p-i)+abs(q-j);
+			if(t>ans)
+				ans=t;
+		}
+	}
+	printf(""%d"",ans);
+	return 0;
+}"
+117,B,C,60012773,2022-12-30 19:50:26,计科2204胡金博,段错误,"#include <stdio.h>
+#include <string.h>
+int main()
+{
+   long long int n,m;
+    scanf(""%d %d"",&n,&m);
+    char a[n][1001];
+
+    long long int i;
+    for (i=0;i<n;i++)
+    {
+        scanf(""%s"",&a[i]);
+    }
+    long long int j,c=0,d=0,t=n*m,z=0,p;
+     long long int x[t],y[t];
+    for (i=0;i<n;i++)
+    {
+        for (j=0;j<m;j++)
+        {
+            if (a[i][j]=='#')
+            {
+                x[c]=i;
+                y[d]=j;
+                c++;
+                d++;
+            }
+        }
+    }
+    for (i=0;i<c;i++)
+    {
+        p=n-1-x[i]+m-1-y[i];
+        if (z<p)
+        {
+            z=p;
+        }
+    }
+    printf(""%lld"",z);
+        return 0;
+}"
+118,B,C(gcc 7.5.0),60012780,2022-12-30 19:50:29,bxzzh,答案错误,"#include<stdio.h>
+#include<string.h>
+#include<math.h>
+#define n1 1010
+#define n2 1010
+
+int main()
+{
+	char s[n1][n2];
+	int i,j,n,m,p,q,ans,t;
+	scanf(""%d%d"",&n,&m);
+	getchar();
+	for(i=0;i<n;i++)
+	{
+		for(j=0;j<m;j++)
+		{
+			scanf(""%c"",&s[i][j]);
+			if(s[i][j]=='#')
+			{
+				p=i;
+				q=j;	
+			}	
+		}
+		if(i!=(n-1))
+			getchar();
+	}
+
+	ans=abs(p)+abs(q);
+	
+	for(i=0;i<n;i++)
+	{
+		for(j=0;j<m;j++)
+		{
+			t=abs(p-i)+abs(q-j);
+			if(t>ans)
+				ans=t;
+		}
+	}
+	printf(""%d"",ans);
+	return 0;
+}"
+119,B,C,60012790,2022-12-30 19:50:32,lowww,运行超时,"#include<stdio.h>
+int a[110][110],k[1000010];
+int main()
+{
+	char c;
+	int i,j,n,m,add=1;
+	int x,y;
+	scanf(""%d %d"",&n,&m);
+	for(i=1;i<=n;i++)
+	{
+      scanf(""\n"");
+		for(j=1;j<=m;j++)
+		{
+			scanf(""%c"",&c);
+			if(c=='#')
+			a[i][j]++;
+		}
+	}
+	for(i=1;i<=n;i++)
+		{
+			for(j=1;j<=m;j++)
+			{
+				x=(int)(m*1.0/2+0.5);
+				y=(int)(n*1.0/2+0.5);
+				if(a[i][j])
+				{
+					if(i<=y&&j<=x)
+					k[add]=m+n-j-i;
+					if(i>=y&&j>=x)
+					k[add]=i+j-1-1;
+					if(i<y&&j>x)
+					k[add]=n+j-1-i;
+					if(i>y&&j<x)
+					k[add]=i+m-1-j;
+					add++;
+				}
+			}
+		}
+		int flag=0;
+	for(i=1;i<1000010;i++)
+	{
+		for(j=i+1;j<=1000010;j++)
+		{
+			if(k[i]<k[j])
+			{
+				flag=k[i];
+				k[i]=k[j];
+				k[j]=flag;
+			}
+		}
+	}
+	printf(""%d"",k[1]);
+	return 0;
+}"
+120,B,C,60012813,2022-12-30 19:50:46,计科2204胡金博,段错误,"#include <stdio.h>
+#include <string.h>
+int main()
+{
+   long long int n,m;
+    scanf(""%d %d"",&n,&m);
+    char a[n][10000];
+
+    long long int i;
+    for (i=0;i<n;i++)
+    {
+        scanf(""%s"",&a[i]);
+    }
+    long long int j,c=0,d=0,t=n*m,z=0,p;
+     long long int x[t],y[t];
+    for (i=0;i<n;i++)
+    {
+        for (j=0;j<m;j++)
+        {
+            if (a[i][j]=='#')
+            {
+                x[c]=i;
+                y[d]=j;
+                c++;
+                d++;
+            }
+        }
+    }
+    for (i=0;i<c;i++)
+    {
+        p=n-1-x[i]+m-1-y[i];
+        if (z<p)
+        {
+            z=p;
+        }
+    }
+    printf(""%lld"",z);
+        return 0;
+}"
+121,B,C,60012828,2022-12-30 19:50:54,-练习两年半,运行超时,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+	int n,m;
+	scanf(""%d %d"",&n,&m);
+	char a[n][m];
+	int book[n*m][2];
+	for(int i=0;i<n;i++){
+		scanf(""%s"",a[i]);
+	}
+	int y=0;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+			if(a[i][j]=='#'){
+				book[y][0]=i;
+				book[y][1]=j;
+				y++;
+			}
+		}
+	}
+	int max=0;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+			for(int q=0;q<y;q++){
+				int sum=abs(book[q][0]-i)+abs(book[q][1]-j);
+				if(sum>max){
+					max=sum;
+				}
+			}
+		}
+	}
+	printf(""%d"",max);
+}"
+122,B,C(gcc 7.5.0),60012842,2022-12-30 19:51:01,济南大学_刘峰旭,答案错误,"#include <stdio.h>
+#include <math.h>
+int main()
+{
+    int n,m,x,y,i,j,max,t=0,o,k,num1[1000],num2[1000];
+    char pool[1000][1000];
+    scanf(""%d%d"",&n,&m);
+    for(i=0;i<n;i++)
+    {
+        scanf(""%s"",pool[i]); 
+    }
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<m;j++)
+        {
+            if(pool[i][j]=='#')
+            {
+                num1[t]=i;
+                num2[t]=j;
+                t++;
+            }
+        }
+    }
+    for(o=0;o<t;o++)
+    {
+        k=abs(0-num1[o])+abs(0-num2[o]);
+        if(k>max)
+        max=k;
+        k=abs(0-num1[o])+abs(m-1-num2[o]);
+        if(k>max)
+        max=k;
+        k=abs(n-1-num1[o])+abs(0-num2[o]);
+        if(k>max)
+        max=k;
+        k=abs(n-1-num1[o])+abs(m-1-num2[o]);
+        if(k>max)
+        max=k;
+    }  
+    printf(""%d"",max);
+    return 0;
+}"
+123,B,C,60012843,2022-12-30 19:51:01,计科2204胡金博,答案错误,"#include <stdio.h>
+#include <string.h>
+int main()
+{
+   long long int n,m;
+    scanf(""%lld %lld"",&n,&m);
+    char a[n][10000];
+
+    long long int i;
+    for (i=0;i<n;i++)
+    {
+        scanf(""%s"",&a[i]);
+    }
+    long long int j,c=0,d=0,t=n*m,z=0,p;
+     long long int x[t],y[t];
+    for (i=0;i<n;i++)
+    {
+        for (j=0;j<m;j++)
+        {
+            if (a[i][j]=='#')
+            {
+                x[c]=i;
+                y[d]=j;
+                c++;
+                d++;
+            }
+        }
+    }
+    for (i=0;i<c;i++)
+    {
+        p=n-1-x[i]+m-1-y[i];
+        if (z<p)
+        {
+            z=p;
+        }
+    }
+    printf(""%lld"",z);
+        return 0;
+}"
+124,B,C,60012848,2022-12-30 19:51:06,湖科大码农专业户,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c:2:10: fatal error: 'iostream' file not found\n#include <iostream>\n         ^~~~~~~~~~\n1 error generated.""}
+
+#include <string.h>
+#include <iostream>
+#include <cmath>
+#include <algorithm>
+#include <stack>
+using namespace std;
+char a[1001][1001];
+int dis[1000001];
+int main()
+{
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    int n,m,k=0;
+    cin>>n>>m;
+    for(int i=0;i<n;i++)
+        cin>>a[i];
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<m;j++)
+        {
+            if(a[i][j]=='#')
+            {
+                k++;
+                dis[k]=max(max(max((i+j),(n-i-1+j)),(m-j-1+i)),(m+n-j-i-2));
+            }
+        }
+    }
+    int ans=0;
+    for(int i=0;i<k;i++)
+        ans=max(ans,dis[i+1]);
+    cout<<ans<<endl;
+    return 0;
+}
+"
+125,B,C,60012858,2022-12-30 19:51:12,lowww,运行超时,"#include<stdio.h>
+int a[110][110],k[1000010];
+int main()
+{
+	char c;
+	int i,j,n,m,add=1;
+	int x,y;
+	scanf(""%d %d"",&n,&m);
+	for(i=1;i<=n;i++)
+	{
+      scanf(""\n"");
+		for(j=1;j<=m;j++)
+		{
+			scanf(""%c"",&c);
+			if(c=='#')
+			a[i][j]++;
+		}
+	}
+	for(i=1;i<=n;i++)
+		{
+			for(j=1;j<=m;j++)
+			{
+				x=(int)(m*1.0/2+0.5);
+				y=(int)(n*1.0/2+0.5);
+				if(a[i][j])
+				{
+					if(i<=y&&j<=x)
+					k[add]=m+n-j-i;
+					if(i>=y&&j>=x)
+					k[add]=i+j-1-1;
+					if(i<y&&j>x)
+					k[add]=n+j-1-i;
+					if(i>y&&j<x)
+					k[add]=i+m-1-j;
+					add++;
+				}
+			}
+		}
+		int flag=0;
+	for(i=1;i<100010;i++)
+	{
+		for(j=i+1;j<=100010;j++)
+		{
+			if(k[i]<k[j])
+			{
+				flag=k[i];
+				k[i]=k[j];
+				k[j]=flag;
+			}
+		}
+	}
+	printf(""%d"",k[1]);
+	return 0;
+}"
+126,B,C,60012868,2022-12-30 19:51:22,lowww,答案错误,"#include<stdio.h>
+int a[110][110],k[10010];
+int main()
+{
+	char c;
+	int i,j,n,m,add=1;
+	int x,y;
+	scanf(""%d %d"",&n,&m);
+	for(i=1;i<=n;i++)
+	{
+      scanf(""\n"");
+		for(j=1;j<=m;j++)
+		{
+			scanf(""%c"",&c);
+			if(c=='#')
+			a[i][j]++;
+		}
+	}
+	for(i=1;i<=n;i++)
+		{
+			for(j=1;j<=m;j++)
+			{
+				x=(int)(m*1.0/2+0.5);
+				y=(int)(n*1.0/2+0.5);
+				if(a[i][j])
+				{
+					if(i<=y&&j<=x)
+					k[add]=m+n-j-i;
+					if(i>=y&&j>=x)
+					k[add]=i+j-1-1;
+					if(i<y&&j>x)
+					k[add]=n+j-1-i;
+					if(i>y&&j<x)
+					k[add]=i+m-1-j;
+					add++;
+				}
+			}
+		}
+		int flag=0;
+	for(i=1;i<10010;i++)
+	{
+		for(j=i+1;j<=10010;j++)
+		{
+			if(k[i]<k[j])
+			{
+				flag=k[i];
+				k[i]=k[j];
+				k[j]=flag;
+			}
+		}
+	}
+	printf(""%d"",k[1]);
+	return 0;
+}"
+127,B,C(gcc 7.5.0),60012880,2022-12-30 19:51:32,-练习两年半,运行超时,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+	int n,m;
+	scanf(""%d %d"",&n,&m);
+	char a[n][m];
+	int book[n*m][2];
+	for(int i=0;i<n;i++){
+		scanf(""%s"",a[i]);
+	}
+	int y=0;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+			if(a[i][j]=='#'){
+				book[y][0]=i;
+				book[y][1]=j;
+				y++;
+			}
+		}
+	}
+	int max=0;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+			for(int q=0;q<y;q++){
+				int sum=abs(book[q][0]-i)+abs(book[q][1]-j);
+				if(sum>max){
+					max=sum;
+				}
+			}
+		}
+	}
+	printf(""%d"",max);
+}"
+128,B,C,60012909,2022-12-30 19:51:58,东师第一蒟蒻,答案错误,"#include<stdio.h>
+int f(int a,int b)
+{
+    int c; 
+        if(a>b)
+    {
+        c=a;
+    }
+    if(a<b)
+    {
+        c=b;
+    }
+    if(a==b)
+    {
+        c=a;
+    }
+    return(c);
+}
+int main()
+{
+    int n,m,i,j,k,q,l=0,s;
+    char a[1005][1005];
+    scanf(""%d%d"",&n,&m);
+    if(m==1&&n==1)
+    {
+        printf(""0"");
+        return 0;
+    }
+    for(i=0;i<=n;i++)
+    {
+        for(j=0;j<=m;j++)
+        {
+            scanf(""%c"",&a[i][j]);
+            if(a[i][j]=='#')
+            {
+                k=i+j;
+                q=n+m-k;
+                s = f(k-1,q-1);
+                if(s>=l)
+                {
+                    l=s;
+                }
+            }
+        }
+    }
+    printf(""%d"",l);
+        
+       
+}"
+129,B,C,60012924,2022-12-30 19:52:06,某岩大混子,答案正确,"#include<stdio.h>
+#include<math.h>
+#include<stdlib.h>
+int getlen(int i,int j,int n,int m)
+{
+    //int max=0;
+    //for(int tmpi=0;tmpi<n;tmpi++)
+    //{
+        //for(int tmpj=0;tmpj<m;tmpj++)
+        //{
+            //int tmp=abs(tmpj-j)+abs(tmpi-i);
+            //if(tmp>max)
+            //{
+                //max=tmp;
+            //}
+        //}
+    //}
+    //return max;
+    int max=0;
+    int tmp=abs(n-1-i)+abs(m-1-j);
+    if(tmp>max)
+    {
+        max=tmp;
+    }
+    tmp=abs(0-i)+abs(m-1-j);
+    if(tmp>max)
+    {
+        max=tmp;
+    }
+    tmp=abs(0-i)+abs(0-j);
+    if(tmp>max)
+    {
+        max=tmp;
+    }
+    tmp=abs(n-1-i)+abs(0-j);
+    if(tmp>max)
+    {
+        max=tmp;
+    }
+    return max;
+}
+int main()
+{
+    int n,m;
+    scanf(""%d %d"",&n,&m);
+    char all[n][m];
+    for(int i=0;i<n;i++)
+    {
+        getchar();
+        for(int j=0;j<m;j++)
+        {
+            scanf(""%c"",&all[i][j]);
+        }
+    }
+    int max=0;
+    int tmp=0;
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<m;j++)
+        {
+            if(all[i][j]=='#')
+            {
+                tmp=getlen(i,j,n,m);
+            }
+            if(max<tmp)
+            {
+                max=tmp;
+                if(max==m+n-2)
+                {
+                    printf(""%d"",max);
+                    return 0;
+                }
+            }
+        }
+    }
+    printf(""%d"",max);
+    return 0;
+}"
+130,B,C,60012974,2022-12-30 19:52:39,想去东北泡澡的安德鲁想要offer,答案错误,"double max(double a,double b){
+	return a>b?a:b; 
+}
+#include<stdio.h>
+#include<math.h>
+int main()
+{
+	double q,b,c,d,e;
+	int n,m,i,j,sum;
+	scanf(""%d %d\n"",&n,&m);
+	char a[n][m];
+	for(i=0;i<n;i++){
+		for(j=0;j<m;j++)
+		scanf(""%c"",&a[i][j]);
+		if(i!=n-1)scanf(""\n"");
+	}
+	for(i=0;i<n;i++){
+		for(j=0;j<m;j++)
+		if(a[i][j]=='#'){
+			b=abs(m-j-1)+abs(n-i-1);
+			c=abs(m-j-1)+abs(i);
+			d=abs(j)+abs(n-i-1);
+			e=abs(j)+abs(i);
+			q=max(c,b);
+			q=max(q,d);
+			q=max(q,e);
+		}
+		if(sum<q)sum=q;
+	}
+	printf(""%d"",sum);
+
+ } "
+131,B,C,60012982,2022-12-30 19:52:47,Lib-Z,答案错误,"#include<stdio.h>
+int main()
+{
+    int n,m,i,j,c,b,max=0;
+    char a[1005][1005];
+    scanf(""%d%d"",&n,&m);
+    for(i=1;i<=n;i++)
+    for(j=1;j<=m;j++)
+    {
+        scanf(""%c "",&a[i][j]);
+       if(a[i][j]=='#')
+        {
+            c=i-2;
+            b=j-2;
+            if((i-2)<(n-i))
+            c=n-i;
+             if((j-2)<(m-j))
+                 b=m-j;
+            if(max<(c+b))
+                max=c+b;
+        }
+    }
+    printf(""%d"",max);
+    return 0;
+}"
+132,B,C(gcc 7.5.0),60013016,2022-12-30 19:53:02,htu2208114240cy,段错误,"#define _CRT_SECURE_NO_WARNINGS
+#include<stdio.h>
+#include<math.h>
+char str[1010];
+int x[100010];
+int y[100010];
+int main()
+{
+    int m,n;
+    scanf(""%d%d"",&n,&m);
+    int man=0;
+    int k = 0;
+    for(int i=0;i<n;i++)
+    {
+        scanf(""%s"",str);
+        for(int j=0;j<m;j++)
+        {
+            if(str[j]=='#')
+            {
+                x[k] = i;
+                y[k] = j;
+                k++;
+            }
+        }
+    }
+    for (int c = 0; c < k; c++)
+    {
+        if (fabs(0 - x[c]) + fabs(0 - y[c]) > man)
+            man = fabs(0 - x[c]) + fabs(0 - y[c]);
+        if (fabs(0 - x[c]) + fabs(m - 1 - y[c]) > man)
+            man = fabs(0 - x[c]) + fabs(m - 1 - y[c]);
+        if (fabs(n - 1 - x[c]) + fabs(m - 1 - y[c]) > man)
+            man = fabs(n - 1 - x[c]) + fabs(m - 1 - y[c]);
+        if (fabs(n - 1 - x[c]) + fabs(0 - y[c]) > man)
+            man = fabs(n - 1 - x[c]) + fabs(0 - y[c]);
+    }
+    printf(""%d\n"",man);
+    return 0;
+}"
+133,B,C(gcc 7.5.0),60013046,2022-12-30 19:53:24,htu2208114240cy,答案正确,"#define _CRT_SECURE_NO_WARNINGS
+#include<stdio.h>
+#include<math.h>
+char str[1010];
+int x[1000010];
+int y[1000010];
+int main()
+{
+    int m,n;
+    scanf(""%d%d"",&n,&m);
+    int man=0;
+    int k = 0;
+    for(int i=0;i<n;i++)
+    {
+        scanf(""%s"",str);
+        for(int j=0;j<m;j++)
+        {
+            if(str[j]=='#')
+            {
+                x[k] = i;
+                y[k] = j;
+                k++;
+            }
+        }
+    }
+    for (int c = 0; c < k; c++)
+    {
+        if (fabs(0 - x[c]) + fabs(0 - y[c]) > man)
+            man = fabs(0 - x[c]) + fabs(0 - y[c]);
+        if (fabs(0 - x[c]) + fabs(m - 1 - y[c]) > man)
+            man = fabs(0 - x[c]) + fabs(m - 1 - y[c]);
+        if (fabs(n - 1 - x[c]) + fabs(m - 1 - y[c]) > man)
+            man = fabs(n - 1 - x[c]) + fabs(m - 1 - y[c]);
+        if (fabs(n - 1 - x[c]) + fabs(0 - y[c]) > man)
+            man = fabs(n - 1 - x[c]) + fabs(0 - y[c]);
+    }
+    printf(""%d\n"",man);
+    return 0;
+}"
+134,B,C,60013079,2022-12-30 19:53:48,fync王萌,答案正确,"#include <stdio.h>
+#include <math.h>
+int main(){
+    int m,n,i,j,k,l;
+    scanf(""%d %d\n"",&n,&m);
+    int p[n*m][2];
+    char a;
+    l=0;
+    k=0;
+    for(i=0;i<n;i++){
+        for(j=0;j<m;j++){
+            if(j==m-1){
+                scanf(""%1c\n"",&a);
+            }else{
+                scanf(""%1c"",&a);
+            }
+            if(a=='#'){
+                p[l][0]=i;
+                p[l][1]=j;
+                l++;
+            }
+        }
+    }
+    for(i=0;i<l;i++){
+        if(p[i][0]+p[i][1]>k){
+            k=p[i][0]+p[i][1];
+        }
+        if(m+n-2-(p[i][0]+p[i][1])>k){
+            k=m+n-2-(p[i][0]+p[i][1]);
+        }
+        if(n-1-p[i][0]+p[i][1]>k){
+            k=n-1-p[i][0]+p[i][1];
+        }
+        if(m-1-p[i][1]+p[i][0]>k){
+            k=m-1-p[i][1]+p[i][0];
+        }
+    }
+    printf(""%d"",k);
+}"
+135,B,C(gcc 7.5.0),60013110,2022-12-30 19:54:14,-练习两年半,答案错误,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+	int n,m;
+	scanf(""%d %d"",&n,&m);
+	char a[n][m];
+	int book[n*m][2];
+	for(int i=0;i<n;i++){
+		scanf(""%s"",a[i]);
+	}
+	int y=0;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+			if(a[i][j]=='#'){
+				book[y][0]=i;
+				book[y][1]=j;
+				y++;
+			}
+		}
+	}
+	int max=0;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+            if(a[i][j]=='.'){
+                continue;
+            }
+			for(int q=0;q<y;q++){
+				int sum=abs(book[q][0]-i)+abs(book[q][1]-j);
+				if(sum>max){
+					max=sum;
+				}
+			}
+		}
+	}
+	printf(""%d"",max);
+}"
+136,B,C,60013121,2022-12-30 19:54:25,1_0,答案错误,"#include <stdio.h>
+int main(){
+    int n,m;
+	scanf(""%d %d "",&n,&m);
+    char a[n][m];
+    int x=0,y=0;
+    for(int i=0;i<n;i++){
+    	for(int j=0;j<m;++j){
+    		scanf("" %c"",&a[i][j]);
+    		if(a[i][j]=='#'){
+    			x=j;
+    			y=i;
+			}
+		}
+	}
+	if((y<=((n-1)/2))&&(x<=((m-1)/2)))
+	printf(""%d"",(((m-1)-x)+((n-1)-y)));
+	else if(y>((n-1)/2)&&x>((m-1)/2))
+	printf(""%d"",(x+y-2));
+	else if(y<=((n-1)/2)&&x>((m-1)/2))
+	printf(""%d"",(x+((n-1)-y)));
+	else if(y>((n-1)/2)&&x<=((m-1)/2))
+	printf(""%d"",(((m-1)-x)+y));
+    return 0;
+}"
+137,B,C(gcc 7.5.0),60013133,2022-12-30 19:54:35,-练习两年半,答案错误,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+	int n,m;
+	scanf(""%d %d"",&n,&m);
+	char a[n][m];
+	int book[n*m][2];
+	for(int i=0;i<n;i++){
+		scanf(""%s"",a[i]);
+	}
+	int y=0;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+			if(a[i][j]=='#'){
+				book[y][0]=i;
+				book[y][1]=j;
+				y++;
+			}
+		}
+	}
+	int max=0;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+            if(a[i][j]=='#'){
+                continue;
+            }
+			for(int q=0;q<y;q++){
+				int sum=abs(book[q][0]-i)+abs(book[q][1]-j);
+				if(sum>max){
+					max=sum;
+				}
+			}
+		}
+	}
+	printf(""%d"",max);
+}"
+138,B,C(gcc 7.5.0),60013143,2022-12-30 19:54:43,肥蕉,答案错误,"#include<stdio.h>
+	int n,m,i,j,max,key;
+	char c1[1010];
+	int maxi(int a,int b,int c,int d){
+		if (a>=b&&a>=c&&a>=d) return a;
+		else if (b>=a&&b>=c&&b>=d) return b;
+		else if (c>=a&&c>=b&&a>=d) return a;
+		else return d;
+	}
+	void solve(void){
+		for(i=0;i<n;i++){
+			scanf(""%s"",c1);
+			for(j=0;j<m;j++){
+				
+				if(c1[j]=='#'){
+					key=maxi(i+j,j+n-i-1,i+m-j-1,m+n-i-j-2);
+					if (key>max) max=key;
+				}
+				
+			}
+		}
+		printf(""%d"",max);
+	}
+	int main(void){
+		scanf(""%d %d"",&n,&m);
+		solve();
+		
+	}"
+139,B,C(gcc 7.5.0),60013145,2022-12-30 19:54:44,费列罗特,答案错误,"#include <stdio.h>
+#include <math.h>
+int main()
+{
+	int n, m, x, y;
+	char a[1010][1010];
+	scanf(""%d%d"", &n, &m);
+	for (int i = 1; i <= n; i++)
+	{
+		for (int j = 1; j <= m; j++)
+		{
+			scanf("" %c"", &a[i][j]);
+			if (a[i][j] == '#')
+			{
+				x = i; y = j;
+			}
+		}
+	}
+	if (m == 1)printf(""0"");
+	else {
+		int a[4]; int max = 0;
+		a[0] = abs(x - 1) + abs(y - 1);
+		a[1] = abs(x - 1) + abs(y - n);
+		a[2] = abs(x - n) + abs(y - 1);
+		a[3] = abs(x - n) + abs(y - n);
+		for (int i = 0; i < 4; i++)
+		{
+			if (a[i] > max)max = a[i];
+		}
+		printf(""%d"", max);
+	}
+}"
+140,B,C,60013155,2022-12-30 19:54:51,lowww,答案错误,"#include<stdio.h>
+int a[110][110],k[110];
+int main()
+{
+	char c;
+	int i,j,n,m,add=1;
+	int x,y;
+	scanf(""%d %d"",&n,&m);
+	for(i=1;i<=n;i++)
+	{fflush(stdin);
+		for(j=1;j<=m;j++)
+		{
+			scanf(""%c"",&c);
+			if(c=='#')
+			a[i][j]++;
+		}
+	}
+	for(i=1;i<=n;i++)
+		{
+			for(j=1;j<=m;j++)
+			{
+				x=(int)(m*1.0/2+0.5);
+				y=(int)(n*1.0/2+0.5);
+				if(a[i][j])
+				{
+					if(i<=y&&j<=x)
+					k[add]=m+n-j-i;
+					if(i>y&&j>x)
+					k[add]=i+j-1-1;
+					if(i<y&&j>=x)
+					k[add]=n+j-1-i;
+					if(i>=y&&j<x)
+					k[add]=i+m-1-j;
+					add++;
+				}
+			}
+		}
+		int flag=0;
+	for(i=1;i<110;i++)
+	{
+		for(j=i+1;j<=110;j++)
+		{
+			if(k[i]<k[j])
+			{
+				flag=k[i];
+				k[i]=k[j];
+				k[j]=flag;
+			}
+		}
+	}
+	printf(""%d"",k[1]);
+	return 0;
+}"
+141,B,C,60013167,2022-12-30 19:54:59,lowww,答案错误,"#include<stdio.h>
+int a[110][110],k[10010];
+int main()
+{
+	char c;
+	int i,j,n,m,add=1;
+	int x,y;
+	scanf(""%d %d"",&n,&m);
+	for(i=1;i<=n;i++)
+	{fflush(stdin);
+		for(j=1;j<=m;j++)
+		{
+			scanf(""%c"",&c);
+			if(c=='#')
+			a[i][j]++;
+		}
+	}
+	for(i=1;i<=n;i++)
+		{
+			for(j=1;j<=m;j++)
+			{
+				x=(int)(m*1.0/2+0.5);
+				y=(int)(n*1.0/2+0.5);
+				if(a[i][j])
+				{
+					if(i<=y&&j<=x)
+					k[add]=m+n-j-i;
+					if(i>y&&j>x)
+					k[add]=i+j-1-1;
+					if(i<y&&j>=x)
+					k[add]=n+j-1-i;
+					if(i>=y&&j<x)
+					k[add]=i+m-1-j;
+					add++;
+				}
+			}
+		}
+		int flag=0;
+	for(i=1;i<10010;i++)
+	{
+		for(j=i+1;j<=10010;j++)
+		{
+			if(k[i]<k[j])
+			{
+				flag=k[i];
+				k[i]=k[j];
+				k[j]=flag;
+			}
+		}
+	}
+	printf(""%d"",k[1]);
+	return 0;
+}"
+142,B,C,60013177,2022-12-30 19:55:11,巧克力gjw,答案错误,"#include<stdio.h>
+#include<math.h>
+char s[10050][10050];
+int main(){
+    int m,n;
+    scanf(""%d%d\n"",&m,&n);
+    int x,y;
+    for(int i=1;i<=n;i++){
+    	scanf(""%s"",s[i]);
+    }
+    for(int i=1;i<=n;i++){
+        for(int j=0;j<=m;j++){
+            if(s[i][j]=='#'){
+                x=j+1;y=i;
+            }
+        }
+    }
+
+	int max=0;
+    for(int i=1;i<=n;i++){
+        for(int j=1;j<=m;j++){
+         int t=fabs(x-j)+fabs(y-i);
+        
+            if(t>max)max=t;
+            
+        }
+    }
+    if(n==1&&m==1)max=0;
+    printf(""%d"",max);
+    return 0;
+}"
+143,B,C(gcc 7.5.0),60013231,2022-12-30 19:55:56,爱因兹贝伦,答案正确,"#include <stdio.h>
+#include <math.h>
+long distance(long,long,long,long);
+int main(void)
+{
+    long n,m,i,j;
+    int k=0;
+    scanf(""%ld %ld"",&n,&m);
+    char c;
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<m;j++)
+        {
+            scanf(""%c"",&c);
+            if(c=='\n')
+                scanf(""%c"",&c);
+            if(c==35)
+            {
+                if(distance(i,j,0,0)>k)
+                    k=distance(i,j,0,0);
+                if(distance(i,j,0,m-1)>k)
+                    k=distance(i,j,0,m-1);
+                if(distance(i,j,n-1,0)>k)
+                    k=distance(i,j,n-1,0);
+                if(distance(i,j,n-1,m-1)>k)
+                    k=distance(i,j,n-1,m-1);
+            }
+        }
+    }
+    printf(""%d\n"",k);
+    return 0;
+}
+long distance(long x1,long y1,long x2,long y2)
+{
+    long d;
+    d=fabs(x1-x2)+fabs(y1-y2);
+    return d;
+}"
+144,B,C(gcc 7.5.0),60013235,2022-12-30 19:55:58,Sun._,答案错误,"#include <stdio.h>
+int main()
+{
+    int n,m;
+    scanf(""%d %d"",&n,&m);
+    int i,j,t=0,k=0;
+    char ch;
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<m;j++)
+        {
+            scanf(""%c"",&ch);
+            if(ch='#') 
+            {
+                t=i;
+                k=j;
+            }
+        }
+    }
+        if(t>n/2)
+        {
+            if(k>m/2)
+            {
+                if(n>m)
+                {
+                    printf(""%d"",t);
+                }
+                else printf(""%d"",k);
+            }
+            else
+            {
+                if(n>m) printf(""%d"",t);
+                else printf(""%d"",m);
+            }
+        }
+        else
+        {
+            if(k>m/2)
+            {
+                if(n>m) printf(""%d"",n-t);
+                else printf(""%d"",m-k);
+            }
+            else
+            {
+                if(n>m) printf(""%d"",n-t);
+                else printf(""%d"",m-k);
+            }
+        }
+}"
+145,B,C(gcc 7.5.0),60013249,2022-12-30 19:56:04,小小果真,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c: In function ‘main’:\nmain.c:5:5: warning: implicit declaration of function ‘scanf_s’; did you mean ‘scanf’? [-Wimplicit-function-declaration]\n     scanf_s(\""%d%d\"", &n, &m);printf(\""n和m分别为%d\\n%d\\n\"", n, m);\n     ^~~~~~~\n     scanf\nmain.c:16:17: warning: implicit declaration of function ‘abs’ [-Wimplicit-function-declaration]\n             if (abs(tagx - i) + abs(tagy - j) > abs(tagi - tagx) + abs(tagj - tagy))\n                 ^~~\n/tmp/ccIZJDO7.o: In function `main':\nmain.c:(.text.startup+0x32): undefined reference to `scanf_s'\nmain.c:(.text.startup+0x85): undefined reference to `scanf_s'\ncollect2: error: ld returned 1 exit status""}
+
+#include<stdio.h>
+#include<math.h>
+int main() {
+    int m, n, i,j,max=0,tagx=0,tagy=0,tagi,tagj;char s[90][90];
+    scanf_s(""%d%d"", &n, &m);printf(""n和m分别为%d\n%d\n"", n, m);
+    for (i = 0;i < n;i++)
+        scanf_s(""%s"", s[i],900);
+    for (i = 0;i < n;i++) {
+        for (j = 0;j < m;j++) {
+            if (s[i][j] == '#') { tagx = i;tagy = j; }
+        }
+    }
+    tagi = 0;tagj = 0;
+    for (i = 0;i < n;i++) {
+        for (j = 0;j < m;j++) {
+            if (abs(tagx - i) + abs(tagy - j) > abs(tagi - tagx) + abs(tagj - tagy))
+            { tagx = i;tagy = j; }
+        }
+    }
+    printf(""%d"", abs(tagi - tagx) + abs(tagj - tagy));
+    return 0;
+}"
+146,B,C(gcc 7.5.0),60013271,2022-12-30 19:56:21,小小果真,答案错误,"#include<stdio.h>
+#include<math.h>
+int main() {
+    int m, n, i,j,max=0,tagx=0,tagy=0,tagi,tagj;char s[90][90];
+    scanf(""%d%d"", &n, &m);printf(""n和m分别为%d\n%d\n"", n, m);
+    for (i = 0;i < n;i++)
+        scanf(""%s"", s[i]);
+    for (i = 0;i < n;i++) {
+        for (j = 0;j < m;j++) {
+            if (s[i][j] == '#') { tagx = i;tagy = j; }
+        }
+    }
+    tagi = 0;tagj = 0;
+    for (i = 0;i < n;i++) {
+        for (j = 0;j < m;j++) {
+            if (abs(tagx - i) + abs(tagy - j) > abs(tagi - tagx) + abs(tagj - tagy))
+            { tagx = i;tagy = j; }
+        }
+    }
+    printf(""%d"", abs(tagi - tagx) + abs(tagj - tagy));
+    return 0;
+}"
+147,B,C,60013275,2022-12-30 19:56:24,巧克力gjw,答案错误,"#include<stdio.h>
+#include<math.h>
+char s[10050][10050];
+int main(){
+    int m,n;
+    scanf(""%d%d\n"",&m,&n);
+    int x,y;
+    for(int i=1;i<=n;i++){
+    	scanf(""%s"",s[i]);
+    }
+    for(int i=1;i<=n;i++){
+        for(int j=0;j<=m;j++){
+            if(s[i][j]=='#'){
+                x=j+1;y=i;
+            }
+        }
+    }
+
+	int max=0;
+    for(int i=1;i<=n;i++){
+        for(int j=1;j<=m;j++){
+         int t=fabs(x-j)+fabs(y-i);
+
+            if(t>max)max=t;
+            
+        }
+    }
+    printf(""%d"",max);
+    return 0;
+}"
+148,B,C,60013288,2022-12-30 19:56:32,牛客425671423号,答案错误,"#include<stdio.h>
+int main(){
+	char a[1001][1001]={0};
+	int n,m,i,j,k=0;
+	scanf(""%d%d"",&n,&m);
+	for(i=1;i<=n;i++){
+		scanf(""%s"",&a[i][1]);
+	}
+	int b[1001]={0};
+	for(i=1;i<=n;i++){
+		for(j=1;j<=n;j++){
+			if(a[i][j]=='#'){
+				b[k++]=n-i+m-j;
+//				printf(""%d\n"",b[k-1]);
+			}
+		}
+	}
+	int max=b[0];
+	for(i=1;i<k;i++){
+		if(b[i]>max)max=b[i];
+	}
+//	printf(""%d\n"",k);
+	printf(""%d"",max);
+	
+	return 0 ;
+}"
+149,B,C,60013290,2022-12-30 19:56:32,计科2204胡金博,答案错误,"#include <stdio.h>
+#include <string.h>
+int main()
+{
+   long long int n,m;
+    scanf(""%lld %lld"",&n,&m);
+    char a[1001][1001];
+
+    long long int i;
+    for (i=0;i<n;i++)
+    {
+        scanf(""%s"",&a[i]);
+    }
+    long long int j,c=0,d=0,t=n*m,z=0,p;
+     long long int x[t],y[t];
+    for (i=0;i<n;i++)
+    {
+        for (j=0;j<m;j++)
+        {
+            if (a[i][j]=='#')
+            {
+                x[c]=i;
+                y[d]=j;
+                c++;
+                d++;
+            }
+        }
+    }
+    for (i=0;i<c;i++)
+    {
+        p=n-1-x[i]+m-1-y[i];
+        if (z<p)
+        {
+            z=p;
+        }
+    }
+    printf(""%lld"",z);
+        return 0;
+}"
+150,B,C(gcc 7.5.0),60013296,2022-12-30 19:56:35,小小果真,答案错误,"#include<stdio.h>
+#include<math.h>
+int main() {
+    int m, n, i,j,max=0,tagx=0,tagy=0,tagi,tagj;char s[90][90];
+    scanf(""%d%d"", &n, &m);//printf(""n和m分别为%d\n%d\n"", n, m);
+    for (i = 0;i < n;i++)
+        scanf(""%s"", s[i]);
+    for (i = 0;i < n;i++) {
+        for (j = 0;j < m;j++) {
+            if (s[i][j] == '#') { tagx = i;tagy = j; }
+        }
+    }
+    tagi = 0;tagj = 0;
+    for (i = 0;i < n;i++) {
+        for (j = 0;j < m;j++) {
+            if (abs(tagx - i) + abs(tagy - j) > abs(tagi - tagx) + abs(tagj - tagy))
+            { tagx = i;tagy = j; }
+        }
+    }
+    printf(""%d"", abs(tagi - tagx) + abs(tagj - tagy));
+    return 0;
+}"
+151,B,C,60013308,2022-12-30 19:56:42,计科2204胡金博,答案错误,"#include <stdio.h>
+#include <string.h>
+int main()
+{
+   long long int n,m;
+    scanf(""%lld %lld"",&n,&m);
+    char a[2000][1001];
+
+    long long int i;
+    for (i=0;i<n;i++)
+    {
+        scanf(""%s"",&a[i]);
+    }
+    long long int j,c=0,d=0,t=n*m,z=0,p;
+     long long int x[t],y[t];
+    for (i=0;i<n;i++)
+    {
+        for (j=0;j<m;j++)
+        {
+            if (a[i][j]=='#')
+            {
+                x[c]=i;
+                y[d]=j;
+                c++;
+                d++;
+            }
+        }
+    }
+    for (i=0;i<c;i++)
+    {
+        p=n-1-x[i]+m-1-y[i];
+        if (z<p)
+        {
+            z=p;
+        }
+    }
+    printf(""%lld"",z);
+        return 0;
+}"
+152,B,C(gcc 7.5.0),60013318,2022-12-30 19:56:50,小小果真,答案错误,"#include<stdio.h>
+#include<math.h>
+int main() {
+    int m, n, i,j,max=0,tagx=0,tagy=0,tagi,tagj;char s[90][90];
+    scanf(""%d%d"", &n, &m);//printf(""n和m分别为%d\n%d\n"", n, m);
+    for (i = 0;i < n;i++)
+        scanf(""%s"", s[i]);
+    for (i = 0;i < n;i++) {
+        for (j = 0;j < m;j++) {
+            if (s[i][j] == '#') { tagx = i;tagy = j; }
+        }
+    }
+    tagi = 0;tagj = 0;
+    for (i = 0;i < n;i++) {
+        for (j = 0;j < m;j++) {
+            if (abs(tagx - i) + abs(tagy - j) > abs(tagi - tagx) + abs(tagj - tagy))
+            { tagx = i;tagy = j; }
+        }
+    }
+    printf(""%d"", abs(tagi - tagx) + abs(tagj - tagy));
+    return 0;
+}"
+153,B,C(gcc 7.5.0),60013345,2022-12-30 19:57:12,-练习两年半,运行超时,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+	int n,m;
+	scanf(""%d %d"",&n,&m);
+	char a[n][m];
+	int book[n*m][2];
+	for(int i=0;i<n;i++){
+		scanf(""%s"",a[i]);
+	}
+	int y=0;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+			if(a[i][j]=='#'){
+				book[y][0]=i;
+				book[y][1]=j;
+				y++;
+			}
+		}
+	}
+	int max=0;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+			for(int q=0;q<y;q++){
+				int sum=abs(book[q][0]-i)+abs(book[q][1]-j);
+				if(sum>max){
+					max=sum;               
+				}
+			}
+		}
+	}
+	printf(""%d"",max);
+}"
+154,B,C(gcc 7.5.0),60013350,2022-12-30 19:57:15,阿建头很痛,答案正确,"#include<stdio.h>
+#include<string.h>
+int main(){
+	int n,m;
+	scanf(""%d%d\n"",&n,&m);
+	char s[n][m];
+	for(int i=0;i<n;i++){
+		gets(s[i]);
+	}
+	int max,p=0;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+			if(s[i][j]=='#'){
+				int c=0;
+				if(i>=n/2){
+					c+=i;
+				}else{
+					c+=(n-i-1);
+				}
+				if(j>=m/2){
+					c+=j;
+				}else{
+					c+=(m-j-1);
+				}
+				if(p==0){
+					p++;
+					max=c;
+				}else{
+					if(c>max){
+						max=c;
+					}
+				}
+			}
+			
+		}
+	}
+	printf(""%d"",max);
+	return 0;
+} "
+155,B,C,60013398,2022-12-30 19:57:44,牛客128137446号,答案错误,"#include <stdio.h>
+#include <math.h>
+
+int main(void)
+{
+	int n,m;
+	scanf(""%d%d"",&n,&m);
+	getchar();
+	char s[n][m];
+	int i,j,k,a,b,p,c,d,sum[1003],max;
+	for(i=0;i<n;i++)
+	{
+		for(j=0;j<m;j++)
+		{
+			scanf(""%c"",&s[i][j]);
+			if(s[i][j]=='#')
+			{
+				a=i+j;
+				b=m-1-j+i;
+				c=n-1-i+j;
+				d=n-1-i+m-1-j;
+				
+				max=a;
+				if(b>max)
+				max=b;
+				if(c>max)
+				max=c;
+				if(d>max)
+				max=d;
+				sum[p++]=max;	
+			}
+			if(j==m-1)
+			getchar();
+		}
+		
+	}
+	for(i=0;i<p;i++)
+	{
+		if(max<sum[i])
+		max=sum[i];
+	 } 
+	printf(""%d"",max);
+	return 0;
+}"
+156,B,C,60013407,2022-12-30 19:57:48,牛客348891405号,运行超时,"#include<stdio.h>
+int main()
+{
+	int n,m,i,k,max=0,a,b,c=0,d=0,sum=0;
+	scanf(""%d%d"",&n,&m);
+	char aa[n][m];
+	getchar();
+	for(i=0;i<n;i++)
+	for(k=0;k<m;k++)
+	{
+		scanf(""%c"",&aa[i][k]);
+		if(k==m-1&&i!=n-1)
+		getchar();
+	}
+	for(i=0;i<n;i++)
+	for(k=0;k<m;k++)
+	{
+		for(a=0;a<n;a++)
+	for(b=0;b<m;b++)
+	if(aa[a][b]=='#')
+	{
+		c=a-i;
+		d=b-k;
+		c=(c>0)?c:-c;
+		d=(d>0)?d:-d;
+		sum=c+d;
+		if(sum>max)
+		max=sum;
+	}
+	}
+	printf(""%d"",max);
+	return 0;
+}"
+157,B,C,60013421,2022-12-30 19:58:02,牛客128137446号,答案错误,"#include <stdio.h>
+#include <math.h>
+
+int main(void)
+{
+	int n,m;
+	scanf(""%d%d"",&n,&m);
+	getchar();
+	char s[n][m];
+	int i,j,k,a,b,p,c,d,sum[1003],max;
+	for(i=0;i<n;i++)
+	{
+		for(j=0;j<m;j++)
+		{
+			scanf(""%c"",&s[i][j]);
+			if(s[i][j]=='#')
+			{
+				a=i+j;
+				b=m-1-j+i;
+				c=n-1-i+j;
+				d=n-1-i+m-1-j;
+				
+				max=a;
+				if(b>max)
+				max=b;
+				if(c>max)
+				max=c;
+				if(d>max)
+				max=d;
+				sum[p++]=max;	
+			}
+			if(j==m-1)
+			getchar();
+		}
+		
+	}
+	for(i=0;i<p;i++)
+	{
+		if(max<sum[i])
+		max=sum[i];
+	 } 
+	printf(""%d"",max);
+	return 0;
+}"
+158,B,C,60013508,2022-12-30 19:59:02,想去东北泡澡的安德鲁想要offer,答案错误,"double max(double a,double b){
+	return a>b?a:b; 
+}
+#include<stdio.h>
+#include<math.h>
+int main()
+{
+	double q,b,c,d,e;
+	int n,m,i,j,sum;
+	scanf(""%d %d\n"",&n,&m);
+	char a[n][m];
+	for(i=0;i<n;i++){
+		for(j=0;j<m;j++)
+		scanf(""%c"",&a[i][j]);
+		if(i!=n-1)scanf(""\n"");
+	}
+	for(i=0;i<n;i++){
+		for(j=0;j<m;j++)
+		if(a[i][j]=='#'){
+			b=abs(m-j-1)+abs(n-i-1);
+			c=abs(m-j-1)+abs(i);
+			d=abs(j)+abs(n-i-1);
+			e=abs(j)+abs(i);
+			q=max(c,b);
+			q=max(q,d);
+			q=max(q,e);
+		}
+		if(sum<q)sum=q;
+	}
+	if(n==1&&m==1)sum=1;
+	printf(""%d"",sum);
+
+ } "
+159,B,C,60013520,2022-12-30 19:59:10,牛客128137446号,答案错误,"#include <stdio.h>
+#include <math.h>
+
+int main(void)
+{
+	int n,m;
+	scanf(""%d%d"",&n,&m);
+	getchar();
+	char s[n][m];
+	int i,j,k,a,b,p,c,d,sum[1003],max;
+	for(i=0;i<n;i++)
+	{
+		for(j=0;j<m;j++)
+		{
+			scanf(""%c"",&s[i][j]);
+			if(s[i][j]=='#')
+			{
+				a=i+j;
+				b=m-1-j+i;
+				c=n-1-i+j;
+				d=n-1-i+m-1-j;
+				
+				max=a;
+				if(b>max)
+				max=b;
+				if(c>max)
+				max=c;
+				if(d>max)
+				max=d;
+				sum[p++]=max;	
+			}
+			if(j==m-1)
+			getchar();
+		}
+		
+	}
+	for(i=0;i<p;i++)
+	{
+		if(max<sum[i])
+		max=sum[i];
+	 } 
+	printf(""%d"",max);
+	return 0;
+}"
+160,B,C,60013522,2022-12-30 19:59:12,牛客348891405号,运行超时,"#include<stdio.h>
+int main()
+{
+	int n,m,i,k,max=0,a,b,c=0,d=0,sum=0;
+	scanf(""%d%d"",&n,&m);
+	char aa[n][m];
+	getchar();
+	for(i=0;i<n;i++)
+	for(k=0;k<m;k++)
+	{
+		scanf(""%c"",&aa[i][k]);
+		if(k==m-1&&i!=n-1)
+		getchar();
+	}
+	for(i=0;i<n;i++)
+	for(k=0;k<m;k++)
+	{
+		for(a=0;a<n;a++)
+	for(b=0;b<m;b++)
+	if(aa[a][b]=='#')
+	{
+		c=a-i;
+		d=b-k;
+		c=(c>0)?c:-c;
+		d=(d>0)?d:-d;
+		sum=c+d;
+		if(sum>max)
+		max=sum;
+	}
+	}
+	printf(""%d"",max);
+	return 0;
+}"
+161,B,C,60013530,2022-12-30 19:59:17,Lib-Z,答案错误,"#include<stdio.h>
+int main()
+{
+    int n,m,i,j,c,b,max=0;
+    char a[1005][1005];
+    scanf(""%d%d"",&n,&m);
+    for(i=1;i<=n;i++)
+    for(j=1;j<=m;j++)
+    {
+    	if(i==n)
+        scanf(""%c"",&a[i][j]);
+        else
+        scanf("" %c"",&a[i][j]);
+       if(a[i][j]=='#')
+        {
+            c=i-1;
+            b=j-1;
+            if((i-1)<(n-i))
+            c=n-i;
+             if((j-1)<(m-j))
+                 b=m-j;
+            if(max<(c+b))
+                max=c+b;
+        }
+    }
+    printf(""%d"",max);
+    return 0;
+}"
+162,B,C(gcc 7.5.0),60013531,2022-12-30 19:59:18,锦麝,答案正确,"#include<stdio.h>
+#include<math.h>
+
+struct wang
+{
+	char ch;
+};
+
+int main()
+{
+    int n, m, i, j, x, y, t;
+    int b = 0, c = 0, d = 0, e = 0;
+    struct wang a[1001][1001];
+    scanf(""%d %d"", &n, &m);
+    getchar();
+    for (i = 0; i < n; i++)
+    {
+    	for (j = 0; j < m; j++)
+    	{
+    		scanf(""%c"", &a[i][j].ch);
+		}
+		getchar();
+	}
+		i = 0;
+		j = 0;
+		for (x = 0; x < n; x++)
+		{
+			for (y = 0; y < m; y++)
+			{
+				if (a[x][y].ch == '#')
+				{
+					t = fabs(x - i) + fabs(y - j);
+				}
+				if (t > b)
+				{
+					b = t;
+				}
+			}
+		}
+		i = 0;
+		j = m - 1;
+		for (x = 0; x < n; x++)
+		{
+			for (y = 0; y < m; y++)
+			{
+				if (a[x][y].ch == '#')
+				{
+					t = fabs(x - i) + fabs(y - j);
+				}
+				if (t > b)
+				{
+					b = t;
+				}
+			}
+		}
+		i = n - 1;
+		j = 0;
+		for (x = 0; x < n; x++)
+		{
+			for (y = 0; y < m; y++)
+			{
+				if (a[x][y].ch == '#')
+				{
+					t = fabs(x - i) + fabs(y - j);
+				}
+				if (t > b)
+				{
+					b = t;
+				}
+			}
+		}
+		i = n - 1;
+		j = m - 1;
+		for (x = 0; x < n; x++)
+		{
+			for (y = 0; y < m; y++)
+			{
+				if (a[x][y].ch == '#')
+				{
+					t = fabs(x - i) + fabs(y - j);
+				}
+				if (t > b)
+				{
+					b = t;
+				}
+			}
+		}
+		i = 0;
+		j = 0;
+		for (x = 0; x < n; x++)
+		{
+			for (y = 0; y < m; y++)
+			{
+				if (a[x][y].ch == '#')
+				{
+					t = fabs(x - i) + fabs(y - j);
+				}
+				if (t > b)
+				{
+					b = t;
+				}
+			}
+		}
+		i = n - 1;
+		j = 0;
+		for (x = 0; x < n; x++)
+		{
+			for (y = 0; y < m; y++)
+			{
+				if (a[x][y].ch == '#')
+				{
+					t = fabs(x - i) + fabs(y - j);
+				}
+				if (t > b)
+				{
+					b = t;
+				}
+			}
+		}
+		i = 0;
+		j = m - 1;
+		for (x = 0; x < n; x++)
+		{
+			for (y = 0; y < m; y++)
+			{
+				if (a[x][y].ch == '#')
+				{
+					t = fabs(x - i) + fabs(y - j);
+				}
+				if (t > b)
+				{
+					b = t;
+				}
+			}
+		}
+		i = n - 1;
+		j = m - 1;
+		for (x = 0; x < n; x++)
+		{
+			for (y = 0; y < m; y++)
+			{
+				if (a[x][y].ch == '#')
+				{
+					t = fabs(x - i) + fabs(y - j);
+				}
+				if (t > b)
+				{
+					b = t;
+				}
+			}
+		}
+	printf(""%d"", b);
+		
+    return 0;
+}"
+163,B,C(gcc 7.5.0),60013545,2022-12-30 19:59:27,费列罗特,答案错误,"#include <stdio.h>
+#include <math.h>
+int main()
+{
+	int n, m, x, y;
+	char a[1010][1010];
+	scanf(""%d%d"", &n, &m);
+	for (int i = 1; i <= n; i++)
+	{
+		for (int j = 1; j <= m; j++)
+		{
+			scanf("" %c"", &a[i][j]);
+			if (a[i][j] == '#')
+			{
+				x = i; y = j;
+			}
+		}
+	}
+	if (m == 1)printf(""0"");
+	else {
+		int a[4]; int max = 0;
+		a[0] = abs(x - 1) + abs(y - 1);
+		a[1] = abs(x - 1) + abs(y - m);
+		a[2] = abs(x - n) + abs(y - 1);
+		a[3] = abs(x - n) + abs(y - m);
+		for (int i = 0; i < 4; i++)
+		{
+			if (a[i] > max)max = a[i];
+		}
+		printf(""%d"", max);
+	}
+}"
+164,B,C,60013597,2022-12-30 20:00:01,想去东北泡澡的安德鲁想要offer,答案错误,"double max(double a,double b){
+	return a>b?a:b; 
+}
+#include<stdio.h>
+#include<math.h>
+int main()
+{
+	double q,b,c,d,e;
+	int n,m,i,j,sum;
+	scanf(""%d %d\n"",&n,&m);
+	char a[n][m];
+	for(i=0;i<n;i++){
+		for(j=0;j<m;j++)
+		scanf(""%c"",&a[i][j]);
+		if(i!=n-1)scanf(""\n"");
+	}
+	for(i=0;i<n;i++){
+		for(j=0;j<m;j++)
+		if(a[i][j]=='#'){
+			b=abs(m-j-1)+abs(n-i-1);
+			c=abs(m-j-1)+abs(i);
+			d=abs(j)+abs(n-i-1);
+			e=abs(j)+abs(i);
+			q=max(c,b);
+			q=max(q,d);
+			q=max(q,e);
+		}
+		if(sum<q)sum=q;
+	}
+	if(n==1&&m==1)sum=0;
+	printf(""%d"",sum);
+
+ } "
+165,B,C,60013618,2022-12-30 20:00:17,想去东北泡澡的安德鲁想要offer,答案错误,"double max(double a,double b){
+	return a>b?a:b; 
+}
+#include<stdio.h>
+#include<math.h>
+int main()
+{
+	double q,b,c,d,e;
+	int n,m,i,j,sum;
+	scanf(""%d %d\n"",&n,&m);
+	char a[n][m];
+	for(i=0;i<n;i++){
+		for(j=0;j<m;j++)
+		scanf(""%c"",&a[i][j]);
+		if(i!=n-1)scanf(""\n"");
+	}
+	for(i=0;i<n;i++){
+		for(j=0;j<m;j++)
+		if(a[i][j]=='#'){
+			b=abs(m-j-1)+abs(n-i-1);
+			c=abs(m-j-1)+abs(i);
+			d=abs(j)+abs(n-i-1);
+			e=abs(j)+abs(i);
+			q=max(c,b);
+			q=max(q,d);
+			q=max(q,e);
+		}
+		if(sum<q)sum=q;
+	}
+	if(n==1&&m==1)sum=0;
+	printf(""%d"",sum);
+
+ } "
+166,B,C,60013642,2022-12-30 20:00:29,lsq147,答案错误,"#include<stdio.h>
+#define N 1000
+char str[N][N];
+int main()
+{
+	int n,m,i,j,p,q,k; 
+	scanf(""%d %d"",&n,&m);
+	for(i=0;i<n;i++)
+	{
+		for(j=0;j<m;j++)
+		{
+			scanf("" %c"",&str[i][j]);
+		}
+	}
+	for(i=0;i<n;i++)
+	{
+		for(j=0;j<m;j++)
+		{
+			if(str[i][j]=='#')
+			{
+				p=i;
+				q=j;
+			}
+		}
+	}
+    int x;
+    x=(n+m)/2;
+    if((p+q)<x)
+    {
+        k=n-1-p+m-1-q;
+    }
+    else
+        k=p+q;
+	printf(""%d"",k);
+	return 0;
+}"
+167,B,C(gcc 7.5.0),60013688,2022-12-30 20:01:00,费列罗特,答案错误,"#include <stdio.h>
+#include <math.h>
+int main()
+{
+	int n, m, x, y;
+	char a[1010][1010];
+	scanf(""%d%d"", &n, &m);
+	for (int i = 1; i <= n; i++)
+	{
+		for (int j = 1; j <= m; j++)
+		{
+			scanf("" %c"", &a[i][j]);
+			if (a[i][j] == '#')
+			{
+				x = i; y = j;
+			}
+		}
+	}
+	if (m == 1)printf(""0"");
+	else {
+		int a[4]; int max = 0;
+		a[0] = abs(x - 1) + abs(y - 1);
+		a[1] = abs(x - 1) + abs(y - m);
+		a[2] = abs(x - n) + abs(y - 1);
+		a[3] = abs(x - n) + abs(y - m);
+		for (int i = 0; i < 4; i++)
+		{
+			if (a[i] > max)max = a[i];
+		}
+		printf(""%d"", max);
+	}
+}"
+168,B,C,60013739,2022-12-30 20:01:35,牛客425671423号,答案错误,"#include<stdio.h>
+int main(){
+	char a[1001][1001]={0};
+	int n,m,i,j,k=0;
+	scanf(""%d%d"",&n,&m);
+	for(i=1;i<=n;i++){
+		scanf(""%s"",&a[i][1]);
+	}
+	int b[1001]={0};
+	for(i=1;i<=n;i++){
+		for(j=1;j<=n;j++){
+			if(a[i][j]=='#'){
+				b[k++]=n-i+m-j;
+//				printf(""%d\n"",b[k-1]);
+			}
+		}
+	}
+	int max=b[0];
+	for(i=1;i<=k;i++){
+		if(b[i]>max)max=b[i];
+	}
+//	printf(""%d\n"",k);
+	printf(""%d"",max);
+	
+	return 0 ;
+}"
+169,B,C(gcc 7.5.0),60013753,2022-12-30 20:01:43,小小果真,答案错误,"#include<stdio.h>
+#include<math.h>
+int main() {
+    int m, n, i,j,max=0,tagx=0,tagy=0,tagi,tagj;char s[90][90];
+    scanf(""%d%d"", &n, &m);//printf(""n和m分别为%d\n%d\n"", n, m);
+    for (i = 0;i < n;i++)
+        scanf(""%s"", s[i]);
+    for (i = 0;i < n;i++) {
+        for (j = 0;j < m;j++) {
+            if (s[i][j] == '#') { tagx = i;tagy = j; }
+        }
+    }
+    tagi = 0;tagj = 0;
+    for (i = 0;i < n;i++) {
+        for (j = 0;j < m;j++) {
+            if (abs(tagx - i) + abs(tagy - j) > abs(tagi - tagx) + abs(tagj - tagy))
+            { tagi = i;tagj = j; }
+        }
+    }
+    printf(""%d"", abs(tagi - tagx) + abs(tagj - tagy));
+    return 0;
+}"
+170,B,C,60013761,2022-12-30 20:01:45,巧克力gjw,答案错误,"#include<stdio.h>
+#include<math.h>
+char s[10050][10050];
+int main(){
+    int m,n;
+    scanf(""%d%d\n"",&m,&n);
+    int x,y;
+    for(int i=1;i<=n;i++){
+    	scanf(""%s"",s[i]);
+    }
+    for(int i=1;i<=n;i++){
+        for(int j=0;j<m;j++){
+            if(s[i][j]=='#'){
+                x=j+1;y=i;
+            }
+        }
+    }
+
+	int max=0;
+    for(int i=1;i<=n;i++){
+        for(int j=1;j<=m;j++){
+         int t=fabs(x-j)+fabs(y-i);
+            if(t>max)max=t;
+        }
+    }
+    printf(""%d"",max);
+    return 0;
+}"
+171,B,C,60013802,2022-12-30 20:02:19,1_0,答案错误,"#include <stdio.h>
+int main(){
+    int n,m;
+	scanf(""%d %d "",&n,&m);
+    char a[n][m];
+    int x=0,y=0;
+    for(int i=0;i<n;i++){
+    	for(int j=0;j<m;++j){
+    		scanf("" %c"",&a[i][j]);
+    		if(a[i][j]=='#'){
+    			x=j;
+    			y=i;
+			}
+		}
+	}
+	if((y<=((n-1)/2))&&(x<=((m-1)/2)))
+	printf(""%d"",(((m-1)-x)+((n-1)-y)));
+	else if(y>((n-1)/2)&&x>((m-1)/2))
+	printf(""%d"",(x+y));
+	else if(y<=((n-1)/2)&&x>((m-1)/2))
+	printf(""%d"",(x+((n-1)-y)));
+	else if(y>((n-1)/2)&&x<=((m-1)/2))
+	printf(""%d"",(((m-1)-x)+y));
+    return 0;
+}"
+172,B,C(gcc 7.5.0),60013808,2022-12-30 20:02:22,huihui不行了,答案错误,"#include<stdio.h>
+#include<string.h>
+#include<math.h>
+char a[1000][1000];
+int max(int i, int j);
+int main(){
+	int n,m;
+	int c,d;
+	int ant = 0;
+	scanf(""%d%d"",&n,&m);
+	int i,j;
+	for(i=0;i<n;i++){
+		for(j=0;j<=m;j++){
+			scanf(""%c"",&a[i][j]);
+			if(a[i][j]=='#') {
+				c = i;
+				d = j;
+			}
+		}
+	}
+	for(i=0;i<n;i++){
+		for(j=0;j<=m;j++){
+			if(a[i][j]=='.'&&abs(i+j-c-d)>ant) {
+				ant = abs(i+j-c-d);
+			}
+		}
+	}
+	printf(""%d"",ant);
+    return 0;
+}
+int max(int i,int j){
+	if(i>=j) return i;
+	else return j;
+}"
+173,B,C(gcc 7.5.0),60013828,2022-12-30 20:02:39,小小果真,答案错误,"#include<stdio.h>
+#include<math.h>
+int main() {
+    int m, n, i,j,max=0,tagx=0,tagy=0,tagi,tagj;char s[90][90];
+    scanf(""%d%d"", &n, &m);printf(""n和m分别为%d\n%d\n"", n, m);
+    for (i = 0;i < n;i++)
+        scanf(""%s"", s[i]);
+    for (i = 0;i < n;i++) {
+        for (j = 0;j < m;j++) {
+            if (s[i][j] == '#') { tagx = i;tagy = j; }
+        }
+    }
+    tagi = 0;tagj = 0;
+    for (i = 0;i < n;i++) {
+        for (j = 0;j < m;j++) {
+            if (abs(tagx - i) + abs(tagy - j) > abs(tagi - tagx) + abs(tagj - tagy))
+            { tagi = i;tagj = j; }
+        }
+    }
+    printf(""%d"", abs(tagi - tagx) + abs(tagj - tagy));
+    return 0;
+}"
+174,B,C,60013829,2022-12-30 20:02:40,-练习两年半,答案正确,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+	int n,m;
+	scanf(""%d %d"",&n,&m);
+	char a[n][m];
+	int book[n*m][2];
+	for(int i=0;i<n;i++){
+		scanf(""%s"",a[i]);
+	}
+	int y=0;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+			if(a[i][j]=='#'){
+				book[y][0]=i;
+				book[y][1]=j;
+				y++;
+			}
+		}
+	}
+	int max=0;
+    for(int q=0;q<y;q++){
+				int sum=abs(book[q][0]-0)+abs(book[q][1]-0);
+				if(sum>max){
+					max=sum;
+				}
+			}
+	for(int q=0;q<y;q++){
+				int sum=abs(book[q][0]-0)+abs(book[q][1]-m+1);
+				if(sum>max){
+					max=sum;
+				}
+			}
+	for(int q=0;q<y;q++){
+				int sum=abs(book[q][0]-n+1)+abs(book[q][1]-0);
+				if(sum>max){
+					max=sum;
+				}
+			}
+	for(int q=0;q<y;q++){
+				int sum=abs(book[q][0]-n+1)+abs(book[q][1]-m+1);
+				if(sum>max){
+					max=sum;
+				}
+			}
+	printf(""%d"",max);
+}"
+175,B,C(gcc 7.5.0),60013890,2022-12-30 20:03:13,小小果真,答案错误,"#include<stdio.h>
+#include<math.h>
+int main() {
+    int m, n, i,j,max=0,tagx=0,tagy=0,tagi,tagj;char s[90][90];
+    scanf(""%d%d"", &n, &m);//printf(""n和m分别为%d\n%d\n"", n, m);
+    for (i = 0;i < n;i++)
+        scanf(""%s"", s[i]);
+    for (i = 0;i < n;i++) {
+        for (j = 0;j < m;j++) {
+            if (s[i][j] == '#') { tagx = i;tagy = j; }
+        }
+    }
+    tagi = 0;tagj = 0;
+    for (i = 0;i < n;i++) {
+        for (j = 0;j < m;j++) {
+            if (abs(tagx - i) + abs(tagy - j) > abs(tagi - tagx) + abs(tagj - tagy))
+            { tagi = i;tagj = j; }
+        }
+    }
+    printf(""%d"", abs(tagi - tagx) + abs(tagj - tagy));
+    return 0;
+}"
+176,B,C,60013912,2022-12-30 20:03:29,璃月街溜子,答案错误,"#include<stdio.h>
+int main()
+{
+	int m,n;
+	int i,j,k;
+	char str[100][100];
+	scanf(""%d%d"",&n,&m);
+	for(i=0;i<=n-1;i++)
+	{
+		getchar();
+		for(j=0;j<=m-1;j++)
+		{
+			scanf(""%c"",&str[i][j]);
+		}
+	}
+	int r,c,max;
+	r=c=max=0;
+	for(i=0;i<=n-1;i++)
+		for(j=0;j<=m-1;j++)
+		{
+			if(str[i][j]=='#')
+			{
+				int x,y;
+				x=(n-1-i)>=i?(n-1-i):i;
+				y=(n-1-j)>=j?(n-1-j):j;
+				if((x+y)>(r+c))
+				{
+					r=x;
+					c=y;
+				}
+			}
+		}
+	if(m=n=1)
+	{
+		printf(""0"");
+		return 0;
+	}
+	printf(""%d"",r/2+c/2+2);
+	return 0;
+}"
+177,B,C,60013914,2022-12-30 20:03:30,李慧生,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c:11:26: warning: comparison between pointer and integer ('int (*)(void)' and 'int') [-Wpointer-integer-compare]\n               if(getchar!='\\n')\n                  ~~~~~~~^ ~~~~\nmain.c:17:23: error: use of undeclared identifier 'a'\n       printf(\""%d\\n\"", a + b);\n                      ^\nmain.c:17:27: error: use of undeclared identifier 'b'\n       printf(\""%d\\n\"", a + b);\n                          ^\n1 warning and 2 errors generated.""}
+
+#include <stdio.h>
+
+int main() {
+   int n, m;
+   while (scanf(""%d %d"", &n, &m) != EOF) { // 注意 while 处理多个 case
+       int i = 0;
+       int j = 0;
+       char chitang[1000][1000];
+       while(i<n){
+           while(j<m){
+               if(getchar!='\n')
+                    chitang[i][m] = getchar();
+           }
+       }
+       
+       // 64 位输出请用 printf(""%lld"")
+       printf(""%d\n"", a + b);
+   }
+   return 0;
+}"
+178,B,C,60013943,2022-12-30 20:03:53,璃月街溜子,答案错误,"#include<stdio.h>
+int main()
+{
+	int m,n;
+	int i,j,k;
+	char str[100][100];
+	scanf(""%d%d"",&n,&m);
+	for(i=0;i<=n-1;i++)
+	{
+		getchar();
+		for(j=0;j<=m-1;j++)
+		{
+			scanf(""%c"",&str[i][j]);
+		}
+	}
+	int r,c,max;
+	r=c=max=0;
+	for(i=0;i<=n-1;i++)
+		for(j=0;j<=m-1;j++)
+		{
+			if(str[i][j]=='#')
+			{
+				int x,y;
+				x=(n-1-i)>=i?(n-1-i):i;
+				y=(n-1-j)>=j?(n-1-j):j;
+				if((x+y)>(r+c))
+				{
+					r=x;
+					c=y;
+				}
+			}
+		}
+	if(m==n==1)
+	{
+		printf(""0"");
+		return 0;
+	}
+	printf(""%d"",r/2+c/2+2);
+	return 0;
+}"
+179,B,C,60013949,2022-12-30 20:03:56,河南师范大学石康强,答案错误,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+    int n,m;
+    scanf(""%d%d"",&n,&m);
+    int q[1009][1009];
+    int i;
+    int j;
+    int a[1000009][2],k = 0;
+    getchar();
+    for(i = 0;i < n;i++)
+    {
+        for(j = 0;j < m;j++)
+        {
+            char c;
+            scanf(""%c"",&c);
+            if(c == '.')
+            {
+                q[i][j] = 0;
+            }
+            else
+            {
+                q[i][j] = 1;
+                a[k][0] = i;
+                a[k][1] = j;
+                k++;
+            }
+        }
+        getchar();
+    }
+    int s[4005],se = 0;
+    for(i = 0;i < k;i++)
+    {
+        s[se] = abs(0 - a[i][0]) + abs(0 - a[i][1]);
+        se++;
+        s[se] = abs(n - 1 - a[i][0]) + abs(0 - a[i][1]);
+        se++;
+        s[se] = abs(n - 1 - a[i][0]) + abs(m - 1 - a[i][1]);
+        se++;
+        s[se] = abs(0 - a[i][0]) + abs(m - 1 - a[i][1]);
+        se++;
+    }
+    for(i = 0;i < se - 1;i++)
+    {
+        for(j = i + 1;j < se;j++)
+        {
+            if(s[i] < s[j])
+            {
+                int t;
+                t = s[i];
+                s[i] = s[j];
+                s[j] = t;
+            }
+        }
+    }
+    printf(""%d"",s[0]);
+  
+    return 0;
+}
+"
+180,B,C,60013951,2022-12-30 20:03:58,小卖部大队长,答案正确,"#include<stdio.h>
+#include<math.h>
+#include<string.h>
+int main()
+{
+    int max(int a,int b);
+    int t=0,i1,j1,n,m;
+    scanf(""%d %d"",&n,&m);
+    char a[n+2][m+2];
+    getchar();
+    for(int i=0;i<n;i++)
+    {
+    	for(int j=0;j<m;j++)
+        {
+           scanf(""%c"",&a[i][j]);
+		}
+		getchar();
+	}
+    int s5,s1,s2,s3,s4;
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<m;j++)
+        {
+            if(a[i][j]=='#')
+            {
+                i1=i;
+                j1=j;
+                s1=abs(i1-0)+abs(j1-0);
+                s2=abs(i1-0)+abs(j1-m+1);
+                s3=abs(i1-n+1)+abs(j1-0);
+                s4=abs(i1-n+1)+abs(j1-m+1);
+                s5=max(max(s1,s2),max(s3,s4));
+                if(t<=s5)
+                    t=s5;
+            }
+        }
+    }
+    printf(""%d"",t);
+    return 0;
+}
+int max(int a,int b)
+{
+    if(a>=b)
+        return a;
+    else 
+        return b;
+}"
+181,B,C,60013962,2022-12-30 20:04:07,巧克力gjw,答案错误,"#include<stdio.h>
+#include<math.h>
+char s[10050][10050];
+int main(){
+    int m,n;
+    scanf(""%d%d\n"",&m,&n);
+    int x,y;
+    for(int i=1;i<=n;i++){
+    	scanf(""%s"",s[i]);
+    }
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            if(s[i][j]=='#'){
+                x=j;y=i;
+            }
+        }
+    }
+
+	int max=0;
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+         int t=fabs(x-j)+fabs(y-i);
+            if(t>max)max=t;
+        }
+    }
+    printf(""%d"",max);
+    return 0;
+}"
+182,B,C(gcc 7.5.0),60013980,2022-12-30 20:04:20,费列罗特,答案错误,"#include <stdio.h>
+#include <math.h>
+int main()
+{
+	int n, m, x, y;
+	char a[1010][1010];
+	scanf(""%d%d"", &n, &m);
+	for (int i = 1; i <= n; i++)
+	{
+		for (int j = 1; j <= m; j++)
+		{
+			scanf("" %c"", &a[i][j]);
+			if (a[i][j] == '#')
+			{
+				x = i; y = j;
+			}
+		}
+	}
+	if (m == 1&&n==1)printf(""0"");
+	else {
+		int a[4]; int max = 0;
+		a[0] = abs(x - 1) + abs(y - 1);
+		a[1] = abs(x - 1) + abs(y - m);
+		a[2] = abs(x - n) + abs(y - 1);
+		a[3] = abs(x - n) + abs(y - m);
+		for (int i = 0; i < 4; i++)
+		{
+			if (a[i] > max)max = a[i];
+		}
+		printf(""%d"", max);
+	}
+}"
+183,B,C,60013997,2022-12-30 20:04:32,牛客425671423号,答案错误,"#include<stdio.h>
+int main(){
+	char a[1001][1001]={0};
+	int n,m,i,j,k=0;
+	scanf(""%d%d"",&n,&m);
+	for(i=1;i<=n;i++){
+		scanf(""%s"",&a[i][1]);
+	}
+	int b[3001]={0};
+	for(i=1;i<=n;i++){
+		for(j=1;j<=n;j++){
+			if(a[i][j]=='#'){
+				b[k++]=n-i+m-j;
+                b[k++]=i-1+m-1;
+//				printf(""%d\n"",b[k-1]);
+			}
+		}
+	}
+	int max=b[0];
+	for(i=1;i<=k;i++){
+		if(b[i]>max)max=b[i];
+	}
+//	printf(""%d\n"",k);
+	printf(""%d"",max);
+	
+	return 0 ;
+}"
+184,B,C,60014012,2022-12-30 20:04:46,璃月街溜子,答案错误,"#include<stdio.h>
+int main()
+{
+	int m,n;
+	int i,j,k;
+	char str[100][100];
+	scanf(""%d%d"",&n,&m);
+	for(i=0;i<=n-1;i++)
+	{
+		getchar();
+		for(j=0;j<=m-1;j++)
+		{
+			scanf(""%c"",&str[i][j]);
+		}
+	}
+	int r,c,max;
+	r=c=max=0;
+	for(i=0;i<=n-1;i++)
+		for(j=0;j<=m-1;j++)
+		{
+			if(str[i][j]=='#')
+			{
+				int x,y;
+				x=(n-1-i)>=i?(n-1-i):i;
+				y=(n-1-j)>=j?(n-1-j):j;
+				if((x+y)>(r+c))
+				{
+					r=x;
+					c=y;
+				}
+			}
+		}
+	if(m==1&&n==1)
+	{
+		printf(""0"");
+		return 0;
+	}
+	printf(""%d"",r/2+c/2+2);
+	return 0;
+}"
+185,B,C,60014033,2022-12-30 20:05:03,璃月街溜子,答案错误,"#include<stdio.h>
+int main()
+{
+	int m,n;
+	int i,j,k;
+	char str[100][100];
+	scanf(""%d%d"",&n,&m);
+	for(i=0;i<=n-1;i++)
+	{
+		getchar();
+		for(j=0;j<=m-1;j++)
+		{
+			scanf(""%c"",&str[i][j]);
+		}
+	}
+	int r,c,max;
+	r=c=max=0;
+	for(i=0;i<=n-1;i++)
+		for(j=0;j<=m-1;j++)
+		{
+			if(str[i][j]=='#')
+			{
+				int x,y;
+				x=(n-1-i)>=i?(n-1-i):i;
+				y=(n-1-j)>=j?(n-1-j):j;
+				if((x+y)>(r+c))
+				{
+					r=x;
+					c=y;
+				}
+			}
+		}
+	if(m==1&&n==1)
+	{
+		printf(""0"");
+		return 0;
+	}
+	printf(""%d"",r/2+c/2+2);
+	return 0;
+}"
+186,B,C,60014038,2022-12-30 20:05:07,22016022103,运行超时,"#include <stdio.h>
+int n, m, i, j, z, a, b, x, y, max;
+int main()
+{
+	scanf(""%d%d"", &n, &m);
+	char s[n+1][m+1];
+	for(i=1;i<=n;i++)
+	{
+		getchar();
+		for(j=1;j<=m;j++)
+			scanf(""%c"", &s[i][j]);
+	}
+	for(i=1;i<=n;i++)
+		for(j=1;j<=m;j++)
+			if(s[i][j] == '#')
+			{
+				for(x=1;x<=n;x++)
+					for(y=1;y<=m;y++,z++)
+					{
+						a = x - i;
+						b = y - j;
+						if(a < 0)
+							a *= -1;
+						if(b < 0)
+							b *= -1;
+						max = a + b > max?a+b:max;
+					}
+			}
+	printf(""%d"", max);
+	return 0;
+}"
+187,B,C,60014056,2022-12-30 20:05:25,牛客305837234号,运行超时,"#include<stdio.h>
+int main()
+{
+    int a[10][10],i,j,k,n,m;
+    int c,d,maxi=0,maxj=0;
+    scanf(""%d %d"",&n,&m);
+    for(i=0;i<n;i++){
+        for(j=0;j<m;j++){
+            scanf(""%c"",&a[i][j]);
+        }
+        printf(""\n"");
+    }
+    for(i=0;i<n;i++){
+        for(j=0;j<m;j++){
+            while(a[i][j]=='#'){
+                c=i;
+                d=j;
+            if(a[i][j]=='.'){
+                maxi=i-c;
+                maxj=j-d;
+                k=maxi+maxj;
+            }
+        }
+    }
+    }
+    printf(""%d"",k);
+    
+}"
+188,B,C(gcc 7.5.0),60014074,2022-12-30 20:05:38,费列罗特,答案错误,"#include <stdio.h>
+#include <math.h>
+int main()
+{
+	int n, m, x, y;
+	char a[1010][1010];
+	scanf(""%d%d"", &n, &m);
+	for (int i = 1; i <= n; i++)
+	{
+		for (int j = 1; j <= m; j++)
+		{
+			scanf("" %c"", &a[i][j]);
+			if (a[i][j] == '#')
+			{
+				x = i; y = j;
+			}
+		}
+	}
+	if (m == 1&&n==1)printf(""0"");
+	else {
+		int a[4]; int max = 0;
+		a[0] = abs(x - 1) + abs(y - 1);
+		a[1] = abs(x - 1) + abs(y - m);
+		a[2] = abs(x - n) + abs(y - 1);
+		a[3] = abs(x - n) + abs(y - m);
+		for (int i = 0; i < 4; i++)
+		{
+			if (a[i] > max)max = a[i];
+		}
+		printf(""%d"", max);
+	}
+}"
+189,B,C,60014076,2022-12-30 20:05:41,巧克力gjw,答案错误,"#include<stdio.h>
+#include<math.h>
+char s[1050][1050];
+int main(){
+    int m,n;
+    scanf(""%d%d\n"",&m,&n);
+    int x,y;
+    for(int i=0;i<n;i++){
+    	scanf(""%s"",s[i]);
+    }
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            if(s[i][j]=='#'){
+                x=j;y=i;
+            }
+        }
+    }
+
+	int max=0;
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+         int t=fabs(x-j)+fabs(y-i);
+
+            if(t>max)max=t;
+        }
+    }
+
+    printf(""%d"",max);
+    return 0;
+}"
+190,B,C,60014090,2022-12-30 20:05:47,牛客425671423号,答案错误,"#include<stdio.h>
+int main(){
+	char a[1001][1001]={0};
+	int n,m,i,j,k=0;
+	scanf(""%d%d"",&n,&m);
+	for(i=1;i<=n;i++){
+		scanf(""%s"",&a[i][1]);
+	}
+	int b[5001]={0};
+	for(i=1;i<=n;i++){
+		for(j=1;j<=n;j++){
+			if(a[i][j]=='#'){
+				b[k++]=n-i+m-j;
+                b[k++]=i-1+j-1;
+                b[k++]=i-1+m-j;
+                b[k++]=n-i+j-1;
+//				printf(""%d\n"",b[k-1]);
+			}
+		}
+	}
+	int max=b[0];
+	for(i=1;i<=k;i++){
+		if(b[i]>max)max=b[i];
+	}
+//	printf(""%d\n"",k);
+	printf(""%d"",max);
+	
+	return 0 ;
+}"
+191,B,C(gcc 7.5.0),60014110,2022-12-30 20:06:07,小小果真,答案错误,"#include<stdio.h>
+#include<math.h>
+int main() {
+    int m, n, i,j,max=0,tagx=0,tagy=0,tagi,tagj;char s[90][90];
+    scanf(""%d%d"", &n, &m);//printf(""n和m分别为%d\n%d\n"", n, m);
+    for (i = 0;i < n;i++)
+    { scanf(""%s"", s[i]);getchar();}
+    for (i = 0;i < n;i++) {
+        for (j = 0;j < m;j++) {
+            if (s[i][j] == '#') { tagx = i;tagy = j; }
+        }
+    }
+    tagi = 0;tagj = 0;
+    for (i = 0;i < n;i++) {
+        for (j = 0;j < m;j++) {
+            if (abs(tagx - i) + abs(tagy - j) > abs(tagi - tagx) + abs(tagj - tagy))
+            { tagi = i;tagj = j; }
+        }
+    }
+    printf(""%d"", abs(tagi - tagx) + abs(tagj - tagy));
+    return 0;
+}"
+192,B,C(gcc 7.5.0),60014125,2022-12-30 20:06:20,小小果真,答案错误,"#include<stdio.h>
+#include<math.h>
+int main() {
+    int m, n, i,j,max=0,tagx=0,tagy=0,tagi,tagj;char s[90][90];
+    scanf(""%d%d"", &n, &m);//printf(""n和m分别为%d\n%d\n"", n, m);
+    for (i = 0;i < n;i++)
+    { scanf(""%s"", s[i]);getchar();}
+    for (i = 0;i < n;i++) {
+        for (j = 0;j < m;j++) {
+            if (s[i][j] == '#') { tagx = i;tagy = j; }
+        }
+    }
+    tagi = 0;tagj = 0;
+    for (i = 0;i < n;i++) {
+        for (j = 0;j < m;j++) {
+            if (abs(tagx - i) + abs(tagy - j) > abs(tagi - tagx) + abs(tagj - tagy))
+            { tagi = i;tagj = j; }
+        }
+    }
+    printf(""%d"", abs(tagi - tagx) + abs(tagj - tagy));
+    return 0;
+}"
+193,B,C(gcc 7.5.0),60014142,2022-12-30 20:06:34,小小果真,答案错误,"#include<stdio.h>
+#include<math.h>
+int main() {
+    int m, n, i,j,max=0,tagx=0,tagy=0,tagi,tagj;char s[90][90];
+    scanf(""%d%d"", &n, &m);//printf(""n和m分别为%d\n%d\n"", n, m);
+    for (i = 0;i < n;i++)
+    { scanf(""%s"", s[i]);getchar();}
+    for (i = 0;i < n;i++) {
+        for (j = 0;j < m;j++) {
+            if (s[i][j] == '#') { tagx = i;tagy = j; }
+        }
+    }
+    tagi = 0;tagj = 0;
+    for (i = 0;i < n;i++) {
+        for (j = 0;j < m;j++) {
+            if (abs(tagx - i) + abs(tagy - j) > abs(tagi - tagx) + abs(tagj - tagy))
+            { tagi = i;tagj = j; }
+        }
+    }
+    printf(""%d"", abs(tagi - tagx) + abs(tagj - tagy));
+    return 0;
+}"
+194,B,C,60014163,2022-12-30 20:06:50,牛客128137446号,答案错误,"#include <stdio.h>
+#include <math.h>
+
+int main(void)
+{
+	int n,m;
+	scanf(""%d%d"",&n,&m);
+	getchar();
+	char s[n][m];
+	int i,j,k,a,b,p=0,c,d,sum[1003],max;
+	for(i=0;i<n;i++)
+	{
+		for(j=0;j<m;j++)
+		{
+			scanf(""%c"",&s[i][j]);
+			if(s[i][j]=='#')
+			{
+				a=i+j;
+				b=m-1-j+i;
+				c=n-1-i+j;
+				d=n-1-i+m-1-j;
+				
+				max=a;
+				if(b>max)
+				max=b;
+				if(c>max)
+				max=c;
+				if(d>max)
+				max=d;
+				sum[p++]=max;	
+			}
+			if(j==m-1)
+			getchar();
+		}
+		
+	}
+	for(i=0;i<p;i++)
+	{
+		if(max<sum[i])
+		max=sum[i];
+	 } 
+	printf(""%d"",max);
+	return 0;
+}"
+195,B,C,60014169,2022-12-30 20:06:54,巧克力gjw,答案错误,"#include<stdio.h>
+#include<math.h>
+char s[1050][1050];
+int main(){
+    int m,n;
+    scanf(""%d%d\n"",&n,&m);
+    int x,y;
+    for(int i=0;i<n;i++){
+    	scanf(""%s"",s[i]);
+    }
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            if(s[i][j]=='#'){
+                x=j;y=i;
+            }
+        }
+    }
+
+	int max=0;
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+         int t=fabs(x-j)+fabs(y-i);
+
+            if(t>max)max=t;
+        }
+    }
+
+    printf(""%d"",max);
+    return 0;
+}"
+196,B,C,60014197,2022-12-30 20:07:19,牛客348891405号,运行超时,"#include<stdio.h>
+int main()
+{
+	int n,m,i=0,k=0,max=0,a,b,c=0,d=0,sum=0;
+	scanf(""%d%d"",&n,&m);
+	char aa[n][m],cc;
+	while(1)
+	{
+	
+	cc=getchar();
+	if(cc!='\n'){
+	aa[i][k]=cc;
+	k++;
+	}
+	if(k==m){
+		k=0;
+		i++;
+	}
+	if(i==n)
+	break;
+}
+	
+	for(i=0;i<n;i++)
+	for(k=0;k<m;k++)
+	{
+		for(a=0;a<n;a++)
+	for(b=0;b<m;b++)
+	if(aa[a][b]=='#')
+	{
+		c=a-i;
+		d=b-k;
+		c=(c>0)?c:-c;
+		d=(d>0)?d:-d;
+		sum=c+d;
+		if(sum>max)
+		max=sum;
+	}
+	}
+	printf(""%d"",max);
+	return 0;
+}"
+197,B,C,60014234,2022-12-30 20:07:56,1_0,答案错误,"#include <stdio.h>
+int main(){
+    int n,m;
+	scanf(""%d %d "",&n,&m);
+    char a[n][m];
+    int x=0,y=0;
+    for(int i=0;i<n;i++){
+    	for(int j=0;j<m;++j){
+    		scanf("" %c"",&a[i][j]);
+    		if(a[i][j]=='#'){
+    			x=j;
+    			y=n-1-i;
+			}
+		}
+	}
+	if((y<=((n-1)/2))&&(x<=((m-1)/2)))
+	printf(""%d"",(((m-1)-x)+((n-1)-y)));
+	else if(y>((n-1)/2)&&x>((m-1)/2))
+	printf(""%d"",(x+y));
+	else if(y<=((n-1)/2)&&x>((m-1)/2))
+	printf(""%d"",(x+((n-1)-y)));
+	else if(y>((n-1)/2)&&x<=((m-1)/2))
+	printf(""%d"",(((m-1)-x)+y));
+    return 0;
+}"
+198,B,C,60014246,2022-12-30 20:08:03,唏哩呼噜.,答案错误,"#include<stdio.h>
+#include<math.h>
+char o[1000][1000];
+int x[4],i,j,k,m,n,a,b,maxx; 
+int main(){
+    scanf(""%d %d"",&n,&m);
+    for(i = 0; i <= n;i ++){
+        for(j = 0; j <= m;j ++){
+            scanf(""%c"",&o[i][j]);
+            if(o[i][j]=='#'){
+            a=i;
+            b=j;
+            }
+        }
+    }  
+    x[1]=abs(a-0)+abs(b-0);
+    x[2]=abs(a-0)+abs(b-m);
+    x[3]=abs(a-n)+abs(b-0);
+    x[4]=abs(a-n)+abs(b-m);
+	maxx==x[1];
+    for(k = 1; k <= 4;k ++){
+        if(maxx<x[k]){
+            maxx=x[k];
+        }
+    }
+    printf(""%d"",maxx);
+    return 0;
+}"
+199,B,C,60014261,2022-12-30 20:08:11,想想马小飞会怎么做,答案错误,"#include <stdio.h>
+int main()
+{
+	int n,m;
+	scanf(""%d %d"",&n,&m);
+	char a[n][m];
+	int i,j,mht;
+	for(i=0;i<=n;i++){
+		for(j=0;j<=m;j++){
+			scanf(""%c"",&a[i][j]);
+		}
+	}
+	for(i=0;i<=n;i++){
+		for(j=0;j<=m;j++){
+			if(a[i][j]=='#'){
+				mht=(n-i)+(m-j)-1;
+			}
+		}
+	}
+	printf(""%d"",mht);
+	return 0;	
+}"

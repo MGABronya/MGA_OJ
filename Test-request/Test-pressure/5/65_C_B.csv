@@ -1,0 +1,7106 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,B,C(gcc 7.5.0),60142347,2023-01-06 19:14:50,Nefelibata.,答案正确,"#include<stdio.h>
+#include<string.h>
+int scan(char s[],char k[],int poss)
+{
+    int lenk=strlen(k);
+    for(int i=0;i<lenk;i++)
+    {
+        if(s[i+poss]!=k[i]) return 0;
+    }
+    return 1;
+}
+int main()
+{
+    int m,n;
+    scanf(""%d%d"",&m,&n);
+    char s[5005]={0};
+    char ss[5005]={0};
+    char k[5005]={0};
+    scanf(""%s%s"",s,k);
+    int lens=strlen(s),lenk=strlen(k);
+    int len=0;
+    int flag=1;
+    for(int i=0;i<lens;i++) if(s[i]<='z'&&s[i]>='a') ss[len++]=s[i];
+    for(int i=0;i<len-lenk+1;i++)
+    {
+        if(ss[i]==k[0])
+            if(scan(ss,k,i))
+            {
+                printf(""YES\n"");
+                flag--;
+                break;
+            }
+    }
+    if(flag) printf(""NO\n"");
+    return 0;
+}"
+1,B,C(gcc 7.5.0),60142476,2023-01-06 19:15:45,牛客199520093号,答案错误,"#include <stdio.h>
+#include <string.h>
+char a[5000],b[5000];
+int main(void){
+    gets(a);gets(b);
+    int la=strlen(a),lb=strlen(b),flag=0;
+    for(int i=0;i<la;i++){
+        if(a[i]<'a'||a[i]>'z') continue;
+        else{
+            if(a[i]==b[0]){
+                int j=0;
+                for(;j<lb;j++,i++){
+                    if(a[i]!=b[j]) break;
+                }
+                if(j==lb){
+                    printf(""YES"");
+                    flag=1;
+                    break;
+                }
+            }
+            if(flag==1) break;
+        }
+    }
+    if(flag==0) printf(""NO"");
+    return 0;
+}"
+2,B,C,60142635,2023-01-06 19:16:46,bulis04_zqy,答案错误,"#include<stdio.h>
+#include<math.h>
+#include<string.h>
+int main()
+{
+	int n, m, i, t=0;
+	char a[5010],b[5010];
+	scanf(""%d %d"", &n, &m);
+	scanf(""%s"", a);
+	scanf(""%s"", b);
+	for (i = 0; i < n; i++)
+	{
+		if (a[i] == b[t])
+			t++;
+		else
+			if (t != 0 && (a[i] >= 'a' && a[i] <= 'z' || a[i] >= 'A' && a[i] <= 'Z'))
+				t = 0;
+		if (t == m)
+			break;
+	}
+	if (t == m)
+		printf(""YES"");
+	else
+		printf(""NO"");
+	return 0;
+}"
+3,B,C,60142736,2023-01-06 19:17:18,bulis04_zqy,答案错误,"#include<stdio.h>
+#include<math.h>
+#include<string.h>
+int main()
+{
+	int n, m, i, t=0;
+	char a[5010],b[5010];
+	scanf(""%d %d"", &n, &m);
+	scanf(""%s"", a);
+	scanf(""%s"", b);
+	for (i = 0; i < n; i++)
+	{
+		if (a[i] == b[t])
+			t++;
+		else
+			if (t != 0 && (a[i] >= 'a' && a[i] <= 'z' || a[i] >= 'A' && a[i] <= 'Z'))
+				t = 0;
+		if (t == m)
+			break;
+	}
+	if (t == m)
+		printf(""YES"");
+	else
+		printf(""NO"");
+	return 0;
+}"
+4,B,C,60142757,2023-01-06 19:17:22,bulis04_zqy,答案错误,"#include<stdio.h>
+#include<math.h>
+#include<string.h>
+int main()
+{
+	int n, m, i, t=0;
+	char a[5010],b[5010];
+	scanf(""%d %d"", &n, &m);
+	scanf(""%s"", a);
+	scanf(""%s"", b);
+	for (i = 0; i < n; i++)
+	{
+		if (a[i] == b[t])
+			t++;
+		else
+			if (t != 0 && (a[i] >= 'a' && a[i] <= 'z' || a[i] >= 'A' && a[i] <= 'Z'))
+				t = 0;
+		if (t == m)
+			break;
+	}
+	if (t == m)
+		printf(""YES"");
+	else
+		printf(""NO"");
+	return 0;
+}"
+5,B,C,60142849,2023-01-06 19:17:55,bulis04_zqy,答案错误,"#include<stdio.h>
+#include<math.h>
+#include<string.h>
+int main()
+{
+	int n, m, i, t=0;
+	char a[5010],b[5010];
+	scanf(""%d %d"", &n, &m);
+	scanf(""%s"", a);
+	scanf(""%s"", b);
+	for (i = 0; i < n; i++)
+	{
+		if (a[i] == b[t])
+			t++;
+		else
+			if (t != 0 && (a[i] >= 'a' && a[i] <= 'z' || a[i] >= 'A' && a[i] <= 'Z'))
+				t = 0;
+		if (t == m)
+			break;
+	}
+	if (t == m)
+		printf(""YES"");
+	else
+		printf(""NO"");
+	return 0;
+}"
+6,B,C,60142866,2023-01-06 19:18:04,HNU_22_刘慧蕾,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	int n,m;
+	char s[5010],k[5010];
+	scanf(""%d%d"",&n,&m);
+	scanf(""%s"",s);
+	scanf(""%s"",k);
+	int t=0,f=0;
+	for(int i=0;i<n-m;i++)
+	{
+		if(s[i]>='a'&&s[i]<='z')
+		{
+			if(s[i]==k[t])
+			{
+				t++;
+			}
+			else 
+			{
+				t=0;
+			}
+		}
+		else continue;
+		if(t==m)
+		{
+			f++;
+			break;
+		}
+	}
+	if(f!=0) printf(""YES"");
+	else printf(""NO"");
+	return 0;
+}"
+7,B,C(gcc 7.5.0),60143306,2023-01-06 19:20:34,牛客199520093号,答案错误,"#include <stdio.h>
+#include <string.h>
+char a[5005],b[5005];
+int main(void){
+    gets(a);gets(b);
+    int la=strlen(a),lb=strlen(b),flag=0;
+    for(int i=0;i<la;i++){
+        if(a[i]<'a'||a[i]>'z') continue;
+        else{
+            if(a[i]==b[0]){
+                int j=0;
+                for(;j<lb;j++,i++){
+                    if(a[i]!=b[j]){
+                        i--;
+                        break;
+                    }
+                }
+                if(j==lb){
+                    printf(""YES"");
+                    flag=1;
+                    break;
+                }
+            }
+        }
+        if(flag==1) break;
+    }
+    if(flag==0) printf(""NO"");
+    return 0;
+}"
+8,B,C,60143480,2023-01-06 19:21:39,ZJGSU_wjh,答案错误,"#include <stdio.h>
+#include <string.h>
+int main()
+{
+	int a, b;
+	int i,j;
+	char s1[10000], s2[10000];
+	scanf(""%d %d"", &a, &b);
+	getchar();
+	gets(s1);
+	gets(s2);
+	for (i = 0; i < a; i++)
+	{
+		if (s1[i] >= 'a' && s1[i] <= 'z')
+		{
+			continue;
+		}
+		else
+		{
+			for (j = i + 1; j < a; j++)
+			{
+				s1[j - 1] = s1[j];
+			}
+		}
+	}
+	if (strstr(s1, s2) == NULL)
+	{
+		printf(""NO\n"");
+	}
+	else
+	{
+		printf(""YES\n"");
+	}
+	return 0;
+}"
+9,B,C(gcc 7.5.0),60143520,2023-01-06 19:21:58,-练习两年半,答案正确,"#include<stdio.h>
+main()
+{
+	int n,m;
+	scanf(""%d %d"",&n,&m);
+	getchar();
+	char a[n+1];
+	for(int i=0;i<n;i++){
+		scanf(""%c"",&a[i]);
+	}
+	getchar();
+	char b[m+1];
+	for(int i=0;i<m;i++){
+		scanf(""%c"",&b[i]);
+	}
+	int y,q,pan=0;
+	for(int i=0;i<n;i++){
+		if(a[i]==b[0]){
+			y=i;
+			q=0;
+			while(1)
+			{
+				if(a[y]>='a'&&a[y]<='z'){
+					if(a[y]==b[q]){
+						y++;
+						q++;
+						if(q==m){
+						pan=1;
+						break;
+					}
+				 }else{
+				 	break;
+				 }
+				}else{
+					y++;
+				}
+			}
+		}
+	}
+	if(pan==1){
+		printf(""YES"");
+	}else{
+		printf(""NO"");
+	}
+}"
+10,B,C,60143529,2023-01-06 19:22:01,ZJGSU_wjh,答案错误,"#include <stdio.h>
+#include <string.h>
+int main()
+{
+	int a, b;
+	int i,j;
+	char s1[10000], s2[10000];
+	scanf(""%d %d"", &a, &b);
+	getchar();
+	gets(s1);
+	gets(s2);
+	for (i = 0; i < a; i++)
+	{
+		if (s1[i] >= 'a' && s1[i] <= 'z')
+		{
+			continue;
+		}
+		else
+		{
+			for (j = i + 1; j < a; j++)
+			{
+				s1[j - 1] = s1[j];
+			}
+		}
+	}
+	if (strstr(s1, s2) == NULL)
+	{
+		printf(""NO\n"");
+	}
+	else
+	{
+		printf(""YES\n"");
+	}
+	return 0;
+}"
+11,B,C,60143570,2023-01-06 19:22:13,牛客600756728号,答案错误,"#include<stdio.h>
+#include<string.h>
+void myre(char *s,int n){
+	for(int i=0;i<n;i++){
+		char c=s[i];
+		if(c<'a'||c>'z') strcpy(s+i,s+i+1);
+	}
+}
+int main(){
+	int n,m;
+	scanf(""%d%d"",&n,&m);
+	char s[n+1],k[m+1];
+	scanf(""%s%s"",s,k);
+	myre(s,n);
+	if(strstr(s,k)==NULL) printf(""NO"");
+	else printf(""YES"");
+}"
+12,B,C,60143613,2023-01-06 19:22:30,牛客600756728号,答案错误,"#include<stdio.h>
+#include<string.h>
+void myre(char *s,int n){
+	for(int i=0;i<n;i++){
+		char c=s[i];
+		if(c<'a'||c>'z') strcpy(s+i,s+i+1);
+	}
+}
+int main(){
+	int n,m;
+	scanf(""%d%d"",&n,&m);
+	char s[n+1],k[m+1];
+	scanf(""%s%s"",s,k);
+	myre(s,n);
+	if(strstr(s,k)==NULL) printf(""NO"");
+	else printf(""YES"");
+}"
+13,B,C,60143617,2023-01-06 19:22:31,HNU_22_刘慧蕾,答案正确,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	int n,m,t=0;
+	char s[5010],k[5010],d[5010];
+	scanf(""%d%d"",&n,&m);
+	scanf(""%s"",s);
+	scanf(""%s"",k);
+	for(int i=0;s[i]!='\0';i++)
+	{
+		if(s[i]>='a'&&s[i]<='z') 
+		{
+			d[t++]=s[i];
+		}
+	}
+	d[t]='\0';
+	if(strstr(d,k)!=NULL) printf(""YES"");
+	else printf(""NO"");
+	return 0;
+}"
+14,B,C(gcc 7.5.0),60143733,2023-01-06 19:23:16,wwwacg,答案错误,"#include <stdio.h>
+int main(){
+	int n,m;
+	scanf(""%d %d\n"",&n,&m);
+	char a[10000]={0};
+	char b[10000]={0};
+	scanf(""%s\n"",a);
+	scanf(""%s"",b);
+	int i,j,k;
+	i=j=k=0;
+	while(a[i]!='\0'){
+		if(a[i]==b[j]){
+			k++;
+			j++;
+		}
+		i++;
+	} 
+	if(k==m){
+		printf(""YES"");
+	}
+	else{
+		printf(""NO"");
+	}
+	return 0; 
+} "
+15,B,C,60143741,2023-01-06 19:23:18,牛客600756728号,答案错误,"#include<stdio.h>
+#include<string.h>
+void myre(char *s,int n){
+	for(int i=0;i<n;i++){
+		char c=s[i];
+		if(c<'a'||c>'z') strcpy(s+i,s+i+1);
+	}
+}
+int main(){
+	int n,m;
+	scanf(""%d%d"",&n,&m);
+	char s[n+1],k[m+1];
+	scanf(""%s%s"",s,k);
+	myre(s,n);
+	if(strstr(s,k)==NULL) printf(""NO"");
+	else printf(""YES"");
+}"
+16,B,C,60143956,2023-01-06 19:24:14,牛客600756728号,答案错误,"#include<stdio.h>
+#include<string.h>
+void myre(char *s,int n){
+	for(int i=0;i<=n;i++){
+		char c=s[i];
+		if(c<'a'||c>'z') strcpy(s+i,s+i+1);
+	}
+}
+int main(){
+	int n,m;
+	scanf(""%d%d"",&n,&m);
+	char s[n+1],k[m+1];
+	scanf(""%s%s"",s,k);
+	myre(s,n);
+	if(strstr(s,k)==NULL) printf(""NO"");
+	else printf(""YES"");
+}"
+17,B,C,60144350,2023-01-06 19:26:20,想去东北泡澡的安德鲁想要offer,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	int n,m,q,t;
+	scanf(""%d %d"",&n,&m);
+	char s[n],k[m];
+	scanf(""%s"",s);
+	scanf(""%s"",k);
+	int i,j;
+	for(i=0;i<n;i++){
+		if(k[0]==s[i]){
+			for(j=i,t=0;t<m;t++,j++){
+				if(s[j]!=k[t]&&s[j]>='a'&&s[j]<='z'){q=0;break;}
+				if(s[j]==k[t])q=1;
+				if(s[j]>'z'||s[j]<'a')j++;
+			}
+			if(q==1){
+				printf(""YES"");
+				break;
+			}
+		}
+	}
+	if(q==0)printf(""NO"");
+	
+ } "
+18,B,C,60144359,2023-01-06 19:26:23,ZJGSU_wjh,答案错误,"#include <stdio.h>
+#include <string.h>
+int main()
+{
+	int a, b;
+	int i,j;
+	char s1[10000], s2[10000];
+	scanf(""%d %d"", &a, &b);
+	getchar();
+	gets(s1);
+	gets(s2);
+	for (i = 0; i < a; i++)
+	{
+		if (s1[i] >= 'a' && s1[i] <= 'z')
+		{
+			continue;
+		}
+		else
+		{
+			for (j = i + 1; s1[j-1]!='\0'; j++)
+			{
+				s1[j - 1] = s1[j];
+			}
+		}
+	}
+	if (strstr(s1, s2) == NULL)
+	{
+		printf(""NO\n"");
+	}
+	else
+	{
+		printf(""YES\n"");
+	}
+	return 0;
+}"
+19,B,C(gcc 7.5.0),60144450,2023-01-06 19:26:48,阿建头很痛,答案错误,"#include<stdio.h>
+#include<string.h>
+int main(){
+	int n,m;
+	scanf(""%d%d\n"",&n,&m);
+	char a[n],b[m];
+	gets(a);
+	gets(b);
+	int j=0,p=1;
+	for(int i=0;i<n;i++){
+		if(a[i]==b[0]){
+			i++;
+			j++;
+			while(j<m){
+				if(a[i]==b[j]){
+					i++;
+					j++;
+				}else{
+					if((a[i]>='a'&&a[i]<='z')||(a[i]>='A'&&a[i]<='Z')){
+						j=0;
+						break;				
+					}else{
+						i++;
+					}	
+				}
+			}
+            if(j==m)
+            {
+                break;
+            }
+		}
+	}
+	if(j==m){
+		printf(""YES"");
+	}else{
+		printf(""NO"");
+	}
+	return 0;
+} "
+20,B,C,60144546,2023-01-06 19:27:18,我是楼台,答案错误,"#include<stdio.h>
+#include<string.h>
+typedef long long ll;
+int main()
+{
+	ll a,b;
+	int t=0;
+	ll i,j;
+	scanf(""%lld%lld"",&a,&b);
+	char n1[a],n2[b];
+	scanf(""%s"",n1);
+	scanf(""%s"",n2);
+	for(i=0;i<b;i++)
+	{
+		for(j=0;j<a;j++)
+		{
+			if(n2[i]==n1[j])
+			{
+				t++;
+				break;
+			}
+		}
+	}
+	if(t==b)
+	{
+		printf(""YES"");
+	}
+	else
+	{
+		printf(""NO"");
+	}
+	return 0;
+}"
+21,B,C,60144587,2023-01-06 19:27:30,想去东北泡澡的安德鲁想要offer,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	int n,m,q,t;
+	scanf(""%d %d"",&n,&m);
+	char s[5000],k[5000];
+	scanf(""%s"",s);
+	scanf(""%s"",k);
+	int i,j;
+	for(i=0;i<n;i++){
+		if(k[0]==s[i]){
+			for(j=i,t=0;t<m;t++,j++){
+				if(s[j]!=k[t]&&s[j]>='a'&&s[j]<='z'){q=0;break;}
+				if(s[j]==k[t])q=1;
+				if(s[j]>'z'||s[j]<'a')j++;
+			}
+			if(q==1){
+				printf(""YES"");
+				break;
+			}
+		}
+	}
+	if(q==0)printf(""NO"");
+	
+ } "
+22,B,C(gcc 7.5.0),60144595,2023-01-06 19:27:34,阿建头很痛,答案错误,"#include<stdio.h>
+#include<string.h>
+int main(){
+	int n,m;
+	scanf(""%d%d\n"",&n,&m);
+	char a[n],b[m];
+	gets(a);
+	gets(b);
+	int j=0,p=1;
+	for(int i=0;i<n;i++){
+		if(a[i]==b[0]){
+			i++;
+			j++;
+			while(j<m&&i<n){
+				if(a[i]==b[j]){
+					i++;
+					j++;
+				}else{
+					if((a[i]>='a'&&a[i]<='z')||(a[i]>='A'&&a[i]<='Z')){
+						j=0;
+						break;				
+					}else{
+						i++;
+					}	
+				}
+			}
+            if(j==m)
+            {
+                break;
+            }
+		}
+	}
+	if(j==m){
+		printf(""YES"");
+	}else{
+		printf(""NO"");
+	}
+	return 0;
+} "
+23,B,C,60144600,2023-01-06 19:27:36,ZJGSU_wjh,答案错误,"#include <stdio.h>
+#include <string.h>
+int main()
+{
+	int a, b;
+	int i,j;
+	char s1[10000], s2[10000];
+	scanf(""%d %d"", &a, &b);
+	getchar();
+	gets(s1);
+	gets(s2);
+	for (i = 0; i < a; i++)
+	{
+		if (s1[i] >= 'a' && s1[i] <= 'z')
+		{
+			continue;
+		}
+		else
+		{
+			for (j = i + 1; s1[j-1]!='\0'; j++)
+			{
+				s1[j - 1] = s1[j];
+			}
+			a--;
+		}
+	}
+	if (strstr(s1, s2) == NULL)
+	{
+		printf(""NO\n"");
+	}
+	else
+	{
+		printf(""YES\n"");
+	}
+	return 0;
+}"
+24,B,C(gcc 7.5.0),60144752,2023-01-06 19:28:24,wwwacg,答案错误,"#include <stdio.h>
+int main(){
+	int n,m;
+	scanf(""%d %d\n"",&n,&m);
+	char a[10000]={0};
+	char b[10000]={0};
+	char c;
+	scanf(""%s\n"",a);
+	scanf(""%s"",b);
+	int i,j,k;
+	i=j=k=0;
+	while(a[i]!='\0'){
+		if(c==a[i]){
+			k=0;
+			j=0;
+		}
+		if(a[i]==b[j]){
+			k++;
+			j++;
+			c=a[i];
+		}
+		i++;
+	} 
+	if(k==m){
+		printf(""YES"");
+	}
+	else{
+		printf(""NO"");
+	}
+	return 0; 
+} "
+25,B,C,60144879,2023-01-06 19:29:18,想去东北泡澡的安德鲁想要offer,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	int n,m,q,t;
+	scanf(""%d %d"",&n,&m);
+	char s[5000],k[5000];
+	scanf(""%s"",s);
+	scanf(""%s"",k);
+	int i,j;
+	for(i=0;i<n;i++){
+		if(k[0]==s[i]){
+			for(j=i,t=0;t<m;t++,j++){
+			    if(s[j]>'z'||s[j]<'a'){
+				j++;
+				continue;}
+				if(s[j]!=k[t]&&s[j]>='a'&&s[j]<='z'){q=0;break;}
+				if(s[j]==k[t])q=1;
+				
+			}
+			if(q==1){
+				printf(""YES"");
+				break;
+			}
+		}
+	}
+	if(q==0)printf(""NO"");
+	
+ } "
+26,B,C,60144928,2023-01-06 19:29:36,ZJGSU_wjh,答案错误,"#include <stdio.h>
+#include <string.h>
+int main()
+{
+	int a, b;
+	int i,j;
+	char s1[100000], s2[100000];
+	scanf(""%d %d"", &a, &b);
+	getchar();
+	gets(s1);
+	gets(s2);
+	for (i = 0; i < a; i++)
+	{
+		if (s1[i] >= 'a' && s1[i] <= 'z')
+		{
+			continue;
+		}
+		else
+		{
+			for (j = i + 1; s1[j-1]!='\0'; j++)
+			{
+				s1[j - 1] = s1[j];
+			}
+			a--;
+		}
+	}
+	if (strstr(s1, s2) == NULL)
+	{
+		printf(""NO\n"");
+	}
+	else
+	{
+		printf(""YES\n"");
+	}
+	return 0;
+}"
+27,B,C,60145032,2023-01-06 19:30:15,牛客634674698号,答案错误,"#include<stdio.h>
+int main()
+{
+    char arr1[5001], arr2[5001];
+    int a, b, i, i1 = 0, time = 0;
+    scanf(""%d %d"", &a, &b);
+    scanf(""%s"", arr1);
+    scanf(""%s"", arr2);
+    for (i = 0; i < a; i++)
+    {
+        if (arr1[i] - 'a' >= 0 && 'z' - arr1[i] >= 0)
+        {
+            if (arr1[i] == arr2[i1])
+            {
+                i1++;
+                if (i1 == b)
+                {
+                    time = 1;
+                    break;
+                }
+            }
+            else
+            {
+                i1 = 0;
+            }
+        }
+        else
+            continue;
+    }
+    if (time == 1)
+        printf(""YES"");
+    if (time == 0)
+        printf(""NO"");
+    return 0;
+}"
+28,B,C,60145082,2023-01-06 19:30:32,fync王萌,答案错误,"#include <stdio.h>
+#include <string.h>
+int main(){
+    int n,m,i,j;
+    j=0;
+    scanf(""%d %d\n"",&n,&m);
+    char a[n],b[m];
+    gets(a);
+    gets(b);
+    for(i=0;i<n;i++){
+        if((a[i]<'z'&&a[i]>'a')||(a[i]<'Z'&&a[i]>'A')){
+            if(a[i]==b[j]){
+                j++;
+            }else{
+                j=0;
+            }
+        }
+        if(j==m){
+            break;
+        }
+    }
+    if(j==m){
+        printf(""YES"");
+    }else{
+        printf(""NO"");
+    }
+}"
+29,B,C,60145102,2023-01-06 19:30:39,ZJGSU_wjh,答案错误,"#include <stdio.h>
+#include <string.h>
+int main()
+{
+	int a, b;
+	int i,j;
+	char s1[100000], s2[100000];
+	scanf(""%d %d"", &a, &b);
+	getchar();
+	scanf(""%s"", s1);
+	scanf(""%s"", s2);
+	for (i = 0; i < a; i++)
+	{
+		if (s1[i] >= 'a' && s1[i] <= 'z')
+		{
+			continue;
+		}
+		else
+		{
+			for (j = i + 1; s1[j-1]!='\0'; j++)
+			{
+				s1[j - 1] = s1[j];
+			}
+			a--;
+		}
+	}
+	if (strstr(s1, s2) == NULL)
+	{
+		printf(""NO\n"");
+	}
+	else
+	{
+		printf(""YES\n"");
+	}
+	return 0;
+}"
+30,B,C,60145155,2023-01-06 19:31:01,牛客600756728号,答案正确,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	int n, m;
+	char s[5010],snew[5010],k[5010];
+	int count = 0;
+	scanf(""%d%d"",&n,&m);
+	scanf(""%s%s"",s,k);
+	for (int i = 0;i<strlen(s);i++)
+	{
+		if (s[i] >= 'a'&&s[i] <= 'z')
+		{
+			snew[count] = s[i];
+			count++;
+		}
+	}
+	snew[count] = '\0';
+	if (strstr(snew, k)==NULL) printf(""NO"");
+	else printf(""YES"");
+	return 0;
+}"
+31,B,C,60145271,2023-01-06 19:31:45,牛客634674698号,答案错误,"#include<stdio.h>
+int main()
+{
+    char arr1[5001], arr2[5001];
+    int a, b, i, i1 = 0, time = 0;
+    scanf(""%d %d"", &a, &b);
+    scanf(""%s"", arr1);
+    scanf(""%s"", arr2);
+    for (i = 0; i < a; i++)
+    {
+        if (arr1[i] - 'a' >= 0 && 'z' - arr1[i] >= 0)
+        {
+            if (arr1[i] == arr2[i1])
+            {
+                i1++;
+                if (i1 == b)
+                {
+                    time = 1;
+                    break;
+                }
+            }
+            else
+            {
+                i1 = 0;
+            }
+        }
+        else
+            continue;
+    }
+    if (time == 1)
+        printf(""YES"");
+    if (time == 0)
+        printf(""NO"");
+    return 0;
+}"
+32,B,C,60145331,2023-01-06 19:32:08,牛客634674698号,答案错误,"#include<stdio.h>
+int main()
+{
+    char arr1[50000], arr2[50000];
+    int a, b, i, i1 = 0, time = 0;
+    scanf(""%d %d"", &a, &b);
+    scanf(""%s"", arr1);
+    scanf(""%s"", arr2);
+    for (i = 0; i < a; i++)
+    {
+        if (arr1[i] - 'a' >= 0 && 'z' - arr1[i] >= 0)
+        {
+            if (arr1[i] == arr2[i1])
+            {
+                i1++;
+                if (i1 == b)
+                {
+                    time = 1;
+                    break;
+                }
+            }
+            else
+            {
+                i1 = 0;
+            }
+        }
+        else
+            continue;
+    }
+    if (time == 1)
+        printf(""YES"");
+    if (time == 0)
+        printf(""NO"");
+    return 0;
+}"
+33,B,C,60145375,2023-01-06 19:32:27,bulis04_zqy,答案错误,"#include<stdio.h>
+#include<math.h>
+#include<string.h>
+int main()
+{
+	int n, m, i, t=0;
+	char a[5010],b[5010];
+	scanf(""%d %d"", &n, &m);
+	scanf(""%s"", a);
+	scanf(""%s"", b);
+	for (i = 0; i < n; i++)
+	{
+		if (a[i] == b[t])
+			t++;
+		else
+			if (t != 0 && a[i] >= 'a' && a[i] <= 'z' )
+				t = 0;
+		if (t == m)
+			break;
+	}
+	if (t == m)
+		printf(""YES"");
+	else
+		printf(""NO"");
+	return 0;
+}"
+34,B,C,60145485,2023-01-06 19:33:01,bulis04_zqy,答案错误,"#include<stdio.h>
+#include<math.h>
+#include<string.h>
+int main()
+{
+	int n, m, i, t=0;
+	char a[6000],b[6010];
+	scanf(""%d %d"", &n, &m);
+	scanf(""%s"", a);
+	scanf(""%s"", b);
+	for (i = 0; i < n; i++)
+	{
+		if (a[i] == b[t])
+			t++;
+		else
+			if (t != 0 && a[i] >= 'a' && a[i] <= 'z' )
+				t = 0;
+		if (t == m)
+			break;
+	}
+	if (t == m)
+		printf(""YES"");
+	else
+		printf(""NO"");
+	return 0;
+}"
+35,B,C(gcc 7.5.0),60145556,2023-01-06 19:33:25,慕贤,答案错误,"#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+int main()
+{
+    int n,m;
+    char s,k;
+    scanf(""%d %d\n"",&n,&m);
+    scanf(""%s\n%s\n"",&s,&k);
+    
+}"
+36,B,C,60145699,2023-01-06 19:34:19,河南师范大学石康强,答案正确,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+    int n,m;
+    scanf(""%d%d"",&n,&m);
+    getchar();
+    char a[5009],b[5009];
+    scanf(""%s"",a);
+    scanf(""%s"",b);
+    
+    char c[5009];
+    int i,j = 0;
+    for(i = 0;a[i] != '\0';i++)
+    {
+        if(a[i] >= 'a'&&a[i] <= 'z')
+        {
+            c[j] = a[i];
+            j++;
+        }
+    }
+    c[j] = '\0';
+    
+    char *r = strstr(c,b);
+    if(r == NULL)
+    {
+        printf(""NO"");
+    }
+    else
+    {
+        printf(""YES"");
+    }
+    return 0;
+}"
+37,B,C,60145776,2023-01-06 19:34:49,我是楼台,答案错误,"#include<stdio.h>
+#include<string.h>
+typedef long long ll;
+int main()
+{
+	ll a,b;
+	int t=0;
+	ll i,j;
+	scanf(""%lld%lld"",&a,&b);
+	char n1[a],n2[b];
+	scanf(""%s"",n1);
+	scanf(""%s"",n2);
+	for(i=0;i<b;i++)
+	{
+		for(j=0;j<a;j++)
+		{
+			if(n2[i]==n1[j])
+			{
+				t++;
+				i++;
+			}
+		}
+	}
+	if(t==b)
+	{
+		printf(""YES"");
+	}
+	else
+	{
+		printf(""NO"");
+	}
+	return 0;
+}"
+38,B,C,60145797,2023-01-06 19:34:58,*helloworld!,答案正确,"#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+int main()
+{
+	int n,m;
+	char s1[5100],s2[5100],k[5100];
+	scanf(""%d%d"",&n,&m);
+	scanf(""%s"",s1);
+	scanf(""%s"",k);
+	int j = 0;
+	for(int i = 0;i < n;i++)
+	{
+		if(s1[i] >= 'a'&&s1[i] <= 'z')
+		{
+			s2[j] = s1[i];
+			j++;
+		}
+	}
+	char *ret = strstr(s2,k);
+	if(ret == NULL)
+	printf(""NO"");
+	else
+	printf(""YES"");
+	return 0;
+}"
+39,B,C,60145886,2023-01-06 19:35:30,牛客634674698号,答案错误,"#include<stdio.h>
+int main()
+{
+    char arr1[50000], arr2[50000];
+    int a, b, i, i1 = 0, time = 0;
+    scanf(""%d %d"", &a, &b);
+    if(a<b)
+    {
+        printf(""NO"");
+        return 0;
+    }
+    else
+    scanf(""%s"", arr1);
+    scanf(""%s"", arr2);
+    for (i = 0; i < a; i++)
+    {
+        if (arr1[i] - 'a' >= 0 && 'z' - arr1[i] >= 0)
+        {
+            if (arr1[i] == arr2[i1])
+            {
+                i1++;
+                if (i1 == b)
+                {
+                    time = 1;
+                    break;
+                }
+            }
+            else
+            {
+                i1 = 0;
+            }
+        }
+        else
+            continue;
+    }
+    if (time == 1)
+        printf(""YES"");
+    if (time == 0)
+        printf(""NO"");
+    return 0;
+}"
+40,B,C(gcc 7.5.0),60145902,2023-01-06 19:35:38,wwwacg,答案错误,"#include <stdio.h>
+int main(){
+	int n,m;
+	scanf(""%d %d\n"",&n,&m);
+	char a[10000]={0};
+	char b[10000]={0};
+	char c[10000]={0};
+	scanf(""%s\n"",a);
+	scanf(""%s"",b);
+	int i,j,k;
+	i=j=k=0;
+	while(a[i]!='\0'){
+		for(int f=0;f<=k;f++){
+			if(c[f]==a[i]){
+				k=0;
+				j=0;
+				break;
+			}
+		}
+		if(a[i]==b[j]){
+			k++;
+			j++;
+			c[k]=a[i];
+		}
+		i++;
+	} 
+	if(k==m){
+		printf(""YES"");
+	}
+	else{
+		printf(""NO"");
+	}
+	return 0; 
+} "
+41,B,C,60145917,2023-01-06 19:35:40,牛客634674698号,答案错误,"#include<stdio.h>
+int main()
+{
+    char arr1[50000], arr2[50000];
+    int a, b, i, i1 = 0, time = 0;
+    scanf(""%d %d"", &a, &b);
+    if(a<b)
+    {
+        printf(""NO"");
+        return 0;
+    }
+    else
+    {scanf(""%s"", arr1);
+    scanf(""%s"", arr2);
+    for (i = 0; i < a; i++)
+    {
+        if (arr1[i] - 'a' >= 0 && 'z' - arr1[i] >= 0)
+        {
+            if (arr1[i] == arr2[i1])
+            {
+                i1++;
+                if (i1 == b)
+                {
+                    time = 1;
+                    break;
+                }
+            }
+            else
+            {
+                i1 = 0;
+            }
+        }
+        else
+            continue;
+    }
+    if (time == 1)
+        printf(""YES"");
+    if (time == 0)
+        printf(""NO"");}
+    return 0;
+}"
+42,B,C,60145926,2023-01-06 19:35:43,我是楼台,答案错误,"#include<stdio.h>
+#include<string.h>
+typedef long long ll;
+int main()
+{
+	ll a,b;
+	int t=0;
+	ll i,j;
+	scanf(""%lld%lld"",&a,&b);
+	char n1[a],n2[b];
+	scanf(""%s"",n1);
+	scanf(""%s"",n2);
+	for(i=0;i<b;i++)
+	{
+		for(j=0;j<a;j++)
+		{
+			if(n2[i]==n1[j])
+			{
+				t++;
+				i++;
+			}
+		}
+	}
+	if(t==b)
+	{
+		printf(""YES"");
+	}
+	else
+	{
+		printf(""NO"");
+	}
+	return 0;
+}"
+43,B,C,60145979,2023-01-06 19:36:00,肥蕉,答案错误,"#include<stdio.h>
+#include<ctype.h>
+	int n,m,i,j,reals,k,flag;
+	char S[5005],K[5005],RS[5005];
+	void solve(void){
+		for(i=0;i<n;i++){
+			if(isalpha(S[i])){
+				RS[reals]=S[i];
+				reals++;
+			}
+		}
+		for(i=0;i<reals;i++){
+			if(RS[i]==K[k]){
+				k++;
+			}
+			else if(RS[i]==K[0])k=1;
+			else k=0;
+			if(k==m){
+				flag=1;
+				break;
+			}
+		}
+		if(flag==1)printf(""YES"");
+		else printf(""NO"");
+	}
+	int main(void){
+		scanf(""%d %d %s %s"",&n,&m,S,K);
+		solve();
+	} "
+44,B,C,60145991,2023-01-06 19:36:03,202212211249,答案正确,"#include<stdio.h>
+#include<string.h>
+int main(){
+    int n,m,i,j=0;
+    char a[5010],b[5010],c[5010];
+    scanf(""%d %d"",&n,&m);
+    getchar();
+	gets(a);
+	gets(b);
+    for(i=0;i<n;i++){
+      if(a[i]>='a'&&a[i]<='z')
+          c[j++]=a[i];
+    }
+    char *s1=c;
+    char *s2=b;
+    char *p;
+    p=strstr(s1,s2);
+    if(p==NULL)
+    printf(""NO"");
+    else
+    printf(""YES"");
+}"
+45,B,C,60146051,2023-01-06 19:36:25,丨阿伟丨,答案错误,"#include<stdio.h>
+int main()
+{
+    int n,m,l=0;
+    scanf(""%d %d"",&n,&m);
+    char a[n],b[m];
+    scanf(""%s"",a);
+    scanf(""%s"",b);
+    for(int i=0;i<n-m;i++)
+    {
+        int k=0,p=0;
+        for(int o=0;o<m;o++)
+        {
+            if(a[o+i+p]<='Z'&&a[o+i+p]>='A'||a[o+i+p]<='z'&&a[o+i+p]>='a')
+                if(b[o]==a[o+i+p])
+                k++;
+        }
+        if(k==m)
+        {
+            l=1;
+            break;
+        }
+    }
+    if(l)
+        printf(""YES"");
+    else
+        printf(""NO"");
+    return 0;
+}"
+46,B,C,60146188,2023-01-06 19:37:19,牛客634674698号,答案错误,"#include<stdio.h>
+int main()
+{
+    char arr1[50000], arr2[50000];
+    int a, b, i, i1 = 0, time = 0;
+    scanf(""%d %d"", &a, &b);
+    scanf(""%s"", arr1);
+    scanf(""%s"", arr2);
+    if(a<b)
+    {
+        printf(""NO"");
+    return 0;
+    }
+    else
+    {for (i = 0; i < a; i++)
+    {
+        if (arr1[i] - 'a' >= 0 && 'z' - arr1[i] >= 0)
+        {
+            if (arr1[i] == arr2[i1])
+            {
+                i1++;
+                if (i1 == b)
+                {
+                    time = 1;
+                    break;
+                }
+            }
+            else
+            {
+                i1 = 0;
+            }
+        }
+        else
+            continue;
+    }
+    if (time == 1)
+        printf(""YES"");
+    if (time == 0)
+        printf(""NO"");}
+    return 0;
+}"
+47,B,C,60146214,2023-01-06 19:37:26,王健鑫_,答案错误," #include<stdio.h>
+  char a[50002],b[50002],c[50003];
+  int main()
+  {
+  	long long n,m;
+  	scanf(""%lld%lld"",&n,&m);
+  	scanf(""%s"",a);
+  	scanf(""%s"",c);
+  	int j=0,x=0;
+  	for(long long i=0;i<n;i++)
+  	{
+  		if(a[i]>='a'&&a[i]<='z')
+  		{
+  			b[j]=a[i];
+  			j++;
+		  }
+	  }
+	  for(int i=0;i<=j;i++)
+	  {
+	  	if(b[i]==c[0])
+	  	{
+	  		for(int k=i,l=0;k<i+m,l<m;k++,l++)
+	  		{
+	  			if(b[k]!=c[l])
+	  			{
+	  				x=1;
+	  				printf(""NO"");
+	  				break;
+				  }
+			  }
+		  }
+	  }
+	  if(x==0)
+	  printf(""YES"");
+  }
+
+
+
+
+
+"
+48,B,C,60146215,2023-01-06 19:37:26,想去东北泡澡的安德鲁想要offer,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	int n,m,q,t;
+	scanf(""%d %d"",&n,&m);
+	char s[5000],k[5000];
+	scanf(""%s"",s);
+	scanf(""%s"",k);
+	int i,j;
+	for(i=0;i<n;i++){
+		if(k[0]==s[i]){
+			for(j=i,t=0;t<m&&j<n;j++){
+			    if(s[j]>'z'||s[j]<'a'){
+				j++;
+				continue;}
+				if(s[j]!=k[t]&&s[j]>='a'&&s[j]<='z'){q=0;break;}
+				if(s[j]==k[t]){t++;q=1;}
+				
+			}
+			if(q==1){
+				printf(""YES"");
+				break;
+			}
+		}
+	}
+	if(q==0)printf(""NO"");
+	
+ } "
+49,B,C,60146349,2023-01-06 19:38:15,fync王萌,答案错误,"#include <stdio.h>
+#include <string.h>
+int main(){
+    int n,m,i,j;
+    j=0;
+    scanf(""%d %d\n"",&n,&m);
+    char a[n],b[m],c[n];
+    gets(a);
+    while(strlen(a)!=n){
+        gets(c);
+        a[strlen(a)]='\n';
+        strcat(a,c);
+        memset(c,'\0',strlen(c));
+    }
+    gets(b);
+    while(strlen(b)!=m){
+        gets(c);
+        b[strlen(b)]='\n';
+        strcat(b,c);
+        memset(c,'\0',strlen(c));
+    }
+    for(i=0;i<n;i++){
+        if((a[i]<'z'&&a[i]>'a')||(a[i]<'Z'&&a[i]>'A')){
+            if(a[i]==b[j]){
+                j++;
+            }else{
+                j=0;
+            }
+        }
+        if(j==m){
+            break;
+        }
+    }
+    if(j==m){
+        printf(""YES"");
+    }else{
+        printf(""NO"");
+    }
+}"
+50,B,C,60146419,2023-01-06 19:38:44,想去东北泡澡的安德鲁想要offer,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	int n,m,q,t;
+	scanf(""%d %d"",&n,&m);
+	char s[5000],k[5000];
+	scanf(""%s"",s);
+	scanf(""%s"",k);
+	int i,j;
+	for(i=0;i<n-m;i++){
+		if(k[0]==s[i]){
+			for(j=i,t=0;t<m&&j<n;j++){
+			    if(s[j]>'z'||s[j]<'a'){
+				j++;
+				continue;}
+				if(s[j]!=k[t]&&s[j]>='a'&&s[j]<='z'){q=0;break;}
+				if(s[j]==k[t]){t++;q=1;}
+				
+			}
+			if(q==1){
+				printf(""YES"");
+				break;
+			}
+		}
+	}
+	if(q==0)printf(""NO"");
+	
+ } "
+51,B,C,60146531,2023-01-06 19:39:26,想去东北泡澡的安德鲁想要offer,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	int n,m,q,t;
+	scanf(""%d %d"",&n,&m);
+	char s[5000],k[5000];
+	scanf(""%s"",s);
+	scanf(""%s"",k);
+	int i,j;
+	for(i=0;i<n-m;i++){
+		if(k[0]==s[i]){
+			for(j=i,t=0;t<m&&j<n;j++){
+			    if(s[j]>'z'||s[j]<'a'){
+				
+				continue;}
+				if(s[j]!=k[t]&&s[j]>='a'&&s[j]<='z'){q=0;break;}
+				if(s[j]==k[t]){t++;q=1;}
+				
+			}
+			if(q==1){
+				printf(""YES"");
+				break;
+			}
+		}
+	}
+	if(q==0)printf(""NO"");
+	
+ } "
+52,B,C,60146655,2023-01-06 19:40:13,yangzeyu,答案错误,"#include<stdio.h>
+char qing[1000010];
+char yuan[1000010];
+char han[1000010];
+int main()
+{
+	int a,b,c,d=0,t=0;
+	char n;
+	scanf(""%d%d"",&a,&b);
+	gets(qing);
+	gets(han);
+	for(c=0;qing[c]!='\0';c++)
+	{
+		if((qing[c]<='Z'&&qing[c]>='A')||(qing[c]<='z'&&qing[c]>='a'))
+		{yuan[d]=qing[c];d++;}
+	}
+	for(c=0;yuan[c]!='\0';c++)
+	{
+		if(yuan[c]==han[0])
+		{
+			for(int i=0;han[i]!='\0';i++)
+			{
+				if(han[i]!=yuan[c])
+				{t=1;break;}
+				c++;
+			}
+			if(t==0) break;
+		}
+	}
+	if(t==0)
+	printf(""YES"");
+	else printf(""NO"");
+	return 0;
+}"
+53,B,C,60146698,2023-01-06 19:40:28,想去东北泡澡的安德鲁想要offer,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	int n,m,q,t;
+	scanf(""%d %d"",&n,&m);
+	char s[5000],k[5000];
+	scanf(""%s"",s);
+	scanf(""%s"",k);
+	int i,j;
+	for(i=0;i<n-m;i++){
+		if(k[0]==s[i]){
+			for(j=i,t=0;t<m&&j<n;j++){
+			    if(s[j]>'z'||s[j]<'a'){
+				
+				continue;}
+				if(s[j]!=k[t]&&s[j]>='a'&&s[j]<='z'){q=0;break;}
+				if(s[j]==k[t]){t++;q=1;}
+				
+			}
+			if(q==1){
+				printf(""YES"");
+				break;
+			}
+		}
+	}
+	if(q==0)printf(""NO"");
+	return 0;
+ } "
+54,B,C,60146716,2023-01-06 19:40:32,想去东北泡澡的安德鲁想要offer,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	int n,m,q,t;
+	scanf(""%d %d"",&n,&m);
+	char s[5000],k[5000];
+	scanf(""%s"",s);
+	scanf(""%s"",k);
+	int i,j;
+	for(i=0;i<n-m;i++){
+		if(k[0]==s[i]){
+			for(j=i,t=0;t<m&&j<n;j++){
+			    if(s[j]>'z'||s[j]<'a'){
+				
+				continue;}
+				if(s[j]!=k[t]&&s[j]>='a'&&s[j]<='z'){q=0;break;}
+				if(s[j]==k[t]){t++;q=1;}
+				
+			}
+			if(q==1){
+				printf(""YES"");
+				break;
+			}
+		}
+	}
+	if(q==0)printf(""NO"");
+	return 0;
+ } "
+55,B,C,60146737,2023-01-06 19:40:36,想去东北泡澡的安德鲁想要offer,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	int n,m,q,t;
+	scanf(""%d %d"",&n,&m);
+	char s[5000],k[5000];
+	scanf(""%s"",s);
+	scanf(""%s"",k);
+	int i,j;
+	for(i=0;i<n-m;i++){
+		if(k[0]==s[i]){
+			for(j=i,t=0;t<m&&j<n;j++){
+			    if(s[j]>'z'||s[j]<'a'){
+				
+				continue;}
+				if(s[j]!=k[t]&&s[j]>='a'&&s[j]<='z'){q=0;break;}
+				if(s[j]==k[t]){t++;q=1;}
+				
+			}
+			if(q==1){
+				printf(""YES"");
+				break;
+			}
+		}
+	}
+	if(q==0)printf(""NO"");
+	return 0;
+ } "
+56,B,C(gcc 7.5.0),60146824,2023-01-06 19:41:05,阿建头很痛,答案错误,"#include<stdio.h>
+#include<string.h>
+int main(){
+	int n,m;
+	scanf(""%d%d\n"",&n,&m);
+	char a[n],b[m];
+	gets(a);
+	gets(b);
+	int j=0,p=1;
+	for(int i=0;i<n;i++){
+		if(a[i]==b[0]){
+			i++;
+			j++;
+			while(j<m&&i<n){
+				if(a[i]==b[j]){
+					i++;
+					j++;
+				}else{
+					if((a[i]>='a'&&a[i]<='z')||(a[i]>='A'&&a[i]<='Z')){
+						j=0;
+						break;				
+					}else{
+                        if(a[i]=='='||a[i]=='_')
+                        {
+                            j=0;
+                            break;
+                        }else{
+                            i++;
+                        }
+					}	
+				}
+			}
+            if(j==m)
+            {
+                break;
+            }
+		}
+	}
+	if(j==m){
+		printf(""YES"");
+	}else{
+		printf(""NO"");
+	}
+	return 0;
+} "
+57,B,C(gcc 7.5.0),60146911,2023-01-06 19:41:36,wwwacg,答案错误,"#include <stdio.h>
+int main(){
+	int n,m;
+	scanf(""%d %d\n"",&n,&m);
+	char a[10000]={0};
+	char b[10000]={0};
+	char c[10000]={0};
+	scanf(""%s\n"",a);
+	scanf(""%s"",b);
+	int i,j,k;
+	i=j=k=0;
+	while(a[i]!='\0'){
+		for(int f=0;f<=k;f++){
+			if(c[f]==a[i]){
+				k=0;
+				j=0;
+				break;
+			}
+		}
+		if(a[i]==b[j]){
+			k++;
+			j++;
+			c[k]=a[i];
+			if(k==m){
+				break;
+			}
+		}
+		i++;
+	} 
+	if(k==m){
+		printf(""YES"");
+	}
+	else{
+		printf(""NO"");
+	}
+	return 0; 
+} "
+58,B,C,60147023,2023-01-06 19:42:18,Lib-Z,答案错误,"#include<stdio.h>
+int main ()
+{
+    int n,m,l=0,leap=1,j;
+    char s[1005],k[1005],p[1005];
+    scanf(""%d%d"",&n,&m);
+    scanf(""%s"",s);
+    scanf(""%s"",k);
+    for(int i=0;i<n;i++)
+        if(s[i]<='z'&&s[i]>='a')
+            p[++l]=s[i];
+    for(int i=1;i<l-m;i++)
+    {
+        if(p[i]==k[0])
+        for( j=1;j<m;j++)
+            if(p[i+j]!=k[j])
+                break;
+        if(j==m)
+        {
+            printf(""YES"");
+            leap=0;
+            break;
+        }
+    }
+    if(leap)
+        printf(""NO"");
+    return 0;
+}"
+59,B,C,60147049,2023-01-06 19:42:26,牛客389673894号,答案正确,"#include<stdio.h>
+#include<string.h>
+char letter[5002];
+char str[5002];
+char new_letter[5002];
+int size=0;
+int main(){
+  int n,m;
+  scanf(""%d %d "",&n,&m);
+  scanf(""%s"",letter);
+  scanf(""%s"",str);
+  for(int i=0;i<n;i++){
+     if(letter[i]<='z'&&letter[i]>='a'){
+         new_letter[size]=letter[i];
+         size++;
+     }
+  }
+  new_letter[size]='\0';
+  if(strstr(new_letter,str)){
+      printf(""YES"");
+  }
+  else{
+      printf(""NO"");
+  }
+}"
+60,B,C(gcc 7.5.0),60147051,2023-01-06 19:42:26,阿建头很痛,答案错误,"#include<stdio.h>
+#include<string.h>
+int main(){
+	int n,m;
+	scanf(""%d%d\n"",&n,&m);
+	char a[n],b[m];
+	gets(a);
+	gets(b);
+	int j=0,p=1;
+	for(int i=0;i<n;i++){
+		if(a[i]==b[0]){
+			i++;
+			j++;
+			while(j<m&&i<n){
+				if(a[i]==b[j]){
+					i++;
+					j++;
+				}else{
+					if((a[i]>='a'&&a[i]<='z')||(a[i]>='A'&&a[i]<='Z')){
+						j=0;
+						break;				
+					}else{
+                        if(a[i]=='='||a[i]=='_'||a[i]=='`')
+                        {
+                            j=0;
+                            break;
+                        }else{
+                            i++;
+                        }
+					}	
+				}
+			}
+            if(j==m)
+            {
+                break;
+            }
+		}
+	}
+	if(j==m){
+		printf(""YES"");
+	}else{
+		printf(""NO"");
+	}
+	return 0;
+} "
+61,B,C,60147118,2023-01-06 19:42:48,fync王萌,答案错误,"#include <stdio.h>
+#include <string.h>
+int main(){
+    int n,m,i,j;
+    j=0;
+    scanf(""%d %d\n"",&n,&m);
+    char a[n],b[m],c[n];
+    gets(a);
+    while(strlen(a)!=n){
+        gets(c);
+        a[strlen(a)]='\n';
+        strcat(a,c);
+        memset(c,'\0',strlen(c));
+    }
+    gets(b);
+    while(strlen(b)!=m){
+        gets(c);
+        b[strlen(b)]='\n';
+        strcat(b,c);
+        memset(c,'\0',strlen(c));
+    }
+    for(i=0;i<n;i++){
+        if((a[i]<'z'&&a[i]>'a')||(a[i]<'Z'&&a[i]>'A')){
+            if(a[i]==b[j]){
+                j++;
+            }else{
+                j=0;
+            }
+        }
+        if(j==m){
+            break;
+        }
+    }
+    if(j==m){
+        printf(""YES"");
+    }else{
+        printf(""NO"");
+    }
+}"
+62,B,C,60147215,2023-01-06 19:43:18,Lib-Z,答案错误,"#include<stdio.h>
+int main ()
+{
+    int n,m,l=0,leap=1,j;
+    char s[10005],k[10005],p[10005];
+    scanf(""%d%d"",&n,&m);
+    scanf(""%s"",s);
+    scanf(""%s"",k);
+    for(int i=0;i<n;i++)
+        if(s[i]<='z'&&s[i]>='a')
+            p[++l]=s[i];
+    for(int i=1;i<l-m;i++)
+    {
+        if(p[i]==k[0])
+        for( j=1;j<m;j++)
+            if(p[i+j]!=k[j])
+                break;
+        if(j==m)
+        {
+            printf(""YES"");
+            leap=0;
+            break;
+        }
+    }
+    if(leap)
+        printf(""NO"");
+    return 0;
+}"
+63,B,C,60147249,2023-01-06 19:43:30,yangzeyu,答案错误,"#include<stdio.h>
+char qing[1000010];
+char yuan[1000010];
+char han[1000010];
+int main()
+{
+	int a,b,c,d=0,t=0;
+	char n;
+	scanf(""%d%d"",&a,&b);
+	scanf(""%c"",&n);
+	for(c=0;c<a;c++)
+	scanf(""%c"",&qing[c]);
+	scanf(""%c"",&n);
+	for(c=0;c<b;c++)
+	scanf(""%c"",&han[c]);
+	for(c=0;qing[c]!='\0';c++)
+	{
+		if((qing[c]<='Z'&&qing[c]>='A')||(qing[c]<='z'&&qing[c]>='a'))
+		{yuan[d]=qing[c];d++;yuan[d]='\0';}
+	}
+	for(c=0;yuan[c]!='\0';c++)
+	{
+		if(yuan[c]==han[0])
+		{
+			for(int i=0;han[i]!='\0';i++)
+			{
+				if(han[i]!=yuan[c])
+				{t=1;break;}
+				c++;
+			}
+			if(t==0) break;
+		}
+	}
+	if(t==0)
+	printf(""YES"");
+	else printf(""NO"");
+	return 0;
+}"
+64,B,C,60147262,2023-01-06 19:43:34,yangzeyu,答案错误,"#include<stdio.h>
+char qing[1000010];
+char yuan[1000010];
+char han[1000010];
+int main()
+{
+	int a,b,c,d=0,t=0;
+	char n;
+	scanf(""%d%d"",&a,&b);
+	scanf(""%c"",&n);
+	for(c=0;c<a;c++)
+	scanf(""%c"",&qing[c]);
+	scanf(""%c"",&n);
+	for(c=0;c<b;c++)
+	scanf(""%c"",&han[c]);
+	for(c=0;qing[c]!='\0';c++)
+	{
+		if((qing[c]<='Z'&&qing[c]>='A')||(qing[c]<='z'&&qing[c]>='a'))
+		{yuan[d]=qing[c];d++;yuan[d]='\0';}
+	}
+	for(c=0;yuan[c]!='\0';c++)
+	{
+		if(yuan[c]==han[0])
+		{
+			for(int i=0;han[i]!='\0';i++)
+			{
+				if(han[i]!=yuan[c])
+				{t=1;break;}
+				c++;
+			}
+			if(t==0) break;
+		}
+	}
+	if(t==0)
+	printf(""YES"");
+	else printf(""NO"");
+	return 0;
+}"
+65,B,C,60147338,2023-01-06 19:44:00,丨阿伟丨,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+    int n,m,l=0;
+    scanf(""%d %d"",&n,&m);
+    char a[n],b[m],c[n];
+    scanf(""%s"",a);
+    scanf(""%s"",b);
+    for(int i=0;i<n;i++)
+        for(int o=0;o<n;o++)
+        {
+            if((a[i+l]<='Z'&&a[i+l]>='A')||(a[i+l]<='z'&&a[i+l]>='a'))
+            {
+                c[i]=a[i+l];
+                break;
+            }
+            else
+                l++;
+        }
+    l=0;
+    for(int i=0;i<strlen(c)-m;i++)
+    {
+        int k=0;
+        for(int o=0;o<m;o++)
+        {
+                if(b[o]==c[o+i])
+                    k++;
+        }
+        if(k==m)
+        {
+            l=1;
+            break;
+        }
+    }
+    if(l)
+        printf(""YES"");
+    else
+        printf(""NO"");
+    return 0;
+}"
+66,B,C,60147396,2023-01-06 19:44:19,fync王萌,答案错误,"#include <stdio.h>
+#include <string.h>
+int main(){
+    int n,m,i,j;
+    j=0;
+    scanf(""%d %d\n"",&n,&m);
+    char a[n],b[m],c[n];
+    gets(a);
+    while(strlen(a)!=n){
+        gets(c);
+        a[strlen(a)]='\n';
+        strcat(a,c);
+        memset(c,'\0',strlen(c));
+    }
+    gets(b);
+    while(strlen(b)!=m){
+        gets(c);
+        b[strlen(b)]='\n';
+        strcat(b,c);
+        memset(c,'\0',strlen(c));
+    }
+    for(i=0;i<n;i++){
+        if((a[i]<='z'&&a[i]>='a')||(a[i]<='Z'&&a[i]>='A')){
+            if(a[i]==b[j]){
+                j++;
+            }else{
+                j=0;
+            }
+        }
+        if(j==m){
+            break;
+        }
+    }
+    if(j==m){
+        printf(""YES"");
+    }else{
+        printf(""NO"");
+    }
+}"
+67,B,C,60147509,2023-01-06 19:44:56,牛客69254014号,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	int n,m,s=0,i,j;
+	char a[10000],b[10000];
+	scanf(""%d%d"",&n,&m);
+	getchar();
+	gets(a);
+	gets(b);
+	for(i=0,j=0;i<n;i++){
+		if(a[i]==b[j]){
+			j++;
+			s++;
+		}
+	}
+	if(s==m)printf(""YES"");
+	else printf(""NO"");
+	return 0;
+}
+"
+68,B,C,60147516,2023-01-06 19:44:59,想去东北泡澡的安德鲁想要offer,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	long n,m,q,t;
+	scanf(""%ld %ld"",&n,&m);
+	char s[5000],k[5000];
+	scanf(""%s"",s);
+	scanf(""%s"",k);
+	long i,j;
+	for(i=0;i<n-m;i++){
+		if(k[0]==s[i]){
+			for(j=i,t=0;t<m&&j<n;j++){
+			    if(s[j]>'z'||s[j]<'a'){
+				
+				continue;}
+				if(s[j]!=k[t]&&s[j]>='a'&&s[j]<='z'){q=0;break;}
+				if(s[j]==k[t]){t++;q=1;}
+				
+			}
+			if(q==1){
+				printf(""YES"");
+				break;
+			}
+		}
+	}
+	if(q==0)printf(""NO"");
+	return 0;
+ } "
+69,B,C,60147573,2023-01-06 19:45:18,asdfghjkwer,答案错误,"#include<stdio.h>
+int main()
+{
+    int n,m;
+    scanf(""%d%d"",&n,&m);
+    char ch1[10000];
+    char ch2[10000];
+    scanf(""%s"",ch1);
+    scanf(""%s"",ch2);
+    int j=0,k=0;
+    int a[10000]={0};
+    for(int i=0;i<n;i++)
+    {
+        if(ch1[i]==ch2[j])
+        {
+            k=1;
+            j++;
+            continue;
+        }
+        if(k==1&&(ch1[i]<='z'&&ch1[i]>='a'))
+        {
+            //printf(""%c\n"",ch1[i]);
+            k=0;
+            j=0;
+            i--;
+        }
+        if(j==m) break;
+    }
+    if(j==m) printf(""YES"");
+    else printf(""NO"");
+}"
+70,B,C(gcc 7.5.0),60147649,2023-01-06 19:45:43,杜迪安,答案错误,"#include <stdio.h>
+#include <string.h>
+
+void origin(char *recv, int len)
+{
+    char res[len+1];
+    int i, j = 0;
+    for (i=0;i<len;i++)
+    {
+        if ((recv[i]>='a')&&(recv[i]<='z'))
+        {
+            res[j++] = recv[i];
+        }
+    }
+    res[j] = '\0';
+    strcpy(recv, res);
+}
+
+int check(char *org, char* sub, int org_len, int sub_len)
+{
+    int index;
+    char temp[sub_len+1];
+    int step = org_len - sub_len;
+	int i;
+    for (index=0;index<step;index++)
+    {
+        for (i=0;i<sub_len;i++)
+		{
+			temp[i] = org[i+index];
+		}
+		temp[i] = '\0';
+        if (strcmp(temp, sub) == 0)
+            return 1;
+    }
+    return 0;
+}
+
+int main()
+{
+    int n, m;
+    scanf(""%d %d"", &n, &m);
+    char s[n];
+    char k[m];
+    scanf(""%s %s"", s, k);
+    origin(s, n);
+    int flag = check(s, k, n, m);
+    if (flag)
+        printf(""YES"");
+    else
+        printf(""NO"");
+    return 0;
+}"
+71,B,C,60147673,2023-01-06 19:45:53,王健鑫_,答案错误," #include<stdio.h>
+  char a[50002],b[50002],c[50003];
+  int main()
+  {
+  	long long n,m;
+  	scanf(""%lld%lld"",&n,&m);
+  	scanf(""%s"",a);
+  	scanf(""%s"",c);
+  	int j=0,x=0;
+  	for(long long i=0;i<n;i++)
+  	{
+  		if(a[i]>='a'&&a[i]<='z')
+  		{
+  			b[j]=a[i];
+  			j++;
+		  }
+	  }
+	  int k,k1,l;
+	  for(k1=0;k1<j;k1++)
+	  {
+	  	if(b[k1]==c[0])
+	  	{
+	  		for(k=k1,l=0;k<=k1+m&&l<m&&k<j;k++,l++)
+	  		{
+	  			if(b[k]!=c[l])
+	  			{
+	  				x=1;
+	  				printf(""NO"");
+	  				break;
+				  }
+			  }
+		  }
+	  }
+	  if(x==0)
+	  printf(""YES"");
+  }"
+72,B,C,60147704,2023-01-06 19:46:03,pdsu_马晓,答案错误,"#include ""stdio.h""
+#include ""string.h""
+int main()
+{
+    int n,m,p=0;
+    scanf(""%d%d"",&n,&m);
+    char b[n];
+    char d[m];
+    scanf(""%s"",b);
+    scanf(""%s"",d);
+    for(int i=0;i<n;i++)
+    {
+        if(b[i]<'a'||b[i]>'z')
+            for(int j=i;j<n-1;j++)
+            {
+                b[j]=b[j+1];
+            }
+    }
+    for(int i=0;i<n;i++)
+    {
+        for(int j=i;j<n-m;j+=m)
+        {
+            for(int k=j;k<j+m;k++)
+            {
+                if(b[k]==d[p])
+                    p++;
+                    
+            }
+        }
+    }
+    if(p==m)
+    printf(""YES"");
+        else
+            printf(""NO"");
+    
+    
+    return 0;    
+    }
+    "
+73,B,C,60147722,2023-01-06 19:46:09,牛客69254014号,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	int n,m,s=0,i,j;
+	char a[10000],b[10000];
+	scanf(""%d%d"",&n,&m);
+	getchar();
+	gets(a);
+	gets(b);
+	for(i=0,j=0;i<n;i++){
+		if(a[i]==b[j]){
+			j++;
+			s++;
+		}
+	}
+	if(s==m)printf(""YES"");
+	else printf(""NO"");
+	return 0;
+}
+"
+74,B,C,60147738,2023-01-06 19:46:17,yangzeyu,答案错误,"#include<stdio.h>
+char qing[100010];
+char yuan[100010];
+char han[100010];
+int main()
+{
+	int a,b,c,d=0,t=0,k=0;
+	char n;
+	scanf(""%d%d"",&a,&b);
+	scanf(""%c"",&n);
+	for(c=0;c<a;c++)
+	scanf(""%c"",&qing[c]);
+	scanf(""%c"",&n);
+	for(c=0;c<b;c++)
+	scanf(""%c"",&han[c]);
+	for(c=0;qing[c]!='\0';c++)
+	{
+		if((qing[c]<='Z'&&qing[c]>='A')||(qing[c]<='z'&&qing[c]>='a'))
+		{yuan[d]=qing[c];d++;yuan[d]='\0';}
+	}
+	for(c=0;yuan[c]!='\0';c++)
+	{
+		if(yuan[c]==han[0])
+		{
+			for(int i=0;han[i]!='\0';i++)
+			{
+				if(han[i]!=yuan[c])
+				{t=1;break;}
+				c++;
+			}
+			if(t==0) {k=1;break;}
+            t=0;
+		}
+	}
+	if(k==0)
+	printf(""YES"");
+	else printf(""NO"");
+	return 0;
+}"
+75,B,C,60147808,2023-01-06 19:46:47,yangzeyu,答案错误,"#include<stdio.h>
+char qing[100010];
+char yuan[100010];
+char han[100010];
+int main()
+{
+	int a,b,c,d=0,t=0,k=0;
+	char n;
+	scanf(""%d%d"",&a,&b);
+	scanf(""%c"",&n);
+	for(c=0;c<a;c++)
+	scanf(""%c"",&qing[c]);
+	scanf(""%c"",&n);
+	for(c=0;c<b;c++)
+	scanf(""%c"",&han[c]);
+	for(c=0;qing[c]!='\0';c++)
+	{
+		if((qing[c]<='Z'&&qing[c]>='A')||(qing[c]<='z'&&qing[c]>='a'))
+		{yuan[d]=qing[c];d++;yuan[d]='\0';}
+	}
+	for(c=0;yuan[c]!='\0';c++)
+	{
+		if(yuan[c]==han[0])
+		{
+			for(int i=0;han[i]!='\0';i++)
+			{
+				if(han[i]!=yuan[c])
+				{t=1;break;}
+				c++;
+			}
+			if(t==0) {k=1;break;}
+            t=0;
+		}
+	}
+	if(k==1)
+	printf(""YES"");
+	else printf(""NO"");
+	return 0;
+}"
+76,B,C(gcc 7.5.0),60147875,2023-01-06 19:47:10,wwwacg,答案错误,"#include <stdio.h>
+int main(){
+	int n,m;
+	scanf(""%d %d\n"",&n,&m);
+	char a[10000]={0};
+	char b[10000]={0};
+	char c[10000]={0};
+	scanf(""%s\n"",a);
+	scanf(""%s"",b);
+	int i,j,k;
+	i=j=k=0;
+	while(a[i]!='\0'){
+		for(int f=0;f<=k;f++){
+			if(c[f]==a[i]){
+                for(int h=0;h<=k;h++){
+					c[h]='\0';
+				}
+				k=0;
+				j=0;
+				break;
+			}
+		}
+		if(a[i]==b[j]){
+			k++;
+			j++;
+			c[k]=a[i];
+			if(k==m){
+				break;
+			}
+		}
+		i++;
+	} 
+	if(k==m){
+		printf(""YES"");
+	}
+	else{
+		printf(""NO"");
+	}
+	return 0; 
+} "
+77,B,C,60147961,2023-01-06 19:47:47,鸡鸣寺花不再,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+    int n,m;
+    scanf(""%d%d"",&n,&m);
+    char arr[n];
+    char word[m];
+    scanf(""%s"",arr);
+    scanf(""%s"",word);
+    char *p=strstr(arr,word);
+    if(p!=NULL)
+        printf(""YES"");
+    else
+        printf(""NO"");
+}"
+78,B,C,60147963,2023-01-06 19:47:47,牛客69254014号,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	int n,m,ss=0,i,j,c[10000];
+	char s[10000],k[10000];
+	scanf(""%d%d"",&n,&m);
+	getchar();
+	gets(s);
+	gets(k);
+	for(i=0,j=0;i<n;i++){
+		if(s[i]==k[j]){
+			
+			j++;
+			ss++;
+		}
+	}
+	if(ss==m)printf(""YES"");
+	else printf(""NO"");
+	return 0;
+}
+"
+79,B,C(gcc 7.5.0),60147965,2023-01-06 19:47:48,牛客634674698号,答案错误,"#include<stdio.h>
+int main()
+{
+    char arr1[50000], arr2[50000];
+    int a, b, i, i1 = 0, time = 0;
+    scanf(""%d %d"", &a, &b);
+    scanf(""%s"", arr1);
+    scanf(""%s"", arr2);
+    if(a<b)
+    {
+        printf(""NO"");
+    return 0;
+    }
+    else
+    {
+        for (i = 0; i < a; i++)
+    {
+        if (arr1[i] - 'a' >= 0 && 'z' - arr1[i] >= 0)
+        {
+            if (arr1[i] == arr2[i1])
+            {
+                i1++;
+                if (i1 == b)
+                {
+                    time = 1;
+                    break;
+                }
+            }
+            else
+            {
+                i1 = 0;
+            }
+        }
+        else
+            continue;
+    }
+    if (time == 1)
+        printf(""YES"");
+    if (time == 0)
+        printf(""NO"");
+    }
+return 0;
+}"
+80,B,C,60148025,2023-01-06 19:48:09,yangzeyu,答案正确,"#include<stdio.h>
+char qing[100010];
+char yuan[100010];
+char han[100010];
+int main()
+{
+	int a,b,c,d=0,t=0,k=0,l;
+	char n;
+	scanf(""%d%d"",&a,&b);
+	scanf(""%c"",&n);
+	for(c=0;c<a;c++)
+	scanf(""%c"",&qing[c]);
+	scanf(""%c"",&n);
+	for(c=0;c<b;c++)
+	scanf(""%c"",&han[c]);
+	for(c=0;qing[c]!='\0';c++)
+	{
+		if((qing[c]<='Z'&&qing[c]>='A')||(qing[c]<='z'&&qing[c]>='a'))
+		{yuan[d]=qing[c];d++;yuan[d]='\0';}
+	}
+	for(c=0;yuan[c]!='\0';c++)
+	{
+		if(yuan[c]==han[0])
+		{
+            l=c;
+			for(int i=0;han[i]!='\0';i++)
+			{
+				if(han[i]!=yuan[l])
+				{t=1;break;}
+				l++;
+			}
+			if(t==0) {k=1;break;}
+            t=0;
+		}
+	}
+	if(k==1)
+	printf(""YES"");
+	else printf(""NO"");
+	return 0;
+}"
+81,B,C,60148064,2023-01-06 19:48:27,王健鑫_,答案错误," #include<stdio.h>
+  char a[50002],b[50002],c[50003];
+  int main()
+  {
+  	long long n,m;
+  	scanf(""%lld%lld"",&n,&m);
+  	scanf(""%s"",a);
+  	scanf(""%s"",c);
+  	int j=0,x=0;
+  	for(long long i=0;i<n;i++)
+  	{
+  		if(a[i]>='a'&&a[i]<='z')
+  		{
+  			b[j]=a[i];
+  			j++;
+		  }
+	  }
+	  int k,k1,l;
+	  for(k1=0;k1<j;k1++)
+	  {
+	  	if(b[k1]==c[0])
+	  	{
+	  		x=1;
+	  		for(k=k1,l=0;k<=k1+m&&l<m&&k<j;k++,l++)
+	  		{
+	  			if(b[k]!=c[l])
+	  			{
+	  				x=2;
+	  				break;
+				  }
+			  }
+		  }
+	  }
+	  if(x==1)
+	  printf(""YES"");
+	  else
+	  printf(""NO"");
+  }
+
+
+"
+82,B,C,60148070,2023-01-06 19:48:30,想去东北泡澡的安德鲁想要offer,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	long n,m,q,t;
+	scanf(""%ld %ld"",&n,&m);
+	char s[5000],k[5000];
+	scanf(""%s"",s);
+	scanf(""%s"",k);
+	long i,j;
+	for(i=0;i<n-m;i++){
+		if(k[0]==s[i]){
+            q=1;
+			for(j=i,t=0;t<m&&j<n;j++){
+			    if(s[j]>'z'||s[j]<'a'){
+				
+				continue;}
+				if(s[j]!=k[t]&&s[j]>='a'&&s[j]<='z'){q=0;break;}
+				if(s[j]==k[t]){t++;q=1;}
+				
+			}
+			if(q==1){
+				printf(""YES\n"");
+				break;
+			}
+		}
+	}
+	if(q==0)printf(""NO\n"");
+	return 0;
+ } "
+83,B,C,60148248,2023-01-06 19:49:29,fync王萌,答案错误,"#include <stdio.h>
+#include <string.h>
+int main(){
+    int n,m,i,j;
+    j=0;
+    scanf(""%d %d\n"",&n,&m);
+    char a[n],b[m],c[n];
+    gets(a);
+    while(strlen(a)!=n){
+        gets(c);
+        a[strlen(a)]='\n';
+        strcat(a,c);
+        memset(c,'\0',strlen(c));
+    }
+    gets(b);
+    while(strlen(b)!=m){
+        gets(c);
+        b[strlen(b)]='\n';
+        strcat(b,c);
+        memset(c,'\0',strlen(c));
+    }
+    for(i=0;i<n;i++){
+        if(!(a[i]>='!'&&a[i]<='@')){
+            if(a[i]==b[j]){
+                j++;
+            }else{
+                j=0;
+            }
+        }
+        if(j==m){
+            break;
+        }
+    }
+    if(j==m){
+        printf(""YES"");
+    }else{
+        printf(""NO"");
+    }
+}"
+84,B,C,60148275,2023-01-06 19:49:38,肥蕉,答案正确,"#include<stdio.h>
+#include<ctype.h>
+	int n,m,i,j,reals,k,flag,pos;
+	char S[5005],K[5005],RS[5005];
+	void solve(void){
+		for(i=0;i<n;i++){
+			if(isalpha(S[i])){
+				RS[reals]=S[i];
+				reals++;
+			}
+		}
+		for(i=0;i<reals;i++){
+			if(RS[i]==K[k]&&k==0){
+				k++;
+				pos=i;
+			}
+			else if(RS[i]==K[k]){
+				k++;
+			}
+			else if(k!=0){
+				k=0;
+				i=pos;
+			}
+			
+			
+			if(k==m){
+				flag=1;
+				break;
+			}
+		}
+		if(flag==1)printf(""YES"");
+		else printf(""NO"");
+	}
+	int main(void){
+		scanf(""%d %d %s %s"",&n,&m,S,K);
+		solve();
+	} "
+85,B,C,60148322,2023-01-06 19:49:53,昵称又又又被占辣,答案错误,"#include<stdio.h>
+#include<string.h>
+int main() {
+	int n, m;
+	scanf(""%d%d"", &n, &m);
+	char s[5000];
+	char k[5000];
+	scanf(""%s"",s);
+    scanf(""%s"",k);
+	int i,j,x;
+	int p = 0;
+	for (i = 0; i < n; i++) {
+		x = i;
+		if (s[x] >= 'a' && s[x] <= 'z') {
+			for (j = 0; j < m; j++) {
+				if (s[x] == s[j]) {
+					x++;
+				}
+				else break;
+			}
+		}
+		if (x == i + m) {
+			p = 1;
+			break;
+		}
+	}
+	if (p == 1)printf(""YES"");
+	else printf(""NO"");
+}"
+86,B,C(gcc 7.5.0),60148344,2023-01-06 19:50:00,CSDJM,答案错误,"#include<stdio.h>
+#include<string.h>
+#define N 5001
+int main(void)
+{
+	int n,m,x=0,flag=0;
+	char s[N],k[N];
+	scanf(""%d %d"",&n,&m);
+	scanf(""%s"",s);
+	scanf(""%s"",k);
+	for(int i=0;s[i]!='\0';i++)
+	{
+		if(flag>0)
+		{
+			if(s[i]>='a'&&s[i]<='z')
+			{
+				if(s[i]!=k[x])
+				{
+					flag=0;
+					x=0;
+				}
+				else
+				{
+					x++;
+				}
+			}
+			else continue;
+		}
+		if(flag==0&&s[i]==k[x])
+		{
+			x++;
+			flag++;
+		}
+		if(x==m)break;
+	}
+	if(x==m)
+	{
+		printf(""YES"");
+	}
+	else printf(""NO"");
+	return 0;
+}"
+87,B,C,60148374,2023-01-06 19:50:11,昵称又又又被占辣,答案错误,"#include<stdio.h>
+#include<string.h>
+int main() {
+	int n, m;
+	scanf(""%d%d"", &n, &m);
+	char s[5000];
+	char k[5000];
+	scanf(""%s"",s);
+    scanf(""%s"",k);
+	int i,j,x;
+	int p = 0;
+	for (i = 0; i < n; i++) {
+		x = i;
+		if (s[x] >= 'a' && s[x] <= 'z') {
+			for (j = 0; j < m; j++) {
+				if (s[x] == s[j]) {
+					x++;
+				}
+				else break;
+			}
+		}
+		if (x == i + m) {
+			p = 1;
+			break;
+		}
+	}
+	if (p == 1)printf(""YES"");
+	else printf(""NO"");
+}"
+88,B,C(gcc 7.5.0),60148537,2023-01-06 19:51:11,牛客431382323号,段错误,"#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+int main() {
+    int n, m, flag; 
+    char s[n], k[m]; 
+    scanf(""%d %d"", &n, &m); 
+    int i; 
+    for (i = 0; i < n; i++)
+    { 
+        scanf(""%c"", &s[i]); 
+    } 
+    for (i = 0; i < m ; i++)
+    { 
+        scanf(""%c"", &k[i]); 
+    }
+    int j;
+    char *p;
+    for (i = j = 0; i < n; i++)
+    {
+        if(s[i] >= 97 && s[i] <= 122){
+            p[j] = s[i];
+            j++;
+        }
+    }
+    n = j+1;
+
+    i = j = 0;
+    flag = 0;
+    
+    for (; i < n - m ;i++){
+        if(p[i] == k[0])
+        {
+            for(j = 0 ; j < k ; j++){
+                if(p[i+j] == k[j]) flag = 1;
+                else {
+                    flag = 0;
+                    break;
+                }
+            }
+            if(flag){
+                printf(""YES"");
+                break;
+            }
+        }
+    }
+    if(!flag) printf(""NO"");
+    return 0;
+}
+"
+89,B,C,60148600,2023-01-06 19:51:36,寻妄鱼,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c:8:9: warning: implicit declaration of function 'scanf_s' is invalid in C99 [-Wimplicit-function-declaration]\n        scanf_s(\""%c\"", &s[i]);\n        ^\nmain.c:13:24: warning: '&&' within '||' [-Wlogical-op-parentheses]\n        if (s[i] >= 65 && s[i] <= 90 || s[i] >= 97 && s[i] <= 122)\n            ~~~~~~~~~~~^~~~~~~~~~~~~ ~~\nmain.c:13:24: note: place parentheses around the '&&' expression to silence this warning\n        if (s[i] >= 65 && s[i] <= 90 || s[i] >= 97 && s[i] <= 122)\n                       ^\n            (                       )\nmain.c:13:52: warning: '&&' within '||' [-Wlogical-op-parentheses]\n        if (s[i] >= 65 && s[i] <= 90 || s[i] >= 97 && s[i] <= 122)\n                                     ~~ ~~~~~~~~~~~^~~~~~~~~~~~~~\nmain.c:13:52: note: place parentheses around the '&&' expression to silence this warning\n        if (s[i] >= 65 && s[i] <= 90 || s[i] >= 97 && s[i] <= 122)\n                                                   ^\n                                        (                        )\nmain.c:23:13: error: non-ASCII characters are not allowed outside of literals and identifiers\n    return 0；\n            ^~\nmain.c:23:13: error: expected ';' after return statement\n    return 0；\n            ^\n            ;\n3 warnings and 2 errors generated.""}
+
+#include<stdio.h>
+int main()
+{
+    int n, m,z=0;
+    scanf(""%d%d"", &n,&m);
+    char s[5000], k[5000];
+    for (int i = 0; i < n; i++)
+        scanf_s(""%c"", &s[i]);
+    for (int j = 0; j < m; j++)
+        scanf_s(""%c"", &k[j]);
+    for (int i = 0; i < n; i++)
+    {
+        if (s[i] >= 65 && s[i] <= 90 || s[i] >= 97 && s[i] <= 122)
+            if (s[i] == k[z])
+                for (int j = 0; j < m; j++)
+                    if (s[i + j] == k[j])
+                        z++;
+    }
+    if (z == m)
+        printf(""YES"");
+    else
+        printf(""NO"");
+    return 0；
+}"
+90,B,C,60148618,2023-01-06 19:51:44,寻妄鱼,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c:13:24: warning: '&&' within '||' [-Wlogical-op-parentheses]\n        if (s[i] >= 65 && s[i] <= 90 || s[i] >= 97 && s[i] <= 122)\n            ~~~~~~~~~~~^~~~~~~~~~~~~ ~~\nmain.c:13:24: note: place parentheses around the '&&' expression to silence this warning\n        if (s[i] >= 65 && s[i] <= 90 || s[i] >= 97 && s[i] <= 122)\n                       ^\n            (                       )\nmain.c:13:52: warning: '&&' within '||' [-Wlogical-op-parentheses]\n        if (s[i] >= 65 && s[i] <= 90 || s[i] >= 97 && s[i] <= 122)\n                                     ~~ ~~~~~~~~~~~^~~~~~~~~~~~~~\nmain.c:13:52: note: place parentheses around the '&&' expression to silence this warning\n        if (s[i] >= 65 && s[i] <= 90 || s[i] >= 97 && s[i] <= 122)\n                                                   ^\n                                        (                        )\nmain.c:23:13: error: non-ASCII characters are not allowed outside of literals and identifiers\n    return 0；\n            ^~\nmain.c:23:13: error: expected ';' after return statement\n    return 0；\n            ^\n            ;\n2 warnings and 2 errors generated.""}
+
+#include<stdio.h>
+int main()
+{
+    int n, m,z=0;
+    scanf(""%d%d"", &n,&m);
+    char s[5000], k[5000];
+    for (int i = 0; i < n; i++)
+        scanf(""%c"", &s[i]);
+    for (int j = 0; j < m; j++)
+        scanf(""%c"", &k[j]);
+    for (int i = 0; i < n; i++)
+    {
+        if (s[i] >= 65 && s[i] <= 90 || s[i] >= 97 && s[i] <= 122)
+            if (s[i] == k[z])
+                for (int j = 0; j < m; j++)
+                    if (s[i + j] == k[j])
+                        z++;
+    }
+    if (z == m)
+        printf(""YES"");
+    else
+        printf(""NO"");
+    return 0；
+}"
+91,B,C,60148635,2023-01-06 19:51:52,寻妄鱼,答案错误,"#include<stdio.h>
+int main()
+{
+    int n, m,z=0;
+    scanf(""%d%d"", &n,&m);
+    char s[5000], k[5000];
+    for (int i = 0; i < n; i++)
+        scanf(""%c"", &s[i]);
+    for (int j = 0; j < m; j++)
+        scanf(""%c"", &k[j]);
+    for (int i = 0; i < n; i++)
+    {
+        if (s[i] >= 65 && s[i] <= 90 || s[i] >= 97 && s[i] <= 122)
+            if (s[i] == k[z])
+                for (int j = 0; j < m; j++)
+                    if (s[i + j] == k[j])
+                        z++;
+    }
+    if (z == m)
+        printf(""YES"");
+    else
+        printf(""NO"");
+    return 0;
+}"
+92,B,C,60148637,2023-01-06 19:51:53,牛客69254014号,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	int n,m,ss=0,i,j,c[10000];
+	char s[10000],k[10000];
+	scanf(""%d%d"",&n,&m);
+	getchar();
+	for(i=0;i<=n;i++){
+		scanf(""%c"",&s[i]);
+	}
+	for(i=0;i<=m;i++){
+		scanf(""%c"",&k[i]);
+	}
+	for(i=0,j=0;i<n;i++){
+		if(s[i]==k[j]){
+			
+			j++;
+			ss++;
+		}
+	}
+	if(ss==m)printf(""YES"");
+	else printf(""NO"");
+	return 0;
+}
+"
+93,B,C,60148645,2023-01-06 19:51:55,fync王萌,答案错误,"#include <stdio.h>
+#include <string.h>
+int main(){
+    int n,m,i,j;
+    j=0;
+    scanf(""%d %d\n"",&n,&m);
+    char a[n],b[m],c[n];
+    gets(a);
+    while(strlen(a)!=n){
+        gets(c);
+        a[strlen(a)]='\n';
+        strcat(a,c);
+        memset(c,'\0',strlen(c));
+    }
+    gets(b);
+    while(strlen(b)!=m){
+        gets(c);
+        b[strlen(b)]='\n';
+        strcat(b,c);
+        memset(c,'\0',strlen(c));
+    }
+    for(i=0;i<n;i++){
+        if(!(a[i]>=33&&a[i]<=64)||!(a[i]>=91&&a[i]<=96)||!(a[i]>=123&&a[i]<=126)){
+            if(a[i]==b[j]){
+                j++;
+            }else{
+                j=0;
+            }
+        }
+        if(j==m){
+            break;
+        }
+    }
+    if(j==m){
+        printf(""YES"");
+    }else{
+        printf(""NO"");
+    }
+}"
+94,B,C(gcc 7.5.0),60148673,2023-01-06 19:52:05,牛客841200738号,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	int n, m; char s[5005], k[50005];
+	scanf(""%d%d"", &n, &m);
+	scanf(""%s"", s);
+	scanf(""%s"", k);
+	int i, j;int q = 0;
+	for (i = 0;i < n;i++) 
+	{
+		while(strchr(""0123456789+-*|,.~!@#$%^&()[]{}'\"";: ? <>\\ / "", s[i]) != NULL)
+		{
+			i++;
+		}
+		int c = i;
+		for(j=0;j<m;j++,c++)
+		{
+			while (strchr(""0123456789+-*|,.~!@#$%^&()[]{}'\"";: ? <>\\ / "", s[c]) != NULL)
+			{
+				c++;
+			}
+			if (s[c] != k[j])
+				break;
+		}
+		if (j == m)
+			q = 1;
+
+	}
+	if (q == 1) printf(""YES\n"");
+	else printf(""NO\n"");
+	return 0;
+}
+
+
+"
+95,B,C,60148701,2023-01-06 19:52:17,fync王萌,答案错误,"#include <stdio.h>
+#include <string.h>
+int main(){
+    int n,m,i,j;
+    j=0;
+    scanf(""%d %d\n"",&n,&m);
+    char a[n],b[m],c[n];
+    gets(a);
+    while(strlen(a)!=n){
+        gets(c);
+        a[strlen(a)]='\n';
+        strcat(a,c);
+        memset(c,'\0',strlen(c));
+    }
+    gets(b);
+    while(strlen(b)!=m){
+        gets(c);
+        b[strlen(b)]='\n';
+        strcat(b,c);
+        memset(c,'\0',strlen(c));
+    }
+    for(i=0;i<n;i++){
+        if(!(a[i]>=33&&a[i]<=64)&&!(a[i]>=91&&a[i]<=96)&&!(a[i]>=123&&a[i]<=126)){
+            if(a[i]==b[j]){
+                j++;
+            }else{
+                j=0;
+            }
+        }
+        if(j==m){
+            break;
+        }
+    }
+    if(j==m){
+        printf(""YES"");
+    }else{
+        printf(""NO"");
+    }
+}"
+96,B,C(gcc 7.5.0),60148746,2023-01-06 19:52:36,CSDJM,答案错误,"#include<stdio.h>
+#include<string.h>
+#define N 5001
+int main(void)
+{
+	int n,m,x=0,flag=0;
+	char s[N],k[N];
+	scanf(""%d %d"",&n,&m);
+	scanf(""%s"",s);
+	scanf(""%s"",k);
+	for(int i=0;s[i]!='\0';i++)
+	{
+		if(s[i]>='a'&&s[i]<='z')
+		{
+			if(flag!=0)
+			{
+				if(s[i]!=k[x])
+				{
+					flag=0;
+					x=0;
+				}
+				else
+				{
+					x++;
+				}
+			}
+			if(flag==0&&s[i]==k[x])
+			{
+				x++;
+				flag++;
+			}
+		}
+		else continue;
+		if(x==m)break;
+	}
+	if(x==m)
+	{
+		printf(""YES"");
+	}
+	else printf(""NO"");
+	return 0;
+}"
+97,B,C,60148868,2023-01-06 19:53:22,津玉良缘,答案错误,"#include<stdio.h>
+int main()
+{
+    int n,m,i,j,p,a=1,b;
+    char s[9999];
+    char k[9999];
+    scanf(""%d %d"",&n,&m);
+    for(i=0;i<n;i++)
+        scanf(""%c"",&s[i]);
+    for(j=0;j<m;j++)
+        scanf(""%c"",&k[j]);
+    for(i=0;s[i]!=0;)
+    {
+        a=1;
+        if(s[i]>='a'&&s[i]<='z')
+        {
+            for(j=0;j<m;j++)
+                if(s[i]==k[j])
+                {
+                    b=i;
+                    p=j;break;
+                }
+            for(j=p+1;j<m;j++)
+            {
+              b++;
+                if(s[b]>='a'&&s[b]<='z'&&s[b]!=k[p])
+                {a=-1;break;}
+                }
+            if(a==1)
+            {printf(""YES"");a=2;break;}
+            i=b+1;
+        }
+        i++;
+    }
+    if(a==1||a==-1)
+    printf(""NO"");
+    return 0;
+}"
+98,B,C,60148898,2023-01-06 19:53:32,牛客286806114号,答案正确,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+    int n,m,cnt=0;
+    scanf(""%d %d"",&n,&m);
+    char s[n+1];
+    char k[m+1];
+    scanf(""%s"",s);
+    scanf(""%s"",k);
+    for(char *p=s;p<&s[n];p++){
+        if(*p<97 || *p>122){
+            *p=48;
+            cnt++;
+        }
+    }
+    int len=n-cnt;
+    char res[len+1];
+    res[len]='\0';
+    for(char *p=s,*q=res;p<&s[n];p++){
+        if(*p<=122 && *p>=97){
+            *q=*p;
+            q++;
+        }
+    }
+    if(strstr(res,k)!=NULL){
+        printf(""YES"");
+    }else{
+        printf(""NO"");
+    }
+}"
+99,B,C,60148913,2023-01-06 19:53:39,~朱颜辞镜花辞树~,答案错误,"#include <stdio.h>
+int main()
+{
+	int n, m,i,j,l;
+	scanf(""%d %d"", &n, &m);
+	char str[n+1],a[n+1],k[m+1];//替换n
+	scanf(""%s"", &str);
+	scanf(""%s"", &k);
+	for (i = 0,j = 0; str[i] != '\0'; i++)
+	{
+		if ('a' <= str[i] && str[i] <= 'z')
+		{
+			a[j] = str[i];
+			j++;
+		}
+	}
+	a[j + 1] = '\0';
+	for (i = 0; a[i] != '\0'; i++)
+	{
+		if (a[i] == k[0])
+		{
+			for (j = i + 1,l = 1; a[j] != '\0'; j++)
+			{
+				if (a[j] == k[l])
+				{
+					l++;
+				}
+				else if (a[j] != k[l])
+					l = 0;
+				if (l == m - 1)
+				{
+					printf(""YES"");
+					return 0;
+				}
+			}
+		}
+	}
+	printf(""NO"");
+	return 0;
+}"
+100,B,C,60148939,2023-01-06 19:53:47,丨阿伟丨,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+    int n,m,l=0;
+    scanf(""%d %d"",&n,&m);
+    char a[n],b[m],c[n];
+    scanf(""%s"",a);
+    scanf(""%s"",b);
+    for(int i=0;i<n;i++)
+        for(int o=0;o<n;o++)
+        {
+            if((a[i+l]>='0'&&a[l+i]<='9')||a[i+l]=='+'||a[i+l]=='-'||a[i+l]=='*'||a[i+l]=='|'||a[i+l]==','||a[i+l]=='.'||a[i+l]=='~'||a[i+l]=='!'||a[i+l]=='@'||a[i+l]=='#'||a[i+l]=='$'||a[i+l]=='%'||a[i+l]=='^'||a[i+l]=='&'||a[i+l]=='('||a[i+l]==')'||a[i+l]=='['||a[i+l]==']'||a[i+l]=='{'||a[i+l]=='}'||a[i+l]==39||a[i+l]=='""'||a[i+l]==';'||a[i+l]==':'||a[i+l]=='?'||a[i+l]=='<'||a[i+l]=='>'||a[i+l]==92||a[i+l]=='/')
+                l++;
+            else
+            {
+                c[i]=a[i+l];
+                break;
+            }
+        }
+    l=0;
+    for(int i=0;i<strlen(c)-m;i++)
+    {
+        int k=0;
+        for(int o=0;o<m;o++)
+        {
+                if(b[o]==c[o+i])
+                    k++;
+        }
+        if(k==m)
+        {
+            l=1;
+            break;
+        }
+    }
+    if(l)
+        printf(""YES"");
+    else
+        printf(""NO"");
+    return 0;
+}"
+101,B,C,60149001,2023-01-06 19:54:16,7777777pg,答案错误,"#include<stdio.h>
+#include<string.h>
+#define N 5010
+int main()
+{
+    int n,m;
+    scanf(""%d %d"",&n,&m);
+    char arr1[N],arr2[N];
+    scanf(""%s"",arr1);
+    scanf(""%s"",arr2);
+    int l1=strlen(arr1);
+    int i,j;
+    for(i=0;i<l1;i++)
+    {
+       if(arr1[i]<'A'||arr1[i]>'z')  arr1[i]='A';
+        
+        
+        
+    }
+    int sum=0;
+    int l2=strlen(arr2);
+    
+for(i=0;i<l1;i++)
+{
+    if(arr1[i]!=arr2[0]) continue;
+    else
+    {
+        int q=0;
+        for( j=i;q<l2;j++,q++)
+        {
+            if(arr1[j]==arr2[q]&&arr1[j]!='A') continue;
+            else if(arr1[j]=='A')
+            {
+                q--;
+                continue;
+                
+                
+            }
+            else break;
+        }
+        if(q==l2) 
+        {
+            
+            printf(""YES"");
+            break; 
+        }
+        
+        
+    }
+    
+    
+}
+    if(i==l1) printf(""NO"");
+    
+    
+    
+    return 0;
+}"
+102,B,C,60149057,2023-01-06 19:54:39,丨阿伟丨,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+    int n,m,l=0;
+    scanf(""%d %d"",&n,&m);
+    char a[n],b[m],c[n];
+    scanf(""%s"",a);
+    scanf(""%s"",b);
+    for(int i=0;i<n;i++)
+        for(int o=0;o<n;o++)
+        {
+            if((a[i+l]>='0'&&a[l+i]<='9')||a[i+l]=='+'||a[i+l]=='-'||a[i+l]=='*'||a[i+l]=='|'||a[i+l]==','||a[i+l]=='.'||a[i+l]=='~'||a[i+l]=='!'||a[i+l]=='@'||a[i+l]=='#'||a[i+l]=='$'||a[i+l]=='%'||a[i+l]=='^'||a[i+l]=='&'||a[i+l]=='('||a[i+l]==')'||a[i+l]=='['||a[i+l]==']'||a[i+l]=='{'||a[i+l]=='}'||a[i+l]==39||a[i+l]=='""'||a[i+l]==';'||a[i+l]==':'||a[i+l]=='?'||a[i+l]=='<'||a[i+l]=='>'||a[i+l]==92||a[i+l]=='/')
+                l++;
+            else
+            {
+                c[i]=a[i+l];
+                break;
+            }
+        }
+    l=0;
+    for(int i=0;i<=strlen(c)-m;i++)
+    {
+        int k=0;
+        for(int o=0;o<m;o++)
+        {
+                if(b[o]==c[o+i])
+                    k++;
+        }
+        if(k==m)
+        {
+            l=1;
+            break;
+        }
+    }
+    if(l)
+        printf(""YES"");
+    else
+        printf(""NO"");
+    return 0;
+}"
+103,B,C,60149125,2023-01-06 19:55:06,想去东北泡澡的安德鲁想要offer,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	long n,m,q,t;
+	scanf(""%ld %ld"",&n,&m);
+	char s[5001],k[5001];
+	scanf(""%s"",s);
+	scanf(""%s"",k);
+	long i,j;
+	for(i=0;i<n-m;i++){
+        q=0;
+		if(k[0]==s[i]){
+            q=1;
+			for(j=i,t=0;t<m&&j<n;j++){
+			    if(s[j]>'z'||s[j]<'a'){
+				
+				continue;}
+				if(s[j]!=k[t]&&s[j]>='a'&&s[j]<='z'){q=0;break;}
+				if(s[j]==k[t]){t++;q=1;}
+				
+			}
+			if(q==1){
+				printf(""YES\n"");
+				break;
+			}
+		}
+	}
+	if(q==0)printf(""NO\n"");
+	return 0;
+ } "
+104,B,C(gcc 7.5.0),60149144,2023-01-06 19:55:11,牛客841200738号,答案正确,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	int n, m; char s[5005], k[50005];
+	scanf(""%d%d"", &n, &m);
+	scanf(""%s"", s);
+	scanf(""%s"", k);
+	int i, j;int q = 0;
+	for (i = 0;i < n;i++) 
+	{
+		while(strchr(""0123456789+-*|,.~!@#$%^&()[]{}'\"";: ? <>\\ / "", s[i]) != NULL)
+		{
+			i++;
+		}
+		int c = i;
+		for(j=0;j<m&&c<n;j++,c++)
+		{
+			while (strchr(""0123456789+-*|,.~!@#$%^&()[]{}'\"";: ? <>\\ / "", s[c]) != NULL)
+			{
+				c++;
+			}
+			if (s[c] != k[j])
+				break;
+		}
+		if (j == m)
+			q = 1;
+
+	}
+	if (q == 1) printf(""YES\n"");
+	else printf(""NO\n"");
+	return 0;
+}
+
+
+"
+105,B,C,60149241,2023-01-06 19:55:49,~朱颜辞镜花辞树~,答案错误,"#include <stdio.h>
+int main()
+{
+	int n, m,i,j,l;
+	scanf(""%d %d"", &n, &m);
+	char str[n+1],a[n+1],k[m+1];//替换n
+	scanf(""%s"", &str);
+	scanf(""%s"", &k);
+	for (i = 0,j = 0; str[i] != '\0'; i++)
+	{
+		if ('a' <= str[i] && str[i] <= 'z')
+		{
+			a[j] = str[i];
+			j++;
+		}
+	}
+	a[j + 1] = '\0';
+	for (i = 0; a[i] != '\0'; i++)
+	{
+		if (a[i] == k[0])
+		{
+			for (j = i + 1,l = 1; a[j] != '\0'; j++)
+			{
+				if (a[j] == k[l])
+				{
+					l++;
+				}
+				else if (a[j] != k[l])
+					l = 0;
+				if (l == m )
+				{
+					printf(""YES"");
+					return 0;
+				}
+			}
+		}
+	}
+	printf(""NO"");
+	return 0;
+}"
+106,B,C,60149313,2023-01-06 19:56:19,bulis04_zqy,答案错误,"#include<stdio.h>
+#include<math.h>
+#include<string.h>
+int main()
+{
+	int n, m, i, t=0;
+	char a[6000],b[6010];
+	scanf(""%d %d"", &n, &m);
+	scanf(""%s"", a);
+	scanf(""%s"", b);
+	for (i = 0; i < n; i++)
+	{
+		if (a[i] == b[t])
+			t++;
+		else
+			if (t != 0 && a[i] >= 'a' && a[i] <= 'z' )
+				t = 0;
+		if (t == m)
+			break;
+	}
+    for(i=0;i<m;i++)
+    {
+        if(b[i]<'a'||b[i]>'z')
+            t=0;
+    }
+	if (t == m)
+		printf(""YES"");
+	else
+		printf(""NO"");
+	return 0;
+}"
+107,B,C(gcc 7.5.0),60149499,2023-01-06 19:57:24,Kkkkoala,答案错误,"#include<stdio.h>
+
+int main()
+{
+	int n,m,i,j,l=0,a=0;
+	scanf(""%d %d"",&n,&m);
+	char s[5000],k[5000];
+	scanf(""%s %s"",&s,&k);
+	for(i=0;i<m;i++)
+	{
+		for(j=a;j<n;j++,a++)
+		{
+			if(s[j]>=97&&s[j]<=122)
+			{
+				if(s[j]==k[i])
+				{
+					l++;
+					a++;
+					break;
+				}else{
+					l=0;
+				}
+			} 
+		}
+	}
+	if(l==m)
+	{
+		printf(""YES"");
+	}else{
+		printf(""NO"");
+	}
+	return 0;
+}"
+108,B,C,60149520,2023-01-06 19:57:32,昵称又又又被占辣,答案正确,"#include<stdio.h>
+#include<string.h>
+#include<stdio.h>
+#include<math.h>
+int main() {
+	int n, m;
+	scanf(""%d%d"", &n, &m);
+	char s[5000];
+	char k[5000];
+	char z[5000];
+    scanf(""%s"",s);
+    scanf(""%s"",k);
+	int i,j=0,x;
+	int p = 0;
+	for (i = 0; i < n; i++) {
+		if (s[i] >= 'a' && s[i] <= 'z') {
+			z[j] = s[i];
+			j++;
+		}
+	}
+	for (i = 0; i < n; i++) {
+		x = i;
+		for (j = 0; j < m; j++) {
+			if (z[x] == k[j]) {
+				x++;
+			}
+			else break;
+		}
+		if (x == i + m) {
+			p = 1;
+			break;
+		}
+	}
+	if (p == 1)printf(""YES"");
+	else printf(""NO"");
+}"
+109,B,C(gcc 7.5.0),60149574,2023-01-06 19:57:58,DDD580,答案错误,"#include<stdio.h>
+main()
+{
+    int n, m,z=0;
+    scanf(""%d%d"", &n,&m);
+    char s[5000], k[5000];
+    for (int i = 0; i < n; i++)
+        scanf(""%c"", &s[i]);
+    for (int j = 0; j < m; j++)
+        scanf(""%c"", &k[j]);
+    for (int i = 0; i < n; i++)
+    {
+        if (s[i] >= 65 && s[i] <= 90 || s[i] >= 97 && s[i] <= 122)
+            if (s[i] == k[z])
+                for (int j = 0; j < m; j++)
+                    if (s[i + j] == k[j])
+                        z++;
+    }
+    if (z == m)
+        printf(""YES"");
+    else
+        printf(""NO"");
+}"
+110,B,C,60149587,2023-01-06 19:58:03,7777777pg,答案错误,"#include<stdio.h>
+#include<string.h>
+#define N 5010
+int main()
+{
+    int n,m;
+    scanf(""%d %d"",&n,&m);
+    char arr1[N],arr2[N];
+    scanf(""%s"",arr1);
+    scanf(""%s"",arr2);
+    int l1=strlen(arr1);
+    int i,j;
+    for(i=0;i<l1;i++)
+    {
+       if(arr1[i]<'A'||arr1[i]>'z')  arr1[i]='A';
+        
+        
+        
+    }
+   
+    int l2=strlen(arr2);
+    
+for(i=0;i<l1;i++)
+{
+    if(arr1[i]!=arr2[0]) continue;
+    else
+    {
+        int q=0;
+        for( j=i;q<l2;j++,q++)
+        {
+            if(arr1[j]==arr2[q]&&arr1[j]!='A') continue;
+            else if(arr1[j]=='A')
+            {
+                q--;
+                continue;
+                
+                
+            }
+            else break;
+        }
+        if(q==l2) 
+        {
+            
+            printf(""YES"");
+            break; 
+        }
+        
+        
+    }
+    
+    
+}
+    if(i==l1) printf(""NO"");
+    
+    
+    
+    return 0;
+}"
+111,B,C,60149664,2023-01-06 19:58:29,豁达的哈士奇最喜欢夏天,答案正确,"#include <stdio.h>
+#include <string.h>
+
+int main()
+{
+	char a1[5000] = { ""\0"" };
+	char a2[5000] = { ""\0"" };
+	char a3[5000] = { ""\0"" };
+	int a, b, c = 0;
+
+	scanf(""%d%d"", &a, &b);
+	scanf(""%s"", a1);
+	scanf(""%s"", a2);
+
+	a = strlen(a1);
+	b = strlen(a2);
+	for (int i = 0; i < a; i++)
+	{
+		if (a1[i] >= 97 && a1[i] <= 122)
+		{
+			a3[c] = a1[i];
+			c++;
+		}
+	}
+	char* k = strstr(a3, a2);
+	if (k == NULL)
+		printf(""NO"");
+	else
+		printf(""YES"");
+	return 0;
+}"
+112,B,C,60149714,2023-01-06 19:58:46,牛客960952610号,答案错误,"#include<stdio.h>
+int main()
+{
+    int n,m;
+    scanf(""%d %d"",&n,&m);
+    char s1[5010];
+    char s2[5010];
+    scanf(""%s"",s1);
+    scanf(""%s"",s2);
+    int k=0;
+    for(int i=0;i<n;i++)
+    {
+        if(s2[k]==s1[i])k++;
+        else if(s1[i]<'z'&&s1[i]>'a'&&s1[i]!=s2[k])
+        {
+            k=0;
+            if(s2[k]==s1[i])k++;
+        }
+    }
+    if(k==m)
+        printf(""YES\n"");
+    else printf(""NO\n"");
+    return 0;
+}"
+113,B,C,60149731,2023-01-06 19:58:49,小卖部大队长,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+    int j=0,n,m;
+    char a[10010],s[10010],k[10010];
+    scanf(""%d%d"",&n,&m);
+    for(int i=0;i<n;i++)
+    {
+        scanf(""%c"",&s[i]);
+        if(s[i]<'a'||s[i]>'z')
+            continue;
+        else a[j++]=s[i];
+    }
+    for(int i=0;i<m;i++)
+    {
+        scanf(""%c"",&k[i]);
+    }
+    int x=0,y=0,p=0;
+    for(int i=0;i<j;i++)
+    {
+        if(a[i]==k[p])
+        {
+            int h=i;
+            for(int g=0;g<m;g++)
+            {
+                if(a[h++]!=k[g])
+                {
+                    break;
+                }
+                else x++;
+            }
+        }
+    }
+    if(x==m-1)
+        printf(""YES"");
+    else printf(""NO"");
+    return 0;
+}"
+114,B,C(gcc 7.5.0),60149739,2023-01-06 19:58:55,wwwacg,答案错误,"#include <stdio.h>
+int main(){
+	int n,m;
+	scanf(""%d %d\n"",&n,&m);
+	char a[10000]={0};
+	char b[10000]={0};
+	char c[10000]={0};
+	scanf(""%s\n"",a);
+	scanf(""%s"",b);
+	int i,j,k,s;
+	i=j=k=s=0;
+	while(a[i]!='\0'){
+		if(b[j]!=b[j-1]){
+		for(int f=0;f<=s;f++){
+			if(c[f]==a[i]){
+				for(int h=0;h<=s;h++){
+					c[h]='\0';
+				}
+				k=0;
+				j=0;
+				s=0;
+				break;
+			}
+		}
+		}
+		if(a[i]==b[j]){
+			k++;
+			j++;
+			c[s]=a[i];
+			s++;
+			if(k==m){
+				break;
+			}
+		}
+		i++;
+	} 
+	if(k==m){
+		printf(""YES"");
+	}
+	else{
+		printf(""NO"");
+	}
+	return 0; 
+} "
+115,B,C,60149804,2023-01-06 19:59:20,ZJGSU_wjh,答案错误,"#include <stdio.h>
+#include <string.h>
+int main()
+{
+	int a, b;
+	int i,j;
+	char s1[100000], s2[100000];
+	scanf(""%d %d"", &a, &b);
+	getchar();
+	scanf(""%s"", s1);
+	scanf(""%s"", s2);
+	for (i = 0; i < a; i++)
+	{
+		if (s1[i] >= 'a' && s1[i] <= 'z')
+		{
+			continue;
+		}
+		else
+		{
+			for (j = i + 1; s1[j]!='\0'; j++)
+			{
+				s1[j - 1] = s1[j];
+			}
+            s1[j-1]='\0';
+			a--;
+		}
+	}
+	if (strstr(s1, s2) == NULL)
+	{
+		printf(""NO\n"");
+	}
+	else
+	{
+		printf(""YES\n"");
+	}
+	return 0;
+}"
+116,B,C,60149906,2023-01-06 19:59:59,fync王萌,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c:8:5: warning: 'gets' is deprecated [-Wdeprecated-declarations]\n    gets(a);\n    ^\n/usr/include/stdio.h:577:37: note: 'gets' has been explicitly marked deprecated here\nextern char *gets (char *__s) __wur __attribute_deprecated__;\n                                    ^\n/usr/include/x86_64-linux-gnu/sys/cdefs.h:246:51: note: expanded from macro '__attribute_deprecated__'\n# define __attribute_deprecated__ __attribute__ ((__deprecated__))\n                                                  ^\nmain.c:10:9: warning: 'gets' is deprecated [-Wdeprecated-declarations]\n        gets(c);\n        ^\n/usr/include/stdio.h:577:37: note: 'gets' has been explicitly marked deprecated here\nextern char *gets (char *__s) __wur __attribute_deprecated__;\n                                    ^\n/usr/include/x86_64-linux-gnu/sys/cdefs.h:246:51: note: expanded from macro '__attribute_deprecated__'\n# define __attribute_deprecated__ __attribute__ ((__deprecated__))\n                                                  ^\nmain.c:15:5: warning: 'gets' is deprecated [-Wdeprecated-declarations]\n    gets(b);\n    ^\n/usr/include/stdio.h:577:37: note: 'gets' has been explicitly marked deprecated here\nextern char *gets (char *__s) __wur __attribute_deprecated__;\n                                    ^\n/usr/include/x86_64-linux-gnu/sys/cdefs.h:246:51: note: expanded from macro '__attribute_deprecated__'\n# define __attribute_deprecated__ __attribute__ ((__deprecated__))\n                                                  ^\nmain.c:17:9: warning: 'gets' is deprecated [-Wdeprecated-declarations]\n        gets(c);\n        ^\n/usr/include/stdio.h:577:37: note: 'gets' has been explicitly marked deprecated here\nextern char *gets (char *__s) __wur __attribute_deprecated__;\n                                    ^\n/usr/include/x86_64-linux-gnu/sys/cdefs.h:246:51: note: expanded from macro '__attribute_deprecated__'\n# define __attribute_deprecated__ __attribute__ ((__deprecated__))\n                                                  ^\nmain.c:23:339: warning: multi-character character constant [-Wmultichar]\n        if(!(a[i]>='0'&&a[i]<='9')&&a[i]!='+'&&a[i]!='-'&&a[i]!='*'&&a[i]!='|'&&a[i]!=','&&a[i]!='.'&&a[i]!='!'&&a[i]!='@'&&a[i]!='#'&&a[i]!='$'&&a[i]!='%'&&a[i]!='^'&&a[i]!='~'&&a[i]!='&'&&a[i]!='('&&a[i]!=')'&&a[i]!='['&&a[i]!=']'&&a[i]!='{'&&a[i]!='}'&&a[i]!='\""'&&a[i]!=39&&a[i]!=';'&&a[i]!=':'&&a[i]!='?'&&a[i]!='>'&&a[i]!='<'&&a[i]!='\\'&&a[i]!='/'){\n                                                                                                                                                                                                                                                                                                                                                  ^\nmain.c:23:339: warning: character constant too long for its type\nmain.c:23:352: warning: missing terminating ' character [-Winvalid-pp-token]\n        if(!(a[i]>='0'&&a[i]<='9')&&a[i]!='+'&&a[i]!='-'&&a[i]!='*'&&a[i]!='|'&&a[i]!=','&&a[i]!='.'&&a[i]!='!'&&a[i]!='@'&&a[i]!='#'&&a[i]!='$'&&a[i]!='%'&&a[i]!='^'&&a[i]!='~'&&a[i]!='&'&&a[i]!='('&&a[i]!=')'&&a[i]!='['&&a[i]!=']'&&a[i]!='{'&&a[i]!='}'&&a[i]!='\""'&&a[i]!=39&&a[i]!=';'&&a[i]!=':'&&a[i]!='?'&&a[i]!='>'&&a[i]!='<'&&a[i]!='\\'&&a[i]!='/'){\n                                                                                                                                                                                                                                                                                                                                                               ^\nmain.c:23:352: error: expected expression\nmain.c:31:13: error: 'break' statement not in loop or switch statement\n            break;\n            ^\nmain.c:34:5: error: expected identifier or '('\n    if(j==m){\n    ^\nmain.c:36:6: error: expected identifier or '('\n    }else{\n     ^\nmain.c:39:1: error: extraneous closing brace ('}')\n}\n^\n7 warnings and 5 errors generated.""}
+
+#include <stdio.h>
+#include <string.h>
+int main(){
+    int n,m,i,j;
+    j=0;
+    scanf(""%d %d\n"",&n,&m);
+    char a[n],b[m],c[n];
+    gets(a);
+    while(strlen(a)!=n){
+        gets(c);
+        a[strlen(a)]='\n';
+        strcat(a,c);
+        memset(c,'\0',strlen(c));
+    }
+    gets(b);
+    while(strlen(b)!=m){
+        gets(c);
+        b[strlen(b)]='\n';
+        strcat(b,c);
+        memset(c,'\0',strlen(c));
+    }
+    for(i=0;i<n;i++){
+        if(!(a[i]>='0'&&a[i]<='9')&&a[i]!='+'&&a[i]!='-'&&a[i]!='*'&&a[i]!='|'&&a[i]!=','&&a[i]!='.'&&a[i]!='!'&&a[i]!='@'&&a[i]!='#'&&a[i]!='$'&&a[i]!='%'&&a[i]!='^'&&a[i]!='~'&&a[i]!='&'&&a[i]!='('&&a[i]!=')'&&a[i]!='['&&a[i]!=']'&&a[i]!='{'&&a[i]!='}'&&a[i]!='""'&&a[i]!=39&&a[i]!=';'&&a[i]!=':'&&a[i]!='?'&&a[i]!='>'&&a[i]!='<'&&a[i]!='\'&&a[i]!='/'){
+            if(a[i]==b[j]){
+                j++;
+            }else{
+                j=0;
+            }
+        }
+        if(j==m){
+            break;
+        }
+    }
+    if(j==m){
+        printf(""YES"");
+    }else{
+        printf(""NO"");
+    }
+}"
+117,B,C,60150005,2023-01-06 20:00:35,B3Q,答案正确,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	char s[100000];
+	char s1[100000];
+	int m, n;
+	char a = 0;
+	int k = 0;
+	scanf(""%d%d"", &m, &n);
+	getchar();
+	for (int i = 0; i < m; i++)
+	{
+		scanf(""%c"", &a);
+		if ((a >= 'A' && a <= 'Z' )|| (a >= 'a' && a <= 'z') || (a == ' ')&&a!='\\')
+		{
+			s1[k++] = a;
+		}
+	}
+	char s3[10000];
+	scanf(""%s"", s3);
+	if (strstr(s1, s3) != NULL)
+	{
+		printf(""YES"");
+	}
+	else
+	{
+		printf(""NO"");
+	}
+	return 0;
+}"
+118,B,C,60150009,2023-01-06 20:00:36,ZJGSU_wjh,答案错误,"#include <stdio.h>
+#include <string.h>
+int main()
+{
+	int a, b;
+	int i,j;
+	char s1[100000], s2[100000];
+	scanf(""%d %d"", &a, &b);
+	getchar();
+	scanf(""%s"", s1);
+	scanf(""%s"", s2);
+	for (i = 0; i < a; i++)
+	{
+		if (s1[i] >= 'a' && s1[i] <= 'z')
+		{
+			continue;
+		}
+		else
+		{
+			for (j = i + 1; s1[j]!='\0'; j++)
+			{
+				s1[j - 1] = s1[j];
+			}
+            s1[j-1]='\0';
+			a--;
+		}
+	}
+	if (strstr(s1, s2) == NULL)
+	{
+		printf(""NO\n"");
+	}
+	else
+	{
+		printf(""YES\n"");
+	}
+	return 0;
+}"
+119,B,C(gcc 7.5.0),60150065,2023-01-06 20:00:56,阿建头很痛,运行超时,"#include<stdio.h>
+#include<string.h>
+int main(){
+	int n,m;
+	scanf(""%d%d\n"",&n,&m);
+	char a[n],b[m],c[]=""0123456789+-*|,.~!@#$%^&()[]{}':?<>\/"";
+    int t=strlen(c);
+	gets(a);
+	gets(b);
+	int j=0,p=1;
+	for(int i=0;i<n;i++){
+		if(a[i]==b[0]){
+			i++;
+			j++;
+			while(j<m&&i<n){
+				if(a[i]==b[j]){
+					i++;
+					j++;
+				}else{
+					for(int q=0;q<t;q++){
+                        if(a[i]==c[q]){
+                            i++;
+                            p=0;
+                            break;
+                        }
+                    }
+                    if(p==1){
+                        if(a[i]=='""'){
+                            i++;
+                            
+                        }else{
+                            j=0;
+                            break;
+                        }
+                        
+                    }
+				}
+			}
+            if(j==m)
+            {
+                break;
+            }
+		}
+	}
+	if(j==m){
+		printf(""YES"");
+	}else{
+		printf(""NO"");
+	}
+	return 0;
+} "
+120,B,C,60150114,2023-01-06 20:01:12,fync王萌,答案错误,"#include <stdio.h>
+#include <string.h>
+int main(){
+    int n,m,i,j;
+    j=0;
+    scanf(""%d %d\n"",&n,&m);
+    char a[n],b[m],c[n];
+    gets(a);
+    while(strlen(a)!=n){
+        gets(c);
+        a[strlen(a)]='\n';
+        strcat(a,c);
+        memset(c,'\0',strlen(c));
+    }
+    gets(b);
+    while(strlen(b)!=m){
+        gets(c);
+        b[strlen(b)]='\n';
+        strcat(b,c);
+        memset(c,'\0',strlen(c));
+    }
+    for(i=0;i<n;i++){
+        if(!(a[i]>='0'&&a[i]<='9')&&a[i]!='+'&&a[i]!='-'&&a[i]!='*'&&a[i]!='|'&&a[i]!=','&&a[i]!='.'&&a[i]!='!'&&a[i]!='@'&&a[i]!='#'&&a[i]!='$'&&a[i]!='%'&&a[i]!='^'&&a[i]!='~'&&a[i]!='&'&&a[i]!='('&&a[i]!=')'&&a[i]!='['&&a[i]!=']'&&a[i]!='{'&&a[i]!='}'&&a[i]!='""'&&a[i]!=39&&a[i]!=';'&&a[i]!=':'&&a[i]!='?'&&a[i]!='>'&&a[i]!='<'&&a[i]!=47&&a[i]!=92){
+            if(a[i]==b[j]){
+                j++;
+            }else{
+                j=0;
+            }
+        }
+        if(j==m){
+            break;
+        }
+    }
+    if(j==m){
+        printf(""YES"");
+    }else{
+        printf(""NO"");
+    }
+}"
+121,B,C,60150218,2023-01-06 20:01:55,河南师范大学_张博文,答案正确,"#include<stdio.h>
+#include<string.h>
+#define N 10005
+int main()
+{
+	int n,m,x=1,y=1;
+	char s[N],k[N],q[N];
+	int ne[N];
+	memset(ne,0,sizeof(ne));
+	
+	scanf(""%d %d"",&n,&m);
+	
+	scanf(""%s%s"",s+1,k+1);
+	
+	for(int i=1;i<=n;i++)
+	{
+		if(s[i]>='a'&&s[i]<='z') q[x]=s[i],x++;
+	}
+	
+	x-=1;
+	
+		for(int i=2,j=0;i<=m;i++)
+		{
+			while(j!=0&&k[i]!=k[j+1]) j=ne[j];
+			if(k[i]==k[j+1]) j++;
+			ne[i]=j;
+		} 
+		
+		
+		for(int i=1,j=0;i<=x;i++)
+		{
+			while(j!=0&&q[i]!=k[j+1]) j=ne[j];
+			if(q[i]==k[j+1]) j++;
+			if(j==m)
+			{
+				printf(""YES"");
+				y=0;
+				break;
+			}
+		} 
+		
+		if(y==1) printf(""NO"");
+}"
+122,B,C,60150236,2023-01-06 20:02:01,牛客960952610号,答案错误,"#include<stdio.h>
+int main()
+{
+    int n,m;
+    scanf(""%d %d"",&n,&m);
+    char s1[5010];
+    char s2[5010];
+    scanf(""%s"",s1);
+    scanf(""%s"",s2);
+    int k=0;
+    for(int i=0;i<n;i++)
+    {
+        if(s2[k]==s1[i])k++;
+        else if(s1[i]<='z'&&s1[i]>='a'&&s1[i]!=s2[k])
+        {
+            k=0;
+            if(s2[k]==s1[i])k++;
+        }
+        if(k==m)
+        {
+            printf(""YES"");
+            return 0;
+        }
+    }
+    printf(""NO"");
+    return 0;
+}"
+123,B,C,60150441,2023-01-06 20:03:29,想去东北泡澡的安德鲁想要offer,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	long n,m,q,t;
+	scanf(""%ld %ld"",&n,&m);
+	char s[5001],k[5001];
+	scanf(""%s"",s);
+	scanf(""%s"",k);
+	long i,j;
+	for(i=0;i<n-m;i++){
+        q=0;
+		if(k[0]==s[i]){
+            q=1;
+			for(j=i,t=0;t<m&&j<n;j++){
+			    if(s[j]>'z'||s[j]<'a'){
+				
+				continue;}
+				if(s[j]!=k[t]&&s[j]>='a'&&s[j]<='z'){q=0;break;}
+				if(s[j]==k[t]){t++;q=1;}
+				
+			}
+			if(q==1){
+				printf(""YES\n"");
+				break;
+			}
+		}
+	}
+	if(q==0)printf(""NO\n"");
+	return 0;
+ } "
+124,B,C,60150473,2023-01-06 20:03:47,牛客444652181号,答案正确,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+   char a[5000],b[5000],c;
+   int i,j,n,m,sign=0;
+   scanf(""%d %d"",&n,&m);
+   scanf(""%c"",&c);
+   gets(a);
+   gets(b);
+   for(i=0;i<strlen(a);i++)
+   {
+       if(a[i]==b[0])
+       {
+           int k=0;
+           for(j=i;j<strlen(a)&&k<strlen(b);j++)
+           {
+               if(a[j]>='a'&&a[j]<='z')
+               {
+                   if(a[j]==b[k])
+                   k++;
+                   else
+                   break;
+               }
+           }
+           if(k==strlen(b))
+           sign=1;
+       }
+       if(sign==1)
+       break;
+   }
+   if(sign==1)
+   printf(""YES"");
+   else
+   printf(""NO"");
+    return 0;
+}"
+125,B,C,60150482,2023-01-06 20:03:49,7777777pg,答案错误,"#include<stdio.h>
+#include<string.h>
+#define N 5010
+int main()
+{
+    int n,m;
+    scanf(""%d %d"",&n,&m);
+    char arr1[N],arr2[N];
+    scanf(""%s"",arr1);
+    scanf(""%s"",arr2);
+    int l1=strlen(arr1);
+    int i,j;
+    for(i=0;i<l1;i++)
+    {
+       if(arr1[i]<'A'||arr1[i]>'z')  arr1[i]='A';
+        
+        
+        
+    }
+   
+    int l2=strlen(arr2);
+    
+for(i=0;i<l1;i++)
+{
+    if(arr1[i]!=arr2[0]) continue;
+    else
+    {
+        int q=0;
+        for( j=i;q<l2&&j<l1;j++,q++)
+        {
+            if(arr1[j]==arr2[q]&&arr1[j]!='A') continue;
+            else if(arr1[j]=='A')
+            {
+                q--;
+                continue;
+                
+                
+            }
+            else break;
+        }
+        if(q==l2) 
+        {
+            
+            printf(""YES"");
+            break; 
+        }
+        
+        
+    }
+    
+    
+}
+    if(i==l1) printf(""NO"");
+    
+    
+    
+    return 0;
+}"
+126,B,C,60150506,2023-01-06 20:04:02,fync王萌,答案错误,"#include <stdio.h>
+#include <string.h>
+int main(){
+    int n,m,i,j;
+    j=0;
+    scanf(""%d %d\n"",&n,&m);
+    char a[n],b[m],c[n];
+    gets(a);
+    while(strlen(a)!=n){
+        gets(c);
+        strcat(a,c);
+        memset(c,'\0',strlen(c));
+    }
+    gets(b);
+    while(strlen(b)!=m){
+        gets(c);
+        strcat(b,c);
+        memset(c,'\0',strlen(c));
+    }
+    for(i=0;i<n;i++){
+        if(!(a[i]>='0'&&a[i]<='9')&&a[i]!='+'&&a[i]!='-'&&a[i]!='*'&&a[i]!='|'&&a[i]!=','&&a[i]!='.'&&a[i]!='!'&&a[i]!='@'&&a[i]!='#'&&a[i]!='$'&&a[i]!='%'&&a[i]!='^'&&a[i]!='~'&&a[i]!='&'&&a[i]!='('&&a[i]!=')'&&a[i]!='['&&a[i]!=']'&&a[i]!='{'&&a[i]!='}'&&a[i]!='""'&&a[i]!=39&&a[i]!=';'&&a[i]!=':'&&a[i]!='?'&&a[i]!='>'&&a[i]!='<'&&a[i]!=47&&a[i]!=92){
+            if(a[i]==b[j]){
+                j++;
+            }else{
+                j=0;
+            }
+        }
+        if(j==m){
+            break;
+        }
+    }
+    if(j==m){
+        printf(""YES"");
+    }else{
+        printf(""NO"");
+    }
+}"
+127,B,C,60150513,2023-01-06 20:04:06,35a,段错误,"#include<stdio.h>
+#include<math.h>
+#include<string.h>
+
+int main()
+{
+	int n,m;
+	char a[1005],b[1005],c[1005];
+	scanf(""%d %d\n"",&n,&m);
+	int i=0,y=0,flag=0;
+	scanf(""%s\n"",&a);
+	scanf(""%s"",&b);
+	int L=strlen(a);
+	for(i=0;i<L;i++)
+	{
+		if(a[i]>='a'&&a[i]<='z')
+		{
+			c[y++]=a[i];
+		}
+	}
+	for(i=0;i<y;i++)
+	{
+		if(c[i]==b[0])
+		{
+			flag=0;
+			for(int j=0;j<strlen(b);j++)
+			{
+				if(c[i+j]==b[j])
+				{
+					flag++;
+					if(flag==strlen(b))
+					{
+						printf(""YES"");
+						return 0;
+					}
+				}
+			}
+		}
+	}
+	printf(""NO"");
+	return 0;
+} "
+128,B,C(gcc 7.5.0),60150527,2023-01-06 20:04:10,CSDJM,答案错误,"#include<stdio.h>
+#include<string.h>
+#define N 5001
+int main(void)
+{
+	int n,m,x=0,flag=0;
+	char s[N],k[N];
+	scanf(""%d %d"",&n,&m);
+	scanf(""%s"",s);
+	scanf(""%s"",k);
+	if(n==m)printf(""YES"");
+	else
+	{
+		for(int i=0;i<n;i++)
+	{
+		if(s[i]>='a'&&s[i]<='z')
+		{
+			if(flag!=0)
+			{
+				if(s[i]!=k[x])
+				{
+					flag=0;
+					x=0;
+				}
+				else
+				{
+					x++;
+				}
+			}
+			if(flag==0&&s[i]==k[x])
+			{
+				x++;
+				flag++;
+			}
+		}
+		else continue;
+		if(x==m)break;
+	}
+	if(x==m)
+	{
+		printf(""YES"");
+	}
+	else printf(""NO"");
+	}
+	
+	return 0;
+}"
+129,B,C,60150542,2023-01-06 20:04:16,7777777pg,答案正确,"#include<stdio.h>
+#include<string.h>
+#define N 5010
+int main()
+{
+    int n,m;
+    scanf(""%d %d"",&n,&m);
+    char arr1[N],arr2[N];
+    scanf(""%s"",arr1);
+    scanf(""%s"",arr2);
+    int l1=strlen(arr1);
+    int i,j;
+    for(i=0;i<l1;i++)
+    {
+       if(arr1[i]<'a'||arr1[i]>'z')  arr1[i]='A';
+        
+        
+        
+    }
+   
+    int l2=strlen(arr2);
+    
+for(i=0;i<l1;i++)
+{
+    if(arr1[i]!=arr2[0]) continue;
+    else
+    {
+        int q=0;
+        for( j=i;q<l2&&j<l1;j++,q++)
+        {
+            if(arr1[j]==arr2[q]&&arr1[j]!='A') continue;
+            else if(arr1[j]=='A')
+            {
+                q--;
+                continue;
+                
+                
+            }
+            else break;
+        }
+        if(q==l2) 
+        {
+            
+            printf(""YES"");
+            break; 
+        }
+        
+        
+    }
+    
+    
+}
+    if(i==l1) printf(""NO"");
+    
+    
+    
+    return 0;
+}"
+130,B,C,60150599,2023-01-06 20:04:40,35a,答案正确,"#include<stdio.h>
+#include<math.h>
+#include<string.h>
+
+int main()
+{
+	int n,m;
+	char a[5005],b[5005],c[5005];
+	scanf(""%d %d\n"",&n,&m);
+	int i=0,y=0,flag=0;
+	scanf(""%s\n"",&a);
+	scanf(""%s"",&b);
+	int L=strlen(a);
+	for(i=0;i<L;i++)
+	{
+		if(a[i]>='a'&&a[i]<='z')
+		{
+			c[y++]=a[i];
+		}
+	}
+	for(i=0;i<y;i++)
+	{
+		if(c[i]==b[0])
+		{
+			flag=0;
+			for(int j=0;j<strlen(b);j++)
+			{
+				if(c[i+j]==b[j])
+				{
+					flag++;
+					if(flag==strlen(b))
+					{
+						printf(""YES"");
+						return 0;
+					}
+				}
+			}
+		}
+	}
+	printf(""NO"");
+	return 0;
+} "
+131,B,C(gcc 7.5.0),60150668,2023-01-06 20:05:09,牛客431382323号,答案错误,"#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+int main() {
+    int n, m, flag; 
+    scanf(""%d %d"", &n, &m);
+    char s[n], k[m]; 
+    int i, j; 
+    for (i = 0; i < n; i++)
+    { 
+        scanf(""%c"", &s[i]); 
+    } 
+    getchar();
+    getchar();
+    for (i = 0; i < m ; i++)
+    { 
+        scanf(""%c"", &k[i]); 
+    }
+
+    char p[n];
+    for (i = j = 0; i < n; i++)
+    {
+        if(s[i] >= 97 && s[i] <= 122){
+            p[j] = s[i];
+            j++;
+        }
+    }
+    n = j+1;
+    //printf(""%s\n"",p);
+    //printf(""%s"", k);
+    i = j = 0;
+    flag = 0;
+    
+    for (i = 0; i <= n-m ;i++){
+        if(p[i] == k[0])
+        {   
+            for(j = 0 ; j < m ; j++){
+                if(p[i+j] == k[j]) flag = 1;
+                else {
+                    flag = 0;
+                    break;
+                }
+            }
+            if(flag){
+                printf(""YES"");
+                break;
+            }
+        }
+    }
+    if(!flag) printf(""NO"");
+    return 0;
+}
+"
+132,B,C,60150716,2023-01-06 20:05:32,bulis04_zqy,答案错误,"#include<stdio.h>
+#include<math.h>
+#include<string.h>
+int main()
+{
+	int n, m, i, t=0;
+	char a[6000],b[6010];
+	scanf(""%d %d"", &n, &m);
+	scanf(""%s"", a);
+	scanf(""%s"", b);
+	for (i = 0; i < n; i++)
+	{
+		if (a[i] == b[t])
+			t++;
+		else
+			if (t != 0 && a[i] >= 'a' && a[i] <= 'z' )
+				t = 0;
+        if(a[i]==b[t])
+            t++;
+		if (t == m)
+			break;
+	}
+    for(i=0;i<m;i++)
+    {
+        if(b[i]<'a'||b[i]>'z')
+            t=0;
+    }
+	if (t == m)
+		printf(""YES"");
+	else
+		printf(""NO"");
+	return 0;
+}"
+133,B,C(gcc 7.5.0),60150788,2023-01-06 20:06:02,nbyycc,答案错误,"#include<stdio.h>
+main(){
+    int n,m,i,j,x=0;char s[999],k[999];
+    scanf(""%d %d"",&n,&m);
+    scanf(""%s"",&s);
+    scanf(""%s"",&k);
+    for(i=0;i<n;i++){
+        if(s[i]==k[x]){
+            for(j=i+1;j<n;j++){
+                if(isalpha(s[j])){
+                    if(s[j]==k[x+1])
+                        x++;
+                    else
+                       break;
+                    if(x==m-1){
+                        printf(""YES"");
+                        return 0;}
+                }
+            }
+        }
+    }
+    if(i==n)
+        printf(""NO"");
+    return 0;
+}
+"
+134,B,C,60150794,2023-01-06 20:06:04,asdfghjkwer,答案错误,"#include<stdio.h>
+int main()
+{
+    int n,m;
+    scanf(""%d%d"",&n,&m);
+    char ch1[10000];
+    char ch2[10000];
+    scanf(""%s"",ch1);
+    scanf(""%s"",ch2);
+    int j=0,k=0;
+    for(int i=0;i<n;i++)
+    {
+        if(ch1[i]==ch2[j])
+        {
+            k=1;
+            j++;
+            if(j==m) break;
+            continue;
+        }
+        if(k==1&&ch1[i]<='z'&&ch1[i]>='a')
+        {
+            //printf(""%c %d %d\n"",ch1[i],i,j);
+            k=0;
+            j=0;
+            i--;
+        }
+    }
+    if(j==m) printf(""YES\n"");
+    else printf(""NO\n"");
+}"
+135,B,C(gcc 7.5.0),60150818,2023-01-06 20:06:16,牛客431382323号,答案错误,"#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+int main() {
+    int n, m, flag; 
+    scanf(""%d %d"", &n, &m);
+    if(n < m){
+        printf(""NO"");
+        return 0;
+    }
+    char s[n], k[m]; 
+    int i, j; 
+    for (i = 0; i < n; i++)
+    { 
+        scanf(""%c"", &s[i]); 
+    } 
+    getchar();
+    getchar();
+    for (i = 0; i < m ; i++)
+    { 
+        scanf(""%c"", &k[i]); 
+    }
+
+    char p[n];
+    for (i = j = 0; i < n; i++)
+    {
+        if(s[i] >= 97 && s[i] <= 122){
+            p[j] = s[i];
+            j++;
+        }
+    }
+    n = j+1;
+    //printf(""%s\n"",p);
+    //printf(""%s"", k);
+    i = j = 0;
+    flag = 0;
+    
+    for (i = 0; i <= n-m ;i++){
+        if(p[i] == k[0])
+        {   
+            for(j = 0 ; j < m ; j++){
+                if(p[i+j] == k[j]) flag = 1;
+                else {
+                    flag = 0;
+                    break;
+                }
+            }
+            if(flag){
+                printf(""YES"");
+                break;
+            }
+        }
+    }
+    if(!flag) printf(""NO"");
+    return 0;
+}
+"
+136,B,C,60150977,2023-01-06 20:07:20,想去东北泡澡的安德鲁想要offer,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	long n,m,q,t;
+	scanf(""%ld %ld"",&n,&m);
+	char s[5001],k[5001];
+	scanf(""%s"",s);
+	scanf(""%s"",k);
+	long i,j;
+	for(i=0;i<n-m;i++){
+        q=0;
+		if(k[0]==s[i]){
+            q=1;
+			for(j=i,t=0;t<m&&j<n;j++){
+			    if(s[j]>'z'||s[j]<'a'){
+				
+				continue;}
+				if(s[j]!=k[t]&&s[j]>='a'&&s[j]<='z'){q=0;break;}
+				if(s[j]==k[t]){t++;q=1;}
+				
+			}
+			if(q==1){
+				printf(""YES\n"");
+				break;
+                i=j-1;
+			}
+		}
+	}
+	if(q==0)printf(""NO\n"");
+	return 0;
+ } "
+137,B,C,60150996,2023-01-06 20:07:31,崔雲敦,答案正确,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+    int n,m,c=0;
+    char d[5001],s[5001],k[5001];
+    scanf(""%d %d"",&n,&m);
+    getchar();
+    gets(d);
+    gets(k);
+    int j=0;
+    for(int i=0;d[i]!='\0';i++)
+    {
+        if(d[i]>='a'&&d[i]<='z') {s[j]=d[i];j++;}
+    }
+    s[j]='\0';
+    for(int i=0;s[i]!='\0';i++)
+    {
+        int a=1,b=i;
+        for(int z=0;k[z]!='\0';z++)
+        {
+            if(s[b]!=k[z]) {a=0;break;}
+            else b++;
+        }
+        if(a==1) {c=1;break;} 
+    }
+    if(c==1) printf(""YES"");
+    else printf(""NO"");
+}"
+138,B,C(gcc 7.5.0),60151003,2023-01-06 20:07:33,疏影横斜。,答案错误,"#include<stdio.h>
+char arr_m[1005];
+char arr_n[1005];
+char arr_b[1005];
+int main()
+{
+	int n,m,flag=1;
+	int b=-1;
+	scanf(""%d%d"",&n,&m);
+	scanf(""%s%s"",arr_n,arr_m);
+	for(int a=0;a<n;a++)
+	{
+		if(arr_n[a]>'a'&&arr_n[a]<'z')
+		{
+			b++;
+			arr_b[b]=arr_n[a];
+		}
+	}
+	for(int a=0;a<m;a++)
+	{flag=1;
+		if(arr_m[a]==arr_b[0])
+		{
+			for(int c=0;c<=b;c++)
+			{
+				if(arr_m[a+c]!=arr_b[c])
+				flag=0;
+			}
+			if(flag)
+			{
+				printf(""YES"");
+				return 0;
+			}
+		}
+	}
+	printf(""NO"");
+	return 0;
+}"
+139,B,C,60151021,2023-01-06 20:07:41,犯困的菜鸡在发呆,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	char s[5000],k[5000];
+	int n,m,flag=0;
+	scanf(""%d%d\n"",&n,&m);
+	scanf(""%s\n"",s);
+	scanf(""%s"",k);
+	int lens,lenk,i,j;
+	lens=strlen(s);
+	lenk=strlen(k);
+	for(i=0;i<lens;i++)
+	{
+		if(s[i]==k[0])
+		{
+			for(j=1;j<lenk;j++)
+			{
+				if(s[i+j]!=k[j])
+			    {
+				    flag=0;break;
+				}
+			    else
+				{
+				    flag=1;
+				} 
+			}
+			
+		}
+	}
+	if(flag==1)
+	printf(""YES"");
+	else
+	printf(""NO"");
+	return 0;
+}  "
+140,B,C(gcc 7.5.0),60151061,2023-01-06 20:07:59,CSDJM,答案错误,"#include<stdio.h>
+#include<string.h>
+#define N 5010
+int main(void)
+{
+	int n,m,x=0,flag=0;
+	char s[N],k[N];
+	scanf(""%d %d"",&n,&m);
+	scanf(""%s"",s);
+	scanf(""%s"",k);
+	for(int i=0;i<n;i++)
+	{
+		if(s[i]>='a'&&s[i]<='z')
+		{
+			if(flag!=0)
+			{
+				if(s[i]!=k[x])
+				{
+					flag=0;
+					x=0;
+				}
+				else
+				{
+					x++;
+				}
+			}
+			if(flag==0&&s[i]==k[x])
+			{
+				x++;
+				flag++;
+			}
+		}
+		else continue;
+		if(x==m)break;
+	}
+	if(x==m)
+	{
+		printf(""YES"");
+	}
+	else printf(""NO"");
+	return 0;
+}"
+141,B,C(gcc 7.5.0),60151073,2023-01-06 20:08:06,牛客199520093号,段错误,"#include <stdio.h>
+#include <string.h>
+char a[5005],b[5005],c;
+int main(void){
+    int la,lb,flag=0;
+    scanf(""%d%d"",&la,&lb);
+    getchar();
+    gets(a);
+    gets(b);
+    for(int i=0;i<la;i++){
+    	if(a[i]<'a'||a[i]>'z'){
+    		i++;continue;
+		}
+		else{
+            if(a[i]==b[0]){
+                int j=0;
+                for(;j<lb;j++,i++){
+                	if(a[i]<'a'||a[i]>'z'){
+    		            j--;continue;
+		            }
+                    if(a[i]!=b[j]){
+                        i--;
+                        break;
+                    }
+                }
+                if(j==lb){
+                    printf(""YES"");
+                    flag=1;
+                    break;
+                }
+            }
+        }
+    }
+    if(flag==0) printf(""NO"");
+    return 0;
+}"
+142,B,C(gcc 7.5.0),60151081,2023-01-06 20:08:11,谦虚的coder渴望wlb,答案错误,"#include <stdio.h>
+#define N 5010
+int main()
+{
+    char a[N];
+    int len1,len2,j=0;
+    scanf(""%d%d"",&len1,&len2);
+    scanf(""%s"",a);
+    char b[N];
+    char c[N];
+    char d[N];
+    int flag=0,m;
+    scanf(""%s"",b);
+    for(int i=0;i<len1;i++)
+    {
+        if(a[i]>='a'&&a[i]<='z')
+            c[j++]=a[i];
+    }
+    for(int i=0;i<j;i++)
+    {
+        m=0;
+        for(int t=i;t<i+len2;t++)
+        {
+            d[m++]=c[t];
+        }
+        if(strcmp(d,b)==0)
+        {
+            flag=1;
+            break;
+        }
+            
+    }
+    if(flag==1)
+        printf(""YES"");
+    else
+        printf(""NO"");
+    return 0;
+}"
+143,B,C,60151123,2023-01-06 20:08:27,碳酸汽水泡,答案正确,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	int n,m,k=0;
+scanf(""%d %d"",&n,&m);
+getchar(); 
+	char a[n+10];
+	char b[m+10];
+	char c[n+5];
+	gets(a);
+	
+	gets(b);
+	for(int i=0;i<n+5;i++)
+	{	
+	if(a[i]>='a'&&a[i]<='z')
+	c[k++]=a[i];
+	}
+	char *str;
+	str=strstr(c,b);
+	if(str)
+	printf(""YES"");
+	else
+	printf(""NO"");
+	return 0;
+	
+}"
+144,B,C,60151137,2023-01-06 20:08:33,想去东北泡澡的安德鲁想要offer,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	long n,m,q,t;
+	scanf(""%ld %ld"",&n,&m);
+	char s[5001],k[5001];
+	scanf(""%s"",s);
+	scanf(""%s"",k);
+	long i,j;
+	for(i=0;i<n-m;i++){
+        q=0;
+		if(k[0]==s[i]){
+            q=1;
+			for(j=i,t=0;t<m&&j<n;j++){
+			    if(s[j]>'z'||s[j]<'a'){
+				
+				continue;}
+				if(s[j]!=k[t]&&s[j]>='a'&&s[j]<='z'){q=0;break;}
+				if(s[j]==k[t]){t++;q=1;}
+				
+			}
+            i=j-1;
+			if(q==1){
+				printf(""YES\n"");
+				break;
+                
+			}
+		}
+	}
+	if(q==0)printf(""NO\n"");
+	return 0;
+ } "
+145,B,C,60151152,2023-01-06 20:08:39,Y.M.F,段错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	char str[100];
+	char tstr[100];
+	char k[100];
+	int n,m,i,t=0; 
+	scanf(""%d %d\n"",&n,&m);
+	gets(str);
+	gets(k);
+	for(i=0;i<n;i++){
+		switch(str[i]){
+			case'0':continue;break;
+			case'1':continue;break;
+			case'2':continue;break;
+			case'3':continue;break;
+			case'4':continue;break;
+			case'5':continue;break;
+			case'6':continue;break;
+			case'7':continue;break;
+			case'8':continue;break;
+			case'9':continue;break;
+			case'+':continue;break;
+			case'-':continue;break;
+			case'*':continue;break;
+			case'|':continue;break;
+			case',':continue;break;
+			case'.':continue;break;
+			case'~':continue;break;
+			case'!':continue;break;
+			case'@':continue;break;
+			case'#':continue;break;
+			case'$':continue;break;
+			case'%':continue;break;
+			case'^':continue;break;
+			case'&':continue;break;
+			case'(':continue;break;
+			case')':continue;break;
+			case'[':continue;break;
+			case']':continue;break;
+			case'{':continue;break;
+			case'}':continue;break;
+			case'""':continue;break;
+			case';':continue;break;
+			case':':continue;break;
+			case'?':continue;break;
+			case'<':continue;break;
+			case'>':continue;break;
+			case'/':continue;break;
+		}
+		tstr[t]=str[i];
+		t++;
+	}
+	if(strstr(tstr,k)) printf(""YES"");
+	else printf(""NO"");
+ } "
+146,B,C,60151168,2023-01-06 20:08:47,Y.M.F,段错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	char str[100];
+	char tstr[100];
+	char k[100];
+	int n,m,i,t=0; 
+	scanf(""%d %d\n"",&n,&m);
+	gets(str);
+	gets(k);
+	for(i=0;i<n;i++){
+		switch(str[i]){
+			case'0':continue;break;
+			case'1':continue;break;
+			case'2':continue;break;
+			case'3':continue;break;
+			case'4':continue;break;
+			case'5':continue;break;
+			case'6':continue;break;
+			case'7':continue;break;
+			case'8':continue;break;
+			case'9':continue;break;
+			case'+':continue;break;
+			case'-':continue;break;
+			case'*':continue;break;
+			case'|':continue;break;
+			case',':continue;break;
+			case'.':continue;break;
+			case'~':continue;break;
+			case'!':continue;break;
+			case'@':continue;break;
+			case'#':continue;break;
+			case'$':continue;break;
+			case'%':continue;break;
+			case'^':continue;break;
+			case'&':continue;break;
+			case'(':continue;break;
+			case')':continue;break;
+			case'[':continue;break;
+			case']':continue;break;
+			case'{':continue;break;
+			case'}':continue;break;
+			case'""':continue;break;
+			case';':continue;break;
+			case':':continue;break;
+			case'?':continue;break;
+			case'<':continue;break;
+			case'>':continue;break;
+			case'/':continue;break;
+		}
+		tstr[t]=str[i];
+		t++;
+	}
+	if(strstr(tstr,k)) printf(""YES"");
+	else printf(""NO"");
+ } "
+147,B,C,60151204,2023-01-06 20:09:00,想去东北泡澡的安德鲁想要offer,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	long n,m,q,t;
+	scanf(""%ld %ld"",&n,&m);
+	char s[5001],k[5001];
+	scanf(""%s"",s);
+	scanf(""%s"",k);
+	long i,j;
+	for(i=0;i<n-m;i++){
+        q=0;
+		if(k[0]==s[i]){
+            q=1;
+			for(j=i,t=0;t<m&&j<n;j++){
+			    if(s[j]>'z'||s[j]<'a'){
+				
+				continue;}
+				if(s[j]!=k[t]&&s[j]>='a'&&s[j]<='z'){q=0;break;}
+				if(s[j]==k[t]){t++;q=1;}
+				
+			}
+            i=j;
+			if(q==1){
+				printf(""YES\n"");
+				break;
+                
+			}
+		}
+	}
+	if(q==0)printf(""NO\n"");
+	return 0;
+ } "
+148,B,C,60151269,2023-01-06 20:09:26,Y.M.F,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	char str[10000];
+	char tstr[10000];
+	char k[10000];
+	int n,m,i,t=0; 
+	scanf(""%d %d\n"",&n,&m);
+	gets(str);
+	gets(k);
+	for(i=0;i<n;i++){
+		switch(str[i]){
+			case'0':continue;break;
+			case'1':continue;break;
+			case'2':continue;break;
+			case'3':continue;break;
+			case'4':continue;break;
+			case'5':continue;break;
+			case'6':continue;break;
+			case'7':continue;break;
+			case'8':continue;break;
+			case'9':continue;break;
+			case'+':continue;break;
+			case'-':continue;break;
+			case'*':continue;break;
+			case'|':continue;break;
+			case',':continue;break;
+			case'.':continue;break;
+			case'~':continue;break;
+			case'!':continue;break;
+			case'@':continue;break;
+			case'#':continue;break;
+			case'$':continue;break;
+			case'%':continue;break;
+			case'^':continue;break;
+			case'&':continue;break;
+			case'(':continue;break;
+			case')':continue;break;
+			case'[':continue;break;
+			case']':continue;break;
+			case'{':continue;break;
+			case'}':continue;break;
+			case'""':continue;break;
+			case';':continue;break;
+			case':':continue;break;
+			case'?':continue;break;
+			case'<':continue;break;
+			case'>':continue;break;
+			case'/':continue;break;
+		}
+		tstr[t]=str[i];
+		t++;
+	}
+	if(strstr(tstr,k)) printf(""YES"");
+	else printf(""NO"");
+ } "
+149,B,C,60151279,2023-01-06 20:09:30,影..,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+    int n,m;
+    scanf(""%d %d"",&n,&m);
+    char s[n],k[m],l[n];
+    scanf(""%s"",s);
+    scanf(""%s"",k);
+    int i,j=0;
+    for(i=0;i<n;i++)
+    {
+        if(s[i]>='a'&&s[i]<='z')
+        {
+            l[j]=s[i];
+            j++;
+        }
+    }
+    l[j]='\0';
+    if(strstr(l,k))
+    {
+        printf(""YES"");
+    }
+    else printf(""NO"");
+}"
+150,B,C,60151306,2023-01-06 20:09:41,牛客960952610号,答案错误,"#include<stdio.h>
+int main()
+{
+    int n,m;
+    scanf(""%d %d"",&n,&m);
+    char s1[5010];
+    char s2[5010];
+    scanf(""%s"",s1);
+    scanf(""%s"",s2);
+    int k=0;
+    for(int i=0;i<n;i++)
+    {
+        if(s2[k]==s1[i])k++;
+        else if(s1[i]<='z'&&s1[i]>='a'&&s1[i]!=s2[k])
+        {
+            k=0;
+            if(s2[k]==s1[i])k++;
+        }
+        if(k==m)
+        {
+            printf(""YES"");
+            return 0;
+        }
+    }
+    printf(""NO"");
+    return 0;
+}"
+151,B,C,60151357,2023-01-06 20:10:04,丨阿伟丨,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	int n,m,p=0;
+    scanf(""%d %d"",&n,&m);
+    char a[n],b[m];
+    scanf(""%s"",a);
+    scanf(""%s"",b);
+    for(int i=0;i<n-m;i++)
+    {
+        int k=0,l=0;
+        for(int o=0;o<m;o++)
+	        for(int v=0;v<n;v++)
+	        {
+				if(a[o+i+l]<='z'&&a[o+i+l]>='a')
+				{
+					if(a[o+i+l]==b[o])
+					{
+						k++;
+						printf(""%c %d\n"",b[o],k);
+						break;
+					}
+				}
+				else
+					l++;
+	        }
+        if(k==m)
+        {
+            p=1;
+            break;
+        }
+    }
+    if(p)
+        printf(""YES"");
+    else
+        printf(""NO"");
+    return 0;
+}"
+152,B,C,60151430,2023-01-06 20:10:38,丨阿伟丨,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	int n,m,p=0;
+    scanf(""%d %d"",&n,&m);
+    char a[n],b[m];
+    scanf(""%s"",a);
+    scanf(""%s"",b);
+    for(int i=0;i<n-m;i++)
+    {
+        int k=0,l=0;
+        for(int o=0;o<m;o++)
+	        for(int v=0;v<n;v++)
+	        {
+				if(a[o+i+l]<='z'&&a[o+i+l]>='a')
+				{
+					if(a[o+i+l]==b[o])
+					{
+						k++;
+						break;
+					}
+				}
+				else
+					l++;
+	        }
+        if(k==m)
+        {
+            p=1;
+            break;
+        }
+    }
+    if(p)
+        printf(""YES"");
+    else
+        printf(""NO"");
+    return 0;
+}"
+153,B,C,60151473,2023-01-06 20:11:01,影..,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+    int n,m;
+    scanf(""%d %d"",&n,&m);
+    char s[n],k[m],l[n];
+    scanf(""%s"",s);
+    scanf(""%s"",k);
+    int i,j=0;
+    for(i=0;i<n;i++)
+    {
+        if(s[i]>='a'&&s[i]<='z')
+        {
+            l[j]=s[i];
+            j++;
+        }
+    }
+    l[j]='\0';
+    if(strstr(l,k))
+    {
+        printf(""YES"");
+    }
+    else printf(""NO"");
+    return 0;
+}"
+154,B,C,60151530,2023-01-06 20:11:28,奕羿,答案错误,"#include<stdio.h>
+int main()
+{
+    int n,m,flag=0;
+    scanf(""%d %d\n"",&n,&m);
+    char arr1[10000],arr2[10000];
+    gets(arr1);
+    gets(arr2);
+    for(int i=0;i<n;i++)
+    {
+        int cnt=0;
+        if(arr1[i]==arr2[cnt]){
+            i++;
+            cnt++;
+            while(1)
+            {
+            if((arr1[i]>='a'&&arr1[i]<='z')||(arr1[i]>='A'&&arr1[i]<='Z')){
+                if(arr1[i]==arr2[cnt]){
+                    i++;
+                    cnt++;
+                    if(cnt==m){
+                flag=1;
+                break;
+            }
+                }else if(arr1[i]!=arr2[cnt]){
+                    break;
+                }
+            }else{
+                i++;
+            }
+            }
+            if(cnt==m){
+                flag=1;
+                break;
+            }
+        }
+        //printf(""%d\n"",i);
+    }
+    if(flag==0){
+        printf(""NO"");
+    }else{
+        printf(""YES"");
+    }
+    return 0;
+}
+"
+155,B,C,60151541,2023-01-06 20:11:33,奕羿,答案错误,"#include<stdio.h>
+int main()
+{
+    int n,m,flag=0;
+    scanf(""%d %d\n"",&n,&m);
+    char arr1[10000],arr2[10000];
+    gets(arr1);
+    gets(arr2);
+    for(int i=0;i<n;i++)
+    {
+        int cnt=0;
+        if(arr1[i]==arr2[cnt]){
+            i++;
+            cnt++;
+            while(1)
+            {
+            if((arr1[i]>='a'&&arr1[i]<='z')||(arr1[i]>='A'&&arr1[i]<='Z')){
+                if(arr1[i]==arr2[cnt]){
+                    i++;
+                    cnt++;
+                    if(cnt==m){
+                flag=1;
+                break;
+            }
+                }else if(arr1[i]!=arr2[cnt]){
+                    break;
+                }
+            }else{
+                i++;
+            }
+            }
+            if(cnt==m){
+                flag=1;
+                break;
+            }
+        }
+        //printf(""%d\n"",i);
+    }
+    if(flag==0){
+        printf(""NO"");
+    }else{
+        printf(""YES"");
+    }
+    return 0;
+}
+"
+156,B,C,60151553,2023-01-06 20:11:38,牛客960952610号,答案错误,"#include<stdio.h>
+int main()
+{
+    int n,m;
+    scanf(""%d %d"",&n,&m);
+    char s1[5010];
+    char s2[5010];
+    scanf(""%s"",s1);
+    scanf(""%s"",s2);
+    int k=0;
+    for(int i=0;i<=n;i++)
+    {
+        if(s2[k]==s1[i])k++;
+        else if(s1[i]<='z'&&s1[i]>='a'&&s1[i]!=s2[k])
+        {
+            k=0;
+            if(s2[k]==s1[i])k++;
+        }
+        printf(""%d"",k);
+        if(k==m)
+        {
+            printf(""YES"");
+            return 0;
+        }
+    }
+    printf(""NO"");
+    return 0;
+}"
+157,B,C(gcc 7.5.0),60151559,2023-01-06 20:11:41,Miss0Bomb,答案错误,"#include <stdio.h>
+#include <string.h>
+int main(){
+	int n,m;
+	int i,j;
+	int a=0;
+	int b=0;
+	scanf(""%d %d"",&n,&m);
+	char s[5000],k[5000];
+	scanf(""%s"",s);
+	scanf(""%s"",k);
+	for(i=0;i<m;i++){
+		for(j=a;j<n;j++){
+			if (k[i]==s[j]){
+				a=j+1;
+				b++;
+				break;
+			}
+			
+		}
+	}
+	if(b==m){
+		printf(""YES"");
+	}
+	if(b!=m){
+		printf(""NO"");
+	}
+	return 0;
+}"
+158,B,C(gcc 7.5.0),60151576,2023-01-06 20:11:51,nbyycc,答案错误,"#include<stdio.h>
+main(){
+    int n,m,i,j,x=0;char s[999],k[999];
+    scanf(""%d %d"",&n,&m);
+    scanf(""%s"",&s);
+    scanf(""%s"",&k);
+    for(i=0;i<n;i++){
+        if(s[i]==k[x]){
+            for(j=i+1;j<n;j++){
+                if(isalpha(s[j])){
+                    if(s[j]==k[x+1])
+                        x++;
+                    else
+                       x=0;break;
+                    if(x==m-1){
+                        printf(""YES"");
+                        return 0;}
+                }
+            }
+        }
+    }
+    if(i==n)
+        printf(""NO"");
+    return 0;
+}
+"
+159,B,C,60151601,2023-01-06 20:12:02,htu_22_王鹏睿,答案错误,"#include<stdio.h>
+#include<string.h>
+#define N 505
+
+int main()
+{
+    int n,m;
+    char ss[N],k[N],s[N];
+    scanf(""%d %d"",&n,&m);
+    scanf(""%s%s"",ss,k);
+    int nn=0;
+    for(int i=0;i<n;i++)
+    {
+        if(ss[i]>='a'&&ss[i]<='z')
+        {
+            s[nn]=ss[i];
+            nn++;
+        }
+    }
+    s[nn+1]='\0';
+//     for(int i=0;i<=nn;i++)
+//          printf(""%c"",s[i]);
+    int sum=0;
+    for(int i=0;i<=nn;i++)
+    {
+      
+        if(s[i]==k[0])
+        {
+            int j=0;
+            for(;j<m;)
+            {
+                if(ss[j]==s[j])
+                    j++;
+                else
+                    break;
+            }
+        if(j==m-1)
+            sum=1;
+//             printf(""%d"",j);
+        }
+    }
+    if(sum==1)
+        printf(""YES"");
+    else
+        printf(""NO"");
+    return 0;
+}"
+160,B,C(gcc 7.5.0),60151695,2023-01-06 20:12:43,牛客199520093号,答案错误,"#include <stdio.h>
+#include <string.h>
+char a[5005],b[5005];
+int main(void){
+    int la,lb,flag=0;
+    scanf(""%d%d"",&la,&lb);
+    getchar();
+    gets(a);
+    gets(b);
+    for(int i=0;i<la;i++){
+    	if(a[i]<'a'||a[i]>'z'){
+    		i++;continue;
+		}
+		else{
+            if(a[i]==b[0]){
+                int j=0;
+                for(;j<lb;j++,i++){
+                	if(a[i]<'a'||a[i]>'z'){
+                        i++;continue;
+                    }
+                    if(a[i]!=b[j]){
+                        i--;
+                        break;
+                    }
+                }
+                if(j==lb){
+                    printf(""YES"");
+                    flag=1;
+                    break;
+                }
+            }
+        }
+    }
+    if(flag==0) printf(""NO"");
+    return 0;
+}"
+161,B,C,60151768,2023-01-06 20:13:22,影..,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+    int n,m;
+    scanf(""%d %d"",&n,&m);
+    char s[n],k[m],l[n];
+    scanf(""%s"",s);
+    scanf(""%s"",k);
+    int i,j=0;
+    for(i=0;i<n;i++)
+    {
+        if(s[i]>='a'&&s[i]<='z')
+        {
+            l[j]=s[i];
+            j++;
+        }
+    }
+//     l[j]='\0';
+    if(strstr(l,k))
+    {
+        printf(""YES"");
+    }
+    else printf(""NO"");
+    return 0;
+}"
+162,B,C,60151830,2023-01-06 20:13:57,CJLU-项朝阳,答案错误,"#include<stdio.h>
+int main()
+{
+    int n,m;
+    int i,j,t,x;
+    char pd='N';
+    char s[5000],k[5000];
+    scanf(""%d%d"",&m,&n);
+    getchar();
+    for(i=0;i<m;i++) scanf(""%c"",&s[i]);
+    getchar();
+    for(i=0;i<n;i++) scanf(""%c"",&k[i]);
+    for(i=0;i<m;i++)
+    {   
+    	if(s[i]<'a'||s[i]>'z')
+        {
+			for(j=i+1;j<m;j++)
+        	{
+	            if(s[j]<'z'&&s[j]>'a')
+	        	{    
+	            	for(t=0;j+t<m;t++)
+					{
+						s[i+t]=s[j+t];
+					}
+				m=m-(i-j);
+				break;                 
+	    		}	
+    		}    
+        }
+	}	    
+    for(i=0;i<m;i++)
+    {    
+        for(j=0;j<n;j++)
+        {
+            if(k[j]!=s[i+j])
+            {
+                j=n+2; 
+            }            
+        }
+        if(j==n) pd='Y';
+    }
+    if(pd=='Y')printf(""YES"");
+    else printf(""NO"");
+    return 0;
+}"
+163,B,C,60151849,2023-01-06 20:14:07,BING_S,答案错误,"#include <stdio.h>
+
+int main(){
+    char a[10000],b[100000],c[10000];
+    int n,m,x=0,y=0,z=0,flag=1;
+    scanf(""%d %d"",&n,&m);
+    getchar();
+    gets(a);
+
+    gets(b);
+ 
+    for(int i=0;i<=n-1;i++){
+        if(a[i]>=97&&a[i]<=122){
+             c[x++]=a[i];
+        }
+    }
+
+    for(int j=0;j<n;j++){
+		if(c[j]==b[y]){
+			y++;
+			z++;
+			continue;
+		}
+		if(z==m){
+			flag=0;
+			printf(""YES\n"");
+			break;
+		}
+		if(c[j]!=b[y]){
+			y=0;
+			z=0;
+		}
+	}
+	if(flag==1)printf(""NO"");
+    return 0;
+}"
+164,B,C,60151852,2023-01-06 20:14:07,丨阿伟丨,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	int n,m,p=0;
+    while(scanf(""%d %d"",&n,&m)!=EOF)
+    {
+    char a[n],b[m];
+    scanf(""%s"",a);
+    scanf(""%s"",b);
+    for(int i=0;i<n-m;i++)
+    {
+        int k=0,l=0;
+        for(int o=0;o<m;o++)
+	        for(int v=0;v<n;v++)
+	        {
+				if(a[o+i+l]<='z'&&a[o+i+l]>='a')
+				{
+					if(a[o+i+l]==b[o])
+					{
+						k++;
+						break;
+					}
+				}
+				else
+					l++;
+	        }
+        if(k==m)
+        {
+            p=1;
+            break;
+        }
+    }
+    if(p)
+        printf(""YES\n"");
+    else
+        printf(""NO\n"");
+    }
+    return 0;
+}"
+165,B,C(gcc 7.5.0),60151860,2023-01-06 20:14:10,nbyycc,答案错误,"#include<stdio.h>
+main(){
+    int n,m,i,j,x=0;char s[999],k[999];
+    scanf(""%d %d"",&n,&m);
+    scanf(""%s"",&s);
+    scanf(""%s"",&k);
+    for(i=0;i<n;i++){
+        if(s[i]==k[x]){
+            for(j=i+1;j<n;j++){
+                if(isalpha(s[j])){
+                    if(s[j]==k[x+1])
+                        x++;
+                    else{
+                       x=0;break;}
+                    if(x==m-1){
+                        printf(""YES"");
+                        return 0;}
+                }
+            }
+        }
+    }
+    if(i==n)
+        printf(""NO"");
+    return 0;
+}
+"
+166,B,C,60151870,2023-01-06 20:14:16,鸡鸣寺花不再,答案错误,"#include<stdio.h>
+#include<string.h>
+#include<ctype.h>
+int main()
+{
+    int n,m;
+    scanf(""%d%d"",&n,&m);
+    char arr[n+1];
+    char word[m+1];
+    scanf(""%s"",arr);
+    scanf(""%s"",word);
+    char *p=arr,*q=word;
+    int k=1;
+    for(int i=0;i<n+1;i++)
+    {
+        if(arr[i]==word[0])
+        {
+            p=arr+i;
+            while(k)
+            {
+                while(isdigit(*p)!=0)
+                p++;
+                if(*p==*q)
+                {
+                	 p++;
+					 q++;   	
+				}
+				else
+				k=0;
+                if(*(q+1)==0)
+                    break;
+            }
+            q=word;
+            if(k==1)
+                break;
+        }
+    }
+    if(k==1)
+        printf(""YES"");
+    else
+        printf(""NO"");
+}"
+167,B,C,60151909,2023-01-06 20:14:33,htu_22_王鹏睿,答案错误,"#include<stdio.h>
+#include<string.h>
+#define N 505
+
+int main()
+{
+    int n,m;
+    char ss[N],k[N],s[N];
+    scanf(""%d %d"",&n,&m);
+    scanf(""%s%s"",ss,k);
+    int nn=0;
+    for(int i=0;i<n;i++)
+    {
+        if(ss[i]>='a'&&ss[i]<='z')
+        {
+            s[nn]=ss[i];
+            nn++;
+        }
+    }
+    s[nn+1]='\0';
+//     for(int i=0;i<=nn;i++)
+//          printf(""%c"",s[i]);
+    int sum=0;
+    for(int i=0;i<=nn;i++)
+    {
+      
+        if(s[i]==k[0])
+        {
+            int j=0;
+            for(;j<m;)
+            {
+                if(s[j]==k[j])
+                    j++;
+                else
+                    break;
+            }
+        if(j==m-1)
+            sum=1;
+//         printf(""%d"",j);
+        }
+    }
+    if(sum==1)
+        printf(""YES"");
+    else
+        printf(""NO"");
+    return 0;
+}"
+168,B,C,60151934,2023-01-06 20:14:46,影..,答案正确,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+    int n,m;
+    scanf(""%d %d"",&n,&m);
+    char s[n+1],k[m+1],l[n+1];
+    scanf(""%s"",s);
+    scanf(""%s"",k);
+    int i,j=0;
+    for(i=0;i<n;i++)
+    {
+        if(s[i]>='a'&&s[i]<='z')
+        {
+            l[j]=s[i];
+            j++;
+        }
+    }
+    l[j]='\0';
+    if(strstr(l,k))
+    {
+        printf(""YES"");
+    }
+    else printf(""NO"");
+    return 0;
+}"
+169,B,C(gcc 7.5.0),60151961,2023-01-06 20:14:55,疏影横斜。,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c:39:9: error: expected declaration specifiers or ‘...’ before string constant\n  printf(\""NO\"");\n         ^~~~\nmain.c:40:2: error: expected identifier or ‘(’ before ‘return’\n  return 0;\n  ^~~~~~\nmain.c:41:1: error: expected identifier or ‘(’ before ‘}’ token\n }\n ^\nmain.c: In function ‘main’:\nmain.c:9:2: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n  scanf(\""%d%d\"",&n,&m);\n  ^~~~~~~~~~~~~~~~~~~\nmain.c:10:2: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n  scanf(\""%s%s\"",arr_n,arr_m);\n  ^~~~~~~~~~~~~~~~~~~~~~~~~""}
+
+#include<stdio.h>
+char arr_m[1005];
+char arr_n[1005];
+char arr_b[1005];
+int main()
+{
+	int n,m,flag=1;
+	int b=-1;
+	scanf(""%d%d"",&n,&m);
+	scanf(""%s%s"",arr_n,arr_m);
+	for(int a=0;a<n;a++)
+	{
+		if(arr_n[a]>'a'&&arr_n[a]<'z')
+		{
+			b++;
+			arr_b[b]=arr_n[a];
+		}
+	}
+	for(int a=0;a<=b;a++)
+	{
+		flag=1;
+		if(arr_b[a]==arr_m[0])
+		{
+			for(int c=0;c<m;c++)
+			{
+				if(arr_b[a+c]!=arr_m[c])
+				flag=0;
+			}
+			if(flag==1)
+			{
+				printf(""YES"");
+				return 0;
+			}
+		}
+	}
+	printf(""NO"");
+	return 0;
+}
+	printf(""NO"");
+	return 0;
+}"
+170,B,C(gcc 7.5.0),60152012,2023-01-06 20:15:16,疏影横斜。,段错误,"#include<stdio.h>
+char arr_m[1005];
+char arr_n[1005];
+char arr_b[1005];
+int main()
+{
+	int n,m,flag=1;
+	int b=-1;
+	scanf(""%d%d"",&n,&m);
+	scanf(""%s%s"",arr_n,arr_m);
+	for(int a=0;a<n;a++)
+	{
+		if(arr_n[a]>'a'&&arr_n[a]<'z')
+		{
+			b++;
+			arr_b[b]=arr_n[a];
+		}
+	}
+	for(int a=0;a<=b;a++)
+	{
+		flag=1;
+		if(arr_b[a]==arr_m[0])
+		{
+			for(int c=0;c<m;c++)
+			{
+				if(arr_b[a+c]!=arr_m[c])
+				flag=0;
+			}
+			if(flag==1)
+			{
+				printf(""YES"");
+				return 0;
+			}
+		}
+	}
+	printf(""NO"");
+	return 0;
+}"
+171,B,C,60152039,2023-01-06 20:15:25,kindred_,答案错误,"#include <stdio.h>
+#include <string.h>
+int main()
+{
+    int n,m,g=0;
+    char s[5000+10],k[5000+10],y[5000+10],x[5000+10],z[5000+10];
+    scanf(""%d%d"",&n,&m);
+    scanf(""%s"",s);
+    scanf(""%s"",k);
+    for(int i = 0;i <= n;i ++)
+    {
+        if(s[i] <= 'z'&&s[i] >= 'a')
+        {
+            y[g] = s[i];
+            g ++;
+        }
+    }
+    int f = 0;
+    for(;g > m;)
+    {
+		strncpy(x,y,m);
+		if(strcmp(x,k) == 0)
+    	{
+    		printf(""YES"");
+    		f++;
+    		break;
+		}
+		else
+		{
+			g --;
+			memcpy(y,&(y[1]),g-1);
+		}
+	}
+	if(f == 0)
+		printf(""NO"");
+    return 0;
+}"
+172,B,C,60152146,2023-01-06 20:16:18,鸡鸣寺花不再,答案错误,"#include<stdio.h>
+#include<string.h>
+#include<ctype.h>
+int main()
+{
+    int n,m;
+    scanf(""%d%d"",&n,&m);
+    char arr[n+1];
+    char word[m+1];
+    scanf(""%s"",arr);
+    scanf(""%s"",word);
+    char *p=arr,*q=word;
+    int k=1;
+    for(int i=0;i<n+1;i++)
+    {
+        if(arr[i]==word[0])
+        {
+            p=arr+i;
+            while(k)
+            {
+                while(isdigit(*p)!=0)
+                p++;
+                if(*p==*q)
+                {
+                	 p++;
+					 q++;  
+				}
+				else
+				k=0;
+                if(*q==0)
+                    break;
+            }
+            q=word;
+            if(k==1)
+                break;
+        }
+    }
+    if(k==1)
+        printf(""YES"");
+    else
+        printf(""NO"");
+}"
+173,B,C(gcc 7.5.0),60152179,2023-01-06 20:16:34,Miss0Bomb,答案错误,"#include <stdio.h>
+#include <string.h>
+int main(){
+	long long int n,m;
+	long long int i,j;
+	long long int a=0;
+	long long int b=0;
+	scanf(""%lld %lld"",&n,&m);
+	char s[5000],k[5000];
+	scanf(""%s"",s);
+	scanf(""%s"",k);
+	for(i=0;i<m;i++){
+		for(j=a;j<n;j++){
+			if (k[i]==s[j]){
+				a=j+1;
+				b++;
+				break;
+			}
+			
+		}
+	}
+	if(b==m){
+		printf(""YES"");
+	}
+	if(b!=m){
+		printf(""NO"");
+	}
+	return 0;
+}"
+174,B,C(gcc 7.5.0),60152200,2023-01-06 20:16:42,疏影横斜。,段错误,"#include<stdio.h>
+char arr_m[5005];
+char arr_n[5005];
+char arr_b[5005];
+int main()
+{
+	int n,m,flag=1;
+	int b=-1;
+	scanf(""%d%d"",&n,&m);
+	scanf(""%s%s"",arr_n,arr_m);
+	for(int a=0;a<n;a++)
+	{
+		if(arr_n[a]>'a'&&arr_n[a]<'z')
+		{
+			b++;
+			arr_b[b]=arr_n[a];
+		}
+	}
+	for(int a=0;a<=b;a++)
+	{
+		flag=1;
+		if(arr_b[a]==arr_m[0])
+		{
+			for(int c=0;c<m;c++)
+			{
+				if(arr_b[a+c]!=arr_m[c])
+				flag=0;
+			}
+			if(flag==1)
+			{
+				printf(""YES"");
+				return 0;
+			}
+		}
+	}
+	printf(""NO"");
+	return 0;
+}"
+175,B,C(gcc 7.5.0),60152234,2023-01-06 20:16:58,疏影横斜。,答案错误,"#include<stdio.h>
+char arr_m[50005];
+char arr_n[50005];
+char arr_b[50005];
+int main()
+{
+	int n,m,flag=1;
+	int b=-1;
+	scanf(""%d%d"",&n,&m);
+	scanf(""%s%s"",arr_n,arr_m);
+	for(int a=0;a<n;a++)
+	{
+		if(arr_n[a]>'a'&&arr_n[a]<'z')
+		{
+			b++;
+			arr_b[b]=arr_n[a];
+		}
+	}
+	for(int a=0;a<=b;a++)
+	{
+		flag=1;
+		if(arr_b[a]==arr_m[0])
+		{
+			for(int c=0;c<m;c++)
+			{
+				if(arr_b[a+c]!=arr_m[c])
+				flag=0;
+			}
+			if(flag==1)
+			{
+				printf(""YES"");
+				return 0;
+			}
+		}
+	}
+	printf(""NO"");
+	return 0;
+}"
+176,B,C,60152307,2023-01-06 20:17:32,kinor,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+    int n,m;
+    char ch;
+    scanf(""%d%d"",&n,&m);
+	scanf(""%c"",&ch); 
+    char a[5001]={0},b[5001]={0};
+    char c[5001]={0};
+    int sum=0;
+    while(1)
+    {
+        scanf(""%c"",&a[sum]);
+        if(a[sum]=='\n')
+        {
+            a[sum]=0;
+            break;
+        }
+        if(a[sum]<'z'&&a[sum]>'a')
+            sum++;
+    }
+    for(int i=0;i<m;i++)
+        scanf(""%c"",&b[i]);
+    int i;
+    for(i=0;i<sum-m;i++)
+    {
+        for(int j=0;j<m;j++)
+        {
+            c[j]=a[i+j];
+        }
+        if(strcmp(c,b)==0)
+        {
+            printf(""YES"");
+            break;
+        }
+    }
+    if(i==sum-m)
+        printf(""NO"");
+    return 0;
+}"
+177,B,C,60152429,2023-01-06 20:18:32,kinor,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+    int n,m;
+    char ch;
+    scanf(""%d%d"",&n,&m);
+	scanf(""%c"",&ch); 
+    char a[5001]={0},b[5001]={0};
+    char c[5001]={0};
+    int sum=0;
+    while(1)
+    {
+        scanf(""%c"",&a[sum]);
+        if(a[sum]=='\n')
+        {
+            a[sum]=0;
+            break;
+        }
+        if(a[sum]<'z'&&a[sum]>'a')
+            sum++;
+    }
+    for(int i=0;i<m;i++)
+        scanf("" %c"",&b[i]);
+    int i;
+    for(i=0;i<sum-m;i++)
+    {
+        for(int j=0;j<m;j++)
+        {
+            c[j]=a[i+j];
+        }
+        if(strcmp(c,b)==0)
+        {
+            printf(""YES"");
+            break;
+        }
+    }
+    if(i==sum-m)
+        printf(""NO"");
+    return 0;
+}"
+178,B,C,60152432,2023-01-06 20:18:33,CJLU-项朝阳,答案错误,"#include<stdio.h>
+int main()
+{
+    int n,m;
+    int i,j,t,x;
+    char pd='N';
+    char s[5000],k[5000];
+    scanf(""%d%d"",&m,&n);
+    getchar();
+    for(i=0;i<m;i++) scanf(""%c"",&s[i]);
+    getchar();
+    for(i=0;i<n;i++) scanf(""%c"",&k[i]);
+    for(i=0;i<m;i++)
+    {   
+    	if(s[i]<'a'||s[i]>'z')
+        {
+			for(j=i+1;j<m;j++)
+        	{
+	            if(s[j]<'z'&&s[j]>'a')
+	        	{    
+	            	for(t=0;j+t<m;t++)
+					{
+						s[i+t]=s[j+t];
+					}
+				m=m-(i-j);
+				break;                 
+	    		}	
+    		}    
+        }
+	}	    
+    for(i=0;i<m;i++)
+    {    
+        for(j=0;j<n;j++)
+        {
+            if(k[j]!=s[i+j])
+            {
+                j=n+2; 
+            }            
+        }
+        if(j==n) pd='Y';
+    }
+    if(pd=='Y')printf(""YES"");
+    else printf(""NO"");
+    return 0;
+}"
+179,B,C,60152434,2023-01-06 20:18:33,htu_22_王鹏睿,段错误,"#include<stdio.h>
+#include<string.h>
+#define N 505
+
+int main()
+{
+    int n,m;
+    char ss[N],k[N],s[N];
+    scanf(""%d %d"",&n,&m);
+    scanf(""%s%s"",ss,k);
+    int nn=0;
+    for(int i=0;i<n;i++)
+    {
+        if(ss[i]>='a'&&ss[i]<='z')
+        {
+            s[nn]=ss[i];
+            nn++;
+        }
+    }
+    s[nn+1]='\0';
+//     for(int i=0;i<nn;i++)
+//          printf(""%c"",s[i]);
+    int sum=0;
+    for(int i=0;i<=nn;i++)
+    {
+        if(s[i]==k[0])
+        {
+            int j=0,l=i;
+            for(;j<m;)
+            {
+                if(s[l]==k[j])
+                    j++,l++;
+                else
+                    break;
+            }
+        if(j==m)
+            sum=1;
+//          printf(""%d"",j);
+        }
+    }
+    if(sum==1)
+        printf(""YES"");
+    else
+        printf(""NO"");
+    return 0;
+}"
+180,B,C,60152456,2023-01-06 20:18:46,鸡鸣寺花不再,答案错误,"#include<stdio.h>
+#include<string.h>
+#include<ctype.h>
+int main()
+{
+    int n,m;
+    scanf(""%d%d"",&n,&m);
+    char arr[n+1];
+    char word[m+1];
+    scanf(""%s"",arr);
+    scanf(""%s"",word);
+    char *p=arr,*q=word;
+    int k=1;
+    for(int i=0;i<n+1;i++)
+    {
+        if(arr[i]==word[0])
+        {
+            p=arr+i;
+            while(k)
+            {
+                while(islower(*p)==0)
+                p++;
+                if(*p==*q)
+                {
+                	 p++;
+					 q++;  
+				}
+				else
+				k=0;
+                if(*q==0)
+                    break;
+            }
+            q=word;
+            if(k==1)
+                break;
+        }
+    }
+    if(k==1)
+        printf(""YES"");
+    else
+        printf(""NO"");
+}"
+181,B,C(gcc 7.5.0),60152462,2023-01-06 20:18:48,牛客199520093号,答案错误,"#include <stdio.h>
+#include <string.h>
+char a[5005],b[5005];
+int main(void){
+    int la,lb,flag=0;
+    scanf(""%d%d"",&la,&lb);
+    getchar();
+    gets(a);
+    gets(b);
+    for(int i=0;i<la;i++){
+    	if(a[i]<'a'||a[i]>'z'){
+    		i++;continue;
+		}
+		else{
+            if(a[i]==b[0]){
+                int j=0;
+                for(;i<la&&j<lb;j++,i++){
+                	if(a[i]<'a'||a[i]>'z'){
+    		            j--;continue;
+		            }
+                    if(a[i]!=b[j]){
+                    	i--;break;
+					}
+                }
+                if(j==lb){
+                    printf(""YES"");
+                    flag=1;
+                    break;
+                }
+            }
+        }
+    }
+    if(flag==0) printf(""NO"");
+    return 0;
+}"
+182,B,C,60152479,2023-01-06 20:18:55,kinor,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c:20:32: error: expected expression\n        if(a[sum]<='z'&&a[sum]=>'a')\n                               ^\n1 error generated.""}
+
+#include<stdio.h>
+#include<string.h>
+int main()
+{
+    int n,m;
+    char ch;
+    scanf(""%d%d"",&n,&m);
+	scanf(""%c"",&ch); 
+    char a[5001]={0},b[5001]={0};
+    char c[5001]={0};
+    int sum=0;
+    while(1)
+    {
+        scanf(""%c"",&a[sum]);
+        if(a[sum]=='\n')
+        {
+            a[sum]=0;
+            break;
+        }
+        if(a[sum]<='z'&&a[sum]=>'a')
+            sum++;
+    }
+    for(int i=0;i<m;i++)
+        scanf("" %c"",&b[i]);
+    int i;
+    for(i=0;i<sum-m;i++)
+    {
+        for(int j=0;j<m;j++)
+        {
+            c[j]=a[i+j];
+        }
+        if(strcmp(c,b)==0)
+        {
+            printf(""YES"");
+            break;
+        }
+    }
+    if(i==sum-m)
+        printf(""NO"");
+    return 0;
+}"
+183,B,C,60152495,2023-01-06 20:19:06,kinor,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+    int n,m;
+    char ch;
+    scanf(""%d%d"",&n,&m);
+	scanf(""%c"",&ch); 
+    char a[5001]={0},b[5001]={0};
+    char c[5001]={0};
+    int sum=0;
+    while(1)
+    {
+        scanf(""%c"",&a[sum]);
+        if(a[sum]=='\n')
+        {
+            a[sum]=0;
+            break;
+        }
+        if(a[sum]<='z'&&a[sum]>='a')
+            sum++;
+    }
+    for(int i=0;i<m;i++)
+        scanf("" %c"",&b[i]);
+    int i;
+    for(i=0;i<sum-m;i++)
+    {
+        for(int j=0;j<m;j++)
+        {
+            c[j]=a[i+j];
+        }
+        if(strcmp(c,b)==0)
+        {
+            printf(""YES"");
+            break;
+        }
+    }
+    if(i==sum-m)
+        printf(""NO"");
+    return 0;
+}"
+184,B,C(gcc 7.5.0),60152543,2023-01-06 20:19:25,Miss0Bomb,答案错误,"#include <stdio.h>
+#include <string.h>
+int main(){
+	long long int n,m;
+	long long int i,j;
+	long long int a=0;
+	long long int b=0;
+	scanf(""%lld %lld"",&n,&m);
+	char s[5000],k[5000];
+	scanf(""%s"",s);
+	scanf(""%s"",k);
+	for(i=0;i<m;i++){
+		for(j=a;j<n;j++){
+			if (k[i]==s[j]){
+				a=j+1;
+				b++;
+				break;
+			}
+			
+		}
+	}
+	if(b==m){
+		printf(""YES"");
+	}
+	if(b!=m){
+		printf(""NO"");
+	}
+	return 0;
+}"
+185,B,C(gcc 7.5.0),60152566,2023-01-06 20:19:35,nbyycc,答案错误,"#include<stdio.h>
+main(){
+    int n,m,i,j,x=0;char s[999],k[999];
+    scanf(""%d %d"",&n,&m);
+    scanf(""%s"",&s);
+    scanf(""%s"",&k);
+    for(i=0;i<n;i++){
+        if(s[i]==k[x]){
+            for(j=i+1;j<n;j++){
+                if(isalpha(s[j])){
+                    if(s[j]==k[x+1])
+                        x++;
+                    else{
+                       x=0;break;}
+                    if(x==m-1){
+                        printf(""YES"");
+                        return 0;}
+                }
+            }
+        }
+    }
+    if(i==n)
+        printf(""NO"");
+    return 0;
+}
+"
+186,B,C,60152572,2023-01-06 20:19:38,htu_22_王鹏睿,答案正确,"#include<stdio.h>
+#include<string.h>
+#define N 5005
+
+int main()
+{
+    int n,m;
+    char ss[N],k[N],s[N];
+    scanf(""%d %d"",&n,&m);
+    scanf(""%s%s"",ss,k);
+    int nn=0;
+    for(int i=0;i<n;i++)
+    {
+        if(ss[i]>='a'&&ss[i]<='z')
+        {
+            s[nn]=ss[i];
+            nn++;
+        }
+    }
+    s[nn+1]='\0';
+//     for(int i=0;i<nn;i++)
+//          printf(""%c"",s[i]);
+    int sum=0;
+    for(int i=0;i<=nn;i++)
+    {
+        if(s[i]==k[0])
+        {
+            int j=0,l=i;
+            for(;j<m;)
+            {
+                if(s[l]==k[j])
+                    j++,l++;
+                else
+                    break;
+            }
+        if(j==m)
+            sum=1;
+//          printf(""%d"",j);
+        }
+    }
+    if(sum==1)
+        printf(""YES"");
+    else
+        printf(""NO"");
+    return 0;
+}"
+187,B,C,60152603,2023-01-06 20:19:52,kindred_,答案错误,"#include <stdio.h>
+#include <string.h>
+int main()
+{
+    int n,m,g=0;
+    char s[5000+10],k[5000+10],y[5000+10],x[5000+10],z[5000+10];
+    scanf(""%d%d"",&n,&m);
+    scanf(""%s"",s);
+    scanf(""%s"",k);
+    for(int i = 0;i <= n;i ++)
+    {
+        if(s[i] <= 'z'&&s[i] >= 'a')
+        {
+            y[g] = s[i];
+            g ++;
+        }
+    }
+    int f = 0;
+    for(;g >= m;)
+    {
+		strncpy(x,y,m);
+		if(strcmp(x,k) == 0)
+    	{
+    		printf(""YES"");
+    		f++;
+    		break;
+		}
+		else
+		{
+			g --;
+			memcpy(y,&(y[1]),g);
+		}
+	}
+	if(f == 0)
+		printf(""NO"");
+    return 0;
+}"
+188,B,C(gcc 7.5.0),60152626,2023-01-06 20:20:04,Kkkkoala,答案错误,"#include<stdio.h>
+
+int main()
+{
+	int n,m,i,j,l=0,a=0;
+	scanf(""%d %d"",&n,&m);
+	char s[5000],k[5000];
+	scanf(""%s %s"",&s,&k);
+	for(i=0;i<m;i++)
+	{
+		for(j=a;j<n;j++,a++)
+		{
+			if(s[j]>=97&&s[j]<=122)
+			{
+				if(s[j]==k[i])
+				{
+					l++;
+					a++;
+					break;
+				}else if(s[j]==k[0]){
+					a++;
+					l=1;
+					i=0;
+					break;
+				}else{
+					l=0;
+				}
+			} 
+		}
+	}
+	if(l==m)
+	{
+		printf(""YES"");
+	}else{
+		printf(""NO"");
+	}
+	return 0;
+}"
+189,B,C,60152711,2023-01-06 20:20:52,kinor,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+    int n,m;
+    char ch;
+    scanf(""%d%d"",&n,&m);
+	scanf(""%c"",&ch); 
+    char a[5001]={0},b[5001]={0};
+    char c[5001]={0};
+    int sum=0;
+    while(1)
+    {
+        scanf(""%c"",&a[sum]);
+        if(a[sum]=='\n')
+        {
+            a[sum]=0;
+            break;
+        }
+        if(a[sum]<='z'&&a[sum]>='a')
+            sum++;
+    }
+    for(int i=0;i<m;i++)
+        scanf("" %c"",&b[i]);
+    int i;
+    for(i=0;i<=sum-m;i++)
+    {
+        for(int j=0;j<m;j++)
+        {
+            c[j]=a[i+j];
+        }
+        if(strcmp(c,b)==0)
+        {
+            printf(""YES"");
+            break;
+        }
+    }
+    if(i==sum-m)
+        printf(""NO"");
+    return 0;
+}"
+190,B,C,60152820,2023-01-06 20:21:51,牛客960952610号,答案错误,"#include<stdio.h>
+int main()
+{
+    int n,m;
+    scanf(""%d %d"",&n,&m);
+    char s1[5010];
+    char s2[5010];
+    scanf(""%s"",s1);
+    scanf(""%s"",s2);
+    int k=0;
+    for(int i=0;i<=n;i++)
+    {
+        if(s2[k]==s1[i])k++;
+        else if(s1[i]>'z'&&s1[i]<'a')continue;
+        else
+        {
+            k=0;
+            if(s2[k]==s1[i])k++;
+        }
+        if(k==m)
+        {
+            printf(""YES"");
+            return 0;
+        }
+    }
+    printf(""NO"");
+    return 0;
+}"
+191,B,C,60152830,2023-01-06 20:21:54,Y.M.F,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	char str[10000];
+	char tstr[10000];
+	char k[10000];
+	int n,m,i,t=0; 
+	scanf(""%d %d\n"",&n,&m);
+	gets(str);
+	gets(k);
+	for(i=0;i<n;i++){
+		switch(str[i]){
+			case'0':continue;break;
+			case'1':continue;break;
+			case'2':continue;break;
+			case'3':continue;break;
+			case'4':continue;break;
+			case'5':continue;break;
+			case'6':continue;break;
+			case'7':continue;break;
+			case'8':continue;break;
+			case'9':continue;break;
+			case'+':continue;break;
+			case'-':continue;break;
+			case'*':continue;break;
+			case'|':continue;break;
+			case',':continue;break;
+			case'.':continue;break;
+			case'~':continue;break;
+			case'!':continue;break;
+			case'@':continue;break;
+			case'#':continue;break;
+			case'$':continue;break;
+			case'%':continue;break;
+			case'^':continue;break;
+			case'&':continue;break;
+			case'(':continue;break;
+			case')':continue;break;
+			case'[':continue;break;
+			case']':continue;break;
+			case'{':continue;break;
+			case'}':continue;break;
+			case'""':continue;break;
+			case';':continue;break;
+			case':':continue;break;
+			case'?':continue;break;
+			case'<':continue;break;
+			case'>':continue;break;
+			case'/':continue;break;
+        }
+		tstr[t]=str[i];
+		t++;
+	}
+	if(strstr(tstr,k)) printf(""YES"");
+	else printf(""NO"");
+ } "
+192,B,C,60152921,2023-01-06 20:22:52,kindred_,答案错误,"#include <stdio.h>
+#include <string.h>
+int main()
+{
+    int n,m,g=0;
+    char s[5000+10],k[5000+10],y[5000+10],x[5000+10],z[5000+10];
+    scanf(""%d%d"",&n,&m);
+    scanf(""%s"",s);
+    scanf(""%s"",k);
+    for(int i = 0;i <= n;i ++)
+    {
+        if(s[i] <= 'z'&&s[i] >= 'a')
+        {
+            y[g] = s[i];
+            g ++;
+        }
+    }
+    int f = 0;
+    for(;g >= m;)
+    {
+		strncpy(x,y,m);
+		if(strcmp(x,k) == 0)
+    	{
+    		printf(""YES"");
+    		f++;
+    		break;
+		}
+		else
+		{
+			g --;
+			memcpy(y,&(y[1]),g);
+		}
+	}
+	if(f == 0)
+		printf(""NO"");
+    return 0;
+}"
+193,B,C(gcc 7.5.0),60152950,2023-01-06 20:23:06,嘉嘉不想加加,运行超时,"#include<stdio.h>
+#include<string.h>
+int main(){
+	int n,m;
+	scanf(""%d%d"",&n,&m);//字符串s的长度，字符串k的长度 
+	char s[n],k[m];
+	scanf(""%s"",s);
+	getchar();
+	scanf(""%s"",k);
+	int i=0,j=0;
+	char o[m];
+	int x=0;
+	int cup=0;
+	for(i=0;i<n;i++)
+	{
+		if(!((s[i]>='0' && s[i]<='9')|| s[i]=='+'||s[i]=='-'||s[i]=='*'
+		|| s[i]=='|' || s[i]==','||s[i]=='.'||s[i]=='~'|| s[i]=='!'
+		||s[i]=='@'||s[i]=='#'|| s[i]=='$'||s[i]=='%'||s[i]=='^'
+		|| s[i]=='&'||s[i]=='('||s[i]==')'|| s[i]=='['||s[i]==']'
+		||s[i]=='{'|| s[i]=='}'||s[i]=='""'||s[i]==39
+		|| s[i]==';'||s[i]==':'||s[i]=='?'|| s[i]=='<'||s[i]=='>'
+		||s[i]=='/'|| s[i]=='\\')){
+				o[x++]=s[i];
+		}
+		else
+		    cup++; 
+		
+		if(x==m)
+		{
+			if(strcmp(k,o)==0){
+				x=-1;
+				break;
+			} 
+			else{
+					x=0;
+					i-=2+cup;
+			}
+			
+		}	 
+	 } 
+	 if(x==-1)
+	 	printf(""YES""); 
+	else
+		printf(""NO"");
+
+	
+	
+}"
+194,B,C,60153047,2023-01-06 20:23:56,鸡鸣寺花不再,答案错误,"#include<stdio.h>
+#include<string.h>
+#include<ctype.h>
+int main()
+{
+    int n,m;
+    scanf(""%d%d"",&n,&m);
+    char arr[n+1];
+    char word[m+1];
+    scanf(""%s"",arr);
+    scanf(""%s"",word);
+    char *p=arr,*q=word;
+    int k=1;
+    for(int i=0;i<n+1;i++)
+    {
+        if(arr[i]==word[0])
+        {
+            p=arr+i;
+            k=1;
+            while(k)
+            {
+                while(islower(*p)==0)
+                p++;
+                if(*p==*q)
+                {
+                	 p++;
+					 q++;  
+				}
+				else
+				k=0;
+                if(*q==0)
+                    break;
+            }
+            q=word;
+            if(k==1)
+                break;
+        }
+    }
+    if(k==1)
+        printf(""YES"");
+    else
+        printf(""NO"");
+}"
+195,B,C,60153049,2023-01-06 20:23:57,kinor,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+    int n,m;
+    char ch;
+    scanf(""%d%d"",&n,&m);
+	scanf(""%c"",&ch); 
+    char a[5050]={0},b[5050]={0};
+    char c[5050]={0};
+    int sum=0;
+    while(1)
+    {
+        scanf(""%c"",&a[sum]);
+        if(a[sum]=='\n')
+        {
+            a[sum]=0;
+            break;
+        }
+        if(a[sum]<='z'&&a[sum]>='a')
+            sum++;
+    }
+    for(int i=0;i<m;i++)
+        scanf("" %c"",&b[i]);
+    int i;
+    for(i=0;i<=sum-m;i++)
+    {
+        for(int j=0;j<m;j++)
+        {
+            c[j]=a[i+j];
+        }
+        if(strcmp(c,b)==0)
+        {
+            printf(""YES"");
+            break;
+        }
+    }
+    if(i==sum-m)
+        printf(""NO"");
+    return 0;
+}"
+196,B,C,60153153,2023-01-06 20:24:53,kinor,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+    int n,m;
+    char ch;
+    scanf(""%d%d"",&n,&m);
+	scanf(""%c"",&ch); 
+    char a[5050]={0},b[5050]={0};
+    char c[5050]={0};
+    int sum=0;
+    while(1)
+    {
+        scanf(""%c"",&a[sum]);
+        if(a[sum]=='\n')
+        {
+            a[sum]=0;
+            break;
+        }
+        if(a[sum]<='z'&&a[sum]>='a')
+            sum++;
+    }
+    for(int i=0;i<m;i++)
+        scanf("" %c"",&b[i]);
+    int i;
+    for(i=0;i<=sum-m;i++)
+    {
+        for(int j=0;j<m;j++)
+        {
+            c[j]=a[i+j];
+        }
+        if(strcmp(c,b)==0)
+        {
+            printf(""YES"");
+            break;
+        }
+    }
+    if(i==sum-m+1)
+        printf(""NO"");
+    return 0;
+}"
+197,B,C,60153194,2023-01-06 20:25:15,Y.M.F,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	char str[10000];
+	char tstr[10000];
+	char k[10000];
+	int n,m,i,t=0; 
+	scanf(""%d %d\n"",&n,&m);
+	scanf(""%s"",str);
+	scanf(""%s"",k);
+	for(i=0;i<n;i++){
+		switch(str[i]){
+			case'0':continue;break;
+			case'1':continue;break;
+			case'2':continue;break;
+			case'3':continue;break;
+			case'4':continue;break;
+			case'5':continue;break;
+			case'6':continue;break;
+			case'7':continue;break;
+			case'8':continue;break;
+			case'9':continue;break;
+			case'+':continue;break;
+			case'-':continue;break;
+			case'*':continue;break;
+			case'|':continue;break;
+			case',':continue;break;
+			case'.':continue;break;
+			case'~':continue;break;
+			case'!':continue;break;
+			case'@':continue;break;
+			case'#':continue;break;
+			case'$':continue;break;
+			case'%':continue;break;
+			case'^':continue;break;
+			case'&':continue;break;
+			case'(':continue;break;
+			case')':continue;break;
+			case'[':continue;break;
+			case']':continue;break;
+			case'{':continue;break;
+			case'}':continue;break;
+			case'""':continue;break;
+			case';':continue;break;
+			case':':continue;break;
+			case'?':continue;break;
+			case'<':continue;break;
+			case'>':continue;break;
+			case'/':continue;break;
+            case'\\':continue;break;
+        }
+		tstr[t]=str[i];
+		t++;
+	}
+	if(strstr(tstr,k)) printf(""YES"");
+	else printf(""NO"");
+ } "
+198,B,C(gcc 7.5.0),60153229,2023-01-06 20:25:33,IWEC_Shi,答案正确,"#include<stdio.h>
+#include<string.h>
+#define N 5005
+
+int main()
+{
+    int n,m;
+    char ss[N],k[N],s[N];
+    scanf(""%d %d"",&n,&m);
+    scanf(""%s%s"",ss,k);
+    int nn=0;
+    for(int i=0;i<n;i++)
+    {
+        if(ss[i]>='a'&&ss[i]<='z')
+        {
+            s[nn]=ss[i];
+            nn++;
+        }
+    }
+    s[nn+1]='\0';
+
+    int sum=0;
+    for(int i=0;i<=nn;i++)
+    {
+        if(s[i]==k[0])
+        {
+            int j=0,l=i;
+            for(;j<m;)
+            {
+                if(s[l]==k[j])
+                    j++,l++;
+                else
+                    break;
+            }
+        if(j==m)
+            sum=1;
+        }
+    }
+    if(sum==1)
+        printf(""YES"");
+    else
+        printf(""NO"");
+    return 0;
+}"
+199,B,C,60153312,2023-01-06 20:26:10,asdfghjkwer,答案正确,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+    int n,m;
+    scanf(""%d%d"",&n,&m);
+    char ch1[10000];
+    char ch2[10000];
+    char ch3[10000];
+    scanf(""%s"",ch1);
+    scanf(""%s"",ch2);
+    int j=0,k=0;
+    for(int i=0;i<n;i++)
+    {
+        if(ch1[i]<='z'&&ch1[i]>='a')
+        {
+            ch3[j]=ch1[i];
+            j++;
+        }
+    }
+    char *p=strstr(ch3,ch2);
+    if(p!=NULL) printf(""YES\n"");
+    else printf(""NO\n"");
+}"

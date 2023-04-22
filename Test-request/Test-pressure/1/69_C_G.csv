@@ -1,0 +1,89 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,G,C,61490870,2023-03-24 20:52:34,sss208,答案错误,"#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<ctype.h>
+#include<math.h>
+int combination(int a,int b){
+    double res = 1;
+    if(a*2 > b){
+        a = b - a;
+    }
+    while(a > 0){
+        res *= b/a;
+        b--;
+        a--;
+    }
+    return (int)res;
+}
+int main(){
+    char str[1000],res[10000];
+    scanf(""%s"",str);
+    int a,b,n = 1,p;
+    int count = 0,num = 0;
+    char x,y;
+    for(int i = 0;str[i] != '\0';i++){
+        if(isdigit(str[i])){
+            num = num * 10 + str[i] - '0';
+        }else if(isalpha(str[i])){
+            if(count == 0){
+                x = str[i];
+                a = num == 0 ? 1 : num;
+            }else if(count == 1){
+                y = str[i];
+                b = num == 0 ? 1 : num;
+            }
+            num = 0;
+            count++;
+        }else if(str[i] == '^'){
+            num = 0;
+            for(int j = i + 1;str[j] != '\0' && isdigit(str[j]);j++){
+                num = num * 10 + str[j] - '0';
+            }
+            n = num;
+        }else if(str[i] == '%'){
+            num = 0;
+            for(int j = i + 1;str[j] != '\0';j++){
+                num = num * 10 + str[j] - '0';
+            }
+            p = num;
+        }
+    }
+    printf(""%s = "",str);
+    res[0] = '(';
+    int i = 0,pos = 1;
+    for(int i = 0;i <= n;i++){
+        int ab = pow(a,n-i)*pow(b,i);
+        int num1 = (combination(i,n)*ab)% p;
+        if(num1 > 1){
+            sprintf(res+pos,""%d"",num1);
+            pos = strlen(res);
+        }
+        if(num1 != 0){
+            if(i == 1){
+                if(num1 != 1){
+                    res[pos++] = '*';
+                }
+                res[pos++] = x;
+            }else if(i != n){
+                sprintf(res+pos,""*%c^%d"",x,n-i);
+                pos = strlen(res);
+            }
+            if(i == n - 1){
+                res[pos++] = '*';
+                res[pos++] = y;
+            }else if(i != 0){
+                sprintf(res+pos,""*%c^%d"",y,i);
+                pos = strlen(res);
+            }
+        }
+        if(i != n){
+            res[pos++] = '+';
+        }
+    }
+    if(pos > 1){
+        sprintf(res+pos,"")%%%d"",p);
+    }
+    printf(""%s"",res);
+    return 0;
+}"

@@ -1,0 +1,184 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,F,C(gcc 7.5.0),60976318,2023-02-24 21:23:27,Nefelibata.,段错误,"#include<stdio.h>
+#include<math.h>
+#include<stdlib.h>
+#include<string.h>
+#include<malloc.h>
+#include<ctype.h>
+
+#define Max(a,b) (a>b?a:b)
+#define Min(a,b) (a>b?b:a)
+#define Max3(a,b,c) (Max(a,b)>c?Max(a,b):c)
+#define Min3(a,b,c) (Min(a,b)>c?c:Min(a,b))
+#define scanfint(a) scanf(""%d"",&a)
+#define scanfll(a) scanf(""%lld"",&a)
+#define scanfstr(a) scanf(""%s"",a)
+#define printfll(a) printf(""%lld\n"",a)
+#define swap(a,b) a=a+b;b=a-b;a=a-b
+#define FOR(i,l,r) for(int i=l;i<=r;i++)
+#define FORL(i,l,r) for(long i=l;i<=r;i++)
+#define FORLL(i,l,r) for(long long i=l;i<=r;i++)
+#define Get_Rand(x) (rand()%x+1)
+#define Presentation(i,r) printf(""%c"","" \n""[i==r])
+
+typedef long long ll;
+
+const double pi=3.141592653589793;
+const ll MOD=1e9+7;
+const int INF=0x7fffffff;
+const double eps=1e-8;
+#define N 1005
+
+/*----------C Head----------*/
+ll a[N]={0},st=1,far=0,b[N]={0};
+int f[N]={0};
+int Initialize()
+{
+    FORLL(i,1,N-5)
+    {
+        if(f[i]);
+        else if(i+st<=N-5)
+        {
+            f[i]++;f[i+st]++;
+            a[i]=i+st;a[i+st]=i;
+            st++;
+        }
+    }
+    return 0;
+}
+
+
+int main()
+{
+    Initialize();
+    ll T;
+    scanfll(T);
+    ll x,y;
+    ll step;
+    while(T--)
+    {
+        scanfll(x);scanfll(y);
+        if(x>y) {swap(x,y);}
+        if(a[x]==y) step=(a[x]-x)*2;
+        else step=Min((y-x)*2+1,fabs(a[x]-x)*2+1);
+        printf(""%lld\n"",2000000000-step);
+    }
+    return 0;
+}"
+1,F,C(gcc 7.5.0),60976329,2023-02-24 21:23:45,Nefelibata.,答案正确,"#include<stdio.h>
+#include<math.h>
+#include<stdlib.h>
+#include<string.h>
+#include<malloc.h>
+#include<ctype.h>
+
+#define Max(a,b) (a>b?a:b)
+#define Min(a,b) (a>b?b:a)
+#define Max3(a,b,c) (Max(a,b)>c?Max(a,b):c)
+#define Min3(a,b,c) (Min(a,b)>c?c:Min(a,b))
+#define scanfint(a) scanf(""%d"",&a)
+#define scanfll(a) scanf(""%lld"",&a)
+#define scanfstr(a) scanf(""%s"",a)
+#define printfll(a) printf(""%lld\n"",a)
+#define swap(a,b) a=a+b;b=a-b;a=a-b
+#define FOR(i,l,r) for(int i=l;i<=r;i++)
+#define FORL(i,l,r) for(long i=l;i<=r;i++)
+#define FORLL(i,l,r) for(long long i=l;i<=r;i++)
+#define Get_Rand(x) (rand()%x+1)
+#define Presentation(i,r) printf(""%c"","" \n""[i==r])
+
+typedef long long ll;
+
+const double pi=3.141592653589793;
+const ll MOD=1e9+7;
+const int INF=0x7fffffff;
+const double eps=1e-8;
+#define N 1000005
+
+/*----------C Head----------*/
+ll a[N]={0},st=1,far=0,b[N]={0};
+int f[N]={0};
+int Initialize()
+{
+    FORLL(i,1,N-5)
+    {
+        if(f[i]);
+        else if(i+st<=N-5)
+        {
+            f[i]++;f[i+st]++;
+            a[i]=i+st;a[i+st]=i;
+            st++;
+        }
+    }
+    return 0;
+}
+
+
+int main()
+{
+    Initialize();
+    ll T;
+    scanfll(T);
+    ll x,y;
+    ll step;
+    while(T--)
+    {
+        scanfll(x);scanfll(y);
+        if(x>y) {swap(x,y);}
+        if(a[x]==y) step=(a[x]-x)*2;
+        else step=Min((y-x)*2+1,fabs(a[x]-x)*2+1);
+        printf(""%lld\n"",2000000000-step);
+    }
+    return 0;
+}"
+2,F,C,61079391,2023-03-04 12:52:24,ZJGSU_wjh,答案正确,"#include <stdio.h>
+#include <stdlib.h>
+#define min(a,b) a<b?a:b
+const int N = 2e6 + 10;
+typedef long long LL;
+const int big = 1e9;
+int ans;
+int f[2000010];
+int cnt = 0;
+void swap(int* a, int* b)
+{
+    int t;
+    t = *a;
+    *a = *b;
+    *b = t;
+}
+void init()
+{
+    for (int i = 0; i <= 1e6; i++)
+    {
+        if (f[i] == 0)
+        {
+            f[i] = i + cnt;
+            f[i + cnt] = i;
+            cnt++;
+        }
+    }
+}
+int main()
+{
+    int T;
+    scanf(""%d"", &T);
+    init();
+    while (T--)
+    {
+        int x, y;
+        scanf(""%d%d"", &x, &y);
+        if (x > y)swap(&x, &y);
+        ans = (y - x) * 2 + 1;
+        if (f[x] == y)
+        {
+            printf(""%lld\n"", (LL)2 * big - (y - x) * 2);
+            continue;
+        }
+        if (f[x] < y) ans = min(ans, 2 * abs(f[x] - x) + 1);
+        if (f[y] < x)ans = min(ans, 2 * abs(y - f[y]) + 1);
+        printf(""%d\n"", 2 * big - ans);
+    }
+    return 0;
+}
+"

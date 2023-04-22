@@ -1,0 +1,427 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,F,Python3,54983032,2022-11-25 19:51:16,Kshqsz,运行超时,"n=input()
+count=0
+for i in range(len(n)):
+    for k in range(i+1):
+        if i<=k:
+            s=n[i:k]
+            x=s.count('ac')
+            if x%2==0:
+                count+=1
+print(count)
+
+"
+1,F,Python3,54983058,2022-11-25 19:51:28,Kshqsz,运行超时,"n=input()
+count=0
+for i in range(len(n)):
+    for k in range(i+1):
+        if i<=k:
+            s=n[i:k]
+            x=s.count('ac')
+            if x%2==0:
+                count+=1
+print(count)
+
+"
+2,F,Python3,54983782,2022-11-25 19:57:45,牛客956373253号,运行超时,"def check(s):
+    res = 0
+    n = len(s)
+    dp = [[0,0,0] for _ in range(n)]
+    for i in range(n):
+        dp[i][2] = i
+        if s[i]=='a':
+            dp[i][0]=dp[i-1][0]+1
+            dp[i][1] = dp[i-1][1]
+        elif s[i]=='c':
+            dp[i][1]=dp[i-1][1]+1
+            dp[i][0]=dp[i-1][0]
+        else:
+            dp[i][0] = dp[i-1][0]
+            dp[i][1] = dp[i-1][1]
+        for k in range(i):
+            diff1 = dp[i][0] - dp[k][0] 
+            diff2 = dp[i][1] - dp[k][1]
+            if diff1 == diff2:
+                if diff1%2==0:
+                    res += (i-dp[k][2])
+                else:
+                    res -= (i-dp[k][2])-1
+#         print(dp)
+    return res
+
+while True:
+    try:
+        s = input()
+        print(check(s))
+    except:
+        break
+            "
+3,F,Python3,54983848,2022-11-25 19:58:19,Kshqsz,运行超时,"n=input()
+count=0
+for i in range(len(n)):
+    for k in range(i+1):
+        if i<=k:
+            s=n[i:k]
+            x=s.count('ac')
+            if x%2==0:
+                count+=1
+print(count)
+
+"
+4,F,Python3,54984704,2022-11-25 20:06:26,牛客956373253号,运行超时,"# def check(s):
+#     res = 0
+#     n = len(s)
+#     dp = [[0,0,0] for _ in range(n)]
+#     for i in range(n):
+#         dp[i][2] = i
+#         if s[i]=='a':
+#             dp[i][0]=dp[i-1][0]+1
+#             dp[i][1] = dp[i-1][1]
+#         elif s[i]=='c':
+#             dp[i][1]=dp[i-1][1]+1
+#             dp[i][0]=dp[i-1][0]
+#         else:
+#             dp[i][0] = dp[i-1][0]
+#             dp[i][1] = dp[i-1][1]
+#         for k in range(i):
+#             diff1 = dp[i][0] - dp[k][0] 
+#             diff2 = dp[i][1] - dp[k][1]
+#             if diff1 == diff2:
+#                 if diff1%2==0:
+#                     res += (i-dp[k][2])
+#                 else:
+#                     res -= (i-dp[k][2])-1
+# #         print(dp)
+#     return res
+
+# while True:
+#     try:
+#         s = input()
+#         print(check(s))
+#     except:
+#         break
+def check(s):
+    res = 0
+    n = len(s)
+    dp = [0,0]
+    dic = {}
+    dic[(0,0)] = 0
+    for i in range(n):
+        if s[i]=='a':
+            dp[0]+=1
+        elif s[i]=='c':
+            dp[1]+=1
+        for k in dic:
+            diff1 = dp[0] -k[0] 
+            diff2 = dp[1] - k[1]
+            if diff1 == diff2:
+                if diff1%2==0:
+                    res += (i-dic[k])
+                else:
+                    res -= (i-dic[k])-1
+        dic[(dp[0],dp[1])] = i
+    return res
+
+while True:
+    try:
+        s = input()
+        print(check(s))
+    except:
+        break"
+5,F,Python3,54987503,2022-11-25 20:34:08,Kshqsz,运行超时,"n=input()
+count=0
+for i in range(len(n)):
+    for k in range(i+1):
+        s = n[i:k]
+        if i<=k:
+
+            x=s.count('ac')
+            if x%2==0:
+                count+=1
+print(count)"
+6,F,Python3,54987580,2022-11-25 20:35:01,Kshqsz,运行超时,"n=input()
+count=0
+for i in range(len(n)):
+    for k in range(i+1):
+        if i<=k:
+            s = n[i:k]
+            if s.count('ac')%2==0:
+                count+=1
+print(count)
+
+"
+7,F,Python3,54987684,2022-11-25 20:36:04,Kshqsz,运行超时,"n=input()
+count=0
+for i in range(len(n)):
+    for k in range(i+1):
+        if i<=k:
+            s = n[i:k]
+            if s.count('ac')%2!=0:
+                continue
+            else:
+                count+=1
+print(count)
+
+
+
+"
+8,F,Python3,54994604,2022-11-26 00:37:28,牛客956373253号,运行超时,"# def check(s):
+#     res = 0
+#     n = len(s)
+#     dp = [[0,0,0] for _ in range(n)]
+#     for i in range(n):
+#         dp[i][2] = i
+#         if s[i]=='a':
+#             dp[i][0]=dp[i-1][0]+1
+#             dp[i][1] = dp[i-1][1]
+#         elif s[i]=='c':
+#             dp[i][1]=dp[i-1][1]+1
+#             dp[i][0]=dp[i-1][0]
+#         else:
+#             dp[i][0] = dp[i-1][0]
+#             dp[i][1] = dp[i-1][1]
+#         for k in range(i):
+#             diff1 = dp[i][0] - dp[k][0] 
+#             diff2 = dp[i][1] - dp[k][1]
+#             if diff1 == diff2:
+#                 if diff1%2==0:
+#                     res += (i-dp[k][2])
+#                 else:
+#                     res -= (i-dp[k][2])-1
+# #         print(dp)
+#     return res
+
+# while True:
+#     try:
+#         s = input()
+#         print(check(s))
+#     except:
+#         break
+def check(s):
+    res = 0
+    n = len(s)
+    dp = [0,0]
+    dic = {}
+    dic[(0,0)] = 0
+    for i in range(n):
+        if s[i]=='a':
+            dp[0]+=1
+        elif s[i]=='c':
+            dp[1]+=1
+        for k in dic:
+            diff1 = dp[0] -k[0] 
+            diff2 = dp[1] - k[1]
+            if diff1 == diff2:
+                if diff1%2==0:
+                    res += (i-dic[k])
+                else:
+                    res -= (i-dic[k])-1
+        dic[(dp[0],dp[1])] = i
+    return res
+
+while True:
+    try:
+        s = input()
+        print(check(s))
+    except:
+        break"
+9,F,Python3,54994631,2022-11-26 00:42:58,牛客956373253号,运行超时,"# def check(s):
+#     res = 0
+#     n = len(s)
+#     dp = [[0,0,0] for _ in range(n)]
+#     for i in range(n):
+#         dp[i][2] = i
+#         if s[i]=='a':
+#             dp[i][0]=dp[i-1][0]+1
+#             dp[i][1] = dp[i-1][1]
+#         elif s[i]=='c':
+#             dp[i][1]=dp[i-1][1]+1
+#             dp[i][0]=dp[i-1][0]
+#         else:
+#             dp[i][0] = dp[i-1][0]
+#             dp[i][1] = dp[i-1][1]
+#         for k in range(i):
+#             diff1 = dp[i][0] - dp[k][0] 
+#             diff2 = dp[i][1] - dp[k][1]
+#             if diff1 == diff2:
+#                 if diff1%2==0:
+#                     res += (i-dp[k][2])
+#                 else:
+#                     res -= (i-dp[k][2])-1
+# #         print(dp)
+#     return res
+
+# while True:
+#     try:
+#         s = input()
+#         print(check(s))
+#     except:
+#         break
+def check(s):
+    res = 0
+    n = len(s)
+    dp = [0,0]
+    dic = {}
+    dic[(0,0)] = 0
+    for i in range(n):
+        if s[i]=='a':
+            dp[0]+=1
+        elif s[i]=='c':
+            dp[1]+=1
+        for k in dic:
+            diff1 = dp[0] -k[0] 
+            diff2 = dp[1] - k[1]
+            if diff1 == diff2:
+                if diff1%2==0:
+                    res += (i-dic[k])
+                else:
+                    res -= (i-dic[k])-1
+        dic[(dp[0],dp[1])] = i
+    return res
+
+
+s = input()
+print(check(s))
+    "
+10,F,Python3,54994706,2022-11-26 01:03:24,牛客956373253号,运行超时,"# def check(s):
+#     res = 0
+#     n = len(s)
+#     dp = [[0,0,0] for _ in range(n)]
+#     for i in range(n):
+#         dp[i][2] = i
+#         if s[i]=='a':
+#             dp[i][0]=dp[i-1][0]+1
+#             dp[i][1] = dp[i-1][1]
+#         elif s[i]=='c':
+#             dp[i][1]=dp[i-1][1]+1
+#             dp[i][0]=dp[i-1][0]
+#         else:
+#             dp[i][0] = dp[i-1][0]
+#             dp[i][1] = dp[i-1][1]
+#         for k in range(i):
+#             diff1 = dp[i][0] - dp[k][0] 
+#             diff2 = dp[i][1] - dp[k][1]
+#             if diff1 == diff2:
+#                 if diff1%2==0:
+#                     res += (i-dp[k][2])
+#                 else:
+#                     res -= (i-dp[k][2])-1
+# #         print(dp)
+#     return res
+
+# while True:
+#     try:
+#         s = input()
+#         print(check(s))
+#     except:
+#         break
+def check(s):
+#     res = 0
+#     n = len(s)
+#     dp = [0,0]
+#     dic = {}
+#     dic[(0,0)] = 0
+#     for i in range(n):
+#         if s[i]=='a':
+#             dp[0]+=1
+#         elif s[i]=='c':
+#             dp[1]+=1
+#         for k in dic:
+#             diff1 = dp[0] -k[0] 
+#             diff2 = dp[1] - k[1]
+#             if diff1 == diff2:
+#                 if diff1%2==0:
+#                     res += (i-dic[k])
+#                 else:
+#                     res -= (i-dic[k])-1
+#         dic[(dp[0],dp[1])] = i
+#         print(dic)
+#     return res
+    c = [0,0]
+    res = 0
+    cnt = 0
+    for i in range(len(s)):
+        for j in range(i,len(s)):
+            if s[j]=='a':
+                c[0]+=1
+            elif s[j]=='c':
+                res+=c[0]
+            if res!=0 and res%2==0:
+                cnt+=1
+    return cnt
+
+
+s = input()
+print(check(s))
+    "
+11,F,Python3,54994728,2022-11-26 01:16:10,牛客956373253号,运行超时,"# def check(s):
+#     res = 0
+#     n = len(s)
+#     dp = [[0,0,0] for _ in range(n)]
+#     for i in range(n):
+#         dp[i][2] = i
+#         if s[i]=='a':
+#             dp[i][0]=dp[i-1][0]+1
+#             dp[i][1] = dp[i-1][1]
+#         elif s[i]=='c':
+#             dp[i][1]=dp[i-1][1]+1
+#             dp[i][0]=dp[i-1][0]
+#         else:
+#             dp[i][0] = dp[i-1][0]
+#             dp[i][1] = dp[i-1][1]
+#         for k in range(i):
+#             diff1 = dp[i][0] - dp[k][0] 
+#             diff2 = dp[i][1] - dp[k][1]
+#             if diff1 == diff2:
+#                 if diff1%2==0:
+#                     res += (i-dp[k][2])
+#                 else:
+#                     res -= (i-dp[k][2])-1
+# #         print(dp)
+#     return res
+
+# while True:
+#     try:
+#         s = input()
+#         print(check(s))
+#     except:
+#         break
+def check(s):
+#     res = 0
+#     n = len(s)
+#     dp = [0,0]
+#     dic = {}
+#     dic[(0,0)] = 0
+#     for i in range(n):
+#         if s[i]=='a':
+#             dp[0]+=1
+#         elif s[i]=='c':
+#             dp[1]+=1
+#         for k in dic:
+#             diff1 = dp[0] -k[0] 
+#             diff2 = dp[1] - k[1]
+#             if diff1 == diff2:
+#                 if diff1%2==0:
+#                     res += (i-dic[k])
+#                 else:
+#                     res -= (i-dic[k])-1
+#         dic[(dp[0],dp[1])] = i
+#         print(dic)
+#     return res
+    cnt = 0
+    for i in range(len(s)):
+        res = 0
+        c = [0,0]
+        for j in range(i,len(s)):
+            if s[j]=='a':
+                c[0]+=1
+            elif s[j]=='c':
+                res+=c[0]
+            if res!=0 and res%2==0:
+                cnt+=1
+    return cnt
+
+
+s = input()
+print(check(s))
+    "

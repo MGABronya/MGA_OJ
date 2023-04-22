@@ -1,0 +1,2230 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,C,Python3,61160623,2023-03-10 19:32:32,阿来想AC,运行超时,"def C(str):
+    result = 0
+    for i in str:
+        if i == '0':
+            pass
+        num = 0
+        for j in str:
+            if j == i:
+                num += 1
+        result += 0.5*num*(num-1)
+        str = str.replace(i,'0')
+    return result
+t = int(input())
+for i in range(t):
+    n = int(input())
+    s = input()
+    resultlist = []
+    for r in range(n):
+        for l in range(r,n):
+            resultlist.append(C(s[r:l+1])/(l-r+1))
+    print(max(resultlist))"
+1,C,Python3,61160767,2023-03-10 19:34:04,deprave,运行超时,"# 直接暴力
+n = int(input())
+while n:
+    m = int(input())
+    s = input()
+    ans = 0
+    for i in range(m):
+        vis = [0] * 26
+        vis[ord(s[i])-ord('a')] += 1
+        for j in range(i+1, m):
+            vis[ord(s[j])-ord('a')] += 1
+            tot = 0
+            for k in range(26):
+                if vis[k] >= 2:
+                    tot += vis[k]*(vis[k]-1)//2
+            ans = max(ans, tot/(j-i+1))
+    print(ans)
+    n -= 1"
+2,C,Python3,61160867,2023-03-10 19:34:57,星辰是我的,运行超时,"import copy
+from collections import Counter
+for i in range(int(input())):
+    b=[]
+    n=int(input())
+    a=input()
+    r={}
+    b.append(r)
+    for j in range(n):
+        e=copy.deepcopy(b[-1])
+      #  print(e)
+        e[a[j]]=e.get(a[j],0)+1
+        b.append(e)
+    flag=0
+    for j in range(1,n):
+        for k in range(j+1,n+1):
+            rr=dict(Counter(b[k])-Counter(b[j-1]))
+#             if (j==1 and k==5):
+#                 print(rr)
+            t=0
+           # print(rr)
+            for q in rr.values():
+             #   print(q)
+                if q>1:
+                    t+=(q*(q-1))//2
+                    #print(t)
+#             if (j==1 and k==5):
+#                 print(t)
+            flag=max(t/(k-j+1),flag)
+    print(""{:.6f}"".format(flag))
+            
+    "
+3,C,Python3,61161163,2023-03-10 19:38:00,heng-,运行超时,"t = int(input())
+while t > 0:
+    t -= 1
+    n = int(input())
+    s = input()
+    ans = float('-inf')
+    cnt = [[0] * 30 for i in range(n + 20)]
+    for i in range(n):
+        c = s[i]
+        idx = ord(c) - ord('a')
+        cnt[i + 1][idx] = 1
+    for i in range(1, n + 1):
+        for j in range(26):
+            cnt[i][j] += cnt[i-1][j]
+    for l in range(1, n + 1):
+        for r in range(l, n + 1):
+            num = 0
+            for x in range(l, r + 1):
+                c = s[x - 1]
+                idx = ord(c)-ord('a')
+                num += cnt[r][idx] - cnt[x][idx]
+            ans = max(ans, num / (r - l + 1))
+    print(""%.6f""%ans)
+
+"
+4,C,Python3,61161242,2023-03-10 19:38:53,阿来想AC,运行超时,"def C(str):
+    result = 0
+    for i in str:
+        num = 0
+        for j in str:
+            if j == i:
+                num += 1
+        result += 0.5*num*(num-1)
+        str = str.replace(i,'0')
+    return result
+t = int(input())
+for i in range(t):
+    n = int(input())
+    s = input()
+    resultlist = []
+    for r in range(n):
+        for l in range(r,n):
+            resultlist.append(C(s[r:l+1])/(l-r+1))
+    print(max(resultlist))"
+5,C,Python3,61161288,2023-03-10 19:39:16,阿来想AC,运行超时,"def C(str):
+    result = 0
+    for i in str:
+        num = 0
+        for j in str:
+            if j == i:
+                num += 1
+        result += 0.5*num*(num-1)
+        str = str.replace(i,'')
+    return result
+t = int(input())
+for i in range(t):
+    n = int(input())
+    s = input()
+    resultlist = []
+    for r in range(n):
+        for l in range(r,n):
+            resultlist.append(C(s[r:l+1])/(l-r+1))
+    print(max(resultlist))"
+6,C,Python3,61161903,2023-03-10 19:45:45,阿来想AC,运行超时,"def C(str):
+    result = 0
+    for i in str:
+        num = 0
+        for j in str:
+            if j == i:
+                num += 1
+        result += 0.5*num*(num-1)
+        str = str.replace(i,'')
+    return result
+t = int(input())
+for i in range(t):
+    n = int(input())
+    s = input()
+    resultlist = []
+    for r in range(n):
+        for l in range(r,n):
+            resultlist.append(C(s[r:l+1])/(l-r+1))
+    print(max(resultlist))"
+7,C,Python3,61161964,2023-03-10 19:46:25,heng-,运行超时,"t = int(input())
+while t > 0:
+    t -= 1
+    n = int(input())
+    s = input()
+    ans = float('-inf')
+    for i in range(1,n+1):
+        num=0;
+        cnt=[0 for i in range(30)]
+        for j in range(i,n+1):
+            c=s[j-1]
+            idx=ord(c)-ord('a')
+            num+=cnt[idx]
+            cnt[idx]+=1
+            ans=max(ans,(num/(j-i+1)))      
+    print(""%.6f""%ans)
+
+"
+8,C,Python3,61161970,2023-03-10 19:46:30,小嗷犬,运行超时,"for _ in range(int(input())):
+    n = int(input())
+    s = input()
+    l = len(s)
+    ans = 0
+    c = [[0] * (l+1) for i in range(l+1)]
+    for i in range(1,l+1):
+        cnt = {}
+        for j in range(i,l+1):
+            c[i][j] = c[i][j-1] + cnt.get(s[j-1],0)
+            cnt[s[j-1]] = cnt.get(s[j-1],0) + 1
+            ans = max(ans,c[i][j]/(j-i+1))
+    print(ans)"
+9,C,Python3,61165137,2023-03-10 20:19:22,星辰是我的,运行超时,"import copy
+from collections import Counter
+for i in range(int(input())):
+    n=int(input())
+    b=[[0 for i in range(26)]for k in range(n+2)]
+    a=input()
+    a='#'+a
+    for j in range(1,n+1):
+        b[j][ord(a[j])-ord('a')]+=1    
+    for j in range(1,n+1):
+        for k in range(26):
+            b[j][k]+=b[j-1][k]
+    rr=0
+    for j in range(1,n+1):
+        for k in range(j+1,n+1):
+            t=0
+            for w in range(26):
+                d=b[k][w]-b[j-1][w]
+                if d>=2:
+                    t+=(d*(d-1))/2
+           # print(j,k)
+            rr=max(rr,t/(k-j+1))
+    print(""{:.6f}"".format(rr))"
+10,C,Python3,61165316,2023-03-10 20:21:15,小嗷犬,运行超时,"for _ in range(int(input())):
+    n = int(input())
+    s = input()
+    l = len(s)
+    ans = 0
+    c = [[0] * (l+1) for i in range(l+1)]
+    for i in range(1,l+1):
+        cnt = {}
+        for j in range(i,l+1):
+            c[i][j] = c[i][j-1] + cnt.get(s[j-1],0)
+            cnt[s[j-1]] = cnt.get(s[j-1],0) + 1
+            ans = max(ans,c[i][j]/(j-i+1))
+    print(ans)"
+11,C,Python3,61165388,2023-03-10 20:21:59,在走神的菜鸡很漂亮,运行超时,"import sys
+ 
+inputlist=[]
+for line in sys.stdin:
+    inputlist.append(line.split())
+length=len(inputlist)
+count=1
+while count<length:
+    a=int(inputlist[count][0])
+    temp=[[0 for _ in range(a)] for i in range(a)]
+    s=inputlist[count+1][0]
+    ans=0
+    for i in range(0,a-1):
+        for j in range(i+1,a):
+            temp[i][j]=s[i:j].count(s[j])+temp[i][j-1]
+            if temp[i][j]/(j-i+1)>ans:
+                ans=temp[i][j]/(j-i+1)
+    print(ans)
+    count+=2
+            "
+12,C,Python3,61165563,2023-03-10 20:23:57,在走神的菜鸡很漂亮,运行超时,"import sys
+ 
+inputlist=[]
+for line in sys.stdin:
+    inputlist.append(line.split())
+length=len(inputlist)
+count=1
+while count<length:
+    a=int(inputlist[count][0])
+    temp=[[0 for _ in range(a)] for i in range(a)]
+    s=inputlist[count+1][0]
+    ans=0
+    for i in range(0,a-1):
+        for j in range(i+1,a):
+            temp[i][j]=s[i:j].count(s[j])+temp[i][j-1]
+            if temp[i][j]/(j-i+1)>ans:
+                ans=temp[i][j]/(j-i+1)
+    print(ans)
+    count+=2
+            "
+13,C,Python3,61165577,2023-03-10 20:24:08,在走神的菜鸡很漂亮,运行超时,"import sys
+ 
+inputlist=[]
+for line in sys.stdin:
+    inputlist.append(line.split())
+length=len(inputlist)
+count=1
+while count<length:
+    a=int(inputlist[count][0])
+    temp=[[0 for _ in range(a)] for i in range(a)]
+    s=inputlist[count+1][0]
+    ans=0
+    for i in range(0,a-1):
+        for j in range(i+1,a):
+            temp[i][j]=s[i:j].count(s[j])+temp[i][j-1]
+            if temp[i][j]/(j-i+1)>ans:
+                ans=temp[i][j]/(j-i+1)
+    print(ans)
+    count+=2
+            "
+14,C,Python3,61165598,2023-03-10 20:24:23,在走神的菜鸡很漂亮,运行超时,"import sys
+ 
+inputlist=[]
+for line in sys.stdin:
+    inputlist.append(line.split())
+length=len(inputlist)
+count=1
+while count<length:
+    a=int(inputlist[count][0])
+    temp=[[0 for _ in range(a)] for i in range(a)]
+    s=inputlist[count+1][0]
+    ans=0
+    for i in range(0,a-1):
+        for j in range(i+1,a):
+            temp[i][j]=s[i:j].count(s[j])+temp[i][j-1]
+            if temp[i][j]/(j-i+1)>ans:
+                ans=temp[i][j]/(j-i+1)
+    print(ans)
+    count+=2
+            "
+15,C,Python3,61165677,2023-03-10 20:25:11,牛客481337953号,运行超时,"for _ in range(int(input())):
+    n = int(input())
+    s = input()
+    res = 0
+    for i in range(n):
+        d = {}
+        c = 0
+        for j in range(i, n):
+            if s[j] not in d:
+                d[s[j]] = 1
+            else:
+                c += d[s[j]]
+                d[s[j]] += 1
+            res = max(res, c / (j - i + 1))
+    print(res)"
+16,C,Python3,61165936,2023-03-10 20:28:03,在走神的菜鸡很漂亮,运行超时,"import sys
+ 
+inputlist=[]
+for line in sys.stdin:
+    inputlist.append(line.split())
+length=len(inputlist)
+count=1
+while count<length:
+    a=int(inputlist[count][0])
+    s=inputlist[count+1][0]
+    ans=0
+    for i in range(0,a-1):
+        temp=0
+        for j in range(i+1,a):
+            temp+=s[i:j].count(s[j])
+            if temp/(j-i+1)>ans:
+                ans=temp/(j-i+1)
+    print(ans)
+    count+=2
+            "
+17,C,Python3,61166265,2023-03-10 20:32:04,在走神的菜鸡很漂亮,运行超时,"import sys
+ 
+inputlist=[]
+for line in sys.stdin:
+    inputlist.append(line.split())
+length=len(inputlist)
+count=1
+while count<length:
+    a=int(inputlist[count][0])
+    s=inputlist[count+1][0]
+    ans=0
+    for i in range(0,a-1):
+        temp=0
+        hashmap={}
+        hashmap[s[i]]=1
+        for j in range(i+1,a):
+            if s[j] in hashmap:
+                temp+=hashmap[s[j]]
+                hashmap[s[j]]+=1
+                if temp/(j-i+1)>ans:
+                    ans=temp/(j-i+1)
+            else:
+                hashmap[s[j]]=1
+    print(ans)
+    count+=2
+            "
+18,C,Python3,61166472,2023-03-10 20:34:17,徐祎鹏,运行超时,"T = int(input())
+li = []
+for i in range(T):
+    n = int(input())
+    s = str(input())
+    Max = 0
+    for l in range(n):
+        f = 0
+        m = 0
+        for r in range(l + 1, n):
+            m = 0
+            for x in range(l, r + 1):
+                for y in range(x + 1, r + 1):
+                    if s[x] == s[y]:
+                        m = m + 1
+            f = m / (r - l + 1)
+            if Max < f:
+                Max = f
+    li.append(Max)
+for i in li:
+    print('%0.6f'%i)"
+19,C,Python3,61167266,2023-03-10 20:42:39,在走神的菜鸡很漂亮,运行超时,"import sys
+ 
+inputlist=[]
+for line in sys.stdin:
+    inputlist.append(line)
+length=len(inputlist)
+count=1
+while count<length:
+    a=int(inputlist[count])
+    s=inputlist[count+1]
+    ans=0
+    for i in range(0,a-1):
+        temp=0
+        hashmap={}
+        hashmap[s[i]]=1
+        for j in range(i+1,a):
+            if s[j] in hashmap:
+                temp+=hashmap[s[j]]
+                hashmap[s[j]]+=1
+                if temp/(j-i+1)>ans:
+                    ans=temp/(j-i+1)
+            else:
+                hashmap[s[j]]=1
+    print(ans)
+    count+=2
+            "
+20,C,Python3,61167963,2023-03-10 20:49:57,徐祎鹏,运行超时,"T = int(input())
+li = []
+for i in range(T):
+    n = int(input())
+    s = str(input())
+    Max = 0
+    for l in range(n):
+        f = 0
+        m = 0
+        for r in range(l + 1, n):
+            for x in range(r - 1, l - 1, - 1):
+                if s[r] == s[x]:
+                    m = m + 1
+            f = m / (r - l + 1)
+            if Max < f:
+                Max = f
+    li.append(Max)
+for i in li:
+    print('%0.6f'%i)"
+21,C,Python3,61170207,2023-03-10 21:15:29,刘来也,运行超时,"def CC(x):
+    return (x-1)*x/2
+T = int(input())
+s = []
+a = ""abcdefghijklmnopqrstuvwxyz""
+for i in range(T):
+    C = [0]
+    n = int(input())
+    sum = 0
+    s = input()
+    for i in range(n):
+        for j in range(i+1,n):
+            res = 0           
+            for k in a:
+                res += CC(s[i:j+1].count(k))
+            C.append(res/(j-i+1))
+    C.sort(reverse=True)
+    sum = C[0]
+    print(""%.6f"" %sum)"
+22,C,Python3,61170252,2023-03-10 21:16:30,刘来也,运行超时,"def CC(x):
+    return (x-1)*x/2
+T = int(input())
+s = []
+a = ""abcdefghijklmnopqrstuvwxyz""
+for i in range(T):
+    C = [0]
+    n = int(input())
+    sum = 0
+    s = input()
+    for i in range(n):
+        for j in range(i+1,n):
+            res = 0           
+            for k in a:
+                res += CC(s[i:j+1].count(k))
+            C.append(res/(j-i+1))
+    C.sort(reverse=True)
+    sum = C[0]
+    print(""%.6f"" %sum)"
+23,C,Python3,61170426,2023-03-10 21:19:39,阿来想AC,运行超时,"def C(str):
+    result = 0
+    key_value={}
+    s_set=set(str)
+    for i in s_set:
+        num=str.count(i)
+        key_value[i]=num
+    for i in s_set:
+        result += 0.5*(key_value[i])*(key_value[i]-1)
+    return result
+t = int(input())
+for i in range(t):
+    n = int(input())
+    s = input()
+    resultlist = []
+    for r in range(n):
+        for l in range(r,n):
+            a = s[r:l+1]
+            resultlist.append(C(a)/(l-r+1))
+    print(max(resultlist))"
+24,C,Python3,61171008,2023-03-10 21:29:32,刘来也,运行超时,"for i in range(int(input())):
+    n = int(input())
+    ans = 0
+    s = [ord(c)-ord(""a"") for c in input()]
+    for j in range(n):
+        count = [0]*26
+        c = 0
+        for k in range(j,n):
+            c += count[s[k]]
+            count[s[k]] += 1
+            ans = max(ans,c/(k-j+1))
+    print(ans)"
+25,C,Python3,61171079,2023-03-10 21:30:46,刘来也,运行超时,"for i in range(int(input())):
+    n = int(input())
+    ans = 0
+    s = [ord(c)-ord(""a"") for c in input()]
+    for j in range(n):
+        count = [0]*26
+        c = 0
+        for k in range(j,n):
+            c += count[s[k]]
+            count[s[k]] += 1
+            ans = max(ans,c/(k-j+1))
+    print(ans)"
+26,C,Python3,61171152,2023-03-10 21:32:22,刘来也,运行超时,"for i in range(int(input())):
+    n = int(input())
+    ans = 0
+    s = [ord(c)-ord(""a"") for c in input()]
+    for j in range(n):
+        count = [0]*26
+        c = 0
+        for k in range(j,n):
+            c += count[s[k]]
+            count[s[k]] += 1
+            ans = max(ans,c/(k-j+1))
+    print(ans)"
+27,C,Python3,61171691,2023-03-10 21:45:42,小嗷犬,运行超时,"for _ in range(int(input())):
+    n = int(input())
+    s = input()
+    ans = 0
+    cnt = [[0]*26 for i in range(n+1)]
+    for i in range(1,n+1):
+        cnt[i][ord(s[i-1]) - ord('a')] += 1
+        for j in range(26):
+            cnt[i][j] += cnt[i - 1][j]
+    for i in range(1,n+1):
+        for j in range(i,n+1):
+            num = 0
+            for c in range(26):
+                temp = cnt[j][c] - cnt[i-1][c]
+                num += temp * (temp - 1) // 2
+            ans = max(ans, num/(j-i+1))
+    print(ans)
+"
+28,C,Python3,61175041,2023-03-11 07:50:13,徐祎鹏,执行出错,"def c(x):
+    s = 0
+    for i in range(x):
+        s = x - 1 - i
+    return s
+
+
+T = int(input())
+li = []
+a = []
+j = 0
+for i in range(T):
+    n = int(input())
+    s = str(input())
+    Max = 0
+    for l in range(n):
+        for r in range(l + 1, n):
+            for j in range(len(a)):
+                if s[r] == a[j][0]:
+                    a[j][1] = a[j][1] + 1
+            f = c(a[j][1]) / (l - r + 1)
+            Max = max(f, Max)
+    li.append(Max)
+for i in li:
+    print('%0.6f'%i)"
+29,C,Python3,61175121,2023-03-11 08:29:00,徐祎鹏,运行超时,"def c(a):
+    s = 0
+    for i in range(len(a)):
+        for j in range(a[i][1]):
+            s = s + a[i][1] - j - 1
+    return s
+def g(a, s):
+    for i in range(len(a)):
+        if a[i][0] == s:
+            return i
+    return -1
+
+T = int(input())
+li = []
+j = 0
+for i in range(T):
+    n = int(input())
+    s = str(input())
+    Max = 0
+    for l in range(n - 1):
+        a = []
+        for r in range(l, n):
+            x = g(a,s[r])
+            if  x != -1:
+                a[x][1] = a[x][1] + 1
+            else:
+                b = [s[r], 1]
+                a.append(b)
+            if l != r:
+                f = c(a) / (r - l + 1)
+                Max = max(f, Max)       
+    li.append(Max)
+for i in li:
+    print('%0.6f'%i)"
+30,C,Python3,61175175,2023-03-11 08:43:47,徐祎鹏,运行超时,"def g(a, s):
+    for i in range(len(a)):
+        if a[i][0] == s:
+            return i
+    return -1
+
+T = int(input())
+li = []
+j = 0
+for i in range(T):
+    n = int(input())
+    s = str(input())
+    Max = 0
+    for l in range(n - 1):
+        a = []
+        c = 0
+        for r in range(l, n):
+            x = g(a,s[r])
+            if  x != -1:
+                a[x][1] = a[x][1] + 1
+                c = a[x][1] - 1 + c
+            else:
+                b = [s[r], 1]
+                a.append(b)
+            if l != r:
+                f = c / (r - l + 1)
+                Max = max(f, Max)       
+    li.append(Max)
+for i in li:
+    print('%0.6f'%i)"
+31,C,Python3,61177680,2023-03-11 11:21:12,acaax,运行超时,"import time
+import bisect
+import functools
+import math
+import os
+import random
+import re
+import sys
+import threading
+from collections import Counter, defaultdict, deque
+from copy import deepcopy
+from functools import cmp_to_key, lru_cache, reduce
+from heapq import heapify, heappop, heappush, heappushpop, nlargest, nsmallest
+from io import BytesIO, IOBase
+from itertools import accumulate, combinations, permutations
+from operator import add, iand, ior, itemgetter, mul, xor
+from string import ascii_lowercase, ascii_uppercase
+from typing import *
+ 
+BUFSIZE = 4096
+class FastIO(IOBase):
+    newlines = 0
+ 
+    def __init__(self, file):
+        self._fd = file.fileno()
+        self.buffer = BytesIO()
+        self.writable = ""x"" in file.mode or ""r"" not in file.mode
+        self.write = self.buffer.write if self.writable else None
+ 
+    def read(self):
+        while True:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            if not b:
+                break
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines = 0
+        return self.buffer.read()
+ 
+    def readline(self):
+        while self.newlines == 0:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            self.newlines = b.count(b""\n"") + (not b)
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines -= 1
+        return self.buffer.readline()
+ 
+    def flush(self):
+        if self.writable:
+            os.write(self._fd, self.buffer.getvalue())
+            self.buffer.truncate(0), self.buffer.seek(0)
+ 
+class IOWrapper(IOBase):
+    def __init__(self, file):
+        self.buffer = FastIO(file)
+        self.flush = self.buffer.flush
+        self.writable = self.buffer.writable
+        self.write = lambda s: self.buffer.write(s.encode(""ascii""))
+        self.read = lambda: self.buffer.read().decode(""ascii"")
+        self.readline = lambda: self.buffer.readline().decode(""ascii"")
+ 
+sys.stdin = IOWrapper(sys.stdin)
+sys.stdout = IOWrapper(sys.stdout)
+input = lambda: sys.stdin.readline().rstrip(""\r\n"")
+ 
+def I():
+    return input()
+ 
+def II():
+    return int(input())
+ 
+def MII():
+    return map(int, input().split())
+ 
+def LI():
+    return list(input().split())
+ 
+def LII():
+    return list(map(int, input().split()))
+ 
+def GMI():
+    return map(lambda x: int(x) - 1, input().split())
+ 
+def LGMI():
+    return list(map(lambda x: int(x) - 1, input().split()))
+ 
+inf = float('inf')
+
+t = II()
+
+
+for _ in range(t):
+    n = II()
+    s = I()
+    res = 0
+    for i in range(n):
+        tmp = 0
+        cnt = Counter()
+        for j in range(i,n):
+            tmp += cnt[s[j]]
+            res = max(res, tmp / (j - i + 1))
+            cnt[s[j]] += 1
+    print(res)"
+32,C,Python3,61178036,2023-03-11 11:41:46,AuJinn,运行超时,"for _ in range(int(input())):
+    n = int(input())
+    s = [ord(c) - ord('a') for c in input()]
+    
+    res = 0
+    for i in range(n):
+        c = [0] * 26
+        x = 0
+        for j in range(i, n):
+            x += c[s[j]];
+            c[s[j]] += 1
+            res = max(res, x / (j - i + 1))
+    
+    print(res)"
+33,C,Python3,61236384,2023-03-11 19:26:24,阿来想AC,运行超时,"def C(str):
+    result = 0
+    s_set=set(str)
+    for i in s_set:
+        num=str.count(i)
+        result += 0.5*(num)*(num-1)
+    return result
+t = int(input())
+for i in range(t):
+    n = int(input())
+    s = input()
+    resultlist = []
+    for r in range(n):
+        for l in range(r,n):
+            a = s[r:l+1]
+            resultlist.append(C(a)/(l-r+1))
+    print(max(resultlist))"
+34,C,Python3,61240114,2023-03-11 21:33:31,❃寻梅᭄ꦿ࿐,答案错误,"def C(s):
+    sum = 0
+    for c in list('abcdefghijklmnoporstuvwxyz'):
+        sum += (s.count(c)-1)*s.count(c)/2
+    return sum
+
+
+t = int(input())
+for g in range(t):
+    n = int(input())
+    big = -0o7777777777
+    a = list(input())
+    for l in range(n):
+        for r in range(l, n):
+            e = C(a[l:r+1])
+            if (e/(r-l+1) > big):
+                big = e/(r-l+1)
+    print(big)"
+35,C,Python3,61240355,2023-03-11 21:45:06,❃寻梅᭄ꦿ࿐,运行超时,"def C(s):
+    sum = 0
+    for c in list('abcdefghijklmnopqrstuvwxyz'):
+        sum += (s.count(c)-1)*s.count(c)/2
+    return sum
+
+
+t = int(input())
+for g in range(t):
+    n = int(input())
+    big = -0o7777777777
+    a = list(input())
+    for l in range(n):
+        for r in range(l, n):
+            e = C(a[l:r+1:1])
+            if (e/(r-l+1) > big):
+                big = e/(r-l+1)
+    print(big)
+"
+36,C,Python3,61240410,2023-03-11 21:47:55,❃寻梅᭄ꦿ࿐,运行超时,"def C(s):
+    sum = 0
+    for c in list('abcdefghijklmnopqrstuvwxyz'):
+        sum += (s.count(c)-1)*s.count(c)/2
+    return sum
+
+
+t = int(input())
+for g in range(t):
+    n = int(input())
+    big = -0o7777777777
+    a = list(input())
+    for l in range(n):
+        for r in range(l, n):
+            e = C(a[l:r+1:1])
+            if (e/(r-l+1) > big):
+                big = e/(r-l+1)
+    print(big)
+"
+37,C,Python3,61240427,2023-03-11 21:48:48,❃寻梅᭄ꦿ࿐,运行超时,"def C(s):
+    sum = 0
+    for c in list('abcdefghijklmnopqrstuvwxyz'):
+        sum += (s.count(c)-1)*s.count(c)/2
+    return sum
+
+
+t = int(input())
+for g in range(t):
+    n = int(input())
+    big = -0o7777777777
+    a = list(input())
+    for l in range(n):
+        for r in range(l, n):
+            e = C(a[l:r+1:1])
+            if (e/(r-l+1) > big):
+                big = e/(r-l+1)
+    print(big)
+"
+38,C,Python3,61240474,2023-03-11 21:51:16,❃寻梅᭄ꦿ࿐,运行超时,"def C(s):
+    sum = 0
+    for c in list('abcdefghijklmnopqrstuvwxyz'):
+        sum += (s.count(c)-1)*s.count(c)/2
+    return sum
+
+
+t = int(input())
+for g in range(t):
+    n = int(input())
+    big = -0o7777777777
+    a = list(input())
+    for l in range(n):
+        for r in range(l, n):
+            e = C(a[l:r+1:1])
+            if (e/(r-l+1) > big):
+                big = e/(r-l+1)
+    print(big)
+"
+39,C,Python3,61240513,2023-03-11 21:53:32,❃寻梅᭄ꦿ࿐,运行超时,"def C(s):
+    sum = 0
+    for c in list('abcdefghijklmnopqrstuvwxyz'):
+        sum += (s.count(c)-1)*s.count(c)/2
+    return sum
+
+
+t = int(input())
+for g in range(t):
+    n = int(input())
+    big = -0o7777777777
+    a = list(input())
+    for l in range(n):
+        for r in range(l, n):
+            e = C(a[l:r+1:1])
+            if (e/(r-l+1) > big):
+                big = e/(r-l+1)
+    print(big)
+"
+40,C,Python3,61240566,2023-03-11 21:56:00,❃寻梅᭄ꦿ࿐,运行超时,"def C(s):
+    sum = 0
+    for c in list('abcdefghijklmnopqrstuvwxyz'):
+        sum += (s.count(c)-1)*s.count(c)/2
+    return sum
+
+
+t = int(input())
+for g in range(t):
+    n = int(input())
+    big = -0o7777777777
+    a = list(input())
+    for l in range(n):
+        for r in range(l, n):
+            e = C(a[l:r+1:1])
+            if (e/(r-l+1) > big):
+                big = e/(r-l+1)
+    print(big)
+"
+41,C,Python3,61240596,2023-03-11 21:57:41,❃寻梅᭄ꦿ࿐,运行超时,"def C(s):
+    sum = 0
+    for c in list('abcdefghijklmnopqrstuvwxyz'):
+        sum += (s.count(c)-1)*s.count(c)/2
+    return sum
+
+
+t = int(input())
+for g in range(t):
+    n = int(input())
+    big = -0o7777777777
+    a = list(input())
+    for l in range(n):
+        for r in range(l, n):
+            e = C(a[l:r+1:1])
+            if (e/(r-l+1) > big):
+                big = e/(r-l+1)
+    print(big)"
+42,C,Python3,61240600,2023-03-11 21:57:45,❃寻梅᭄ꦿ࿐,运行超时,"def C(s):
+    sum = 0
+    for c in list('abcdefghijklmnopqrstuvwxyz'):
+        sum += (s.count(c)-1)*s.count(c)/2
+    return sum
+
+
+t = int(input())
+for g in range(t):
+    n = int(input())
+    big = -0o7777777777
+    a = list(input())
+    for l in range(n):
+        for r in range(l, n):
+            e = C(a[l:r+1:1])
+            if (e/(r-l+1) > big):
+                big = e/(r-l+1)
+    print(big)"
+43,C,Python3,61240604,2023-03-11 21:57:50,❃寻梅᭄ꦿ࿐,运行超时,"def C(s):
+    sum = 0
+    for c in list('abcdefghijklmnopqrstuvwxyz'):
+        sum += (s.count(c)-1)*s.count(c)/2
+    return sum
+
+
+t = int(input())
+for g in range(t):
+    n = int(input())
+    big = -0o7777777777
+    a = list(input())
+    for l in range(n):
+        for r in range(l, n):
+            e = C(a[l:r+1:1])
+            if (e/(r-l+1) > big):
+                big = e/(r-l+1)
+    print(big)"
+44,C,Python3,61240650,2023-03-11 22:00:05,❃寻梅᭄ꦿ࿐,运行超时,"def C(s):
+    sum = 0
+    for c in list('abcdefghijklmnopqrstuvwxyz'):
+        sum += (s.count(c)-1)*s.count(c)/2
+    return sum
+
+
+t = int(input())
+for g in range(t):
+    n = int(input())
+    big = -0o7777777777
+    a = list(input())
+    for l in range(n):
+        for r in range(l, n):
+            e = C(a[l:r+1:1])
+            if (e/(r-l+1) > big):
+                big = e/(r-l+1)
+    print(big)"
+45,C,Python3,61240731,2023-03-11 22:05:33,❃寻梅᭄ꦿ࿐,运行超时,"def C(s):
+    sum = 0
+    for c in list('abcdefghijklmnopqrstuvwxyz'):
+        sum += (s.count(c)-1)*s.count(c)/2
+    return sum
+
+
+t = int(input())
+for g in range(t):
+    n = int(input())
+    big = -0o7777777777
+    a = list(input())
+    for l in range(n):
+        for r in range(l, n):
+            e = C(a[l:r+1:1])
+            if (e/(r-l+1) > big):
+                big = e/(r-l+1)
+    print(big)"
+46,C,Python3,61240736,2023-03-11 22:05:47,❃寻梅᭄ꦿ࿐,运行超时,"def C(s):
+    sum = 0
+    for c in list('abcdefghijklmnopqrstuvwxyz'):
+        sum += (s.count(c)-1)*s.count(c)/2
+    return sum
+t = int(input())
+for g in range(t):
+    n = int(input())
+    big = -0o7777777777
+    a = list(input())
+    for l in range(n):
+        for r in range(l, n):
+            e = C(a[l:r+1:1])
+            if (e/(r-l+1) > big):
+                big = e/(r-l+1)
+    print(big)"
+47,C,Python3,61240870,2023-03-11 22:13:40,❃寻梅᭄ꦿ࿐,运行超时,"def C(s):
+    sum = 0
+    for c in list('abcdefghijklmnopqrstuvwxyz'):
+        sum += (s.count(c)-1)*s.count(c)/2
+    return sum
+t = int(input())
+for g in range(t):
+    n = int(input())
+    big = -0o7777777777
+    a = list(input())
+    for l in range(n):
+        for r in range(l, n):
+            e = C(a[l:r+1:1])
+            if (e/(r-l+1) > big):
+                big = e/(r-l+1)
+    print(big)"
+48,C,Python3,61269372,2023-03-13 17:04:09,在走神的菜鸡很漂亮,运行超时,"# import sys
+ 
+# inputlist=[]
+# for line in sys.stdin:
+#     inputlist.append(line)
+# length=len(inputlist)
+# count=1
+# while count<length:
+#     a=int(inputlist[count])
+#     s=inputlist[count+1]
+#     ans=0
+#     for i in range(0,a-1):
+#         temp=0
+#         hashmap={}
+#         hashmap[s[i]]=1
+#         for j in range(i+1,a):
+#             if s[j] in hashmap:
+#                 temp+=hashmap[s[j]]
+#                 hashmap[s[j]]+=1
+#                 if temp/(j-i+1)>ans:
+#                     ans=temp/(j-i+1)
+#             else:
+#                 hashmap[s[j]]=1
+#     print(ans)
+#     count+=2
+
+def C(n):
+    return n*(n-1)/2
+
+T=int(input())
+dp=[[0]*26  for _ in range(5005)]
+while T:
+    T-=1
+    n=int(input())
+    s=input()
+    s=""0""+s
+    
+    dp[1][ord(s[1])-ord('a')]=1
+    
+    for i in range(2,n+1):
+        dp[i][ord(s[i])-ord('a')]+=1
+        for j in range(26):
+            dp[i][j]+=dp[i-1][j]
+            
+    ans=0.        
+    for l in range(1,n+1):
+        for r in range(l+1,n+1):
+            temp=0.
+            for j in range(26):
+                temp+=C(dp[r][j]-dp[l-1][j])
+            temp/=float(r-l+1)
+            ans=max(ans,temp)
+    print(f""{ans:.6f}"")
+    for i in range(1,n+1):
+        for j in range(26):
+            dp[i][j]=0
+    
+    
+
+    
+    
+            "
+49,C,Python3,61269423,2023-03-13 17:06:34,在走神的菜鸡很漂亮,运行超时,"# import sys
+ 
+# inputlist=[]
+# for line in sys.stdin:
+#     inputlist.append(line)
+# length=len(inputlist)
+# count=1
+# while count<length:
+#     a=int(inputlist[count])
+#     s=inputlist[count+1]
+#     ans=0
+#     for i in range(0,a-1):
+#         temp=0
+#         hashmap={}
+#         hashmap[s[i]]=1
+#         for j in range(i+1,a):
+#             if s[j] in hashmap:
+#                 temp+=hashmap[s[j]]
+#                 hashmap[s[j]]+=1
+#                 if temp/(j-i+1)>ans:
+#                     ans=temp/(j-i+1)
+#             else:
+#                 hashmap[s[j]]=1
+#     print(ans)
+#     count+=2
+
+def C(n):
+    return n*(n-1)/2
+
+T=int(input())
+dp=[[0]*26  for _ in range(5005)]
+while T:
+    T-=1
+    n=int(input())
+    s=input()
+    s=""0""+s
+    
+    dp[1][ord(s[1])-ord('a')]=1
+    
+    for i in range(2,n+1):
+        dp[i][ord(s[i])-ord('a')]+=1
+        for j in range(26):
+            dp[i][j]+=dp[i-1][j]
+            
+    ans=0.        
+    for l in range(1,n+1):
+        for r in range(l+1,n+1):
+            temp=0.
+            for j in range(26):
+                temp+=C(dp[r][j]-dp[l-1][j])
+            temp/=float(r-l+1)
+            ans=max(ans,temp)
+    print(f""{ans:.6f}"")
+    for i in range(1,n+1):
+        for j in range(26):
+            dp[i][j]=0
+    
+    
+
+    
+    
+            "
+50,C,Python3,61269496,2023-03-13 17:09:12,在走神的菜鸡很漂亮,运行超时,"import sys
+ 
+inputlist=[]
+for line in sys.stdin:
+    inputlist.append(line)
+length=len(inputlist)
+count=1
+while count<length:
+    a=int(inputlist[count])
+    s=inputlist[count+1]
+    ans=0
+    for i in range(0,a-1):
+        temp=0
+        hashmap={}
+        hashmap[s[i]]=1
+        for j in range(i+1,a):
+            if s[j] in hashmap:
+                temp+=hashmap[s[j]]
+                hashmap[s[j]]+=1
+                if temp/(j-i+1)>ans:
+                    ans=temp/(j-i+1)
+            else:
+                hashmap[s[j]]=1
+    print(ans)
+    count+=2
+
+# def C(n):
+#     return n*(n-1)/2
+
+# T=int(input())
+# dp=[[0]*26  for _ in range(5005)]
+# while T:
+#     T-=1
+#     n=int(input())
+#     s=input()
+#     s=""0""+s
+    
+#     dp[1][ord(s[1])-ord('a')]=1
+    
+#     for i in range(2,n+1):
+#         dp[i][ord(s[i])-ord('a')]+=1
+#         for j in range(26):
+#             dp[i][j]+=dp[i-1][j]
+            
+#     ans=0.        
+#     for l in range(1,n+1):
+#         for r in range(l+1,n+1):
+#             temp=0.
+#             for j in range(26):
+#                 temp+=C(dp[r][j]-dp[l-1][j])
+#             temp/=float(r-l+1)
+#             ans=max(ans,temp)
+#     print(f""{ans:.6f}"")
+#     for i in range(1,n+1):
+#         for j in range(26):
+#             dp[i][j]=0
+    
+    
+
+    
+    
+            "
+51,C,Python3,61269542,2023-03-13 17:11:53,在走神的菜鸡很漂亮,运行超时,"# import sys
+ 
+# inputlist=[]
+# for line in sys.stdin:
+#     inputlist.append(line)
+# length=len(inputlist)
+# count=1
+# while count<length:
+#     a=int(inputlist[count])
+#     s=inputlist[count+1]
+#     ans=0
+#     for i in range(0,a-1):
+#         temp=0
+#         hashmap={}
+#         hashmap[s[i]]=1
+#         for j in range(i+1,a):
+#             if s[j] in hashmap:
+#                 temp+=hashmap[s[j]]
+#                 hashmap[s[j]]+=1
+#                 if temp/(j-i+1)>ans:
+#                     ans=temp/(j-i+1)
+#             else:
+#                 hashmap[s[j]]=1
+#     print(ans)
+#     count+=2
+
+def C(n):
+    return n*(n-1)/2
+
+T=int(input())
+dp=[[0]*26  for _ in range(5005)]
+while T:
+    T-=1
+    n=int(input())
+    s=input()
+    s=""0""+s
+    
+    dp[1][ord(s[1])-ord('a')]=1
+    
+    for i in range(2,n+1):
+        dp[i][ord(s[i])-ord('a')]+=1
+        for j in range(26):
+            dp[i][j]+=dp[i-1][j]
+            
+    ans=0.        
+    for l in range(1,n+1):
+        for r in range(l+1,n+1):
+            temp=0.
+            for j in range(26):
+                temp+=C(dp[r][j]-dp[l-1][j])
+            temp/=float(r-l+1)
+            ans=max(ans,temp)
+    print(f""{ans:.6f}"")
+    for i in range(1,n+1):
+        for j in range(26):
+            dp[i][j]=0
+    
+    
+
+    
+    
+            "
+52,C,Python3,61269647,2023-03-13 17:19:44,在走神的菜鸡很漂亮,运行超时,"# import sys
+ 
+# inputlist=[]
+# for line in sys.stdin:
+#     inputlist.append(line)
+# length=len(inputlist)
+# count=1
+# while count<length:
+#     a=int(inputlist[count])
+#     s=inputlist[count+1]
+#     ans=0
+#     for i in range(0,a-1):
+#         temp=0
+#         hashmap={}
+#         hashmap[s[i]]=1
+#         for j in range(i+1,a):
+#             if s[j] in hashmap:
+#                 temp+=hashmap[s[j]]
+#                 hashmap[s[j]]+=1
+#                 if temp/(j-i+1)>ans:
+#                     ans=temp/(j-i+1)
+#             else:
+#                 hashmap[s[j]]=1
+#     print(ans)
+#     count+=2
+import sys
+ 
+query=[]
+for line in sys.stdin:
+    query.append(line)
+length=len(query)
+C=lambda n:n*(n-1)/2
+
+cnt=1
+n,s=0,''
+while cnt<length:
+    n=int(query[cnt])
+    s=""0""+query[cnt+1]
+    dp=[[0]*26  for _ in range(n+1)]
+    dp[1][ord(s[1])-ord('a')]=1
+    for i in range(2,n+1):
+        dp[i][ord(s[i])-ord('a')]+=1
+        for j in range(26):
+            dp[i][j]+=dp[i-1][j]
+            
+    ans=0.        
+    for l in range(1,n+1):
+        for r in range(l+1,n+1):
+            temp=0.
+            for j in range(26):
+                temp+=C(dp[r][j]-dp[l-1][j])
+            temp/=r-l+1
+            ans=max(ans,temp)
+    cnt+=2
+    print(f""{ans:.6f}"")
+    
+    
+
+    
+    
+            "
+53,C,Python3,61279016,2023-03-14 09:06:48,Want595,运行超时,"T=int(input())
+for i in range(T):
+    n=int(input())
+    arr=[0]*26
+    s=input()
+    res=0.0
+    for i in range(n):
+        arr=[0]*26
+        for j in range(i,n):
+            arr[ord(s[j])-ord('a')]+=1
+            t=0
+            for k in range(26):
+                t+=arr[k]*(arr[k]-1)/2
+            t/=(j-i+1)
+            res=max(res,t)
+    print(res)"
+54,C,Python3,61369854,2023-03-19 00:13:19,.201803242316477,运行超时,"def xiangtong(s):
+    s_set = set(s)
+    m = 0
+    zhonglei = []
+    for i in s_set:
+        zhonglei.append(s.count(i))
+    for z in zhonglei:
+        m += z*(z-1)//2
+    return m
+
+for _ in range(int(input())):
+    f = 0
+    n = int(input())
+    s = input()
+    if n == 1:
+        print('%.6f' % 0)
+    else:
+        s_n = len(s)
+        for s_l in range(s_n):
+            for s_r in range(s_l+1, s_n):
+                f = max(f, xiangtong(s[s_l:s_r+1])/(s_r-s_l+1))
+        print('%.6f' % f)
+                
+        "
+55,C,Python3,61369888,2023-03-19 00:19:44,.201803242316477,运行超时,"def xiangtong(s):
+    s_set = set(s)
+    m = 0
+    zhonglei = []
+    for i in s_set:
+        zhonglei.append(s.count(i))
+    for z in zhonglei:
+        m += z*(z-1)//2
+    return m
+
+for _ in range(int(input())):
+    f = 0
+    n = int(input())
+    s = input()
+    if n == 1:
+        print('%.6f' % 0)
+    else:
+        s_n = len(s)
+        for s_l in range(s_n):
+            for s_r in range(s_l+1, s_n):
+                if s[s_r] not in s[s_l:s_r]:
+                    continue
+                f = max(f, xiangtong(s[s_l:s_r+1])/(s_r-s_l+1))
+        print('%.6f' % f)
+                
+        "
+56,C,Python3,61370167,2023-03-19 01:53:08,.201803242316477,运行超时,"def xiangtong(s):
+    s_set = set(s)
+    m = 0
+    zhonglei = []
+    for i in s_set:
+        zhonglei.append(s.count(i))
+    for z in zhonglei:
+        m += z*(z-1)//2
+    return m
+
+for _ in range(int(input())):
+    f = 0
+    n = int(input())
+    C = []
+    C_ans = []
+    for i in range(n):
+        C.append([0]*26)
+    for i in range(n):
+        C_ans.append([0]*n)
+        
+    s = input()
+    for i,c in enumerate(s):
+        ch = ord(c)-97
+        C[i][ch] = s[:i+1].count(c)
+        if i+1 < n:
+            C[i+1] = [_ for _ in C[i]]
+    #print(C)
+    if n == 1:
+        print('%.6f' % 0)
+    else:
+        s_n = len(s)
+        for s_l in range(s_n):
+            for s_r in range(s_l+1, s_n):
+                #if s[s_r] not in s[s_l:s_r]:
+                  #  continue
+                num = 0
+                if s_l > 0:
+                    num = C[s_r-1][ord(s[s_r])-97] - C[s_l-1][ord(s[s_r])-97]
+                else:
+                    num = C[s_r-1][ord(s[s_r])-97] - 0
+                C_ans[s_l][s_r] = C_ans[s_l][s_r-1] + num
+                #print(C_ans)
+                f = max(f, C_ans[s_l][s_r]/(s_r-s_l+1))
+        print('%.6f' % f)
+                
+        "
+57,C,Python3,61370173,2023-03-19 02:02:57,.201803242316477,运行超时,"for _ in range(int(input())):
+    f = 0
+    n = int(input())
+    C = []
+    C_ans = []
+    for i in range(n):
+        C.append([0]*26)
+    for i in range(n):
+        C_ans.append([0]*n)
+        
+    s = input()
+    for i,c in enumerate(s):
+        ch = ord(c)-97
+        # C[i][ch] = s[:i+1].count(c)
+        C[i][ch] += 1
+        if i+1 < n:
+            C[i+1] = [_ for _ in C[i]]
+    #print(C)
+    if n == 1:
+        print('%.6f' % 0)
+    else:
+        s_n = len(s)
+        for s_l in range(s_n):
+            for s_r in range(s_l+1, s_n):
+                #if s[s_r] not in s[s_l:s_r]:
+                  #  continue
+                num = 0
+                if s_l > 0:
+                    num = C[s_r-1][ord(s[s_r])-97] - C[s_l-1][ord(s[s_r])-97]
+                else:
+                    num = C[s_r-1][ord(s[s_r])-97] - 0
+                C_ans[s_l][s_r] = C_ans[s_l][s_r-1] + num
+                #print(C_ans)
+                f = max(f, C_ans[s_l][s_r]/(s_r-s_l+1))
+        print('%.6f' % f)
+                
+        "
+58,C,Python3,61370194,2023-03-19 02:23:46,.201803242316477,运行超时,"for _ in range(int(input())):
+    f = 0
+    n = int(input())
+    C = []
+    C_ans = []
+    for i in range(n):
+        C.append([0]*26)
+    for i in range(n):
+        C_ans.append([0]*n)
+        
+    s = input()
+    for i,c in enumerate(s):
+        ch = ord(c)-97
+        C[i][ch] += 1
+        if i+1 < n:
+            C[i+1] = [_ for _ in C[i]]
+    #print(C)
+    if n == 1:
+        print('%.6f' % 0)
+    else:
+        s_n = len(s)
+        for i in range(s_n):
+            hash = [0]*26
+            cnt = 0
+            for j in range(i, s_n):
+                t = ord(s[j]) - ord('a')
+                
+                cnt += hash[t]
+                hash[t] += 1
+                f = max(f, cnt/(j-i+1))
+        print('%.6f' % f)
+                
+        "
+59,C,Python3,61370196,2023-03-19 02:25:59,.201803242316477,运行超时,"for _ in range(int(input())):
+    f = 0
+    n = int(input())
+    s = input()
+    s_n = len(s)
+    for i in range(s_n):
+        hash = [0]*26
+        cnt = 0
+        for j in range(i, s_n):
+            t = ord(s[j]) - ord('a')
+            cnt += hash[t]
+            hash[t] += 1
+            f = max(f, cnt/(j-i+1))
+    print('%.6f' % f)
+                
+        "
+60,C,Python3,61370199,2023-03-19 02:33:49,.201803242316477,运行超时,"for _ in range(int(input())):
+    f = 0
+    n = int(input())
+    s = input()
+    s_n = len(s)
+    for i in range(s_n):
+        hash = [0]*26
+        cnt = 0
+        for j in range(i, s_n):
+            t = ord(s[j]) - 97
+            cnt += hash[t]
+            hash[t] += 1
+            f = max(f, cnt/(j-i+1))
+    print('%.6f' % f)
+                
+        "
+61,C,Python3,61370200,2023-03-19 02:36:34,.201803242316477,运行超时,"for _ in range(int(input())):
+    f = 0
+    n = int(input())
+    s = input()
+    s_n = len(s)
+    for i in range(s_n):
+        hash = [0]*26
+        cnt = 0
+        for j in range(i, s_n):
+            t = ord(s[j]) - 97
+            cnt += hash[t]
+            hash[t] += 1
+            f = max(f, cnt/(j-i+1))
+    print('%.6f' % f)"
+62,C,Python3,61370203,2023-03-19 02:42:39,.201803242316477,运行超时,"for _ in range(int(input())):
+    f = 0
+    n = int(input())
+    s = input()
+    for i in range(n):
+        hash = [0]*26
+        cnt = 0
+        for j in range(i, n):
+            t = ord(s[j]) - 97
+            cnt += hash[t]
+            hash[t] += 1
+            f = max(f, cnt/(j-i+1))
+    print('%.6f' % f)"
+63,C,Python3,61370204,2023-03-19 02:44:10,.201803242316477,运行超时,"for _ in range(int(input())):
+    f = 0
+    n = int(input())
+    s = input()
+    for i in range(n):
+        hash = [0]*26
+        cnt = 0
+        for j in range(i, n):
+            t = ord(s[j]) - 97
+            cnt += hash[t]
+            hash[t] += 1
+            if cnt/(j-i+1) > f:
+                f = cnt/(j-i+1)
+    print('%.6f' % f)"
+64,C,Python3,61370206,2023-03-19 02:51:53,.201803242316477,运行超时,"for _ in range(int(input())):
+    f = 0
+    n = int(input())
+    s = input()
+    for i in range(n):
+        hash = [0]*26
+        cnt = 0
+        for j in range(i, n):
+            t = ord(s[j]) - 97
+            cnt += hash[t]
+            hash[t] += 1
+            f = max(f, cnt/(j-i+1))
+    print('%.6f' % f)"
+65,C,Python3,61370208,2023-03-19 02:56:08,.201803242316477,运行超时,"ans = []
+for _ in range(int(input())):
+    f = 0
+    n = int(input())
+    s = input()
+    for i in range(n):
+        hash = [0]*26
+        cnt = 0
+        for j in range(i, n):
+            t = ord(s[j]) - 97
+            cnt += hash[t]
+            hash[t] += 1
+            f = max(f, cnt/(j-i+1))
+    ans.append(f)
+for a in ans:
+    print('%.6f' % a)"
+66,C,Python3,61370796,2023-03-19 09:58:55,.201803242316477,运行超时,"for _ in range(int(input())):
+    f = 0
+    n = int(input())
+    s = input()
+    for i in range(n):
+        hash = [0]*26
+        cnt = 0
+        for j in range(i, n):
+            t = ord(s[j]) - 97
+            cnt += hash[t]
+            hash[t] += 1
+            f = max(f, cnt/(j-i+1))
+    print('%.6f' % f)"
+67,C,Python3,61468254,2023-03-23 22:40:22,塔子哥学算法,执行出错,"taskNum = int(input())
+relationsNum = int(input())
+relations = []
+for i in range(relationsNum):
+    relations.append(list(map(int, input().split())))
+next = {}
+inDegree = [0 for i in range(taskNum)]
+for relation in relations:
+    a, b = relation
+    # a的下一个顶点有b
+    if next.get(a) is None:
+        next[a] = [b]
+    else:
+        next[a].append(b)
+    # b顶点的入度++
+    inDegree[b] += 1
+queue = []
+t = 1
+for i in range(taskNum):
+    if inDegree[i] == 0:
+        queue.append((i, t))  # i含义是入度为0的顶点，t含义是该顶点所处建站时间
+while len(queue) > 0:
+    task, time = queue.pop(0)  # 注意这里为了维持t，一定要使用队列先进先出，出队代表删除某顶点
+    if next.get(task) is not None and len(next[task]) > 0:
+        for nxt in next[task]:
+            # 该顶点被删除，则其后继点的入度值--，若--后入度为0，则将成为新的出队点
+            inDegree[nxt] -= 1
+            if inDegree[nxt] == 0:
+                t = time + 1  # 此时建站时间+1
+                queue.append((nxt, t))
+print(t)"
+68,C,Python3,61498333,2023-03-25 03:13:07,晓星晨曦,答案错误,"import decimal
+decimal.getcontext().rounding = ""ROUND_HALF_UP""
+df = decimal.Decimal(""0.000000"")
+
+def C(l, r, getStr):
+    sumD = 0
+    for j in range(l - 1, r):
+        for k in range(j + 1, r):
+            if getStr[j] == getStr[k]:
+                sumD += 1
+    return sumD
+
+
+def F(l, r, c):
+    if r > l:
+        return decimal.Decimal(c / (r - l + 1)).quantize(df)
+    else:
+        return decimal.Decimal(0).quantize(df)
+
+
+getT = int(input())
+
+for i in range(getT):
+    strLen = int(input())
+    getStr = input()
+    saveF = []
+    for l in range(strLen):
+        for r in range(l, strLen):
+            c = C(l, r, getStr)
+            saveF.append(F(l, r, c))
+    print(max(saveF))
+    
+    
+    
+    
+            "
+69,C,Python3,61498334,2023-03-25 03:25:22,晓星晨曦,执行出错,"import decimal
+decimal.getcontext().rounding = ""ROUND_HALF_UP""
+df = decimal.Decimal(""0.000000"")
+
+def C(l, r, getStr):
+    sumD = 0
+    for j in range(l - 1, r):
+        for k in range(j + 1, r):
+            if getStr[j] == getStr[k]:
+                sumD += 1
+    return sumD
+
+
+def F(l, r, c):
+    if r > l:
+        return decimal.Decimal(c / (r - l + 1)).quantize(df)
+    else:
+        return decimal.Decimal(0).quantize(df)
+
+
+getT = int(input())
+
+for i in range(getT):
+    strLen = int(input())
+    getStr = input()
+    saveF = []
+    for l1 in range(strLen):
+        for r1 in range(l1, strLen):
+            c1 = C(l1 + 1, r1 + 1, getStr1)
+            saveF.append([F(l1 + 1, r1 + 1, c1), [l1 + 1, r1 + 1, c1]])
+    print(max(saveF))
+    
+    
+    
+    
+            "
+70,C,Python3,61498335,2023-03-25 03:25:28,晓星晨曦,答案错误,"import decimal
+decimal.getcontext().rounding = ""ROUND_HALF_UP""
+df = decimal.Decimal(""0.000000"")
+
+def C(l, r, getStr):
+    sumD = 0
+    for j in range(l - 1, r):
+        for k in range(j + 1, r):
+            if getStr[j] == getStr[k]:
+                sumD += 1
+    return sumD
+
+
+def F(l, r, c):
+    if r > l:
+        return decimal.Decimal(c / (r - l + 1)).quantize(df)
+    else:
+        return decimal.Decimal(0).quantize(df)
+
+
+getT = int(input())
+
+for i in range(getT):
+    strLen = int(input())
+    getStr1 = input()
+    saveF = []
+    for l1 in range(strLen):
+        for r1 in range(l1, strLen):
+            c1 = C(l1 + 1, r1 + 1, getStr1)
+            saveF.append([F(l1 + 1, r1 + 1, c1), [l1 + 1, r1 + 1, c1]])
+    print(max(saveF))
+    
+    
+    
+    
+            "
+71,C,Python3,61498337,2023-03-25 03:26:57,晓星晨曦,运行超时,"import decimal
+decimal.getcontext().rounding = ""ROUND_HALF_UP""
+df = decimal.Decimal(""0.000000"")
+
+def C(l, r, getStr):
+    sumD = 0
+    for j in range(l - 1, r):
+        for k in range(j + 1, r):
+            if getStr[j] == getStr[k]:
+                sumD += 1
+    return sumD
+
+
+def F(l, r, c):
+    if r > l:
+        return decimal.Decimal(c / (r - l + 1)).quantize(df)
+    else:
+        return decimal.Decimal(0).quantize(df)
+
+
+getT = int(input())
+
+for i in range(getT):
+    strLen = int(input())
+    getStr1 = input()
+    saveF = []
+    for l1 in range(strLen):
+        for r1 in range(l1, strLen):
+            c1 = C(l1 + 1, r1 + 1, getStr1)
+            saveF.append(F(l1 + 1, r1 + 1, c1))
+    print(max(saveF))
+    
+    
+    
+    
+            "
+72,C,Python3,61498338,2023-03-25 03:28:31,晓星晨曦,运行超时,"import decimal
+decimal.getcontext().rounding = ""ROUND_HALF_UP""
+df = decimal.Decimal(""0.000000"")
+
+def C(l, r, getStr):
+    sumD = 0
+    for j in range(l - 1, r):
+        for k in range(j + 1, r):
+            if getStr[j] == getStr[k]:
+                sumD += 1
+    return sumD
+
+
+def F(l, r, c):
+    if r > l:
+        return decimal.Decimal(c / (r - l + 1)).quantize(df)
+    else:
+        return decimal.Decimal(0).quantize(df)
+
+
+getT = int(input())
+
+for i in range(getT):
+    strLen = int(input())
+    getStr1 = input()
+    saveF = []
+    for l1 in range(strLen):
+        for r1 in range(l1, strLen):
+            c1 = C(l1 + 1, r1 + 1, getStr1)
+            saveF.append(F(l1 + 1, r1 + 1, c1))
+    print(max(saveF))
+    
+    
+    
+    
+            "
+73,C,Python3,61498346,2023-03-25 03:51:55,晓星晨曦,运行超时,"import decimal
+decimal.getcontext().rounding = ""ROUND_HALF_UP""
+df = decimal.Decimal(""0.000000"")
+
+def C(l, r, getStr):
+    sumD = 0
+    for j in range(l - 1, r):
+        for k in range(j + 1, r):
+            if getStr[j] == getStr[k]:
+                sumD += 1
+    return sumD
+
+
+def F(l, r, c):
+    if r > l:
+        return decimal.Decimal(c / (r - l + 1)).quantize(df)
+    else:
+        return decimal.Decimal(0).quantize(df)
+
+
+getT = int(input())
+
+for i in range(getT):
+    strLen = int(input())
+    getStr1 = input()
+    saveF = []
+    for l1 in range(strLen):
+        for r1 in range(l1, strLen):
+            if r1 > l1 or strLen == 1:
+                c1 = C(l1 + 1, r1 + 1, getStr1)
+                saveF.append(F(l1 + 1, r1 + 1, c1))
+    print(max(saveF))
+    
+    
+    
+    
+            "
+74,C,Python3,61498356,2023-03-25 04:11:31,晓星晨曦,执行出错,"import decimal
+decimal.getcontext().rounding = ""ROUND_HALF_UP""
+df = decimal.Decimal(""0.000000"")
+
+def C(l, r, getStr):
+    sumD = 0
+    for j in range(l - 1, r):
+        for k in range(j + 1, r):
+            if getStr[j] == getStr[k]:
+                sumD += 1
+    return sumD
+
+
+def F(l, r, c):
+    if r > l:
+        return decimal.Decimal(c / (r - l + 1)).quantize(df)
+    else:
+        return decimal.Decimal(0).quantize(df)
+
+
+getT = int(input())
+
+for i in range(getT):
+    strLen = int(input())
+    getStr1 = input()
+    saveF = []
+    for l1 in range(strLen):
+        for r1 in range(l1, strLen):
+            if r1 - l1 > 0 and r1 - l1 != 1 or strLen == 1:
+                c1 = C(l1 + 1, r1 + 1, getStr1)
+                saveF.append(F(l1 + 1, r1 + 1, c1))
+    print(max(saveF))
+    
+    
+    
+    
+            "
+75,C,Python3,61534174,2023-03-25 17:07:59,晓星晨曦,执行出错,"import decimal
+decimal.getcontext().rounding = ""ROUND_HALF_UP""
+df = decimal.Decimal(""0.000000"")
+
+def C(l, r, getStr):
+    sumD = 0
+    for j in range(l - 1, r):
+        for k in range(j + 1, r):
+            if getStr[j] == getStr[k]:
+                sumD += 1
+    return sumD
+
+
+def F(l, r, c):
+    if r > l:
+        return decimal.Decimal(c / (r - l + 1)).quantize(df)
+    else:
+        return decimal.Decimal(0).quantize(df)
+
+
+getT = int(input())
+
+for i in range(getT):
+    strLen = int(input())
+    getStr1 = input()
+    saveF = []
+    for l1 in range(strLen):
+        for r1 in range(l1, strLen):
+            if r1 - l1 > 0 and r1 - l1 != 1 or strLen == 1:
+                c1 = C(l1 + 1, r1 + 1, getStr1)
+                saveF.append(F(l1 + 1, r1 + 1, c1))
+    print(max(saveF))
+    
+    
+    
+    
+            "
+76,C,Python3,61534585,2023-03-25 17:15:26,晓星晨曦,运行超时,"import decimal
+decimal.getcontext().rounding = ""ROUND_HALF_UP""
+df = decimal.Decimal(""0.000000"")
+
+def C(l, r, getStr):
+    sumD = 0
+    for j in range(l - 1, r):
+        for k in range(j + 1, r):
+            if getStr[j] == getStr[k]:
+                sumD += 1
+    return sumD
+
+
+def F(l, r, c):
+    if r > l:
+        return decimal.Decimal(c / (r - l + 1)).quantize(df)
+    else:
+        return decimal.Decimal(0).quantize(df)
+
+
+getT = int(input())
+
+for i in range(getT):
+    strLen = int(input())
+    getStr1 = input()
+    saveF = []
+    for l1 in range(strLen):
+        for r1 in range(l1, strLen):
+#             if r1 - l1 > 0 and r1 - l1 != 1 or strLen == 1:
+            c1 = C(l1 + 1, r1 + 1, getStr1)
+            saveF.append(F(l1 + 1, r1 + 1, c1))
+    print(max(saveF))
+    
+    
+    
+    
+            "
+77,C,Python3,61535092,2023-03-25 17:24:25,晓星晨曦,运行超时,"import decimal
+decimal.getcontext().rounding = ""ROUND_HALF_UP""
+df = decimal.Decimal(""0.000000"")
+
+def C(l, r, getStr):
+    sumD = 0
+    for j in range(l - 1, r):
+        for k in range(j + 1, r):
+            if getStr[j] == getStr[k]:
+                sumD += 1
+    return sumD
+
+
+def F(l, r, c):
+    if r > l:
+        return float(c / (r - l + 1))
+    else:
+        return float(0)
+
+
+getT = int(input())
+
+for i in range(getT):
+    strLen = int(input())
+    getStr1 = input()
+    saveF = []
+    for l1 in range(strLen):
+        for r1 in range(l1, strLen):
+            if r1 > l1 or strLen == 1:
+                c1 = C(l1 + 1, r1 + 1, getStr1)
+                saveF.append(F(l1 + 1, r1 + 1, c1))
+    print(decimal.Decimal(max(saveF)).quantize(df))
+    
+    
+    
+    
+            "
+78,C,Python3,61535667,2023-03-25 17:37:11,晓星晨曦,答案错误,"import decimal
+decimal.getcontext().rounding = ""ROUND_HALF_UP""
+df = decimal.Decimal(""0.000000"")
+
+def C(l, r, getStr):
+    sumD = 0
+    for j in range(l - 1, r):
+        for k in range(j + 1, r):
+            if getStr[j] == getStr[k]:
+                sumD += 1
+    return sumD
+
+
+def F(l, r, c):
+    if r > l:
+        return float(c / (r - l + 1))
+    else:
+        return float(0)
+
+
+getT = int(input())
+
+for i in range(getT):
+    strLen = int(input())
+    getStr1 = input()
+    saveF = []
+    for l1 in range(1):
+        for r1 in range(l1, strLen):
+            if r1 > l1 or strLen == 1:
+                c1 = C(l1 + 1, r1 + 1, getStr1)
+                saveF.append(F(l1 + 1, r1 + 1, c1))
+    print(decimal.Decimal(max(saveF)).quantize(df))
+    
+    
+    
+    
+            "
+79,C,Python3,61535801,2023-03-25 17:41:52,晓星晨曦,答案错误,"import decimal
+import math
+
+decimal.getcontext().rounding = ""ROUND_HALF_UP""
+df = decimal.Decimal(""0.000000"")
+
+def C(l, r, getStr):
+    sumD = 0
+    for j in range(l - 1, r):
+        for k in range(j + 1, r):
+            if getStr[j] == getStr[k]:
+                sumD += 1
+    return sumD
+
+
+def F(l, r, c):
+    if r > l:
+        return float(c / (r - l + 1))
+    else:
+        return float(0)
+
+
+getT = int(input())
+
+for i in range(getT):
+    strLen = int(input())
+    getStr1 = input()
+    saveF = []
+    for l1 in range(int(math.sqrt(strLen))):
+        for r1 in range(l1, strLen):
+            if r1 > l1 or strLen == 1:
+                c1 = C(l1 + 1, r1 + 1, getStr1)
+                saveF.append(F(l1 + 1, r1 + 1, c1))
+    print(decimal.Decimal(max(saveF)).quantize(df))
+    
+    
+    
+    
+            "
+80,C,Python3,61537400,2023-03-25 19:08:32,晓星晨曦,运行超时,"# import decimal
+# import math
+
+# decimal.getcontext().rounding = ""ROUND_HALF_UP""
+# df = decimal.Decimal(""0.000000"")
+
+# def C(l, r, getStr):
+#     sumD = 0
+#     for j in range(l - 1, r):
+#         for k in range(j + 1, r):
+#             if getStr[j] == getStr[k]:
+#                 sumD += 1
+#     return sumD
+
+
+# def F(l, r, c):
+#     if r > l:
+#         return float(c / (r - l + 1))
+#     else:
+#         return float(0)
+
+
+# getT = int(input())
+
+# for i in range(getT):
+#     strLen = int(input())
+#     getStr1 = input()
+#     saveF = []
+#     for l1 in range(int(math.sqrt(strLen))):
+#         for r1 in range(l1, strLen):
+#             if r1 > l1 or strLen == 1:
+#                 c1 = C(l1 + 1, r1 + 1, getStr1)
+#                 saveF.append(F(l1 + 1, r1 + 1, c1))
+#     print(decimal.Decimal(max(saveF)).quantize(df))
+    
+
+import sys
+
+# 计算子串的 C 值
+def calc_c(s, l, r):
+    cnt = [0] * 26
+    res = 0
+    for i in range(l, r+1):
+        j = ord(s[i]) - ord('a')
+        res += cnt[j]
+        cnt[j] += 1
+    return res
+
+# 计算子串的 F 值
+def calc_f(s, l, r):
+    if l > r:
+        return 0
+    c = calc_c(s, l, r)
+    return c / (r - l + 1)
+
+# 计算最大的 F 值
+def calc_max_f(s, n):
+    max_f = 0
+    for i in range(n):
+        for j in range(i, n):
+            f = calc_f(s, i, j)
+            max_f = max(max_f, f)
+    return max_f
+
+# 主函数
+def main():
+    # 读入数据
+    t = int(sys.stdin.readline())
+    for _ in range(t):
+        n = int(sys.stdin.readline())
+        s = sys.stdin.readline().strip()
+        # 计算最大的 F 值并输出结果
+        max_f = calc_max_f(s, n)
+        print(""{:.6f}"".format(max_f))
+
+if __name__ == '__main__':
+    main()
+
+    
+    
+            "
+81,C,Python3,61752087,2023-04-05 12:58:11,一半醒,运行超时,"from collections import Counter
+
+t = int(input())
+
+def solve():
+    n = int(input())
+    ts = input()
+    res = 0
+    for i in range(n):
+        s = [0]*26
+        t = 0
+        for j in range(i,n):
+            c = ord(ts[j])-ord('a')
+            s[c] += 1
+            t += s[c] - 1
+            res = max(res,t/(j-i+1))
+    print(""%.6f""%res)
+
+for _ in range(t):
+    solve()"
+82,C,Python3,61752119,2023-04-05 13:02:04,一半醒,运行超时,"from collections import Counter
+
+t = int(input())
+
+def solve():
+    n = int(input())
+    ts = [ord(c) - ord(""a"") for c in input()]
+    res = 0
+    for i in range(n):
+        s = [0]*26
+        t = 0
+        for j in range(i,n):
+            c= ts[j]
+            s[c] += 1
+            t += s[c] - 1
+            res = max(res,t/(j-i+1))
+    print(""%.6f""%res)
+
+for _ in range(t):
+    solve()"
+83,C,Python3,61752135,2023-04-05 13:04:04,一半醒,运行超时,"for _ in range(int(input())):
+    n = int(input())
+    s = [ord(c) - ord(""a"") for c in input()]
+    ans = 0
+    for i in range(n):
+        count = [0] * 26
+        c = 0
+        for j in range(i, n):
+            c += count[s[j]]
+            count[s[j]] += 1
+            ans = max(ans, c / (j - i + 1))
+    print(ans)
+"

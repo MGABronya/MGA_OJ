@@ -54,7 +54,7 @@ func initCommits(pathname string, competition *TQ.Competition) {
 			}
 			commit.Language = record[i][2]
 			commit.Created_at, _ = time.Parse("2006-01-02 15:04:05", record[i][4])
-			commit.UserId = record[i][5]
+			commit.UserId = pathname + record[i][5]
 			commit.Code = record[i][7]
 			commits = append(commits, commit)
 			usersMap[record[i][5]] = true
@@ -69,9 +69,27 @@ func main() {
 	TQ.Records = make([]TQ.Record, 0)
 	competitions = make([]TQ.Competition, 0)
 	println("Init Competitions...")
-	initCompetitions()
+	initCompetitions1()
+	initCompetitions2()
+	initCompetitions3()
+	initCompetitions4()
+	initCompetitions5()
+	initCompetitions6()
+	initCompetitions7()
+	initCompetitions8()
+	initCompetitions9()
+	initCompetitions10()
 	println("Init Commites...")
 	initCommits("0", &competitions[0])
+	initCommits("1", &competitions[1])
+	initCommits("2", &competitions[2])
+	initCommits("3", &competitions[3])
+	initCommits("4", &competitions[4])
+	initCommits("5", &competitions[5])
+	initCommits("6", &competitions[6])
+	initCommits("7", &competitions[7])
+	initCommits("8", &competitions[8])
+	initCommits("9", &competitions[9])
 
 	dstFile, err := os.Create("pressure.dat")
 	if err != nil {
@@ -87,7 +105,6 @@ func main() {
 	}
 
 	<-time.NewTimer(125 * time.Minute).C
-	fmt.Println("MGAHAHAHA")
 
 	bs, _ := json.Marshal(TQ.Records)
 	var out bytes.Buffer

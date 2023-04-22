@@ -11,6 +11,7 @@ import (
 // CmdInterface			定义了命 令执行方法
 type CmdInterface interface {
 	Compile(string, string) *exec.Cmd // 编译
+	Chmod(string, string) *exec.Cmd   // 获取运行权限
 	Suffix() string                   // 后缀
 	Run(string, string) *exec.Cmd     // 运行
 	TimeMultiplier() uint             // 语言的运行时间倍

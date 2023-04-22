@@ -1,0 +1,1501 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,A,Python3,55298022,2022-12-16 19:02:52,数学家是我理想,答案正确,"n = int(input())
+arr = list(map(int, input().split()))
+res = 1e9
+for i in range(0, n):
+    t = arr[i]
+    res = min(res, t)
+    for j in range(i + 1, n):
+        t &= arr[j]
+        res = min(res, t)
+print(res)"
+1,A,Python3,55298235,2022-12-16 19:04:11,ccca,答案正确,"from sys import stdin, stdout # 引入这两个库
+
+# each entry of sieve contains a prime divisor
+a = []
+t = int(input())
+a = [int(x) for x in stdin.readline().split()] # 读取一行输入的方式;
+ans = a[0]
+for i in a:
+    ans = ans & i
+    pass
+print(ans)"
+2,A,Python3,55298240,2022-12-16 19:04:13,牛78筋,答案正确,"n = int(input())
+a = [int(i) for i in input().split()]
+ans = a[0]
+for ai in a[1::]:
+    ans = ans & ai
+print(ans)"
+3,A,Python3,55298346,2022-12-16 19:04:57,书生alin,答案错误,"a=int(input())
+arr = list(map(int, input().split()))
+b = []
+for i in range(a):
+    for j in range(i,a):
+        b.append(arr[i] & arr[j])
+print(min(b))
+
+
+"
+4,A,Python3,55298414,2022-12-16 19:05:20,巴掌大叔,答案错误,print(0)
+5,A,Python3,55298712,2022-12-16 19:07:18,牛客481337953号,答案正确,"n=int(input())
+s=list(map(int,input().split()))
+d=s[0]
+for i in s:
+    d&=i
+print(d)"
+6,A,Python3,55299130,2022-12-16 19:10:09,书生alin,答案正确,"a=int(input())
+arr = list(map(int, input().split()))
+if a == 1:
+    print(arr[0])
+elif a == 2:
+    print(arr[0] & arr[1])
+else:
+    s = arr[0] & arr[1]
+    for i in range(2, a):
+        s = s & arr[i]
+    print(s)
+
+
+"
+7,A,Python3,55299378,2022-12-16 19:12:07,山东协和学院_秦思佳,答案错误,"n=int(input())
+m=list(map(int,input().split()))
+for i in range(len(m)):
+    c=m[i]&m[i-1]
+print(c)"
+8,A,Python3,55299383,2022-12-16 19:12:08,眼里_有光,答案正确,"import sys
+lst=[]
+time=0
+n=0
+for line in sys.stdin:
+    if time==0:
+        time=1
+        n=int(line.split()[0])
+        continue
+    lst=[int(x) for x in line.split()]
+#print(n)
+a=lst[0]
+for m in lst[1::]:
+    a=a&m
+print(a)
+
+
+            
+            "
+9,A,Python3,55299536,2022-12-16 19:13:07,山东协和学院_秦思佳,答案错误,"n=int(input())
+c=0
+m=list(map(int,input().split()))
+for i in range(len(m)):
+    c=m[i]&m[i-1]
+print(c)"
+10,A,Python3,55299661,2022-12-16 19:13:58,牛客656195162号,答案错误,"mins=1000000
+sum_li=0
+n=int(input())
+a=[int(x) for x in input().split()]
+lena=len(a)
+sum=[]
+for i in range(2**lena):
+    b=[]
+    for j in range(lena):
+        if(i>>j)%2==1:
+            b.append(a[j])
+    sum.append(b)
+sum.remove([])
+for i in sum:
+    for j in i:
+        sum_li=sum_li&j
+    mins=min(mins,sum_li)
+print(mins)"
+11,A,Python3,55299741,2022-12-16 19:14:36,山东协和学院_秦思佳,答案错误,"n=int(input())
+m=list(map(int,input().split()))
+c=0
+if len(m)>0:
+    for i in range(len(m)):
+        c=m[i]&m[i-1]
+    print(c)"
+12,A,Python3,55299836,2022-12-16 19:15:20,相ཽ信ཽ光ཽ的ཽ少ཽ年ཽ,答案正确,"import copy
+n = int(input())
+nums = list(map(int,input().split()))
+s = set()
+for i in range(n):
+    for j in range(i, -1, -1):
+        nums[j] &= nums[i]
+        s.add(nums[j])
+print(min(s))"
+13,A,Python3,55300024,2022-12-16 19:16:36,雷峰lfss,答案正确,"n = int(input())
+nums = list(map(int,input().split()))
+def back(c,x):
+    if c == len(nums):return x
+    return min(back(c+1,x&nums[c]),back(c+1,x))
+res = float('inf')
+for i in range(n):
+    res = min(res,back(i+1,nums[i]))
+print(res)"
+14,A,Python3,55300311,2022-12-16 19:18:45,枫絮凝语,答案错误,"n=int(input())
+s=list(map(int,input().split()))
+minres=0
+for i in range(n):
+    for j in range(i+1,n):
+        if s[i]%s[j]<minres:
+            minres=s[i]%s[j]
+print(minres)
+    
+
+
+
+
+
+"
+15,A,Python3,55300489,2022-12-16 19:20:00,牛客656195162号,答案错误,"mins=1000000
+sum_li=0
+n=int(input())
+a=[int(x) for x in input().split()]
+lena=len(a)
+sum=[]
+for i in range(2**lena):
+    b=[]
+    for j in range(lena):
+        if(i>>j)%2==1:
+            b.append(a[j])
+    sum.append(b)
+sum.remove([])
+for i in sum:
+    for j in i:
+        sum_li=sum_li&j
+    mins=min(mins,sum_li)
+    sum_li=0
+print(mins)"
+16,A,Python3,55300557,2022-12-16 19:20:32,枫絮凝语,答案错误,"n=int(input())
+s=list(map(int,input().split()))
+minres=max(s)
+for i in range(n):
+    for j in range(i+1,n):
+        if s[i]%s[j]<minres:
+            minres=s[i]%s[j]
+print(minres)
+    
+
+
+
+
+
+"
+17,A,Python3,55300559,2022-12-16 19:20:33,xiajibaqi,答案错误,"n=int(input())
+b=input()
+b=b.split("" "")
+e=0
+g=""""
+for c in b:
+    d=bin(int(c))
+    e+=int(d[2:])
+for f in str(e):
+    if int(f)==n:
+        g=g+f
+    else :
+        g=g+""0""
+print(int(g))"
+18,A,Python3,55300702,2022-12-16 19:21:28,枫絮凝语,答案错误,"import math
+n=int(input())
+s=list(map(int,input().split()))
+minres=math.inf
+for i in range(n):
+    for j in range(i+1,n):
+        if s[i]%s[j]<minres:
+            minres=s[i]%s[j]
+print(minres)
+    
+
+
+
+
+
+"
+19,A,Python3,55301236,2022-12-16 19:25:54,枫絮凝语,答案正确,"import math
+n=int(input())
+s=set(map(int,input().split()))
+s=list(s)
+# minres=math.inf
+# for i in range(n):
+#     for j in range(i+1,n):
+#         if s[i]%s[j]<minres:
+#             minres=s[i]%s[j]
+res=s[0]
+for i in range(1,len(s)):
+    res&=s[i]
+print(res)
+    
+
+
+
+
+
+"
+20,A,Python3,55301480,2022-12-16 19:27:54,大虫航,运行超时,"from functools import reduce
+
+n = int(input())
+num = list(map(int, input().split("" "")))
+
+
+def solve(n, num):
+    
+    # 开始找所有子序列
+    ans = 0x3f3f
+    def dfs(start, tmp):
+        nonlocal n, ans
+        if start == n:
+            # 与
+            if tmp:
+                cur = reduce(lambda x,y:x&y, tmp)
+                ans = min(ans, cur)
+            return
+        for i in range(start, n):
+            # 要添加n
+            dfs(i+1, tmp)
+            dfs(i+1, tmp+[num[i]])
+            
+    dfs(0, [])
+    return ans
+
+
+print(solve(n, num))
+"
+21,A,Python3,55301735,2022-12-16 19:29:54,KevinSo,答案正确,"n = int(input())
+a = list(map(int, input().split()))
+ans = 0
+for w in range(32):
+    t = 1
+    for i in range(n):
+        if (a[i] >> w) & 1 == 0:
+            t = 0
+            break
+    if t == 1:
+        ans += (1 << w)
+print(ans)"
+22,A,Python3,55302150,2022-12-16 19:33:36,大虫航,答案错误,"from functools import reduce,cache
+
+n = int(input())
+num = list(map(int, input().split("" "")))
+
+
+def solve(n, num):
+    
+    # 开始找所有子序列
+    ans = 0x3f3f
+    @cache
+    def dfs(start, tmp):
+        nonlocal n, ans
+        if start == n:
+            # 与
+            if tmp:
+                cur = reduce(lambda x,y:x&y, tmp)
+#                 print(""cur"", cur)
+                ans = min(ans, cur)
+            return
+        for i in range(start, n):
+            # 要添加n
+#             print(""aaaa"")
+#             print(tmp + (num[i],))
+            dfs(i+1, tmp)
+            
+            dfs(i+1, tmp+(num[i],))
+
+            
+            
+    dfs(0, ())
+#     print(""ans"", ans)
+    return ans
+
+
+print(solve(n, num))
+"
+23,A,Python3,55303031,2022-12-16 19:41:27,大虫航,答案错误,"from functools import reduce,cache
+
+n = int(input())
+num = list(map(int, input().split("" "")))
+
+# num.sort()
+
+
+def solve(n, num):
+    
+    # 开始找所有子序列
+    ans = 0x3f3f
+    @cache
+    def dfs(start, tmp):
+        nonlocal n, ans
+        if start == n:
+            # 与
+            if tmp:
+#                 print(tmp)
+                cur = reduce(lambda x,y:x&y, tmp)
+#                 print(""cur"", cur)
+                ans = min(ans, cur)
+            return
+        for i in range(start, n):
+            # 要添加n
+#             print(""aaaa"")
+#             print(tmp + (num[i],))
+#             print(""i:"", num[i])
+            dfs(i+1, tmp)
+            
+            dfs(i+1, tmp+(num[i],))
+
+            
+            
+    dfs(0, ())
+#     print(""ans"", ans)
+    return ans
+
+
+print(solve(n, num))
+"
+24,A,Python3,55303188,2022-12-16 19:43:04,牛客656195162号,答案错误,"mins=1000000000
+sum_li=0
+n=int(input())
+a=[int(x) for x in input().split()]
+lena=len(a)
+sum=[]
+for i in range(2**lena):
+    b=[]
+    for j in range(lena):
+        if(i>>j)%2==1:
+            b.append(a[j])
+    sum.append(b)
+sum.remove([])
+for i in sum:
+    for j in i:
+        sum_li=sum_li&j
+    mins=min(mins,sum_li)
+    sum_li=0
+print(mins)"
+25,A,Python3,55303482,2022-12-16 19:45:53,南岸以南南岸哀,答案错误,"import random
+import sys
+import os
+import math
+from collections import Counter, defaultdict, deque
+from functools import lru_cache, reduce
+from itertools import accumulate, combinations, permutations
+from heapq import nsmallest, nlargest, heapify, heappop, heappush
+from io import BytesIO, IOBase
+from copy import deepcopy
+import bisect
+
+# from sortedcontainers import SortedList
+BUFSIZE = 4096
+
+
+class FastIO(IOBase):
+    newlines = 0
+
+    def __init__(self, file):
+        self._fd = file.fileno()
+        self.buffer = BytesIO()
+        self.writable = ""x"" in file.mode or ""r"" not in file.mode
+        self.write = self.buffer.write if self.writable else None
+
+    def read(self):
+        while True:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            if not b:
+                break
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines = 0
+        return self.buffer.read()
+
+    def readline(self):
+        while self.newlines == 0:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            self.newlines = b.count(b""\n"") + (not b)
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines -= 1
+        return self.buffer.readline()
+
+    def flush(self):
+        if self.writable:
+            os.write(self._fd, self.buffer.getvalue())
+            self.buffer.truncate(0), self.buffer.seek(0)
+
+
+class IOWrapper(IOBase):
+    def __init__(self, file):
+        self.buffer = FastIO(file)
+        self.flush = self.buffer.flush
+        self.writable = self.buffer.writable
+        self.write = lambda s: self.buffer.write(s.encode(""ascii""))
+        self.read = lambda: self.buffer.read().decode(""ascii"")
+        self.readline = lambda: self.buffer.readline().decode(""ascii"")
+
+
+sys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)
+input = lambda: sys.stdin.readline().rstrip(""\r\n"")
+
+
+def I():
+    return input()
+
+
+def II():
+    return int(input())
+
+
+def MI():
+    return map(int, input().split())
+
+
+def LI():
+    return list(input().split())
+
+
+def LII():
+    return list(map(int, input().split()))
+
+
+def GMI():
+    return map(lambda x: int(x) - 1, input().split())
+
+
+def LGMI():
+    return list(map(lambda x: int(x) - 1, input().split()))
+
+def solve():
+    n=II()
+    a=LII()
+    cnt=Counter(a)
+    for i in cnt.values():
+        if i>=2:
+            print(0)
+            return
+    a.sort()
+    res=a[0]
+    b=[0]*31
+    for i in range(0,31):
+        if res>>i&1:
+            b[i]=1
+    for i in range(1,len(a)):
+        x=a[i]
+        for j in range(0,31):
+            if b[j]==1 and x>>j&1:
+                b[j]=0
+    x=0
+    for i in b:
+        x=x*2+1
+    print(x)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+if __name__ == '__main__':
+    for _ in range(1):
+        solve()
+
+
+
+
+
+"
+26,A,Python3,55303815,2022-12-16 19:49:03,南岸以南南岸哀,答案错误,"import random
+import sys
+import os
+import math
+from collections import Counter, defaultdict, deque
+from functools import lru_cache, reduce
+from itertools import accumulate, combinations, permutations
+from heapq import nsmallest, nlargest, heapify, heappop, heappush
+from io import BytesIO, IOBase
+from copy import deepcopy
+import bisect
+
+# from sortedcontainers import SortedList
+BUFSIZE = 4096
+
+
+class FastIO(IOBase):
+    newlines = 0
+
+    def __init__(self, file):
+        self._fd = file.fileno()
+        self.buffer = BytesIO()
+        self.writable = ""x"" in file.mode or ""r"" not in file.mode
+        self.write = self.buffer.write if self.writable else None
+
+    def read(self):
+        while True:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            if not b:
+                break
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines = 0
+        return self.buffer.read()
+
+    def readline(self):
+        while self.newlines == 0:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            self.newlines = b.count(b""\n"") + (not b)
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines -= 1
+        return self.buffer.readline()
+
+    def flush(self):
+        if self.writable:
+            os.write(self._fd, self.buffer.getvalue())
+            self.buffer.truncate(0), self.buffer.seek(0)
+
+
+class IOWrapper(IOBase):
+    def __init__(self, file):
+        self.buffer = FastIO(file)
+        self.flush = self.buffer.flush
+        self.writable = self.buffer.writable
+        self.write = lambda s: self.buffer.write(s.encode(""ascii""))
+        self.read = lambda: self.buffer.read().decode(""ascii"")
+        self.readline = lambda: self.buffer.readline().decode(""ascii"")
+
+
+sys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)
+input = lambda: sys.stdin.readline().rstrip(""\r\n"")
+
+
+def I():
+    return input()
+
+
+def II():
+    return int(input())
+
+
+def MI():
+    return map(int, input().split())
+
+
+def LI():
+    return list(input().split())
+
+
+def LII():
+    return list(map(int, input().split()))
+
+
+def GMI():
+    return map(lambda x: int(x) - 1, input().split())
+
+
+def LGMI():
+    return list(map(lambda x: int(x) - 1, input().split()))
+
+def solve():
+    n=II()
+    a=LII()
+    cnt=Counter(a)
+    for i in cnt.values():
+        if i>=2:
+            print(0)
+            return
+    a.sort()
+    res=a[0]
+
+    for i in range(1,len(a)):
+        x=a[i]
+        for j in range(0,31):
+            if res>>j&1 and x>>j&1:
+                res=res-1<<j
+
+    print(res)
+
+
+if __name__ == '__main__':
+    for _ in range(1):
+        solve()
+
+
+
+
+
+"
+27,A,Python3,55304051,2022-12-16 19:51:15,大虫航,运行超时,"from functools import reduce,cache
+
+n = int(input())
+num = list(map(int, input().split("" "")))
+
+# num.sort()
+
+
+def solve(n, num):
+    
+    # 开始找所有子序列
+    ans = float(""inf"")
+    @cache
+    def dfs(start, tmp):
+        nonlocal n, ans
+        if start == n:
+            # 与
+            if tmp:
+#                 print(tmp)
+                cur = reduce(lambda x,y:x&y, tmp)
+#                 print(""cur"", cur)
+                ans = min(ans, cur)
+            return
+        for i in range(start, n):
+            # 要添加n
+#             print(""aaaa"")
+#             print(tmp + (num[i],))
+#             print(""i:"", num[i])
+            dfs(i+1, tmp)
+            
+            dfs(i+1, tmp+(num[i],))
+
+            
+            
+    dfs(0, ())
+#     print(""ans"", ans)
+    return ans
+
+
+print(solve(n, num))
+"
+28,A,Python3,55304094,2022-12-16 19:51:39,南岸以南南岸哀,答案错误,"import random
+import sys
+import os
+import math
+from collections import Counter, defaultdict, deque
+from functools import lru_cache, reduce
+from itertools import accumulate, combinations, permutations
+from heapq import nsmallest, nlargest, heapify, heappop, heappush
+from io import BytesIO, IOBase
+from copy import deepcopy
+import bisect
+
+# from sortedcontainers import SortedList
+BUFSIZE = 4096
+
+
+class FastIO(IOBase):
+    newlines = 0
+
+    def __init__(self, file):
+        self._fd = file.fileno()
+        self.buffer = BytesIO()
+        self.writable = ""x"" in file.mode or ""r"" not in file.mode
+        self.write = self.buffer.write if self.writable else None
+
+    def read(self):
+        while True:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            if not b:
+                break
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines = 0
+        return self.buffer.read()
+
+    def readline(self):
+        while self.newlines == 0:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            self.newlines = b.count(b""\n"") + (not b)
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines -= 1
+        return self.buffer.readline()
+
+    def flush(self):
+        if self.writable:
+            os.write(self._fd, self.buffer.getvalue())
+            self.buffer.truncate(0), self.buffer.seek(0)
+
+
+class IOWrapper(IOBase):
+    def __init__(self, file):
+        self.buffer = FastIO(file)
+        self.flush = self.buffer.flush
+        self.writable = self.buffer.writable
+        self.write = lambda s: self.buffer.write(s.encode(""ascii""))
+        self.read = lambda: self.buffer.read().decode(""ascii"")
+        self.readline = lambda: self.buffer.readline().decode(""ascii"")
+
+
+sys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)
+input = lambda: sys.stdin.readline().rstrip(""\r\n"")
+
+
+def I():
+    return input()
+
+
+def II():
+    return int(input())
+
+
+def MI():
+    return map(int, input().split())
+
+
+def LI():
+    return list(input().split())
+
+
+def LII():
+    return list(map(int, input().split()))
+
+
+def GMI():
+    return map(lambda x: int(x) - 1, input().split())
+
+
+def LGMI():
+    return list(map(lambda x: int(x) - 1, input().split()))
+
+def solve():
+    n=II()
+    a=LII()
+    cnt=Counter(a)
+    for i in cnt.values():
+        if i>=2:
+            print(0)
+            return
+    a.sort()
+    ans=math.inf
+
+    for i in range(0,len(a)):
+        res=a[i]
+        for j in range(0,len(a)):
+            if i==j:continue
+            x=a[j]
+            for k in range(1,33):
+                if x>>k&1 and res>>k&1:
+                    res=res-1<<k
+        ans=min(res,ans)
+
+    print(ans)
+
+
+if __name__ == '__main__':
+    for _ in range(1):
+        solve()
+
+
+
+
+
+"
+29,A,Python3,55304259,2022-12-16 19:53:12,大虫航,运行超时,"from functools import reduce,cache
+
+n = int(input())
+num = list(map(int, input().split("" "")))
+
+# num.sort()
+num = list(set(num))
+n = len(num)
+
+def solve(n, num):
+    
+    # 开始找所有子序列
+    ans = float(""inf"")
+    @cache
+    def dfs(start, tmp):
+        nonlocal n, ans
+        if start == n:
+            # 与
+            if tmp:
+#                 print(tmp)
+                cur = reduce(lambda x,y:x&y, tmp)
+#                 print(""cur"", cur)
+                ans = min(ans, cur)
+            return
+        for i in range(start, n):
+            # 要添加n
+#             print(""aaaa"")
+#             print(tmp + (num[i],))
+#             print(""i:"", num[i])
+            dfs(i+1, tmp)
+            
+            dfs(i+1, tmp+(num[i],))
+
+            
+            
+    dfs(0, ())
+#     print(""ans"", ans)
+    return ans
+
+
+print(solve(n, num))
+"
+30,A,Python3,55304298,2022-12-16 19:53:37,南岸以南南岸哀,答案错误,"import random
+import sys
+import os
+import math
+from collections import Counter, defaultdict, deque
+from functools import lru_cache, reduce
+from itertools import accumulate, combinations, permutations
+from heapq import nsmallest, nlargest, heapify, heappop, heappush
+from io import BytesIO, IOBase
+from copy import deepcopy
+import bisect
+
+# from sortedcontainers import SortedList
+BUFSIZE = 4096
+
+
+class FastIO(IOBase):
+    newlines = 0
+
+    def __init__(self, file):
+        self._fd = file.fileno()
+        self.buffer = BytesIO()
+        self.writable = ""x"" in file.mode or ""r"" not in file.mode
+        self.write = self.buffer.write if self.writable else None
+
+    def read(self):
+        while True:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            if not b:
+                break
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines = 0
+        return self.buffer.read()
+
+    def readline(self):
+        while self.newlines == 0:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            self.newlines = b.count(b""\n"") + (not b)
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines -= 1
+        return self.buffer.readline()
+
+    def flush(self):
+        if self.writable:
+            os.write(self._fd, self.buffer.getvalue())
+            self.buffer.truncate(0), self.buffer.seek(0)
+
+
+class IOWrapper(IOBase):
+    def __init__(self, file):
+        self.buffer = FastIO(file)
+        self.flush = self.buffer.flush
+        self.writable = self.buffer.writable
+        self.write = lambda s: self.buffer.write(s.encode(""ascii""))
+        self.read = lambda: self.buffer.read().decode(""ascii"")
+        self.readline = lambda: self.buffer.readline().decode(""ascii"")
+
+
+sys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)
+input = lambda: sys.stdin.readline().rstrip(""\r\n"")
+
+
+def I():
+    return input()
+
+
+def II():
+    return int(input())
+
+
+def MI():
+    return map(int, input().split())
+
+
+def LI():
+    return list(input().split())
+
+
+def LII():
+    return list(map(int, input().split()))
+
+
+def GMI():
+    return map(lambda x: int(x) - 1, input().split())
+
+
+def LGMI():
+    return list(map(lambda x: int(x) - 1, input().split()))
+
+def solve():
+    n=II()
+    a=LII()
+    cnt=Counter(a)
+    for i in cnt.values():
+        if i>=2:
+            print(0)
+            return
+    a.sort()
+    ans=math.inf
+    for i in range(1,1<<n):
+        state=i
+        res=0
+        for j in range(0,n):
+            if state>>j&1:
+             res^=a[j]
+        ans=min(res,ans)
+    print(ans)
+
+if __name__ == '__main__':
+    for _ in range(1):
+        solve()
+
+
+
+
+
+"
+31,A,Python3,55304350,2022-12-16 19:54:08,南岸以南南岸哀,答案错误,"import random
+import sys
+import os
+import math
+from collections import Counter, defaultdict, deque
+from functools import lru_cache, reduce
+from itertools import accumulate, combinations, permutations
+from heapq import nsmallest, nlargest, heapify, heappop, heappush
+from io import BytesIO, IOBase
+from copy import deepcopy
+import bisect
+
+# from sortedcontainers import SortedList
+BUFSIZE = 4096
+
+
+class FastIO(IOBase):
+    newlines = 0
+
+    def __init__(self, file):
+        self._fd = file.fileno()
+        self.buffer = BytesIO()
+        self.writable = ""x"" in file.mode or ""r"" not in file.mode
+        self.write = self.buffer.write if self.writable else None
+
+    def read(self):
+        while True:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            if not b:
+                break
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines = 0
+        return self.buffer.read()
+
+    def readline(self):
+        while self.newlines == 0:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            self.newlines = b.count(b""\n"") + (not b)
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines -= 1
+        return self.buffer.readline()
+
+    def flush(self):
+        if self.writable:
+            os.write(self._fd, self.buffer.getvalue())
+            self.buffer.truncate(0), self.buffer.seek(0)
+
+
+class IOWrapper(IOBase):
+    def __init__(self, file):
+        self.buffer = FastIO(file)
+        self.flush = self.buffer.flush
+        self.writable = self.buffer.writable
+        self.write = lambda s: self.buffer.write(s.encode(""ascii""))
+        self.read = lambda: self.buffer.read().decode(""ascii"")
+        self.readline = lambda: self.buffer.readline().decode(""ascii"")
+
+
+sys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)
+input = lambda: sys.stdin.readline().rstrip(""\r\n"")
+
+
+def I():
+    return input()
+
+
+def II():
+    return int(input())
+
+
+def MI():
+    return map(int, input().split())
+
+
+def LI():
+    return list(input().split())
+
+
+def LII():
+    return list(map(int, input().split()))
+
+
+def GMI():
+    return map(lambda x: int(x) - 1, input().split())
+
+
+def LGMI():
+    return list(map(lambda x: int(x) - 1, input().split()))
+
+def solve():
+    n=II()
+    a=LII()
+    cnt=Counter(a)
+    for i in cnt.values():
+        if i>=2:
+            print(0)
+            return
+    a.sort()
+    ans=math.inf
+    for i in range(1,1<<n):
+        state=i
+        res=0
+        for j in range(0,n):
+            if state>>j&1:
+             res&=a[j]
+        ans=min(res,ans)
+    print(ans)
+
+if __name__ == '__main__':
+    for _ in range(1):
+        solve()
+
+
+
+
+
+"
+32,A,Python3,55304373,2022-12-16 19:54:24,多少分,答案错误,"a=int(input())
+b=list(map(int,input().split()))
+c=[]
+for i in range(len(b)):
+    b[i]=int(bin(b[i])[2:])
+c.append(b[0])
+for i in range(len(b)-1):
+    c.append(c[i]&b[i+1])
+for i in range(len(c)):
+    c[i]=int(c[i])
+print(min(c))
+"
+33,A,Python3,55305175,2022-12-16 20:02:25,大虫航,答案正确,"from functools import reduce,cache
+
+n = int(input())
+num = list(map(int, input().split("" "")))
+
+# num.sort()
+num = list(set(num))
+
+n = len(num)
+
+def solve(n, num):
+    
+    # 开始找所有子序列
+    ans = float(""inf"")
+    @cache
+    def dfs(start, tmp):
+        nonlocal n, ans
+        if start == n:
+            # 与
+            if tmp:
+#                 print(tmp)
+                cur = reduce(lambda x,y:x&y, tmp)
+#                 print(""cur"", cur)
+                ans = min(ans, cur)
+            return
+        for i in range(start, n):
+            # 要添加n
+#             print(""aaaa"")
+#             print(tmp + (num[i],))
+#             print(""i:"", num[i])
+            if ans == 0:
+                return 0
+            dfs(i+1, tmp)
+            dfs(i+1, tmp+(num[i],))
+
+            
+            
+    dfs(0, ())
+#     print(""ans"", ans)
+    return ans
+
+
+print(solve(n, num))
+"
+34,A,Python3,55306383,2022-12-16 20:15:56,retiredMxrush,答案正确,"n = int(input())
+a = list(map(int, input().split()))
+ans = a[0]
+for i in range(1, len(a)):
+    ans &= a[i]
+print(ans)"
+35,A,Python3,55313034,2022-12-16 23:44:45,牛客956373253号,答案错误,"n = int(input())
+st=[-1]*32
+dic={i:0 for i in range(32)}
+def resans(shuzu):
+    for num in shuzu:
+        m = ''
+        while num:
+            m+=str(num%2)
+            num//=2
+        tl = len(m)
+        for i in range(tl):
+            if m[i]=='0' and st[31-i]!=0:
+                st[31-i]=0
+            elif m[i]=='1' and st[31-i]!=0:
+                st[31-i]=1
+                dic[i]+=1
+    res = 0
+#     print(res,dic,st)
+    for k in range(32):
+        if st[31-k]==0 or st[31-k]==-1:
+            continue
+        elif st[31-k]==1 and dic[31-k]==n:
+            res+=2**(31-k)
+#         print(res)
+    return res
+    
+while True:
+    try:
+        lis = list(map(int,input().split()))
+        print(resans(lis))
+    except:
+        break
+        
+
+        
+    "
+36,A,Python3,55313094,2022-12-16 23:52:22,时间的缝隙中,答案正确,"n = int(input())
+l = list(map(int,input().split()))
+res = l[0] 
+for i in range(1,n):
+    res&=l[i]
+print(res)"
+37,A,Python3,55313155,2022-12-17 00:01:41,牛客956373253号,答案正确,"n = int(input())
+st=[-1]*32
+dic={i:0 for i in range(32)}
+def resans(shuzu):
+    for num in shuzu:
+        m = ''
+        while num:
+            m+=str(num%2)
+            num//=2
+        tl = len(m)
+        for i in range(tl):
+            if m[i]=='0' and st[31-i]!=0:
+                st[31-i]=0
+            elif m[i]=='1' and st[31-i]!=0:
+                st[31-i]=1
+                dic[i]+=1
+    res = 0
+#     print(res,dic,st)
+    for k in range(32):
+        if st[k]==0 or st[k]==-1:
+            continue
+        elif st[k]==1 and dic[31-k]==n:
+            res+=2**(31-k)
+#         print(res)
+    return res
+    
+while True:
+    try:
+        lis = list(map(int,input().split()))
+        print(resans(lis))
+    except:
+        break
+        
+
+        
+    "
+38,A,Python3,55313204,2022-12-17 00:12:41,牛客956373253号,答案正确,"n = int(input())
+# st=[-1]*32
+# dic={i:0 for i in range(32)}
+# def resans(shuzu):
+#     for num in shuzu:
+#         m = ''
+#         while num:
+#             m+=str(num%2)
+#             num//=2
+#         tl = len(m)
+#         for i in range(tl):
+#             if m[i]=='0' and st[31-i]!=0:
+#                 st[31-i]=0
+#             elif m[i]=='1' and st[31-i]!=0:
+#                 st[31-i]=1
+#                 dic[i]+=1
+#     res = 0
+# #     print(res,dic,st)
+#     for k in range(32):
+#         if st[k]==0 or st[k]==-1:
+#             continue
+#         elif st[k]==1 and dic[31-k]==n:
+#             res+=2**(31-k)
+# #         print(res)
+#     return res
+    
+# while True:
+#     try:
+#         lis = list(map(int,input().split()))
+#         print(resans(lis))
+#     except:
+#         break
+        
+while True:
+    try:
+        lis = list(map(int,input().split()))
+        temp = lis[0]
+        for i in lis:
+            temp&=i
+        print(temp)
+    except:
+        break
+            
+
+        
+    "
+39,A,Python3,55316696,2022-12-17 13:26:25,懒得改了,答案错误,"ans=(1<<20)-1
+input()
+for x in map(int,input().split()):
+    ans&=x
+print(ans)"
+40,A,Python3,55316751,2022-12-17 13:27:24,懒得改了,答案错误,"ans=(1<<20)-1
+input()
+l=list(map(int,input().split()))
+for x in l:
+    ans&=x
+print(min(min(l),ans))"
+41,A,Python3,55316769,2022-12-17 13:27:51,懒得改了,答案正确,"ans=(1<<40)-1
+input()
+l=list(map(int,input().split()))
+for x in l:
+    ans&=x
+print(min(min(l),ans))"
+42,A,Python3,55328474,2022-12-17 19:20:58,_Nepenthes,答案正确,"import copy
+n = int(input())
+nums = list(map(int,input().split()))
+s = set()
+for i in range(n):
+    for j in range(i, -1, -1):
+        nums[j] &= nums[i]
+        s.add(nums[j])
+print(min(s))"
+43,A,Python3,55331676,2022-12-18 04:50:17,爱打牌的登子,答案正确,"n = int(input())
+a = list(map(int , input().split()))
+res = a[-1]
+for x in a:
+    res &= x
+print(res)"
+44,A,Python3,55359077,2022-12-20 13:02:25,山东协和学院_秦思佳,答案正确,"n = int(input())
+a = list(map(int , input().split()))
+res = a[-1]
+for x in a:
+    res &= x
+print(res)"
+45,A,Python3,55372218,2022-12-21 19:58:00,SunburstRun,答案错误,print(1)
+46,A,Python3,55376720,2022-12-22 15:51:01,SunburstRun,答案错误,"print(1)
+"
+47,A,Python3,55378372,2022-12-22 18:51:13,SunburstRun,答案错误,"print(1)
+"
+48,A,Python3,55399668,2022-12-24 16:01:53,一半醒,答案正确,"n = int(input())
+a = list(map(int,input().split()))
+res = a[0]
+for i in range(1,n):
+    res=res&a[i]
+print(res)
+"
+49,A,Python3,55436816,2022-12-28 18:00:56,牛客656195162号,运行超时,"mins=1000000000
+sum_li=1
+n=int(input())
+a=[int(x) for x in input().split()]
+lena=len(a)
+sum=[]
+for i in range(2**lena):
+    b=[]
+    for j in range(lena):
+        if(i>>j)%2==1:  ##为奇数，在添加
+            b.append(a[j])
+    sum.append(b)
+sum.remove([])
+for i in sum:
+    tmp=i[0]
+    for j in range(1,len(i)):
+        tmp&=i[j]
+    mins=min(mins,tmp)
+print(mins)"
+50,A,Python3,55436833,2022-12-28 18:03:21,牛客656195162号,答案正确,"mins=1000000000
+sum_li=1
+n=int(input())
+a=[int(x) for x in input().split()]
+tmp=a[0]
+for i in range(1,len(a)):
+    tmp&=a[i]
+print(tmp)"
+51,A,Python3,55443923,2022-12-29 16:42:08,小学二年级了,答案错误,"n = int(input())
+
+arr = input().split()
+
+mi = 9999999999
+
+for i in range(len(arr)):
+    for j in range(i+1, len(arr)):
+        if mi > (int(arr[i])&(int(arr[j]))) :
+            mi = (int(arr[i])&(int(arr[j])))
+
+print(mi)"
+52,A,Python3,55443939,2022-12-29 16:42:52,小学二年级了,答案错误,"n = int(input())
+
+arr = input().split()
+
+mi = 9999999999
+
+for i in range(len(arr)):
+    for j in range(i+1, len(arr)):
+        if mi > (int(arr[i])&(int(arr[j]))) :
+            mi = (int(arr[i])&(int(arr[j])))
+    if mi > int(arr[i]):
+        mi = int(arr[i])
+
+print(mi)"
+53,A,Python3,55444210,2022-12-29 17:05:35,SunburstRun,答案错误,"print(1)
+"
+54,A,Python3,55444266,2022-12-29 17:12:51,SunburstRun,答案错误,"print(1)
+"
+55,A,Python3,60000216,2022-12-29 19:49:07,SunburstRun,答案错误,"print(1)
+"
+56,A,Python3,60003116,2022-12-30 11:00:14,SunburstRun,答案错误,"print(1)
+"
+57,A,Python3,60004173,2022-12-30 13:44:04,小确幸a,答案错误,"a=int(input())
+b=[int(x) for x in input().split(' ')]
+k=0
+for i in range(0,a-1):
+    k=b[i]&b[i+1]
+print(k)"
+58,A,Python3,60004193,2022-12-30 13:48:01,小确幸a,答案错误,"a=int(input())
+b=[int(x) for x in input().split(' ')]
+k=pow(2,10)-1
+for i in range(0,a-1):
+    k=b[i]&b[i+1]*k
+print(k)"
+59,A,Python3,60004195,2022-12-30 13:48:20,小确幸a,答案错误,"a=int(input())
+b=[int(x) for x in input().split(' ')]
+k=pow(2,20)-1
+for i in range(0,a-1):
+    k=b[i]&b[i+1]*k
+print(k)"
+60,A,Python3,60004203,2022-12-30 13:49:37,小确幸a,答案错误,"a=int(input())
+b=[int(x) for x in input().split(' ')]
+k=pow(2,20)-1
+for i in range(0,a):
+    k=b[i]&k
+print(k)"
+61,A,Python3,60004209,2022-12-30 13:50:16,小确幸a,答案正确,"a=int(input())
+b=[int(x) for x in input().split(' ')]
+k=pow(2,30)-1
+for i in range(0,a):
+    k=b[i]&k
+print(k)"
+62,A,Python3,60112107,2023-01-03 21:24:25,SunburstRun,答案错误,"print(1)
+"
+63,A,Python3,60128098,2023-01-05 17:08:38,云中翻月,运行超时,"import sys
+# sys.stdin = open('test.in', 'r')
+
+n = int(input())
+a = [int(x) for x in input().split()]
+
+ans = 1e9
+for i in range(1 << n):
+    if i == 0:
+        continue
+    temp = []
+    for j in range(n):
+        if i & (1 << j):
+            temp.append(a[j])
+    res = temp[0]
+    for j in range(1, len(temp)):
+        res = res & temp[j]
+    ans = min(ans, res)
+print(ans)
+"
+64,A,Python3,60217532,2023-01-12 11:41:24,牛客233537359号,答案错误,"n = int(input())
+lst = list(map(int,input().split()))
+fl = 2**31
+for i in range(n):
+    fl &= lst[i]
+print(fl)"
+65,A,Python3,60217542,2023-01-12 11:42:29,牛客233537359号,答案正确,"n = int(input())
+lst = list(map(int,input().split()))
+fl = 2**31-1
+for i in range(n):
+    fl &= lst[i]
+print(fl)"
+66,A,Python3,60677194,2023-01-31 17:01:52,牛客660948461号,执行出错,"n=int(input())
+a=[]
+for x in  range(n):
+    b=int(input())
+    a.append(b).split()
+if 0 in a:
+    print(0)
+else:
+    print(1)
+        "
+67,A,Python3,60677389,2023-01-31 17:13:49,牛客660948461号,执行出错,"n=int(input())
+f1=1
+b=int(input().split())
+lst=list(b)
+for x in  range(n):
+    
+    f1=f1 & lst[x]
+print(f1)"
+68,A,Python3,60677400,2023-01-31 17:14:24,牛客660948461号,执行出错,"n=int(input())
+f1=2**31-1
+b=int(input().split())
+lst=list(b)
+for x in  range(n):
+    
+    f1=f1 & lst[x]
+print(f1)"
+69,A,Python3,60677416,2023-01-31 17:15:27,牛客660948461号,答案错误,"n=int(input())
+#f1=2**31-1
+f1=1
+b=map(int,input().split())
+lst=list(b)
+for x in  range(n):
+    
+    f1=f1 & lst[x]
+print(f1)"
+70,A,Python3,60677424,2023-01-31 17:15:46,牛客660948461号,答案正确,"n=int(input())
+#f1=2**31-1
+f1=2**31-1
+b=map(int,input().split())
+lst=list(b)
+for x in  range(n):
+    
+    f1=f1 & lst[x]
+print(f1)"
+71,A,Python3,60832852,2023-02-08 10:57:06,summerEDward,答案正确,"n=int(input())
+mod=2**31-1
+a=list(map(int,input().split()))
+for i in range(n):
+    mod&=a[i]
+print(mod)"
+72,A,Python3,61115694,2023-03-06 20:26:06,heng-,答案正确,"n=int(input())
+a=list(map(int,input().split()))
+ans=a[-1]
+for i in a:
+    ans&=i
+print(ans)"
+73,A,Python3,61738998,2023-04-03 21:02:22,牛客280445417号,答案正确,"n=int(input())
+a=list(map(int,input().split()))
+ans=a[-1]
+for i in a:
+    ans&=i
+print(ans)"

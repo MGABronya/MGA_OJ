@@ -1,0 +1,715 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,B,Python3,55298763,2022-12-16 19:07:42,数学家是我理想,答案正确,"m, n = list(map(int, input().split()))
+arr = list(map(int, input().split()))
+res = 0
+atk = 2
+for i in range(n):
+    for j in range(m):
+        if arr[j] <= 0:
+            continue
+        else:
+            if atk == arr[j]:
+                atk += 1
+                arr[j] = -1
+            else:
+                arr[j] -= atk
+    res += atk
+print(res)"
+1,B,Python3,55299528,2022-12-16 19:13:04,牛客481337953号,答案正确,"n,m=map(int,input().split())
+s=list(map(int,input().split()))
+v=2
+res=0
+for _ in range(m):
+    for i in range(n):
+        if s[i] == 0:
+            continue
+        if v >= s[i]:
+            if v == s[i]:
+                v += 1
+            s[i] = 0
+        else:
+            s[i] -= v
+    res += v
+print(res)"
+2,B,Python3,55300891,2022-12-16 19:23:08,ccca,答案错误,"from sys import stdin, stdout # 引入这两个库
+
+# each entry of sieve contains a prime divisor
+n, m = [int(x) for x in stdin.readline().split()]
+a = []
+a = [int(x) for x in stdin.readline().split()] # 读取一行输入的方式;
+ans = 2
+num = m
+for item in a:
+    while item > 0:
+        item -= ans
+        m -= 1
+        if m == 0:
+            break
+        pass
+    if item == 0:
+        ans += 1
+        pass
+    if m == 0:
+        break
+    pass
+print(ans * num)"
+3,B,Python3,55300929,2022-12-16 19:23:33,山东协和学院_秦思佳,答案错误,"n,m=map(int,input().split())
+a=list(map(int,input().split()))
+ki=2
+a.sort()
+for i in range(n):
+    if ki>=a[i]:
+        ki+=1
+print((ki-1)*m)"
+4,B,Python3,55300973,2022-12-16 19:23:49,雷峰lfss,答案正确,"n,m = map(int,input().split())
+nums = list(map(int,input().split()))
+s = 2
+res = 0
+nowxm = 0
+for _ in range(m):
+    for i in range(n):
+        if nums[i] == 0:continue
+        if nums[i] == s:
+            s += 1
+            nums[i] = 0
+        else:
+            nums[i] -= s
+        if nums[i] < 0:nowxm += 1
+    res += s
+print(res)"
+5,B,Python3,55301066,2022-12-16 19:24:28,眼里_有光,答案正确,"import sys
+lst=[]
+for line in sys.stdin:
+    lst.append([int(x) for x in line.split()])
+n=lst[0][0]
+m=lst[0][1]
+lst=lst[1]
+count=0
+shanghai=2
+taget=0
+for i in range(m):
+    for j in range(n):
+        if(lst[j]==shanghai):
+            shanghai+=1
+            lst[j]=0
+            #print(lst)
+            continue
+        if(lst[j]<shanghai):
+            lst[j]=0
+            #print(lst)
+        if(lst[j]>shanghai):
+            lst[j]-=shanghai
+            #print(lst)
+    count+=shanghai
+print(count)"
+6,B,Python3,55301207,2022-12-16 19:25:40,相ཽ信ཽ光ཽ的ཽ少ཽ年ཽ,答案正确,"n, m = map(int,input().split())
+nums = list(map(int,input().split()))
+res = 0
+nows = 2
+for i in range(m):
+    for j in range(n):
+        if nows == nums[j]:
+            nows += 1
+        else:
+            nums[j] = max(0, nums[j] - nows)
+    res += nows
+print(res)
+            
+    "
+7,B,Python3,55301283,2022-12-16 19:26:17,ccca,答案错误,"from sys import stdin, stdout # 引入这两个库
+
+# each entry of sieve contains a prime divisor
+n, m = [int(x) for x in stdin.readline().split()]
+a = []
+a = [int(x) for x in stdin.readline().split()] # 读取一行输入的方式;
+ans = 2
+num = m
+ok = 0
+for item in a:
+    while item > 0 and m > 0:
+        item -= ans
+        m -= 1
+        if m == 0:
+            break
+        pass
+    if item == 0:
+        ans += 1
+        pass
+    if m == 0:
+        ok = 1
+        break
+    pass
+if ok == 0:
+    print(ans * num)
+    pass
+else :
+    print(0)
+    pass"
+8,B,Python3,55301843,2022-12-16 19:30:55,书生alin,答案正确,"n, m = map(int ,input().split())
+blood = list(map(int, input().split()))
+hurt = 2
+s = 0
+while (sum(blood) != 0) and (m != 0):
+    for i in range(n):
+        if blood[i] > hurt:
+            blood[i] -= hurt
+        elif blood[i] == hurt:
+            blood[i] = 0
+            hurt += 1
+        elif blood[i]  < hurt:
+            if blood[i] != 0:
+                blood[i] = 0
+    s += hurt
+    m -= 1
+print(s+m*hurt)
+
+"
+9,B,Python3,55302413,2022-12-16 19:36:01,ccca,答案正确,"from sys import stdin, stdout # 引入这两个库
+
+# each entry of sieve contains a prime divisor
+n, m = [int(x) for x in stdin.readline().split()]
+a = []
+a = [int(x) for x in stdin.readline().split()] # 读取一行输入的方式;
+ans = 0
+num = 2
+for i in range(m):
+    for j in range(len(a)):
+        a[j] -= num
+        if a[j] == 0:
+            num += 1
+            pass
+        pass
+    ans += num
+    pass
+print(ans)"
+10,B,Python3,55302633,2022-12-16 19:37:55,KevinSo,答案正确,"n, m = map(int, input().split())
+a = list(map(int, input().split()))
+t = [0] * (n + 2)
+ans = 0
+k = 2
+for i in range(m):
+    for j in range(n):
+        t[j] += k
+        if(t[j] == a[j]):
+            k += 1
+    ans += k
+print(ans)"
+11,B,Python3,55302642,2022-12-16 19:38:02,Nev8r,答案错误,"n,m=map(int,input().split())
+nums=list(map(int,input().split()))
+res=2
+k=m
+ans=0
+i=0
+while m:
+    while  i<=n-1 and res>=nums[i]: 
+        if res==nums[i]:
+            res+=1
+        i+=1
+    if i==n:
+        break
+    if res<nums[i]:
+        nums[i]-=res
+        i+=1
+    m-=1
+print(res*k)"
+12,B,Python3,55302713,2022-12-16 19:38:35,Nev8r,答案错误,"n,m=map(int,input().split())
+nums=list(map(int,input().split()))
+res=2
+ans=0
+i=0
+while m:
+    while  i<=n-1 and res>=nums[i]: 
+        if res==nums[i]:
+            res+=1
+        i+=1
+    if i==n:
+        ans+=res*m
+        break
+    if res<nums[i]:
+        nums[i]-=res
+        i+=1
+    m-=1
+print(ans)"
+13,B,Python3,55302913,2022-12-16 19:40:29,牛客656195162号,答案正确,"n,m=map(int,input().split())
+a=[int(x) for x in input().split()]
+b=2
+sum=0
+while m>0:
+    for i in range(n):
+        if a[i]==b:
+            b+=1
+            a[i]=0
+        elif b<a[i]:
+            a[i]-=b
+        else:
+            a[i]=0
+    sum+=b
+    m-=1
+print(sum)
+    "
+14,B,Python3,55303569,2022-12-16 19:46:40,枫絮凝语,答案正确,"n,m=map(int,input().split())
+s=list(map(int,input().split()))
+frontsum=[]
+# he=0
+# for i in range(n):
+#     he+=s[i]
+#     frontsum.append(he)
+attack=2
+# attacksum=0
+res=0
+for i in range(m):
+    for j in range(n):
+#         attacksum+=attack
+        s[j]-=attack
+        if s[j]==0:
+            attack+=1
+    res+=attack
+print(res)
+        
+
+
+
+
+
+
+"
+15,B,Python3,55303633,2022-12-16 19:47:19,Garett,答案正确,"n,m=map(int,input().split())
+a=list(map(int,input().split()))
+ans=0
+d=2
+for _ in range(m):
+    for i in range(n):
+        if d==a[i]:
+            a[i]-=d
+            d+=1
+        elif d>a[i]:
+            a[i]=0
+        else:
+            a[i]-=d
+    ans+=d
+print(ans)"
+16,B,Python3,55303831,2022-12-16 19:49:12,Nev8r,答案错误,"n,m=map(int,input().split())
+nums=list(map(int,input().split()))
+res=2
+ans=0
+for i in range(n):
+#     print(i,res)
+    if res>nums[i]:
+        continue
+    elif res==nums[i]:
+        res+=1
+        continue
+    else:
+        nums[i]-=res
+        m-=1
+print(res*m)
+# print(nums)"
+17,B,Python3,55303985,2022-12-16 19:50:36,Nev8r,答案错误,"n,m=map(int,input().split())
+nums=list(map(int,input().split()))
+res=2
+ans=0
+for i in range(n):
+#     print(i,res)
+    if res>nums[i]:
+        continue
+    elif res==nums[i]:
+        res+=1
+        continue
+    else:
+        nums[i]-=res
+        m-=1
+if m>0:
+    print(res*m)
+else:
+    print(0)
+# print(nums)"
+18,B,Python3,55304168,2022-12-16 19:52:22,Nev8r,答案错误,"n,m=map(int,input().split())
+nums=list(map(int,input().split()))
+res=2
+ans=0
+for i in range(n):
+#     print(i,res)
+    if res>nums[i]:
+        continue
+    elif res==nums[i]:
+        res+=1
+        continue
+    else:
+        while nums[i]>res:
+            nums[i]-=res
+            m-=1
+if m>0:
+    print(res*m)
+else:
+    print(0)
+# print(nums)"
+19,B,Python3,55304245,2022-12-16 19:53:04,Nev8r,答案错误,"n,m=map(int,input().split())
+nums=list(map(int,input().split()))
+res=2
+ans=0
+for i in range(n):
+#     print(i,res)
+    if res>nums[i]:
+        continue
+    elif res==nums[i]:
+        res+=1
+        continue
+    else:
+        while nums[i]>res:
+            nums[i]-=res
+            m-=1
+        if res==nums[i]:
+            res+=1
+if m>0:
+    print(res*m)
+else:
+    print(0)
+# print(nums)"
+20,B,Python3,55304939,2022-12-16 19:59:58,山东协和学院_秦思佳,答案错误,"n,m=map(int,input().split())
+a=list(map(int,input().split()))
+ki=2
+a.sort()
+for i in range(n):
+    if ki>=a[i]:
+        ki+=1
+print((ki-1)*m)"
+21,B,Python3,55305504,2022-12-16 20:06:02,Nev8r,答案正确,"n,m=map(int,input().split())
+nums=list(map(int,input().split()))
+res=2
+ans=0
+k=0
+for i in range(m):
+    for j in range(n):
+        if res==nums[j]:
+            res+=1
+        if res>=nums[j]:
+            nums[j]=0
+        else:
+            nums[j]-=res
+    ans+=res
+print(ans)
+        
+        
+# print(nums)"
+22,B,Python3,55305712,2022-12-16 20:08:09,大虫航,答案正确,"n, m = list(map(int, input().split("" "")))
+num = list(map(int, input().split("" "")))
+
+
+base = 2
+ans = 0
+
+while m > 0:
+    # 开始攻击
+    for i in range(n):
+        if not num[i]:
+            continue
+        cur = num[i] - base
+        if cur > 0:
+            num[i] = cur
+        elif cur == 0:
+            num[i] = 0
+            base += 1
+        else:
+            num[i] = 0
+    ans += base
+    m -= 1
+print(ans)"
+23,B,Python3,55306793,2022-12-16 20:21:25,多少分,运行超时,"a=list(map(int,input().split()))
+b=list(map(int,input().split()))
+s=2
+c=0
+d=0
+while 1:
+    if b[len(b)-1]==0:
+        d=d+s
+        break
+    for i in range(len(b)):
+        if b[i]==0:
+            pass
+        elif b[i]-s==0:
+            b[i]=b[i]-s
+            s+=1
+        else:
+            b[i]=b[i]-s
+    if b[len(b) - 1] != 0:
+        d=d+s
+    c=c+1
+
+d=d+(a[1]-c)*s
+print(d)"
+24,B,Python3,55306801,2022-12-16 20:21:35,retiredMxrush,答案正确,"n, m = map(int,input().split())
+a = list(map(int, input().split()))
+atk = 2
+s = 0
+for _ in range(m):
+    for i in range(n):
+        if a[i] == atk:
+            atk += 1
+        a[i] -= atk
+    s += atk
+print(s)"
+25,B,Python3,55307698,2022-12-16 20:34:13,多少分,答案错误,"a=list(map(int,input().split()))
+b=list(map(int,input().split()))
+s=2
+c=0
+d=0
+while 1:
+    if b[len(b)-1]<=0:
+        d=d+s
+        break
+    for i in range(len(b)):
+        if b[i]==0:
+            pass
+        elif b[i]-s==0:
+            b[i]=b[i]-s
+            s+=1
+        else:
+            b[i]=b[i]-s
+    if b[len(b) - 1] != 0:
+        d=d+s
+    c=c+1
+
+d=d+(a[1]-c)*s
+print(d)"
+26,B,Python3,55307774,2022-12-16 20:35:14,多少分,答案错误,"a=list(map(int,input().split()))
+b=list(map(int,input().split()))
+s=2
+c=0
+d=0
+while 1:
+    if b[len(b)-1]<=0:
+        d=d+s
+        break
+    for i in range(len(b)):
+        if b[i]<=0:
+            pass
+        elif b[i]-s==0:
+            b[i]=b[i]-s
+            s+=1
+        else:
+            b[i]=b[i]-s
+    if b[len(b) - 1] != 0:
+        d=d+s
+    c=c+1
+
+d=d+(a[1]-c)*s
+print(d)"
+27,B,Python3,55328465,2022-12-17 19:20:17,_Nepenthes,答案正确,"n,m=map(int,input().split())
+a=[int(x) for x in input().split()]
+b=2
+sum=0
+while m>0:
+    for i in range(n):
+        if a[i]==b:
+            b+=1
+            a[i]=0
+        elif b<a[i]:
+            a[i]-=b
+        else:
+            a[i]=0
+    sum+=b
+    m-=1
+print(sum)"
+28,B,Python3,55360459,2022-12-20 14:36:20,山东协和学院_秦思佳,答案正确,"n,m=map(int,input().split())
+a=[int(x) for x in input().split()]
+b=2
+sum=0
+while m>0:
+    for i in range(n):
+        if a[i]==b:
+            b+=1
+            a[i]=0
+        elif b<a[i]:
+            a[i]-=b
+        else:
+            a[i]=0
+    sum+=b
+    m-=1
+print(sum)"
+29,B,Python3,55399862,2022-12-24 16:09:57,一半醒,答案正确,"n,m = map(int,input().split())
+a = [int(x) for x in input().split()]
+fight = 2
+ans = 0
+while m:
+      for i in range(0,n):
+          t = max(0,a[i]-fight)
+          if fight==a[i]:
+             fight += 1
+          a[i] = t
+      ans += fight
+      m-=1
+print(ans)"
+30,B,Python3,60004330,2022-12-30 14:08:05,小确幸a,答案正确,"a=2
+s=0
+n,m=map(int,input().split(' '))
+b=[int(x) for x in input().split("" "")]
+while m!=0:
+    m-=1
+    for i in range(0,len(b)):
+        if b[i]>0:
+            if b[i]==a:
+                b[i]=b[i]-a
+                a+=1
+            else:
+                b[i]=b[i]-a
+    s+=a
+print(s)"
+31,B,Python3,60219274,2023-01-12 14:45:17,牛客233537359号,答案错误,"n,m = map(int,input().split())
+l = list(map(int,input().split()))
+cnt = m
+st = 2
+star = 0
+while cnt > 0:
+    if st > l[0]:
+        if len(l) == 1:
+            star += st-l[0]
+        l.pop(0)
+    if l == []:
+        break
+    if st == l[0]:
+        st += 1
+        l.pop(0)
+    if l == []:
+        break
+    if st < l[0]:
+        l[0] -= st
+        cnt -= 1
+    #print(l)
+if cnt == 0:
+    print(0)
+elif cnt == m:
+    print(st*cnt)
+else:
+    print(star+(cnt-1)*st)"
+32,B,Python3,60219404,2023-01-12 14:52:16,牛客233537359号,答案正确,"n,m = map(int,input().split())
+l = list(map(int,input().split()))
+cnt = m
+st = 2
+ans = 0
+while cnt > 0:
+    cnt -= 1
+    for i in range(0,n):
+       # if l[i] > 0:
+        if l[i] == st:
+             st += 1
+        l[i] -= st
+    ans += st
+print(ans)
+"
+33,B,Python3,60792947,2023-02-04 11:19:16,lianxuhanshu,答案正确,"ans,curr_atk=0,2
+n,m=map(int,input().split())
+a=list(map(int,input().split()))
+    
+while m:
+    for i in range(n):
+        if a[i]>=0:
+            if curr_atk==a[i]:
+                curr_atk+=1
+            a[i]-=curr_atk
+    m-=1
+    ans+=curr_atk
+print(ans)"
+34,B,Python3,60832921,2023-02-08 11:10:16,summerEDward,答案正确,"n,m=map(int,input().split())
+a=list(map(int,input().split()))
+sum_x,x=0,2
+while m>0:
+    for i in range(n):
+        if a[i]<x:
+            a[i]=0
+        elif a[i]==x:
+            a[i]=0
+            x+=1
+        elif a[i]>x:
+            a[i]-=x
+    sum_x+=x
+    m-=1
+print(sum_x)
+        
+"
+35,B,Python3,61115880,2023-03-06 20:32:11,heng-,答案错误,"n,m=map(int,input().split())
+a=list(map(int,input().split()))
+atk=2
+ans=0
+while m>0:
+    m-=1
+    for i in a:
+        if i>0:
+            i-=atk
+            if i==0:
+                atk+=1
+    ans+=atk
+print(ans)"
+36,B,Python3,61116037,2023-03-06 20:38:35,heng-,答案正确,"n,m=map(int,input().split())
+a=list(map(int,input().split()))
+atk=2
+ans=0
+# while m>0:
+#     m-=1
+#     for i in a:
+#         if i>0:
+#             i-=atk
+#             if i==0:
+#                 atk+=1
+#     ans+=atk
+for i in range(0,m):
+    for j in range (0,n):
+        a[j]-=atk
+        if(a[j]==0):
+            atk+=1
+    ans+=atk
+print(ans)"
+37,B,Python3,61116050,2023-03-06 20:39:00,heng-,答案错误,"n,m=map(int,input().split())
+a=list(map(int,input().split()))
+atk=2
+ans=0
+while m>0:
+    m-=1
+    for i in a:
+        if i>0:
+            i-=atk
+            if i==0:
+                atk+=1
+    ans+=atk
+# for i in range(0,m):
+#     for j in range (0,n):
+#         a[j]-=atk
+#         if(a[j]==0):
+#             atk+=1
+#     ans+=atk
+print(ans)"
+38,B,Python3,61116063,2023-03-06 20:39:29,heng-,答案错误,"n,m=map(int,input().split())
+a=list(map(int,input().split()))
+atk=2
+ans=0
+while m>0:
+    m-=1
+    for i in a:
+        i-=atk
+        if i==0:
+            atk+=1
+    ans+=atk
+# for i in range(0,m):
+#     for j in range (0,n):
+#         a[j]-=atk
+#         if(a[j]==0):
+#             atk+=1
+#     ans+=atk
+print(ans)"
+39,B,Python3,61116081,2023-03-06 20:40:21,heng-,答案错误,"n,m=map(int,input().split())
+a=list(map(int,input().split()))
+atk=2
+ans=0
+for j in range(0,m):
+
+    for i in a:
+        i-=atk
+        if i==0:
+            atk+=1
+    ans+=atk
+#
+#     for j in range (0,n):
+#         a[j]-=atk
+#         if(a[j]==0):
+#             atk+=1
+#     ans+=atk
+print(ans)"

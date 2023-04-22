@@ -1,0 +1,1442 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,D,C,60847217,2023-02-10 19:12:01,D5rrr,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c:1:1: error: unknown type name 'cfbbcb'\ncfbbcb\n^\nmain.c:1:7: error: expected identifier or '('\ncfbbcb\n      ^\n2 errors generated.""}
+
+cfbbcb"
+1,D,C,60847262,2023-02-10 19:12:23,D5rrr,答案错误,"#include<stdio.h>
+int main()
+{
+    return 0;
+}"
+2,D,C,60850387,2023-02-10 19:46:02,牛客897218776号,答案错误,"#include<stdio.h>
+#include<math.h>
+#include<stdlib.h>
+int main(){
+    int a,b,c;
+    scanf(""%d ,%d"",&a,&b);
+    for(int i=0;i<b;i++){
+        scanf(""%d"",&c);
+    }
+    
+}"
+3,D,C(gcc 7.5.0),60855121,2023-02-10 20:54:32,Nefelibata.,运行超时,"#include<stdio.h>
+#include<math.h>
+#include<stdlib.h>
+#include<string.h>
+#include<malloc.h>
+#include<ctype.h>
+
+#define Max(a,b) (a>b?a:b)
+#define Min(a,b) (a>b?b:a)
+#define Max3(a,b,c) (Max(a,b)>c?Max(a,b):c)
+#define Min3(a,b,c) (Min(a,b)>c?c:Min(a,b))
+#define scanfint(a) scanf(""%d"",&a)
+#define scanfl(a) scanf(""%ld"",&a)
+#define scanfll(a) scanf(""%lld"",&a)
+#define printfll(a) printf(""%lld\n"",a)
+#define swap(a,b) a=a+b;b=a-b;a=a-b
+#define FOR(i,l,r) for(int i=l;i<=r;i++)
+#define FORL(i,l,r) for(long i=l;i<=r;i++)
+#define FORLL(i,l,r) for(long long i=l;i<=r;i++)
+#define Get_Rand(x) (rand()%x+1)
+#define Presentation(i,r) printf(""%c"","" \n""[i==r])
+
+typedef long long ll;
+typedef long l;
+
+const double pi=3.141592653589793;
+const ll MOD=1e9+7;
+const l N=1e5+5;
+const int INF=0x7fffffff;
+const double eps=1e-8;
+
+/*----------C Head----------*/
+ll S[200005];
+int main()
+{
+    ll n,m,t,max=0;
+    scanfll(n);
+    scanfll(m);
+    FORLL(i,1,m)
+    {
+        scanfll(S[i]);
+    }
+    S[m+1]=n;
+    FORLL(i,1,m+1)
+        FORLL(j,0,i-1)
+                max=Max(max,S[i]-S[j]-(i-j-1)*(i-j-1));
+    printfll(max);
+    return 0;
+}"
+4,D,C(gcc 7.5.0),60855294,2023-02-10 20:57:08,Nefelibata.,运行超时,"#include<stdio.h>
+#include<math.h>
+#include<stdlib.h>
+#include<string.h>
+#include<malloc.h>
+#include<ctype.h>
+
+#define Max(a,b) (a>b?a:b)
+#define Min(a,b) (a>b?b:a)
+#define Max3(a,b,c) (Max(a,b)>c?Max(a,b):c)
+#define Min3(a,b,c) (Min(a,b)>c?c:Min(a,b))
+#define scanfint(a) scanf(""%d"",&a)
+#define scanfl(a) scanf(""%ld"",&a)
+#define scanfll(a) scanf(""%lld"",&a)
+#define printfll(a) printf(""%lld\n"",a)
+#define swap(a,b) a=a+b;b=a-b;a=a-b
+#define FOR(i,l,r) for(int i=l;i<=r;i++)
+#define FORL(i,l,r) for(long i=l;i<=r;i++)
+#define FORLL(i,l,r) for(long long i=l;i<=r;i++)
+#define Get_Rand(x) (rand()%x+1)
+#define Presentation(i,r) printf(""%c"","" \n""[i==r])
+
+typedef long long ll;
+typedef long l;
+
+const double pi=3.141592653589793;
+const ll MOD=1e9+7;
+const l N=1e5+5;
+const int INF=0x7fffffff;
+const double eps=1e-8;
+
+/*----------C Head----------*/
+ll S[200005];
+int main()
+{
+    ll n,m,t,max=0;
+    scanfll(n);
+    scanfll(m);
+    FORLL(i,1,m)
+    {
+        scanfll(S[i]);
+    }
+    S[m+1]=n;
+    FORLL(i,1,m+1)
+        FORLL(j,0,i-1)
+        {
+            t=S[i]-S[j]-(i-j-1)*(i-j-1);
+            max=Max(max,t);
+        }
+    printfll(max);
+    return 0;
+}"
+5,D,C,60855310,2023-02-10 20:57:16,水清华,答案错误,"#include <math.h>
+#include <stdio.h>
+
+struct interval
+{
+    int no;
+    int start;
+    int end;
+    int status;
+};
+
+int main()
+{
+    int right_end, obstacle_num, pay = 1; // obstacle => 障碍
+    scanf(""%d %d"", &right_end, &obstacle_num);
+    struct interval list[obstacle_num];
+    list[0].start = 0;
+    for (int i = 0; i < obstacle_num; i++)
+    {
+        list[i].no = i + 1;
+        list[i].status = 1;
+        scanf(""%d"", &list[i].end);
+        list[i + 1].start = list[i].end;
+    }
+
+    /*for (int j = 0; j < obstacle_num; j++)
+    {
+        printf(""s %d, e %d\n"", list[j].start, list[j].end);
+    } */
+
+    int last_result_value = 0;
+    while (1)
+    {
+        int max_diff = 0;
+        int max_get_no;
+        int max_length = 0;
+        int result;
+        for (int k = 1; k < obstacle_num; k++)
+        {
+            int diff = list[k].end - list[k - 1].end;
+            if (diff > max_diff)
+            {
+                max_diff = diff;
+                max_get_no = list[k - 1].no;
+            }
+        }
+        max_length = list[max_get_no].end - list[max_get_no - 1].start;
+        result = max_length - pay * pay;
+        pay++;
+        if (result < last_result_value)
+        {
+            break;
+        }
+        last_result_value = result;
+    }
+
+    printf(""%d\n"", last_result_value);
+}
+"
+6,D,C(gcc 7.5.0),60855390,2023-02-10 20:58:30,Nefelibata.,答案正确,"#include<stdio.h>
+#include<math.h>
+#include<stdlib.h>
+#include<string.h>
+#include<malloc.h>
+#include<ctype.h>
+
+#define Max(a,b) (a>b?a:b)
+#define Min(a,b) (a>b?b:a)
+#define Max3(a,b,c) (Max(a,b)>c?Max(a,b):c)
+#define Min3(a,b,c) (Min(a,b)>c?c:Min(a,b))
+#define scanfint(a) scanf(""%d"",&a)
+#define scanfl(a) scanf(""%ld"",&a)
+#define scanfll(a) scanf(""%lld"",&a)
+#define printfll(a) printf(""%lld\n"",a)
+#define swap(a,b) a=a+b;b=a-b;a=a-b
+#define FOR(i,l,r) for(int i=l;i<=r;i++)
+#define FORL(i,l,r) for(long i=l;i<=r;i++)
+#define FORLL(i,l,r) for(long long i=l;i<=r;i++)
+#define Get_Rand(x) (rand()%x+1)
+#define Presentation(i,r) printf(""%c"","" \n""[i==r])
+
+typedef long long ll;
+typedef long l;
+
+const double pi=3.141592653589793;
+const ll MOD=1e9+7;
+const l N=1e5+5;
+const int INF=0x7fffffff;
+const double eps=1e-8;
+
+/*----------C Head----------*/
+ll S[200005];
+int main()
+{
+    ll n,m,t,max=0;
+    scanfll(n);
+    scanfll(m);
+    FORLL(i,1,m)
+    {
+        scanfll(S[i]);
+    }
+    S[m+1]=n;
+    FORLL(i,1,m+1)
+        FORLL(j,Max(0,i-1000),i-1)
+        {
+            t=S[i]-S[j]-(i-j-1)*(i-j-1);
+            max=Max(max,t);
+        }
+    printfll(max);
+    return 0;
+}"
+7,D,C,60855477,2023-02-10 20:59:22,水清华,答案错误,"#include <math.h>
+#include <stdio.h>
+
+struct interval
+{
+    int no;
+    int start;
+    int end;
+    int status;
+};
+
+int main()
+{
+    int right_end, obstacle_num, pay = 1; // obstacle => 障碍
+    scanf(""%d %d"", &right_end, &obstacle_num);
+    struct interval list[obstacle_num];
+    list[0].start = 0;
+    for (int i = 0; i < obstacle_num; i++)
+    {
+        list[i].no = i + 1;
+        list[i].status = 1;
+        scanf(""%d"", &list[i].end);
+        list[i + 1].start = list[i].end;
+    }
+
+    /*for (int j = 0; j < obstacle_num; j++)
+    {
+        printf(""s %d, e %d\n"", list[j].start, list[j].end);
+    } */
+
+    int last_result_value = 0;
+    while (1)
+    {
+        int max_diff = 0;
+        int max_get_no;
+        int max_length = 0;
+        int result;
+        for (int k = 1; k < obstacle_num; k++)
+        {
+            int diff = list[k].end - list[k - 1].end;
+            if (diff > max_diff)
+            {
+                max_diff = diff;
+                max_get_no = list[k - 1].no;
+            }
+        }
+        max_length = list[max_get_no].end - list[max_get_no - 1].start;
+        result = max_length - pay * pay;
+        pay++;
+        if (result < last_result_value)
+        {
+            break;
+        }
+        for (int m = max_get_no; m < obstacle_num; m++)
+        {
+            list[max_get_no].start = list[max_get_no - 1].start;
+            list[max_get_no].end = list[max_get_no - 1].end;
+        }
+        obstacle_num--;
+        last_result_value = result;
+    }
+
+    printf(""%d\n"", last_result_value);
+}
+"
+8,D,C,60855578,2023-02-10 21:00:22,水清华,答案错误,"#include <math.h>
+#include <stdio.h>
+
+struct interval
+{
+    int no;
+    int start;
+    int end;
+    int status;
+};
+
+int main()
+{
+    int right_end, obstacle_num, pay = 1; // obstacle => 障碍
+    scanf(""%d %d"", &right_end, &obstacle_num);
+    struct interval list[obstacle_num];
+    list[0].start = 0;
+    for (int i = 0; i < obstacle_num; i++)
+    {
+        list[i].no = i + 1;
+        list[i].status = 1;
+        scanf(""%d"", &list[i].end);
+        list[i + 1].start = list[i].end;
+    }
+
+    /*for (int j = 0; j < obstacle_num; j++)
+    {
+        printf(""s %d, e %d\n"", list[j].start, list[j].end);
+    } */
+
+    int last_result_value = 0;
+    while (1)
+    {
+        int max_diff = 0;
+        int max_get_no;
+        int max_length = 0;
+        int result;
+        for (int k = 1; k < obstacle_num; k++)
+        {
+            int diff = list[k].end - list[k - 1].end;
+            if (diff > max_diff)
+            {
+                max_diff = diff;
+                max_get_no = list[k - 1].no;
+            }
+        }
+        max_length = list[max_get_no].end - list[max_get_no - 1].start;
+        result = max_length - pay * pay;
+        pay++;
+        if (result < last_result_value)
+        {
+            break;
+        }
+        for (int m = max_get_no; m < obstacle_num; m++)
+        {
+            list[max_get_no].start = list[max_get_no].end;
+            list[max_get_no].end = list[max_get_no - 1].start;
+        }
+        obstacle_num--;
+        last_result_value = result;
+    }
+
+    printf(""%d\n"", last_result_value);
+}
+"
+9,D,C,60855894,2023-02-10 21:06:31,水清华,答案错误,"#include <math.h>
+#include <stdio.h>
+
+struct interval {
+  int no;
+  int start;
+  int end;
+  int status;
+};
+
+int main() {
+  int right_end, obstacle_num, pay = 1;  // obstacle => 障碍
+  scanf(""%d %d"", &right_end, &obstacle_num);
+  struct interval list[obstacle_num];
+  list[0].start = 0;
+  for (int i = 0; i < obstacle_num; i++) {
+    list[i].no = i + 1;
+    list[i].status = 1;
+    scanf(""%d"", &list[i].end);
+    list[i + 1].start = list[i].end;
+  }
+
+  /*for (int j = 0; j < obstacle_num; j++)
+  {
+      printf(""s %d, e %d\n"", list[j].start, list[j].end);
+  } */
+
+  int last_result_value = 0;
+  while (1) {
+    int max_diff = 0;
+    int max_get_no;
+    int max_length = 0;
+    int result;
+    for (int k = 1; k < obstacle_num; k++) {
+      int diff = list[k].end - list[k - 1].end;
+      if (diff > max_diff) {
+        max_diff = diff;
+        max_get_no = list[k - 1].no;
+      }
+    }
+    max_length = list[max_get_no].end - list[max_get_no - 1].start;
+    result = max_length - pay * pay;
+    pay++;
+    if (result < last_result_value) {
+      break;
+    }
+    for (int m = max_get_no; m < obstacle_num; m++) {
+      list[max_get_no].start = list[max_get_no].start;
+      list[max_get_no].end = list[max_get_no + 1].end;
+    }
+    obstacle_num--;
+
+    last_result_value = result;
+  }
+
+  printf(""%d\n"", last_result_value);
+}
+"
+10,D,C,60856025,2023-02-10 21:09:37,水清华,答案错误,"#include <math.h>
+#include <stdio.h>
+
+struct interval {
+  int no;
+  int start;
+  int end;
+  int status;
+};
+
+int main() {
+  int right_end, obstacle_num, pay = 1;  // obstacle => 障碍
+  scanf(""%d %d"", &right_end, &obstacle_num);
+  struct interval list[obstacle_num];
+  list[0].start = 0;
+  for (int i = 0; i < obstacle_num; i++) {
+    list[i].no = i + 1;
+    list[i].status = 1;
+    scanf(""%d"", &list[i].end);
+    list[i + 1].start = list[i].end;
+  }
+
+  /*for (int j = 0; j < obstacle_num; j++)
+  {
+      printf(""s %d, e %d\n"", list[j].start, list[j].end);
+  } */
+
+  int last_result_value = 0;
+  while (1) {
+    int max_diff = 0;
+    int max_get_no;
+    int max_length = 0;
+    int result;
+    for (int k = 1; k < obstacle_num; k++) {
+      int diff = list[k].end - list[k - 1].end;
+      if (diff > max_diff) {
+        max_diff = diff;
+        max_get_no = list[k - 1].no;
+      }
+    }
+    max_length = list[max_get_no].end - list[max_get_no - 1].start;
+    result = max_length - pay * pay;
+    pay++;
+    if (result < last_result_value) {
+      break;
+    }
+    for (int m = max_get_no; m < obstacle_num; m++) {
+    }
+    obstacle_num--;
+    // printf(""-----\n"");
+    for (int j = 0; j < obstacle_num; j++) {
+      printf(""s %d, e %d\n"", list[j].start, list[j].end);
+    }
+    last_result_value = result;
+  }
+
+  printf(""%d\n"", last_result_value);
+}
+"
+11,D,C,60856366,2023-02-10 21:17:44,水清华,答案错误,"#include <math.h>
+#include <stdio.h>
+
+struct interval {
+  int no;
+  int start;
+  int end;
+  int status;
+};
+
+int main() {
+  int right_end, obstacle_num, pay = 1;  // obstacle => 障碍
+  scanf(""%d %d"", &right_end, &obstacle_num);
+  struct interval list[obstacle_num];
+  list[0].start = 0;
+  for (int i = 0; i < obstacle_num; i++) {
+    list[i].no = i + 1;
+    list[i].status = 1;
+    scanf(""%d"", &list[i].end);
+    list[i + 1].start = list[i].end;
+  }
+
+  /*for (int j = 0; j < obstacle_num; j++)
+  {
+      printf(""s %d, e %d\n"", list[j].start, list[j].end);
+  } */
+
+  int last_result_value = 0;
+  while (1) {
+    int max_diff = 0;
+    int max_get_no;
+    int max_length = 0;
+    int result;
+    for (int k = 1; k < obstacle_num; k++) {
+      int diff = list[k].end - list[k - 1].end;
+      if (diff > max_diff) {
+        max_diff = diff;
+        max_get_no = list[k - 1].no;
+      }
+    }
+    max_length = list[max_get_no].end - list[max_get_no - 1].start;
+    result = max_length - pay * pay;
+    pay++;
+    if (result < last_result_value) {
+      break;
+    }
+
+    for (int m = max_get_no; m < obstacle_num; m++) {
+      list[m].start = list[m - 1].end;
+    }
+    obstacle_num--;
+    // printf(""-----\n"");
+    for (int j = 0; j < obstacle_num; j++) {
+      printf(""s %d, e %d\n"", list[j].start, list[j].end);
+    }
+    last_result_value = result;
+  }
+
+  printf(""%d\n"", last_result_value);
+}
+"
+12,D,C,60856404,2023-02-10 21:18:40,水清华,答案错误,"#include <math.h>
+#include <stdio.h>
+
+struct interval {
+  int no;
+  int start;
+  int end;
+  int status;
+};
+
+int main() {
+  int right_end, obstacle_num, pay = 1;  // obstacle => 障碍
+  scanf(""%d %d"", &right_end, &obstacle_num);
+  struct interval list[obstacle_num];
+  list[0].start = 0;
+  for (int i = 0; i < obstacle_num; i++) {
+    list[i].no = i + 1;
+    list[i].status = 1;
+    scanf(""%d"", &list[i].end);
+    list[i + 1].start = list[i].end;
+  }
+
+  /*for (int j = 0; j < obstacle_num; j++)
+  {
+      printf(""s %d, e %d\n"", list[j].start, list[j].end);
+  } */
+
+  int last_result_value = 0;
+  while (1) {
+    int max_diff = 0;
+    int max_get_no;
+    int max_length = 0;
+    int result;
+    for (int k = 1; k < obstacle_num; k++) {
+      int diff = list[k].end - list[k - 1].end;
+      if (diff > max_diff) {
+        max_diff = diff;
+        max_get_no = list[k - 1].no;
+      }
+    }
+    max_length = list[max_get_no].end - list[max_get_no - 1].start;
+    result = max_length - pay * pay;
+    pay++;
+    if (result < last_result_value) {
+      break;
+    }
+
+    for (int m = max_get_no - 1; m < obstacle_num; m++) {
+      list[m].start = list[m - 1].end;
+    }
+    obstacle_num--;
+    // printf(""-----\n"");
+    for (int j = 0; j < obstacle_num; j++) {
+      printf(""s %d, e %d\n"", list[j].start, list[j].end);
+    }
+    last_result_value = result;
+  }
+
+  printf(""%d\n"", last_result_value);
+}
+"
+13,D,C,60856837,2023-02-10 21:30:09,水清华,答案错误,"#include <math.h>
+#include <stdio.h>
+
+struct interval {
+  int no;
+  int start;
+  int end;
+  int status;
+};
+
+int main() {
+  int right_end, obstacle_num, pay = 1;  // obstacle => 障碍
+  scanf(""%d %d"", &right_end, &obstacle_num);
+  struct interval list[obstacle_num];
+  list[0].start = 0;
+  for (int i = 0; i < obstacle_num; i++) {
+    list[i].no = i + 1;
+    list[i].status = 1;
+    scanf(""%d"", &list[i].end);
+    list[i + 1].start = list[i].end;
+  }
+
+  /*for (int j = 0; j < obstacle_num; j++)
+  {
+      printf(""s %d, e %d\n"", list[j].start, list[j].end);
+  } */
+
+  int last_result_value = 0;
+  while (1) {
+    int max_diff = 0;
+    int max_get_no;
+    int max_length = 0;
+    int result;
+    for (int k = 1; k < obstacle_num; k++) {
+      int diff = list[k].end - list[k - 1].end;
+      if (diff > max_diff) {
+        max_diff = diff;
+        max_get_no = list[k - 1].no;
+      }
+    }
+    max_length = list[max_get_no].end - list[max_get_no - 1].start;
+    result = max_length - pay * pay;
+    pay++;
+    if (result < last_result_value) {
+      break;
+    }
+    list[max_get_no - 1].end = list[max_get_no].start;
+    for (int m = max_get_no; m < obstacle_num; m++) {
+      list[m].start = list[m + 1].start;
+      list[m].end = list[m + 1].end;
+    }
+    obstacle_num--;
+    // printf(""-----\n"");
+    for (int j = 0; j < obstacle_num; j++) {
+      printf(""s %d, e %d\n"", list[j].start, list[j].end);
+    }
+    last_result_value = result;
+  }
+
+  printf(""%d\n"", last_result_value);
+}
+"
+14,D,C,60856895,2023-02-10 21:32:08,水清华,答案错误,"#include <math.h>
+#include <stdio.h>
+
+struct interval {
+  int no;
+  int start;
+  int end;
+  int status;
+};
+
+int main() {
+  int right_end, obstacle_num, pay = 1;  // obstacle => 障碍
+  scanf(""%d %d"", &right_end, &obstacle_num);
+  struct interval list[obstacle_num];
+  list[0].start = 0;
+  for (int i = 0; i < obstacle_num; i++) {
+    list[i].no = i + 1;
+    list[i].status = 1;
+    scanf(""%d"", &list[i].end);
+    list[i + 1].start = list[i].end;
+  }
+
+  /*for (int j = 0; j < obstacle_num; j++)
+  {
+      printf(""s %d, e %d\n"", list[j].start, list[j].end);
+  } */
+
+  int last_result_value = 0;
+  while (1) {
+    int max_diff = 0;
+    int max_get_no;
+    int max_length = 0;
+    int result;
+    for (int k = 1; k < obstacle_num; k++) {
+      int diff = list[k].end - list[k - 1].end;
+      if (diff > max_diff) {
+        max_diff = diff;
+        max_get_no = list[k - 1].no;
+      }
+    }
+    max_length = list[max_get_no].end - list[max_get_no - 1].start;
+    result = max_length - pay * pay;
+    pay++;
+    if (result < last_result_value) {
+      break;
+    }
+    list[max_get_no - 1].end = list[max_get_no].start;
+    for (int m = max_get_no; m < obstacle_num - 1; m++) {
+      list[m].start = list[m + 1].start;
+      list[m].end = list[m + 1].end;
+    }
+    obstacle_num--;
+    // printf(""-----\n"");
+    for (int j = 0; j < obstacle_num; j++) {
+      printf(""s %d, e %d\n"", list[j].start, list[j].end);
+    }
+    last_result_value = result;
+  }
+
+  printf(""%d\n"", last_result_value);
+}
+"
+15,D,C,60857092,2023-02-10 21:38:30,水清华,答案错误,"#include <math.h>
+#include <stdio.h>
+
+struct interval {
+  int no;
+  int start;
+  int end;
+  int status;
+};
+
+int main() {
+  int right_end, obstacle_num, pay = 1;  // obstacle => 障碍
+  scanf(""%d %d"", &right_end, &obstacle_num);
+  struct interval list[obstacle_num];
+  list[0].start = 0;
+  for (int i = 0; i < obstacle_num; i++) {
+    list[i].no = i + 1;
+    list[i].status = 1;
+    scanf(""%d"", &list[i].end);
+    list[i + 1].start = list[i].end;
+  }
+
+  /*for (int j = 0; j < obstacle_num; j++) {
+    printf(""s %d, e %d\n"", list[j].start, list[j].end);
+  }
+
+  printf(""+++++++\n""); */
+
+  int last_result_value = 0;
+  while (1) {
+    int max_diff = 0;
+    int max_get_no;
+    int max_length = 0;
+    int result;
+    for (int k = 1; k < obstacle_num; k++) {
+      int diff = list[k].end - list[k - 1].end;
+      if (diff > max_diff) {
+        max_diff = diff;
+        max_get_no = list[k - 1].no;
+      }
+    }
+    max_length = list[max_get_no].end - list[max_get_no - 1].start;
+    result = max_length - pay * pay;
+    pay++;
+    if (result < last_result_value) {
+      break;
+    }
+    list[max_get_no - 1].end = list[max_get_no].end;
+    for (int m = max_get_no; m < obstacle_num - 1; m++) {
+      list[m].start = list[m + 1].start;
+      list[m].end = list[m + 1].end;
+    }
+    --obstacle_num;
+    /*for (int j = 0; j < obstacle_num; j++) {
+      printf(""s %d, e %d\n"", list[j].start, list[j].end);
+    }
+    printf(""-----\n""); */
+    last_result_value = result;
+  }
+
+  printf(""%d\n"", last_result_value);
+}
+"
+16,D,C(gcc 7.5.0),60860713,2023-02-11 12:19:48,正在背八股的话题终结者很想去上海,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c: In function ‘max’:\nmain.c:2:5: warning: type of ‘a’ defaults to ‘int’ [-Wimplicit-int]\n int max(a,b)\n     ^~~\nmain.c:2:5: warning: type of ‘b’ defaults to ‘int’ [-Wimplicit-int]\nmain.c: In function ‘main’:\nmain.c:12:5: error: variable-sized object may not be initialized\n     long int a[n+1]={0};\n     ^~~~\nmain.c:12:22: warning: excess elements in array initializer\n     long int a[n+1]={0};\n                      ^\nmain.c:12:22: note: (near initialization for ‘a’)\nmain.c:19:22: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘<’ token\n         for(int k=1,k<n;k++)\n                      ^\nmain.c:19:28: error: expected ‘;’ before ‘)’ token\n         for(int k=1,k<n;k++)\n                            ^\nmain.c:22:15: warning: format ‘%ld’ expects argument of type ‘long int’, but argument 2 has type ‘long int *’ [-Wformat=]\n     printf(\""%ld\"",&l);\n             ~~^  ~~\n             %ln\nmain.c:11:5: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n     scanf(\""%ld %ld\"",&n,&m);\n     ^~~~~~~~~~~~~~~~~~~~~~\nmain.c:15:9: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n         scanf(\""%ld\"",&a[i]);\n         ^~~~~~~~~~~~~~~~~~""}
+
+#include<stdio.h>
+int max(a,b)
+{
+    if(a>b) return a;
+    else return b;
+}
+void main()
+{
+    long int l=0;
+    long int n,m;
+    scanf(""%ld %ld"",&n,&m);
+    long int a[n+1]={0};
+    for(int i=1;i<n;i++)
+    {
+        scanf(""%ld"",&a[i]);
+    }
+    for(int j=1;j<=n;j++)
+    {
+        for(int k=1,k<n;k++)
+       l=max(a[j]-a[j-1]-k*k,l);
+    }
+    printf(""%ld"",&l);
+} 
+"
+17,D,C(gcc 7.5.0),60860717,2023-02-11 12:20:22,正在背八股的话题终结者很想去上海,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c: In function ‘max’:\nmain.c:2:10: warning: type of ‘a’ defaults to ‘int’ [-Wimplicit-int]\n long int max(a,b)\n          ^~~\nmain.c:2:10: warning: type of ‘b’ defaults to ‘int’ [-Wimplicit-int]\nmain.c: In function ‘main’:\nmain.c:12:5: error: variable-sized object may not be initialized\n     long int a[n+1]={0};\n     ^~~~\nmain.c:12:22: warning: excess elements in array initializer\n     long int a[n+1]={0};\n                      ^\nmain.c:12:22: note: (near initialization for ‘a’)\nmain.c:19:22: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘<’ token\n         for(int k=1,k<n;k++)\n                      ^\nmain.c:19:28: error: expected ‘;’ before ‘)’ token\n         for(int k=1,k<n;k++)\n                            ^\nmain.c:22:15: warning: format ‘%ld’ expects argument of type ‘long int’, but argument 2 has type ‘long int *’ [-Wformat=]\n     printf(\""%ld\"",&l);\n             ~~^  ~~\n             %ln\nmain.c:11:5: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n     scanf(\""%ld %ld\"",&n,&m);\n     ^~~~~~~~~~~~~~~~~~~~~~\nmain.c:15:9: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n         scanf(\""%ld\"",&a[i]);\n         ^~~~~~~~~~~~~~~~~~""}
+
+#include<stdio.h>
+long int max(a,b)
+{
+    if(a>b) return a;
+    else return b;
+}
+void main()
+{
+    long int l=0;
+    long int n,m;
+    scanf(""%ld %ld"",&n,&m);
+    long int a[n+1]={0};
+    for(int i=1;i<n;i++)
+    {
+        scanf(""%ld"",&a[i]);
+    }
+    for(int j=1;j<=n;j++)
+    {
+        for(int k=1,k<n;k++)
+       l=max((a[j]-a[j-1]-k*k),l);
+    }
+    printf(""%ld"",&l);
+} 
+"
+18,D,C(gcc 7.5.0),60860720,2023-02-11 12:20:43,正在背八股的话题终结者很想去上海,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c: In function ‘main’:\nmain.c:12:5: error: variable-sized object may not be initialized\n     long int a[n+1]={0};\n     ^~~~\nmain.c:12:22: warning: excess elements in array initializer\n     long int a[n+1]={0};\n                      ^\nmain.c:12:22: note: (near initialization for ‘a’)\nmain.c:19:22: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘<’ token\n         for(int k=1,k<n;k++)\n                      ^\nmain.c:19:28: error: expected ‘;’ before ‘)’ token\n         for(int k=1,k<n;k++)\n                            ^\nmain.c:22:15: warning: format ‘%ld’ expects argument of type ‘long int’, but argument 2 has type ‘long int *’ [-Wformat=]\n     printf(\""%ld\"",&l);\n             ~~^  ~~\n             %ln\nmain.c:11:5: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n     scanf(\""%ld %ld\"",&n,&m);\n     ^~~~~~~~~~~~~~~~~~~~~~\nmain.c:15:9: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n         scanf(\""%ld\"",&a[i]);\n         ^~~~~~~~~~~~~~~~~~""}
+
+#include<stdio.h>
+long int max(long int a,long int b)
+{
+    if(a>b) return a;
+    else return b;
+}
+void main()
+{
+    long int l=0;
+    long int n,m;
+    scanf(""%ld %ld"",&n,&m);
+    long int a[n+1]={0};
+    for(int i=1;i<n;i++)
+    {
+        scanf(""%ld"",&a[i]);
+    }
+    for(int j=1;j<=n;j++)
+    {
+        for(int k=1,k<n;k++)
+       l=max((a[j]-a[j-1]-k*k),l);
+    }
+    printf(""%ld"",&l);
+} 
+"
+19,D,C(gcc 7.5.0),60860721,2023-02-11 12:20:57,正在背八股的话题终结者很想去上海,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c: In function ‘main’:\nmain.c:19:22: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘<’ token\n         for(int k=1,k<n;k++)\n                      ^\nmain.c:19:28: error: expected ‘;’ before ‘)’ token\n         for(int k=1,k<n;k++)\n                            ^\nmain.c:22:15: warning: format ‘%ld’ expects argument of type ‘long int’, but argument 2 has type ‘long int *’ [-Wformat=]\n     printf(\""%ld\"",&l);\n             ~~^  ~~\n             %ln\nmain.c:11:5: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n     scanf(\""%ld %ld\"",&n,&m);\n     ^~~~~~~~~~~~~~~~~~~~~~\nmain.c:15:9: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n         scanf(\""%ld\"",&a[i]);\n         ^~~~~~~~~~~~~~~~~~""}
+
+#include<stdio.h>
+long int max(long int a,long int b)
+{
+    if(a>b) return a;
+    else return b;
+}
+void main()
+{
+    long int l=0;
+    long int n,m;
+    scanf(""%ld %ld"",&n,&m);
+    long int a[10000]={0};
+    for(int i=1;i<n;i++)
+    {
+        scanf(""%ld"",&a[i]);
+    }
+    for(int j=1;j<=n;j++)
+    {
+        for(int k=1,k<n;k++)
+       l=max((a[j]-a[j-1]-k*k),l);
+    }
+    printf(""%ld"",&l);
+} 
+"
+20,D,C(gcc 7.5.0),60860724,2023-02-11 12:21:13,正在背八股的话题终结者很想去上海,答案错误,"#include<stdio.h>
+long int max(long int a,long int b)
+{
+    if(a>b) return a;
+    else return b;
+}
+void main()
+{
+    long int l=0;
+    long int n,m;
+    scanf(""%ld %ld"",&n,&m);
+    long int a[10000]={0};
+    for(int i=1;i<n;i++)
+    {
+        scanf(""%ld"",&a[i]);
+    }
+    for(int j=1;j<=n;j++)
+    {
+        for(int k=1;k<n;k++)
+       l=max((a[j]-a[j-1]-k*k),l);
+    }
+    printf(""%ld"",&l);
+} 
+"
+21,D,C(gcc 7.5.0),60860745,2023-02-11 12:24:46,正在背八股的话题终结者很想去上海,答案错误,"#include<stdio.h>
+long int max(long int a,long int b)
+{
+    if(a>b) return a;
+    else return b;
+}
+void main()
+{
+    long int l=0;
+    long int n,m;
+    scanf(""%ld %ld"",&n,&m);
+    long int a[10000]={0};
+    for(int i=1;i<m;i++)
+    {
+        scanf(""%ld"",&a[i]);
+    }
+    for(int k=1;k<=m;k++)
+    for(int j=1;j<=m;j++)
+    {
+        
+       l=max((a[j]-a[j-1]-k*k),l);
+    }
+    printf(""%ld"",&l);
+} 
+"
+22,D,C(gcc 7.5.0),60860746,2023-02-11 12:24:53,正在背八股的话题终结者很想去上海,答案错误,"#include<stdio.h>
+long int max(long int a,long int b)
+{
+    if(a>b) return a;
+    else return b;
+}
+void main()
+{
+    long int l=0;
+    long int n,m;
+    scanf(""%ld %ld"",&n,&m);
+    long int a[10000]={0};
+    for(int i=1;i<m;i++)
+    {
+        scanf(""%ld"",&a[i]);
+    }
+    for(int k=1;k<=m;k++)
+    for(int j=1;j<=m;j++)
+    {
+        
+       l=max((a[j]-a[j-1]-k*k),l);
+    }
+    printf(""%ld"",&l);
+} 
+"
+23,D,C(gcc 7.5.0),60860752,2023-02-11 12:25:42,正在背八股的话题终结者很想去上海,答案错误,"#include<stdio.h>
+long int max(long int a,long int b)
+{
+    if(a>b) return a;
+    else return b;
+}
+void main()
+{
+    long int l=0;
+    long int n,m;
+    scanf(""%ld %ld"",&n,&m);
+    long int a[10000]={0};
+    for(int i=1;i<m;i++)
+    {
+        scanf(""%ld"",&a[i]);
+    }
+    for(int k=1;k<=m;k++)
+    for(int j=1;j<=m;j+=k)
+    {
+        
+       l=max((a[j]-a[j-1]-k*k),l);
+    }
+    printf(""%ld"",&l);
+} 
+"
+24,D,C(gcc 7.5.0),60860755,2023-02-11 12:25:58,正在背八股的话题终结者很想去上海,答案错误,"#include<stdio.h>
+long int max(long int a,long int b)
+{
+    if(a>b) return a;
+    else return b;
+}
+void main()
+{
+    long int l=0;
+    long int n,m;
+    scanf(""%ld %ld"",&n,&m);
+    long int a[10000]={0};
+    for(int i=1;i<m;i++)
+    {
+        scanf(""%ld"",&a[i]);
+    }
+    for(int k=1;k<=m;k++)
+    for(int j=1;j<=m;j++)
+    {
+        
+       l=max((a[j]-a[j-k]-k*k),l);
+    }
+    printf(""%ld"",&l);
+} 
+"
+25,D,C(gcc 7.5.0),60860763,2023-02-11 12:26:26,正在背八股的话题终结者很想去上海,答案错误,"#include<stdio.h>
+long int max(long int a,long int b)
+{
+    if(a>b) return a;
+    else return b;
+}
+void main()
+{
+    long int l=0;
+    long int n,m;
+    scanf(""%ld %ld"",&n,&m);
+    long int a[10000]={0};
+    for(int i=1;i<m;i++)
+    {
+        scanf(""%ld"",&a[i]);
+    }
+    for(long int k=1;k<=m;k++)
+    for(long int j=1;j<=m;j++)
+    {
+        
+       l=max((a[j]-a[j-k]-k*k),l);
+    }
+    printf(""%ld"",&l);
+} 
+"
+26,D,C(gcc 7.5.0),60860779,2023-02-11 12:28:32,正在背八股的话题终结者很想去上海,答案错误,"#include<stdio.h>
+long int max(long int a,long int b)
+{
+    if(a>b) return a;
+    else return b;
+}
+void main()
+{
+    long int l=0;
+    long int n,m;
+    scanf(""%ld %ld"",&n,&m);
+    long int a[10000]={0};
+    for(int i=1;i<m;i++)
+    {
+        scanf(""%ld"",&a[i]);
+    }
+    for(long int k=1;k<=m;k++)
+    for(long int j=k;j<=m;j++)
+    {
+        
+       l=max((a[j]-a[j-k]-k*k),l);
+    }
+    printf(""%ld"",&l);
+} 
+"
+27,D,C(gcc 7.5.0),60860831,2023-02-11 12:38:10,正在背八股的话题终结者很想去上海,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c: In function ‘mian’:\nmain.c:21:29: error: ‘k’ undeclared (first use in this function)\n             l=max((a[i]-a[i-k]-j*j),l)\n                             ^\nmain.c:21:29: note: each undeclared identifier is reported only once for each function it appears in\nmain.c:22:5: error: expected ‘;’ before ‘}’ token\n     }\n     ^\nmain.c:11:5: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n     scanf(\""%d %d\"",&n,&m);\n     ^~~~~~~~~~~~~~~~~~~~\nmain.c:15:9: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n         scanf(\""%d\"",&a[i]);\n         ^~~~~~~~~~~~~~~~~""}
+
+#include<stdio.h>
+int max(int a,int b)
+{
+    if(a>b) return a;
+    else return b;
+}
+void mian()
+{
+    int m,n;
+    int l=0;
+    scanf(""%d %d"",&n,&m);
+    int a[10002]={0};
+    for(int i=1;i<=m;i++)
+    {
+        scanf(""%d"",&a[i]);
+    }
+    a[m+1]=n;
+    for(int j=1;j<=m;j++)
+    {
+        for(int i=j;i<=m+1;i++)
+            l=max((a[i]-a[i-k]-j*j),l)
+    }
+    printf(""%d"",l);
+    
+    
+}"
+28,D,C(gcc 7.5.0),60860832,2023-02-11 12:38:29,正在背八股的话题终结者很想去上海,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c: In function ‘mian’:\nmain.c:21:29: error: ‘k’ undeclared (first use in this function)\n             l=max((a[i]-a[i-k]-j*j),l);\n                             ^\nmain.c:21:29: note: each undeclared identifier is reported only once for each function it appears in\nmain.c:11:5: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n     scanf(\""%d %d\"",&n,&m);\n     ^~~~~~~~~~~~~~~~~~~~\nmain.c:15:9: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n         scanf(\""%d\"",&a[i]);\n         ^~~~~~~~~~~~~~~~~""}
+
+#include<stdio.h>
+int max(int a,int b)
+{
+    if(a>b) return a;
+    else return b;
+}
+void mian()
+{
+    int m,n;
+    int l=0;
+    scanf(""%d %d"",&n,&m);
+    int a[10002]={0};
+    for(int i=1;i<=m;i++)
+    {
+        scanf(""%d"",&a[i]);
+    }
+    a[m+1]=n;
+    for(int j=1;j<=m;j++)
+    {
+        for(int i=j;i<=m+1;i++)
+            l=max((a[i]-a[i-k]-j*j),l);
+    }
+    printf(""%d"",l);
+    
+    
+}"
+29,D,C(gcc 7.5.0),60860837,2023-02-11 12:40:54,正在背八股的话题终结者很想去上海,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c: In function ‘mian’:\nmain.c:21:29: error: ‘k’ undeclared (first use in this function)\n             l=max((a[i]-a[i-k]-j*j),l);\n                             ^\nmain.c:21:29: note: each undeclared identifier is reported only once for each function it appears in\nmain.c:11:5: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n     scanf(\""%d %d\"",&n,&m);\n     ^~~~~~~~~~~~~~~~~~~~\nmain.c:15:9: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n         scanf(\""%d\"",&a[i]);\n         ^~~~~~~~~~~~~~~~~""}
+
+#include<stdio.h>
+int max(int a,int b)
+{
+    if(a>b) return a;
+    else return b;
+}
+void mian()
+{
+    int m,n;
+    int l=0;
+    scanf(""%d %d"",&n,&m);
+    int a[10002]={0};
+    for(int i=1;i<=m;i++)
+    {
+        scanf(""%d"",&a[i]);
+    }
+    a[m+1]=n;
+    for(int j=1;j<=m;j++)
+    {
+        for(int i=j;i<=m+1;i++)
+            l=max((a[i]-a[i-k]-j*j),l);
+    }
+    printf(""%d"",l);
+    
+    
+}"
+30,D,C(gcc 7.5.0),60860838,2023-02-11 12:40:59,正在背八股的话题终结者很想去上海,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c: In function ‘mian’:\nmain.c:21:29: error: ‘k’ undeclared (first use in this function)\n             l=max((a[i]-a[i-k]-j*j),l);\n                             ^\nmain.c:21:29: note: each undeclared identifier is reported only once for each function it appears in\nmain.c:11:5: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n     scanf(\""%d %d\"",&n,&m);\n     ^~~~~~~~~~~~~~~~~~~~\nmain.c:15:9: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n         scanf(\""%d\"",&a[i]);\n         ^~~~~~~~~~~~~~~~~""}
+
+#include<stdio.h>
+int max(int a,int b)
+{
+    if(a>b) return a;
+    else return b;
+}
+void mian()
+{
+    int m,n;
+    int l=0;
+    scanf(""%d %d"",&n,&m);
+    int a[10002]={0};
+    for(int i=1;i<=m;i++)
+    {
+        scanf(""%d"",&a[i]);
+    }
+    a[m+1]=n;
+    for(int j=1;j<=m;j++)
+    {
+        for(int i=j;i<=m+1;i++)
+            l=max((a[i]-a[i-k]-j*j),l);
+    }
+    printf(""%d"",l);
+    
+    
+}"
+31,D,C(gcc 7.5.0),60860840,2023-02-11 12:41:35,正在背八股的话题终结者很想去上海,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c: In function ‘mian’:\nmain.c:11:5: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n     scanf(\""%d %d\"",&n,&m);\n     ^~~~~~~~~~~~~~~~~~~~\nmain.c:15:9: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n         scanf(\""%d\"",&a[i]);\n         ^~~~~~~~~~~~~~~~~\n/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/Scrt1.o: In function `_start':\n(.text+0x20): undefined reference to `main'\ncollect2: error: ld returned 1 exit status""}
+
+#include<stdio.h>
+int max(int a,int b)
+{
+    if(a>b) return a;
+    else return b;
+}
+void mian()
+{
+    int m,n;
+    int l=0;
+    scanf(""%d %d"",&n,&m);
+    int a[10002]={0};
+    for(int i=1;i<=m;i++)
+    {
+        scanf(""%d"",&a[i]);
+    }
+    a[m+1]=n;
+    for(int j=1;j<=m;j++)
+    {
+        for(int i=j;i<=m+1;i++)
+            l=max((a[i]-a[i-j]-j*j),l);
+    }
+    printf(""%d"",l);
+    
+    
+}"
+32,D,C(gcc 7.5.0),60860848,2023-02-11 12:43:33,正在背八股的话题终结者很想去上海,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c: In function ‘mian’:\nmain.c:15:9: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n         scanf(\""%d\"",&a[i]);\n         ^~~~~~~~~~~~~~~~~\n/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/Scrt1.o: In function `_start':\n(.text+0x20): undefined reference to `main'\ncollect2: error: ld returned 1 exit status""}
+
+#include<stdio.h>
+int max(int a,int b)
+{
+    if(a>b) return a;
+    else return b;
+}
+void mian()
+{
+    int m,n;
+    int l=0;
+    if(scanf(""%d %d"",&n,&m)){}
+    int a[10002]={0};
+    for(int i=1;i<=m;i++)
+    {
+        scanf(""%d"",&a[i]);
+    }
+    a[m+1]=n;
+    for(int j=1;j<=m;j++)
+    {
+        for(int i=j;i<=m+1;i++)
+            l=max((a[i]-a[i-j]-j*j),l);
+    }
+    printf(""%d"",l);
+    
+    
+}"
+33,D,C(gcc 7.5.0),60860852,2023-02-11 12:44:00,正在背八股的话题终结者很想去上海,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/Scrt1.o: In function `_start':\n(.text+0x20): undefined reference to `main'\ncollect2: error: ld returned 1 exit status""}
+
+#include<stdio.h>
+int max(int a,int b)
+{
+    if(a>b) return a;
+    else return b;
+}
+void mian()
+{
+    int m,n;
+    int l=0;
+    if(scanf(""%d %d"",&n,&m)){}
+    int a[10002]={0};
+    for(int i=1;i<=m;i++)
+    {
+        if(scanf(""%d"",&a[i])){}
+    }
+    a[m+1]=n;
+    for(int j=1;j<=m;j++)
+    {
+        for(int i=j;i<=m+1;i++)
+            l=max((a[i]-a[i-j]-j*j),l);
+    }
+    printf(""%d"",l);
+    
+    
+}"
+34,D,C(gcc 7.5.0),60860855,2023-02-11 12:44:16,正在背八股的话题终结者很想去上海,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c: In function ‘mian’:\nmain.c:24:12: warning: ‘return’ with a value, in function returning void\n     return 0;\n            ^\nmain.c:7:6: note: declared here\n void mian()\n      ^~~~\n/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/Scrt1.o: In function `_start':\n(.text+0x20): undefined reference to `main'\ncollect2: error: ld returned 1 exit status""}
+
+#include<stdio.h>
+int max(int a,int b)
+{
+    if(a>b) return a;
+    else return b;
+}
+void mian()
+{
+    int m,n;
+    int l=0;
+    if(scanf(""%d %d"",&n,&m)){}
+    int a[10002]={0};
+    for(int i=1;i<=m;i++)
+    {
+        if(scanf(""%d"",&a[i])){}
+    }
+    a[m+1]=n;
+    for(int j=1;j<=m;j++)
+    {
+        for(int i=j;i<=m+1;i++)
+            l=max((a[i]-a[i-j]-j*j),l);
+    }
+    printf(""%d"",l);
+    return 0;
+    
+}"
+35,D,C(gcc 7.5.0),60860857,2023-02-11 12:44:37,正在背八股的话题终结者很想去上海,答案错误,"#include<stdio.h>
+int max(int a,int b)
+{
+    if(a>b) return a;
+    else return b;
+}
+void main()
+{
+    int m,n;
+    int l=0;
+    if(scanf(""%d %d"",&n,&m)){}
+    int a[10002]={0};
+    for(int i=1;i<=m;i++)
+    {
+        if(scanf(""%d"",&a[i])){}
+    }
+    a[m+1]=n;
+    for(int j=1;j<=m;j++)
+    {
+        for(int i=j;i<=m+1;i++)
+            l=max((a[i]-a[i-j]-j*j),l);
+    }
+    printf(""%d"",l);
+    return 0;
+    
+}"
+36,D,C(gcc 7.5.0),60860865,2023-02-11 12:47:13,正在背八股的话题终结者很想去上海,答案错误,"#include<stdio.h>
+int max(int a,int b)
+{
+    if(a>b) return a;
+    else return b;
+}
+void main()
+{
+    int m,n;
+    int l=0;
+    if(scanf(""%d %d"",&n,&m)){}
+    int a[10002]={0};
+    for(int i=1;i<=m;i++)
+    {
+        if(scanf(""%d"",&a[i])){}
+    }
+    a[m+1]=n;
+    for(int j=1;j<=m;j++)
+    {
+        for(int i=j+1;i<=m+1;i++)
+            l=max((a[i]-a[i-j]-j*j),l);
+    }
+    printf(""%d"",l);
+    return 0;
+    
+}"
+37,D,C(gcc 7.5.0),60860870,2023-02-11 12:47:41,正在背八股的话题终结者很想去上海,段错误,"#include<stdio.h>
+int max(int a,int b)
+{
+    if(a>b) return a;
+    else return b;
+}
+void main()
+{
+    int m,n;
+    int l=0;
+    if(scanf(""%d %d"",&n,&m)){}
+    int a[10002]={0};
+    for(int i=1;i<=m;i++)
+    {
+        if(scanf(""%d"",&a[i])){}
+    }
+    a[m+1]=n;
+    for(int j=1;j<=m;j++)
+    {
+        for(int i=j+1;i<=m+1;i++)
+            l=max((a[i]-a[i-j-1]-j*j),l);
+    }
+    printf(""%d"",l);
+    return 0;
+    
+}"
+38,D,C(gcc 7.5.0),60860872,2023-02-11 12:48:16,正在背八股的话题终结者很想去上海,段错误,"#include<stdio.h>
+int max(int a,int b)
+{
+    if(a>b) return a;
+    else return b;
+}
+void main()
+{
+    int m,n;
+    int l=0;
+    if(scanf(""%d %d"",&n,&m)){}
+    int a[10002]={0};
+    for(int i=1;i<=m;i++)
+    {
+        if(scanf(""%d"",&a[i])){}
+    }
+    a[m+1]=n;
+    for(int j=1;j<=m;j++)
+    {
+        for(int i=j+1;i<=m+1;i++)
+            l=max((a[i]-a[i-j-1]-j*j),l);
+    }
+    printf(""%d"",l);
+    return 0;
+    
+}"
+39,D,C,60895975,2023-02-15 21:22:05,Proven_,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c:1:10: fatal error: 'iostream' file not found\n#include <iostream>\n         ^~~~~~~~~~\n1 error generated.""}
+
+#include <iostream>
+#include <algorithm>
+#include <string>
+#include <cstring>
+#include <map>
+#include <cmath>
+#include <vector>
+#include <queue>
+#include <set>
+
+// 如果要提前删除，不要使用引用
+// 长整型
+// 注意逻辑顺序
+using namespace std;
+using ll = long long;
+using pll = pair<ll, ll>;
+const ll p = 1e9+7;
+const int MX = 3e5;
+//ll pw(ll t, ll c) {
+//    if (c == 0) return 1;
+//    ll temp = pw(t, c / 2);
+//    if (c % 2 == 0) return temp * temp%p;
+//    return temp * temp%p * t%p;
+//}
+int arr[MX], pos[MX];
+ll facts[MX+2] = {};
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
+    int n, m;
+    cin >> n >> m;
+    int res = 0;
+    for (int i = 1; i <= m; ++i) {
+        cin >> arr[i];
+        res = max(res, arr[i]-arr[i-1]);
+    }
+    arr[m+1] = n;
+    for (int i = 1; i * i <= n; ++i) {
+        for (int q = 0; q+i <= m; ++q) {
+            res = max(res, arr[q + i + 1] - arr[q] - i * i);
+        }
+    }
+    cout << res << endl;
+    return 0;
+}"

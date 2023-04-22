@@ -1,0 +1,1244 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,B,Python3,61158636,2023-03-10 19:14:21,涼風青葉7,答案正确,"t = int(input())
+
+
+for i in range(t):
+    n, a, b = map(int, input().split())
+
+    res = 0x3f3f3f3f
+    for j in range(n):
+        k, x, y = map(int, input().split())
+        v = map(int, input().split())
+
+        for i in v:
+            t = i
+            if (i >= a):
+                t -= b
+            if (i >= x):
+                t -= y
+
+            res = min(res, max(0, t))
+    print(res)
+"
+1,B,Python3,61158732,2023-03-10 19:15:14,檐下的和平鸽,答案正确,"T=int(input())
+for t in range(T):
+    cost=[]
+    n,a,b=map(int,input().split())
+    for i in range(n):
+        ki,xi,yi=map(int,input().split())
+        for price in input().split():
+            price=int(price)
+            if price >=a:
+                if price>=xi:
+                    cost.append(price-b-yi)
+                else:
+                    cost.append(price-b)
+            elif price>=xi:
+                    cost.append(price-yi)
+            else:
+                    cost.append(price)
+    cost.sort()
+    if cost[0]<0:print(0)
+    else:print(cost[0])"
+2,B,Python3,61158974,2023-03-10 19:17:16,heng-,答案正确,"t=int(input())
+while t>0:
+    t-=1
+    n,a,b=map(int,input().split())
+    ans = float('inf')
+    for i in range(n):
+        k,x,y=map(int,input().split())
+        lst=list(map(int,input().split()))
+
+        for j in lst:
+            tep=j
+            if j>=x :
+                tep-=y
+            if j>=a:
+                tep-=b
+            tep=max(tep,0)
+            ans=min(ans,tep)
+    print(ans)
+            
+"
+3,B,Python3,61159040,2023-03-10 19:17:51,小嗷犬,答案正确,"for _ in range(int(input())):
+    n, a, b = map(int, input().split())
+    kxy = []
+    v = []
+    ans = float('Inf')
+    for i in range(n):
+        kxy.append(list(map(int, input().split())))
+        v.append(list(map(int, input().split())))
+    for i in range(n):
+        k, x, y = kxy[i]
+        for j in range(k):
+            save = 0
+            if v[i][j] >= x:
+                save += y
+            if v[i][j] >= a:
+                save += b
+            ans = min(max(0,v[i][j]-save),ans)
+    print(ans)"
+4,B,Python3,61159433,2023-03-10 19:21:09,阿来想AC,答案正确,"t = int(input())
+for i in range(t):
+    resultlist = []
+    n,a,b = list(map(int,input().split(' ')))
+    for i in range(n): 
+        k,x,y = list(map(int,input().split(' ')))
+        klist = list(map(int,input().split(' '))) 
+        for j in range(k):
+            pr = klist[j]
+            if klist[j] >= a:
+                pr -= b
+            if klist[j] >= x:
+                pr -= y
+            if pr < 0:
+                pr = 0
+            resultlist.append(pr)
+    print(min(resultlist))"
+5,B,Python3,61159881,2023-03-10 19:25:22,牛客396138626号,答案错误,"for _ in range(int(input())):
+    n,a,b = map(int,input().split())
+    s = []
+    for i in range(n):
+        k,x,y = map(int,input().split())
+        p = list(map(int,input().split()))
+        for j in p:
+            if j>=x and j >=a:
+                ans = j-y-b
+            elif j>=x:
+                ans = j-y
+            elif j>=a:
+                ans = j-b
+            s.append(ans)
+    if min(s)>=0:
+        print(min(s))
+    else:
+        print(0)
+                "
+6,B,Python3,61160186,2023-03-10 19:28:26,牛客396138626号,答案正确,"for _ in range(int(input())):
+    n,a,b = map(int,input().split())
+    s = []
+    
+    for i in range(n):
+        
+        k,x,y = map(int,input().split())
+        p = list(map(int,input().split()))
+        for j in p:
+            ans=1e9
+            if j>=x and j >=a:
+                ans = j-y-b
+            elif j>=x:
+                ans = j-y
+            elif j>=a:
+                ans = j-b
+            else:
+                ans=j
+            s.append(ans)
+    if min(s)>=0:
+        print(min(s))
+    else:
+        print(0)
+                "
+7,B,Python3,61160656,2023-03-10 19:32:57,徐祎鹏,答案错误,"T = int(input())
+li = []
+for i in range(T):
+    Min = 0
+    n, a, b = map(int, input().split())
+    for j in range(n):
+        ki, xi, yi = map(int,input().split())
+        x = list(map(int,input().split()))
+        for i in range(len(x)):
+            m = x[i]
+            if x[i] >= xi:
+                m = m - yi
+            if x[i] >= a:
+                m = m - b
+            if Min == 0:
+                Min = m
+            if Min > m:
+                Min = m
+    li.append(Min)
+for i in li:
+    print(i)"
+8,B,Python3,61160746,2023-03-10 19:33:52,tendance,执行出错,"import os
+import sys
+t = int(input())
+for i in range(t):
+    n,a,b = map(int,input().split())
+    min_t = 10000000000
+    for j in range(n):
+        k,x,y = map(int,input().split())
+        num = [int(i)for i in input().split()]
+        num1 = sorted(num)
+        for z in range(len(num)):
+            if num1[z]>=x:
+                ans = num1[z]-y
+                if num1[z]>=a:
+                    ans-=b
+                break
+        if ans<min_t:
+            min_t = ans
+    if min_t<=0:
+        print(0)
+    else:
+        print(min_t)"
+9,B,Python3,61160787,2023-03-10 19:34:17,徐祎鹏,运行超时,"T = int(input())
+li = []
+for i in range(T):
+    Min = 0
+    n, a, b = map(int, input().split())
+    for j in range(n):
+        ki, xi, yi = map(int,input().split())
+        x = list(map(int,input().split()))
+        for i in range(len(x)):
+            m = x[i]
+            if x[i] >= xi:
+                m = m - yi
+            if x[i] >= a:
+                m = m - b
+            if Min == 0:
+                Min = m
+            if Min > m:
+                Min = m
+    if Min < 0:
+        Min = 0
+    li.append(Min)
+for i in li:
+    print(i)"
+10,B,Python3,61160902,2023-03-10 19:35:23,tendance,答案错误,"import os
+import sys
+t = int(input())
+for i in range(t):
+    n,a,b = map(int,input().split())
+    min_t = 10000000000
+    for j in range(n):
+        k,x,y = map(int,input().split())
+        num = [int(i)for i in input().split()]
+        num1 = sorted(num)
+        ans = 0
+        for z in range(len(num)):
+            if num1[z]>=x:
+                ans = num1[z]-y
+                if num1[z]>=a:
+                    ans-=b
+                break
+        if ans<min_t:
+            min_t = ans
+    if min_t<=0:
+        print(0)
+    else:
+        print(min_t)"
+11,B,Python3,61161285,2023-03-10 19:39:16,徐祎鹏,运行超时,"T = int(input())
+li = []
+for i in range(T):
+    Min = 0
+    n, a, b = map(int, input().split())
+    for j in range(n):
+        ki, xi, yi = map(int,input().split())
+        x = list(map(int,input().split()))
+        for i in range(len(x)):
+            m = x[i]
+            if x[i] >= xi:
+                m = m - yi
+            if x[i] >= a:
+                m = m - b
+            if Min == 0:
+                Min = m
+            if Min > m:
+                Min = m
+    if Min < 0:
+        Min = 0
+    li.append(Min)
+for i in li:
+    print(i)"
+12,B,Python3,61161627,2023-03-10 19:42:52,徐祎鹏,运行超时,"T = int(input())
+li = []
+for i in range(T):
+    Min = 0
+    n, a, b = map(int, input().split())
+    for j in range(n):
+        ki, xi, yi = map(int,input().split())
+        x = list(map(int,input().split()))
+        for i in range(len(x)):
+            m = x[i]
+            if x[i] >= xi:
+                m = m - yi
+            if x[i] >= a:
+                m = m - b
+            if Min == 0:
+                Min = m
+            if Min > m:
+                Min = m
+    li.append(Min)
+for i in li:
+    if i < 0:
+        print(0)
+    else:
+        print(i)"
+13,B,Python3,61162467,2023-03-10 19:51:34,徐祎鹏,答案正确,"T = int(input())
+li = []
+Min = 0
+for i in range(T):
+    n, a, b = map(int, input().split())
+    for j in range(n):
+        ki, xi, yi = map(int,input().split())
+        x = list(map(int,input().split()))
+        if j ==0:
+            Min = x[0]
+        for i in range(len(x)):
+            m = x[i]
+            if x[i] >= xi:
+                m = m - yi
+            if x[i] >= a:
+                m = m - b
+            if Min > m:
+                Min = m
+    li.append(Min)
+for i in li:
+    if i < 0:
+        print(0)
+    else:
+        print(i)"
+14,B,Python3,61162545,2023-03-10 19:52:14,tendance,运行超时,"import os
+import sys
+t = int(input())
+for i in range(t):
+    n,a,b = map(int,input().split())
+    min_t = 10000000000
+    for j in range(n):
+        k,x,y = map(int,input().split())
+        num = [int(i)for i in input().split()]
+        num1 = sorted(num)
+        ans = 1000000
+        ans1 = 1000000
+        for z in range(len(num)):
+            if num1[z]>=x:
+                ans = num1[z]-y
+                if num1[z]>=a:
+                    ans-=b
+            if num1[z]>=a:
+                ans1 = num1[z]-b
+                if num1[z]>=x:
+                    ans1-=y
+            if min(num1)<=min(a,x):
+                ans = min(num1)
+        ans = min(ans,ans1)
+##        print(ans)
+        if ans<min_t:
+            min_t = ans
+    if min_t<=0:
+        print(0)
+    else:
+        print(min_t)"
+15,B,Python3,61162667,2023-03-10 19:53:27,unixxxxxx,答案正确,"n = int(input())
+
+for _ in range(n):
+    store_num, a, b = list(map(int, input().split(' ')))
+    dish_num = None
+    minize = float('inf')
+    for i in range(2*store_num):
+        if i % 2 == 0:
+            dish_num, x, y = list(map(int, input().split(' ')))
+        else:
+            values = list(map(int, input().split(' ')))
+            # 检查每一个菜
+            for j, v in enumerate(values):
+                if v >= a and v >= x:
+                    tmp = max(v-y-b, 0)
+                elif v >= a and v < x:
+                    tmp = max(v-b, 0)
+                elif v >= x and v < a:
+                    tmp = max(v-y, 0)
+                elif v < x and v < a:
+                    tmp = v
+                
+                minize = min(tmp, minize)
+    print(minize)
+    
+    
+
+    "
+16,B,Python3,61162827,2023-03-10 19:55:08,deprave,答案正确,"T = int(input())
+while T:
+    n, a, b = map(int, input().split())
+    ans = float('inf')
+    while n:
+        k, x, y = map(int, input().split())
+        v = list(map(int, input().split()))
+        cnt = 0
+        for vi in v:
+            if vi >= a and vi >= x:
+                cnt = vi - b - y
+            elif vi >= a:
+                cnt = vi - b
+            elif vi >= x:
+                cnt = vi - y
+            else:
+                cnt = vi
+            ans = min(ans, cnt)
+        n -= 1
+    if ans<0:
+        print(0)
+    else:
+        print(ans)
+    T -= 1"
+17,B,Python3,61162993,2023-03-10 19:56:47,在走神的菜鸡很漂亮,答案正确,"import sys
+ 
+inputlist=[]
+for line in sys.stdin:
+    inputlist.append(line.split())
+length=len(inputlist)
+count=1
+while count<length:
+    n=int(inputlist[count][0])
+    a=int(inputlist[count][1])
+    b=int(inputlist[count][2])
+    ans=float('inf')
+    for i in range(1,2*n+1,2):
+        k=int(inputlist[count+i][0])
+        x=int(inputlist[count+i][1])
+        y=int(inputlist[count+i][2])
+        for j in range(k):
+            temp=int(inputlist[count+i+1][j])
+            if temp>=x and temp>=a:
+                if temp-b-y<ans:
+                    ans=temp-b-y
+            elif temp>=x and temp<a:
+                if temp-y<ans:
+                    ans=temp-y
+            elif temp>=a and temp<x:
+                if temp-b<ans:
+                    ans=temp-b
+            else:
+                if temp<ans:
+                    ans=temp
+
+    if ans <=0:
+        print(0)
+    else:
+        print(ans)
+    count+=2*n+1
+                    
+    "
+18,B,Python3,61163006,2023-03-10 19:56:59,tendance,运行超时,"import os
+import sys
+t = int(input())
+for i in range(t):
+    n,a,b = map(int,input().split())
+    min_t = 10000000000
+    for j in range(n):
+        k,x,y = map(int,input().split())
+        num = [int(i)for i in input().split()]
+        num1 = sorted(num)
+        ans = 1000000
+        ans1 = 1000000
+        for z in range(len(num)):
+            if min(num1)<=min(a,x):
+                ans = min(num1)
+                break
+            else:
+                if num1[z]>=x:
+                    ans = num1[z]-y
+                    if num1[z]>=a:
+                        ans-=b
+                if num1[z]>=a:
+                    ans1 = num1[z]-b
+                    if num1[z]>=x:
+                        ans1-=y
+        ans = min(ans,ans1)
+##        print(ans)
+        if ans<min_t:
+            min_t = ans
+    if min_t<=0:
+        print(0)
+    else:
+        print(min_t)
+        "
+19,B,Python3,61163102,2023-03-10 19:58:00,牛客481337953号,答案正确,"for _ in range(int(input())):
+    n, a, b = map(int, input().split())
+    res = float('inf')
+    for i in range(n):
+        k, x, y = map(int, input().split())
+        s = list(map(int, input().split()))
+        for v in s:
+            m = v
+            if v >= a:
+                m -= b
+            if v >= x:
+                m -= y
+            res = min(res, max(m, 0))
+    print(res)"
+20,B,Python3,61163220,2023-03-10 19:59:26,tendance,运行超时,"import os
+import sys
+t = int(input())
+for i in range(t):
+    n,a,b = map(int,input().split())
+    min_t = 10000000000
+    for j in range(n):
+        k,x,y = map(int,input().split())
+        num = [int(i)for i in input().split()]
+        num1 = sorted(num)
+        ans = 1000000
+        ans1 = 1000000
+        for z in range(len(num)):
+            if min(num1)<=min(a,x):
+                ans = min(num1)
+                break
+            else:
+                if num1[z]>=x:
+                    ans = num1[z]-y
+                    if num1[z]>=a:
+                        ans-=b
+                if num1[z]>=a:
+                    ans1 = num1[z]-b
+                    if num1[z]>=x:
+                        ans1-=y
+                if num1[z]>max(a,x):
+                    break
+        ans = min(ans,ans1)
+        if ans<min_t:
+            min_t = ans
+    if min_t<=0:
+        print(0)
+    else:
+        print(min_t)"
+21,B,Python3,61163523,2023-03-10 20:02:33,星辰是我的,答案正确,"for i in range(int(input())):
+    n,a,b=map(int,input().split())
+    p=9999999999999
+    for j in range(n):
+        k,x,y=map(int,input().split())
+        r=list(map(int,input().split()))
+        r.sort()
+        for q in range(k):
+            if r[q]>=a and r[q]>=x:
+                r[q]-=y
+                r[q]-=b
+            elif r[q]>=a:
+                r[q]-=b
+            elif r[q]>=x:
+                r[q]-=y
+            if r[q]<0:
+                r[q]=0
+            p=min(r[q],p)
+    print(p)"
+22,B,Python3,61166648,2023-03-10 20:35:52,罗熙L,答案正确,"T = eval(input())
+for i in range(T):
+    n,a,b = map(int,input().split())#a,b是vip红包
+    price_list = []
+    info_list = []
+    for j in range(n):
+        info=list(map(int,input().split()))
+        price = list(map(int,input().split()))
+        info_list.append(info)
+        price_list.append(price)
+    total_price_list = []
+    for j in range(len(info_list)):
+        infoj =info_list[j]
+        pricej = price_list[j]
+        c =[]
+        for i in pricej:
+            total_price = 0
+            if i>=infoj[1] and i>=a:
+                total_price+=(i-infoj[2]-int(b))
+                c.append(total_price)
+            elif i>=infoj[1] and i<a:
+                total_price+=i-infoj[2]
+                c.append(total_price)
+            elif i<infoj[1] and i>=a:
+                total_price+=i-int(b)
+                c.append(total_price)
+            else:
+                total_price+=i
+                c.append(i)    
+        total_price_list.append(c)
+    d = []
+    for e in total_price_list:
+        for j in e:
+            d.append(j)
+    if min(d)<0:
+        print(0)
+    else:
+        print(min(d))"
+23,B,Python3,61173581,2023-03-10 23:02:09,交织面具,答案正确,"def min(a):
+    minn=999999999
+    for i in range(len(a)):
+        if minn > a[i]:
+            minn=a[i]
+    if minn<0:
+        return 0
+    return minn
+
+def dian(x,y):
+    a,b,c=map(int,input().split())
+    d=list(map(int,input().split()))
+    e=999999
+    k=[]
+    for i in range(len(d)):
+        if d[i]>=x:
+            e=d[i]-y
+            if d[i] >= b:
+                e= e - c
+        elif d[i]>=b:
+            e=d[i]-c
+        else:
+            e=d[i]
+        k.append(e)
+    return min(k)
+T=int(input())
+for j in range(T):
+    z,x,y=map(int,input().split())
+    a = []
+    for i in range(z):
+        a.append(dian(x,y))
+    print(min(a))
+
+"
+24,B,Python3,61174903,2023-03-11 01:39:17,nagisa_菜鸡,答案正确,"t=int(input())
+for _ in range(t):
+    ans=10**9
+    n,a,b=map(int,input().split())
+    for i in range(n):
+        k,x,y=map(int,input().split())
+        vs=list(map(int,input().split()))
+#         print(vs)
+        for j in range(k):
+            raw=vs[j]
+            v=raw
+            if raw>=x:
+                v-=y
+            if raw>=a:
+                v-=b
+            ans=min(ans,v)
+        ans=max(ans,0)
+    print(ans)"
+25,B,Python3,61175030,2023-03-11 07:40:25,徐祎鹏,运行超时,"T = int(input())
+li = []
+for i in range(T):
+    Min = 0
+    n, a, b = map(int, input().split())
+    for j in range(n):
+        ki, xi, yi = map(int,input().split())
+        x = list(map(int,input().split()))
+        for i in range(len(x)):
+            m = x[i]
+            if x[i] >= xi:
+                m = m - yi
+            if x[i] >= a:
+                m = m - b
+            if Min == 0:
+                Min = m
+            if Min > m:
+                Min = m
+    if Min < 0:
+        Min = 0
+    li.append(Min)
+for i in li:
+    print(i)"
+26,B,Python3,61175033,2023-03-11 07:41:41,徐祎鹏,运行超时,"T = int(input())
+li = []
+for i in range(T):
+    Min = 0
+    n, a, b = map(int, input().split())
+    for j in range(n):
+        ki, xi, yi = map(int,input().split())
+        x = list(map(int,input().split()))
+        for i in range(len(x)):
+            m = x[i]
+            if x[i] >= xi:
+                m = m - yi
+            if x[i] >= a:
+                m = m - b
+            if Min == 0:
+                Min = m
+            Min = min(Min, m)
+    if Min < 0:
+        Min = 0
+    li.append(Min)
+for i in li:
+    print(i)"
+27,B,Python3,61175036,2023-03-11 07:42:17,徐祎鹏,答案正确,"T = int(input())
+li = []
+for i in range(T):
+    Min = 1e9
+    n, a, b = map(int, input().split())
+    for j in range(n):
+        ki, xi, yi = map(int,input().split())
+        x = list(map(int,input().split()))
+        for i in range(len(x)):
+            m = x[i]
+            if x[i] >= xi:
+                m = m - yi
+            if x[i] >= a:
+                m = m - b
+            Min = min(Min, m)
+    if Min < 0:
+        Min = 0
+    li.append(Min)
+for i in li:
+    print(i)"
+28,B,Python3,61177254,2023-03-11 10:57:45,AuJinn,答案正确,"import sys
+
+input = sys.stdin.buffer.readline
+
+for _ in range(int(input())):
+    n, a, b = map(int, input().split())
+    
+    f = 1E9
+    for i in range(n):
+        k, x, y = map(int, input().split())
+        
+        for v in map(int, input().split()):
+            w = v
+            if v >= a:
+                w -= b
+            if v >= x:
+                w -= y
+                
+            f = min(f, max(0, w))
+            
+    print(f)"
+29,B,Python3,61177624,2023-03-11 11:18:49,懒得改了,答案正确,"for _ in range(int(input())):
+    n,a,b=map(int,input().split())
+    ans=int(1e15)
+    for _ in range(n):
+        k,x,y=map(int,input().split())
+        for i in map(int,input().split()):
+            ans=min(ans,max(0, i-(i>=x)*y-(i>=a)*b))
+    print(ans)"
+30,B,Python3,61239667,2023-03-11 21:16:12,❃寻梅᭄ꦿ࿐,答案正确,"t=int(input())
+for g in range(t):
+    n,a,b=map(int,input().split("" ""))
+    small=0o7777777777
+    for i in range(n):
+        k,x,y=map(int,input().split("" ""))
+        arr=list(map(int,input().split("" "")))
+        q=0
+        for j in range(k):
+            if(arr[j]>=a and arr[j]>=x):q=arr[j]-b-y
+            elif(arr[j]>=a and arr[j]<x):q=arr[j]-b
+            elif(arr[j]<a and arr[j]>=x):q=arr[j]-y
+            else:q=arr[j]
+            if(q<small):small=q
+    if(small<=0):small=0            
+    print(small)"
+31,B,Python3,61239673,2023-03-11 21:16:42,❃寻梅᭄ꦿ࿐,答案正确,"t=int(input())
+for g in range(t):
+    n,a,b=map(int,input().split("" ""))
+    small=0o7777777777
+    for i in range(n):
+        k,x,y=map(int,input().split("" ""))
+        arr=list(map(int,input().split("" "")))
+        for j in range(k):
+            if(arr[j]>=a and arr[j]>=x):q=arr[j]-b-y
+            elif(arr[j]>=a and arr[j]<x):q=arr[j]-b
+            elif(arr[j]<a and arr[j]>=x):q=arr[j]-y
+            else:q=arr[j]
+            if(q<small):small=q
+    if(small<=0):small=0            
+    print(small)"
+32,B,Python3,61369486,2023-03-18 23:25:51,.201803242316477,答案正确,"T = int(input())
+for t in range(T):
+    money = 10**9
+    N, a, b = map(int, input().split("" ""))
+    dian = []
+    for n in range(N):
+        # k菜品数量
+        k, x, y = map(int, input().split("" ""))
+        # 所有菜品价格
+        V = list(map(int, input().split("" "")))
+        for v in V:
+            if v >= max(a, x):   # 达到所有满减条件
+                tmp = v - b -y
+                if tmp < 0:
+                    tmp = 0
+                money = min(money, tmp)
+            elif v >= min(a, x) and v < max(a, x): # 达到其中一个条件
+                tmp = 0
+                if min(a, x) == a:
+                    tmp = v - b
+                else:
+                    tmp = v - y
+                if tmp < 0:
+                    tmp = 0
+                money = min(money, tmp)
+            else:    # 没有达到满减条件
+                money = min(money, v)
+    print(money)
+                "
+33,B,Python3,61369511,2023-03-18 23:28:19,.201803242316477,答案正确,"T = int(input())
+for t in range(T):
+    money = 10**9
+    N, a, b = map(int, input().split("" ""))
+    dian = []
+    for n in range(N):
+        # k菜品数量
+        k, x, y = map(int, input().split("" ""))
+        # 所有菜品价格
+        V = list(map(int, input().split("" "")))
+        for v in V:
+            tmp = 0
+            if v >= max(a, x):   # 达到所有满减条件
+                tmp = v - b -y
+            elif v >= min(a, x) and v < max(a, x): # 达到其中一个条件
+                tmp = 0
+                if min(a, x) == a:
+                    tmp = v - b
+                else:
+                    tmp = v - y
+            else:    # 没有达到满减条件
+                tmp = v
+            if tmp < 0:
+                tmp = 0
+            money = min(money, tmp)
+    print(money)
+                "
+34,B,Python3,61369585,2023-03-18 23:34:38,.201803242316477,答案正确,"for _ in range(int(input())):
+    money = 1E9
+    N, a, b = map(int, input().split("" ""))
+    for n in range(N):
+        # k 菜品数量
+        k, x, y = map(int, input().split("" ""))
+        # v 菜品价格
+        for v in map(int, input().split("" "")):
+            tmp = v
+            if v >= a:
+                tmp -= b
+            if v >= x:
+                tmp -= y
+            money = min(money, max(0,tmp))
+    print(money)
+                "
+35,B,Python3,61413055,2023-03-20 19:05:36,夏侯兴霸,答案错误,"T = int(input())
+
+for _ in range(T):
+    n, a, b = map(int, input().split())
+    cost = float('inf')
+
+    for i in range(n):
+        k, x, y = map(int, input().split())
+        v = list(map(int, input().split()))
+
+        # 找到所有满足店铺红包和 VIP 红包条件的菜品的价格
+        valid_price = [price for price in v if price >= x and price >= a]
+
+        if valid_price:
+            # 按价格从小到大排序，取最小值
+            min_price = min(valid_price)
+
+            # 计算使用红包后的实际价格
+            actual_price = min_price - y - b
+            if actual_price < 0:
+                actual_price = min_price - y
+
+            # 更新最小花费
+            if actual_price < cost:
+                cost = actual_price
+
+    # 输出最小花费
+    print(cost)"
+36,B,Python3,61459745,2023-03-23 14:54:32,挚宇,答案错误,"T = int(input())
+
+
+def fulljian(price, x, y):
+    if price > x:
+        return price - y
+    else:
+        return price
+
+
+for T_1 in range(T):
+    n, a, b = map(int, input().split())
+    minprice = 10000
+    for i in range(n):
+        k, x, y = map(int, input().split())
+        price = []
+        price[0:k - 1] = map(int, input().split())
+        min = price[0]
+        for element in price:
+            afterprice = fulljian(element, x, y)
+            if element > a:
+                afterprice = afterprice - b
+            if afterprice < min:
+                min =afterprice
+        if min < minprice :
+            minprice = min
+    if minprice > 0:
+        print(minprice)
+    else:
+        print(0)"
+37,B,Python3,61459818,2023-03-23 15:00:23,挚宇,运行超时,"T = int(input())
+
+
+def fulljian(price, x, y):
+    if price >= x:
+        return price - y
+    else:
+        return price
+
+
+for T_1 in range(T):
+    n, a, b = map(int, input().split())
+    minprice = 10000
+    for i in range(n):
+        k, x, y = map(int, input().split())
+        price = []
+        price[0:k - 1] = map(int, input().split())
+        #
+        for element in price:
+            afterprice = fulljian(element, x, y)
+            if element >= a:
+                afterprice = afterprice - b
+            if afterprice < minprice:
+                minprice = afterprice
+
+    if minprice > 0:
+        print(minprice)
+    else:
+        print(0)
+"
+38,B,Python3,61459828,2023-03-23 15:01:01,挚宇,运行超时,"T = int(input())
+
+
+def fulljian(price, x, y):
+    if price >= x:
+        return price - y
+    else:
+        return price
+
+
+for T_1 in range(T):
+    n, a, b = map(int, input().split())
+    minprice = 10000
+    for i in range(n):
+        k, x, y = map(int, input().split())
+        price = []
+        price[0:k - 1] = map(int, input().split())
+        #
+        for element in price:
+            afterprice = fulljian(element, x, y)
+            if element >= a:
+                afterprice = afterprice - b
+            if afterprice < minprice:
+                minprice = afterprice
+
+    if minprice > 0:
+        print(minprice)
+    else:
+        print(0)
+"
+39,B,Python3,61488529,2023-03-24 20:32:23,灞波儿奔en,运行超时,"T = int(input())
+for i in range(T):
+    n,a,b = list(map(int,input().split()))
+    ans = 1e9
+    for j in range(n):
+        count,x,y = list(map(int,input().split()))
+        lis = list(map(int,input().split()))
+        for item in lis:
+            if item>=x and item>=a:
+                if item-b-y<0:
+                    tt = 0
+                else:
+                    tt = item-b-y
+                ans = min(ans,tt)
+            elif item>=a:
+                if item - b<0:
+                    tt = 0
+                else:
+                    tt = item-b
+                ans = min(ans,tt)
+            else:
+                ans = min(ans,item)
+    print(ans)"
+40,B,Python3,61488934,2023-03-24 20:36:04,灞波儿奔en,答案正确,"T = int(input())
+for i in range(T):
+    n,a,b = list(map(int,input().split()))
+    ans = 1e9
+    for j in range(n):
+        count,x,y = list(map(int,input().split()))
+        lis = list(map(int,input().split()))
+        for item in lis:
+            v = item
+            if item>=a:
+                v-=b
+            if item>=x:
+                v-=y
+            ans = min(ans,max(0,v))
+    print(ans)"
+41,B,Python3,61498185,2023-03-25 01:28:07,晓星晨曦,答案正确,"'''
+T
+n, a, b
+k, x, y
+
+n 外卖店数量
+a b 满a元减b元(VIP红包)
+
+k 菜品数量
+x y 满x元减y元(店铺红包)
+'''
+
+getT = int(input())
+
+for i in range(getT):
+    n, a, b = map(int, input().split())
+    stores = []
+    payMoney = []
+    # 店铺数据
+    for j in range(n):
+        k, x, y = map(int, input().split())
+        eatM = list(map(int, input().split()))
+        stores.append([k, x, y, eatM])
+    
+    for store in stores:
+        k, x, y, eatM = store
+        # 对菜品价格循环
+        for j in eatM:
+            if j >= x and j >= a:
+                payMoney.append(j - y - b)
+            elif j >= x:
+                payMoney.append(j - y)
+            elif j >= a:
+                payMoney.append(j - b)
+            else:
+                payMoney.append(j)
+    if min(payMoney) < 0:
+        print(0)
+    else:
+        print(min(payMoney))
+    
+    
+    "
+42,B,Python3,61498193,2023-03-25 01:29:41,晓星晨曦,答案正确,"'''
+T
+n, a, b
+k, x, y
+
+n 外卖店数量
+a b 满a元减b元(VIP红包)
+
+k 菜品数量
+x y 满x元减y元(店铺红包)
+'''
+
+getT = int(input())
+
+for i in range(getT):
+    n, a, b = map(int, input().split())
+    stores = []
+    payMoney = []
+    # 店铺数据
+    for j in range(n):
+        k, x, y = map(int, input().split())
+        eatM = list(map(int, input().split()))
+        stores.append([k, x, y, eatM])
+        # 对菜品价格循环
+        for j in eatM:
+            if j >= x and j >= a:
+                payMoney.append(j - y - b)
+            elif j >= x:
+                payMoney.append(j - y)
+            elif j >= a:
+                payMoney.append(j - b)
+            else:
+                payMoney.append(j)
+    
+    if min(payMoney) < 0:
+        print(0)
+    else:
+        print(min(payMoney))
+    
+    
+    "
+43,B,Python3,61498196,2023-03-25 01:30:02,晓星晨曦,运行超时,"'''
+T
+n, a, b
+k, x, y
+
+n 外卖店数量
+a b 满a元减b元(VIP红包)
+
+k 菜品数量
+x y 满x元减y元(店铺红包)
+'''
+
+getT = int(input())
+
+for i in range(getT):
+    n, a, b = map(int, input().split())
+    payMoney = []
+    # 店铺数据
+    for j in range(n):
+        k, x, y = map(int, input().split())
+        eatM = list(map(int, input().split()))
+        # 对菜品价格循环
+        for j in eatM:
+            if j >= x and j >= a:
+                payMoney.append(j - y - b)
+            elif j >= x:
+                payMoney.append(j - y)
+            elif j >= a:
+                payMoney.append(j - b)
+            else:
+                payMoney.append(j)
+    
+    if min(payMoney) < 0:
+        print(0)
+    else:
+        print(min(payMoney))
+    
+    
+    "
+44,B,Python3,61498201,2023-03-25 01:31:02,晓星晨曦,答案正确,"'''
+T
+n, a, b
+k, x, y
+
+n 外卖店数量
+a b 满a元减b元(VIP红包)
+
+k 菜品数量
+x y 满x元减y元(店铺红包)
+'''
+
+getT = int(input())
+
+for i in range(getT):
+    n, a, b = map(int, input().split())
+    payMoney = []
+    # 店铺数据
+    for j in range(n):
+        k, x, y = map(int, input().split())
+        eatM = list(map(int, input().split()))
+        # 对菜品价格循环
+        for j in eatM:
+            if j >= x and j >= a:
+                payMoney.append(j - y - b)
+            elif j >= x:
+                payMoney.append(j - y)
+            elif j >= a:
+                payMoney.append(j - b)
+            else:
+                payMoney.append(j)
+    
+    if min(payMoney) < 0:
+        print(0)
+    else:
+        print(min(payMoney))
+    
+    
+    "
+45,B,Python3,61498213,2023-03-25 01:32:38,晓星晨曦,执行出错,"'''
+T
+n, a, b
+k, x, y
+
+n 外卖店数量
+a b 满a元减b元(VIP红包)
+
+k 菜品数量
+x y 满x元减y元(店铺红包)
+'''
+
+getT = int(input())
+
+for i in range(getT):
+    n, a, b = map(int, input().split())
+    payMoney = []
+    # 店铺数据
+    for j in range(n):
+        k, x, y = map(int, input().split())
+        eatM = [int(s) for s in input.split()]
+        # 对菜品价格循环
+        for j in eatM:
+            if j >= x and j >= a:
+                payMoney.append(j - y - b)
+            elif j >= x:
+                payMoney.append(j - y)
+            elif j >= a:
+                payMoney.append(j - b)
+            else:
+                payMoney.append(j)
+    
+    if min(payMoney) < 0:
+        print(0)
+    else:
+        print(min(payMoney))
+    
+    
+    "
+46,B,Python3,61498214,2023-03-25 01:32:45,晓星晨曦,答案正确,"'''
+T
+n, a, b
+k, x, y
+
+n 外卖店数量
+a b 满a元减b元(VIP红包)
+
+k 菜品数量
+x y 满x元减y元(店铺红包)
+'''
+
+getT = int(input())
+
+for i in range(getT):
+    n, a, b = map(int, input().split())
+    payMoney = []
+    # 店铺数据
+    for j in range(n):
+        k, x, y = map(int, input().split())
+        eatM = [int(s) for s in input().split()]
+        # 对菜品价格循环
+        for j in eatM:
+            if j >= x and j >= a:
+                payMoney.append(j - y - b)
+            elif j >= x:
+                payMoney.append(j - y)
+            elif j >= a:
+                payMoney.append(j - b)
+            else:
+                payMoney.append(j)
+    
+    if min(payMoney) < 0:
+        print(0)
+    else:
+        print(min(payMoney))
+    
+    
+    "
+47,B,Python3,61498217,2023-03-25 01:34:25,晓星晨曦,答案正确,"'''
+T
+n, a, b
+k, x, y
+
+n 外卖店数量
+a b 满a元减b元(VIP红包)
+
+k 菜品数量
+x y 满x元减y元(店铺红包)
+'''
+
+getT = int(input())
+
+for i in range(getT):
+    n, a, b = [int(s) for s in input().split()]
+    payMoney = []
+    # 店铺数据
+    for j in range(n):
+        k, x, y = [int(s) for s in input().split()]
+        eatM = [int(s) for s in input().split()]
+        # 对菜品价格循环
+        for j in eatM:
+            if j >= x and j >= a:
+                payMoney.append(j - y - b)
+            elif j >= x:
+                payMoney.append(j - y)
+            elif j >= a:
+                payMoney.append(j - b)
+            else:
+                payMoney.append(j)
+    
+    if min(payMoney) < 0:
+        print(0)
+    else:
+        print(min(payMoney))
+    
+    
+    "

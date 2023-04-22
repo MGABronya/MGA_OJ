@@ -1,0 +1,489 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,E,Python3,54835556,2022-11-18 19:49:28,GeXuanM,执行出错,"#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+const int maxn=1e5+5,mod=1e9+7;
+
+int a[maxn],n,vis[maxn];
+
+inline int inv(int x=2,int y=mod-2)
+{
+    int res=1;
+    for(;y;x=x*x%mod,y>>=1) if(y&1) res=res*x%mod;
+    return res;
+}
+
+signed main()
+{
+    cin>>n;
+    int jc=1,mx=0;
+    for(int i=1;i<=n;++i)
+        cin>>a[i],jc*=i,++vis[a[i]],mx=max(mx,a[i]);
+    int ans=0;
+    for(int i=1;i<=mx;++i)
+        ans=(ans+vis[i]*(n-vis[i]))%mod; 
+    cout<<(ans*jc%mod*inv(4))%mod;
+    return 0;
+}"
+1,E,Python3,54848853,2022-11-18 20:59:29,Garett,执行出错,"import sys
+import os
+from io import BytesIO, IOBase
+from collections import Counter
+BUFSIZE = 8192
+class FastIO(IOBase):
+    newlines = 0
+    def __init__(self, file):
+        self._fd = file.fileno()
+        self.buffer = BytesIO()
+        self.writable = ""x"" in file.mode or ""r"" not in file.mode
+        self.write = self.buffer.write if self.writable else None
+    def read(self):
+        while True:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            if not b:
+                break
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines = 0
+        return self.buffer.read()
+    def readline(self):
+        while self.newlines == 0:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            self.newlines = b.count(b""\n"") + (not b)
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines -= 1
+        return self.buffer.readline()
+    def flush(self):
+        if self.writable:
+            os.write(self._fd, self.buffer.getvalue())
+            self.buffer.truncate(0), self.buffer.seek(0)
+class IOWrapper(IOBase):
+    def __init__(self, file):
+        self.buffer = FastIO(file)
+        self.flush = self.buffer.flush
+        self.writable = self.buffer.writable
+        self.write = lambda s: self.buffer.write(s.encode(""ascii""))
+        self.read = lambda: self.buffer.read().decode(""ascii"")
+        self.readline = lambda: self.buffer.readline().decode(""ascii"")
+sys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)
+input = lambda: sys.stdin.readline().rstrip(""\r\n"")
+
+n=int(input())
+a=list(map(int,input().split()))
+fac=[0]*(n+1)
+fac[0]=1
+inv=[0]*(n+1)
+inv[0]=1
+mod=1000000007
+for i in range(1,n+1):
+    fac[i]=fac[i-1]*i%mod
+    inv[i]=pow(fac[i],mod-2,mod)
+cnt=Counter(a)
+ans=fac[n]
+# for v in cnt.values():
+#     ans=ans*inv[v]%mod
+ans=ans*inv[2]%mod
+k=len(cnt.keys())
+count=0
+for v in cnt.values():
+    count+=v*(n-v)
+ans=(ans*count*pow(2,mod-2,mod))%mod
+print(ans)
+
+"
+2,E,Python3,54848920,2022-11-18 20:59:43,QvShui,执行出错,"def fact(n):
+    if (n == 0 or n == 1):
+        return 1
+    else:
+        return fact(n-1) * n
+
+
+N = 100005
+MOD  = 1000000007
+
+inn = input()
+n = int(inn)
+a = list(map(int,input().split()))
+a.sort()
+
+flag = a[n-1]
+sum = 0
+num = 0
+i = n-1
+while i >= 0:
+    if flag != a[i]:
+        num = 0
+        flag = a[i]
+        sum += (n-1) - i - num
+        num = num + 1
+    else :
+        sum += (n-1) - i - num
+        num = num + 1
+    i-=1
+
+if n == 1 :
+    print(""0"")
+else :
+    ans = sum
+    ans = ans * fact(n)
+    ans = ans/2
+    ans = ans % MOD
+    cnm = int(ans)
+    print(cnm)
+
+
+
+"
+3,E,Python3,54849137,2022-11-18 21:00:39,Garett,答案正确,"import sys
+import os
+from io import BytesIO, IOBase
+from collections import Counter
+BUFSIZE = 8192
+class FastIO(IOBase):
+    newlines = 0
+    def __init__(self, file):
+        self._fd = file.fileno()
+        self.buffer = BytesIO()
+        self.writable = ""x"" in file.mode or ""r"" not in file.mode
+        self.write = self.buffer.write if self.writable else None
+    def read(self):
+        while True:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            if not b:
+                break
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines = 0
+        return self.buffer.read()
+    def readline(self):
+        while self.newlines == 0:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            self.newlines = b.count(b""\n"") + (not b)
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines -= 1
+        return self.buffer.readline()
+    def flush(self):
+        if self.writable:
+            os.write(self._fd, self.buffer.getvalue())
+            self.buffer.truncate(0), self.buffer.seek(0)
+class IOWrapper(IOBase):
+    def __init__(self, file):
+        self.buffer = FastIO(file)
+        self.flush = self.buffer.flush
+        self.writable = self.buffer.writable
+        self.write = lambda s: self.buffer.write(s.encode(""ascii""))
+        self.read = lambda: self.buffer.read().decode(""ascii"")
+        self.readline = lambda: self.buffer.readline().decode(""ascii"")
+sys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)
+input = lambda: sys.stdin.readline().rstrip(""\r\n"")
+
+n=int(input())
+a=list(map(int,input().split()))
+fac=[0]*(n+1)
+fac[0]=1
+mod=1000000007
+for i in range(1,n+1):
+    fac[i]=fac[i-1]*i%mod
+cnt=Counter(a)
+ans=fac[n]
+# for v in cnt.values():
+#     ans=ans*inv[v]%mod
+ans=ans*pow(2,mod-2,mod)%mod
+k=len(cnt.keys())
+count=0
+for v in cnt.values():
+    count+=v*(n-v)
+ans=(ans*count*pow(2,mod-2,mod))%mod
+print(ans)
+
+"
+4,E,Python3,54849392,2022-11-18 21:02:16,Garett,执行出错,"import sys
+import os
+from io import BytesIO, IOBase
+from collections import Counter
+BUFSIZE = 8192
+class FastIO(IOBase):
+    newlines = 0
+    def __init__(self, file):
+        self._fd = file.fileno()
+        self.buffer = BytesIO()
+        self.writable = ""x"" in file.mode or ""r"" not in file.mode
+        self.write = self.buffer.write if self.writable else None
+    def read(self):
+        while True:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            if not b:
+                break
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines = 0
+        return self.buffer.read()
+    def readline(self):
+        while self.newlines == 0:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            self.newlines = b.count(b""\n"") + (not b)
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines -= 1
+        return self.buffer.readline()
+    def flush(self):
+        if self.writable:
+            os.write(self._fd, self.buffer.getvalue())
+            self.buffer.truncate(0), self.buffer.seek(0)
+class IOWrapper(IOBase):
+    def __init__(self, file):
+        self.buffer = FastIO(file)
+        self.flush = self.buffer.flush
+        self.writable = self.buffer.writable
+        self.write = lambda s: self.buffer.write(s.encode(""ascii""))
+        self.read = lambda: self.buffer.read().decode(""ascii"")
+        self.readline = lambda: self.buffer.readline().decode(""ascii"")
+sys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)
+input = lambda: sys.stdin.readline().rstrip(""\r\n"")
+
+n=int(input())
+a=list(map(int,input().split()))
+fac=[0]*(n+1)
+fac[0]=1
+inv=[0]*(n+1)
+inv[0]=1
+mod=1000000007
+for i in range(1,n+1):
+    fac[i]=fac[i-1]*i%mod
+    inv[i]=pow(fac[i],mod-2,mod)
+cnt=Counter(a)
+ans=fac[n]
+# for v in cnt.values():
+#     ans=ans*inv[v]%mod
+ans=ans*inv[2]%mod
+k=len(cnt.keys())
+count=0
+for v in cnt.values():
+    count+=v*(n-v)
+ans=(ans*count*pow(2,mod-2,mod))%mod
+print(ans)
+
+"
+5,E,Python3,54849573,2022-11-18 21:03:35,Garett,答案正确,"import sys
+import os
+from io import BytesIO, IOBase
+from collections import Counter
+BUFSIZE = 8192
+class FastIO(IOBase):
+    newlines = 0
+    def __init__(self, file):
+        self._fd = file.fileno()
+        self.buffer = BytesIO()
+        self.writable = ""x"" in file.mode or ""r"" not in file.mode
+        self.write = self.buffer.write if self.writable else None
+    def read(self):
+        while True:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            if not b:
+                break
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines = 0
+        return self.buffer.read()
+    def readline(self):
+        while self.newlines == 0:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            self.newlines = b.count(b""\n"") + (not b)
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines -= 1
+        return self.buffer.readline()
+    def flush(self):
+        if self.writable:
+            os.write(self._fd, self.buffer.getvalue())
+            self.buffer.truncate(0), self.buffer.seek(0)
+class IOWrapper(IOBase):
+    def __init__(self, file):
+        self.buffer = FastIO(file)
+        self.flush = self.buffer.flush
+        self.writable = self.buffer.writable
+        self.write = lambda s: self.buffer.write(s.encode(""ascii""))
+        self.read = lambda: self.buffer.read().decode(""ascii"")
+        self.readline = lambda: self.buffer.readline().decode(""ascii"")
+sys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)
+input = lambda: sys.stdin.readline().rstrip(""\r\n"")
+
+n=int(input())
+a=list(map(int,input().split()))
+fac=[0]*(n+1)
+fac[0]=1
+mod=1000000007
+for i in range(1,n+1):
+    fac[i]=fac[i-1]*i%mod
+cnt=Counter(a)
+ans=fac[n]
+# for v in cnt.values():
+#     ans=ans*inv[v]%mod
+ans=ans*pow(2,mod-2,mod)%mod
+k=len(cnt.keys())
+count=0
+for v in cnt.values():
+    count+=v*(n-v)
+ans=(ans*count*pow(2,mod-2,mod))%mod
+print(ans)
+
+"
+6,E,Python3,54850055,2022-11-18 21:06:57,QvShui,执行出错,"def fact(n):
+    if (n == 0 or n == 1):
+        return 1
+    else:
+        return fact(n-1) * n
+
+
+N = 100005
+MOD  = 1000000007
+
+inn = input()
+n = int(inn)
+a = list(map(int,input().split()))
+a.sort()
+
+flag = a[n-1]
+sum = 0
+num = 0
+i = n-1
+while i >= 0:
+    if flag != a[i]:
+        num = 0
+        flag = a[i]
+        sum += (n-1) - i - num
+        num = num + 1
+    else :
+        sum += (n-1) - i - num
+        num = num + 1
+    i-=1
+
+if n == 1 :
+    print(""0"")
+else :
+    ans = sum
+    ans = ans * fact(n)
+    ans = ans/2
+    ans = ans % MOD
+    cnm = int(ans)
+    print(cnm)
+
+"
+7,E,Python3,54850382,2022-11-18 21:09:18,QvShui,执行出错,"def fact(n):
+    sum  = 1
+    if (n == 0 or n == 1):
+        return 1
+    else:
+        ans = 1
+        for i in range(1,n+1,1):
+            sum *= i
+        return sum
+
+
+N = 100005
+MOD  = 1000000007
+
+inn = input()
+n = int(inn)
+a = list(map(int,input().split()))
+a.sort()
+
+flag = a[n-1]
+sum = 0
+num = 0
+i = n-1
+while i >= 0:
+    if flag != a[i]:
+        num = 0
+        flag = a[i]
+        sum += (n-1) - i - num
+        num = num + 1
+    else :
+        sum += (n-1) - i - num
+        num = num + 1
+    i-=1
+
+if n == 1 :
+    print(""0"")
+else :
+    ans = sum
+    ans = ans * fact(n)
+    ans = ans/2
+    ans = ans % MOD
+    cnm = int(ans)
+    print(cnm)
+
+"
+8,E,Python3,54859479,2022-11-19 07:04:33,f_lesky,答案正确,"import math
+mod = 10 ** 9 + 7
+n = int(input())
+a = list(map(int, input().split()))
+a.sort()
+w, e, s = 0, 1, 0
+for i in range(1, n):
+    if a[i] == a[i - 1]:
+        e += 1
+    else:
+        s += e
+        e = 1
+    w += s
+f = 1
+for i in range(3, n + 1):
+    f = f * i % mod
+print(w * f % mod)"
+9,E,Python3,60005608,2022-12-30 16:23:43,懒得改了,答案正确,"n=int(input())
+ans=0
+w=1
+p=int(1e9)+7
+for x in range(3,1+n):
+    w=w*x%p
+l=[0 for _ in range(100001)]
+q=0
+
+for x in map(int,input().split()):
+    l[x]+=1
+
+for i in range(1,   100001):
+    if l[i]:
+        ans+=l[i]*q
+        q+=l[i]
+
+print(ans*w%p)"
+10,E,Python3,60254021,2023-01-15 15:45:38,牛客233537359号,答案正确,"n=int(input())
+ans=0
+w=1
+p=int(1e9)+7
+for x in range(3,1+n):
+    w=w*x%p
+l=[0 for _ in range(100001)]
+q=0
+
+for x in map(int,input().split()):
+    l[x]+=1
+
+for i in range(1,   100001):
+    if l[i]:
+        ans+=l[i]*q
+        q+=l[i]
+
+print(ans*w%p)"
+11,E,Python3,60254023,2023-01-15 15:45:40,牛客233537359号,答案正确,"n=int(input())
+ans=0
+w=1
+p=int(1e9)+7
+for x in range(3,1+n):
+    w=w*x%p
+l=[0 for _ in range(100001)]
+q=0
+
+for x in map(int,input().split()):
+    l[x]+=1
+
+for i in range(1,   100001):
+    if l[i]:
+        ans+=l[i]*q
+        q+=l[i]
+
+print(ans*w%p)"

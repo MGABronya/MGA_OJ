@@ -1,0 +1,1371 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,E,Python3,61478852,2023-03-24 19:17:51,zxcv0112358,答案错误,"from math import sqrt
+
+def judge(i,j,k,eps):
+    if abs((a[i][0]-a[j][0])/(a[i][1]-a[j][1]+eps)-(a[k][0]-a[j][0])/(a[k][1]-a[j][1]+eps))<eps:
+        return False
+    delta_x1=abs(a[j][0]-a[i][0])
+    delta_x2=abs(a[k][0]-a[j][0])
+    delta_x3=abs(a[i][0]-a[k][0])
+    delta_y1=abs(a[j][1]-a[i][1])
+    delta_y2=abs(a[j][1]-a[i][1])
+    delta_y3=abs(a[j][1]-a[i][1])
+    delta1=sqrt(delta_x1*delta_x1+delta_y1*delta_y1)
+    delta2=sqrt(delta_x2*delta_x2+delta_y2*delta_y2)
+    delta3=sqrt(delta_x3*delta_x3+delta_y3*delta_y3)
+    if abs(delta1-delta2)<eps or abs(delta2-delta3)<eps or abs(delta3-delta1)<eps:
+        return True
+    return False
+    
+    
+
+
+n=int(input())
+a=[[0,0] for _ in range(n)]
+for i in range(n):
+    a[i][0],a[i][1]=map(int,input().split())
+ret=0
+
+
+
+
+for i in range(0,n,1):
+    for j in range(i+1,n,1):
+        for k in range(j+1,n,1):
+            if judge(i,j,k,eps=1e-8):
+                ret=ret+1
+print(ret)"
+1,E,Python3,61481116,2023-03-24 19:34:09,是她,答案错误,"import random
+import sys
+import os
+import math
+from collections import Counter, defaultdict, deque
+from functools import lru_cache, reduce
+from itertools import accumulate, combinations, permutations
+from heapq import nsmallest, nlargest, heapify, heappop, heappush
+from io import BytesIO, IOBase
+from copy import deepcopy
+import operator
+import threading
+import bisect
+BUFSIZE = 4096
+Inf = float('inf')
+eps = 1e-6
+class FastIO(IOBase):
+    newlines = 0
+
+    def __init__(self, file):
+        self._fd = file.fileno()
+        self.buffer = BytesIO()
+        self.writable = ""x"" in file.mode or ""r"" not in file.mode
+        self.write = self.buffer.write if self.writable else None
+
+    def read(self):
+        while True:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            if not b:
+                break
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines = 0
+        return self.buffer.read()
+
+    def readline(self):
+        while self.newlines == 0:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            self.newlines = b.count(b""\n"") + (not b)
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines -= 1
+        return self.buffer.readline()
+
+    def flush(self):
+        if self.writable:
+            os.write(self._fd, self.buffer.getvalue())
+            self.buffer.truncate(0), self.buffer.seek(0)
+
+class IOWrapper(IOBase):
+    def __init__(self, file):
+        self.buffer = FastIO(file)
+        self.flush = self.buffer.flush
+        self.writable = self.buffer.writable
+        self.write = lambda s: self.buffer.write(s.encode(""ascii""))
+        self.read = lambda: self.buffer.read().decode(""ascii"")
+        self.readline = lambda: self.buffer.readline().decode(""ascii"")
+
+sys.stdin = IOWrapper(sys.stdin)
+sys.stdout = IOWrapper(sys.stdout)
+input = lambda: sys.stdin.readline().rstrip(""\r\n"")
+def I():
+   return input()
+
+def II():
+   return int(input())
+
+def MI():
+   return map(int, input().split())
+
+def LI():
+   return list(input().split())
+
+def LII():
+   return list(map(int, input().split()))
+
+def GMI():
+   return map(lambda x: int(x) - 1, input().split())
+
+def LGMI():
+   return list(map(lambda x: int(x) - 1, input().split()))
+n = II()
+res = [] 
+for _ in range(n):
+    a, b = MI()
+    res.append((a, b))
+ans = 0
+def check(i: int, j: int, k: int) -> bool:
+    d1 = (res[i][0] - res[j][0]) ** 2  + (res[i][1] - res[j][1]) ** 2
+    d2 = (res[i][0] - res[k][0]) ** 2  + (res[i][1] - res[k][1]) ** 2 
+    d3 = (res[j][0] - res[k][0]) ** 2  + (res[j][1] - res[k][1]) ** 2
+    if d1 == d2 or d2 == d3 or d1 ==  d3:
+        return True
+    return False
+for i in range(n):
+    for j in range(i + 1, n):
+        for k in range(j + 1, n):
+            if check(i, j, k):
+                ans += 1
+print(ans)"
+2,E,Python3,61481268,2023-03-24 19:35:20,是她,答案错误,"import random
+import sys
+import os
+import math
+from collections import Counter, defaultdict, deque
+from functools import lru_cache, reduce
+from itertools import accumulate, combinations, permutations
+from heapq import nsmallest, nlargest, heapify, heappop, heappush
+from io import BytesIO, IOBase
+from copy import deepcopy
+import operator
+import threading
+import bisect
+BUFSIZE = 4096
+Inf = float('inf')
+eps = 1e-6
+class FastIO(IOBase):
+    newlines = 0
+
+    def __init__(self, file):
+        self._fd = file.fileno()
+        self.buffer = BytesIO()
+        self.writable = ""x"" in file.mode or ""r"" not in file.mode
+        self.write = self.buffer.write if self.writable else None
+
+    def read(self):
+        while True:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            if not b:
+                break
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines = 0
+        return self.buffer.read()
+
+    def readline(self):
+        while self.newlines == 0:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            self.newlines = b.count(b""\n"") + (not b)
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines -= 1
+        return self.buffer.readline()
+
+    def flush(self):
+        if self.writable:
+            os.write(self._fd, self.buffer.getvalue())
+            self.buffer.truncate(0), self.buffer.seek(0)
+
+class IOWrapper(IOBase):
+    def __init__(self, file):
+        self.buffer = FastIO(file)
+        self.flush = self.buffer.flush
+        self.writable = self.buffer.writable
+        self.write = lambda s: self.buffer.write(s.encode(""ascii""))
+        self.read = lambda: self.buffer.read().decode(""ascii"")
+        self.readline = lambda: self.buffer.readline().decode(""ascii"")
+
+sys.stdin = IOWrapper(sys.stdin)
+sys.stdout = IOWrapper(sys.stdout)
+input = lambda: sys.stdin.readline().rstrip(""\r\n"")
+def I():
+   return input()
+
+def II():
+   return int(input())
+
+def MI():
+   return map(int, input().split())
+
+def LI():
+   return list(input().split())
+
+def LII():
+   return list(map(int, input().split()))
+
+def GMI():
+   return map(lambda x: int(x) - 1, input().split())
+
+def LGMI():
+   return list(map(lambda x: int(x) - 1, input().split()))
+n = II()
+res = [] 
+for _ in range(n):
+    a, b = MI()
+    res.append((a, b))
+ans = 0
+def check(i: int, j: int, k: int) -> bool:
+    for z in range(2):
+        if res[i][z] == res[j][z] == res[k][z]:
+            return False
+    d1 = (res[i][0] - res[j][0]) ** 2  + (res[i][1] - res[j][1]) ** 2
+    d2 = (res[i][0] - res[k][0]) ** 2  + (res[i][1] - res[k][1]) ** 2 
+    d3 = (res[j][0] - res[k][0]) ** 2  + (res[j][1] - res[k][1]) ** 2
+    if d1 == d2 or d2 == d3 or d1 ==  d3:
+        return True
+    return False
+for i in range(n):
+    for j in range(i + 1, n):
+        for k in range(j + 1, n):
+            if check(i, j, k):
+                ans += 1
+print(ans)"
+3,E,Python3,61481492,2023-03-24 19:36:54,阿来想AC,答案错误,"import math
+n = int(input())
+polist = []
+for i in range(n):
+    x,y = map(int,input().split())
+    polist.append((x,y))
+result = 0
+def panduan(list1):
+    (x1,y1),(x2,y2),(x3,y3) = list1
+    if (x1-x2)**2+(y1-y2)**2 == (x1-x3)**2+(y1-y3)**2 or (x1-x2)**2+(y1-y2)**2 == (x2-x3)**2+(y2-y3)**2 or (x3-x2)**2+(y3-y2)**2 == (x1-x3)**2+(y1-y3)**2:
+        return True
+    return False
+for i in range(n-2):
+    for j in range(i+1,n-1):
+        for k in range(j+1,n):
+            lis = [polist[i],polist[j],polist[k]]
+            if panduan(lis):
+                result += 1
+print(result)"
+4,E,Python3,61481668,2023-03-24 19:38:16,是她,答案错误,"import random
+import sys
+import os
+import math
+from collections import Counter, defaultdict, deque
+from functools import lru_cache, reduce
+from itertools import accumulate, combinations, permutations
+from heapq import nsmallest, nlargest, heapify, heappop, heappush
+from io import BytesIO, IOBase
+from copy import deepcopy
+import operator
+import threading
+import bisect
+BUFSIZE = 4096
+Inf = float('inf')
+eps = 1e-6
+class FastIO(IOBase):
+    newlines = 0
+
+    def __init__(self, file):
+        self._fd = file.fileno()
+        self.buffer = BytesIO()
+        self.writable = ""x"" in file.mode or ""r"" not in file.mode
+        self.write = self.buffer.write if self.writable else None
+
+    def read(self):
+        while True:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            if not b:
+                break
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines = 0
+        return self.buffer.read()
+
+    def readline(self):
+        while self.newlines == 0:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            self.newlines = b.count(b""\n"") + (not b)
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines -= 1
+        return self.buffer.readline()
+
+    def flush(self):
+        if self.writable:
+            os.write(self._fd, self.buffer.getvalue())
+            self.buffer.truncate(0), self.buffer.seek(0)
+
+class IOWrapper(IOBase):
+    def __init__(self, file):
+        self.buffer = FastIO(file)
+        self.flush = self.buffer.flush
+        self.writable = self.buffer.writable
+        self.write = lambda s: self.buffer.write(s.encode(""ascii""))
+        self.read = lambda: self.buffer.read().decode(""ascii"")
+        self.readline = lambda: self.buffer.readline().decode(""ascii"")
+
+sys.stdin = IOWrapper(sys.stdin)
+sys.stdout = IOWrapper(sys.stdout)
+input = lambda: sys.stdin.readline().rstrip(""\r\n"")
+def I():
+   return input()
+
+def II():
+   return int(input())
+
+def MI():
+   return map(int, input().split())
+
+def LI():
+   return list(input().split())
+
+def LII():
+   return list(map(int, input().split()))
+
+def GMI():
+   return map(lambda x: int(x) - 1, input().split())
+
+def LGMI():
+   return list(map(lambda x: int(x) - 1, input().split()))
+n = II()
+res = [] 
+for _ in range(n):
+    a, b = MI()
+    res.append((a, b))
+ans = 0
+def check(i: int, j: int, k: int) -> bool:
+    for z in range(2):
+        if res[i][z] == res[j][z] and res[j][z] == res[k][z]:
+            return False
+    d1 = (res[i][0] - res[j][0]) ** 2  + (res[i][1] - res[j][1]) ** 2
+    d2 = (res[i][0] - res[k][0]) ** 2  + (res[i][1] - res[k][1]) ** 2 
+    d3 = (res[j][0] - res[k][0]) ** 2  + (res[j][1] - res[k][1]) ** 2
+    if d1 == d2 or d2 == d3 or d1 ==  d3:
+        return True
+    return False
+for i in range(n):
+    for j in range(i + 1, n):
+        for k in range(j + 1, n):
+            if check(i, j, k):
+                ans += 1
+print(ans)"
+5,E,Python3,61482241,2023-03-24 19:42:41,traveller1239,运行超时,"n=int(input())
+t=[]
+for i in range(n):
+    a,b=map(int,input().split())
+    t.append([a,b])
+
+if n<3:
+    print(0)
+else:
+    s=0
+    for i in range(n-2):
+        for j in range(i+1,n-1):
+            for k in range(j+1,n):
+                a=[t[i][0]-t[j][0],t[i][1]-t[j][1]]
+                b=[t[i][0]-t[k][0],t[i][1]-t[k][1]]
+                if a[0]*b[1]!=a[1]*b[0]:
+                    d1=(t[i][0]-t[j][0])**2+(t[i][1]-t[j][1])**2
+                    d2=(t[i][0]-t[k][0])**2+(t[i][1]-t[k][1])**2
+                    d3=(t[j][0]-t[k][0])**2+(t[j][1]-t[k][1])**2
+                    if d1==d2 or d2==d3 or d3==d1:
+                        s+=1
+
+    print(s)"
+6,E,Python3,61482400,2023-03-24 19:43:54,zf854,答案错误,"
+import sys
+
+def main():
+    n = int(input())
+    a = []
+    for i in range(0, n):
+        b = [int(i) for i in input().split()]
+        a.append(b)
+    ans = 0 
+    for i  in range(0,n):
+        for j in range(i + 1,n):
+            for k in range(j + 1, n):
+                w = abs(a[i][0] - a[j][0]) ** 2 + abs(a[i][1] - a[j][1]) ** 2
+                u = abs(a[i][0] - a[k][0]) ** 2 + abs(a[i][1] - a[k][1]) ** 2
+                p = abs(a[j][0] - a[k][0]) ** 2 + abs(a[j][1] - a[k][1]) ** 2
+                if w == u or p == u or p == w:
+                    q = max(max(w ** 0.5, u**0.5), p ** 0.5)
+                    e = min(min(w ** 0.5, u**0.5), p ** 0.5)
+                    y = w + u + p - q - e
+                    if e + y > q and q - e < y:
+                        ans += 1
+    print(ans)
+if __name__ == '__main__':
+    
+    main()"
+7,E,Python3,61482758,2023-03-24 19:46:35,zronghui,运行超时,"n = int(input())
+points = []
+for i in range(n):
+    x, y = map(int, input().split())
+    points.append((x, y))
+
+count = 0
+dists = [[0] * n for _ in range(n)]  # 二维列表用于保存点对之间的距离
+for i in range(n):
+    for j in range(i+1, n):
+        dist = (points[i][0]-points[j][0])**2 + (points[i][1]-points[j][1])**2
+        dists[i][j] = dists[j][i] = dist
+
+for i in range(n):
+    for j in range(i+1, n):
+        for k in range(j+1, n):
+            # 判断第三个点不和前面两个点共线
+            if (points[j][1] - points[i][1]) * (points[k][0] - points[i][0]) !=\
+                    (points[k][1] - points[i][1]) * (points[j][0] - points[i][0]):
+                if dists[i][j] == dists[i][k] or dists[i][j] == dists[j][k] or dists[i][k] == dists[j][k]:
+                    count += 1
+
+print(count)
+"
+8,E,Python3,61483026,2023-03-24 19:48:34,zf854,运行超时,"
+import sys
+
+def main():
+    n = int(input())
+    a = []
+    for i in range(0, n):
+        b = [int(i) for i in input().split()]
+        a.append(b)
+    ans = 0 
+    for i  in range(0,n):
+        for j in range(i + 1,n):
+            for k in range(j + 1, n):
+                w = abs(a[i][0] - a[j][0]) ** 2 + abs(a[i][1] - a[j][1]) ** 2
+                u = abs(a[i][0] - a[k][0]) ** 2 + abs(a[i][1] - a[k][1]) ** 2
+                p = abs(a[j][0] - a[k][0]) ** 2 + abs(a[j][1] - a[k][1]) ** 2
+                if w == u or p == u or p == w:
+                    q = max(max(w ** 0.5, u**0.5), p ** 0.5)
+                    e = min(min(w ** 0.5, u**0.5), p ** 0.5)
+                    y = w ** 0.5 + u ** 0.5 + p ** 0.5 - q - e
+                    if e + y > q and q - e < y:
+                        ans += 1
+    print(ans)
+if __name__ == '__main__':
+    
+    main()"
+9,E,Python3,61483041,2023-03-24 19:48:39,是她,答案错误,"import random
+import sys
+import os
+import math
+from collections import Counter, defaultdict, deque
+from functools import lru_cache, reduce
+from itertools import accumulate, combinations, permutations
+from heapq import nsmallest, nlargest, heapify, heappop, heappush
+from io import BytesIO, IOBase
+from copy import deepcopy
+import operator
+import threading
+import bisect
+BUFSIZE = 4096
+Inf = float('inf')
+eps = 1e-6
+class FastIO(IOBase):
+    newlines = 0
+
+    def __init__(self, file):
+        self._fd = file.fileno()
+        self.buffer = BytesIO()
+        self.writable = ""x"" in file.mode or ""r"" not in file.mode
+        self.write = self.buffer.write if self.writable else None
+
+    def read(self):
+        while True:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            if not b:
+                break
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines = 0
+        return self.buffer.read()
+
+    def readline(self):
+        while self.newlines == 0:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            self.newlines = b.count(b""\n"") + (not b)
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines -= 1
+        return self.buffer.readline()
+
+    def flush(self):
+        if self.writable:
+            os.write(self._fd, self.buffer.getvalue())
+            self.buffer.truncate(0), self.buffer.seek(0)
+
+class IOWrapper(IOBase):
+    def __init__(self, file):
+        self.buffer = FastIO(file)
+        self.flush = self.buffer.flush
+        self.writable = self.buffer.writable
+        self.write = lambda s: self.buffer.write(s.encode(""ascii""))
+        self.read = lambda: self.buffer.read().decode(""ascii"")
+        self.readline = lambda: self.buffer.readline().decode(""ascii"")
+
+sys.stdin = IOWrapper(sys.stdin)
+sys.stdout = IOWrapper(sys.stdout)
+input = lambda: sys.stdin.readline().rstrip(""\r\n"")
+def I():
+   return input()
+
+def II():
+   return int(input())
+
+def MI():
+   return map(int, input().split())
+
+def LI():
+   return list(input().split())
+
+def LII():
+   return list(map(int, input().split()))
+
+def GMI():
+   return map(lambda x: int(x) - 1, input().split())
+
+def LGMI():
+   return list(map(lambda x: int(x) - 1, input().split()))
+n = II()
+res = [] 
+for _ in range(n):
+    a, b = MI()
+    res.append((a, b))
+ans = 0
+def check(i: int, j: int, k: int) -> bool:
+    for z in range(2):
+        if res[i][z] == res[j][z] and res[j][z] == res[k][z]:
+            return False
+    d1 = pow((res[i][0] - res[j][0]), 2)  + pow((res[i][1] - res[j][1]), 2)
+    d2 = pow((res[i][0] - res[k][0]), 2) + pow((res[i][1] - res[k][1]), 2)
+    d3 = pow((res[j][0] - res[k][0]), 2)  + pow((res[j][1] - res[k][1]), 2)
+    if d1 == d2 or d2 == d3 or d1 ==  d3:
+        return True
+    return False
+for i in range(n):
+    for j in range(i + 1, n):
+        for k in range(j + 1, n):
+            if check(i, j, k):
+                ans += 1
+print(ans)"
+10,E,Python3,61483423,2023-03-24 19:51:44,在抱佛脚的肖恩很害怕一个人,运行超时,"n = int(input())
+x = [0 for i in range(501)]
+y = [0 for i in range(501)]
+count = 0
+for i in range(1, 1 + n):
+    x[i], y[i] = map(int, input().split())
+    
+def leng(x1, y1, x2, y2):
+    return pow((pow((x1 - x2), 2) + pow((y1 - y2), 2)), 1/2)
+def judge(x1, y1, x2, y2, x3, y3):
+    if leng(x1, y1, x2, y2) + leng(x1, y1, x3, y3) <= leng(x2, y2, x3, y3) or leng(x1, y1, x2, y2) + leng(x2, y2, x3, y3) <= leng(x1, y1, x3, y3) or leng(x1, y1, x3, y3) + leng(x2, y2, x3, y3) <= leng(x1, y1, x2, y2):
+        return False
+    if leng(x1, y1, x2, y2) == leng(x1, y1, x3, y3) or leng(x1, y1, x2, y2) == leng(x2, y2, x3, y3) or leng(x2, y2, x3, y3) == leng(x1, y1, x3, y3):
+        return True
+    return False
+
+for i in range(1, 1 + n):
+    for j in range(i + 1, 1 + n):
+        for k in range(j + 1, 1 + n):
+            if judge(x[i], y[i], x[j], y[j], x[k], y[k]):
+                count += 1
+print(count)"
+11,E,Python3,61483603,2023-03-24 19:52:59,zronghui,运行超时,"n = int(input())
+points = []
+for i in range(n):
+    x, y = map(int, input().split())
+    points.append((x, y))
+
+count = 0
+dists = [[0] * n for _ in range(n)]  # 二维列表用于保存点对之间的距离
+for i in range(n):
+    for j in range(i+1, n):
+        dist = (points[i][0]-points[j][0])**2 + (points[i][1]-points[j][1])**2
+        dists[i][j] = dists[j][i] = dist
+
+for i in range(n):
+    for j in range(i+1, n):
+        for k in range(j+1, n):
+            # 判断第三个点不和前面两个点共线
+            if (points[j][1] - points[i][1]) * (points[k][0] - points[i][0]) !=\
+                    (points[k][1] - points[i][1]) * (points[j][0] - points[i][0]):
+                if dists[i][j] == dists[i][k] or dists[i][j] == dists[j][k] or dists[i][k] == dists[j][k]:
+                    count += 1
+
+print(count)
+"
+12,E,Python3,61483720,2023-03-24 19:53:55,Calabash_yang,运行超时,"import collections
+import math
+import os
+from heapq import heapify, heappop, heappush
+import queue
+from sys import stdin, stdout
+from itertools import *
+import bisect
+import sys
+from collections import deque
+
+MAXN = 200010
+mod = 1000000007
+inf = int(1e6)
+
+n=int(stdin.readline())
+x,y=[[0]*(n+5) for i in range(2)]
+for i in range(n):
+    x[i],y[i]=map(int,stdin.readline().split())
+ans=0
+class node:
+    def __init__(self,x,y):
+        self.x=x
+        self.y=y
+    def ln(self):
+        return self.x**2+self.y**2
+
+def check(x1,y1,x2,y2,x3,y3):
+    p12=node(x1-x2,y1-y2)
+    p13=node(x1-x3,y1-y3)
+    p23=node(x2-x3,y2-y3)
+    if (p12.ln()==p13.ln() or p12.ln()==p23.ln() or p13.ln()==p23.ln()) and p12.x*p13.y!=p12.y*p13.x:
+        return True
+    else:
+        return False
+
+for i in range(n):
+    for j in range(i,n):
+        for k in range(j,n):
+            if check(x[i],y[i],x[j],y[j],x[k],y[k]):
+                ans+=1
+print(ans)
+"
+13,E,Python3,61484450,2023-03-24 19:59:47,菜鸡崽崽,答案错误,"p = []
+n = int(input())
+for _ in range(n):
+    x, y = map(int, input().split())
+    p.append((x, y))
+
+
+def fuck(x, y, m, n):
+    return (m - x) ** 2 + (n - y) ** 2
+
+
+ans = 0
+for i in range(n):
+    for j in range(i + 1, n):
+        for k in range(j + 1, n):
+            ab, ac, bc = fuck(p[i][0], p[i][1], p[j][0], p[j][1]), fuck(p[i][0], p[i][1], p[k][0], p[k][1]), fuck(
+                p[j][0], p[j][1], p[k][0], p[k][1])
+            if ab == ac or ab == bc or ac == bc:
+                ans += 1
+print(ans)
+"
+14,E,Python3,61484606,2023-03-24 20:00:58,是她,运行超时,"import random
+import sys
+import os
+import math
+from collections import Counter, defaultdict, deque
+from functools import lru_cache, reduce
+from itertools import accumulate, combinations, permutations
+from heapq import nsmallest, nlargest, heapify, heappop, heappush
+from io import BytesIO, IOBase
+from copy import deepcopy
+import operator
+import threading
+import bisect
+BUFSIZE = 4096
+Inf = float('inf')
+eps = 1e-6
+class FastIO(IOBase):
+    newlines = 0
+
+    def __init__(self, file):
+        self._fd = file.fileno()
+        self.buffer = BytesIO()
+        self.writable = ""x"" in file.mode or ""r"" not in file.mode
+        self.write = self.buffer.write if self.writable else None
+
+    def read(self):
+        while True:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            if not b:
+                break
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines = 0
+        return self.buffer.read()
+
+    def readline(self):
+        while self.newlines == 0:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            self.newlines = b.count(b""\n"") + (not b)
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines -= 1
+        return self.buffer.readline()
+
+    def flush(self):
+        if self.writable:
+            os.write(self._fd, self.buffer.getvalue())
+            self.buffer.truncate(0), self.buffer.seek(0)
+
+class IOWrapper(IOBase):
+    def __init__(self, file):
+        self.buffer = FastIO(file)
+        self.flush = self.buffer.flush
+        self.writable = self.buffer.writable
+        self.write = lambda s: self.buffer.write(s.encode(""ascii""))
+        self.read = lambda: self.buffer.read().decode(""ascii"")
+        self.readline = lambda: self.buffer.readline().decode(""ascii"")
+
+sys.stdin = IOWrapper(sys.stdin)
+sys.stdout = IOWrapper(sys.stdout)
+input = lambda: sys.stdin.readline().rstrip(""\r\n"")
+def I():
+   return input()
+
+def II():
+   return int(input())
+
+def MI():
+   return map(int, input().split())
+
+def LI():
+   return list(input().split())
+
+def LII():
+   return list(map(int, input().split()))
+
+def GMI():
+   return map(lambda x: int(x) - 1, input().split())
+
+def LGMI():
+   return list(map(lambda x: int(x) - 1, input().split()))
+n = II()
+res = [] 
+for _ in range(n):
+    a, b = MI()
+    res.append((a, b))
+ans = 0
+def check(i: int, j: int, k: int) -> bool:
+    flg = False
+    for z in range(2):
+        if res[i][z] == res[j][z] or res[j][z] == res[k][z] or res[i][z] == res[k][z]:
+            flg = True
+        if res[i][z] == res[j][z] and res[j][z] == res[k][z]:
+            return False
+    if not flg:
+        k1 = (res[i][1] - res[j][1]) / (res[i][0] - res[j][0])
+        k2 = (res[i][1] - res[k][1]) / (res[i][0] - res[k][0]) 
+        k3 = (res[k][1] - res[j][1]) / (res[k][0] - res[j][0])
+        if k1 == k2 == k3:
+            return False
+    d1 = (res[i][0] - res[j][0]) ** 2  + (res[i][1] - res[j][1]) ** 2
+    d2 = (res[i][0] - res[k][0]) ** 2  + (res[i][1] - res[k][1]) ** 2 
+    d3 = (res[j][0] - res[k][0]) ** 2  + (res[j][1] - res[k][1]) ** 2
+    if d1 == d2 or d2 == d3 or d1 ==  d3:
+        return True
+    return False
+for i in range(n):
+    for j in range(i + 1, n):
+        for k in range(j + 1, n):
+            if check(i, j, k):
+                ans += 1
+print(ans)"
+15,E,Python3,61485576,2023-03-24 20:08:24,罗熙L,答案错误,"point_list = []
+d_dict = {}
+for _ in range(int(input())):
+    xi,yi = map(int,input().split())
+    point = (xi,yi)
+    point_list.append(point)
+count = 0
+for i in range(len(point_list)):
+    for j in range(i+1,len(point_list)):
+        dx = point_list[i][0]-point_list[j][0]
+        dy = point_list[i][1]-point_list[j][1]
+        d = dx*dx+dy*dy
+        if d in d_dict.keys():
+            d_dict[d]+=1
+            count+=1
+        else:
+            d_dict.setdefault(d,1)
+print(count)"
+16,E,Python3,61485755,2023-03-24 20:09:54,菜鸡崽崽,运行超时,"p = []
+n = int(input())
+for _ in range(n):
+    x, y = map(int, input().split())
+    p.append((x, y))
+
+
+def fuck(x, y, m, n):
+    return (m - x) ** 2 + (n - y) ** 2
+
+
+def isBoomerang(points):
+    a = points[1][0] - points[0][0]
+    b = points[1][1] - points[0][1]
+    e = points[2][0] - points[0][0]
+    f = points[2][1] - points[0][1]
+
+    return a * f != e * b
+
+
+ans = 0
+for i in range(n):
+    for j in range(i + 1, n):
+        for k in range(j + 1, n):
+            pp = [[p[i][0], p[i][1]], [p[j][0], p[j][1]], [p[k][0], p[k][1]]]
+            #print(pp)
+            if isBoomerang(pp)==False:
+                continue
+            ab, ac, bc = fuck(p[i][0], p[i][1], p[j][0], p[j][1]), fuck(p[i][0], p[i][1], p[k][0], p[k][1]), fuck(
+                p[j][0], p[j][1], p[k][0], p[k][1])
+            if ab == ac or ab == bc or ac == bc:
+                ans += 1
+print(ans)
+"
+17,E,Python3,61487051,2023-03-24 20:20:47,Fei_xiangShi,答案错误,"# -*- coding: utf-8 -*-
+# created by FXS at 2023-03-24 20:05:34!
+n = int(input())
+a = []
+ans = 0
+for _ in range(n):
+	x,y = map(int,input().split())
+	a.append([x,y])
+for i in range(n):
+	for j in range(i+1,n):
+		for k in range(j+1,n):
+			mm = [a[i][0]-a[j][0],a[i][1]-a[j][1]]
+			mm1 = [a[k][0]-a[i][0],a[k][1]-a[i][1]]
+			mm2 = [a[j][0]-a[k][0],a[j][1]-a[k][1]]
+			if not mm[0]+mm1[0]+mm2[0] and not mm[1]+mm1[1]+mm2[1]:
+				ans += 1
+print(ans)"
+18,E,Python3,61487073,2023-03-24 20:20:57,阿来想AC,运行超时,"import math
+n = int(input())
+polist = []
+for i in range(n):
+    x,y = map(int,input().split())
+    polist.append((x,y))
+result = 0
+def panduan(list1):
+    (x1,y1),(x2,y2),(x3,y3) = list1
+    if x1*y2-x2*y1+x2*y3-x3*y2+x3*y1-x1*y3 == 0:
+        return False
+    if (x1-x2)**2+(y1-y2)**2 == (x1-x3)**2+(y1-y3)**2 or (x1-x2)**2+(y1-y2)**2 == (x2-x3)**2+(y2-y3)**2 or (x3-x2)**2+(y3-y2)**2 == (x1-x3)**2+(y1-y3)**2:
+        return True
+    return False
+for i in range(n-2):
+    for j in range(i+1,n-1):
+        for k in range(j+1,n):
+            lis = [polist[i],polist[j],polist[k]]
+            if panduan(lis):
+                result += 1
+print(result)"
+19,E,Python3,61487300,2023-03-24 20:22:51,罗熙L,答案错误,"point_list = []
+d_dict = {}
+n = int(input())
+for _ in range(n):
+    xi,yi = map(int,input().split())
+    point = (xi,yi)
+    point_list.append(point)
+if n<=3:
+    x = []
+    y = []
+    for i in point_list:
+        x.append(i[0])
+        y.append(i[1])
+    if len(set(x))==1 or len(set(y))==1:
+        print(0)
+    else:
+        count = 0
+        for i in range(len(point_list)):
+            for j in range(i+1,len(point_list)):
+                dx = point_list[i][0]-point_list[j][0]
+                dy = point_list[i][1]-point_list[j][1]
+                d = dx*dx+dy*dy
+                if d in d_dict.keys():
+                    d_dict[d]+=1
+                    count+=1
+                else:
+                    d_dict.setdefault(d,1)
+        print(count)
+else:   
+    count = 0
+    for i in range(len(point_list)):
+        for j in range(i+1,len(point_list)):
+            dx = point_list[i][0]-point_list[j][0]
+            dy = point_list[i][1]-point_list[j][1]
+            d = dx*dx+dy*dy
+            if d in d_dict.keys():
+                d_dict[d]+=1
+                count+=1
+            else:
+                d_dict.setdefault(d,1)
+    print(count)"
+20,E,Python3,61487499,2023-03-24 20:24:17,Fei_xiangShi,答案错误,"# -*- coding: utf-8 -*-
+# created by FXS at 2023-03-24 20:05:34!
+n = int(input())
+a = []
+ans = 0
+for _ in range(n):
+	x,y = map(int,input().split())
+	a.append([x,y])
+for i in range(n):
+	for j in range(i+1,n):
+		for k in range(j+1,n):
+			mm = [a[i][0]-a[j][0],a[i][1]-a[j][1]]
+			mm1 = [a[k][0]-a[i][0],a[k][1]-a[i][1]]
+			mm2 = [a[j][0]-a[k][0],a[j][1]-a[k][1]]
+			# print(mm,mm1,mm2)
+			if mm[0]+mm1[0]+mm2[0] == 0 and mm[1]+mm1[1]+mm2[1] == 0:
+				ans += 1
+print(ans)"
+21,E,Python3,61489271,2023-03-24 20:38:48,Fei_xiangShi,答案错误,"# -*- coding: utf-8 -*-
+# created by FXS at 2023-03-24 20:05:34!
+n = int(input())
+a = []
+ans = 0
+for _ in range(n):
+	x,y = map(int,input().split())
+	a.append([x,y])
+for i in range(n):
+	for j in range(i+1,n):
+		for k in range(j+1,n):
+			if a[i][0] == a[j][0] == a[k][0] or a[i][1] == a[j][1] == a[k][1]:
+				pass
+			else:
+				# print(a[i],a[j],a[k], i , j , k)
+				mm = [a[i][0]-a[j][0],a[i][1]-a[j][1]]
+				mm1 = [a[k][0]-a[i][0],a[k][1]-a[i][1]]
+				mm2 = [a[j][0]-a[k][0],a[j][1]-a[k][1]]
+				# print(mm,mm1,mm2)
+				if mm[0]+mm1[0]+mm2[0] == 0 and mm[1]+mm1[1]+mm2[1] == 0:
+					ans += 1
+print(ans)"
+22,E,Python3,61490204,2023-03-24 20:47:04,Fei_xiangShi,答案错误,"# -*- coding: utf-8 -*-
+# created by FXS at 2023-03-24 20:05:34!
+import math
+n = int(input())
+a = []
+ans = 0
+for _ in range(n):
+	x,y = map(int,input().split())
+	a.append([x,y])
+for i in range(n):
+	for j in range(i+1,n):
+		for k in range(j+1,n):
+			x1 = a[i][0]
+			x2 = a[j][0] 
+			x3 = a[k][0]
+			y1 = a[i][1]
+			y2 = a[j][1]
+			y3 = a[k][1]
+			g=math.sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1));
+			h=math.sqrt((x3-x2)*(x3-x2)+(y3-y2)*(y3-y2));
+			v=math.sqrt((x3-x1)*(x3-x1)+(y3-y1)*(y3-y1));
+			if (a[i][0] == a[j][0] == a[k][0] or a[i][1] == a[j][1] == a[k][1]) and (g+h<=v or g+v<=h or g+h<=v):
+				pass
+			else:
+				# print(a[i],a[j],a[k], i , j , k)
+				mm = [a[i][0]-a[j][0],a[i][1]-a[j][1]]
+				mm1 = [a[k][0]-a[i][0],a[k][1]-a[i][1]]
+				mm2 = [a[j][0]-a[k][0],a[j][1]-a[k][1]]
+				# print(mm,mm1,mm2)
+				if mm[0]+mm1[0]+mm2[0] == 0 and mm[1]+mm1[1]+mm2[1] == 0:
+					ans += 1
+print(ans)"
+23,E,Python3,61490316,2023-03-24 20:47:53,Fei_xiangShi,答案错误,"# -*- coding: utf-8 -*-
+# created by FXS at 2023-03-24 20:05:34!
+import math
+n = int(input())
+a = []
+ans = 0
+for _ in range(n):
+	x,y = map(int,input().split())
+	a.append([x,y])
+for i in range(n):
+	for j in range(i+1,n):
+		for k in range(j+1,n):
+			x1 = a[i][0]
+			x2 = a[j][0] 
+			x3 = a[k][0]
+			y1 = a[i][1]
+			y2 = a[j][1]
+			y3 = a[k][1]
+			g=math.sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1));
+			h=math.sqrt((x3-x2)*(x3-x2)+(y3-y2)*(y3-y2));
+			v=math.sqrt((x3-x1)*(x3-x1)+(y3-y1)*(y3-y1));
+			if (a[i][0] == a[j][0] == a[k][0] or a[i][1] == a[j][1] == a[k][1]) and (g+h<=v or g+v<=h or v+h<=g):
+				pass
+			else:
+				# print(a[i],a[j],a[k], i , j , k)
+				mm = [a[i][0]-a[j][0],a[i][1]-a[j][1]]
+				mm1 = [a[k][0]-a[i][0],a[k][1]-a[i][1]]
+				mm2 = [a[j][0]-a[k][0],a[j][1]-a[k][1]]
+				# print(mm,mm1,mm2)
+				if mm[0]+mm1[0]+mm2[0] == 0 and mm[1]+mm1[1]+mm2[1] == 0:
+					ans += 1
+print(ans)"
+24,E,Python3,61490771,2023-03-24 20:51:46,牛客481337953号,运行超时,"n = int(input())
+s = [list(map(int, input().split())) for _ in range(n)]
+v = set()
+for i in range(n - 2):
+    for j in range(i + 1, n - 1):
+        for k in range(i + 2, n):
+            a, b = s[i][0], s[i][1]
+            c, d = s[j][0], s[j][1]
+            e, f = s[k][0], s[k][1]
+            if (e - c) * (d - b) == (f - d) * (c - a):
+                continue
+            x = (e - c) ** 2 + (f - d) ** 2
+            y = (e - a) ** 2 + (f - b) ** 2
+            z = (a - c) ** 2 + (b - d) ** 2
+            if x == y or y == z or x == z:
+                p = [a * 2000 + b, c * 2000 + d, e * 2000 + f]
+                v.add(tuple(sorted(p)))
+print(len(v))"
+25,E,Python3,61490859,2023-03-24 20:52:27,牛客481337953号,运行超时,"n = int(input())
+s = [list(map(int, input().split())) for _ in range(n)]
+v = set()
+for i in range(n - 2):
+    for j in range(i + 1, n - 1):
+        for k in range(j + 1, n):
+            a, b = s[i][0], s[i][1]
+            c, d = s[j][0], s[j][1]
+            e, f = s[k][0], s[k][1]
+            if (e - c) * (d - b) == (f - d) * (c - a):
+                continue
+            x = (e - c) ** 2 + (f - d) ** 2
+            y = (e - a) ** 2 + (f - b) ** 2
+            z = (a - c) ** 2 + (b - d) ** 2
+            if x == y or y == z or x == z:
+                p = [a * 2000 + b, c * 2000 + d, e * 2000 + f]
+                v.add(tuple(sorted(p)))
+print(len(v))"
+26,E,Python3,61491181,2023-03-24 20:55:24,罗熙L,答案错误,"n = int(input())
+point_list = []
+for _ in range(n):
+    xi,yi = map(int,input().split())
+    point = (xi,yi)
+    point_list.append(point)
+    llist = []
+for i in range(n-2):
+    for j in range(i+1,n):
+        for k in range(j+1,n):
+            llist.append([point_list[i],point_list[j],point_list[k]])
+def is_isosceles_triangle(p1, p2, p3):
+    d1 = (p1[0]-p2[0])**2 + (p1[1]-p2[1])**2
+    d2 = (p1[0]-p3[0])**2 + (p1[1]-p3[1])**2
+    d3 = (p2[0]-p3[0])**2 + (p2[1]-p3[1])**2
+    distances = [d1, d2, d3]
+    if len(set(distances))!=3:
+        return True
+    else:
+        return False
+count=0
+for i in llist:
+    if is_isosceles_triangle(i[0],i[1],i[2]):
+        count+=1
+    else:
+        continue
+print(count)"
+27,E,Python3,61492378,2023-03-24 21:05:54,罗熙L,答案错误,"n = int(input())
+point_list = []
+for _ in range(n):
+    xi,yi = map(int,input().split())
+    point = (xi,yi)
+    point_list.append(point)
+    llist = []
+for i in range(n-2):
+    for j in range(i+1,n):
+        for k in range(j+1,n):
+            llist.append([point_list[i],point_list[j],point_list[k]])
+def is_isosceles_triangle(p1, p2, p3):
+    d1 = (p1[0]-p2[0])**2 + (p1[1]-p2[1])**2
+    d2 = (p1[0]-p3[0])**2 + (p1[1]-p3[1])**2
+    d3 = (p2[0]-p3[0])**2 + (p2[1]-p3[1])**2
+    distances = [d1, d2, d3]
+    if len(set(distances))!=3:
+        return True
+    else:
+        return False
+count=0
+for i in llist:
+    if is_isosceles_triangle(i[0],i[1],i[2]):
+        count+=1
+    else:
+        continue
+print(count)"
+28,E,Python3,61492423,2023-03-24 21:06:38,罗熙L,运行超时,"# 给定 n 个坐标，求其中 3 个坐标能表示一个等腰三角形的组数。
+# 三点共线不算三角形，等边三角形为特殊的等腰三角形。
+
+n = int(input())
+points = [list(map(int,input().split())) for _ in range(n)]
+count = 0
+for i in range(n):
+    for j in range(i+1, n):
+        for k in range(j+1, n):
+            x1, y1 = points[i]
+            x2, y2 = points[j]
+            x3, y3 = points[k]
+            # 三点共线
+            if (x1-x2)*(y1-y3) == (x1-x3)*(y1-y2):
+                continue
+            # 判断是否为等腰三角形
+            if (x1-x2)**2 + (y1-y2)**2 == (x1-x3)**2 + (y1-y3)**2 or (x1-x2)**2 + (y1-y2)**2 == (x2-x3)**2 + (y2-y3)**2 or (x1-x3)**2 + (y1-y3)**2 == (x2-x3)**2 + (y2-y3)**2:
+                count += 1
+print(count)
+"
+29,E,Python3,61495943,2023-03-24 22:31:38,zronghui,运行超时,"# 求坐标系中的点，能组成的等腰三角形的组数, 点数小于等于3000。
+n = int(input())
+points = []
+for i in range(n):
+    x, y = map(int, input().split())
+    points.append((x, y))
+
+count = 0
+dists = [[0] * n for _ in range(n)]  # 二维列表用于保存点对之间的距离
+for i in range(n):
+    for j in range(i+1, n):
+        dist = (points[i][0]-points[j][0])**2 + (points[i][1]-points[j][1])**2
+        dists[i][j] = dists[j][i] = dist
+def calc(i, j):
+    return (points[i][0]-points[j][0])**2 + (points[i][1]-points[j][1])**2
+
+for i in range(n):
+    for j in range(i+1, n):
+        distij = calc(i, j)
+        for k in range(j+1, n):
+            # 判断第三个点不和前面两个点共线
+            if (points[j][1] - points[i][1]) * (points[k][0] - points[i][0]) !=\
+                    (points[k][1] - points[i][1]) * (points[j][0] - points[i][0]):
+                distjk = calc(j, k)
+                distik = calc(i, k)
+                if distij == distik or distij == distjk or distik == distjk:
+                    count += 1
+
+print(count)
+"
+30,E,Python3,61495960,2023-03-24 22:32:13,zronghui,运行超时,"# 求坐标系中的点，能组成的等腰三角形的组数, 点数小于等于3000。
+n = int(input())
+points = []
+for i in range(n):
+    x, y = map(int, input().split())
+    points.append((x, y))
+
+count = 0
+def calc(i, j):
+    return (points[i][0]-points[j][0])**2 + (points[i][1]-points[j][1])**2
+
+for i in range(n):
+    for j in range(i+1, n):
+        distij = calc(i, j)
+        for k in range(j+1, n):
+            # 判断第三个点不和前面两个点共线
+            if (points[j][1] - points[i][1]) * (points[k][0] - points[i][0]) !=\
+                    (points[k][1] - points[i][1]) * (points[j][0] - points[i][0]):
+                distjk = calc(j, k)
+                distik = calc(i, k)
+                if distij == distik or distij == distjk or distik == distjk:
+                    count += 1
+
+print(count)
+"
+31,E,Python3,61496202,2023-03-24 22:40:48,zronghui,运行超时,"# n = int(input())
+# points = []
+# for i in range(n):
+#     x, y = map(int, input().split())
+#     points.append((x, y))
+import sys
+
+n = int(sys.stdin.readline().strip())
+points = []
+for i in range(n):
+    x, y = map(int, sys.stdin.readline().strip().split())
+    points.append((x, y))
+
+count = 0
+def calc(i, j):
+    return (points[i][0]-points[j][0])**2 + (points[i][1]-points[j][1])**2
+
+for i in range(n):
+    for j in range(i+1, n):
+        distij = calc(i, j)
+        for k in range(j+1, n):
+            # 判断第三个点不和前面两个点共线
+            if (points[j][1] - points[i][1]) * (points[k][0] - points[i][0]) !=\
+                    (points[k][1] - points[i][1]) * (points[j][0] - points[i][0]):
+                distjk = calc(j, k)
+                distik = calc(i, k)
+                if distij == distik or distij == distjk or distik == distjk:
+                    count += 1
+
+print(count)
+"
+32,E,Python3,61497076,2023-03-24 23:23:52,黄琳琰,答案错误,"import math
+def isdengyao(c,d,e):
+    b1 = math.sqrt((c[0]-d[0])*(c[0]-d[0])+(c[1]-d[1])*(c[1]-d[1]))
+    b2 = math.sqrt((c[0]-e[0])*(c[0]-e[0])+(c[1]-e[1])*(c[1]-e[1]))
+    b3 = math.sqrt((e[0]-d[0])*(e[0]-d[0])+(e[1]-d[1])*(e[1]-d[1]))
+    if b1==0 or b2==0 or b3 ==0:
+        return 0
+    if b1==b2 or b2==b3 or b1==b3:
+        return 1
+    return 0
+
+n = int(input())
+a = []
+cnt = 0
+for i in range(n):
+    a.append(list(map(int,input().split())))
+for i in range(n-2):
+    for j in range(i+1,n-1):
+        for k in range(j+1,n):
+            if isdengyao(a[i],a[j],a[k]):
+                cnt+=1
+print(cnt)"
+33,E,Python3,61497163,2023-03-24 23:28:14,黄琳琰,答案错误,"import math
+def isdengyao(c,d,e):
+    b1 = math.sqrt((c[0]-d[0])*(c[0]-d[0])+(c[1]-d[1])*(c[1]-d[1]))
+    b2 = math.sqrt((c[0]-e[0])*(c[0]-e[0])+(c[1]-e[1])*(c[1]-e[1]))
+    b3 = math.sqrt((e[0]-d[0])*(e[0]-d[0])+(e[1]-d[1])*(e[1]-d[1]))
+    if b1==0 or b2==0 or b3 ==0:
+        return 0
+    if b1==b2 or b2==b3 or b1==b3:
+        return 1
+    return 0
+
+n = int(input())
+a = []
+cnt = 0
+for i in range(n):
+    a.append(list(map(int,input().split())))
+for i in range(n):
+    for j in range(i+1,n):
+        for k in range(j+1,n):
+            if isdengyao(a[i],a[j],a[k]):
+                cnt+=1
+print(cnt)"
+34,E,Python3,61497317,2023-03-24 23:35:44,黄琳琰,运行超时,"import math
+def isdengyao(c,d,e):
+    b1 = math.sqrt((c[0]-d[0])*(c[0]-d[0])+(c[1]-d[1])*(c[1]-d[1]))
+    b2 = math.sqrt((c[0]-e[0])*(c[0]-e[0])+(c[1]-e[1])*(c[1]-e[1]))
+    b3 = math.sqrt((e[0]-d[0])*(e[0]-d[0])+(e[1]-d[1])*(e[1]-d[1]))
+    if b1==0 or b2==0 or b3 ==0 or b1+b2+b3 - max(b1,b2,b3) == max(b1,b2,b3):
+        return 0
+    if b1==b2 or b2==b3 or b1==b3:
+        return 1
+    return 0
+
+n = int(input())
+a = []
+cnt = 0
+for i in range(n):
+    a.append(list(map(int,input().split())))
+for i in range(n):
+    for j in range(i+1,n):
+        for k in range(j+1,n):
+            if isdengyao(a[i],a[j],a[k]):
+                cnt+=1
+print(cnt)"
+35,E,Python3,61497862,2023-03-25 00:27:15,.201803242316477,答案错误,"n = int(input())
+zb = [list(map(int, input().split("" ""))) for _ in range(n)]
+num = 0
+for a in range(n):
+    for b in range(a+1, n):
+        for c in range(b+1, n):
+            ab = (zb[a][0] - zb[b][0])**2 + (zb[a][1] - zb[b][1])**2
+            ac = (zb[a][0] - zb[c][0])**2 + (zb[a][1] - zb[c][1])**2
+            bc = (zb[b][0] - zb[c][0])**2 + (zb[b][1] - zb[c][1])**2
+            if ab == ac or ab == bc or ac == bc:
+                num += 1
+print(num)"
+36,E,Python3,61497880,2023-03-25 00:32:10,.201803242316477,答案错误,"from math import sqrt
+
+n = int(input())
+zb = [list(map(int, input().split("" ""))) for _ in range(n)]
+num = 0
+for a in range(n):
+    for b in range(a+1, n):
+        for c in range(b+1, n):
+            ab = (zb[a][0] - zb[b][0])**2 + (zb[a][1] - zb[b][1])**2
+            ac = (zb[a][0] - zb[c][0])**2 + (zb[a][1] - zb[c][1])**2
+            bc = (zb[b][0] - zb[c][0])**2 + (zb[b][1] - zb[c][1])**2
+            if ab == ac or ab == bc or ac == bc:
+                if sqrt(ab)+sqrt(ac) > sqrt(bc) or sqrt(ab)+sqrt(bc) > sqrt(ac) or sqrt(ac)+sqrt(bc) > sqrt(ab):
+                    num += 1
+print(num)"
+37,E,Python3,61497930,2023-03-25 00:42:28,.201803242316477,运行超时,"from math import sqrt
+
+n = int(input())
+zb = [list(map(int, input().split("" ""))) for _ in range(n)]
+num = 0
+for a in range(n):
+    for b in range(a+1, n):
+        for c in range(b+1, n):
+            ab = (zb[a][0] - zb[b][0])**2 + (zb[a][1] - zb[b][1])**2
+            ac = (zb[a][0] - zb[c][0])**2 + (zb[a][1] - zb[c][1])**2
+            bc = (zb[b][0] - zb[c][0])**2 + (zb[b][1] - zb[c][1])**2
+            if zb[a][0] == zb[b][0] == zb[c][0]: continue
+            if (zb[a][1] - zb[b][1])*(zb[a][0] - zb[c][0]) == (zb[a][1] - zb[c][1])*(zb[a][0] - zb[b][0]): continue
+            if ab == ac or ab == bc or ac == bc:
+                if sqrt(ab)+sqrt(ac) > sqrt(bc) or sqrt(ab)+sqrt(bc) > sqrt(ac) or sqrt(ac)+sqrt(bc) > sqrt(ab):
+                    num += 1
+print(num)"
+38,E,Python3,61497946,2023-03-25 00:44:27,.201803242316477,运行超时,"from math import sqrt
+
+n = int(input())
+zb = [list(map(int, input().split("" ""))) for _ in range(n)]
+num = 0
+for a in range(n):
+    for b in range(a+1, n):
+        for c in range(b+1, n):
+            if (zb[a][1] - zb[b][1])*(zb[a][0] - zb[c][0]) == (zb[a][1] - zb[c][1])*(zb[a][0] - zb[b][0]): continue
+            ab = (zb[a][0] - zb[b][0])**2 + (zb[a][1] - zb[b][1])**2
+            ac = (zb[a][0] - zb[c][0])**2 + (zb[a][1] - zb[c][1])**2
+            bc = (zb[b][0] - zb[c][0])**2 + (zb[b][1] - zb[c][1])**2
+            if ab == ac or ab == bc or ac == bc:
+                num += 1
+print(num)"
+39,E,Python3,61740203,2023-04-03 21:56:54,牛客39905829号,答案正确,"from math import sqrt
+
+def f(a, b):
+    a, b = nums[a], nums[b]
+    return sqrt((a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2)
+
+n = int(input())
+nums = []
+for _ in range(n):
+    a, b = map(int, input().split())
+    nums.append((a+510, b+510))
+rep = set(nums)
+has = [{} for _ in range(n)]
+ans = 0
+for i in range(n):
+    for j in range(i + 1, n):
+        x = f(i, j)
+        has[i][x] = has[i].get(x,0)+1
+        has[j][x] = has[j].get(x,0)+1
+        ans += has[i][x]+has[j][x]-2
+        a,b = nums[j]
+        c,d = nums[i]
+        if (a - (c - a), b - (d - b)) in rep:
+            ans -= 0.5
+        if (c - (a - c), d - (b - d)) in rep:
+            ans -= 0.5
+print(int(ans))
+
+"

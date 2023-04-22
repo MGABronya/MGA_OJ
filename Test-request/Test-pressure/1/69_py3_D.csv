@@ -1,0 +1,1382 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,D,Python3,61482768,2023-03-24 19:46:39,菜鸡崽崽,答案错误,"n, m, c = map(int, input().split())
+p = []
+for _ in range(m):
+    x, y, a = map(int, input().split())
+    p.append((a, x, y))
+
+father = [_ for _ in range(n + 1)]
+sz = [1 for _ in range(n + 1)]
+
+
+def findFather(x: int) -> int:
+    if father[x] == x:
+        return x
+    father[x] = findFather(father[x])
+    return father[x]
+
+
+def Union(x: int, y: int) -> None:
+    x, y = findFather(x), findFather(y)
+    if x == y:
+        return
+    if sz[x] > sz[y]:
+        x, y = y, x
+    father[x] = y
+    sz[y] += sz[x]
+
+
+weight = []
+cnt = 0
+for a, x, y in sorted(p):
+    if findFather(x) != findFather(y):
+        Union(x, y)
+        weight.append(a)
+        cnt += 1
+    if cnt == n - 1:
+        break
+
+al = 0
+weight.sort()
+for i, w in enumerate(weight):
+    al += w*(len(weight)-i)
+
+if al <= c:
+    print(0)
+for i,w in enumerate(weight):
+    al -= w*(len(weight)-i)
+    if al <= c:
+        #print(al)
+        print(w)
+        break
+"
+1,D,Python3,61483577,2023-03-24 19:52:45,菜鸡崽崽,答案正确,"n, m, c = map(int, input().split())
+p = []
+for _ in range(m):
+    x, y, a = map(int, input().split())
+    p.append((a, x, y))
+
+father = [_ for _ in range(n + 1)]
+sz = [1 for _ in range(n + 1)]
+
+
+def findFather(x: int) -> int:
+    if father[x] == x:
+        return x
+    father[x] = findFather(father[x])
+    return father[x]
+
+
+def Union(x: int, y: int) -> None:
+    x, y = findFather(x), findFather(y)
+    if x == y:
+        return
+    if sz[x] > sz[y]:
+        x, y = y, x
+    father[x] = y
+    sz[y] += sz[x]
+
+
+weight = []
+for a, x, y in sorted(p):
+    if findFather(x) != findFather(y):
+        Union(x, y)
+        weight.append(a)
+
+ans = cur = 0
+weight.sort()
+weight = weight[::-1]
+for i, w in enumerate(weight):
+    cur += w * (i + 1)
+    if cur > c:
+        ans = w
+        break
+print(ans)
+"
+2,D,Python3,61484465,2023-03-24 19:59:53,Hanonymous,运行超时,"import sys
+sys.setrecursionlimit(10000000)
+def InI(sep=' '): return map(int, input().strip().split(sep))
+def InF(sep=' '): return map(float, input().strip().split(sep))
+
+
+def NInit(n, num=-1, init=0): return [init for i in range(n)
+                                      ] if num == -1 else [[init] * num for i in range(n)]
+
+
+class Node:
+    """"""
+    Node类存放节点信息，
+    node是与某个节点（实际上是用列表索引值代表的）相连接的点
+    length表示这两个点之间的权值
+    """"""
+
+    def __init__(self, node, length):
+        self.node = node
+        self.length = length
+
+
+class Edge:
+    """"""
+    Edge类表示边的信息
+    x,y表示这条边的两个顶点
+    length为<x,y>之间的距离
+    """"""
+
+    def __init__(self, x, y, length):
+        self.x = x
+        self.y = y
+        self.length = length
+
+
+class Prim:
+    """"""Prim算法：求解无向连通图中的最小生成树 """"""
+
+    def __init__(self, n, m):
+        self.n = n  # 输入的点个数
+        self.m = m  # 输入的边个数
+        self.v = [[] for i in range(n+1)]  # 存放所有节点之间的可达关系与距离
+        """"""图的邻接表的表示法，v是一个二维列表，其索引值代表当前节点，索引值对应的一维列表中存放的
+        是与以当前索引值为顶点的相连的节点信息""""""
+        self.e = []  # 存放与当前已选节点相连的边
+        """"""e是一个一维列表，存放的是与当前顶点相连的所有的边的信息""""""
+        self.s = []  # 存放最小生成树里的所有边
+        self.vis = [False for i in range(n+1)]  # 标记每个点是否被访问过，False未访问
+
+    def graphy(self):
+        """"""构建图，这里用的是邻接表""""""
+        for i in range(self.m):
+            x, y, length = list(map(int, input().split()))
+            self.v[x].append(Node(y, length))  # 与x相连的y节点记录在二维列表v的x索引值对应的一维列表中
+            self.v[y].append(Node(x, length))  # 与y相连的x节点记录在二维列表v的y索引值对应的一维列表中
+        # print(self.v)
+
+    def insert(self, point):
+        """"""往Vnew中插入一个新的点""""""
+        for i in range(len(self.v[point])):
+            """"""把与point节点相连的且未被访问的节点的边加入列表e中""""""
+            if not self.vis[self.v[point][i].node]:
+                self.e.append(
+                    Edge(point, self.v[point][i].node, self.v[point][i].length))
+        self.vis[point] = True
+        self.e = sorted(self.e, key=lambda e: e.length)  # 把e中的所有边按边的长度从小到大排序
+        # for i in self.e:
+        #     print(i.length)
+
+    def run(self, start):
+        """"""执行函数：求解录入的无向连通图的最小生成树""""""
+        self.insert(start)  # start为选择的开始顶点
+        while self.n - len(self.s) > 1:  # 最小生成树的边数=图中节点数-1，因此可以利用这个性质来作为循环条件
+            for i in range(len(self.e)):  # 按序遍历所有边
+                if not self.vis[self.e[i].y]:  # 如果待检测的第二个位置上的点未访问过，则说明这条边满足一端在Vnew中，另一端不在
+                    # 则需要将该边放进结果集合中，因为第一个遇到的肯定是权值最小的，在插入函数中已经排好序了
+                    self.s.append(self.e[i])
+                    self.insert(self.e[i].y)  # 同时将该边的另一个节点插入Vnew中
+                    break  # 找到一条符号条件的便后就退出for循环
+
+    def print(self):
+        """"""输出信息""""""
+        print(f'当前录入总边数为：{len(self.e)}\n其中构成最小生成树的边为：')
+        edge_sum = 0
+        for i in range(len(self.s)):
+            print(f'边<{self.s[i].x},{self.s[i].y}> = {self.s[i].length}')
+            edge_sum += self.s[i].length
+        print(f'最小生成树的权值为：{edge_sum}')
+
+
+def check(mid):
+    k = 1
+    allcost = 0
+    for ci in cost:
+        if ci <= mid:
+            break
+        else:
+            allcost += k * ci
+            k += 1
+    return allcost <= c
+
+
+n, m, c = InI()
+
+prim = Prim(n, m)
+prim.graphy()
+prim.run(1)
+cost = []
+for len in prim.s:
+    cost.append(len.length)
+
+cost.sort(reverse=True)
+l, r = 0, max(cost)
+while(l < r):
+    mid = (l + r)//2
+    if(check(mid)):
+        r = mid
+    else:
+        l = mid + 1
+print(r)
+"
+3,D,Python3,61487960,2023-03-24 20:28:03,牛客510181564号,答案错误,"n,m,c=map(int,input().split())
+ll=[]
+for i in range(m):
+    l=list(map(int,input().split()))
+    ll.append(l)
+ll.sort(key=lambda x:x[2])
+p=0
+s=0
+while s<c:
+    for i in range(m):
+        if ll[i][2]>p:
+            s+=i*ll[i][2]
+    p+=1
+print(p)
+    "
+4,D,Python3,61488065,2023-03-24 20:28:43,牛客510181564号,答案错误,"n,m,c=map(int,input().split())
+ll=[]
+for i in range(m):
+    l=list(map(int,input().split()))
+    ll.append(l)
+ll.sort(key=lambda x:x[2])
+p=0
+s=0
+while s<=c:
+    for i in range(m):
+        if ll[i][2]>p:
+            s+=i*ll[i][2]
+    p+=1
+print(p)
+    "
+5,D,Python3,61488198,2023-03-24 20:29:35,牛客510181564号,答案错误,"n,m,c=map(int,input().split())
+ll=[]
+for i in range(m):
+    l=list(map(int,input().split()))
+    ll.append(l)
+ll.sort(key=lambda x:x[2])
+p=0
+s=0
+while s<=c:
+    for i in range(m):
+        if ll[i][2]>p:
+            s+=(i+1)*ll[i][2]
+    p+=1
+print(p)
+    "
+6,D,Python3,61490361,2023-03-24 20:48:17,在走神的菜鸡很漂亮,答案错误,"n,m,c=map(int,input().split())
+data={}
+for i in range(m):
+    x,y,a=map(int,input().split())
+    if x in data:
+        data[x].append((y,a))
+    else:
+        data[x]=[(y,a)]
+
+dis=[float('inf')]*n
+dis[0]=0
+used=[False]*n
+parent=[0]*n
+used[0]=True
+count=[]
+node=(1,0)
+
+while True:
+    if node[0] in data:
+        for city in data[node[0]]:
+            if city[1]<dis[city[0]-1]:
+                dis[city[0]-1]=city[1]
+    node=(0,float('inf'))
+    for i in range(n):
+        if not used[i] and dis[i]<node[1]:
+            node=(i+1,dis[i])
+    if node[0]==0:
+        break
+    else:
+        used[node[0]-1]=True
+        count.append(node[1])
+
+count.sort()
+ans=0
+for i in range(len(count)-1,-1,-1):
+    if ans+count[i]*(len(count)-i)<=c:
+        ans+=count[i]*(len(count)-i)
+    else:
+        print(count[i])
+        break
+
+
+
+    
+    "
+7,D,Python3,61494884,2023-03-24 21:55:06,牛客801261568号,答案错误,"def f(a):
+    return a[0]
+
+def find(x):
+    if f[x]==x:
+        return x
+    f[x]=find(f[x])
+    return f[x]
+def merge(x1,y1):
+    t1=find(x1)    
+    t2=find(y1)
+    if t1!=t2:
+        f[t1]=t2
+n,m,c=map(int,input().split())
+f=[i for i in range(n+2)]
+b=[]
+w=[]
+for i in range(m):
+    x,y,a=map(int,input().split())
+    b.append((a,x,y))
+##r=[(i,j) for i,j in a.items()]
+for a,x,y in sorted(b):
+    if find(x)!=find(y):
+        merge(x,y)
+        w.append(a)
+w=w[::-1]
+ans=tmp=0
+for i,j in enumerate(w):
+    tmp=j*(i+1)
+    if tmp>c:
+        ans=j
+print(j)
+        
+    
+        
+        
+        
+"
+8,D,Python3,61494996,2023-03-24 21:57:30,牛客801261568号,答案错误,"
+def find(x):
+    if f[x]==x:
+        return x
+    f[x]=find(f[x])
+    return f[x]
+def merge(x1,y1):
+    t1=find(x1)    
+    t2=find(y1)
+    if t1!=t2:
+        f[t1]=t2
+n,m,c=map(int,input().split())
+f=[i for i in range(n+2)]
+b=[]
+w=[]
+for i in range(m):
+    x,y,a=map(int,input().split())
+    b.append((a,x,y))
+##r=[(i,j) for i,j in a.items()]
+for a,x,y in sorted(b):
+    if find(x)!=find(y):
+        merge(x,y)
+        w.append(a)
+w=w[::-1]
+ans=tmp=0
+for i,j in enumerate(w):
+    tmp+=j*(i+1)
+    if tmp>c:
+        ans=j
+print(j)
+        
+    
+        
+        
+        
+"
+9,D,Python3,61495020,2023-03-24 21:58:06,牛客801261568号,答案正确,"
+def find(x):
+    if f[x]==x:
+        return x
+    f[x]=find(f[x])
+    return f[x]
+def merge(x1,y1):
+    t1=find(x1)    
+    t2=find(y1)
+    if t1!=t2:
+        f[t1]=t2
+n,m,c=map(int,input().split())
+f=[i for i in range(n+2)]
+b=[]
+w=[]
+for i in range(m):
+    x,y,a=map(int,input().split())
+    b.append((a,x,y))
+##r=[(i,j) for i,j in a.items()]
+for a,x,y in sorted(b):
+    if find(x)!=find(y):
+        merge(x,y)
+        w.append(a)
+w=w[::-1]
+ans=tmp=0
+for i,j in enumerate(w):
+    tmp+=j*(i+1)
+    if tmp>c:
+        ans=j
+        break
+print(ans)
+        
+    
+        
+        
+        
+"
+10,D,Python3,61495472,2023-03-24 22:12:26,Athion,答案错误,"n,m,c=map(int,input().split())
+edges=[list(map(int,input().split())) for i in range(m)]
+
+fa=[i for i in range(n+1)]
+vis=[0 for i  in range(n+1)]
+def get_fa(n):
+    return n if fa[n]==n else get_fa(fa[n])
+def merge(a,b):
+    if get_fa(a)==get_fa(b):return
+    fa[get_fa(a)]=get_fa(b)
+
+edges=sorted(edges,key=lambda x:x[-1])
+idx=0
+cost=[0 for i in range(n-1)]
+
+all_=[0 for i in range(n-1)]
+for (x,y,a) in edges:
+    if vis[x]==0 or vis[y]==0:
+        idx+=1
+        cost[idx]=a
+    else:continue
+    vis[x]=vis[y]=1
+    merge(x,y)
+    if idx==n-2:break
+cost.sort()
+for i in range(n-1):
+    all_[i]=cost[i]*(i+1)
+    
+s=0
+ans=None
+for i in range(n-1):
+    s+=all_[i]
+    if(s>c):
+        ans=i
+        break
+
+if ans==None:print(0)
+else:print(n-i-1)
+#     while(heap.size()){
+#         Node node=heap.top();heap.pop();
+#         if(!vis[node.x] || !vis[node.y]){
+#             cost[++idx]=node.a;
+#         }
+#         else continue;
+#         if(!vis[node.x])vis[node.x]=1;
+#         if(!vis[node.y])vis[node.y]=1;
+#         merge(node.x,node.y);
+#         if(idx==n-1)break;
+
+#     }
+#     sort(cost+1,cost+1+idx,greater<ll>());
+#     rep(i,1,idx)all[i]=cost[i]*i;
+#     rep(i,2,idx)all[i]+=all[i-1];
+#     int l=upper_bound(all+1,all+1+idx,c)-all;
+#     cout<<((l>idx)? 0 : cost[l]);
+# }"
+11,D,Python3,61495536,2023-03-24 22:14:21,Athion,答案错误,"n,m,c=map(int,input().split())
+edges=[list(map(int,input().split())) for i in range(m)]
+
+fa=[i for i in range(n+1)]
+vis=[0 for i  in range(n+1)]
+def get_fa(n):
+    return n if fa[n]==n else get_fa(fa[n])
+def merge(a,b):
+    if get_fa(a)==get_fa(b):return
+    fa[get_fa(a)]=get_fa(b)
+
+edges=sorted(edges,key=lambda x:x[-1])
+idx=0
+cost=[0 for i in range(n-1)]
+
+all_=[0 for i in range(n-1)]
+for (x,y,a) in edges:
+    if vis[x]==0 or vis[y]==0:
+        cost[idx]=a
+        idx+=1
+    else:continue
+    vis[x]=vis[y]=1
+    merge(x,y)
+    if idx==n-1:break
+cost.sort()
+for i in range(n-1):
+    all_[i]=cost[i]*(i+1)
+    
+s=0
+ans=None
+for i in range(n-1):
+    s+=all_[i]
+    if(s>c):
+        ans=i
+        break
+
+if ans==None:print(0)
+else:print(n-i-1)"
+12,D,Python3,61495570,2023-03-24 22:15:56,Athion,答案错误,"n,m,c=map(int,input().split())
+edges=[list(map(int,input().split())) for i in range(m)]
+
+fa=[i for i in range(n+1)]
+vis=[0 for i  in range(n+1)]
+def get_fa(n):
+    return n if fa[n]==n else get_fa(fa[n])
+def merge(a,b):
+    if get_fa(a)==get_fa(b):return
+    fa[get_fa(a)]=get_fa(b)
+
+edges=sorted(edges,key=lambda x:x[-1])
+idx=0
+cost=[0 for i in range(n-1)]
+
+all_=[0 for i in range(n-1)]
+for (x,y,a) in edges:
+    if vis[x]==0 or vis[y]==0:
+        cost[idx]=a
+        idx+=1
+    else:continue
+    vis[x]=vis[y]=1
+    merge(x,y)
+#     if idx==n-1:break
+cost.sort()
+for i in range(n-1):
+    all_[i]=cost[i]*(i+1)
+    
+s=0
+ans=None
+for i in range(n-1):
+    s+=all_[i]
+    if(s>c):
+        ans=i
+        break
+
+if ans==None:print(0)
+else:print(n-i-1)"
+13,D,Python3,61495573,2023-03-24 22:16:08,Athion,答案错误,"n,m,c=map(int,input().split())
+edges=[list(map(int,input().split())) for i in range(m)]
+
+fa=[i for i in range(n+1)]
+vis=[0 for i  in range(n+1)]
+def get_fa(n):
+    return n if fa[n]==n else get_fa(fa[n])
+def merge(a,b):
+    if get_fa(a)==get_fa(b):return
+    fa[get_fa(a)]=get_fa(b)
+
+edges=sorted(edges,key=lambda x:x[-1])
+idx=0
+cost=[0 for i in range(n-1)]
+
+all_=[0 for i in range(n-1)]
+for (x,y,a) in edges:
+    if vis[x]==0 or vis[y]==0:
+        cost[idx]=a
+        idx+=1
+    else:continue
+    vis[x]=vis[y]=1
+    merge(x,y)
+#     if idx==n-1:break
+cost.sort(reverse=True)
+for i in range(n-1):
+    all_[i]=cost[i]*(i+1)
+    
+s=0
+ans=None
+for i in range(n-1):
+    s+=all_[i]
+    if(s>c):
+        ans=i
+        break
+
+if ans==None:print(0)
+else:print(n-i-1)"
+14,D,Python3,61495588,2023-03-24 22:17:09,Athion,答案错误,"n,m,c=map(int,input().split())
+edges=[list(map(int,input().split())) for i in range(m)]
+
+fa=[i for i in range(n+1)]
+vis=[0 for i  in range(n+1)]
+def get_fa(n):
+    return n if fa[n]==n else get_fa(fa[n])
+def merge(a,b):
+    if get_fa(a)==get_fa(b):return
+    fa[get_fa(a)]=get_fa(b)
+
+edges=sorted(edges,key=lambda x:x[-1])
+idx=0
+cost=[0 for i in range(n-1)]
+
+all_=[0 for i in range(n-1)]
+for (x,y,a) in edges:
+    if vis[x]==0 or vis[y]==0:
+        cost[idx]=a
+        idx+=1
+    else:continue
+    vis[x]=vis[y]=1
+    merge(x,y)
+    if idx==n:break
+        
+cost.sort(reverse=True)
+print(cost)
+for i in range(n-1):
+    all_[i]=cost[i]*(i+1)
+    
+s=0
+ans=None
+for i in range(n-1):
+    s+=all_[i]
+    if(s>c):
+        ans=i
+        break
+
+if ans==None:print(0)
+else:print(n-i-1)"
+15,D,Python3,61495594,2023-03-24 22:17:15,Athion,答案错误,"n,m,c=map(int,input().split())
+edges=[list(map(int,input().split())) for i in range(m)]
+
+fa=[i for i in range(n+1)]
+vis=[0 for i  in range(n+1)]
+def get_fa(n):
+    return n if fa[n]==n else get_fa(fa[n])
+def merge(a,b):
+    if get_fa(a)==get_fa(b):return
+    fa[get_fa(a)]=get_fa(b)
+
+edges=sorted(edges,key=lambda x:x[-1])
+idx=0
+cost=[0 for i in range(n-1)]
+
+all_=[0 for i in range(n-1)]
+for (x,y,a) in edges:
+    if vis[x]==0 or vis[y]==0:
+        cost[idx]=a
+        idx+=1
+    else:continue
+    vis[x]=vis[y]=1
+    merge(x,y)
+    if idx==n:break
+        
+cost.sort(reverse=True)
+for i in range(n-1):
+    all_[i]=cost[i]*(i+1)
+    
+s=0
+ans=None
+for i in range(n-1):
+    s+=all_[i]
+    if(s>c):
+        ans=i
+        break
+
+if ans==None:print(0)
+else:print(n-i-1)"
+16,D,Python3,61495599,2023-03-24 22:17:34,Athion,答案错误,"n,m,c=map(int,input().split())
+edges=[list(map(int,input().split())) for i in range(m)]
+
+fa=[i for i in range(n+1)]
+vis=[0 for i  in range(n+1)]
+def get_fa(n):
+    return n if fa[n]==n else get_fa(fa[n])
+def merge(a,b):
+    if get_fa(a)==get_fa(b):return
+    fa[get_fa(a)]=get_fa(b)
+
+edges=sorted(edges,key=lambda x:x[-1])
+idx=0
+cost=[0 for i in range(n-1)]
+
+all_=[0 for i in range(n-1)]
+for (x,y,a) in edges:
+    if vis[x]==0 or vis[y]==0:
+        cost[idx]=a
+        idx+=1
+    else:continue
+    vis[x]=vis[y]=1
+    merge(x,y)
+    if idx==n:break
+        
+cost.sort(reverse=True)
+for i in range(n-1):
+    all_[i]=cost[i]*(i+1)
+    
+s=0
+ans=None
+for i in range(n-1):
+    s+=all_[i]
+    if(s>c):
+        ans=i
+        break
+
+if ans==None:print(0)
+else:print(n-ans-1)"
+17,D,Python3,61495637,2023-03-24 22:19:14,在走神的菜鸡很漂亮,答案错误,"n,m,c=map(int,input().split())
+data={}
+for i in range(m):
+    x,y,a=map(int,input().split())
+    if x in data:
+        data[x].append((y,a))
+    else:
+        data[x]=[(y,a)]
+    if y in data:
+        data[y].append((x,a))
+    else:
+        data[y]=[(x,a)]
+
+dis=[float('inf')]*n
+dis[0]=0
+used=[False]*n
+used[0]=True
+count=[]
+node=(1,0)
+
+while True:
+    if node[0] in data:
+        for city in data[node[0]]:
+            if city[1]<dis[city[0]-1]:
+                dis[city[0]-1]=city[1]
+    node=(0,float('inf'))
+    for i in range(n):
+        if not used[i] and dis[i]<node[1]:
+            node=(i+1,dis[i])
+    if node[0]==0:
+        break
+    else:
+        used[node[0]-1]=True
+        count.append(node[1])
+
+count.sort(reverse=True)
+ans=0
+for i in range(len(count)):
+    if ans+count[i]*(i+1)<=c:
+        ans+=count[i]*(i+1)
+    else:
+        print(count[i])
+        break
+
+
+    
+    "
+18,D,Python3,61495651,2023-03-24 22:19:49,Athion,答案错误,"n,m,c=map(int,input().split())
+edges=[list(map(int,input().split())) for i in range(m)]
+
+fa=[i for i in range(n+1)]
+vis=[0 for i  in range(n+1)]
+def get_fa(n):
+    return n if fa[n]==n else get_fa(fa[n])
+def merge(a,b):
+    if get_fa(a)==get_fa(b):return
+    fa[get_fa(a)]=get_fa(b)
+
+edges=sorted(edges,key=lambda x:x[-1])
+idx=0
+cost=[0 for i in range(n-1)]
+
+all_=[0 for i in range(n-1)]
+for (x,y,a) in edges:
+    if vis[x]==0 or vis[y]==0:
+        cost[idx]=a
+        idx+=1
+    else:continue
+    vis[x]=vis[y]=1
+    merge(x,y)
+    if idx==n-1:break
+        
+cost.sort(reverse=True)
+for i in range(n-1):
+    all_[i]=cost[i]*(i+1)
+    
+s=0
+ans=None
+for i in range(n-1):
+    s+=all_[i]
+    if(s>=c):
+        ans=i
+        break
+
+if ans==None:print(0)
+else:print(n-ans-1)"
+19,D,Python3,61495657,2023-03-24 22:19:59,Athion,答案错误,"n,m,c=map(int,input().split())
+edges=[list(map(int,input().split())) for i in range(m)]
+
+fa=[i for i in range(n+1)]
+vis=[0 for i  in range(n+1)]
+def get_fa(n):
+    return n if fa[n]==n else get_fa(fa[n])
+def merge(a,b):
+    if get_fa(a)==get_fa(b):return
+    fa[get_fa(a)]=get_fa(b)
+
+edges=sorted(edges,key=lambda x:x[-1])
+idx=0
+cost=[0 for i in range(n-1)]
+
+all_=[0 for i in range(n-1)]
+for (x,y,a) in edges:
+    if vis[x]==0 or vis[y]==0:
+        cost[idx]=a
+        idx+=1
+    else:continue
+    vis[x]=vis[y]=1
+    merge(x,y)
+    if idx==n-1:break
+        
+cost.sort(reverse=True)
+for i in range(n-1):
+    all_[i]=cost[i]*(i+1)
+    
+s=0
+ans=None
+for i in range(n-1):
+    s+=all_[i]
+    if(s>c):
+        ans=i
+        break
+
+if ans==None:print(0)
+else:print(n-ans-1)"
+20,D,Python3,61495669,2023-03-24 22:20:27,Athion,答案错误,"n,m,c=map(int,input().split())
+edges=[list(map(int,input().split())) for i in range(m)]
+
+fa=[i for i in range(n+1)]
+vis=[0 for i  in range(n+1)]
+def get_fa(n):
+    return n if fa[n]==n else get_fa(fa[n])
+def merge(a,b):
+    if get_fa(a)==get_fa(b):return
+    fa[get_fa(a)]=get_fa(b)
+
+edges=sorted(edges,key=lambda x:x[-1])
+idx=0
+cost=[0 for i in range(n-1)]
+
+all_=[0 for i in range(n-1)]
+for (x,y,a) in edges:
+    if vis[x]==0 or vis[y]==0:
+        cost[idx]=a
+        idx+=1
+    else:continue
+    vis[x]=vis[y]=1
+    merge(x,y)
+    if idx==n-1:break
+        
+cost.sort(reverse=True)
+for i in range(n-1):
+    all_[i]=cost[i]*(i+1)
+    
+s=0
+ans=None
+for i in range(n-1):
+    s+=all_[i]
+    if(s>c):
+        ans=i
+        break
+
+if ans==None:print(0)
+else:print(n-1-ans)"
+21,D,Python3,61495679,2023-03-24 22:21:13,Athion,答案错误,"n,m,c=map(int,input().split())
+edges=[list(map(int,input().split())) for i in range(m)]
+
+fa=[i for i in range(n+1)]
+vis=[0 for i  in range(n+1)]
+def get_fa(n):
+    return n if fa[n]==n else get_fa(fa[n])
+def merge(a,b):
+    if get_fa(a)==get_fa(b):return
+    fa[get_fa(a)]=get_fa(b)
+
+edges=sorted(edges,key=lambda x:x[-1])
+idx=0
+cost=[0 for i in range(n-1)]
+
+all_=[0 for i in range(n-1)]
+for (x,y,a) in edges:
+    if vis[x]==0 or vis[y]==0:
+        cost[idx]=a
+        idx+=1
+    else:continue
+    vis[x]=vis[y]=1
+    merge(x,y)
+    if idx==n-1:break
+        
+cost.sort(reverse=True)
+for i in range(n-1):
+    all_[i]=cost[i]*(i+1)
+    
+s=0
+ans=None
+for i in range(n-1):
+    s+=all_[i]
+    if(s>c):
+        ans=i
+        break
+
+if ans==None:print(0)
+else:print(cost[i])"
+22,D,Python3,61495683,2023-03-24 22:21:19,Athion,答案错误,"n,m,c=map(int,input().split())
+edges=[list(map(int,input().split())) for i in range(m)]
+
+fa=[i for i in range(n+1)]
+vis=[0 for i  in range(n+1)]
+def get_fa(n):
+    return n if fa[n]==n else get_fa(fa[n])
+def merge(a,b):
+    if get_fa(a)==get_fa(b):return
+    fa[get_fa(a)]=get_fa(b)
+
+edges=sorted(edges,key=lambda x:x[-1])
+idx=0
+cost=[0 for i in range(n-1)]
+
+all_=[0 for i in range(n-1)]
+for (x,y,a) in edges:
+    if vis[x]==0 or vis[y]==0:
+        cost[idx]=a
+        idx+=1
+    else:continue
+    vis[x]=vis[y]=1
+    merge(x,y)
+    if idx==n-1:break
+        
+cost.sort(reverse=True)
+for i in range(n-1):
+    all_[i]=cost[i]*(i+1)
+    
+s=0
+ans=None
+for i in range(n-1):
+    s+=all_[i]
+    if(s>c):
+        ans=i
+        break
+
+if ans==None:print(0)
+else:print(cost[ans])"
+23,D,Python3,61581825,2023-03-27 19:45:44,牛客481337953号,答案正确,"n, m, c = map(int, input().split())
+s = []
+for _ in range(m):
+    s.append(tuple(map(int, input().split())))
+s.sort(key = lambda x : x[2])
+fa = list(range(n + 1))
+def f(x):
+    if fa[x] != x:
+        fa[x] = f(fa[x])
+    return fa[x]
+def u(x, y):
+    fa[f(x)] = f(y)
+q = []
+for x, y, a in s:
+    if f(x) != f(y):
+        u(x, y)
+        q.append(a)
+res = t = 0
+for i, v in enumerate(q[::-1]):
+    res += v * (i + 1)
+    if res > c:
+        t = v
+        break
+print(t)"
+24,D,Python3,61582544,2023-03-27 20:09:23,newko,执行出错,"n,m,c = map(int,input().split())
+g = [[] for _ in range(n+1)]
+vis = [False] * n 
+dis = [inf] * n
+ans = 0
+# 最小生成树
+for i in range(m):
+    x,y,a = map(int,input().split())
+    g[x].append((y,a))
+    g[y].append((x,a))
+for "
+25,D,Python3,61583057,2023-03-27 20:25:37,newko,答案错误,"import heapq
+
+n, m, c = map(int, input().split())
+g = [[] for _ in range(n + 1)]
+vis = [False] * (n+1)
+ans = []
+# 建图
+for i in range(m):
+    x, y, a = map(int, input().split())
+    g[x].append([y, a])
+    g[y].append([x, a])
+# 最小生成树
+vis[1] = True
+dis = []
+for nxt, d in g[1]:
+    heapq.heappush(dis, [d, nxt])
+# 还有n-1个点没进
+for i in range(n - 1):
+    cur = heapq.heappop(dis)
+    ans.append(cur[0])
+    for nxt, d in g[cur[1]]:
+        if not vis[nxt]:
+            vis[nxt] = True
+            heapq.heappush(dis, [d, nxt])
+ans.sort(reverse=True)
+idx = 0
+for i, v in enumerate(ans, 1):
+    if c >= i * v:
+        c -= i * v
+    else:
+        print(v)
+"
+26,D,Python3,61583227,2023-03-27 20:30:36,newko,答案错误,"import heapq
+
+n, m, c = map(int, input().split())
+g = [[] for _ in range(n + 1)]
+vis = [False] * (n+1)
+ans = []
+# 建图
+for i in range(m):
+    x, y, a = map(int, input().split())
+    g[x].append([y, a])
+    g[y].append([x, a])
+# 最小生成树
+vis[1] = True
+dis = []
+for nxt, d in g[1]:
+    heapq.heappush(dis, [d, nxt])
+# 还有n-1个点没进
+for i in range(n - 1):
+    while vis[dis[0][1]]:
+        heapq.heappop(dis)
+    cur = heapq.heappop(dis)
+    vis[cur[1]] = True
+    ans.append(cur[0])
+    for nxt, d in g[cur[1]]:
+        if not vis[nxt]:
+            heapq.heappush(dis, [d, nxt])
+ans.sort(reverse=True)
+idx = 0
+for i, v in enumerate(ans, 1):
+    if c >= i * v:
+        c -= i * v
+    else:
+        print(v)
+"
+27,D,Python3,61584768,2023-03-27 21:24:18,newko,答案正确,"n, m, k = map(int, input().split())
+arr = []
+for _ in range(m):
+    arr.append(list(map(int,input().split())))
+arr.sort(key=lambda x:x[2])
+# fa[i]表示i的父节点编号
+fa = list(range(n+1))
+def parent(x):
+    if x != fa[x]:
+        fa[x] = parent(fa[x])
+    return fa[x]
+def union(a,b):
+    fa[parent(a)] = parent(b)
+
+
+ans = []
+for a,b,c in arr:
+    # 如果两个点没有联通过，则联通，距离加入数组ans    
+    if parent(a) !=  parent(b):
+        union(a,b)
+        ans.append(c)
+ans.sort(reverse=True)
+
+res = 0
+for i,v in enumerate(ans,1):
+    if k >= i*v:
+        k-=i*v
+    else:
+        res = v
+        break
+print(res)"
+28,D,Python3,61584782,2023-03-27 21:25:45,newko,答案正确,"import heapq
+
+n, m, c = map(int, input().split())
+g = [[] for _ in range(n + 1)]
+vis = [False] * (n+1)
+ans = []
+# 建图
+for i in range(m):
+    x, y, a = map(int, input().split())
+    g[x].append([y, a])
+    g[y].append([x, a])
+# 最小生成树
+vis[1] = True
+dis = []
+for nxt, d in g[1]:
+    heapq.heappush(dis, [d, nxt])
+# 还有n-1个点没进
+for i in range(n - 1):
+    while vis[dis[0][1]]:
+        heapq.heappop(dis)
+    cur = heapq.heappop(dis)
+    vis[cur[1]] = True
+    ans.append(cur[0])
+    for nxt, d in g[cur[1]]:
+        if not vis[nxt]:
+            heapq.heappush(dis, [d, nxt])
+ans.sort(reverse=True)
+res = 0
+for i, v in enumerate(ans, 1):
+    if c >= i * v:
+        c -= i * v
+    else:
+        res = v
+        break
+print(res)
+"
+29,D,Python3,61584790,2023-03-27 21:26:22,newko,答案正确,"n, m, k = map(int, input().split())
+arr = []
+for _ in range(m):
+    arr.append(list(map(int,input().split())))
+arr.sort(key=lambda x:x[2])
+# fa[i]表示i的父节点编号
+fa = list(range(n+1))
+def parent(x):
+    if x != fa[x]:
+        fa[x] = parent(fa[x])
+    return fa[x]
+def union(a,b):
+    fa[parent(a)] = parent(b)
+
+
+ans = []
+for a,b,c in arr:
+    # 如果两个点没有联通过，则联通，距离加入数组ans    
+    if parent(a) !=  parent(b):
+        union(a,b)
+        ans.append(c)
+ans.sort(reverse=True)
+
+res = 0
+for i,v in enumerate(ans,1):
+    if k >= i*v:
+        k-=i*v
+    else:
+        res = v
+        break
+print(res)"
+30,D,Python3,61584827,2023-03-27 21:28:21,newko,答案错误,"import heapq
+
+n, m, c = map(int, input().split())
+g = [[] for _ in range(n + 1)]
+vis = [False] * (n+1)
+ans = []
+# 建图
+for i in range(m):
+    x, y, a = map(int, input().split())
+    g[x].append([y, a])
+    g[y].append([x, a])
+# 最小生成树
+vis[1] = True
+dis = []
+for nxt, d in g[1]:
+    heapq.heappush(dis, [d, nxt])
+# 还有n-1个点没进
+for i in range(n - 1):
+    cur = heapq.heappop(dis)
+    ans.append(cur[0])
+    for nxt, d in g[cur[1]]:
+        if not vis[nxt]:
+            vis[nxt] = True
+            heapq.heappush(dis, [d, nxt])
+ans.sort(reverse=True)
+res = 0
+for i, v in enumerate(ans, 1):
+    if c >= i * v:
+        c -= i * v
+    else:
+        res = v
+        break
+print(res)
+"
+31,D,Python3,61585450,2023-03-27 22:01:38,zronghui,运行超时,"n, m, c = map(int, input().split())
+
+g = []
+for _ in range(m):
+    x, y, a = map(int, input().split())
+    g.append((x, y, a))
+g.sort(key=lambda x: x[2])
+
+def cost(nums):
+    n = len(nums)
+    res = 0
+    for i, num in enumerate(nums):
+        res += num * (n - i)
+    return res
+
+
+class DSU:
+    def __init__(self, n):
+        self.parent = list(range(n))
+        self.size = [1] * n
+        self.n = n
+        self.setCount = n
+    
+    def find(self, x):
+        if self.parent[x] != x:
+            self.parent[x] = self.find(self.parent[x])
+        return self.parent[x]
+    
+    def union(self, x, y):
+        x, y = self.find(x), self.find(y)
+        if x == y:
+            return False
+        if self.size[x] < self.size[y]:
+            x, y = y, x
+        self.parent[y] = x
+        self.size[x] += self.size[y]
+        self.setCount -= 1
+        return True
+    
+    def connected(self, x, y):
+        x, y = self.find(x), self.find(y)
+        return x == y
+
+def check(g, m, c):
+    nums = []
+    dsu = DSU(n+1)
+    dsu.union(0, 1)
+    for x, y, a in g:
+        if a<=m:
+            dsu.union(x, y)  
+        elif not dsu.connected(x, y):
+            dsu.union(x, y)
+            nums.append(a)
+    return cost(nums) <= c
+
+
+# n, m, c = 4,6,7
+# g = [(2, 4, 1), (2, 3, 2), (1, 2, 3), (1, 3, 4), (3, 4, 5), (1, 4, 6)]
+l, r = 0, g[-1][2]
+res = r
+while l<=r:
+    mid = (l+r)//2
+    if check(g, mid, c):
+        res = mid
+        r = mid-1
+    else:
+        l = mid+1
+print(res)"
+32,D,Python3,61585585,2023-03-27 22:08:15,zronghui,答案正确,"n, m, c = map(int, input().split())
+
+g = []
+for _ in range(m):
+    x, y, a = map(int, input().split())
+    g.append((x, y, a))
+g.sort(key=lambda x: x[2])
+
+def cost(nums, m):
+    n = len(nums)
+    res = 0
+    for i, num in enumerate(nums):
+        if num>m:
+            res += num * (n - i)
+    return res
+
+
+class DSU:
+    def __init__(self, n):
+        self.parent = list(range(n))
+        self.size = [1] * n
+        self.n = n
+        self.setCount = n
+    
+    def find(self, x):
+        if self.parent[x] != x:
+            self.parent[x] = self.find(self.parent[x])
+        return self.parent[x]
+    
+    def union(self, x, y):
+        x, y = self.find(x), self.find(y)
+        if x == y:
+            return False
+        if self.size[x] < self.size[y]:
+            x, y = y, x
+        self.parent[y] = x
+        self.size[x] += self.size[y]
+        self.setCount -= 1
+        return True
+    
+    def connected(self, x, y):
+        x, y = self.find(x), self.find(y)
+        return x == y
+
+def kruskal(g):
+    nums = []
+    dsu = DSU(n+1)
+    dsu.union(0, 1)
+    for x, y, a in g:
+        if not dsu.connected(x, y):
+            dsu.union(x, y)
+            nums.append(a)
+    return nums
+
+
+# n, m, c = 4,6,7
+# g = [(2, 4, 1), (2, 3, 2), (1, 2, 3), (1, 3, 4), (3, 4, 5), (1, 4, 6)]
+nums = kruskal(g)
+l, r = 0, g[-1][2]
+res = r
+while l<=r:
+    mid = (l+r)//2
+    if cost(nums, mid)<=c:
+        res = mid
+        r = mid-1
+    else:
+        l = mid+1
+print(res)"
+33,D,Python3,61585671,2023-03-27 22:12:31,zronghui,答案正确,"n, m, c = map(int, input().split())
+
+g = []
+for _ in range(m):
+    x, y, a = map(int, input().split())
+    g.append((x, y, a))
+g.sort(key=lambda x: x[2])
+
+def cost(nums, m):
+    n = len(nums)
+    res = 0
+    for i, num in enumerate(nums):
+        if num>m:
+            res += num * (n - i)
+    return res
+
+
+class DSU:
+    def __init__(self, n):
+        self.parent = list(range(n))
+        self.size = [1] * n
+        self.n = n
+        self.setCount = n
+    
+    def find(self, x):
+        if self.parent[x] != x:
+            self.parent[x] = self.find(self.parent[x])
+        return self.parent[x]
+    
+    def union(self, x, y):
+        x, y = self.find(x), self.find(y)
+        if x == y:
+            return False
+        if self.size[x] < self.size[y]:
+            x, y = y, x
+        self.parent[y] = x
+        self.size[x] += self.size[y]
+        self.setCount -= 1
+        return True
+    
+    def connected(self, x, y):
+        x, y = self.find(x), self.find(y)
+        return x == y
+
+def kruskal(g):
+    nums = []
+    dsu = DSU(n+1)
+    dsu.union(0, 1)
+    for x, y, a in g:
+        if not dsu.connected(x, y):
+            dsu.union(x, y)
+            nums.append(a)
+    return nums
+
+
+# n, m, c = 4,6,7
+# g = [(2, 4, 1), (2, 3, 2), (1, 2, 3), (1, 3, 4), (3, 4, 5), (1, 4, 6)]
+nums = kruskal(g)
+res = 0
+for i, num in enumerate(reversed(nums), start=1):
+    if c>=i*num:
+        c -= i*num
+    else:
+        res = num
+        break
+print(res)"

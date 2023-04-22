@@ -1,0 +1,788 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,C,Python3,60849144,2023-02-10 19:32:20,礼乐垃圾,答案正确,"m=int(input())
+a=list(map(int,input().strip().split()))
+amax=max(a)
+amin=min(a)
+ans1=2*amax-1
+ans2=2*(1000000000-amin)-1
+if max(ans1,ans2)<=1000000000:
+    print(0,1000000000)
+else:
+    if ans1>ans2:
+        print(0,1)
+    else :
+        print(1000000000,999999999)"
+1,C,Python3,60850180,2023-02-10 19:43:42,Marquis03,答案正确,"m = int(input())
+p = list(map(int,input().split()))
+left = 0
+right = 1000000000
+
+minp = p[0]
+maxp = p[0]
+for i in p[1:]:
+    if i > maxp:
+        maxp = i
+    if i < minp:
+        minp = i
+if minp == right - maxp:
+    print(0,right)
+elif minp > right - maxp:
+    print(0,1)
+else:
+    print(right,right-1)"
+2,C,Python3,60850366,2023-02-10 19:45:51,人工智能-离谱,答案错误,"print(""0 1000000000"")"
+3,C,Python3,60850518,2023-02-10 19:47:36,一半醒,答案错误,"
+
+# 经过我严密的思考 放在线段中间是最好的选择
+import sys
+m = int(input())
+
+a = [int(x) for x in input().split()]
+
+a.sort()
+n = len(a)
+r = int(1e9)
+
+if n==1:
+    print(0,r)
+    sys.exit(0)
+sz = 0
+ans=[]
+for i in range(n):
+    right = a[n-1] - a[i]
+    left = a[i] - a[0]
+    sleft =  a[0] # 终点在0
+    sright = r-a[n-1] # 终点在n-1
+    if left + 2*right + sleft > 2*left + right + sright:
+        ts = 2*left + right + sright
+        if ts>sz:
+            sz = ts
+            ans=[i,0]
+    else:
+        ts = 2 * left + right + sright
+        if ts > sz:
+            sz = ts
+            ans = [i, r]
+print(a[ans[0]],ans[1])"
+4,C,Python3,60850948,2023-02-10 19:52:19,一半醒,答案错误,"
+
+# 经过我严密的思考 放在线段中间是最好的选择
+import sys
+m = int(input())
+
+a = [int(x) for x in input().split()]
+
+a.sort()
+n = len(a)
+r = int(1e9)
+
+if n==1:
+    print(0,r)
+    sys.exit(0)
+sz = 0
+ans=[]
+for i in range(n):
+    right = a[n-1] - a[i]
+    left = a[i] - a[0]
+    sleft =  a[0] # 终点在0
+    sright = r-a[n-1] # 终点在n-1
+    if left + 2*right + sleft > 2*left + right + sright:
+        ts = 2*left + right + sright
+        if ts>sz:
+            sz = ts
+            ans=[i,0]
+    else:
+        ts = left + 2*right + sleft
+        if ts > sz:
+            sz = ts
+            ans = [i, r]
+print(a[ans[0]],ans[1])"
+5,C,Python3,60851574,2023-02-10 20:00:32,摆渡人和211,答案错误,"m = int(input())
+s = input().split()
+arr = []
+for i in range(0,m):
+    arr.append(int(s[i]))
+arr.sort()
+if 1000000000 > 2*(arr[-1]-arr[0])-1:
+    print(0,1000000000)
+else:
+    print(arr[0],arr[0]+1)"
+6,C,Python3,60851632,2023-02-10 20:01:22,孔老大,答案错误,"import sys
+import bisect
+import random
+import io, os
+from bisect import *
+from collections import *
+from contextlib import redirect_stdout
+from itertools import *
+from math import sqrt, gcd, inf
+# ACW没有comb
+# from math import sqrt, gcd, inf, comb
+from array import *
+from functools import lru_cache
+from types import GeneratorType
+from heapq import *
+
+# from networkx import *
+
+RI = lambda: map(int, sys.stdin.readline().split())
+RS = lambda: map(bytes.decode, sys.stdin.readline().strip().split())
+RILST = lambda: list(RI())
+DEBUG = lambda *x: sys.stderr.write(f'{str(x)}\n')
+
+
+def solve():
+    ll = 0
+    rr = 10 ** 9
+    m, = RI()
+    arr = RILST()
+    if m == 1:
+        print(ll, rr)
+        return
+    mi = min(arr)
+    mx = max(arr)
+    mid = (mi + mx) // 2
+    a1 = mid - mi + rr - mi
+    a2 = mx - mid + mx
+    a3 = mid - mi + mx - (mid + 1)
+    x = max(a1, a2, a3, rr)
+    if a1 == x:
+        print(mid, rr)
+        return
+    if a2 == x:
+        print(ll, mid)
+        return
+    if a3 == x:
+        print(mid, mid + 1)
+        return
+    print(ll, rr)
+
+
+if __name__ == '__main__':
+    solve()
+"
+7,C,Python3,60851947,2023-02-10 20:05:29,小小雨晴,执行出错,"min_num = 10 ** 9
+max_num = 0
+for i in range(int(input())):
+    num = int(input())
+    min_num = min(min_num, num)
+    max_num = max(max_num, num)
+max_num = 10 ** 9 - max_num
+if min_num <= max_num:
+    print(0, 1000000000)
+else:
+    print(1000000000, 0)"
+8,C,Python3,60852021,2023-02-10 20:06:34,小小雨晴,执行出错,"min_num = 1000000000
+max_num = 0
+for i in range(int(input())):
+    num = int(input())
+    min_num = min(min_num, num)
+    max_num = max(max_num, num)
+max_num = 10 ** 9 - max_num
+if min_num <= max_num:
+    print(""0 1000000000"")
+else:
+    print(""1000000000 0"")"
+9,C,Python3,60852104,2023-02-10 20:08:15,摆渡人和211,答案正确,"m = int(input())
+s = input().split()
+arr = []
+for i in range(0,m):
+    arr.append(int(s[i]))
+arr.sort()
+num1 = 1000000000
+num2 = 2*(arr[-1]-arr[0])-1
+num3 = arr[-1]*2-1
+num4 = 2*(1000000000-arr[0])-1
+ans = [[num1,0,1000000000],[num2,arr[0],arr[0]+1],[num3,0,1],[num4,num1,num1-1]]
+ans.sort()
+print(ans[-1][1],ans[-1][2])"
+10,C,Python3,60852291,2023-02-10 20:10:50,小小雨晴,执行出错,"min_num = 1000000000
+max_num = 0
+for i in range(int(input())):
+    num = int(input())
+    min_num = min(min_num, num)
+    max_num = max(max_num, num)
+min_num = 1000000000 - min_num
+if min_num <= max_num:
+    print(""1000000000 0"")
+else:
+    print(""0 1000000000"")"
+11,C,Python3,60852370,2023-02-10 20:11:52,小小雨晴,执行出错,"min_num = 1000000000
+max_num = 0
+for _ in range(int(input())):
+    num = int(input())
+    min_num = min(min_num, num)
+    max_num = max(max_num, num)
+min_num = 1000000000 - min_num
+if min_num < max_num:
+    print(""1000000000 0"")
+else:
+    print(""0 1000000000"")"
+12,C,Python3,60852473,2023-02-10 20:13:08,一半醒,答案错误,"
+
+# 经过我严密的思考 放在线段中间是最好的选择
+# 起点在 a[i] ,终点在0或者1e9
+# 2 * (a[i] - a[0]) + r -a[0]  = r + 2 * a[i] - 3 * a[0]  [a[i],r]
+# 2 * (a[n-1]-a[i]) + a[i] = 2 * a[n-1] - a[i] [a[i],0]
+import sys
+m = int(input())
+
+a = [int(x) for x in input().split()]
+
+a.sort()
+n = len(a)
+r = int(1e9)
+
+sz = r
+ans=[0,r]
+for i in range(n):
+    if r + 2*a[i] - 3*a[0] > 2*a[n-1] - a[i]:
+        ts = r + 2*a[i] - 3*a[0]
+        if ts > sz:
+            sz = ts
+            ans = [a[i],r]
+    else:
+        ts = 2*a[n-1] - a[i]
+        if ts > sz:
+            sz = ts
+            ans = [a[i],0]
+print(ans[0],ans[1])"
+13,C,Python3,60852649,2023-02-10 20:15:30,孔老大,答案正确,"import sys
+import bisect
+import random
+import io, os
+from bisect import *
+from collections import *
+from contextlib import redirect_stdout
+from itertools import *
+from math import sqrt, gcd, inf
+# ACW没有comb
+# from math import sqrt, gcd, inf, comb
+from array import *
+from functools import lru_cache
+from types import GeneratorType
+from heapq import *
+
+# from networkx import *
+
+RI = lambda: map(int, sys.stdin.readline().split())
+RS = lambda: map(bytes.decode, sys.stdin.readline().strip().split())
+RILST = lambda: list(RI())
+DEBUG = lambda *x: sys.stderr.write(f'{str(x)}\n')
+
+
+def solve():
+    ll = 0
+    rr = 10 ** 9
+    m, = RI()
+    arr = RILST()
+    if m == 1:
+        print(ll, rr)
+        return
+    mi = min(arr)
+    mx = max(arr)
+    mid = (mi + mx) // 2
+    a1 = mid - mi + rr - mi
+    a2 = mx - mid + mx
+    a3 = mid - mi + mx - (mid + 1)
+    a4 = rr - 1 - mi + rr - mi
+    a5 = mx - (ll + 1) + mx
+    x = max(a1, a2, a3, a4, a5, rr)
+    if a1 == x:
+        print(mid, rr)
+        return
+    if a2 == x:
+        print(ll, mid)
+        return
+    if a3 == x:
+        print(mid, mid + 1)
+        return
+    if a4 == x:
+        print(rr - 1, rr)
+        return
+    if a5 == x:
+        print(ll, ll + 1)
+        return
+    print(ll, rr)
+
+
+if __name__ == '__main__':
+    solve()
+"
+14,C,Python3,60852661,2023-02-10 20:15:37,小小雨晴,执行出错,"ls = []
+for _ in range(int(input())):
+    ls.append(int(input()))
+ls.sort()
+a = ls[0]
+b = 1000000000 - ls[-1]
+if a > b:
+    print(""1000000000 0"")
+else:
+    print(""0 1000000000"")"
+15,C,Python3,60852673,2023-02-10 20:15:49,小小雨晴,执行出错,"ls = []
+for i in range(int(input())):
+    ls.append(int(input()))
+ls.sort()
+a = ls[0]
+b = 1000000000 - ls[-1]
+if a > b:
+    print(""1000000000 0"")
+else:
+    print(""0 1000000000"")"
+16,C,Python3,60852915,2023-02-10 20:19:22,小小雨晴,答案错误,"input()
+ls = list(map(int, input().split()))
+ls.sort()
+a = ls[0]
+b = 1000000000 - ls[-1]
+if a > b:
+    print(""1000000000 0"")
+else:
+    print(""0 1000000000"")"
+17,C,Python3,60852926,2023-02-10 20:19:35,小小雨晴,答案错误,"input()
+ls = list(map(int, input().split()))
+ls.sort()
+a = ls[0]
+b = 1000000000 - ls[-1]
+if a < b:
+    print(""1000000000 0"")
+else:
+    print(""0 1000000000"")"
+18,C,Python3,60853031,2023-02-10 20:21:08,LaplaceGhost,执行出错,"n = int(input())
+n1 = []
+for i in range(n):
+    n1.append(int(input()))
+if n == 1:
+    print(""0 1000000000"")
+else:
+    l = min(n1)
+    r = max(n1)
+    x1 = (10 ** 9 - l) * 2 - 1
+    x2 = 2 * r - 1
+    if x1 >= x2 and x1 >= 10 ** 9:
+        print(""999999999 1000000000"")
+    elif x2 >= x1 and x2 >= 10 ** 9:
+        print(""0 1"")
+    else:
+        print(""0 1000000000"")"
+19,C,Python3,60853338,2023-02-10 20:25:30,小七爱英语,答案错误,"print(""accepted"")"
+20,C,Python3,60853761,2023-02-10 20:31:51,Fei_xiangShi,答案正确,"m = int(input())
+p = list(map(int,input().split()))
+maxp = max(p)
+minp = min(p)
+dis = maxp-500000000-(500000000-minp)
+if dis > 0:
+    print(0,1)
+elif dis < 0:
+    print(1000000000-1,1000000000)
+else:
+    print(0,1000000000)"
+21,C,Python3,60854285,2023-02-10 20:40:09,一半醒,答案正确,"
+
+# 经过我严密的思考 放在线段中间是最好的选择
+# 起点在 a[i] ,终点在0或者r
+# 2 * (a[i] - a[0]) + r -a[0]  = r + 2 * a[i] - 3 * a[0]  [a[i],r]
+# 2 * (a[n-1]-a[i]) + a[i] = 2 * a[n-1] - a[i] [a[i],0]
+import sys
+m = int(input())
+
+a = [int(x) for x in input().split()]
+
+a.sort()
+n = len(a)
+r = int(1e9)
+
+sz = r
+ans=[0,r]
+if (r-1-a[0])*2+1 > sz:
+    sz = (r-1-a[0])*2+1
+    ans = [r-1,r]
+#终点是0起点1
+if  2*a[n-1]-1 > sz:
+    sz = 2*a[n-1] - 1
+    ans = [1,0]
+print(ans[0],ans[1])"
+22,C,Python3,60856239,2023-02-10 21:14:41,lllrrrainbbbow,答案正确,"print (""999999999 1999999999"")"
+23,C,Python3,60856286,2023-02-10 21:15:56,谷圣,执行出错,"1 print (""9999999991999999999"")"
+24,C,Python3,60856291,2023-02-10 21:16:03,谷圣,执行出错,"1 print (""999999999 1999999999"")"
+25,C,Python3,60856303,2023-02-10 21:16:20,谷圣,执行出错," print (""999999999 1999999999"")"
+26,C,Python3,60856307,2023-02-10 21:16:27,谷圣,答案正确,"print (""999999999 1999999999"")"
+27,C,Python3,60856389,2023-02-10 21:18:17,LittleXi_,答案正确,"print(""999999999 1999999999"")"
+28,C,Python3,60856493,2023-02-10 21:21:13,夜里听风花满楼,答案正确,"print(""999999999 1999999999"")"
+29,C,Python3,60856538,2023-02-10 21:22:21,lllrrrainbbbow,答案错误,"print (""999999999 999999999"")"
+30,C,Python3,60856543,2023-02-10 21:22:28,lllrrrainbbbow,答案错误,"print (""999999999 9999999099"")"
+31,C,Python3,60856570,2023-02-10 21:23:03,碎念.,答案错误,"print(""999999999,1999999999"");"
+32,C,Python3,60856588,2023-02-10 21:23:37,XyeeCheng,答案正确,"print(""999999999 1999999999"")"
+33,C,Python3,60856700,2023-02-10 21:26:46,HashBuKe,答案错误,"print(""9999999 19999999"")"
+34,C,Python3,60856719,2023-02-10 21:27:16,QWEVXXQ,答案正确,"print(""999999999 1999999999"")"
+35,C,Python3,60856728,2023-02-10 21:27:27,HashBuKe,答案正确,"print(""999999999 1999999999"")"
+36,C,Python3,60856760,2023-02-10 21:28:23,李迪锴,执行出错,print(999999999 1999999999)
+37,C,Python3,60856764,2023-02-10 21:28:29,李迪锴,答案正确,print('999999999 1999999999')
+38,C,Python3,60856923,2023-02-10 21:33:07,susa,答案正确,"print(""1000000000 1999999999"")"
+39,C,Python3,60857028,2023-02-10 21:36:36,给个AC吧,答案正确,"print(""999999999 1999999999"")"
+40,C,Python3,60857069,2023-02-10 21:37:47,李迪锴,答案错误,"m=int(input())
+a=list(map(int,input().split()))
+x,y,ans=max(a),min(a),1e9
+s,t=0,1e9
+if 2*x-1>ans:
+    s,t=0,1
+if 2*(1e9-y)-1>ans:
+    s,t=1e9-1,1e9
+print(int(s),int(t))
+"
+41,C,Python3,60857093,2023-02-10 21:38:34,李迪锴,答案正确,"m=int(input())
+a=list(map(int,input().split()))
+x,y,ans=max(a),min(a),1e9
+s,t=0,1e9
+if 2*x-1>ans:
+    s,t=0,1
+    ans=2*x-1
+if 2*(1e9-y)-1>ans:
+    s,t=1e9-1,1e9
+    ans=2*(1e9-y)-1
+print(int(s),int(t))
+"
+42,C,Python3,60857156,2023-02-10 21:41:13,碎念.,答案错误,"print(""999999999,1999999999"")"
+43,C,Python3,60857509,2023-02-10 21:56:58,牛客337616139号,答案正确,"print(""999999999 1999999999"")"
+44,C,Python3,60857525,2023-02-10 21:57:24,牛客337616139号,答案错误,"print(""9999999991 1999999999"")"
+45,C,Python3,60857530,2023-02-10 21:57:34,牛客337616139号,答案错误,"print(""999999999 9999999999"")"
+46,C,Python3,60857532,2023-02-10 21:57:39,牛客337616139号,答案正确,"print(""999999999 1999999999"")"
+47,C,Python3,60858844,2023-02-10 23:37:51,東風穀早苗,答案正确,"print(""999999999 1999999999"")"
+48,C,Python3,60859101,2023-02-11 00:21:55,QWEVXXQ,执行出错,"#include <bits/stdc++.h>
+#define ll long long
+#define endl '\n'
+#define INIT ios::sync_with_stdio(false), cin.tie(0), cout.tie(0)
+using namespace std;
+int gcd(int a, int b){ return b? gcd(b, (a%b)): a; }
+const int N = 200010;
+ll quic_pow(ll a, ll b){ll res = 1;	while(b){if( b&1) res = res * a;		a = a * a;		b >>= 1;	}	return res;}
+int n,m;
+int p[N];
+void solve(){
+	cin >> m;
+	int mn = 1e9+10;
+	int mx = 0;
+	for(int i = 0; i <= m; i++){
+		cin >> p[i];
+		mn = min(mn,p[i]);
+		mx = max(mn,p[i]);
+	}
+	if(mn>=5e8) cout << 0 << ' ' << 1 <<endl;
+	else if(mx<=5e8) cout << 1000000000 << ' ' << 1000000000-1 << endl;
+	else cout << 0 << ' ' << 1000000000 << endl;
+
+
+}
+
+int main(){
+	INIT;
+	int _ = 1;
+	//cin >> _;
+	while(_--){
+		solve();
+	}
+
+}"
+49,C,Python3,60861974,2023-02-11 15:01:02,zyyzzyyz,答案错误,"# import numpy as np
+
+
+if __name__ == '__main__':
+    m = int(input())
+    q = input().split()
+    for i in range(m):
+        x = int(q[i])
+        q[i] = x
+    maxx = max(q)
+    mini = min(q)
+    inf = int(1e9)
+
+    if (2*maxx-1 >= 2*(inf-maxx)-1) and (2*maxx-1 >= inf):
+        print(0, 1)
+    elif (2*(inf-maxx)-1 >= 2*maxx-1) and (2*(inf-maxx)-1 >= inf):
+        print(inf-1, inf)
+    else:
+        print(0, inf)
+"
+50,C,Python3,60861978,2023-02-11 15:01:31,zyyzzyyz,答案错误,"# import numpy as np
+
+
+if __name__ == '__main__':
+    m = int(input())
+    q = input().split()
+    for i in range(m):
+        x = int(q[i])
+        q[i] = x
+    maxx = max(q)
+    mini = min(q)
+    inf = int(1e9)
+
+    if (2*maxx-1 >= 2*(inf-maxx)-1) and (2*maxx-1 >= inf):
+        print(0, 1)
+    elif (2*(inf-maxx)-1 >= 2*maxx-1) and (2*(inf-maxx)-1 >= inf):
+        print(inf, inf-1)
+    else:
+        print(0, inf)
+"
+51,C,Python3,60862035,2023-02-11 15:06:07,zyyzzyyz,答案错误,"# import numpy as np
+
+
+if __name__ == '__main__':
+    m = int(input())
+    q = input().split()
+    maxx = -1
+    for i in range(m):
+        x = int(q[i])
+        maxx = max(maxx, x)
+    inf = int(1e9)
+
+    w1 = 2*maxx-1
+    w2 = 2*(inf-maxx)-1
+    w3 = inf
+
+    if (w1 >= w2) and (w1 >= w3):
+        print(0, 1)
+    elif (w2 >= w1) and (w2 >= w3):
+        print(inf-1, inf)
+    else:
+        print(0, inf)
+"
+52,C,Python3,60862060,2023-02-11 15:08:10,zyyzzyyz,答案正确,"# import numpy as np
+
+
+if __name__ == '__main__':
+    m = int(input())
+    q = input().split()
+    maxx = -1
+    mini = int(1e9+7)
+    for i in range(m):
+        x = int(q[i])
+        maxx = max(maxx, x)
+        mini = min(mini, x)
+    inf = int(1e9)
+
+    w1 = 2*maxx-1
+    w2 = 2*(inf-mini)-1
+    w3 = inf
+
+    if (w1 >= w2) and (w1 >= w3):
+        print(0, 1)
+    elif (w2 >= w1) and (w2 >= w3):
+        print(inf-1, inf)
+    else:
+        print(0, inf)
+"
+53,C,Python3,60866827,2023-02-12 11:23:31,风风风风风.,答案错误,"print(""999999999 1999999999"")"
+54,C,Python3,60895656,2023-02-15 20:47:08,爱打牌的登子,答案错误,"m = int(input())
+a = list(map(int , input().split()))
+a.sort()
+mgap = 1000000000
+gap = a[-1] - a[0]
+l = 0
+ls , lt = -1 , -1
+if a[0] == 0:
+    l = max (2 * gap - 1 , 1)
+    ls , lt = 0 , 1
+else:
+    l = max (2 * gap + a[0] - 1 , 1)
+    ls , lt = a[0] , 0
+r = 0
+rs , rt = -1 , -1
+if a[-1] == mgap:
+    r = max (2 * gap + mgap - a[-1] - 1 , 1)
+    ls , lt = a[-1] , mgap - 1
+else:
+    r = max (2 * gap + mgap - a[-1] - 1 , 1)
+    rs , rt = a[-1] , mgap
+mx = max(mgap , l , r)
+if mgap == mx:
+    print (0 , mgap)
+elif l == mx:
+    print (ls, lt)
+else:
+    print (rs , rt)"
+55,C,Python3,60896042,2023-02-15 21:33:15,牛客581067831号,答案正确,"m = int(input())
+nums = list(map(int, input().split()))
+nums_max = max(nums)
+nums_min = min(nums)
+
+a1 = 10 ** 9
+a2 = nums_max * 2 - 1
+a3 = ((10 ** 9) - nums_min) * 2 - 1
+max_ = max(a1, a2, a3)
+if max_ == a1:
+    print('0 1000000000')
+elif max_ == a2:
+    print('0 1')
+else:
+    print('1000000000 999999999')"
+56,C,Python3,60928881,2023-02-20 12:13:15,爱打牌的登子,答案错误,"def animals_in_common (location_1 , location_2):
+    s1 = set(location_1)
+    s2 = set(location_2)
+    l1 = len(s1)
+    l2 = len(s2)
+    sT = s1.intersection(s2)
+    s_only1 = s1.difference(sT)"
+57,C,Python3,60936466,2023-02-21 14:34:41,⊙__⊙,答案错误,"print(""999999999 1999999999"")"
+58,C,Python3,60937311,2023-02-21 15:06:33,王燕春,答案错误,"print(""999999999 1999999999"")"
+59,C,Python3,60946358,2023-02-22 16:16:26,懒得改了,答案正确,"input()
+l=sorted(list(map(int,input().split())))
+a=l[0]
+b=l[-1]
+aa=1000000000-0
+bb=b+b-1
+cc=1000000000*2-1-a-a
+dd=max(aa,bb,cc)
+
+if aa==dd:
+    print(0,1000000000)
+elif bb==dd:
+    print(0,1)
+else:
+    print(1000000000,1000000000-1)"
+60,C,Python3,60961905,2023-02-24 09:23:37,屠晓莹,答案错误,"def empty(m:int,p:list):
+    p.sort()
+    if m==1 or p[0]==p[m-1]:
+        if p[0]<=5*10**8:
+            return 10**9
+        else:
+            return 0
+    if 10**9-p[0]>p[m-1]:
+        return 10**9
+    else:
+        return 0
+m=int(input())
+p=[]
+tmp=input().split(' ')
+p=[int(tmp[i]) for i in range(m)]
+k=empty(m,p)
+print(k,k)"
+61,C,Python3,60961933,2023-02-24 09:29:51,屠晓莹,答案错误,"def empty(m:int,p:list):
+    p.sort()
+    if m==1 or p[0]==p[m-1]:
+        if p[0]<=5*10**8:
+            return 10**9
+        else:
+            return 0
+    if 10**9-p[0]>p[m-1]:
+        return 10**9
+    else:
+        return 0
+m=int(input())
+p=[]
+tmp=input().split(' ')
+p=[int(tmp[i]) for i in range(m)]
+k=empty(m,p)
+if k==10**9:
+    print(k,k-1)
+else:
+    print(k,k+1)"
+62,C,Python3,60961997,2023-02-24 09:42:05,屠晓莹,答案正确,"def empty(m:int,p:list):
+    p.sort()
+    if p[0]==5*10**8 or p[m-1]==5*10**8:
+        return 0,10**9
+    if m==1 or p[0]==p[m-1]:
+        if p[0]<=5*10**8:
+            return 10**9,10**9-1
+        else:
+            return 0,1
+    if 10**9-p[0]>p[m-1]:
+        return 10**9,10**9-1
+    else:
+        return 0,1
+m=int(input())
+# p=[]
+tmp=input().split(' ')
+p=[int(tmp[i]) for i in range(m)]
+s,t=empty(m,p)
+print(s,t)"
+63,C,Python3,60962010,2023-02-24 09:46:19,屠晓莹,答案错误,"# def empty(m:int,p:list):
+#     p.sort()
+#     if p[0]==5*10**8 or p[m-1]==5*10**8:
+#         return 0,10**9
+#     if m==1 or p[0]==p[m-1]:
+#         if p[0]<=5*10**8:
+#             return 10**9,10**9-1
+#         else:
+#             return 0,1
+#     if 10**9-p[0]>p[m-1]:
+#         return 10**9,10**9-1
+#     else:
+#         return 0,1
+# m=int(input())
+# # p=[]
+# tmp=input().split(' ')
+# p=[int(tmp[i]) for i in range(m)]
+# s,t=empty(m,p)
+# print(s,t)
+print(""1000000000 1999999999"")"
+64,C,Python3,61278170,2023-03-13 23:33:41,阿来想AC,答案错误,"m = int(input())
+mlist = list(map(int,input().split(' ')))
+max1 = max(mlist)
+min1 = min(mlist)
+if m == 1:
+    print(""{} {}"".format(0,int(1e9)))
+elif 2*max1-min1 >max1+1e9-2*min1:
+    print(""{} {}"".format(0,min1))
+else:
+    print(""{} {}"".format(int(1e9),max1))"
+65,C,Python3,61278224,2023-03-13 23:40:05,阿来想AC,答案错误,"m = int(input())
+mlist = list(map(int,input().split(' ')))
+difflist = [mlist[0]]
+for i in range(m-1):
+    difflist.append(mlist[i+1]-mlist[i])
+index = difflist.index(min(difflist))
+if m == 1:
+    print(""{} {}"".format(0,int(1e9)))
+else:
+    print(""{} {}"".format(mlist[index],mlist[index+1]))"
+66,C,Python3,61278240,2023-03-13 23:42:12,阿来想AC,执行出错,"m = int(input())
+mlist = list(map(int,input().split(' ')))
+difflist = [mlist[0]]
+for i in range(m-1):
+    difflist.append(mlist[i+1]-mlist[i])
+difflist.pop(0)
+#print(difflist)
+index = difflist.index(min(difflist))
+if m == 1:
+    print(""{} {}"".format(0,int(1e9)))
+else:
+    print(""{} {}"".format(mlist[index],mlist[index+1]))"
+67,C,Python3,61278247,2023-03-13 23:42:52,阿来想AC,答案错误,"m = int(input())
+mlist = list(map(int,input().split(' ')))
+if m == 1:
+    print(""{} {}"".format(0,int(1e9)))
+else:
+    difflist = [mlist[0]]
+    for i in range(m-1):
+        difflist.append(mlist[i+1]-mlist[i])
+    difflist.pop(0)
+    #print(difflist)
+    index = difflist.index(min(difflist))
+
+    print(""{} {}"".format(mlist[index],mlist[index+1]))"
+68,C,Python3,61278320,2023-03-13 23:51:33,阿来想AC,答案错误,"m = int(input())
+mlist = list(map(int,input().split(' ')))
+mlist.sort()
+if m == 1 or m == 2:
+    print(""{} {}"".format(0,int(1e9)))
+else:
+    
+    if mlist[-1]-2*mlist[0]+1e9>2*mlist[-1]-mlist[-1]:
+        print(""{} {}"".format(int(1e9),mlist[-1]))
+    else:
+        print(""{} {}"".format(mlist[0],0))"
+69,C,Python3,61278348,2023-03-13 23:54:14,阿来想AC,答案正确,"m = int(input())
+mlist = list(map(int,input().split(' ')))
+mlist.sort()
+if m == 1 or m == 2:
+    print(""{} {}"".format(0,int(1e9)))
+else:
+    
+    minp = mlist[0]
+    maxp = mlist[-1]
+    if minp == 1e9 - maxp:
+        print(0,int(1e9))
+    elif minp > 1e9- maxp:
+        print(0,1)
+    else:
+        print(int(1e9),int(1e9-1))"
+70,C,Python3,61869686,2023-04-13 20:44:03,嗝屁sama,答案错误,"print(""999999999 1999999999"")"

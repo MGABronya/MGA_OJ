@@ -1,0 +1,998 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,D,Python3,61160920,2023-03-10 19:35:35,牛客481337953号,答案正确,"f = [300] * 301
+f[10] = 0
+f[300] = 1
+t = [100, 10, 1]
+for m in range(10):
+    for i in t:
+        for j in range(10, 301):
+            if 10 <= j + i <= 300:
+                f[j + i] = min(f[j + i], f[j] + 1)
+            if 10 <= j - i <= 300:
+                f[j - i] = min(f[j - i], f[j] + 1)
+for _ in range(int(input())):
+    a, b, c, d = map(int, input().split())
+    print(f[a] + f[b] + f[c] + f[d])"
+1,D,Python3,61162117,2023-03-10 19:48:13,摆渡人和211,答案错误,"t = int(input())
+def count(a,b):
+    c = b-a
+    return c//100+min((c%100)//10,11-(c%100)//10)
+while t:
+    t-=1
+    s = input().split()
+    a = int(s[0])
+    b = int(s[1])
+    c = int(s[2])
+    d = int(s[3])
+    ret = 0
+    ret+=min(count(10,a),count(a,300)+1)
+#     print(ret)
+    ret+=min(count(10,b),count(b,300)+1)
+#     print(ret)
+    ret+=min(count(10,c),count(c,300)+1)
+#     print(ret)
+    ret+=min(count(10,d),count(d,300)+1)
+    print(ret)"
+2,D,Python3,61164768,2023-03-10 20:15:32,小嗷犬,答案错误,"for _ in range(int(input())):
+    def cnt(x):
+        ans = 0
+        x0 = x
+        x -= 10
+        while x:
+            i = x % 10
+            x //= 10
+            if i <= 5:
+                ans += i
+            else:
+                x += 1
+                ans += 10 - i
+        cnt = 0
+        x = 300 - x0
+        while x:
+            i = x % 10
+            x //= 10
+            if i <= 5:
+                cnt += i
+            else:
+                x += 1
+                cnt += 10 - i
+        return min(ans, cnt + 1)
+    print(sum(map(lambda x: cnt(int(x)), input().split())))
+"
+3,D,Python3,61164986,2023-03-10 20:17:55,檐下的和平鸽,答案正确,"
+
+flag=[-1 for i in range(301)]
+flag[10]=0
+flag[11]=1
+flag[20]=1
+flag[300]=1
+flag[110]=1
+array=[11,20,110,300]
+step=1
+
+while(array):
+    step+=1
+    for i in range(len(array)):
+        num=array.pop(0)
+        if num-1>=10 and flag[num-1]==-1:
+            flag[num-1]=step
+            array.append(num-1)
+        if num+1<=300 and flag[num+1]==-1:
+            flag[num+1]=step
+            array.append(num+1)
+        if num+10<=300 and flag[num+10]==-1:
+            flag[num+10]=step
+            array.append(num+10)
+        if num-10>=10 and flag[num-10]==-1:
+            flag[num-10]=step
+            array.append(num-10)
+        if num+100<=300 and flag[num+100]==-1:
+            flag[num+100]=step
+            array.append(num+100)
+        if num-100>=10 and flag[num-100]==-1:
+            flag[num-100]=step
+            array.append(num-100)
+
+T=int(input())
+for t in range(T):
+    ans=0
+    '''for resource in input().split():
+        resource=int(resource)
+        #print(ans,resource)
+        if resource<=60:
+            if resource%10<=5:
+                ans+=resource//10-1
+                ans+=resource%10
+            else:
+                ans+=resource//10
+                ans+=10-(resource%10)
+                
+        elif resource<=160:
+            ans+=1
+            if resource>=110:
+                resource-=110
+            else:
+                resource=110-resource
+            if resource%10<=5:
+                ans+=resource//10
+                ans+=resource%10
+            else:
+                ans+=resource//10+1
+                ans+=10-(resource%10)
+        elif resource<=255:
+            ans+=2
+            if resource>=210:
+                resource-=210
+            else:
+                resource=210-resource
+            if resource%10<=5:
+                ans+=resource//10
+                ans+=resource%10
+            else:
+                ans+=resource//10+1
+                ans+=10-(resource%10)
+        else:
+            ans+=1
+            resource=300-resource
+            if resource%10<=5:
+                ans+=resource//10
+                ans+=resource%10
+            else:
+                ans+=resource//10+1
+                ans+=10-(resource%10)'''
+    for resource in input().split():
+        resource=int(resource)
+        ans+=flag[resource]
+        
+    print(ans)"
+4,D,Python3,61165757,2023-03-10 20:26:07,阿来想AC,答案错误,"def nums(a):
+    result = 0
+    if a == 10:
+        return 0
+    if a == 110:
+        return 1
+    if a == 210:
+        return 1
+    if a == 300:
+        return 1
+    if a == 200:
+        return 2
+    if a< 65 :
+        b = a%10
+        if  b>5:
+            return (a/10) + 10 - b
+        else:
+            return (a/10)-1 + b
+    if a>=65 and a< 110:
+        b = a%10
+        if  b <= 5:
+            return 12-(a/10) +  b
+        else:
+            return -(a/10)+11 + 10-b
+    if a> 110 and a<165 :
+        a = a-100
+        b = a%10
+        if  b>5:
+            return (a/10) + 11 - b
+        else:
+            return (a/10)+ b
+    if a>=165 and a< 210:
+        a = a-100
+        b = a%10
+        if  b <= 5:
+            return 13-(a/10) +  b
+        else:
+            return -(a/10)+22-b
+    if a> 210 and a<265 :
+        a = a-200
+        b = a%10
+        if  b>5:
+            return (a/10) + 12 - b
+        else:
+            return (a/10)+ b +1
+    if a>=265 and a<300:
+        a = a-200
+        b = a%10
+        if  b <= 5:
+            return 14-(a/10) +  b
+        else:
+            return -(a/10)+23-b
+t = int(input())
+for i in range(t):
+    a,b,c,d = list(map(int,input().split(' ')))
+    list1 = [nums(a),nums(b),nums(c),nums(d)]
+    #print(list1)
+    print(nums(a)+nums(b)+nums(c)+nums(d))"
+5,D,Python3,61165804,2023-03-10 20:26:31,阿来想AC,答案错误,"def nums(a):
+    result = 0
+    if a == 10:
+        return 0
+    if a == 110:
+        return 1
+    if a == 210:
+        return 1
+    if a == 300:
+        return 1
+    if a == 200:
+        return 2
+    if a< 65 :
+        b = a%10
+        if  b>5:
+            return (a/10) + 10 - b
+        else:
+            return (a/10)-1 + b
+    if a>=65 and a< 110:
+        b = a%10
+        if  b <= 5:
+            return 12-(a/10) +  b
+        else:
+            return -(a/10)+11 + 10-b
+    if a> 110 and a<165 :
+        a = a-100
+        b = a%10
+        if  b>5:
+            return (a/10) + 11 - b
+        else:
+            return (a/10)+ b
+    if a>=165 and a< 210:
+        a = a-100
+        b = a%10
+        if  b <= 5:
+            return 13-(a/10) +  b
+        else:
+            return -(a/10)+22-b
+    if a> 210 and a<265 :
+        a = a-200
+        b = a%10
+        if  b>5:
+            return (a/10) + 12 - b
+        else:
+            return (a/10)+ b +1
+    if a>=265 and a<300:
+        a = a-200
+        b = a%10
+        if  b <= 5:
+            return 14-(a/10) +  b
+        else:
+            return -(a/10)+23-b
+t = int(input())
+for i in range(t):
+    a,b,c,d = list(map(int,input().split(' ')))
+    list1 = [nums(a),nums(b),nums(c),nums(d)]
+    #print(list1)
+    print(int(nums(a)+nums(b)+nums(c)+nums(d)))"
+6,D,Python3,61166082,2023-03-10 20:29:49,阿来想AC,答案错误,"def nums(a):
+    result = 0
+    if a == 10:
+        return 0
+    if a == 110:
+        return 1
+    if a == 210:
+        return 1
+    if a == 300:
+        return 1
+    if a == 200:
+        return 2
+    if a< 65 :
+        b = a%10
+        if  b>5:
+            return (a//10) + 10 - b
+        else:
+            return (a//10)-1 + b
+    if a>=65 and a< 110:
+        b = a%10
+        if  b <= 5:
+            return 12-(a//10) +  b
+        else:
+            return -(a//10)+11 + 10-b
+    if a> 110 and a<165 :
+        a = a-100
+        b = a%10
+        if  b>5:
+            return (a//10) + 11 - b
+        else:
+            return (a//10)+ b
+    if a>=165 and a< 210:
+        a = a-100
+        b = a%10
+        if  b <= 5:
+            return 13-(a//10) +  b
+        else:
+            return -(a//10)+22-b
+    if a> 210 and a<265 :
+        a = a-200
+        b = a%10
+        if  b>5:
+            return (a//10) + 12 - b
+        else:
+            return (a//10)+ b +1
+    if a>=265 and a<300:
+        a = a-200
+        b = a%10
+        if  b <= 5:
+            return 14-(a//10) +  b
+        else:
+            return -(a//10)+23-b
+t = int(input())
+for i in range(t):
+    a,b,c,d = list(map(int,input().split(' ')))
+    #print(nums(265))
+    print(int(nums(a)+nums(b)+nums(c)+nums(d)))"
+7,D,Python3,61169191,2023-03-10 21:00:02,小嗷犬,答案错误,"for _ in range(int(input())):
+    def cnt(x0):
+        ans = 0
+        x = x0 - 10
+        while x:
+            i = x % 10
+            x //= 10
+            if i < 5:
+                ans += i
+            else:
+                x += 1
+                ans += 10 - i
+        cnt = 0
+        x = 300 - x0
+        while x:
+            i = x % 10
+            x //= 10
+            if i <= 5:
+                cnt += i
+            else:
+                x += 1
+                cnt += 10 - i
+        return min(ans, cnt + 1)
+    print(sum(map(lambda x: cnt(int(x)), input().split())))
+"
+8,D,Python3,61174245,2023-03-10 23:45:52,Calabash_yang,答案正确,"import collections
+import math
+import os
+from heapq import heapify, heappop, heappush
+import queue
+from sys import stdin, stdout
+from itertools import *
+import bisect
+import sys
+
+MAXN = 200010
+mod = 1000000007
+inf = int(1e18)
+
+a=[1,-1,10,-10,100,-100]
+d=[inf]*(MAXN)
+def calc():
+    q=collections.deque()
+    q.append(10)
+    q.append(300)
+    d[10],d[300]=0,1
+    while len(q):
+        x=q.popleft()
+        for dx in a:
+            if d[x+dx]==inf and 10<=x+dx<=300:
+                d[x+dx]=d[x]+1
+                q.append(x+dx)
+
+def solve():
+    a,b,c,dd=map(int,stdin.readline().split())
+    ans=d[a]+d[b]+d[c]+d[dd]
+    print(ans)
+
+t=int(stdin.readline())
+calc()
+for _ in range(t):
+    solve()
+"
+9,D,Python3,61178261,2023-03-11 11:55:51,AuJinn,答案正确,"import sys
+from collections import deque
+
+input = sys.stdin.buffer.readline 
+
+d = [-1] * 301
+d[10] = 0
+d[300] = 1
+
+q = deque()
+q.append(10)
+q.append(300)
+
+while len(q):
+    t = q.popleft()
+    
+    for u in [-1, 1, -10, 10, -100, 100]:
+        v = t + u
+        if v >= 10 and v <= 300 and d[v] == -1:
+            d[v] = d[t] + 1;
+            q.append(v)
+
+for _ in range(int(input())):
+    print(sum(d[int(x)] for x in input().split()))
+"
+10,D,Python3,61238742,2023-03-11 20:45:17,❃寻梅᭄ꦿ࿐,答案正确,"def read():
+    res = 0
+    f = 1
+    c = getchar()
+    while c < '0' or c > '9':
+        if c == '-':
+            f = -1
+        c = getchar()
+    while c >= '0' and c <= '9':
+        res = (res << 1)+(res << 3)+int(c)
+        c = getchar()
+    return res*f
+
+arr=[0o7777777777 for i in range(555)]
+b=[-1,1,10,-10,100,-100]
+def bfs():
+    global arr
+    q=[10,300]
+    l=0
+    arr[10]=0
+    arr[300]=1
+    while l<len(q):
+        g=q[l]
+        l+=1
+        for i in range(6):
+            if g+b[i]>0 and arr[g+b[i]]>arr[g]+1 and g+b[i]<300:
+                arr[g+b[i]]=arr[g]+1
+                q+=[g+b[i]]
+def main():
+    t = 1
+    bfs()
+    t = read()
+    while t:
+        print(arr[read()]+arr[read()]+arr[read()]+arr[read()])
+        t -= 1
+    return 0
+
+
+""""""于2023年03月11日 20:22:34 导入模板
+ *                                                          _ooOoo_
+ *                                                         o8888888o
+ *                                                         88"" . ""88
+ *                                                         (| -_- |)
+ *                                                          O\ = /O
+ *                                                      ____/`---'\____
+ *                                                    .   ' \\| |// `.
+ *                                                     / \\||| : |||// \
+ *                                                   / _||||| -:- |||||- \
+ *                                                     | | \\\ - /// | |
+ *                                                   | \_| ''\---/'' | |
+ *                                                    \ .-\__ `-` ___/-. /
+ *                                                 ___`. .' /--.--\ `. . __
+ *                                              ."""" '< `.___\_<|>_/___.' >'"""".
+ *                                             | | : `- \`.;`\ _ /`;.`/ - ` : | |
+ *                                               \ \ `-. \_ __\ /__ _/ .-` / /
+ *                                       ======`-.____`-.___\_____/___.-`____.-'======
+ *                                                          `=---='
+ *
+ *                                       .............................................
+ *                                              佛祖保佑             永无BUG
+ *                                      佛曰:
+ *                                              写字楼里写字间，写字间里程序员；
+ *                                              程序人员写程序，又拿程序换酒钱。
+ *                                              酒醒只在网上坐，酒醉还来网下眠；
+ *                                              酒醉酒醒日复日，网上网下年复年。
+ *                                              但愿老死电脑间，不愿鞠躬老板前；
+ *                                              奔驰宝马贵者趣，公交自行程序员。
+ *                                              别人笑我忒疯癫，我笑自己命太贱；
+""""""
+std = list()
+mark = 0
+
+
+def getchar():
+    global mark
+    if mark == len(std):
+        stdin()
+    dd = mark
+    mark += 1
+    return std[dd]
+
+
+def getc():
+    while True:
+        c = getchar()
+        if (c != ' ' and c != '\n' and c != '\t'):
+            return c
+
+
+def getstr():
+    str1 = list(getc())
+    c = getchar()
+    while (c != ' ' and c != '\t' and c != '\n'):
+        str1 = str1+[c]
+        c = getchar()
+    return """".join(str1)
+
+
+def gets():
+    str1 = list()
+    c = getchar()
+    while (c != '\n'):
+        str1 = str1+[c]
+        c = getchar()
+    return """".join(str1)
+
+
+def stdin():
+    global std
+    global mark
+    try:
+        del(std)
+        std = list(input())+['\n']
+        mark = 0
+    except:
+        exit(0)
+
+
+if __name__ == ""__main__"":
+    main()
+"
+11,D,Python3,61371680,2023-03-19 11:19:57,.201803242316477,答案错误,"for _ in range(int(input())):
+    init = [10, 10, 10, 10]
+    target =  list(map(int, input().split("" "")))
+    time = 0
+    for i,t in enumerate(target):
+        
+        if t == 10:
+            continue
+        if t % 10 >= 6:
+            time += (10-t%10) + 1
+        else:
+            time += t%10
+        if t > 10 and t <= 70:
+            time = time + (t-10)//10
+        elif t > 70 and t <= 160:    # 加一次100
+            time = 1 + time + abs(110-t)//10
+        elif t > 160 and t <= 200:    # 赋值一次300，减一次100
+            time = 2 + time + (200-t)//10
+        elif t > 200 and t <= 250:    # 加两次100
+            time = 2 + time + (t-210)//10
+        elif t > 250:    # 赋值一次300
+            time = 1 + time + (300-t)//10
+        #print('t',t, time)
+    print(time)
+            "
+12,D,Python3,61371687,2023-03-19 11:20:27,.201803242316477,答案错误,"for _ in range(int(input())):
+    init = [10, 10, 10, 10]
+    target =  list(map(int, input().split("" "")))
+    time = 0
+    for i,t in enumerate(target):
+        if t == 10:
+            continue
+        if t % 10 >= 6:
+            time += (10-t%10) + 1
+        else:
+            time += t%10
+        if t > 10 and t <= 70:
+            time = time + (t-10)//10
+        elif t > 70 and t <= 160:    # 加一次100
+            time = 1 + time + abs(110-t)//10
+        elif t > 160 and t <= 200:    # 赋值一次300，减一次100
+            time = 2 + time + (200-t)//10
+        elif t > 200 and t <= 250:    # 加两次100
+            time = 2 + time + (t-210)//10
+        elif t > 250:    # 赋值一次300
+            time = 1 + time + (300-t)//10
+        #print('t',t, time)
+    print(time)
+            "
+13,D,Python3,61371889,2023-03-19 11:38:48,.201803242316477,答案错误,"for _ in range(int(input())):
+    init = [10, 10, 10, 10]
+    target =  list(map(int, input().split("" "")))
+    time = 0
+    for i,t in enumerate(target):
+        if t == 10:
+            continue
+        if t % 10 >= 6:
+            time += (10-t%10)
+        else:
+            time += t%10
+        if t > 10 and t <= 65:
+            time = time + (t-10)//10
+        elif t > 65 and t <= 160:    # 加一次100
+            time = 1 + time + abs(110-t)//10
+        elif t > 160 and t <= 200:    # 赋值一次300，减一次100
+            time = 2 + time + (200-t)//10
+        elif t > 200 and t <= 250:    # 加两次100
+            time = 2 + time + (t-210)//10
+        elif t > 250:    # 赋值一次300
+            time = 1 + time + (300-t)//10
+        #print('t',t, time)
+    print(time)
+            "
+14,D,Python3,61371941,2023-03-19 11:42:18,.201803242316477,答案错误,"for _ in range(int(input())):
+    init = [10, 10, 10, 10]
+    target =  list(map(int, input().split("" "")))
+    time = 0
+    for i,t in enumerate(target):
+        if t == 10:
+            continue
+        if t % 10 >= 6:
+            time += (10-t%10)
+        else:
+            time += t%10
+        if t > 10 and t <= 65:
+            time = time + (t-10)//10
+        elif t > 65 and t <= 165:    # 加一次100
+            time = 1 + time + abs(110-t)//10
+        elif t > 165 and t <= 200:    # 赋值一次300，减一次100
+            time = 2 + time + (200-t)//10
+        elif t > 200 and t <= 250:    # 加两次100
+            time = 2 + time + (t-210)//10
+        elif t > 250:    # 赋值一次300
+            time = 1 + time + (300-t)//10
+        #print('t',t, time)
+    print(time)
+            "
+15,D,Python3,61371964,2023-03-19 11:44:03,.201803242316477,答案错误,"for _ in range(int(input())):
+    init = [10, 10, 10, 10]
+    target =  list(map(int, input().split("" "")))
+    time = 0
+    for i,t in enumerate(target):
+        if t == 10:
+            continue
+        if t % 10 >= 6:
+            time += (10-t%10)
+        else:
+            time += t%10
+        if t > 10 and t <= 65:
+            time = time + (t-10)//10
+        elif t > 65 and t <= 165:    # 加一次100
+            time = 1 + time + abs(110-t)//10
+        elif t > 165 and t <= 205:    # 赋值一次300，减一次100
+            time = 2 + time + (200-t)//10
+        elif t > 205 and t <= 250:    # 加两次100
+            time = 2 + time + (t-210)//10
+        elif t > 250:    # 赋值一次300
+            time = 1 + time + (300-t)//10
+        #print('t',t, time)
+    print(time)
+            "
+16,D,Python3,61371992,2023-03-19 11:47:41,.201803242316477,答案错误,"for _ in range(int(input())):
+    init = [10, 10, 10, 10]
+    target =  list(map(int, input().split("" "")))
+    time = 0
+    for i,t in enumerate(target):
+        if t == 10:
+            continue
+        if t % 10 >= 6:
+            time += (10-t%10)
+        else:
+            time += t%10
+        if t > 10 and t <= 65:
+            time = time + (t-10)//10
+        elif t > 65 and t <= 165:    # 加一次100
+            time = 1 + time + abs(110-t)//10
+        elif t > 165 and t <= 205:    # 赋值一次300，减一次100
+            time = 2 + time + abs(200-t)//10
+        elif t > 205 and t <= 250:    # 加两次100
+            time = 2 + time + abs(t-210)//10
+        elif t > 250:    # 赋值一次300
+            time = 1 + time + (300-t)//10
+        #print('t',t, time)
+    print(time)
+            "
+17,D,Python3,61372055,2023-03-19 11:52:42,.201803242316477,答案错误,"for _ in range(int(input())):
+    init = [10, 10, 10, 10]
+    target =  list(map(int, input().split("" "")))
+    time = 0
+    for i,t in enumerate(target):
+        if t == 10:
+            continue
+        if t % 10 >= 6:
+            time += (10-t%10)
+        else:
+            time += t%10
+        if t > 10 and t <= 65:
+            time = time + (t-10)//10
+        elif t > 65 and t <= 165:    # 加一次100
+            time = 1 + time + abs(110-t)//10
+        elif t > 165 and t <= 205:    # 赋值一次300，减一次100
+            time = 2 + time + abs(200-t)//10
+        elif t > 205 and t <= 255:    # 加两次100
+            time = 2 + time + abs(t-210)//10
+        elif t > 255:    # 赋值一次300
+            time = 1 + time + (300-t)//10
+        #print('t',t, time)
+    print(time)
+            "
+18,D,Python3,61372356,2023-03-19 12:04:44,.201803242316477,答案错误,"for _ in range(int(input())):
+    init = [10, 10, 10, 10]
+    target =  list(map(int, input().split("" "")))
+    time = 0
+    for i,t in enumerate(target):
+        if t == 10:
+            continue
+        if t % 10 >= 6:
+            time += (10-t%10)
+        else:
+            time += t%10
+        if t > 10 and t <= 65:
+            time = time + (t-10)//10
+        elif t > 65 and t <= 165:    # 加一次100
+            time = 1 + time + abs(110-t)//10
+        elif t > 165 and t <= 205:    # 赋值一次300，减一次100
+            time = 2 + time + abs(200-t)//10
+        elif t > 205 and t <= 254:    # 加两次100
+            time = 2 + time + abs(t-210)//10
+        elif t > 254:    # 赋值一次300
+            time = 1 + time + (300-t)//10
+        #print('t',t, time)
+    print(time)
+            "
+19,D,Python3,61372682,2023-03-19 12:21:01,.201803242316477,答案正确,"f = [300] * 301
+f[10] = 0
+f[300] = 1
+t = [100, 10, 1]
+for m in range(10):
+    for i in t:
+        for j in range(10, 301):
+            if 10 <= j + i <= 300:
+                f[j + i] = min(f[j + i], f[j] + 1)
+            if 10 <= j - i <= 300:
+                f[j - i] = min(f[j - i], f[j] + 1)
+for _ in range(int(input())):
+    a, b, c, d = map(int, input().split())
+    print(f[a] + f[b] + f[c] + f[d])"
+20,D,Python3,61372695,2023-03-19 12:22:16,.201803242316477,答案错误,"f = [300] * 301
+f[10] = 0
+f[300] = 1
+t = [100, 10, 1]
+for m in range(1):
+    for i in t:
+        for j in range(10, 301):
+            if 10 <= j + i <= 300:
+                f[j + i] = min(f[j + i], f[j] + 1)
+            if 10 <= j - i <= 300:
+                f[j - i] = min(f[j - i], f[j] + 1)
+for _ in range(int(input())):
+    a, b, c, d = map(int, input().split())
+    print(f[a] + f[b] + f[c] + f[d])"
+21,D,Python3,61372726,2023-03-19 12:24:18,.201803242316477,答案正确,"f = [300] * 301
+f[10] = 0
+f[300] = 1
+t = [100, 10, 1]
+for m in range(5):
+    for i in t:
+        for j in range(10, 301):
+            if 10 <= j + i <= 300:
+                f[j + i] = min(f[j + i], f[j] + 1)
+            if 10 <= j - i <= 300:
+                f[j - i] = min(f[j - i], f[j] + 1)
+for _ in range(int(input())):
+    a, b, c, d = map(int, input().split())
+    print(f[a] + f[b] + f[c] + f[d])"
+22,D,Python3,61372731,2023-03-19 12:24:28,.201803242316477,答案错误,"f = [300] * 301
+f[10] = 0
+f[300] = 1
+t = [100, 10, 1]
+for m in range(4):
+    for i in t:
+        for j in range(10, 301):
+            if 10 <= j + i <= 300:
+                f[j + i] = min(f[j + i], f[j] + 1)
+            if 10 <= j - i <= 300:
+                f[j - i] = min(f[j - i], f[j] + 1)
+for _ in range(int(input())):
+    a, b, c, d = map(int, input().split())
+    print(f[a] + f[b] + f[c] + f[d])"
+23,D,Python3,61372733,2023-03-19 12:24:37,.201803242316477,答案正确,"f = [300] * 301
+f[10] = 0
+f[300] = 1
+t = [100, 10, 1]
+for m in range(5):
+    for i in t:
+        for j in range(10, 301):
+            if 10 <= j + i <= 300:
+                f[j + i] = min(f[j + i], f[j] + 1)
+            if 10 <= j - i <= 300:
+                f[j - i] = min(f[j - i], f[j] + 1)
+for _ in range(int(input())):
+    a, b, c, d = map(int, input().split())
+    print(f[a] + f[b] + f[c] + f[d])"
+24,D,Python3,61372773,2023-03-19 12:26:38,.201803242316477,答案正确,"f = [300] * 301
+f[10] = 0
+f[300] = 1
+t = [100, 10, 1]
+# 至少要遍历5遍，因为最小增加/减小为1个单位，这样才能得到完整的数组
+for m in range(5):    
+    for i in t:
+        for j in range(10, 301):
+            if 10 <= j + i <= 300:
+                f[j + i] = min(f[j + i], f[j] + 1)
+            if 10 <= j - i <= 300:
+                f[j - i] = min(f[j - i], f[j] + 1)
+for _ in range(int(input())):
+    a, b, c, d = map(int, input().split())
+    print(f[a] + f[b] + f[c] + f[d])"
+25,D,Python3,61592372,2023-03-28 16:58:29,在抱佛脚的肖恩很害怕一个人,运行超时,"import queue
+
+class node:
+    def __init__(self, v, t):
+        self.v = v
+        self.t = t
+
+def BFS(num):
+    c = [1, -1, 10, -10, 100, -100]
+    q = queue.Queue()
+    new1 = node(10, 0)
+    q.put(new1)
+    while not q.empty():
+        head = q.get()
+        if head.v == num:
+                return head.t
+        for i in range(8):
+            if i < 6:
+                if head.v + c[i] < 10 or head.v + c[i] > 300:
+                    continue
+            if i == 6 and head.v == 300:
+                continue
+            if i == 7 and head.v == 10:
+                continue
+            end = node(head.v, head.t)
+            end.t += 1
+            if 0 <= i < 6:
+                end.v = head.v + c[i]
+            elif i == 6:
+                end.v = 300
+            elif i == 7:
+                end.v = 10
+            q.put(end)
+
+    
+if __name__ == '__main__':
+    n = int(input())
+    a = [[0 for i in range(4)]for i in range(n)]
+    for i in range(n):
+        a[i] = list(map(int, input().split()))
+    for i in range(n):
+        count = 0
+        for j in range(4):
+            count += BFS(a[i][j])
+        print(count)"
+26,D,Python3,61592443,2023-03-28 17:01:20,在抱佛脚的肖恩很害怕一个人,运行超时,"from collections import deque
+
+class node:
+    def __init__(self, v, t):
+        self.v = v
+        self.t = t
+
+
+def BFS(num):
+    c = [1, -1, 10, -10, 100, -100]
+    q = deque()
+    new1 = node(10, 0)
+    q.append(new1)
+    while q:
+        head = q.popleft()
+        if head.v == num:
+            return head.t
+        for i in range(8):
+            if i < 6:
+                if head.v + c[i] < 10 or head.v + c[i] > 300:
+                    continue
+            if i == 6 and head.v == 300:
+                continue
+            if i == 7 and head.v == 10:
+                continue
+            end = node(head.v, head.t)
+            end.t += 1
+            if 0 <= i < 6:
+                end.v = head.v + c[i]
+            elif i == 6:
+                end.v = 300
+            elif i == 7:
+                end.v = 10
+            q.append(end)
+
+
+if __name__ == '__main__':
+    n = int(input())
+    a = [[0 for i in range(4)] for i in range(n)]
+    for i in range(n):
+        a[i] = list(map(int, input().split()))
+    for i in range(n):
+        count = 0
+        for j in range(4):
+            count += BFS(a[i][j])
+        print(count)"
+27,D,Python3,61752330,2023-04-05 13:32:45,一半醒,答案正确,"from collections import deque
+from functools import lru_cache
+
+
+@lru_cache(None)
+def bfs(target):
+    res = 0
+    dic = [-1,1,-100,100,-10,10]
+    q = deque()
+    q.append((10,0))
+    q.append((300,1))
+    mp = set()
+    # 从u->10的最小步数
+    while len(q):
+        u ,c = q.popleft()
+        if u==target:
+            res = c
+            break
+        if u in mp:
+            continue
+        mp.add(u)
+        for d in dic:
+            tu = u+d
+            if 300>=tu>=10:
+                q.append((tu,c+1))
+    return res
+def solve():
+    a = [bfs(int(x)) for x in input().split()]
+    print(sum(a))
+
+t = int(input())
+for _ in range(t):
+    solve()
+"
+28,D,Python3,61752333,2023-04-05 13:33:27,一半醒,运行超时,"from collections import deque
+from functools import lru_cache
+
+
+def bfs(target):
+    res = 0
+    dic = [-1,1,-100,100,-10,10]
+    q = deque()
+    q.append((10,0))
+    q.append((300,1))
+    mp = set()
+    # 从10->target的最小步数
+    while len(q):
+        u ,c = q.popleft()
+        if u==target:
+            res = c
+            break
+        if u in mp:
+            continue
+        mp.add(u)
+        for d in dic:
+            tu = u+d
+            if 300>=tu>=10:
+                q.append((tu,c+1))
+    return res
+def solve():
+    a = [bfs(int(x)) for x in input().split()]
+    print(sum(a))
+
+t = int(input())
+for _ in range(t):
+    solve()
+"
+29,D,Python3,61752338,2023-04-05 13:33:56,一半醒,答案正确,"from collections import deque
+from functools import lru_cache
+
+@lru_cache(None)
+def bfs(target):
+    res = 0
+    dic = [-1,1,-100,100,-10,10]
+    q = deque()
+    q.append((10,0))
+    q.append((300,1))
+    mp = set()
+    # 从10->target的最小步数
+    while len(q):
+        u ,c = q.popleft()
+        if u==target:
+            res = c
+            break
+        if u in mp:
+            continue
+        mp.add(u)
+        for d in dic:
+            tu = u+d
+            if 300>=tu>=10:
+                q.append((tu,c+1))
+    return res
+def solve():
+    a = [bfs(int(x)) for x in input().split()]
+    print(sum(a))
+
+t = int(input())
+for _ in range(t):
+    solve()
+"

@@ -1086,7 +1086,7 @@
 
     **方法类型：POST**
 
-    请求参数： 竞赛的uuid（在接口地址的id处）。 Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含language、code、problem_id ,其中language表示语言，code表示提交的代码，problem_id表示题目id。这里的language支持如下："C"、"C#"、"C++"、"C++11"、"Erlang"、"Go"、"Java"、"JavaScript"、"Kotlin"、"Pascal"、"PHP"、"Python"、"Racket"、"Ruby"、"Rust"、"Scala"、 "Swift"
+    请求参数： 竞赛的uuid（在接口地址的id处）。 Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含language、code、problem_id ,其中language表示语言，code表示提交的代码，problem_id表示题目id。这里的language支持如下："C"、"C#"、"C++"、"C++11"、"Erlang"、"Go"、"Java"、"JavaScript"、"Kotlin"、"Pascal"、"PHP"、"Python"、"Racket"、"Ruby"、"Rust"、 "Swift"
 
     返回值：成功时，返回成功消息，如果失败则返回失败原因。
 
@@ -1222,7 +1222,7 @@
 
     **方法类型：POST**
 
-    请求参数： 竞赛的uuid（在接口地址的id处）。 Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含language、code、problem_id ,其中language表示语言，code表示提交的代码，problem_id表示题目id。这里的language支持如下："C"、"C#"、"C++"、"C++11"、"Erlang"、"Go"、"Java"、"JavaScript"、"Kotlin"、"Pascal"、"PHP"、"Python"、"Racket"、"Ruby"、"Rust"、"Scala"、 "Swift"
+    请求参数： 竞赛的uuid（在接口地址的id处）。 Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含language、code、problem_id ,其中language表示语言，code表示提交的代码，problem_id表示题目id。这里的language支持如下："C"、"C#"、"C++"、"C++11"、"Erlang"、"Go"、"Java"、"JavaScript"、"Kotlin"、"Pascal"、"PHP"、"Python"、"Racket"、"Ruby"、"Rust"、 "Swift"
 
     返回值：成功时，返回成功消息，如果失败则返回失败原因。
 
@@ -1358,7 +1358,7 @@
 
     **方法类型：POST**
 
-    请求参数： 竞赛的uuid（在接口地址的id处）。 Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含language、code、problem_id ,其中language表示语言，code表示提交的代码，problem_id表示题目id。这里的language支持如下："C"、"C#"、"C++"、"C++11"、"Erlang"、"Go"、"Java"、"JavaScript"、"Kotlin"、"Pascal"、"PHP"、"Python"、"Racket"、"Ruby"、"Rust"、"Scala"、 "Swift"
+    请求参数： 竞赛的uuid（在接口地址的id处）。 Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含language、code、problem_id ,其中language表示语言，code表示提交的代码，problem_id表示题目id。这里的language支持如下："C"、"C#"、"C++"、"C++11"、"Erlang"、"Go"、"Java"、"JavaScript"、"Kotlin"、"Pascal"、"PHP"、"Python"、"Racket"、"Ruby"、"Rust"、""、 "Swift"
 
     返回值：成功时，返回成功消息，如果失败则返回失败原因。
 
@@ -3086,7 +3086,7 @@
 
     **方法类型：POST**
 
-    请求参数：  Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含language、code,其中language表示语言，code表示程序的代码。这里的language支持如下："C"、"C#"、"C++"、"C++11"、"Erlang"、"Go"、"Java"、"JavaScript"、"Kotlin"、"Pascal"、"PHP"、"Python"、"Racket"、"Ruby"、"Rust"、"Scala"、 "Swift"
+    请求参数：  Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含language、code,其中language表示语言，code表示程序的代码。这里的language支持如下："C"、"C#"、"C++"、"C++11"、"Erlang"、"Go"、"Java"、"JavaScript"、"Kotlin"、"Pascal"、"PHP"、"Python"、"Racket"、"Ruby"、"Rust"、""、 "Swift"
 
     返回值：成功时，返回成功消息，如果失败则返回失败原因。
 
@@ -3106,7 +3106,7 @@
 
     **方法类型：PUT**
 
-    请求参数：  在接口地址中给出指定程序的id（即:id部分）  。Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含language、code,其中language表示语言，code表示程序的代码。这里的language支持如下："C"、"C#"、"C++"、"C++11"、"Erlang"、"Go"、"Java"、"JavaScript"、"Kotlin"、"Pascal"、"PHP"、"Python"、"Racket"、"Ruby"、"Rust"、"Scala"、 "Swift"
+    请求参数：  在接口地址中给出指定程序的id（即:id部分）  。Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含language、code,其中language表示语言，code表示程序的代码。这里的language支持如下："C"、"C#"、"C++"、"C++11"、"Erlang"、"Go"、"Java"、"JavaScript"、"Kotlin"、"Pascal"、"PHP"、"Python"、"Racket"、"Ruby"、"Rust"、""、 "Swift"
 
     返回值：成功时，返回更新成功，如果失败则返回失败原因。
 
@@ -3146,7 +3146,7 @@
 
     **方法类型：POST**
 
-    请求参数：  Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含language、code、problem_id ,其中language表示语言，code表示提交的代码，problem_id表示题目id。这里的language支持如下："C"、"C#"、"C++"、"C++11"、"Erlang"、"Go"、"Java"、"JavaScript"、"Kotlin"、"Pascal"、"PHP"、"Python"、"Racket"、"Ruby"、"Rust"、"Scala"、 "Swift"
+    请求参数：  Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含language、code、problem_id ,其中language表示语言，code表示提交的代码，problem_id表示题目id。这里的language支持如下："C"、"C#"、"C++"、"C++11"、"Erlang"、"Go"、"Java"、"JavaScript"、"Kotlin"、"Pascal"、"PHP"、"Python"、"Racket"、"Ruby"、"Rust"、""、 "Swift"
 
     返回值：成功时，返回成功消息，如果失败则返回失败原因。
 

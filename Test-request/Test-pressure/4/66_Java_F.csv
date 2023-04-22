@@ -1,0 +1,908 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,F,Java,60853352,2023-02-10 20:25:40,FREY4,答案正确,"
+import java.io.*;
+import java.util.Arrays;
+import java.util.StringTokenizer;
+
+/**
+ * @author freya
+ * @date 2023/2/10
+ **/
+public class Main {
+    public static Reader in;
+    public static PrintWriter out;
+    public static void main(String[] args) {
+        out = new PrintWriter(new BufferedOutputStream(System.out));
+        in = new Reader();
+        int t = 1;
+        while (t-- > 0)
+            solve();
+        out.close();
+    }
+
+    static void solve(){
+        int n = in.nextInt();
+        int[][] arr = new int[n][2];
+        for (int i = 0; i<n; i++){
+            arr[i][0] = in.nextInt();
+            arr[i][1] = i;
+        }
+        Arrays.sort(arr, (a,b)->a[0]-b[0]);
+        int l = 0, r = n-1;
+        while (l < r){
+            int mid = l+r>>1;
+            int cur = mid==n-1? arr[n-2][0] : arr[n-1][0];
+            for (int i = n-1; i>=0; i--){
+                if (i==mid)continue;
+                cur = cur + arr[i][0] >> 1;
+            }
+            if (cur <= arr[mid][0]) r = mid;
+            else l = mid+1;
+        }
+        char[] re = new char[n];
+        Arrays.fill(re, '0');
+        for (int i = l;i<n;i++)re[arr[i][1]] = '1';
+        out.println(new String(re));
+    }
+
+    static int qmi(long a, int b, int p) {
+        long ans = 1;
+        a = (a % p + p) % p;
+        for (; b>0; b >>= 1) {
+            if ((b & 1)!=0) ans = (a * ans) % p;
+            a = (a * a) % p;
+        }
+        return (int)ans;
+    }
+
+    static class Reader {
+        private BufferedReader br;
+        private StringTokenizer st;
+
+        Reader() {
+            br = new BufferedReader(new InputStreamReader(System.in));
+        }
+
+        String next() {
+            try {
+                while (st == null || !st.hasMoreTokens()) {
+                    st = new StringTokenizer(br.readLine());
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return st.nextToken();
+        }
+
+        int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        int[] nextIntArray(int n) {
+            int[] arr = new int[n];
+            for (int i = 0; i < n; i++)
+                arr[i] = nextInt();
+            return arr;
+        }
+
+        long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        String nextLine() {
+            String s = """";
+            try {
+                s = br.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return s;
+        }
+    }
+}
+"
+1,F,Java,60853995,2023-02-10 20:35:27,里卡多·伊泽克松·多斯·桑托斯·莱特,答案错误,"import java.util.*;
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n= in.nextInt();
+        int[]a=new int[n];
+        ArrayList<Integer>shunxu=new ArrayList<>();
+        for (int i =0; i <n; i++) {
+            a[i]= in.nextInt();
+            shunxu.add(a[i]);
+        }
+        Arrays.sort(a);
+        int[]nb=new int[n];
+        nb[n-1]=a[n-1];
+        for (int i =n-2; i>=1; i--) {
+            nb[i]=(nb[i+1]+a[i])/2;
+        }
+        int min=a[0];
+        if (a[0]==a[n-1])min=0;
+        else {
+            for (int i =1; i <n-1; i++) {
+                if (a[i]==a[i-1])continue;
+                int nm=nb[i+1];
+                for (int j =i-1; j>=0; j--) {
+                    nm=(nm+a[j])/2;
+                }
+                if (a[i]>=nm)break;
+                min=a[i];
+            }
+        }
+        for (Integer integer : shunxu) {
+            if (integer>min) System.out.print(1);
+            else System.out.print(0);
+        }
+
+
+
+
+
+
+
+
+
+
+
+    }
+}"
+2,F,Java,60854435,2023-02-10 20:42:37,悠然小白,答案错误,"import java.util.*;
+import java.io.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Scanner in = new Scanner(new BufferedReader(new InputStreamReader(System.in)));
+        PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+
+        int n = in.nextInt();
+        int[] nums = new int[n];
+        int[] nums2 = new int[n];
+        for (int i = 0; i < nums.length; i++) {
+            nums[i] = in.nextInt();
+            nums2[i] = nums[i];
+        }
+        Arrays.sort(nums2);
+        int res = nums2[nums2.length - 1];
+        for (int i = 0; i < nums2.length - 1; i++) {
+            res = (res + nums[i]) / 2;
+        }
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] >= res) {
+                out.print(1);
+            } else {
+                out.print(0);
+            }
+        }
+
+        out.flush();
+    }
+
+}
+"
+3,F,Java,60854741,2023-02-10 20:48:11,里卡多·伊泽克松·多斯·桑托斯·莱特,答案错误,"import java.util.*;
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n= in.nextInt();
+        int[]a=new int[n];
+        ArrayList<Integer>shunxu=new ArrayList<>();
+        for (int i =0; i <n; i++) {
+            a[i]= in.nextInt();
+            shunxu.add(a[i]);
+        }
+        Arrays.sort(a);
+        int[]nb=new int[n];
+        nb[n-1]=a[n-1];
+        for (int i =n-2; i>=1; i--) {
+            nb[i]=(nb[i+1]+a[i])/2;
+        }
+        int min=a[0];
+        if (a[0]==a[n-1])min=0;
+        else {
+            for (int i =1; i <n-1; i++) {
+                if (a[i]==a[i-1])continue;
+                int nm=nb[i+1];
+                for (int j =i-1; j>=0; j--) {
+                    nm=(nm+a[j])/2;
+                }
+                if (a[i]>=nm)break;
+                min=a[i];
+            }
+        }
+        for (Integer integer : shunxu) {
+            if (integer>min) System.out.print(1);
+            else System.out.print(0);
+        }
+
+
+
+
+
+
+
+
+
+
+
+    }
+}"
+4,F,Java,60855110,2023-02-10 20:54:25,里卡多·伊泽克松·多斯·桑托斯·莱特,答案错误,"import java.util.*;
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n= in.nextInt();
+        int[]a=new int[n];
+        ArrayList<Integer>shunxu=new ArrayList<>();
+        for (int i =0; i <n; i++) {
+            a[i]= in.nextInt();
+            shunxu.add(a[i]);
+        }
+        Arrays.sort(a);
+        double[]nb=new double[n];
+        nb[n-1]=a[n-1];
+        for (int i =n-2; i>=1; i--) {
+            nb[i]=(nb[i+1]+a[i])/2;
+        }
+        int min=a[0];
+        if (a[0]==a[n-1])min=0;
+        else {
+            for (int i =1; i <n-1; i++) {
+                if (a[i]==a[i-1])continue;
+                double nm=nb[i+1];
+                for (int j =i-1; j>=0; j--) {
+                    nm=(nm+a[j])/2;
+                }
+                if (a[i]>=nm)break;
+                min=a[i];
+            }
+        }
+        for (Integer integer : shunxu) {
+            if (integer>min) System.out.print(1);
+            else System.out.print(0);
+        }
+
+
+
+
+
+
+
+
+
+
+
+    }
+}"
+5,F,Java,60855486,2023-02-10 20:59:29,里卡多·伊泽克松·多斯·桑托斯·莱特,答案错误,"import java.util.*;
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n= in.nextInt();
+        int[]a=new int[n];
+        ArrayList<Integer>shunxu=new ArrayList<>();
+        for (int i =0; i <n; i++) {
+            a[i]= in.nextInt();
+            shunxu.add(a[i]);
+        }
+        Arrays.sort(a);
+        int[]nb=new int[n];
+        nb[n-1]=a[n-1];
+        for (int i =n-2; i>=1; i--) {
+            nb[i]=(nb[i+1]+a[i])/2;
+        }
+        int min=a[0];
+        if (a[0]==a[n-1])min=0;
+        else {
+            for (int i =1; i <n-1; i++) {
+                if (a[i]==a[i-1])continue;
+                int nm=nb[i+1];
+                for (int j =i-1; j>=0; j--) {
+                    nm=(nm+a[j])/2;
+                }
+                if (a[i]>=nm)break;
+                min=a[i];
+            }
+        }
+        for (Integer integer : shunxu) {
+            if (integer>min) System.out.print(1);
+            else System.out.print(0);
+        }
+
+
+
+
+
+
+
+
+
+
+
+    }
+}"
+6,F,Java,60855582,2023-02-10 21:00:29,里卡多·伊泽克松·多斯·桑托斯·莱特,答案错误,"import java.util.*;
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n= in.nextInt();
+        int[]a=new int[n];
+        ArrayList<Integer>shunxu=new ArrayList<>();
+        for (int i =0; i <n; i++) {
+            a[i]= in.nextInt();
+            shunxu.add(a[i]);
+        }
+        Arrays.sort(a);
+        int[]nb=new int[n];
+        nb[n-1]=a[n-1];
+        for (int i =n-2; i>=1; i--) {
+            nb[i]=(nb[i+1]+a[i])/2;
+        }
+        int min=0;
+        
+        {
+            for (int i =1; i <n-1; i++) {
+                if (a[i]==a[i-1])continue;
+                int nm=nb[i+1];
+                for (int j =i-1; j>=0; j--) {
+                    nm=(nm+a[j])/2;
+                }
+                if (a[i]>=nm)break;
+                min=a[i];
+            }
+        }
+        for (Integer integer : shunxu) {
+            if (integer>min) System.out.print(1);
+            else System.out.print(0);
+        }
+
+
+
+
+
+
+
+
+
+
+
+    }
+}"
+7,F,Java,60855655,2023-02-10 21:01:45,里卡多·伊泽克松·多斯·桑托斯·莱特,答案正确,"import java.util.*;
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n= in.nextInt();
+        int[]a=new int[n];
+        ArrayList<Integer>shunxu=new ArrayList<>();
+        for (int i =0; i <n; i++) {
+            a[i]= in.nextInt();
+            shunxu.add(a[i]);
+        }
+        Arrays.sort(a);
+        int[]nb=new int[n];
+        nb[n-1]=a[n-1];
+        for (int i =n-2; i>=1; i--) {
+            nb[i]=(nb[i+1]+a[i])/2;
+        }
+        int min=0;
+            for (int i =0; i <n-1; i++) {
+                int nm=nb[i+1];
+                for (int j =i-1; j>=0; j--) {
+                    nm=(nm+a[j])/2;
+                }
+                if (a[i]>=nm)break;
+                min=a[i];
+            }
+
+        for (Integer integer : shunxu) {
+            if (integer>min) System.out.print(1);
+            else System.out.print(0);
+        }
+
+
+
+
+
+
+
+
+
+
+
+    }
+}"
+8,F,Java,60857297,2023-02-10 21:47:44,迷你滨,答案错误,"import java.util.*;
+import java.io.*;
+import java.math.*;
+//An apple a day
+
+public class Main{
+	static int maxn = 200005,n,m;
+	static long INF = (long)1e18,ans = 0,mod = (int)998244353;
+	static Scanner sc = new Scanner (System.in);
+	static BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+    static StreamTokenizer st  =new StreamTokenizer(bf);
+    static PrintWriter pw = new PrintWriter(new OutputStreamWriter(System.out));
+    public static void main(String[]args) throws IOException{
+    	int T = 1;
+    	//T = Integer.parseInt(bf.readLine());
+        while(T-->0) solve();
+        pw.flush();
+    }
+    static final int I() throws IOException {
+    	st.nextToken();
+    	return (int)st.nval;
+    }
+    
+    static int a[] = new int [maxn];
+    
+    static boolean check(int mid) {
+    	PriorityQueue<Integer> q = new PriorityQueue<>(Comparator.reverseOrder());
+    	for (int i = 0 ; i <n ; i++) {
+    		if(i == mid) continue;
+    		q.add(a[i]);
+    	}
+    	while(q.size() > 1) {
+    		int x = q.poll(),y = q.poll();
+    		q.add((x+y)/2);
+    	}
+    	if(q.poll() <= a[mid])return true;
+    	return false;
+    }
+    
+    static final void solve() throws IOException{
+    	n = I();
+    	for (int i = 0 ; i <n ; i++) a[i] = I();
+    	Arrays.sort(a,0,n);
+    	int l=0,r=n-1;
+    	while(l<=r) {
+    		int mid  = (l+r)/2;
+    		if(check(mid)) {
+    			ans = mid;
+    			r = mid-1;
+    		}
+    		else l = mid+1;
+    	}
+    	for (int i = 0 ; i <ans ; i++)
+    		pw.print(0);
+    	for (long i = ans ; i <n ; i++)
+    		pw.print(1);
+    	
+    }
+}"
+9,F,Java,60857464,2023-02-10 21:55:10,迷你滨,答案正确,"import java.util.*;
+import java.io.*;
+import java.math.*;
+//An apple a day
+
+public class Main{
+	static int maxn = 200005,n,m;
+	static long INF = (long)1e18,ans = 0,mod = (int)998244353;
+	static Scanner sc = new Scanner (System.in);
+	static BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+    static StreamTokenizer st  =new StreamTokenizer(bf);
+    static PrintWriter pw = new PrintWriter(new OutputStreamWriter(System.out));
+    public static void main(String[]args) throws IOException{
+    	int T = 1;
+    	//T = Integer.parseInt(bf.readLine());
+        while(T-->0) solve();
+        pw.flush();
+    }
+    static final int I() throws IOException {
+    	st.nextToken();
+    	return (int)st.nval;
+    }
+    
+    static int a[] = new int [maxn];
+    
+    static boolean check(int mid) {
+    	PriorityQueue<Integer> q = new PriorityQueue<>(Comparator.reverseOrder());
+    	for (int i = 0 ; i <n ; i++) {
+    		if(i == mid) continue;
+    		q.add(a[i]);
+    	}
+    	while(q.size() > 1) {
+    		int x = q.poll(),y = q.poll();
+    		q.add((x+y)/2);
+    	}
+    	if(q.poll() <= a[mid])return true;
+    	return false;
+    }
+    
+    static final void solve() throws IOException{
+    	n = I();
+        int b[] = new int [maxn];
+    	for (int i = 0 ; i <n ; i++) {
+            a[i] = I();b[i]=a[i];
+        }
+        
+    	Arrays.sort(a,0,n);
+    	int l=0,r=n-1;
+    	while(l<=r) {
+    		int mid  = (l+r)/2;
+    		if(check(mid)) {
+    			m = mid;
+    			r = mid-1;
+    		}
+    		else l = mid+1;
+    	}
+    	for (int i = 0 ; i <ans ; i++)
+    		pw.print(0);
+    	for (int i = 0 ; i <n ; i++)
+    		if(b[i]>=a[m]) pw.print(1);
+            else pw.print(0); 
+    	
+    }
+}"
+10,F,Java,60859555,2023-02-11 09:26:05,小怂很怂,答案正确,"import java.io.*;
+import java.util.Arrays;
+/**
+ * @ClassName 障碍
+ * @Description TODO
+ * @Author 小怂很怂
+ * @Date 2023/2/10 20:23
+ * @Version 1.0
+ **/
+public class Main {
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static StreamTokenizer st = new StreamTokenizer(br);
+    static PrintWriter pw = new PrintWriter(new OutputStreamWriter(System.out));
+
+    public static void main(String[] args) throws Exception {
+        int n=nextInt();
+        int []arr=new int[n+1];
+        int []brr=new int[n+1];
+        for(int i=1;i<=n;i++) {
+            arr[i]=nextInt();
+            brr[i]=arr[i];
+        }
+        Arrays.sort(arr);
+        int l=0,r=n+1;
+        while(l<r-1){
+            int mid=(l+r)/2;
+            int x=arr[n];
+            int t=0;
+            for(int i=n;i>=1;i--){
+                if(i!=mid){
+                    x=(x+arr[i])/2;
+                }
+                if(x<=arr[mid]){
+                    t=1;
+                }
+            }
+            if(t==1){
+                r=mid;
+            }else{
+                l=mid;
+            }
+        }
+        for(int i=1;i<=n;i++){
+            if(brr[i]>=arr[r]){
+                pw.print(1);
+            }else{
+                pw.print(0);
+            }
+        }
+        pw.flush();//必须加
+    }
+
+    public static int nextInt() throws Exception {//int型
+        st.nextToken();
+        return (int) st.nval;
+    }
+
+    public static long nextLong() throws Exception {//long型
+        st.nextToken();
+        return (long) st.nval;
+    }
+}
+"
+11,F,Java,60869986,2023-02-12 19:24:00,Eunoiay,答案正确,"import java.io.*;
+import java.util.Arrays;
+
+public class Main {
+    static final int N = 200010;
+    static Pair[] p = new Pair[N];
+    static int[] a = new int[N];
+    static int n;
+    
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        PrintWriter pw  = new PrintWriter(System.out);
+        
+        n = Integer.parseInt(br.readLine());
+        String[] in = br.readLine().split("" "");
+        
+        for (int i = 1; i <= n; i++) {
+            p[i] = new Pair(Integer.parseInt(in[i - 1]), i);
+        }
+        
+        Arrays.sort(p, 1, n + 1);
+        
+        int l = 1, r = n;
+        while (l < r) {
+            int mid = l + r >> 1;
+            if (check(mid)) r = mid;
+            else l = mid + 1;
+        }
+        
+        for (int i = l; i <= n; i++) {
+            a[p[i].i] = 1;
+        }
+        
+        for (int i = 1; i <= n; i++) pw.print(a[i]);
+        pw.flush();
+        pw.close();
+    }
+    
+    public static boolean check(int mid) {
+        int res = p[n].a;
+        for (int i = n - 1; i >= 1; i--) {
+            if (i == mid) continue;
+            
+            res = res + p[i].a >> 1;
+        }
+        
+        if (res <= p[mid].a) return true;
+        return false;
+    }
+    
+    static class Pair implements Comparable<Pair> {
+        int a, i;
+        
+        Pair(int a, int i) {
+            this.a = a;
+            this.i = i;
+        }
+        
+        @Override
+        public int compareTo(Pair p) {
+            return a - p.a;
+        }
+    }
+}"
+12,F,Java,60870129,2023-02-12 19:44:10,Eunoiay,答案正确,"import java.io.*;
+import java.util.Arrays;
+
+public class Main {
+    static final int N = 200010;
+    static Pair[] p = new Pair[N];
+    static int[] a = new int[N];
+    static int n;
+    
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        PrintWriter pw  = new PrintWriter(System.out);
+        
+        n = Integer.parseInt(br.readLine());
+        String[] in = br.readLine().split("" "");
+        
+        for (int i = 1; i <= n; i++) {
+            p[i] = new Pair(Integer.parseInt(in[i - 1]), i);
+        }
+        
+        Arrays.sort(p, 1, n + 1);
+        
+        int l = 1, r = n;
+        while (l < r) {
+            int mid = l + r >> 1;
+            if (check(mid)) r = mid;
+            else l = mid + 1;
+        }
+        
+        for (int i = l; i <= n; i++) {
+            a[p[i].i] = 1;
+        }
+        
+        for (int i = 1; i <= n; i++) pw.print(a[i]);
+        pw.flush();
+        pw.close();
+    }
+    
+    public static boolean check(int mid) {
+        int res = p[n].a;
+        for (int i = n - 1; i >= 1; i--) {
+            if (i == mid) continue;
+            
+            res = res + p[i].a >> 1;
+            if (res <= p[mid].a) return true;
+        }
+        
+        return false;
+    }
+    
+    static class Pair implements Comparable<Pair> {
+        int a, i;
+        
+        Pair(int a, int i) {
+            this.a = a;
+            this.i = i;
+        }
+        
+        @Override
+        public int compareTo(Pair p) {
+            return a - p.a;
+        }
+    }
+}"
+13,F,Java,60870948,2023-02-12 21:29:10,牛客775249987号,答案正确,"import java.util.*;
+public class Main{
+    public static boolean check(int[] a,int idx){
+        int len=a.length;
+        if(idx==len-1) return true;
+        int cur=a[len-1];
+        for(int i=len-2;i>=0;i--){
+            if(i==idx) continue;
+            cur=(cur+a[i])/2;
+        }
+        
+        return a[idx]>=cur;
+    }
+    public static void main(String[] args){
+        Scanner cin=new Scanner(System.in);
+        int n=cin.nextInt();
+        int[] arr=new int[n],sortArr=new int[n];
+        
+        for(int i=0;i<n;i++){
+            int cur=cin.nextInt();
+            arr[i]=cur;
+            sortArr[i]=cur;
+        }
+        Arrays.sort(sortArr);
+        
+        int left=0,right=n-1;
+        int idx=0;
+        while(left<=right){
+            int mid=(left+right)/2;
+            if(check(sortArr,mid)){
+                idx=mid;
+                right=mid-1;
+            }else{
+                left=mid+1;
+            }
+        }
+        StringBuilder res=new StringBuilder();
+        for(int i=0;i<n;i++){
+            if(arr[i]<sortArr[idx]){
+                res.append(0);
+            }else{
+                res.append(1);
+            }
+        } 
+        
+        System.out.println(res.toString());
+    }
+}"
+14,F,Java,60900524,2023-02-16 18:25:55,刘映辰,答案正确,"import java.util.*;
+import java.lang.*;
+
+public class Main{
+    public static void main(String[] args){
+        Scanner s = new Scanner(System.in);
+        int n = s.nextInt();
+        int[][] arrays = new int[n][2];
+        for(int i = 0; i < n; i++){
+            arrays[i][0] = s.nextInt();
+            arrays[i][1] = i;
+        }
+        
+        Arrays.sort(arrays, (x, y) -> (x[0] - y[0]));
+        
+        int left = 0;
+        int right = n - 1;
+        
+        while(left < right){
+            int mid = left + (right - left) / 2;
+            if(binarySearch(mid, arrays)){
+                right = mid;
+            }
+            else{
+                left = mid + 1;
+            }
+        }
+        
+        char[] result = new char[n];
+        for(int i = 0; i < left; i++){
+            result[arrays[i][1]] = '0';
+        }
+        for(int i = left; i < n; i++){
+            result[arrays[i][1]] = '1';
+        }
+        
+        System.out.println(new String(result));
+    }
+    
+    public static boolean binarySearch(int index, int[][]arrays){
+        long value = -1;
+        for(int i = arrays.length - 1; i >= 0; i--){
+            if(i == index){
+                continue;
+            }
+            else{
+                if(value == -1){
+                    value = arrays[i][0];
+                } 
+                else{
+                    value = (value + arrays[i][0]) / 2;
+                }
+            }
+        }
+        
+        return value <= arrays[index][0];
+    }
+}"
+15,F,Java,60908132,2023-02-17 10:20:27,刘映辰,答案正确,"import java.util.*;
+import java.lang.*;
+
+public class Main{
+    public static void main(String[] args){
+        /*
+        1.创建一个二维数组, 用来表示每一个球的大小和坐标
+        对数组进行排序, 按照球的大小进行升序排列
+        2.利用双指针, 找到一个分界点, 即分界点坐标的所有球都永远不可能获胜
+        反之, 分界点以及其右边的都可以
+        3.根据题目, 我们可以得知, 碰撞后球的大小相对于来说是变小的
+        所以要尽可能的碰撞, 即n - 1个球碰撞后再与当前球进行碰撞
+        那么n - 1个球的最小值, 其实就是每次使用两个最大的值进行碰撞
+        因为这样的话, 越大的球碰撞的次数其实越多, 即越大的值最后给对手提供的价值就越小
+        
+        时间复杂度O(Nlog(N))
+        空间复杂度O(N)
+        */
+        Scanner s = new Scanner(System.in);
+        int n = s.nextInt();
+        int[][] arrays = new int[n][2];
+        for(int i = 0; i < n; i++){
+            arrays[i][0] = s.nextInt();
+            arrays[i][1] = i;
+        }
+        
+        Arrays.sort(arrays, (x, y) -> (x[0] - y[0]));
+        
+        int left = 0;
+        int right = n - 1;
+        
+        while(left < right){
+            int mid = left + (right - left) / 2;
+            if(binarySearch(mid, arrays)){
+                right = mid;
+            }
+            else{
+                left = mid + 1;
+            }
+        }
+        
+        char[] result = new char[n];
+        for(int i = 0; i < left; i++){
+            result[arrays[i][1]] = '0';
+        }
+        for(int i = left; i < n; i++){
+            result[arrays[i][1]] = '1';
+        }
+        
+        System.out.println(new String(result));
+    }
+    
+    public static boolean binarySearch(int index, int[][]arrays){
+        long value = -1;
+        for(int i = arrays.length - 1; i >= 0; i--){
+            if(i == index){
+                continue;
+            }
+            else{
+                if(value == -1){
+                    value = arrays[i][0];
+                } 
+                else{
+                    value = (value + arrays[i][0]) / 2;
+                }
+            }
+        }
+        
+        return value <= arrays[index][0];
+    }
+}"

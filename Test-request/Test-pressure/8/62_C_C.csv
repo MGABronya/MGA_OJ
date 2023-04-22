@@ -1,0 +1,7608 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,C,C,54978976,2022-11-25 19:12:38,jxyjxy,运行超时,"#include<stdio.h>
+long long a[100009];
+long long b[100009];
+long long gy(long long aa,long long bb)
+{
+	long long c=1;
+	while(c)
+	{
+		c=aa%bb;
+		aa=bb;
+		bb=c;
+	}
+	return aa;
+}
+
+int main()
+{
+	long long n;
+	scanf(""%lld"",&n);
+	for(long long i=1;i<=n;i++)
+	{
+		scanf(""%lld"",&a[i]);
+	}
+	for(long long i=1;i<=n;i++)
+	{
+		scanf(""%lld"",&b[i]);
+	}
+	int id=0;
+	for(long long i=1;i<=n;i++)
+	{
+		for(long long j=1;j<=n;j++)
+		{
+			if(a[i]==1||b[j]==1)
+			{
+				continue;
+			}
+			if(gy(a[i],b[j])!=1)
+			{
+				id=1;
+				break;
+			}
+		}
+	}
+	if(id==1)
+	printf(""No"");
+	else
+	printf(""Yes"");
+	
+	return 0;
+}"
+1,C,C,54979000,2022-11-25 19:12:59,jxyjxy,运行超时,"#include<stdio.h>
+long long a[100009];
+long long b[100009];
+long long gy(long long aa,long long bb)
+{
+	long long c=1;
+	while(c)
+	{
+		c=aa%bb;
+		aa=bb;
+		bb=c;
+	}
+	return aa;
+}
+
+int main()
+{
+	long long n;
+	scanf(""%lld"",&n);
+	for(long long i=1;i<=n;i++)
+	{
+		scanf(""%lld"",&a[i]);
+	}
+	for(long long i=1;i<=n;i++)
+	{
+		scanf(""%lld"",&b[i]);
+	}
+	int id=0;
+	for(long long i=1;i<=n;i++)
+	{
+		for(long long j=1;j<=n;j++)
+		{
+			if(a[i]==1||b[j]==1)
+			{
+				continue;
+			}
+			if(gy(a[i],b[j])!=1)
+			{
+				id=1;
+				break;
+			}
+		}
+	}
+	if(id==1)
+	printf(""No"");
+	else
+	printf(""Yes"");
+	
+	return 0;
+}"
+2,C,C,54979314,2022-11-25 19:15:53,YiLinG依零,运行超时,"#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+
+typedef long long ll;
+
+int n;
+int arr[100007];
+
+int gcd(int a, int b) {
+	if (b == 0) return a;
+	return gcd(b, a%b);
+}
+
+void solve() {
+	scanf(""%d"", &n);
+	for (int i = 0; i < n; i ++) {
+		scanf(""%d"", &arr[i]);
+	}
+	int k;
+	int yes = 1;
+	for (int i = 0; i < n; i ++) {
+		scanf(""%d"", &k);
+		for (int j = 0; j < n && yes; j ++) {
+//			printf(""gcd (%d, %d) = %d\n"", arr[i], k, gcd(k, arr[i]));
+			if (gcd(k, arr[j]) > 1) {
+				yes = 0;
+			}
+		}
+	}
+	if (yes) {
+		printf(""Yes\n"");
+	} else {
+		printf(""No\n"");
+	}
+}
+
+int main() {
+//	int _t;
+//	scanf(""%d"", &_t);
+	int _t = 1;
+	while (_t --) {
+		solve();
+	}
+	return 0;
+}"
+3,C,C,54979615,2022-11-25 19:18:50,繁星若尘1,运行超时,"#include <stdio.h>
+typedef long long ll;
+int main(){
+    ll i,n,a[100005],b[100005],c[100005],j,t = 0,pd = 0;
+    scanf(""%lld"",&n);
+    for(i = 1;i <= n;i++){
+        scanf(""%lld"",&a[i]);
+        for(j = 2;j <= a[i];j++){
+            if(a[i] % j == 0){
+                c[++t] = j;
+            }
+        }
+    }
+    for(i = 1;i <= n;i++){
+        scanf(""%lld"",&b[i]);
+        for(j = 1;j <= t;j++){
+            if(b[i] % c[j] == 0){
+                pd = 1;
+                goto out;
+            }
+        }
+    }
+    out:
+    if(pd == 1)printf(""No"");
+    else printf(""Yes"");
+    return 0;
+}"
+4,C,C,54979686,2022-11-25 19:19:31,繁星若尘1,运行超时,"#include <stdio.h>
+typedef long long ll;
+int main(){
+    ll i,n,a[100005],b[100005],c[100005],j,t = 0,pd = 0;
+    scanf(""%lld"",&n);
+    for(i = 1;i <= n;i++){
+        scanf(""%lld"",&a[i]);
+        for(j = 2;j <= a[i];j++){
+            if(a[i] % j == 0){
+                c[++t] = j;
+            }
+        }
+    }
+    for(i = 1;i <= n;i++){
+        scanf(""%lld"",&b[i]);
+        for(j = 1;j <= t;j++){
+            if(b[i] % c[j] == 0){
+                pd = 1;
+                goto out;
+            }
+        }
+    }
+    out:
+    if(pd == 1)printf(""No"");
+    else printf(""Yes"");
+    return 0;
+}"
+5,C,C,54979731,2022-11-25 19:19:59,繁星若尘1,运行超时,"#include <stdio.h>
+typedef long long ll;
+int main(){
+    ll i,n,a[100005],b[100005],c[100005],j,t = 0,pd = 0;
+    scanf(""%lld"",&n);
+    for(i = 1;i <= n;i++){
+        scanf(""%lld"",&a[i]);
+        for(j = 2;j <= a[i];j++){
+            if(a[i] % j == 0){
+                c[++t] = j;
+            }
+        }
+    }
+    for(i = 1;i <= n;i++){
+        scanf(""%lld"",&b[i]);
+        for(j = 1;j <= t;j++){
+            if(b[i] % c[j] == 0){
+                pd = 1;
+                goto out;
+            }
+        }
+    }
+    out:
+    if(pd == 1)printf(""No"");
+    else printf(""Yes"");
+    return 0;
+}"
+6,C,C,54980053,2022-11-25 19:23:17,繁星若尘1,运行超时,"#include <stdio.h>
+typedef long long ll;
+int main(){
+    ll i,n,a[100005],b[100005],c[100005],j,t = 0,pd = 0;
+    scanf(""%lld"",&n);
+    for(i = 1;i <= n;i++){
+        scanf(""%lld"",&a[i]);
+        for(j = 2;j <= a[i];j++){
+            if(a[i] % j == 0){
+                c[++t] = j;
+            }
+        }
+    }
+    for(i = 1;i <= n;i++){
+        scanf(""%lld"",&b[i]);
+        for(j = 1;j <= t;j++){
+            if(b[i] % c[j] == 0){
+                pd = 1;
+                goto out;
+            }
+        }
+    }
+    out:
+    if(pd == 1)printf(""No"");
+    else printf(""Yes"");
+    return 0;
+}"
+7,C,C,54980455,2022-11-25 19:27:07,ljhs,答案错误,"#include<stdio.h>
+int a[1000000 + 5];
+int b[1000000 + 5];
+int find(int arr[],int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		if (arr[i] % 2 == 0)
+			return 0;
+	}
+	return 1;
+
+}
+int main()
+{
+	int n;
+	scanf(""%d"", &n);
+	for (int i = 0; i < n; i++)
+	{
+		scanf(""%d"",&a[i]);
+	}
+	for (int i = 0; i < n; i++)
+	{
+		scanf(""%d"", &b[i]);
+
+	}
+	if (!find(a, n) && !find(b, n))
+		printf(""No"");
+	else
+		printf(""Yes"");
+
+	return 0;
+}"
+8,C,C(gcc 7.5.0),54980816,2022-11-25 19:30:26,梦宇云,运行超时,"#include <stdio.h>
+int meng(int m,int n);
+int chun(int m,int n);
+int main(){
+    int n,k;
+    scanf(""%d"",&n);
+    int a[n],b[n];
+    for(int t=0;t<n;t++){
+        scanf(""%d"",&a[t]);
+    }
+    for(int p=0;p<n;p++){
+        scanf(""%d"",&b[p]);
+    }
+    for(int x=0;x<n;x++){
+        for(int y=0;y<n;y++){
+         k=chun(a[x],b[y]);
+            
+        }
+    }
+    if(k!=0) printf(""No"");
+        else printf(""Yes"");
+    
+}
+int chun(int m,int n){
+    static int l=0;
+    if(m<n){
+        int t=m;
+        m=n;
+        n=t;
+        int p=meng(m,n);
+        if(p!=1) l++;
+       
+    } 
+     return l;
+}
+int meng(int m,int n)
+{
+    return n==0?m:meng(n,m%n);
+}"
+9,C,C,54981372,2022-11-25 19:35:35,黑糖沙琪玛学算法,段错误,"#include""stdio.h""
+
+int gcd(int a,int b){
+    if(b != 0){return gcd(b,a % b);}
+    else{return a;}
+}
+
+
+int main(){
+        int n;
+    scanf(""%d"",&n);
+   int a[10],b[10];
+    
+       for(int i = 0;i < n;i++){
+           scanf(""%d"",a+i);
+       }
+    int flag = 0;
+    int ans = 0;
+    for(int i = 0;i < n;i++){
+        scanf(""%d"",b+i);
+        for(int j = 0;j < n;j++){
+            if(ans == 0){
+           flag = gcd(a[j], b[i]);
+        }
+        
+        if(flag != 1){ans = 1;}
+        
+        }
+        
+    }
+    if(ans){printf(""No\n"");}
+    else{printf(""Yes\n"");}
+   
+}"
+10,C,C,54981517,2022-11-25 19:36:54,王健鑫_,运行超时,"#include<stdio.h>
+int zd(int a,int b)
+{
+	if(a<b)
+	{
+		int t=a;
+		a=b;
+		b=t;
+	}
+	while(b!=0)
+	{
+		int w=a%b;
+		a=b;
+		b=w;
+	}
+	return a;
+}
+int main()
+{
+	int n,k=0;
+	scanf(""%d"",&n);
+	int a[100010],b[100010];
+	for(int i=0;i<n;i++)
+	scanf(""%d"",&a[i]);
+	for(int i=0;i<n;i++)
+	scanf(""%d"",&b[i]);
+	for(int i=0;i<n;i++)
+	{
+		for(int j=0;j<n;j++)
+		{
+			if(zd(a[i],b[j])!=1)
+			{
+				printf(""No"");
+				k=1;
+				break;
+			}
+		}
+	}
+	if(k==0)
+	printf(""Yes"");
+}
+"
+11,C,C(gcc 7.5.0),54981594,2022-11-25 19:37:35,服了你个老六的熊猫很好奇,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c: In function ‘main’:\nmain.c:8:5: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n     scanf(\""%d\"",&n);\n     ^~~~~~~~~~~~~~\nmain.c:10:9: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n         scanf(\""%d\"",&a[i]);\n         ^~~~~~~~~~~~~~~~~\nmain.c:12:9: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n         scanf(\""%d\"",&b[i]);\n         ^~~~~~~~~~~~~~~~~\n/tmp/ccBFKNww.o: In function `gcd':\nmain.c:(.text+0x6e): undefined reference to `sqrt'\ncollect2: error: ld returned 1 exit status""}
+
+#include <stdio.h>
+#include <math.h>
+int gcd(int x,int y);
+int main(void)
+{
+    int n,a[114514]={},b[11514]={};
+    int i,j,k,check=1;
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+        scanf(""%d"",&a[i]);
+    for(i=0;i<n;i++)
+        scanf(""%d"",&b[i]);
+    for(i=0;i<n&&check==1;i++)
+    {
+        for(j=0;j<n;j++)
+        {
+            if(gcd(a[i],b[j])==0)
+            {
+                check=0;
+                break;
+            }
+        }
+    }
+    if(check==1)
+        printf(""Yes"");
+    else printf(""No"");
+}
+int gcd(int x,int y){
+    int temp,k,tag=1;
+    if(x>y)
+    {temp=x;x=y;y=temp;}
+    for(k=(int)sqrt(x);k>1;k--)
+    {
+        if(x%k==0&&y%k==0)
+            {tag=0;break;}
+    }
+    return tag;
+}"
+12,C,C,54981595,2022-11-25 19:37:35,YiLinG依零,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c:23:1: error: non-void function does not return a value [-Werror,-Wreturn-type]\n}\n^\n1 error generated.""}
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+
+typedef long long ll;
+
+int n, k;
+int arr[100007];
+int zsVisit[1000007] = {0};
+int zsArr[1000007] = {0}, len = 0;
+char notZ[1000007] = {1, 1};
+
+int init() {
+	for (int i = 2; i < 1000001; i ++) {
+		if (!notZ[i]) zsArr[len ++] = i;
+		for (int j = 0; j < len; j ++) {
+			if (zsArr[j] * i > 1000000) break;
+			notZ[zsArr[j] * i] = 1;
+			if (i % zsArr[j] == 0) break;
+		}
+	}
+}
+
+void solve() {
+	init();
+	scanf(""%d"", &n);
+	for (int i = 0; i < n; i ++) {
+		scanf(""%d"", &arr[i]);
+		if (notZ[arr[i]]) {
+			int ind = 0;
+			while (notZ[arr[i]] && arr[i] != 1) {
+				if (arr[i] % zsArr[ind] == 0) {
+					zsVisit[zsArr[ind]] = 1;
+					while (arr[i] % zsArr[ind] == 0) {
+						arr[i] /= zsArr[ind];
+					}
+				} else {
+					ind ++;
+				}
+			}
+			zsVisit[arr[i]] = 1;
+		} else {
+			zsVisit[arr[i]] = 1;
+		}
+	}
+	int yes = 1;
+	for (int i = 0; i < n; i ++) {
+		scanf(""%d"", &k);
+		if (yes) {
+			if (notZ[k]) {
+				int ind = 0;
+				while (yes && notZ[k] && k != 1) {
+					if (k % zsArr[ind] == 0) {
+						if (zsVisit[zsArr[ind]]) {
+							yes = 0;
+						}
+						while (k % zsArr[ind] == 0) {
+							k /= zsArr[ind];
+						}
+					} else {
+						ind ++;
+					}
+				}
+			} else {
+				if (zsVisit[k]) yes = 0;
+			}
+		}
+	}
+	if (yes) {
+		printf(""Yes\n"");
+	} else {
+		printf(""No\n"");
+	}
+}
+
+int main() {
+//	int _t;
+//	scanf(""%d"", &_t);
+	int _t = 1;
+	while (_t --) {
+		solve();
+	}
+	return 0;
+}"
+13,C,C,54981619,2022-11-25 19:37:48,YiLinG依零,答案正确,"#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+
+typedef long long ll;
+
+int n, k;
+int arr[100007];
+int zsVisit[1000007] = {0};
+int zsArr[1000007] = {0}, len = 0;
+char notZ[1000007] = {1, 1};
+
+void init() {
+	for (int i = 2; i < 1000001; i ++) {
+		if (!notZ[i]) zsArr[len ++] = i;
+		for (int j = 0; j < len; j ++) {
+			if (zsArr[j] * i > 1000000) break;
+			notZ[zsArr[j] * i] = 1;
+			if (i % zsArr[j] == 0) break;
+		}
+	}
+}
+
+void solve() {
+	init();
+	scanf(""%d"", &n);
+	for (int i = 0; i < n; i ++) {
+		scanf(""%d"", &arr[i]);
+		if (notZ[arr[i]]) {
+			int ind = 0;
+			while (notZ[arr[i]] && arr[i] != 1) {
+				if (arr[i] % zsArr[ind] == 0) {
+					zsVisit[zsArr[ind]] = 1;
+					while (arr[i] % zsArr[ind] == 0) {
+						arr[i] /= zsArr[ind];
+					}
+				} else {
+					ind ++;
+				}
+			}
+			zsVisit[arr[i]] = 1;
+		} else {
+			zsVisit[arr[i]] = 1;
+		}
+	}
+	int yes = 1;
+	for (int i = 0; i < n; i ++) {
+		scanf(""%d"", &k);
+		if (yes) {
+			if (notZ[k]) {
+				int ind = 0;
+				while (yes && notZ[k] && k != 1) {
+					if (k % zsArr[ind] == 0) {
+						if (zsVisit[zsArr[ind]]) {
+							yes = 0;
+						}
+						while (k % zsArr[ind] == 0) {
+							k /= zsArr[ind];
+						}
+					} else {
+						ind ++;
+					}
+				}
+			} else {
+				if (zsVisit[k]) yes = 0;
+			}
+		}
+	}
+	if (yes) {
+		printf(""Yes\n"");
+	} else {
+		printf(""No\n"");
+	}
+}
+
+int main() {
+//	int _t;
+//	scanf(""%d"", &_t);
+	int _t = 1;
+	while (_t --) {
+		solve();
+	}
+	return 0;
+}"
+14,C,C,54981636,2022-11-25 19:38:00,黑糖沙琪玛学算法,运行超时,"#include""stdio.h""
+
+int gcd(int a,int b){
+    if(b) while((a %= b) && (b %= a));
+        return a+ b;
+}
+
+
+int main(){
+        int n;
+    scanf(""%d"",&n);
+   int a[100010],b[100010];
+    
+       for(int i = 0;i < n;i++){
+           scanf(""%d"",a+i);
+       }
+    int flag = 0;
+    int ans = 0;
+    for(int i = 0;i < n;i++){
+        scanf(""%d"",b+i);
+        for(int j = 0;j < n;j++){
+            if(ans == 0){
+           flag = gcd(a[j], b[i]);
+        }
+        
+        if(flag != 1){ans = 1;}
+        
+        }
+        
+    }
+    if(ans){printf(""No\n"");}
+    else{printf(""Yes\n"");}
+   
+}"
+15,C,C(gcc 7.5.0),54981719,2022-11-25 19:38:55,Aaayc.,运行超时,"#include<stdio.h>
+int gcd(int a,int b)
+{
+    int d=1;
+    while(d)
+    {   
+        d=a%b;
+        a=b;
+        b=d;
+    }
+    return a;
+}
+int main()
+{
+    int n;
+    scanf(""%d"",&n);
+    int a[n],b[n];
+    for(int i=0;i<n;i++)
+    scanf(""%d"",&a[i]);
+    for(int i=0;i<n;i++)
+    scanf(""%d"",&b[i]);
+    int cnt=0;
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<n;j++)
+        {
+            if(gcd(a[i],b[j])!=1)
+            cnt++;
+        }
+    }
+    if(cnt==0)
+    printf(""Yes"");
+    else
+    printf(""No"");
+    return 0;
+}"
+16,C,C(gcc 7.5.0),54981750,2022-11-25 19:39:16,Aaayc.,运行超时,"#include<stdio.h>
+int gcd(int a,int b)
+{
+    int d=1;
+    while(d)
+    {   
+        d=a%b;
+        a=b;
+        b=d;
+    }
+    return a;
+}
+int main()
+{
+    int n;
+    scanf(""%d"",&n);
+    int a[n],b[n];
+    for(int i=0;i<n;i++)
+    scanf(""%d"",&a[i]);
+    for(int i=0;i<n;i++)
+    scanf(""%d"",&b[i]);
+    int cnt=0;
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<n;j++)
+        {
+            if(gcd(a[i],b[j])!=1)
+            cnt++;
+        }
+    }
+    if(cnt==0)
+    printf(""Yes"");
+    else
+    printf(""No"");
+    return 0;
+}"
+17,C,C,54981836,2022-11-25 19:40:01,242310,答案错误,"#include<stdio.h>
+#include<string.h>
+#include<math.h>
+int gcd(long long a,long long b){
+	int r;
+	r=a%b;
+	while(r){
+		a=b;b=r;r=a%b;
+	}
+	return b;
+}
+int main(){
+	long long n,a[100010],b[100010];
+	int flag=0;
+	scanf(""%d"",&n);
+	for(int i=1;i<=n;i++){
+		scanf(""%d"",&a[i]);
+	}
+	for(int i=1;i<=n;i++){
+		scanf(""%d"",&b[i]);
+		if(gcd(a[i],b[i])!=1) flag=1;
+	}
+	if(flag) printf(""Yes\n"");
+	else printf(""No\n"");
+	return 0;
+}"
+18,C,C,54981914,2022-11-25 19:40:44,ctrl-rap,段错误,"#include<stdio.h>
+int main() {
+	int x, n;
+	int a[100000]={0}, b[100000] = {0};
+	int j = 1, i, falg,tag;
+	scanf(""%d"",&x);
+	for (; x > 0; x--) {
+		falg = 0,tag=0;
+		scanf(""%d"",&n);
+		for (i = 0; i < n; i++)
+			scanf(""%d"",&a[i]);
+		for (i = 0; i < n; i++)
+			scanf(""%d"",&b[i]);
+		for (i = 0; i < n; i++) {
+			j++;
+			if (a[i] % j == 0)
+				if (b[i] % j == 0)
+					falg = 1;
+			if (falg) {
+				tag = 1;
+				break;
+			}
+			if (tag)
+				printf(""YES\n"");
+			else
+				printf(""NO\n"");
+
+		}
+	}
+
+	return 0;
+}"
+19,C,C(gcc 7.5.0),54981969,2022-11-25 19:41:16,我，就是天帝,运行错误,"#include <stdio.h>
+int main(){
+    int n,i,j,ans;
+    int z,x,c,flag=0;
+    int a[10001],b[10001];
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++){
+        scanf(""&d"",a[i]);
+    }
+    for(i=0;i<n;i++){
+        scanf(""&d"",b[i]);
+    }
+    for(i=0;i<n;i++){
+        for(j=0;j<n;j++){
+            z=a[i];
+            x=b[j];
+            while(c!=0){
+                c=z%x;
+                z=x;
+                x=c;
+            }
+            if(x==1) continue;
+            else if (x!=1) {flag=1; break;}
+        }
+        if(flag==1) {printf(""No""); break;}
+    }
+    if(flag==0) printf(""Yes"");
+}"
+20,C,C(gcc 7.5.0),54981982,2022-11-25 19:41:29,我，就是天帝,段错误,"#include <stdio.h>
+int main(){
+    int n,i,j,ans;
+    int z,x,c,flag=0;
+    int a[10000],b[10000];
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++){
+        scanf(""&d"",a[i]);
+    }
+    for(i=0;i<n;i++){
+        scanf(""&d"",b[i]);
+    }
+    for(i=0;i<n;i++){
+        for(j=0;j<n;j++){
+            z=a[i];
+            x=b[j];
+            while(c!=0){
+                c=z%x;
+                z=x;
+                x=c;
+            }
+            if(x==1) continue;
+            else if (x!=1) {flag=1; break;}
+        }
+        if(flag==1) {printf(""No""); break;}
+    }
+    if(flag==0) printf(""Yes"");
+}"
+21,C,C(gcc 7.5.0),54981991,2022-11-25 19:41:36,我，就是天帝,段错误,"#include <stdio.h>
+int main(){
+    int n,i,j,ans;
+    int z,x,c,flag=0;
+    int a[1000],b[1000];
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++){
+        scanf(""&d"",a[i]);
+    }
+    for(i=0;i<n;i++){
+        scanf(""&d"",b[i]);
+    }
+    for(i=0;i<n;i++){
+        for(j=0;j<n;j++){
+            z=a[i];
+            x=b[j];
+            while(c!=0){
+                c=z%x;
+                z=x;
+                x=c;
+            }
+            if(x==1) continue;
+            else if (x!=1) {flag=1; break;}
+        }
+        if(flag==1) {printf(""No""); break;}
+    }
+    if(flag==0) printf(""Yes"");
+}"
+22,C,C,54982027,2022-11-25 19:42:04,繁星若尘1,段错误,"#include <stdio.h>
+typedef long long ll;
+int main(){
+    ll i,n,a[100005],b[100005],c[100005],j,t = 0,pd1 = 0,pd2 = 0,pd = 0;
+    scanf(""%lld"",&n);
+    for(i = 1;i <= n;i++){
+        scanf(""%lld"",&a[i]);
+        if(a[i] % 2 == 0)pd1 = 1;
+    }
+    for(i = 1;i <= n;i++){
+        scanf(""%lld"",&b[i]);
+        if(b[i] % 2 == 0)pd2 = 1;
+    }
+    if(pd1 == 1 && pd2 == 1){
+        printf(""No"");
+    }else {
+        for(i = 1;i <= n;i++){
+            for(j = 2;j <= a[i];j++){
+                if(a[i] % j == 0){
+                    if(c[j] == 0)c[j]++;
+                }
+            }
+        }
+        for(i = 1;i <= n;i++){
+            for(j = 2;j < b[i];j++){
+                if(b[i] % j == 0 && c[j] == 1){
+                    pd = 1;
+                    break;
+                }
+            }
+            if(pd == 1)break;
+        }
+        if(pd == 1)printf(""No"");
+        else printf(""Yes"");
+    }
+    return 0;
+}"
+23,C,C,54982084,2022-11-25 19:42:37,繁星若尘1,运行超时,"#include <stdio.h>
+typedef long long ll;
+ll c[1000000];
+int main(){
+    ll i,n,a[100005],b[100005],j,t = 0,pd1 = 0,pd2 = 0,pd = 0;
+    scanf(""%lld"",&n);
+    for(i = 1;i <= n;i++){
+        scanf(""%lld"",&a[i]);
+        if(a[i] % 2 == 0)pd1 = 1;
+    }
+    for(i = 1;i <= n;i++){
+        scanf(""%lld"",&b[i]);
+        if(b[i] % 2 == 0)pd2 = 1;
+    }
+    if(pd1 == 1 && pd2 == 1){
+        printf(""No"");
+    }else {
+        for(i = 1;i <= n;i++){
+            for(j = 2;j <= a[i];j++){
+                if(a[i] % j == 0){
+                    if(c[j] == 0)c[j]++;
+                }
+            }
+        }
+        for(i = 1;i <= n;i++){
+            for(j = 2;j < b[i];j++){
+                if(b[i] % j == 0 && c[j] == 1){
+                    pd = 1;
+                    break;
+                }
+            }
+            if(pd == 1)break;
+        }
+        if(pd == 1)printf(""No"");
+        else printf(""Yes"");
+    }
+    return 0;
+}"
+24,C,C,54982172,2022-11-25 19:43:26,牛客842878528号,运行超时,"#include <stdio.h>
+const int M = 1e5+10;
+int a[M],b[M];
+int gcd(int a,int b)
+{
+	if(a <= 0 || b <= 0) return -1;
+	if(a % b == 0) return b;
+	else return gcd(b,a%b);
+}
+int main()
+{
+    int n,ans = 1;
+    scanf(""%d"",&n);
+    for(int i = 0;i < n;i++)
+    scanf(""%d"",&a[i]);
+    for(int i = 0;i < n;i++)
+    scanf(""%d"",&b[i]);
+    for(int i = 0;i < n;i++)
+    {
+        for(int j = 0;j < n;j++)
+        {
+            if(gcd(a[i],b[j]) != 1) ans = 0;
+        }
+    }
+    if(ans == 0) printf(""No"");
+    else printf(""Yes"");
+    return 0;
+}"
+25,C,C(gcc 7.5.0),54982248,2022-11-25 19:44:05,习丽君,运行超时,"#include<stdio.h>
+int max(int m, int n)
+{
+    int a;
+    while(n)
+    {
+        a = m % n;
+        m = n;
+        n = a;
+    }
+    if (m == 1)
+        return 0;
+    return 1;
+}
+int main()
+{
+    int n, a[100005], b[100005], i, flag = 1;
+    scanf(""%d"", &n);
+    for(i = 0; i < n; i++)
+        scanf(""%d"", &a[i]);
+    for(i = 0; i < n; i++)
+        scanf(""%d"", &b[i]);
+    for(i = 0; i < n; i++)
+    {
+        for(int j = 0; j < n; j++)
+        {
+            if(max(a[i], b[j]))
+            {
+                flag = 0;
+                break;
+            }
+        }
+    }
+    if(flag == 0)
+        printf(""No\n"");
+    else
+        printf(""Yes\n"");
+    return 0;
+}"
+26,C,C(gcc 7.5.0),54982267,2022-11-25 19:44:22,服了你个老六的熊猫很好奇,运行超时,"#include <stdio.h>
+#include <math.h>
+int gcd(int x,int y);
+int main(void)
+{
+    int n,a[114514]={},b[11514]={};
+    int i,j,k,check=1;
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+        scanf(""%d"",&a[i]);
+    for(i=0;i<n;i++)
+        scanf(""%d"",&b[i]);
+    for(i=0;i<n&&check==1;i++)
+    {
+        for(j=0;j<n;j++)
+        {
+            if(gcd(a[i],b[j])==0)
+            {
+                check=0;
+                break;
+            }
+        }
+    }
+    if(check==1)
+        printf(""Yes"");
+    else printf(""No"");
+}
+int gcd(int x,int y){
+    int temp,k,tag=1;
+    if(x>y)
+    {temp=x;x=y;y=temp;}
+    for(k=x-1;k>1;k--)
+    {
+        if(x%k==0&&y%k==0)
+            {tag=0;break;}
+    }
+    return tag;
+}"
+27,C,C,54982378,2022-11-25 19:45:28,sucredit,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c:3:7: error: unknown type name 'loog'; did you mean 'long'?\nint p(loog long a)\n      ^~~~\n      long\n1 error generated.""}
+
+#include<stdio.h>
+
+int p(loog long a)
+{
+    long long b,c;
+    for(c=2;c*c<=a;c++)
+    {
+        b=a/c;
+        if(a==b*c)
+        {
+            return 0;
+        }
+    }
+    return 1;
+}
+int main()
+{
+    long long  n,a[100010],b[100010],i;
+    for(i=0;i<n;i++)
+    {
+        scanf(""%lld"",&a[i]);
+        long long q=p(a[i]);
+        if(q==1)
+        {
+            printf(""Yes"");
+            return 0;
+        }
+    }
+    for(i=0;i<n;i++)
+    {
+        scanf(""%lld"",&b[i]);
+    }
+    
+}"
+28,C,C,54982385,2022-11-25 19:45:32,王健鑫_,运行超时,"#include<stdio.h>
+void swap(int *a,int *b)
+{
+	int t;
+	t=*a;
+	*a=*b;
+	*b=t;
+}
+int zd(int a,int b)
+{
+	if(a<b)
+	{
+		int t=a;
+		a=b;
+		b=t;
+	}
+	while(b!=0)
+	{
+		int w=a%b;
+		a=b;
+		b=w;
+	}
+	return a;
+}
+void QuickSort2(int* arr, int begin, int end)
+{
+ if (begin >= end)
+  return;
+ int cur = begin, prev = begin - 1;
+ int keyi = end;
+ while (cur != keyi)
+ {
+  if (arr[cur] < arr[keyi] && ++prev != cur)
+  {
+   swap(&arr[cur], &arr[prev]);
+  }
+  ++cur;
+ }
+ swap(&arr[++prev],&arr[keyi]);
+ keyi = prev;
+ QuickSort2(arr, begin, keyi - 1);
+ QuickSort2(arr, keyi + 1, end);
+
+}
+int main()
+{
+	int n,k=0;
+	scanf(""%d"",&n);
+	int a[100010],b[100010];
+	for(int i=0;i<n;i++)
+	scanf(""%d"",&a[i]);
+	for(int i=0;i<n;i++)
+	scanf(""%d"",&b[i]);
+	QuickSort2(a,0,n-1);
+	QuickSort2(b,0,n-1);
+	for(int i=n-1;i>0;i--)
+	{
+		for(int j=n-1;j>0;j--)
+		{
+			if(zd(a[i],b[j])!=1)
+			{
+				printf(""No"");
+				k=1;
+				break;
+			}
+		}	
+		if(k==1)
+		break;
+	}
+	if(k==0)
+	printf(""Yes"");
+}"
+29,C,C,54982393,2022-11-25 19:45:35,白日做梦daydream,运行超时,"#include <stdio.h>
+int arr[1000000], brr[1000000];
+int   turn(int  a, int   b)
+{
+	long long   c;
+	if (a < b)
+	{
+		c = a;
+		a = b;
+		b = c;
+	}
+	while (b != 0)
+	{
+		c = b;
+		b = a % b;
+		a = c;
+	}
+	return a;
+}
+int main()
+{
+	int a,i,flag=0,j;
+	scanf(""%d"", &a);
+	for (i = 0; i < a; i++)
+		scanf(""%d"", &arr[i]);
+	for (i = 0; i < a; i++)
+		scanf(""%d"", &brr[i]);
+	for (i = 0; i < a; i++)
+	{
+		for (j = 0; j < a; j++)
+		{
+			int   c = turn(arr[i], brr[j]);
+			if (c != 1)
+			{
+				flag = 1;
+				break;
+			}
+		}	
+	}
+	if (flag == 0)
+		printf(""Yes"");
+	else printf(""No"");
+	return 0;
+}
+
+"
+30,C,C,54982419,2022-11-25 19:45:54,黑糖沙琪玛学算法,运行超时,"#include""stdio.h""
+
+int gcd(int a,int b){
+    if(b) while((a %= b) && (b %= a));
+        return a+ b;
+}
+
+
+int main(){
+        int n;
+    scanf(""%d"",&n);
+   int a[100010],b[100010];
+
+       for(int i = 0;i < n;i++){
+           scanf(""%d"",a+i);
+       }
+    int flag = 0;
+    int ans = 0;
+    for(int i = 0;i < n;i++){
+        scanf(""%d"",b+i);
+        if(ans == 0){
+            for(int j = 0;j < n;j++){
+         
+           flag = gcd(a[j], b[i]);
+        
+        
+        if(flag != 1){ans = 1;break;}
+        
+         }
+        }
+        
+        
+    }
+    if(ans){printf(""No\n"");}
+    else{printf(""Yes\n"");}
+   
+}"
+31,C,C,54982480,2022-11-25 19:46:28,sucredit,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c:3:7: error: unknown type name 'loog'; did you mean 'long'?\nint p(loog long a)\n      ^~~~\n      long\nmain.c:34:11: error: expected expression\n          long long q=p(b[i]);\n          ^\nmain.c:35:12: error: use of undeclared identifier 'q'\n        if(q==1)\n           ^\n3 errors generated.""}
+
+#include<stdio.h>
+
+int p(loog long a)
+{
+    long long b,c;
+    for(c=2;c*c<=a;c++)
+    {
+        b=a/c;
+        if(a==b*c)
+        {
+            return 0;
+        }
+    }
+    return 1;
+}
+int main()
+{
+    long long  n,a[100010],b[100010],i;
+    for(i=0;i<n;i++)
+    {
+        scanf(""%lld"",&a[i]);
+        
+        long long q=p(a[i]);
+        if(q==1)
+        {
+            printf(""Yes"");
+            return 0;
+        }
+    }
+    for(i=0;i<n;i++)
+    {
+        scanf(""%lld"",&b[i]);
+        if(b[i]!=1)
+          long long q=p(b[i]);
+        if(q==1)
+        {
+            printf(""Yes"");
+            return 0;
+        }
+    }
+    printf(""NO"");
+}"
+32,C,C(gcc 7.5.0),54982488,2022-11-25 19:46:32,付诺,运行超时,"#include <stdio.h>
+int a[1000010],b[1000010];
+int gcd(int x,int y){
+	if(y==0)  return x;
+	else return gcd(y,x%y);
+}
+int main(){
+	int n;
+	scanf(""%d"",&n);
+	for(int i=0;i<n;++i)
+	    scanf(""%d"",&a[i]);
+	for(int i=0;i<n;++i)
+	    scanf(""%d"",&b[i]);
+	for(int i=0;i<n;++i){
+		for(int j=0;j<n;++j){
+			if(gcd(a[i],b[j])!=1){
+			    printf(""No"");
+			    return 0;
+			}
+		}
+	}
+	printf(""Yes"");
+	return 0;
+}"
+33,C,C(gcc 7.5.0),54982500,2022-11-25 19:46:36,付诺,运行超时,"#include <stdio.h>
+int a[1000010],b[1000010];
+int gcd(int x,int y){
+	if(y==0)  return x;
+	else return gcd(y,x%y);
+}
+int main(){
+	int n;
+	scanf(""%d"",&n);
+	for(int i=0;i<n;++i)
+	    scanf(""%d"",&a[i]);
+	for(int i=0;i<n;++i)
+	    scanf(""%d"",&b[i]);
+	for(int i=0;i<n;++i){
+		for(int j=0;j<n;++j){
+			if(gcd(a[i],b[j])!=1){
+			    printf(""No"");
+			    return 0;
+			}
+		}
+	}
+	printf(""Yes"");
+	return 0;
+}"
+34,C,C,54982570,2022-11-25 19:47:12,牛客766825880号,运行超时,"#include <stdio.h>
+
+int main(void) {
+	int n, i, j, k, woc = 0;
+	scanf(""%d"", &n);
+	int a[n], b[n];
+	for (j = 0; j < n; j++) {
+		scanf(""%d"", &a[j]);
+	}
+	for (j = 0; j < n; j++) {
+		scanf(""%d"", &b[j]);
+	}
+	for (i = 0; i < n; i++) {
+		for (k = 2; k < a[i]; k++) {
+			if (a[i] % k == 0) {
+				for (j = 0; j < n; j++) {
+					if (b[j] % k == 0)
+						woc = 1;
+				}
+			}
+		}
+	}
+	if (woc == 1)
+		printf(""No"");
+	else
+		printf(""Yes"");
+}"
+35,C,C,54982605,2022-11-25 19:47:37,牛客766825880号,运行超时,"#include <stdio.h>
+
+int main(void) {
+	int n, i, j, k, woc = 0;
+	scanf(""%d"", &n);
+	int a[n], b[n];
+	for (j = 0; j < n; j++) {
+		scanf(""%d"", &a[j]);
+	}
+	for (j = 0; j < n; j++) {
+		scanf(""%d"", &b[j]);
+	}
+	for (i = 0; i < n; i++) {
+		for (k = 2; k < a[i]; k++) {
+			if (a[i] % k == 0) {
+				for (j = 0; j < n; j++) {
+					if (b[j] % k == 0)
+						woc = 1;
+				}
+			}
+		}
+	}
+	if (woc == 1)
+		printf(""No"");
+	else
+		printf(""Yes"");
+}"
+36,C,C,54982638,2022-11-25 19:47:52,王健鑫_,运行超时,"#include<stdio.h>
+int zd(int a,int b)
+{
+	if(a<b)
+	{
+		int t=a;
+		a=b;
+		b=t;
+	}
+	while(b!=0)
+	{
+		int w=a%b;
+		a=b;
+		b=w;
+	}
+	return a;
+}
+int main()
+{
+	int n,k=0;
+	scanf(""%d"",&n);
+	int a[100010],b[100010];
+	for(int i=0;i<n;i++)
+	scanf(""%d"",&a[i]);
+	for(int i=0;i<n;i++)
+	scanf(""%d"",&b[i]);
+	for(int i=n-1;i>=0;i--)
+	{
+		for(int j=n-1;j>=0;j--)
+		{
+			if(zd(a[i],b[j])!=1)
+			{
+				printf(""No"");
+				k=1;
+				break;
+			}
+		}	
+		if(k==1)
+		break;
+	}
+	if(k==0)
+	printf(""Yes"");
+}"
+37,C,C,54982651,2022-11-25 19:47:57,牛客766825880号,运行超时,"#include <stdio.h>
+
+int main(void) {
+	int n, i, j, k, woc = 0;
+	scanf(""%d"", &n);
+	int a[n], b[n];
+	for (j = 0; j < n; j++) {
+		scanf(""%d"", &a[j]);
+	}
+	for (j = 0; j < n; j++) {
+		scanf(""%d"", &b[j]);
+	}
+	for (i = 0; i < n; i++) {
+		for (k = 2; k < a[i]; k++) {
+			if (a[i] % k == 0) {
+				for (j = 0; j < n; j++) {
+					if (b[j] % k == 0)
+						woc = 1;
+				}
+			}
+		}
+	}
+	if (woc == 1)
+		printf(""No"");
+	else
+		printf(""Yes"");
+}"
+38,C,C(gcc 7.5.0),54982689,2022-11-25 19:48:18,习丽君,答案错误,"#include<stdio.h>
+int max(int m, int n)
+{
+    int a;
+    while(n)
+    {
+        a = m % n;
+        m = n;
+        n = a;
+    }
+    if (m == 1)
+        return 0;
+    return 1;
+}
+int main()
+{
+    int n, a[100005], sum1 = 1, sum2 = 1, b[100005], i;
+    scanf(""%d"", &n);
+    for(i = 0; i < n; i++)
+    {
+        scanf(""%d"", &a[i]);
+        sum1 *= a[i];
+    }
+    for(i = 0; i < n; i++)
+    {
+        scanf(""%d"", &b[i]);
+        sum2 *= b[i];
+    }
+    if(max(sum1, sum2))
+        printf(""No\n"");
+    else
+        printf(""Yes\n"");
+    return 0;
+}"
+39,C,C,54982714,2022-11-25 19:48:33,薛欣宇,运行超时,"#include<stdio.h>
+int fun(int a,int b)
+{
+	int c;
+	while((c=a%b)!=0)
+	{
+		a=b;
+		b=c;
+	}
+	return b;
+}
+int main()
+{
+	int a,x[100000],y[100000],i,j,n=1;
+	scanf(""%d"",&a);
+	for(i=0;i<a;i++)
+	scanf(""%d"",&x[i]);
+	for(i=0;i<a;i++)
+	scanf(""%d"",&y[i]);
+	for(i=0;i<a;i++)
+	{
+		for(j=0;j<a;j++)
+		{
+			if(fun(x[i],y[j])!=1)
+			{
+				n=0;
+				break;
+			}
+		}
+	}
+	if(n==0)
+	printf(""No"");
+	else
+	printf(""Yes"");
+	return 0;
+}"
+40,C,C(gcc 7.5.0),54982721,2022-11-25 19:48:37,我，就是天帝,段错误,"#include <stdio.h>
+int main(){
+    int n,i,j,ans;
+    int z,x,c,flag=0;
+    int a[10001],b[10001];
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++){
+        scanf(""&d"",a[i]);
+    }
+    for(i=0;i<n;i++){
+        scanf(""&d"",b[i]);
+    }
+    for(i=0;i<n;i++){
+        for(j=0;j<n;j++){
+            if((a[i]==1)||(b[j]==1)) {flag=0;break;}
+            z=a[i];
+            x=b[j];
+            while(c!=0){
+                c=z%x;
+                if(c==0) break;
+                z=x;
+                x=c;
+            }
+         if (x!=1) {flag=1; break;}
+        }
+        if(flag==1) {printf(""No""); break;}
+    }
+    if(flag==0) printf(""Yes"");
+}"
+41,C,C,54982776,2022-11-25 19:49:08,牛客766825880号,运行超时,"#include <stdio.h>
+
+int main(void) {
+	int n, i, j, k, woc = 0;
+	scanf(""%d"", &n);
+	int a[n], b[n];
+	for (j = 0; j < n; j++) {
+		scanf(""%d"", &a[j]);
+	}
+	for (j = 0; j < n; j++) {
+		scanf(""%d"", &b[j]);
+	}
+	for (i = 0; i < n; i++) {
+		for (k = 2; k < a[i]/2; k++) {
+			if (a[i] % k == 0) {
+				for (j = 0; j < n; j++) {
+					if (b[j] % k == 0)
+						woc = 1;
+				}
+			}
+		}
+	}
+	if (woc == 1)
+		printf(""No"");
+	else
+		printf(""Yes"");
+}"
+42,C,C,54982785,2022-11-25 19:49:12,薛欣宇,运行超时,"#include<stdio.h>
+int fun(int a,int b)
+{
+	int c;
+	while((c=a%b)!=0)
+	{
+		a=b;
+		b=c;
+	}
+	return b;
+}
+int main()
+{
+	int a,x[100000],y[100000],i,j,n=1;
+	scanf(""%d"",&a);
+	for(i=0;i<a;i++)
+	scanf(""%d"",&x[i]);
+	for(i=0;i<a;i++)
+	scanf(""%d"",&y[i]);
+	for(i=0;i<a;i++)
+	{
+		for(j=0;j<a;j++)
+		{
+			if(fun(x[i],y[j])!=1)
+			{
+				n=0;
+				break;
+			}
+		}
+	}
+	if(n==0)
+	printf(""No"");
+	else
+	printf(""Yes"");
+	return 0;
+}"
+43,C,C,54982794,2022-11-25 19:49:17,薛欣宇,运行超时,"#include<stdio.h>
+int fun(int a,int b)
+{
+	int c;
+	while((c=a%b)!=0)
+	{
+		a=b;
+		b=c;
+	}
+	return b;
+}
+int main()
+{
+	int a,x[100000],y[100000],i,j,n=1;
+	scanf(""%d"",&a);
+	for(i=0;i<a;i++)
+	scanf(""%d"",&x[i]);
+	for(i=0;i<a;i++)
+	scanf(""%d"",&y[i]);
+	for(i=0;i<a;i++)
+	{
+		for(j=0;j<a;j++)
+		{
+			if(fun(x[i],y[j])!=1)
+			{
+				n=0;
+				break;
+			}
+		}
+	}
+	if(n==0)
+	printf(""No"");
+	else
+	printf(""Yes"");
+	return 0;
+}"
+44,C,C(gcc 7.5.0),54982892,2022-11-25 19:50:05,付诺,运行超时,"#include <stdio.h>
+int a[1000010],b[1000010];
+int gcd(int x,int y){
+	while(x!=y){
+		if(x>y)
+		    x-=y;
+		else
+		    y-=x;
+	}
+	return x;
+}
+int main(){
+	int n;
+	scanf(""%d"",&n);
+	for(int i=0;i<n;++i)
+	    scanf(""%d"",&a[i]);
+	for(int i=0;i<n;++i)
+	    scanf(""%d"",&b[i]);
+	for(int i=0;i<n;++i){
+		for(int j=0;j<n;++j){
+			if(gcd(a[i],b[j])!=1){
+			    printf(""No"");
+			    return 0;
+			}
+		}
+	}
+	printf(""Yes"");
+	return 0;
+}"
+45,C,C,54982988,2022-11-25 19:50:56,王健鑫_,运行超时,"#include<stdio.h>
+int zd(int a,int b)
+{
+	if(b==0)
+	return a;
+	else
+	return zd(b,a%b);
+}
+int main()
+{
+	int n,k=0;
+	scanf(""%d"",&n);
+	int a[100010],b[100010];
+	for(int i=0;i<n;i++)
+	scanf(""%d"",&a[i]);
+	for(int i=0;i<n;i++)
+	scanf(""%d"",&b[i]);
+	for(int i=n-1;i>=0;i--)
+	{
+		for(int j=n-1;j>=0;j--)
+		{
+			if(zd(a[i],b[j])!=1)
+			{
+				printf(""No"");
+				k=1;
+				break;
+			}
+		}	
+		if(k==1)
+		break;
+	}
+	if(k==0)
+	printf(""Yes"");
+}
+"
+46,C,C(gcc 7.5.0),54983022,2022-11-25 19:51:12,UJN杨一凡,答案错误,"#include<stdio.h>
+int gcd(int x,int y);
+int main()
+{
+	int a[100000],b[100000];
+	int i,o,n,c,sign;
+	scanf(""%d"",&n);
+	for(i=1;i<=n;i++)
+		scanf(""%d"",&a[i]);
+	for(i=1;i<=n;i++)
+		scanf(""%d"",&b[i]);
+	for(i=1;i<=n;i++)
+		for(o=1;o<=n;o++)
+		{
+			c=gcd(a[i],b[o]);
+			if(c==1)
+			sign=1;
+		}
+	if(sign==1)
+	printf(""No"");
+	else
+	printf(""Yes"");
+	
+	return 0; 
+}
+int gcd(int x,int y)
+{
+	int i,z,n,sign;
+	if(x<y)
+	z=x;
+	else
+	z=y;
+	for(i=2;i<=z;i++)
+	{
+		if(x%i==0&&y%i==0)
+			{sign=1;break;}
+	}
+	if(sign==1)
+	return 1;
+	else
+	return 0;
+}"
+47,C,C,54983109,2022-11-25 19:51:50,UJN韦金亮,段错误,"#include<stdio.h>
+int gcd(int a,int b)
+{
+	if(a%b==0)return b;
+	else return gcd(b,a%b);
+}
+int main()
+{
+	int a[10005],b[10005],i,j,n,flag;
+	scanf(""%d"",&n);
+	for(i=0;i<n;++i)scanf(""%d"",&a[i]);
+	for(i=0;i<n;++i)scanf(""%d"",&b[i]);
+	for(i=0,flag=0;i<n;++i){
+		for(j=0;j<n;++j)
+			if(gcd(a[i],b[j])!=1){
+				printf(""No\n"");
+				flag=1;
+				break;
+			}
+		if(flag==1)break;
+	}
+	if(flag==0)printf(""Yes\n"");
+	return 0;
+}"
+48,C,C,54983176,2022-11-25 19:52:18,sucredit,答案错误,"#include<stdio.h>
+
+int p(long long a)
+{
+    long long b,c;
+    
+    for(c=2;c*c<=a;c++)
+    {
+        b=a/c;
+        if(a==b*c)
+        {
+            return 0;
+        }
+    }
+    return 1;
+}
+int main()
+{
+    long long  n,a[100010],b[100010],i;
+    int q;
+    scanf(""%lld"",&n);
+    for(i=0;i<n;i++)
+    {
+        scanf(""%lld"",&a[i]);
+         if(a[i]>1)
+      q=p(a[i]);
+        if(q==1)
+        {
+            printf(""Yes"");
+            return 0;
+        }
+    }
+    for(i=0;i<n;i++)
+    {
+        scanf(""%lld"",&b[i]);
+        if(b[i]>1)
+         q=p(b[i]);
+        if(q==1)
+        {
+            printf(""Yes"");
+            return 0;
+        }
+    }
+    printf(""No"");
+}"
+49,C,C(gcc 7.5.0),54983214,2022-11-25 19:52:38,牛客362387738号,段错误,"#include<stdio.h>
+#define N 10005
+int f(int a,int b)
+{
+    int t;
+    if(a<b)
+    {
+        t=a;a=b;b=t;
+    }
+    while(a%b)
+    {
+        t=b;
+        b=a%b;
+        a=t;
+    }
+    
+    if(b==1)
+    	return 1;
+    else
+    	return 0;
+}
+
+int main()
+{
+	int i,j,n,flag=1;
+	int a[N],b[N];
+	scanf(""%d"",&n);
+	
+	for(i=0;i<n;i++)
+	{
+		scanf(""%d"",&a[i]);
+	}
+	for(i=0;i<n;i++)
+	{
+		scanf(""%d"",&b[i]);
+	}
+	
+	for(i=0;i<n;i++)
+	{
+		for(j=0;j<n;j++)
+		{
+			if(f(a[i],b[j])==0)
+			{
+				flag=0;
+				printf(""No"");
+				break;
+			}
+		}
+		if(flag==0)
+			break;
+	}
+	if(i==n)
+	{
+		printf(""Yes"");
+	}
+
+	return 0;
+}"
+50,C,C(gcc 7.5.0),54983216,2022-11-25 19:52:39,念墩墩,段错误,"#include<stdio.h>
+int main()
+{
+    int t[100],k[100],n,m,i,j,d,v=1;
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+    {
+        scanf(""%d"",&t[i]);
+    }
+    getchar();
+    for(i=0;i<n;i++)
+    {
+        scanf(""%d"",&k[i]);
+    }
+    for(m=0;m<2;m++)
+    {
+        for(j=0;j<n;j++)
+        {
+            for(d=t[m];;d--)
+            {
+                if(t[m]%d==0&&k[j]%d==0)
+             break;
+            }
+            if(d!=1) 
+                break;
+        }
+        if(d!=1)
+            v=0;
+    }
+    if(v==1)
+        printf(""Yes"");
+    else
+        printf(""No"");
+}"
+51,C,C,54983219,2022-11-25 19:52:41,UJN韦金亮,运行超时,"#include<stdio.h>
+int gcd(int a,int b)
+{
+	if(a%b==0)return b;
+	else return gcd(b,a%b);
+}
+int main()
+{
+	int a[100005],b[100005],i,j,n,flag;
+	scanf(""%d"",&n);
+	for(i=0;i<n;++i)scanf(""%d"",&a[i]);
+	for(i=0;i<n;++i)scanf(""%d"",&b[i]);
+	for(i=0,flag=0;i<n;++i){
+		for(j=0;j<n;++j)
+			if(gcd(a[i],b[j])!=1){
+				printf(""No\n"");
+				flag=1;
+				break;
+			}
+		if(flag==1)break;
+	}
+	if(flag==0)printf(""Yes\n"");
+	return 0;
+}"
+52,C,C,54983245,2022-11-25 19:52:57,buqu22,运行超时,"#include<stdio.h>
+int gcd(int m, int n) {
+	if(n==0) return m;
+	else return gcd(n,m%n); 
+}
+int a[1000000],b[100000];
+int main()
+{
+      int n,i,j,k,l=1;
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++){
+        scanf(""%d"",&a[i]);
+    }
+    for(i=0;i<n;i++){
+        scanf(""%d"",&b[i]);
+    }
+    for(i=0;i<n;i++){
+        for(j=0;j<n;j++){
+            k=gcd(a[i],b[j]);
+            if(k!=1){l=0;break;}
+        }
+        if(l==0){
+            break;
+        }
+    }
+    if(l){printf(""Yes"");}
+    else{printf(""No"");}
+    return 0;
+}"
+53,C,C,54983284,2022-11-25 19:53:14,缘泽,运行超时,"#include <stdio.h>
+int main ()
+{
+	int n,count=0;
+	scanf(""%d"",&n);
+	int a[n],b[n];
+	for(int i=0;i<n;i++)
+	{
+	scanf(""%d"",&a[i]);	
+	}
+	for(int i=0;i<n;i++)
+	{
+	scanf(""%d"",&b[i]);	
+	}
+	for(int i=0;i<n;i++)
+	{
+		for(int j=0;j<n;j++)
+		{
+			for(int z=2;z<a[i]&&z<b[j];z++)
+			{
+				if(a[i]%z==0&&b[j]%z==0)
+				count=1;
+			 } 
+		}
+	}
+	if(count==0)
+	printf(""Yes"");
+	else
+	printf(""No"");
+	return 0;
+}"
+54,C,C,54983292,2022-11-25 19:53:20,gly07,运行超时,"#include <stdio.h>
+#include <string.h>
+int a[100005], b[100005];
+int mmin(int a, int b)
+{
+	if (a > b) return a;
+	else return b;
+}
+
+int main() 
+{
+	int n,m;
+	int min=0;
+	int i, j;
+	int k=1;
+	scanf(""%d"", &n);
+	for (i = 0; i < n; i++)
+		scanf(""%d"", &a[i]);
+	for (j = 0; j < n; j++)
+		scanf(""%d"", &b[i]);
+
+	for (i = 0; i < n; i++)
+	{
+		for (j = 0; j < n; j++)
+		{
+			min = mmin(a[i], b[j]);
+			for (m = min-1; m > 1; m--)
+			{
+				if (a[i] % m == 0 && b[j] % m == 0)
+				{
+					k = 0;
+					break;
+				}
+			}
+			if (m > 1)break;
+		}
+	}
+	if (k)printf(""Yes"");
+	else printf(""No"");
+	
+
+	return 0;
+}"
+55,C,C(gcc 7.5.0),54983303,2022-11-25 19:53:25,付诺,运行超时,"#include <stdio.h>
+int a[1000010],b[1000010];
+int gcd(int x,int y){
+	while(x!=y){
+		if(x>y)
+		    x-=y;
+		else
+		    y-=x;
+	}
+	return x;
+}
+int main(){
+	int n;
+	scanf(""%d"",&n);
+	for(int i=0;i<n;++i)
+	    scanf(""%d"",&a[i]);
+	for(int i=0;i<n;++i)
+	    scanf(""%d"",&b[i]);
+	for(int i=0;i<n;++i){
+		if(a[i]==b[i]){
+			printf(""No"");
+			return 0;
+		}
+		for(int j=i;j<n;++j){
+			if(gcd(a[i],b[j])!=1){
+			    printf(""No"");
+			    return 0;
+			}
+		}
+	}
+	printf(""Yes"");
+	return 0;
+}"
+56,C,C,54983309,2022-11-25 19:53:31,王健鑫_,运行超时,"#include<stdio.h>
+void swap(int *a,int *b)
+{
+	int t;
+	t=*a;
+	*a=*b;
+	*b=t;
+}
+int zd(int a,int b)
+{
+	if(b==0)
+	return a;
+	else
+	return zd(b,a%b);
+}
+void QuickSort2(int* arr, int begin, int end)
+{
+ if (begin >= end)
+  return;
+ int cur = begin, prev = begin - 1;
+ int keyi = end;
+ while (cur != keyi)
+ {
+  if (arr[cur] < arr[keyi] && ++prev != cur)
+  {
+   swap(&arr[cur], &arr[prev]);
+  }
+  ++cur;
+ }
+ swap(&arr[++prev],&arr[keyi]);
+ keyi = prev;
+ QuickSort2(arr, begin, keyi - 1);
+ QuickSort2(arr, keyi + 1, end);
+
+}
+int main()
+{
+	int n,k=0;
+	scanf(""%d"",&n);
+	int a[100010],b[100010];
+	for(int i=0;i<n;i++)
+	scanf(""%d"",&a[i]);
+	for(int i=0;i<n;i++)
+	scanf(""%d"",&b[i]);
+	QuickSort2(a,0,n-1);
+	QuickSort2(b,0,n-1);
+	for(int i=n-1;i>=0;i--)
+	{
+		for(int j=0;j<n;j++)
+		{
+			if(zd(a[i],b[j])!=1)
+			{
+				printf(""No"");
+				k=1;
+				break;
+			}
+		}	
+		if(k==1)
+		break;
+	}
+	if(k==0)
+	printf(""Yes"");
+}
+"
+57,C,C,54983328,2022-11-25 19:53:37,缘泽,运行超时,"#include <stdio.h>
+int main ()
+{
+	int n,count=0;
+	scanf(""%d"",&n);
+	int a[n],b[n];
+	for(int i=0;i<n;i++)
+	{
+	scanf(""%d"",&a[i]);	
+	}
+	for(int i=0;i<n;i++)
+	{
+	scanf(""%d"",&b[i]);	
+	}
+	for(int i=0;i<n;i++)
+	{
+		for(int j=0;j<n;j++)
+		{
+			for(int z=2;z<a[i]&&z<b[j];z++)
+			{
+				if(a[i]%z==0&&b[j]%z==0)
+				count=1;
+			 } 
+		}
+	}
+	if(count==0)
+	printf(""Yes"");
+	else
+	printf(""No"");
+	return 0;
+}"
+58,C,C,54983333,2022-11-25 19:53:40,buqu22,运行超时,"#include<stdio.h>
+int gcd(int m, int n) {
+	if(n==0) return m;
+	else return gcd(n,m%n); 
+}
+int a[1000000],b[100000];
+int main()
+{
+      int n,i,j,k,l=1;
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++){
+        scanf(""%d"",&a[i]);
+    }
+    for(i=0;i<n;i++){
+        scanf(""%d"",&b[i]);
+    }
+    for(i=0;i<n;i++){
+        for(j=0;j<n;j++){
+            k=gcd(a[i],b[j]);
+            if(k!=1){l=0;break;}
+        }
+        if(l==0){
+            break;
+        }
+    }
+    if(l){printf(""Yes"");}
+    else{printf(""No"");}
+    return 0;
+}"
+59,C,C,54983394,2022-11-25 19:54:10,缘泽,运行超时,"#include <stdio.h>
+int main ()
+{
+	int n,count=0;
+	scanf(""%d"",&n);
+	int a[n],b[n];
+	for(int i=0;i<n;i++)
+	{
+	scanf(""%d"",&a[i]);	
+	}
+	for(int i=0;i<n;i++)
+	{
+	scanf(""%d"",&b[i]);	
+	}
+	for(int i=0;i<n;i++)
+	{
+		for(int j=0;j<n;j++)
+		{
+			for(int z=2;z<a[i]&&z<b[j];z++)
+			{
+				if(a[i]%z==0&&b[j]%z==0)
+				count=1;
+			 } 
+		}
+	}
+	if(count==0)
+	printf(""Yes"");
+	else
+	printf(""No"");
+	return 0;
+}"
+60,C,C,54983407,2022-11-25 19:54:16,242310,运行超时,"#include<stdio.h>
+#include<string.h>
+#include<math.h>
+long long gcd(long long a,long long b){
+    if(a==1||b==1) return 1;
+	int r;
+	r=a%b;
+	while(r){
+		a=b;b=r;r=a%b;
+	}
+	return b;
+}
+int main(){
+	long long n,a[100010],b[100010];
+	int flag=0;
+	scanf(""%lld"",&n);
+	for(int i=1;i<=n;i++){
+		scanf(""%lld"",&a[i]);
+	}
+	for(int i=1;i<=n;i++){
+		scanf(""%lld"",&b[i]);
+        for(int j=1;j<=n;j++){
+            if(gcd(a[j],b[i])!=1){
+            flag=1;
+            break;
+            } 
+        }
+		
+	}
+	if(flag) printf(""No\n"");
+	else printf(""Yes\n"");
+	return 0;
+}"
+61,C,C(gcc 7.5.0),54983416,2022-11-25 19:54:21,又在摸鱼的小饼干很怕黑,答案错误,"#include<stdio.h>
+int x;
+int main()
+{
+    int n;
+    scanf(""%d"",&n);
+    int a[n],b[n];
+    for(int i=0;i<n;i++)
+        scanf(""%d"",&a[i]);
+    for(int i=0;i<n;i++)
+        scanf(""%d"",&b[i]);
+    int gcd(int x,int y);
+    for(int i=0;i<n;i++)
+        for(int j=0;j<n;j++)
+            if(gcd(a[i],b[j])==1)continue;
+            else {printf(""No"");x++;return 0;}
+    if(x==0)printf(""Yes"");
+    return 0;
+}
+int gcd(int x,int y)
+{
+    int t;
+    while(t!=0)
+    {
+        t=x%y;
+        x=y;
+        y=t;
+    }
+    return x;
+}"
+62,C,C(gcc 7.5.0),54983437,2022-11-25 19:54:36,UJN杨一凡,答案错误,"#include<stdio.h>
+int gcd(int x,int y);
+int main()
+{
+	int a[100000],b[100000];
+	int i,o,n,c,sign;
+	scanf(""%d"",&n);
+	for(i=1;i<=n;i++)
+		scanf(""%d"",&a[i]);
+	for(i=1;i<=n;i++)
+		scanf(""%d"",&b[i]);
+	for(i=1;i<=n;i++)
+		for(o=1;o<=n;o++)
+		{
+			c=gcd(a[i],b[o]);
+			if(c==1)
+			sign=1;
+		}
+	if(sign==1)
+	printf(""No"");
+	else
+	printf(""Yes"");
+	
+	return 0; 
+}
+int gcd(int x,int y)
+{
+	int i,z,n,sign;
+	if(x<y)
+	z=x;
+	else
+	z=y;
+	for(i=2;i<=z;i++)
+	{
+		if(x%i==0&&y%i==0)
+			{sign=1;break;}
+	}
+	if(sign==1)
+	return 1;
+	else
+	return 0;
+}"
+63,C,C,54983516,2022-11-25 19:55:17,xunmeng,答案错误,"#include <stdio.h>
+
+int aa[1000005] = {0};
+int bb[1000005] = {0};
+#include <math.h>
+int main(void) {
+	int n;
+	void yi(int x);
+	int pan(int y);
+	scanf(""%d"", &n);
+	int tt = 0;
+	static int a[100005];
+	static int b[100005];
+	for (int i = 0; i < n; i++) {
+		scanf(""%d"", &a[i]);
+		yi(a[i]);
+	}
+	for (int i = 0; i < n; i++) {
+		scanf(""%d"", &b[i]);
+		if (tt == 0) {
+			tt = pan(b[i]);
+		}
+	}
+	if (tt == 0) {
+		printf(""Yes\n"");
+	} else {
+		printf(""No\n"");
+	}
+}
+
+void yi(int x) {
+	for (int j = 1; j <= sqrt(x); j++) {
+		if (x % j == 0) {
+			aa[j] = aa[x / j] = 1;
+		}
+	}
+}
+
+
+int pan(int y) {
+	for (int j = 2; j <= sqrt(y); j++) {
+		if (y % j == 0) {
+			if (aa[j] == 1 || aa[y / j] == 1) {
+				return 1;
+			}
+		}
+	}
+	if (aa[y] == 1) {
+		return 1;
+	}
+	return 0;
+}"
+64,C,C,54983583,2022-11-25 19:55:59,薛欣宇,运行超时,"#include<stdio.h>
+int fun(int a,int b)
+{
+	int c;
+	while((c=a%b)!=0)
+	{
+		a=b;
+		b=c;
+	}
+	return b;
+}
+int main()
+{
+	int a,x[100000],y[100000],i,j,n=1,q,b;
+	scanf(""%d"",&a);
+	for(i=0;i<a;i++)
+	scanf(""%d"",&x[i]);
+	for(i=0;i<a;i++)
+	scanf(""%d"",&y[i]);
+	b=a;
+	for(i=0;i<a;i++)
+	{
+		for(j=i+1;j<a;j++)
+		{
+			if(x[i]==x[j])
+			{
+				for(q=j;q<a;q++)
+				{
+					x[q]=x[q+1];
+					a--;
+					j--;
+				}
+			}
+		}
+	}
+	for(i=0;i<b;i++)
+	{
+		for(j=i+1;j<b;j++)
+		{
+			if(y[i]==y[j])
+			{
+				for(q=j;q<b;q++)
+				{
+					y[q]=y[q+1];
+					b--;
+					j--;
+				}
+			}
+		}
+	}
+	for(i=0;i<a;i++)
+	{
+		for(j=0;j<b;j++)
+		{
+			if(fun(x[i],y[j])!=1)
+			{
+				n=0;
+				break;
+			}
+		}
+	}
+	if(n==0)
+	printf(""No"");
+	else
+	printf(""Yes"");
+	return 0;
+}"
+65,C,C(gcc 7.5.0),54983594,2022-11-25 19:56:06,付诺,答案错误,"#include <stdio.h>
+int a[1000010],b[1000010];
+int gcd(int x,int y){
+	while(x!=y){
+		if(x>y)
+		    x-=y;
+		else
+		    y-=x;
+	}
+	return x;
+}
+int main(){
+	int n;
+	scanf(""%d"",&n);
+	if(n>=40000){
+		printf(""No"");
+		return 0;
+	}
+	for(int i=0;i<n;++i)
+	    scanf(""%d"",&a[i]);
+	for(int i=0;i<n;++i)
+	    scanf(""%d"",&b[i]);
+	for(int i=0;i<n;++i){
+		if(a[i]==b[i]){
+			printf(""No"");
+			return 0;
+		}
+		for(int j=i;j<n;++j){
+			if(gcd(a[i],b[j])!=1){
+			    printf(""No"");
+			    return 0;
+			}
+		}
+	}
+	printf(""Yes"");
+	return 0;
+}"
+66,C,C(gcc 7.5.0),54983633,2022-11-25 19:56:27,UJN杨一凡,答案错误,"#include<stdio.h>
+int gcd(int x,int y);
+int main()
+{
+	int a[100000],b[100000];
+	int i,o,n,c,sign;
+	scanf(""%d"",&n);
+	for(i=1;i<=n;i++)
+		scanf(""%d"",&a[i]);
+	for(i=1;i<=n;i++)
+		scanf(""%d"",&b[i]);
+	for(i=1;i<=n;i++)
+		for(o=1;o<=n;o++)
+		{
+			c=gcd(a[i],b[o]);
+			if(c==1)
+			sign=1;
+		}
+	if(sign==1)
+	printf(""No"");
+	else
+	printf(""Yes"");
+	
+	return 0; 
+}
+int gcd(int x,int y)
+{
+	int i,z,n,sign;
+	if(x<y)
+	z=x;
+	else
+	z=y;
+	for(i=2;i<=z;i++)
+	{
+		if(x%i==0&&y%i==0)
+			{sign=1;break;}
+	}
+	if(sign==1)
+	return 1;
+	else
+	return 0;
+}"
+67,C,C(gcc 7.5.0),54983663,2022-11-25 19:56:41,付诺,答案错误,"#include <stdio.h>
+int a[1000010],b[1000010];
+int gcd(int x,int y){
+	while(x!=y){
+		if(x>y)
+		    x-=y;
+		else
+		    y-=x;
+	}
+	return x;
+}
+int main(){
+	int n;
+	scanf(""%d"",&n);
+	if(n>=40000){
+		printf(""No"");
+		return 0;
+	}
+	for(int i=0;i<n;++i)
+	    scanf(""%d"",&a[i]);
+	for(int i=0;i<n;++i)
+	    scanf(""%d"",&b[i]);
+	for(int i=0;i<n;++i){
+		if(a[i]==b[i]){
+			printf(""No"");
+			return 0;
+		}
+		for(int j=0;j<n;++j){
+			if(gcd(a[i],b[j])!=1){
+			    printf(""No"");
+			    return 0;
+			}
+		}
+	}
+	printf(""Yes"");
+	return 0;
+}"
+68,C,C,54983678,2022-11-25 19:56:50,黑糖沙琪玛学算法,运行超时,"#include""stdio.h""
+
+int gcd(int a,int b){
+    if(b) while((a %= b) && (b %= a));
+        return a+ b;
+}
+
+
+int main(){
+        int n;
+    scanf(""%d"",&n);
+   int a[100010],b[100010];
+        int ou = 0;
+       for(int i = 0;i < n;i++){
+           scanf(""%d"",a+i);
+           if(a[i] % 2==0){ou = 1;}
+       }
+    int flag = 0;
+    int ans = 0;
+    for(int i = 0;i < n;i++){
+        scanf(""%d"",b+i);
+        if(ou == 1 && b[i] % 2 == 0){ans = 1;}
+        if(ans == 0){
+            for(int j = 0;j < n;j++){
+         
+           flag = gcd(a[j], b[i]);
+        
+        
+        if(flag != 1){ans = 1;break;}
+        
+         }
+        }
+        
+        
+    }
+    if(ans){printf(""No\n"");}
+    else{printf(""Yes\n"");}
+   
+}"
+69,C,C,54983697,2022-11-25 19:57:01,sucredit,运行超时,"#include<stdio.h>
+
+long long min(long long  a,long long b)
+{
+    return a>b?b:a;
+}
+long long max(long long  a,long long b)
+{
+    return a>b?a:b;
+}
+int main()
+{
+    long long  n,a[100010],b[100010],i;
+    int q;
+    scanf(""%lld"",&n);
+    for(i=0;i<n;i++)
+    {
+        scanf(""%lld"",&a[i]);
+    }
+    for(i=0;i<n;i++)
+    {
+        scanf(""%lld"",&b[i]);
+        for(int e=0;e<n;e++)
+        {
+            if(b[i]!=1&&a[e]!=1&&max(b[i],a[e])%min(b[i],a[e])==0)
+            {
+                printf(""No"");
+                return 0;
+            }
+        }
+    }
+    printf(""Yes"");
+}"
+70,C,C(gcc 7.5.0),54983752,2022-11-25 19:57:33,念墩墩,段错误,"#include<stdio.h>
+int main()
+{
+    int t[100],k[100],n,m,i,j,d,v=1;
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+    {
+        scanf(""%d"",&t[i]);
+    }
+    getchar();
+    for(i=0;i<n;i++)
+    {
+        scanf(""%d"",&k[i]);
+    }
+    for(m=0;m<2;m++)
+    {
+        for(j=0;j<n;j++)
+        {
+            for(d=t[m];;d--)
+            {
+                if(t[m]%d==0&&k[j]%d==0)
+             break;
+            }
+            if(d!=1) 
+                break;
+        }
+        if(d!=1)
+            v=0;
+    }
+    if(v==1)
+        printf(""Yes"");
+    else
+        printf(""No"");
+    return 0;
+}"
+71,C,C(gcc 7.5.0),54983783,2022-11-25 19:57:45,念墩墩,段错误,"#include<stdio.h>
+int main()
+{
+    int t[100],k[100],n,m,i,j,d,v=1;
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+    {
+        scanf(""%d"",&t[i]);
+    }
+    getchar();
+    for(i=0;i<n;i++)
+    {
+        scanf(""%d"",&k[i]);
+    }
+    for(m=0;m<2;m++)
+    {
+        for(j=0;j<n;j++)
+        {
+            for(d=t[m];;d--)
+            {
+                if(t[m]%d==0&&k[j]%d==0)
+             break;
+            }
+            if(d!=1) 
+                break;
+        }
+        if(d!=1)
+            v=0;
+    }
+    if(v==1)
+        printf(""Yes"");
+    else
+        printf(""No"");
+    return 0;
+}"
+72,C,C(gcc 7.5.0),54983796,2022-11-25 19:57:50,念墩墩,段错误,"#include<stdio.h>
+int main()
+{
+    int t[100],k[100],n,m,i,j,d,v=1;
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+    {
+        scanf(""%d"",&t[i]);
+    }
+    getchar();
+    for(i=0;i<n;i++)
+    {
+        scanf(""%d"",&k[i]);
+    }
+    for(m=0;m<2;m++)
+    {
+        for(j=0;j<n;j++)
+        {
+            for(d=t[m];;d--)
+            {
+                if(t[m]%d==0&&k[j]%d==0)
+             break;
+            }
+            if(d!=1) 
+                break;
+        }
+        if(d!=1)
+            v=0;
+    }
+    if(v==1)
+        printf(""Yes"");
+    else
+        printf(""No"");
+    return 0;
+}"
+73,C,C(gcc 7.5.0),54983810,2022-11-25 19:57:56,付诺,运行超时,"#include <stdio.h>
+int a[1000010],b[1000010];
+int gcd(int x,int y){
+	while(x!=y){
+		if(x>y)
+		    x-=y;
+		else
+		    y-=x;
+	}
+	return x;
+}
+int main(){
+	int n;
+	scanf(""%d"",&n);
+	for(int i=0;i<n;++i)
+	    scanf(""%d"",&a[i]);
+	for(int i=0;i<n;++i)
+	    scanf(""%d"",&b[i]);
+	for(int i=0;i<n;++i){
+		if(a[i]==1)
+		    continue;
+		if(a[i]==b[i]){
+			printf(""No"");
+			return 0;
+		}
+		for(int j=0;j<n;++j){
+			if(gcd(a[i],b[j])!=1){
+			    printf(""No"");
+			    return 0;
+			}
+		}
+	}
+	printf(""Yes"");
+	return 0;
+}"
+74,C,C,54983875,2022-11-25 19:58:37,白日做梦daydream,运行超时,"#include <stdio.h>
+int arr[1000000], brr[1000000];
+int   turn(int  a, int   b)
+{
+	long long   c;
+	if (a < b)
+	{
+		c = a;
+		a = b;
+		b = c;
+	}
+	while (b != 0)
+	{
+		c = b;
+		b = a % b;
+		a = c;
+	}
+	return a;
+}
+int main()
+{
+	int a,i,flag=0,j;
+	scanf(""%d"", &a);
+	for (i = 0; i < a; i++)
+		scanf(""%d"", &arr[i]);
+	for (i = 0; i < a; i++)
+		scanf(""%d"", &brr[i]);
+	for (i = 0; i < a; i++)
+	{
+		for (j = 0; j < a; j++)
+		{
+			int   c = turn(arr[i], brr[j]);
+			if (c != 1)
+			{
+				flag = 1;
+				break;
+			}
+		}	
+	}
+	if (flag == 0)
+		printf(""Yes"");
+	else printf(""No"");
+	return 0;
+}
+
+"
+75,C,C,54983914,2022-11-25 19:58:54,buqu22,答案错误,"#include<stdio.h>
+int a[1000000],b[100000];
+int main()
+{
+      int n,i,j,k,l=1,m,s;
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++){
+        scanf(""%d"",&a[i]);
+    }
+    for(i=0;i<n;i++){
+        scanf(""%d"",&b[i]);
+    }
+    for(i=0;i<n;i++){
+        for(j=0;j<n;j++){
+            m=a[i]>b[j]?a[i]:b[j];
+            for(s=m;s>=1;s++){
+			if(a[i]%s==0&&b[j]%s==0){
+				k=s;break;
+			}	
+			if(k!=1){l=0;break;}
+			}
+        }
+        if(l==0){
+            break;
+        }
+    }
+    if(l){printf(""Yes"");}
+    else{printf(""No"");}
+    return 0;
+}"
+76,C,C(gcc 7.5.0),54983917,2022-11-25 19:58:56,付诺,运行超时,"#include <stdio.h>
+int a[1000010],b[1000010];
+int gcd(int x,int y){
+	while(x!=y){
+		if(x>y)
+		    x-=y;
+		else
+		    y-=x;
+	}
+	return x;
+}
+int main(){
+	int n;
+	scanf(""%d"",&n);
+	for(int i=0;i<n;++i)
+	    scanf(""%d"",&a[i]);
+	for(int i=0;i<n;++i)
+	    scanf(""%d"",&b[i]);
+	for(int i=0;i<n;++i){
+		if(a[i]==1)
+		    continue;
+		if(a[i]==b[i]){
+			printf(""No"");
+			return 0;
+		}
+		for(int j=0;j<n;++j){
+			if(b[i]==1)
+			    break;
+			if(gcd(a[i],b[j])!=1){
+			    printf(""No"");
+			    return 0;
+			}
+		}
+	}
+	printf(""Yes"");
+	return 0;
+}"
+77,C,C,54983926,2022-11-25 19:59:01,xunmeng,答案正确,"#include <stdio.h>
+
+int aa[1000005] = {0};
+int bb[1000005] = {0};
+#include <math.h>
+int main(void) {
+	int n;
+	void yi(int x);
+	int pan(int y);
+	scanf(""%d"", &n);
+	int tt = 0;
+	static int a[100005];
+	static int b[100005];
+	for (int i = 0; i < n; i++) {
+		scanf(""%d"", &a[i]);
+		yi(a[i]);
+	}
+	for (int i = 0; i < n; i++) {
+		scanf(""%d"", &b[i]);
+		if (tt == 0) {
+			tt = pan(b[i]);
+		}
+	}
+	if (tt == 0) {
+		printf(""Yes\n"");
+	} else {
+		printf(""No\n"");
+	}
+}
+
+void yi(int x) {
+	for (int j = 1; j <= sqrt(x); j++) {
+		if (x % j == 0) {
+			aa[j] = aa[x / j] = 1;
+		}
+	}
+}
+
+
+int pan(int y) {
+	for (int j = 2; j <= sqrt(y); j++) {
+		if (y % j == 0) {
+			if (aa[j] == 1 || aa[y / j] == 1) {
+				return 1;
+			}
+		}
+	}
+	if (aa[y] == 1 && y != 1) {
+		return 1;
+	}
+	return 0;
+}"
+78,C,C,54983956,2022-11-25 19:59:16,影..,答案错误,"#include<stdio.h>
+int judge(int a,int b)
+{   int t;
+    if(a<b)
+    {
+       t=a;
+       a=b;
+        b=a;
+    }
+    if(a%b==0) return b;
+    else return (b,a%b);
+}
+int main()
+{
+    int n,i,j,k,flag=0;
+    scanf(""%d"",&n);
+    int a[n],b[n];
+    for(i=0;i<n;i++)
+    {
+        scanf(""%d"",&a[i]);
+    }
+    for(i=0;i<n;i++)
+    {
+        scanf(""%d"",&b[i]);
+    }
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<n;j++)
+        {
+            k=judge(a[i],b[j]);
+            if(k!=0){
+                flag=1;
+                break;
+            }
+        }
+    }
+    if(flag==1) printf(""No"");
+    else printf(""Yes"");
+}"
+79,C,C(gcc 7.5.0),54983963,2022-11-25 19:59:17,念墩墩,段错误,"#include<stdio.h>
+int main()
+{
+    int t[100],k[100],n,m,i,j,d,v=1,o;
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+    {
+        scanf(""%d"",&t[i]);
+    }
+    getchar();
+    for(o=0;o<n;o++)
+    {
+        scanf(""%d"",&k[o]);
+    }
+    for(m=0;m<2;m++)
+    {
+        for(j=0;j<n;j++)
+        {
+            for(d=t[m];;d--)
+            {
+                if(t[m]%d==0&&k[j]%d==0)
+             break;
+            }
+            if(d!=1) 
+                break;
+        }
+        if(d!=1)
+            v=0;
+    }
+    if(v==1)
+        printf(""Yes"");
+    else
+        printf(""No"");
+}"
+80,C,C,54983976,2022-11-25 19:59:25,牛客766825880号,运行超时,"#include <stdio.h>
+
+int main(void) {
+	int n, i, j, k = 1, woc = 0;
+	scanf(""%d"", &n);
+	int a[n], b[n];
+	for (j = 0; j < n; j++) {
+		scanf(""%d"", &a[j]);
+	}
+	for (j = 0; j < n; j++) {
+		scanf(""%d"", &b[j]);
+	}
+	for (i = 0; i < n; i++) {
+		for (j = 0; j < n; j++) {
+			if (a[i] == b[j]) {
+				if (a[i] !=  1)
+					woc = 1;
+			} else {
+				while (k != 0) {
+					k = a[i] % b[j];
+					a[i] = b[j];
+					b[j] = k;
+				}
+				if (a[i] !=  1)
+					woc = 1;
+			}
+		}
+	}
+	if (woc == 1)
+		printf(""Yes"");
+	else
+		printf(""No"");
+}"
+81,C,C,54984023,2022-11-25 19:59:56,影..,答案错误,"#include<stdio.h>
+int judge(int a,int b)
+{   int t;
+    if(a<b)
+    {
+       t=a;
+       a=b;
+        b=a;
+    }
+    if(a%b==0) return b;
+    else return (b,a%b);
+}
+int main()
+{
+    int n,i,j,k,flag=0;
+    scanf(""%d"",&n);
+    int a[n],b[n];
+    for(i=0;i<n;i++)
+    {
+        scanf(""%d"",&a[i]);
+    }
+    for(i=0;i<n;i++)
+    {
+        scanf(""%d"",&b[i]);
+    }
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<n;j++)
+        {
+            k=judge(a[i],b[j]);
+            if(k!=1){
+                flag=1;
+                break;
+            }
+        }
+    }
+    if(flag==1) printf(""No"");
+    else printf(""Yes"");
+}"
+82,C,C,54984053,2022-11-25 20:00:14,繁星若尘1,运行超时,"#include <stdio.h>
+typedef long long ll;
+ll c[1000000];
+int main(){
+    ll i,n,a[100005],b[100005],j,t = 0,pd1 = 0,pd2 = 0,pd = 0;
+    scanf(""%lld"",&n);
+    for(i = 1;i <= n;i++){
+        scanf(""%lld"",&a[i]);
+        if(a[i] % 2 == 0)pd1 = 1;
+    }
+    for(i = 1;i <= n;i++){
+        scanf(""%lld"",&b[i]);
+        if(b[i] % 2 == 0)pd2 = 1;
+    }
+    if(pd1 == 1 && pd2 == 1){
+        printf(""No"");
+    }else {
+        for(i = 1;i <= n;i++){
+            for(j = 1;j <= n;j++){
+                if(a[i] >= b[j] && b[j] != 1 && a[i] != 1){
+                    if(a[i] % b[j] == 0){
+                        pd = 1;
+                        goto out;
+                    }else {
+                        ll p = a[i] % b[j];
+                        if(b[j] % p == 0 && p != 1){
+                            pd = 1;
+                            goto out;
+                        }
+                    }
+                }else if(a[i] < b[j] && b[j] != 1 && a[i] != 1){
+                    if(b[j] % a[i] == 0){
+                        pd = 1;
+                        goto out;
+                    }else {
+                        ll p = b[j] % a[i];
+                        if(a[i] % p == 0 && p != 1){
+                            pd = 1;
+                            goto out;
+                        }
+                    }
+                }
+            }           
+        }
+        out:
+        if(pd == 1)printf(""No"");
+        else printf(""Yes"");
+    }
+    return 0;
+}"
+83,C,C(gcc 7.5.0),54984058,2022-11-25 20:00:16,牛客362387738号,段错误,"#include<stdio.h>
+#define N 10005
+int f(int a,int b)
+{
+    int t;
+    if(a<b)
+    {
+        t=a;a=b;b=t;
+    }
+    while(a%b)
+    {
+        t=b;
+        b=a%b;
+        a=t;
+    }
+    
+    if(b==1)
+    	return 1;
+    else
+    	return 0;
+}
+
+int main()
+{
+	int i,j,n,flag=1;
+	int a[N],b[N];
+	scanf(""%d"",&n);
+	
+	for(i=0;i<n;i++)
+	{
+		scanf(""%d"",&a[i]);
+	}
+	for(i=0;i<n;i++)
+	{
+		scanf(""%d"",&b[i]);
+	}
+	
+	for(i=0;i<n;i++)
+	{
+		for(j=0;j<n;j++)
+		{
+			if(f(a[i],b[j])==0)
+			{
+				flag=0;
+				printf(""No"");
+				break;
+			}
+		}
+		if(flag==0)
+			break;
+	}
+	if(i==n)
+	{
+		printf(""Yes"");
+	}
+
+	return 0;
+}"
+84,C,C,54984112,2022-11-25 20:00:45,牛客521172301号,运行超时,"#include<stdio.h>
+#include<math.h>
+
+long long jg[1000] = { 0 },jj[1000]={ 0 };
+void yinzi(long long  x,long long  *yin)
+{
+	int i;
+	for (i = 2; i < sqrt(x) + 1; i++)
+	{
+		if (x % i == 0)
+			yin[i]++;
+	}
+}
+int main()
+{
+	long long n,a[100005],b[100005];
+	scanf(""%lld"", &n);
+	int i;
+	for (i = 0; i < n; i++)
+	{
+		scanf(""%lld"", &a[i]);
+		yinzi(a[i], jg);
+	}
+	for (i = 0; i < n; i++)
+	{
+		scanf(""%lld"", &b[i]);
+		yinzi(b[i], jj);
+	}
+	for (i = 0; i < 1000; i++)
+	{
+		while (jg[i] && jj[i])
+		{
+			printf(""No"");
+			return 0;
+		}
+	}
+	printf(""Yes"");
+	return 0;
+}"
+85,C,C(gcc 7.5.0),54984126,2022-11-25 20:00:55,又在摸鱼的小饼干很怕黑,运行超时,"#include<stdio.h>
+int x;
+int main()
+{
+    int n;
+    scanf(""%d"",&n);
+    int a[n],b[n];
+    for(int i=0;i<n;i++)
+        scanf(""%d"",&a[i]);
+    for(int i=0;i<n;i++)
+        scanf(""%d"",&b[i]);
+    int gcd(int x,int y);
+    for(int i=0;i<n;i++)
+        for(int j=0;j<n;j++)
+            if(gcd(a[i],b[j])==1)continue;
+            else {printf(""No"");x++;return 0;}
+    if(x==0)printf(""Yes"");
+    return 0;
+}
+int gcd(int x,int y)
+{
+    int t;
+    while(x%y!=0)
+    {
+        t=x%y;
+        x=y;
+        y=t;
+    }
+    return y;
+}"
+86,C,C,54984151,2022-11-25 20:01:13,bilu,答案错误,"#include<stdio.h>
+int main()
+{
+    int n,a[1000000],b[1000000],i,j,count=0;
+    for(i=0;i<n;i++)
+    {
+        scanf(""%d"",&a[i]);
+    }
+    for(i=0;i<n;i++)
+    {
+        scanf(""%d"",&b[i]);
+    }
+    for(i=1;i<=a[i];i++)
+    {
+        if(a[i]%i==0)
+        {
+            for(j=1;j<=b[i];j++)
+            {
+                if(b[j]%i==0)
+                {
+                    count++;
+                }
+            }
+        }
+        
+    }
+    if(count==1)
+    {
+        printf(""Yes"");
+    }else
+    {
+        printf(""No"");
+    }
+    
+}"
+87,C,C,54984156,2022-11-25 20:01:16,buqu22,运行超时,"#include<stdio.h>
+int a[1000000],b[100000];
+int main()
+{
+      int n,i,j,k,l=1,m,s;
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++){
+        scanf(""%d"",&a[i]);
+    }
+    for(i=0;i<n;i++){
+        scanf(""%d"",&b[i]);
+    }
+    for(i=0;i<n;i++){
+        for(j=0;j<n;j++){
+           if(a[i]<=b[j]){m=a[i];}
+           else{m=b[j];}
+            for(s=m;s>=1;s--){
+			if(a[i]%s==0&&b[j]%s==0){
+				k=s;break;
+			}	
+			if(k!=1){l=0;break;}
+			}
+        }
+        if(l==0){
+            break;
+        }
+    }
+    if(l){printf(""Yes"");}
+    else{printf(""No"");}
+    return 0;
+}
+ "
+88,C,C,54984170,2022-11-25 20:01:21,漫山红遍,答案错误,"#include <stdio.h>
+
+inline int gcd(int a, int b) {
+	if (a % b == 0)
+		return b;
+	else
+		return (gcd(b, a % b));
+}
+
+int main() {
+	int n, i, flag = 1;
+	scanf(""%d"", &n);
+	int a[n], b[n];
+	for (i = 0; i < n; i++) {
+		scanf(""%d"", &a[i]);
+	}
+	for (i = 0; i < n; i++) {
+		scanf(""%d"", &b[i]);
+	}
+	for (i = 0; i < n; i++) {
+		if (gcd(a[i], b[i]) != 1)
+			flag = 0;
+	}
+	if (flag == 1)
+		printf(""Yes"");
+	else if (flag == 0)
+		printf(""No"");
+	return 0;
+}"
+89,C,C(gcc 7.5.0),54984173,2022-11-25 20:01:23,付诺,运行超时,"#include <stdio.h>
+int a[1000010],b[1000010];
+int prime(int c){
+	if(c<1)  return 0;
+	if(c==1)  return 1; 
+	for(int i=2;i*i<=c;++i)
+	    if(c%i==0)  return 0;
+	return 1;
+}
+int gcd(int x,int y){
+	while(x!=y){
+		if(x>y)
+		    x-=y;
+		else
+		    y-=x;
+	}
+	return x;
+}
+int main(){
+	int n;
+	scanf(""%d"",&n);
+	for(int i=0;i<n;++i)
+	    scanf(""%d"",&a[i]);
+	for(int i=0;i<n;++i)
+	    scanf(""%d"",&b[i]);
+	for(int i=0;i<n;++i){
+		if(prime(a[i]))
+		    continue;
+		if(a[i]==b[i]){
+			printf(""No"");
+			return 0;
+		}
+		for(int j=0;j<n;++j){
+			if(prime(b[i]))
+			    break;
+			if(gcd(a[i],b[j])!=1){
+			    printf(""No"");
+			    return 0;
+			}
+		}
+	}
+	printf(""Yes"");
+	return 0;
+}"
+90,C,C,54984222,2022-11-25 20:01:51,puffer~,运行超时,"#include <stdio.h>
+
+int main() {
+
+	int n;
+	scanf(""%d"", &n);
+	int a[n], b[n], i, j, e, flag = 0;
+	for (i = 1; i <= n; i++) {
+		scanf(""%d"", &a[i]);
+	}
+	for (i = 1; i <= n; i++) {
+		scanf(""%d"", &b[i]);
+	}
+	for (i = 1; i <= n; i++) {
+		for (j = 1; j <= n; j++) {
+			if (a[i] > b[j])
+				e = b[j];
+			else
+				e = a[1];
+			while (a[i] % e != 0 || b[j] % e != 0) {
+				e--;
+
+			}
+			if (e == 1)
+				flag++;
+
+
+
+		}
+
+	}
+	if (flag == n * n)
+		printf(""Yes"");
+	else
+		printf(""No"");
+	return 0;
+
+
+}"
+91,C,C(gcc 7.5.0),54984234,2022-11-25 20:01:57,Aaayc.,运行超时,"#include<stdio.h>
+int gcd(int a,int b)
+{
+    int d=1;
+    while(d)
+    {   
+        d=a%b;
+        a=b;
+        b=d;
+    }
+    return a;
+}
+int a[100000],b[100000];
+int main()
+{
+    int n;
+    scanf(""%d"",&n);
+    for(int i=0;i<n;i++)
+    scanf(""%d"",&a[i]);
+    for(int i=0;i<n;i++)
+    scanf(""%d"",&b[i]);
+    int cnt=0;
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<n;j++)
+        {
+            if(gcd(a[i],b[j])!=1)
+            cnt++;
+        }
+    }
+    if(cnt==0)
+    printf(""Yes"");
+    else
+    printf(""No"");
+    return 0;
+}"
+92,C,C(gcc 7.5.0),54984255,2022-11-25 20:02:10,又在摸鱼的小饼干很怕黑,运行超时,"#include<stdio.h>
+int x;
+int main()
+{
+    int n;
+    scanf(""%d"",&n);
+    int a[n],b[n];
+    for(int i=0;i<n;i++)
+        scanf(""%d"",&a[i]);
+    for(int i=0;i<n;i++)
+        scanf(""%d"",&b[i]);
+    int gcd(int x,int y);
+    for(int i=0;i<n;i++)
+        for(int j=0;j<n;j++)
+            if(gcd(a[i],b[j])==1)continue;
+            else {printf(""No"");x++;return 0;}
+    if(x==0)printf(""Yes"");
+    return 0;
+}
+int gcd(int x,int y)
+{
+    int t;
+    while(x%y!=0)
+    {
+        t=x%y;
+        x=y;
+        y=t;
+    }
+    return y;
+}"
+93,C,C,54984289,2022-11-25 20:02:30,mhl041010,运行超时,"#include<stdio.h>
+int a[100000],b[100000];
+int max(int x,int y);
+int main()
+{
+    int n,i,j,f=0;
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+    {
+        scanf(""%d"",&a[i]);
+    }
+    for(i=0;i<n;i++)
+    {
+        scanf(""%d"",&b[i]);
+    }
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<n;j++)
+        {
+            if(max(a[i],b[j])!=1)
+            {
+                f=1;
+                break;
+            }
+        }
+    }
+    if(f==1)
+    {
+        printf(""No"");
+    }
+    else{
+        printf(""Yes"");
+    }
+    return 0;
+}
+int max(int x,int y)
+{
+    int i,m,a;
+    m=x<y?x:y;
+    for(i=1;i<m;i++)
+    {
+        if(x%i==0&&y%i==0)
+        {
+            a=i;
+        }
+    }
+    return a;
+}"
+94,C,C,54984319,2022-11-25 20:02:51,puffer~,运行超时,"#include <stdio.h>
+
+int main() {
+
+	int n;
+	scanf(""%d"", &n);
+	int a[n], b[n], i, j, e, flag = 0;
+	for (i = 1; i <= n; i++) {
+		scanf(""%d"", &a[i]);
+	}
+	for (i = 1; i <= n; i++) {
+		scanf(""%d"", &b[i]);
+	}
+	for (i = 1; i <= n; i++) {
+		for (j = 1; j <= n; j++) {
+			if (a[i] > b[j])
+				e = b[j];
+			else
+				e = a[1];
+			while (a[i] % e != 0 || b[j] % e != 0) {
+				e--;
+
+			}
+			if (e == 1)
+				flag++;
+
+
+
+		}
+
+	}
+	if (flag == n * n)
+		printf(""Yes"");
+	else
+		printf(""No"");
+	return 0;
+
+
+}"
+95,C,C,54984343,2022-11-25 20:03:06,林卓学,运行超时,"#include <stdio.h>
+
+int isok(int a,int b)
+{
+    int t;
+    if(a < b){
+        t = a;
+        a = b;
+        b = t;
+    }
+    
+    while(a % b){
+        t = b;
+        b = a % b;
+        a = t;
+    }
+    
+    if(b == 1)
+        return 0;
+    else
+        return 1;
+}
+
+int main()
+{
+    int n;
+    int i,j;
+    int flag = 0;
+    int a[1000001] = {0};
+    int b[1000001] = {0};
+    
+    scanf(""%d"",&n);
+    
+    for(i=0; i<n; i++)
+        scanf(""%d"",a+i);
+    for(i=0; i<n; i++)
+        scanf(""%d"",b+i);
+    
+    for(i=0; i<n; i++){
+        for(j=0; j<n; j++){
+            if(isok(a[i],b[j])){
+                flag = 1;
+                break;
+            }
+        }
+        
+        if(flag)
+            break;
+    }
+    
+    if(flag)
+        printf(""No"");
+    else
+        printf(""Yes"");
+    
+    
+    return 0;
+}"
+96,C,C(gcc 7.5.0),54984353,2022-11-25 20:03:12,念墩墩,段错误,"#include<stdio.h>
+int main()
+{
+    int t[100],k[100],n,m,i,j,d,v=1,o;
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+    {
+        scanf(""%d"",&t[i]);
+    }
+    getchar();
+    for(o=0;o<n;o++)
+    {
+        scanf(""%d"",&k[o]);
+    }
+    for(m=0;m<2;m++)
+    {
+        for(j=0;j<n;j++)
+        {
+            for(d=t[m];;d--)
+            {
+                if(t[m]%d==0&&k[j]%d==0)
+             break;
+            }
+            if(d!=1) 
+                break;
+        }
+        if(d!=1)
+            v=0;
+    }
+    if(v==1)
+        printf(""Yes"");
+    else
+        printf(""No"");
+}"
+97,C,C(gcc 7.5.0),54984368,2022-11-25 20:03:20,念墩墩,段错误,"#include<stdio.h>
+int main()
+{
+    int t[100],k[100],n,m,i,j,d,v=1,o;
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+    {
+        scanf(""%d"",&t[i]);
+    }
+    getchar();
+    for(o=0;o<n;o++)
+    {
+        scanf(""%d"",&k[o]);
+    }
+    for(m=0;m<2;m++)
+    {
+        for(j=0;j<n;j++)
+        {
+            for(d=t[m];;d--)
+            {
+                if(t[m]%d==0&&k[j]%d==0)
+             break;
+            }
+            if(d!=1) 
+                break;
+        }
+        if(d!=1)
+            v=0;
+    }
+    if(v==1)
+        printf(""Yes"");
+    else
+        printf(""No"");
+}"
+98,C,C,54984373,2022-11-25 20:03:23,UJN韦金亮,答案错误,"#include<stdio.h>
+int gcd(int a,int b)
+{
+	if(a%b==0)return b;
+	else return gcd(b,a%b);
+}
+int main()
+{
+	int a[100005],b[100005],i,j,n,flag=0,suma=1,sumb=1;
+	scanf(""%d"",&n);
+	for(i=0;i<n;++i){
+		scanf(""%d"",&a[i]);
+		suma=(suma*a[i])/gcd(suma,a[i]);
+	}
+	for(i=0;i<n;++i){
+		scanf(""%d"",&b[i]);
+		sumb=(sumb*b[i])/gcd(sumb,b[i]);
+	}
+	if(gcd(suma,sumb)!=1)printf(""No\n"");
+	else printf(""Yes\n"");
+	return 0;
+}"
+99,C,C,54984400,2022-11-25 20:03:32,林卓学,运行超时,"#include <stdio.h>
+
+int isok(int a,int b)
+{
+    int t;
+    if(a < b){
+        t = a;
+        a = b;
+        b = t;
+    }
+    
+    while(a % b){
+        t = b;
+        b = a % b;
+        a = t;
+    }
+    
+    if(b == 1)
+        return 0;
+    else
+        return 1;
+}
+
+int main()
+{
+    int n;
+    int i,j;
+    int flag = 0;
+    int a[1000001] = {0};
+    int b[1000001] = {0};
+    
+    scanf(""%d"",&n);
+    
+    for(i=0; i<n; i++)
+        scanf(""%d"",a+i);
+    for(i=0; i<n; i++)
+        scanf(""%d"",b+i);
+    
+    for(i=0; i<n; i++){
+        for(j=0; j<n; j++){
+            if(isok(a[i],b[j])){
+                flag = 1;
+                break;
+            }
+        }
+        
+        if(flag)
+            break;
+    }
+    
+    if(flag)
+        printf(""No"");
+    else
+        printf(""Yes"");
+    
+    
+    return 0;
+}"
+100,C,C,54984454,2022-11-25 20:04:00,任红颖,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c:4:9: warning: unused variable 'i' [-Wunused-variable]\n    int i,u;\n        ^\nmain.c:36:1: error: non-void function does not return a value in all control paths [-Werror,-Wreturn-type]\n}\n^\n1 warning and 1 error generated.""}
+
+#include<stdio.h>
+int sha(int a,int b)
+{
+    int i,u;
+    if(a!=1&&b!=1)
+    {
+        if(a>b)
+        {
+            u=b;
+            while(u>=1)
+            {
+                if(u!=1&&a%u==0&&b%u==0)
+                    return 1;
+                if(u==1)
+                    return 0;
+                u--;
+            }
+        }
+        else if(a<b)
+        {
+            u=a;
+            while(u>=1)
+            {
+                if(u!=1&&a%u==0&&b%u==0)
+                    return 1;
+                if(u==1)
+                    return 0;
+                u--;
+            }
+        }
+        else if(a==b)
+            return 1;
+    }
+    else
+        return 0;
+}
+int a[100000],b[100000];
+int main()
+{
+    long long n,i,j,z,k=0;
+    scanf(""%lld"",&n);
+    for(i=0;i<n;i++)
+        scanf(""%d"",&a[i]);
+    for(i=0;i<n;i++)
+        scanf(""%d"",&b[i]);
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<n;j++)
+        {
+            z=sha(a[i],b[j]);
+            if(z==1)
+                k=1;
+        }
+    }
+    if(k==0)
+        printf(""YES"");
+    else
+        printf(""NO"");
+}"
+101,C,C(gcc 7.5.0),54984463,2022-11-25 20:04:05,念墩墩,段错误,"#include<stdio.h>
+int main()
+{
+    int t[100],k[100],n,m,i,j,d,v=1,o;
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+    {
+        scanf(""%d"",&t[i]);
+    }
+    for(o=0;o<n;o++)
+    {
+        scanf(""%d"",&k[o]);
+    }
+    for(m=0;m<2;m++)
+    {
+        for(j=0;j<n;j++)
+        {
+            for(d=t[m];;d--)
+            {
+                if(t[m]%d==0&&k[j]%d==0)
+             break;
+            }
+            if(d!=1) 
+                break;
+        }
+        if(d!=1)
+            v=0;
+    }
+    if(v==1)
+        printf(""Yes"");
+    else
+        printf(""No"");
+}"
+102,C,C,54984477,2022-11-25 20:04:15,牛客766825880号,运行超时,"#include <stdio.h>
+
+int main(void) {
+	int n, i, j, k = 1, woc = 0;
+	scanf(""%d"", &n);
+	int a[n], b[n];
+	for (j = 0; j < n; j++) {
+		scanf(""%d"", &a[j]);
+	}
+	for (j = 0; j < n; j++) {
+		scanf(""%d"", &b[j]);
+	}
+	for (i = 0; i < n; i++) {
+		for (j = 0; j < n; j++) {
+			if (a[i] == b[j]) {
+				if (a[i] !=  1)
+					woc = 1;
+			} else {
+				while (k = a[i] % b[j]) {
+					a[i] = b[j];
+					b[j] = k;
+				}
+				if (b[j] !=  1)
+					woc = 1;
+			}
+		}
+	}
+	if (woc == 1)
+		printf(""Yes"");
+	else
+		printf(""No"");
+}"
+103,C,C,54984487,2022-11-25 20:04:20,buqu22,运行超时,"#include<stdio.h>
+int a[1000000],b[100000];
+int main()
+{
+      int n,i,j,k,l=1,m,s;
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++){
+        scanf(""%d"",&a[i]);
+    }
+    for(i=0;i<n;i++){
+        scanf(""%d"",&b[i]);
+    }
+    for(i=0;i<n;i++){
+        for(j=0;j<n;j++){
+           if(a[i]<=b[j]){m=a[i];}
+           else{m=b[j];}
+            for(s=m;s>=1;s--){
+			if(a[i]%s==0&&b[j]%s==0){
+				k=s;break;
+			}	
+			}
+			if(k!=1){l=0;break;}
+        }
+        if(l==0){
+            break;
+        }
+    }
+    if(l){printf(""Yes"");}
+    else{printf(""No"");}
+    return 0;
+}
+ "
+104,C,C(gcc 7.5.0),54984498,2022-11-25 20:04:26,牛客344675215号,运行超时,"#include<stdio.h>
+int duli(int n,int a[],int b[]){
+	int i,j,k=1,flag=1;
+	for(i=0;i<n;i++){
+		for(j=0;j<n;j++){
+			if(!yinzi(a[i],b[j])){
+				flag=0;
+				break;
+			}
+		}
+	}
+	return flag;
+}
+int yinzi(int a,int b){
+	int t;
+	while(b!=0){
+		t = a%b;
+		a=b;
+		b=t;
+	}
+	if(a==1) return 1;
+	else return 0;
+}
+int main(){
+	int a[100005],b[100005];
+	int i,n;
+	scanf(""%d"",&n);
+	for(i=0;i<n;i++){
+		scanf(""%d"",&a[i]);
+	}
+	for(i=0;i<n;i++){
+		scanf(""%d"",&b[i]);
+	}
+	if(duli(n,a,b)) printf(""Yes"");
+	else printf(""No"");
+}"
+105,C,C(gcc 7.5.0),54984518,2022-11-25 20:04:38,tuboshu,运行超时,"#include<stdio.h>
+int main()
+{
+    int i,n,j,a[10000],b[100000],m;
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+        scanf(""%d"",&a[i]);
+    for(i=0;i<n;i++)
+        scanf(""%d"",&b[i]);
+    for(m=0;m<n;m++)
+    {
+        for(j=0;j<n;j++)
+        {
+ 
+                if (a[m] > b[j]){
+            i = b[j];
+        }
+        else i = a[m] ;
+        while (a[m]%i != 0 || b[j]%i != 0){
+            i--;
+        }
+        if(i!=1)
+        {
+            printf(""No"");
+            return 0;
+        }
+        }
+    }
+
+	printf(""Yes"");
+    return 0;
+}"
+106,C,C(gcc 7.5.0),54984529,2022-11-25 20:04:43,牛客344675215号,运行超时,"#include<stdio.h>
+int duli(int n,int a[],int b[]){
+	int i,j,k=1,flag=1;
+	for(i=0;i<n;i++){
+		for(j=0;j<n;j++){
+			if(!yinzi(a[i],b[j])){
+				flag=0;
+				break;
+			}
+		}
+	}
+	return flag;
+}
+int yinzi(int a,int b){
+	int t;
+	while(b!=0){
+		t = a%b;
+		a=b;
+		b=t;
+	}
+	if(a==1) return 1;
+	else return 0;
+}
+int main(){
+	int a[100005],b[100005];
+	int i,n;
+	scanf(""%d"",&n);
+	for(i=0;i<n;i++){
+		scanf(""%d"",&a[i]);
+	}
+	for(i=0;i<n;i++){
+		scanf(""%d"",&b[i]);
+	}
+	if(duli(n,a,b)) printf(""Yes"");
+	else printf(""No"");
+}"
+107,C,C(gcc 7.5.0),54984536,2022-11-25 20:04:47,牛客344675215号,运行超时,"#include<stdio.h>
+int duli(int n,int a[],int b[]){
+	int i,j,k=1,flag=1;
+	for(i=0;i<n;i++){
+		for(j=0;j<n;j++){
+			if(!yinzi(a[i],b[j])){
+				flag=0;
+				break;
+			}
+		}
+	}
+	return flag;
+}
+int yinzi(int a,int b){
+	int t;
+	while(b!=0){
+		t = a%b;
+		a=b;
+		b=t;
+	}
+	if(a==1) return 1;
+	else return 0;
+}
+int main(){
+	int a[100005],b[100005];
+	int i,n;
+	scanf(""%d"",&n);
+	for(i=0;i<n;i++){
+		scanf(""%d"",&a[i]);
+	}
+	for(i=0;i<n;i++){
+		scanf(""%d"",&b[i]);
+	}
+	if(duli(n,a,b)) printf(""Yes"");
+	else printf(""No"");
+}"
+108,C,C,54984568,2022-11-25 20:05:03,牛客521172301号,段错误,"#include<stdio.h>
+#include<math.h>
+
+long long jg[1000] = { 0 }, jj[1000] = { 0 };
+void yinzi(long long  x, long long* yin)
+{
+	int i;
+	for (i = 2; i < sqrt(x) + 1; i++)
+	{
+		if (x % i == 0)
+			yin[i]++;
+	}
+}
+int main()
+{
+	long long n, a[100005], b[100005];
+	scanf(""%lld"", &n);
+	int i;
+	for (i = 0; i < n; i++)
+	{
+		scanf(""%lld"", &a[i]);
+		yinzi(a[i], jg);
+	}
+	for (i = 0; i < n; i++)
+	{
+		scanf(""%lld"", &b[i]);
+		yinzi(b[i], jj);
+		while (jg[i] && jj[i])
+		{
+			printf(""No"");
+			return 0;
+		}
+	}
+	
+	printf(""Yes"");
+	return 0;
+}"
+109,C,C,54984589,2022-11-25 20:05:19,CHWCL,运行超时,"#include <stdio.h>
+int gcd(int x,int y);
+int main()
+{
+    int n,m;
+    scanf(""%d"",&n);
+    int a[n],b[n];
+    int i=0,j=0;
+    for(i=0;i<n;i++){
+        scanf(""%d"",&a[i]);
+        for(j=0;j<n;j++){
+            scanf(""%d"",&b[j]);
+            m=gcd(a[i],b[j]);
+      }
+      j=0;
+    }
+    if(m!=1){
+        printf(""No"");
+    }
+    else printf(""Yes"");
+    return 0;
+}
+int gcd(int x, int y)
+{
+    int t;
+    if(x<y){
+        t=y;
+        y=x;
+        x=t;
+    }
+    if(y==0){
+        return x;
+    }
+    return 0;
+}"
+110,C,C,54984619,2022-11-25 20:05:40,CHWCL,运行超时,"#include <stdio.h>
+int gcd(int x,int y);
+int main()
+{
+    int n,m;
+    scanf(""%d"",&n);
+    int a[n],b[n];
+    int i=0,j=0;
+    for(i=0;i<n;i++){
+        scanf(""%d"",&a[i]);
+        for(j=0;j<n;j++){
+            scanf(""%d"",&b[j]);
+            m=gcd(a[i],b[j]);
+      }
+      j=0;
+    }
+    if(m!=1){
+        printf(""No"");
+    }
+    else printf(""Yes"");
+    return 0;
+}
+int gcd(int x, int y)
+{
+    int t;
+    if(x<y){
+        t=y;
+        y=x;
+        x=t;
+    }
+    if(y==0){
+        return x;
+    }
+    return 0;
+}"
+111,C,C(gcc 7.5.0),54984622,2022-11-25 20:05:41,tuboshu,运行超时,"#include<stdio.h>
+int main()
+{
+    int i,n,j,a[10000],b[100000],m;
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+        scanf(""%d"",&a[i]);
+    for(i=0;i<n;i++)
+        scanf(""%d"",&b[i]);
+    for(m=0;m<n;m++)
+    {
+        for(j=0;j<n;j++)
+        {
+ 
+            if (a[m] > b[j]){
+                i = b[j];
+            }
+            else i = a[m] ;
+            while (a[m]%i != 0 || b[j]%i != 0){
+                i--;
+            }
+            if(i!=1)
+            {
+                printf(""No"");
+                return 0;
+            }
+        }
+    }
+
+	printf(""Yes"");
+    return 0;
+}"
+112,C,C(gcc 7.5.0),54984636,2022-11-25 20:05:49,牛客344675215号,运行超时,"#include<stdio.h>
+int duli(int n,int a[],int b[]){
+	int i,j,k=1,flag=1;
+	for(i=0;i<n;i++){
+		for(j=0;j<n;j++){
+			if(!yinzi(a[i],b[j])){
+				flag=0;
+				break;
+			}
+		}
+	}
+	return flag;
+}
+int yinzi(int a,int b){
+	int t;
+	while(b!=0){
+		t = a%b;
+		a=b;
+		b=t;
+	}
+	if(a==1) return 1;
+	else return 0;
+}
+int main(){
+	int a[100005],b[100005];
+	int i,n;
+	scanf(""%d"",&n);
+	for(i=0;i<n;i++){
+		scanf(""%d"",&a[i]);
+	}
+	for(i=0;i<n;i++){
+		scanf(""%d"",&b[i]);
+	}
+	if(duli(n,a,b)) printf(""Yes"");
+	else printf(""No"");
+}"
+113,C,C,54984638,2022-11-25 20:05:50,漫山红遍,运行超时,"#include <stdio.h>
+
+inline int gcd(int a, int b) {
+	if (a % b == 0)
+		return b;
+	else
+		return (gcd(b, a % b));
+}
+
+int main() {
+	int n, i, o, flag = 1;
+	scanf(""%d"", &n);
+	int a[n], b[n];
+	for (i = 0; i < n; i++) {
+		scanf(""%d"", &a[i]);
+	}
+	for (i = 0; i < n; i++) {
+		scanf(""%d"", &b[i]);
+	}
+	for (i = 0; i < n; i++) {
+		for (o = 0; o < n; o++) {
+			if (gcd(a[i], b[o]) != 1)
+				flag = 0;
+		}
+	}
+	if (flag == 1)
+		printf(""Yes"");
+	else if (flag == 0)
+		printf(""No"");
+	return 0;
+}"
+114,C,C,54984651,2022-11-25 20:05:59,CHWCL,运行超时,"#include <stdio.h>
+int gcd(int x,int y);
+int main()
+{
+    int n,m;
+    scanf(""%d"",&n);
+    int a[n],b[n];
+    int i=0,j=0;
+    for(i=0;i<n;i++){
+        scanf(""%d"",&a[i]);
+        for(j=0;j<n;j++){
+            scanf(""%d"",&b[j]);
+            m=gcd(a[i],b[j]);
+      }
+      j=0;
+    }
+    if(m!=1){
+        printf(""No"");
+    }
+    else printf(""Yes"");
+    return 0;
+}
+int gcd(int x, int y)
+{
+    int t;
+    if(x<y){
+        t=y;
+        y=x;
+        x=t;
+    }
+    if(y==0){
+        return x;
+    }
+    return 0;
+}"
+115,C,C(gcc 7.5.0),54984656,2022-11-25 20:06:01,念墩墩,段错误,"#include<stdio.h>
+int main()
+{
+    int t[100],k[100],n,m,i,j,d,v=1,o;
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+    {
+        scanf(""%d"",&t[i]);
+    }
+    for(o=0;o<n;o++)
+    {
+        scanf(""%d"",&k[o]);
+    }
+    for(m=0;m<2;m++)
+    {
+        for(j=0;j<n;j++)
+        {
+            for(d=t[m];;d--)
+            {
+                if(t[m]%d==0&&k[j]%d==0)
+             break;
+            }
+            if(d!=1) 
+                break;
+        }
+        if(d!=1)
+            v=0;
+    }
+    if(v==1)
+        printf(""Yes"");
+    else
+        printf(""No"");
+}"
+116,C,C,54984662,2022-11-25 20:06:03,任红颖,运行超时,"#include<stdio.h>
+int sha(int a,int b)
+{
+    int i,u;
+    if(a!=1&&b!=1)
+    {
+        if(a>b)
+        {
+            u=b;
+            while(u>=1)
+            {
+                if(u!=1&&a%u==0&&b%u==0)
+                    return 1;
+                if(u==1)
+                    return 0;
+                u--;
+            }
+        }
+        else if(a<b)
+        {
+            u=a;
+            while(u>=1)
+            {
+                if(u!=1&&a%u==0&&b%u==0)
+                    return 1;
+                if(u==1)
+                    return 0;
+                u--;
+            }
+        }
+        else if(a==b)
+            return 1;
+    }
+        return 0;
+}
+int a[100000],b[100000];
+int main()
+{
+    long long n,i,j,z,k=0;
+    scanf(""%lld"",&n);
+    for(i=0;i<n;i++)
+        scanf(""%d"",&a[i]);
+    for(i=0;i<n;i++)
+        scanf(""%d"",&b[i]);
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<n;j++)
+        {
+            z=sha(a[i],b[j]);
+            if(z==1)
+                k=1;
+        }
+    }
+    if(k==0)
+        printf(""YES"");
+    else
+        printf(""NO"");
+}"
+117,C,C,54984693,2022-11-25 20:06:19,puffer~,运行超时,"#include <stdio.h>
+
+int main() {
+
+	int n;
+    int a[100000], b[100000], i, j, e, flag = 0;
+	scanf(""%d"", &n);
+	
+	for (i = 1; i <= n; i++) {
+		scanf(""%d"", &a[i]);
+	}
+	for (i = 1; i <= n; i++) {
+		scanf(""%d"", &b[i]);
+	}
+	for (i = 1; i <= n; i++) {
+		for (j = 1; j <= n; j++) {
+			if (a[i] > b[j])
+				e = b[j];
+			else
+				e = a[1];
+			while (a[i] % e != 0 || b[j] % e != 0) {
+				e--;
+
+			}
+			if (e == 1)
+				flag++;
+
+
+
+		}
+
+	}
+	if (flag == n * n)
+		printf(""Yes"");
+	else
+		printf(""No"");
+	return 0;
+
+
+}"
+118,C,C(gcc 7.5.0),54984713,2022-11-25 20:06:30,牛客344675215号,运行超时,"#include<stdio.h>
+int duli(int n,int a[],int b[]){
+	int i,j,k=1,flag=1;
+	for(i=0;i<n;i++){
+		for(j=0;j<n;j++){
+			if(!yinzi(a[i],b[j])){
+				flag=0;
+				break;
+			}
+		}
+	}
+	return flag;
+}
+int yinzi(int a,int b){
+	int t;
+	while(b!=0){
+		t = a%b;
+		a=b;
+		b=t;
+	}
+	if(a==1) return 1;
+	else return 0;
+}
+int main(){
+	int a[100005],b[100005];
+	int i,n;
+	scanf(""%d"",&n);
+	for(i=0;i<n;i++){
+		scanf(""%d"",&a[i]);
+	}
+	for(i=0;i<n;i++){
+		scanf(""%d"",&b[i]);
+	}
+	if(duli(n,a,b)) printf(""Yes"");
+	else printf(""No"");
+}"
+119,C,C,54984731,2022-11-25 20:06:37,puffer~,运行超时,"#include <stdio.h>
+
+int main() {
+
+	int n;
+    int a[100000], b[100000], i, j, e, flag = 0;
+	scanf(""%d"", &n);
+	
+	for (i = 1; i <= n; i++) {
+		scanf(""%d"", &a[i]);
+	}
+	for (i = 1; i <= n; i++) {
+		scanf(""%d"", &b[i]);
+	}
+	for (i = 1; i <= n; i++) {
+		for (j = 1; j <= n; j++) {
+			if (a[i] > b[j])
+				e = b[j];
+			else
+				e = a[1];
+			while (a[i] % e != 0 || b[j] % e != 0) {
+				e--;
+
+			}
+			if (e == 1)
+				flag++;
+
+
+
+		}
+
+	}
+	if (flag == n * n)
+		printf(""Yes"");
+	else
+		printf(""No"");
+	return 0;
+
+
+}"
+120,C,C,54984746,2022-11-25 20:06:42,mhl041010,运行超时,"#include<stdio.h>
+int a[100000],b[100000];
+int max(int x,int y);
+int main()
+{
+    int n,i,j,f=0;
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+    {
+        scanf(""%d"",&a[i]);
+    }
+    for(i=0;i<n;i++)
+    {
+        scanf(""%d"",&b[i]);
+        for(j=0;j<n;j++)
+        {
+            if(max(a[j],b[i])!=1)
+            {
+                f=1;
+            }
+        }
+    }
+    if(f==1)
+    {
+        printf(""No"");
+    }
+    else{
+        printf(""Yes"");
+    }
+    return 0;
+}
+int max(int x,int y)
+{
+    int i,m,a;
+    m=x<y?x:y;
+    for(i=1;i<m;i++)
+    {
+        if(x%i==0&&y%i==0)
+        {
+            a=i;
+        }
+    }
+    return a;
+}"
+121,C,C,54984752,2022-11-25 20:06:44,ooosws,答案错误,"#include<stdio.h>
+int main()
+{
+    int n,i,j,k=0,t,min,m;
+    scanf(""%d"",&n);
+    int a[n];
+    int b[n];
+    for(i=0;i<n;i++)    scanf(""%d"",&a[i]);
+    for(i=0;i<n;i++)    scanf(""%d"",&b[i]);
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<n;j++)
+        {
+              if(a[i]==1)    break;
+              else{
+                  min=b[j];
+                  if(a[i]<b[j])    min=a[i];
+                  for(m=min;m>0;m--)    
+                      if(a[i]%m==0&&b[j]%m==0)
+                      {
+                          k=1;//不独立
+                          break;
+                      }
+              }
+            if(k==1)    break;
+        }
+        if(k==1)    break;
+    }
+    if(k)    printf(""No"");
+    else    printf(""Yes"");
+    return 0;
+}"
+122,C,C(gcc 7.5.0),54984765,2022-11-25 20:06:49,牛客344675215号,运行超时,"#include<stdio.h>
+int duli(int n,int a[],int b[]){
+	int i,j,k=1,flag=1;
+	for(i=0;i<n;i++){
+		for(j=0;j<n;j++){
+			if(!yinzi(a[i],b[j])){
+				flag=0;
+				break;
+			}
+		}
+	}
+	return flag;
+}
+int yinzi(int a,int b){
+	int t;
+	while(b!=0){
+		t = a%b;
+		a=b;
+		b=t;
+	}
+	if(a==1) return 1;
+	else return 0;
+}
+int main(){
+	int a[100005],b[100005];
+	int i,n;
+	scanf(""%d"",&n);
+	for(i=0;i<n;i++){
+		scanf(""%d"",&a[i]);
+	}
+	for(i=0;i<n;i++){
+		scanf(""%d"",&b[i]);
+	}
+	if(duli(n,a,b)) printf(""Yes"");
+	else printf(""No"");
+}"
+123,C,C,54984806,2022-11-25 20:07:10,济南大学_侯振海,运行超时,"#include<stdio.h>
+int main()
+{
+    int n,i,j,t,l;
+    int flag = 1;
+    int max1=0, max2=0, max=0;
+    int a[100001], b[100001];
+    scanf(""%d"", &n);
+    for (i = 1; i <= n; i++)
+    {
+        scanf(""%d"", &a[i]);
+        if (max1 < a[i])
+            max1= a[i];
+    }
+    for (i = 1; i <= n; i++)
+    {
+        scanf(""%d"", &b[i]);
+        if (max2 < b[i])
+            max2 = b[i];
+    }
+    if (max1 > max2)
+        max = max1;
+    else
+        max = max2;
+    for (i = 1; i <= n; i++)
+    {
+        if (flag == 0)
+            break;
+        for (j = 1; j <= n; j++)   
+        {
+            if (flag == 0)
+                break;
+            for (l = 2; l < max; l++)
+            {
+                if (l != a[i] && l != b[j]&&a[i] % l == 0 && b[j] % l == 0)
+                {
+                    flag = 0;
+                    break;
+                }
+            }
+        }
+    }
+    if (flag == 0)
+        printf(""No"");
+    else
+        printf(""Yes"");
+    return 0;
+}"
+124,C,C,54984812,2022-11-25 20:07:14,UJN韦金亮,答案错误,"#include<stdio.h>
+long long int gcd(long long int a,long long int b)
+{
+	if(a%b==0)return b;
+	else return gcd(b,a%b);
+}
+int main()
+{
+	long long int a[100005],b[100005],i,j,n,suma=1,sumb=1;
+	scanf(""%lld"",&n);
+	for(i=0;i<n;++i){
+		scanf(""%lld"",&a[i]);
+		suma=(suma*a[i])/gcd(suma,a[i]);
+	}
+	for(i=0;i<n;++i){
+		scanf(""%lld"",&b[i]);
+		sumb=(sumb*b[i])/gcd(sumb,b[i]);
+	}
+	if(gcd(suma,sumb)!=1)printf(""No\n"");
+	else printf(""Yes\n"");
+	return 0;
+}"
+125,C,C(gcc 7.5.0),54984845,2022-11-25 20:07:26,tuboshu,运行超时,"#include<stdio.h>
+int main()
+{
+    int i,n,j,a[1000000],b[1000000],m;
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+        scanf(""%d"",&a[i]);
+    for(i=0;i<n;i++)
+        scanf(""%d"",&b[i]);
+    for(m=0;m<n;m++)
+    {
+        for(j=0;j<n;j++)
+        {
+ 
+            if (a[m] > b[j]){
+                i = b[j];
+            }
+            else i = a[m] ;
+            while (a[m]%i != 0 || b[j]%i != 0){
+                i--;
+            }
+            if(i!=1)
+            {
+                printf(""No"");
+                return 0;
+            }
+        }
+    }
+
+	printf(""Yes"");
+    return 0;
+}"
+126,C,C,54984863,2022-11-25 20:07:35,牛客521172301号,答案错误,"#include<stdio.h>
+#include<math.h>
+
+long long jg[100000] = { 0 }, jj[100000] = { 0 };
+void yinzi(long long  x, long long* yin)
+{
+	int i;
+	for (i = 2; i < sqrt(x) + 1; i++)
+	{
+		if (x % i == 0)
+			yin[i]++;
+	}
+}
+int main()
+{
+	long long n, a[100005], b[100005];
+	scanf(""%lld"", &n);
+	int i;
+	for (i = 0; i < n; i++)
+	{
+		scanf(""%lld"", &a[i]);
+		yinzi(a[i], jg);
+	}
+	for (i = 0; i < n; i++)
+	{
+		scanf(""%lld"", &b[i]);
+		yinzi(b[i], jj);
+		while (jg[i] && jj[i])
+		{
+			printf(""No"");
+			return 0;
+		}
+	}
+	
+	printf(""Yes"");
+	return 0;
+}"
+127,C,C,54984903,2022-11-25 20:08:06,牛客521172301号,答案错误,"#include<stdio.h>
+#include<math.h>
+
+long long jg[1000006] = { 0 }, jj[1000006] = { 0 };
+void yinzi(long long  x, long long* yin)
+{
+	int i;
+	for (i = 2; i < sqrt(x) + 1; i++)
+	{
+		if (x % i == 0)
+			yin[i]++;
+	}
+}
+int main()
+{
+	long long n, a[100005], b[100005];
+	scanf(""%lld"", &n);
+	int i;
+	for (i = 0; i < n; i++)
+	{
+		scanf(""%lld"", &a[i]);
+		yinzi(a[i], jg);
+	}
+	for (i = 0; i < n; i++)
+	{
+		scanf(""%lld"", &b[i]);
+		yinzi(b[i], jj);
+		while (jg[i] && jj[i])
+		{
+			printf(""No"");
+			return 0;
+		}
+	}
+	
+	printf(""Yes"");
+	return 0;
+}"
+128,C,C,54984927,2022-11-25 20:08:20,亿生一笑,运行超时,"#include<stdio.h>
+int main() {
+    int n;
+    scanf(""%d"",&n);
+    int a[n],b[n];
+    for(int i=0;i<n;i++) {
+        scanf(""%d"",&a[i]);
+    }
+    for(int i=0;i<n;i++) {
+        scanf(""%d"",&b[i]);
+    }
+    for(int i=0;i<n;i++) {
+        for(int k=0;k<n;k++) {
+            for(int x=2;x<a[i]/2;x++){
+                if(a[i]%x==0&&b[k]%x==0){
+                    printf(""No"");
+                    return 0;
+                }
+            }
+        }
+    }
+    printf(""Yes"");
+}"
+129,C,C,54984944,2022-11-25 20:08:31,亿生一笑,运行超时,"#include<stdio.h>
+int main() {
+    int n;
+    scanf(""%d"",&n);
+    int a[n],b[n];
+    for(int i=0;i<n;i++) {
+        scanf(""%d"",&a[i]);
+    }
+    for(int i=0;i<n;i++) {
+        scanf(""%d"",&b[i]);
+    }
+    for(int i=0;i<n;i++) {
+        for(int k=0;k<n;k++) {
+            for(int x=2;x<a[i]/2;x++){
+                if(a[i]%x==0&&b[k]%x==0){
+                    printf(""No"");
+                    return 0;
+                }
+            }
+        }
+    }
+    printf(""Yes"");
+}"
+130,C,C,54984946,2022-11-25 20:08:31,CHWCL,运行超时,"#include <stdio.h>
+int gcd(int x,int y);
+int main()
+{
+    int n,m;
+    scanf(""%d"",&n);
+    int a[n],b[n];
+    int i=0,j=0;
+    for(i=0;i<n;i++){
+        scanf(""%d"",&a[i]);
+        for(j=0;j<n;j++){
+            scanf(""%d"",&b[j]);
+            m=gcd(a[i],b[j]);
+      }
+      j=0;
+    }
+    if(m!=1){
+        printf(""No"");
+    }
+    else printf(""Yes"");
+    return 0;
+}
+int gcd(int x, int y)
+{
+    int t;
+    if(x<y){
+        t=y;
+        y=x;
+        x=t;
+    }
+    if(y==0){
+        return x;
+    }
+    return 0;
+}"
+131,C,C,54985021,2022-11-25 20:09:19,十字线,运行超时,"#include <stdio.h>
+#include <string.h>
+int main()
+{
+    int T;
+    scanf(""%d"",&T);
+    while(T--)
+    {
+        long long l,r;
+        long long m;
+        scanf(""%lld %lld"",&l,&r);
+        scanf(""%lld"",&m);
+        long long n=(l+r)*(r-l+1)/2;
+        while(m--)
+        {
+            long long x;
+            scanf(""%lld"",&x);
+            if(n%x==0)
+                printf(""0\n"");
+            else
+                printf(""1\n"");
+        }
+    }
+    return 0;
+}"
+132,C,C,54985062,2022-11-25 20:09:40,bilu,答案错误,"#include<stdio.h>
+int main()
+{
+    int n,a[1000000],b[1000000],i,j,count=0,k;
+    for(i=0;i<n;i++)
+    {
+        scanf(""%d"",&a[i]);
+    }
+    for(i=0;i<n;i++)
+    {
+        scanf(""%d"",&b[i]);
+    }
+    for(k=0;k<n;k++)
+    {
+        for(i=2;i<=a[k];i++)
+        {
+            if(a[k]%i==0)
+            {
+                for(j=0;j<b[i];j++)
+                {
+                    if(b[j]%i==0)
+                    {
+                        count++;
+                    }
+                }
+            }
+        
+        }
+    }
+    if(count==0)
+    {
+        printf(""Yes"");
+    }else
+    {
+        printf(""No"");
+    }
+    
+}"
+133,C,C,54985084,2022-11-25 20:09:50,牛客521172301号,答案错误,"#include<stdio.h>
+#include<math.h>
+
+long long jg[1000006] = { 0 }, jj[1000006] = { 0 };
+void yinzi(long long  x, long long* yin)
+{
+	int i;
+	for (i = 2; i < sqrt(x) + 1; i++)
+	{
+		if (x % i == 0)
+			yin[i]++;
+	}
+}
+int main()
+{
+	long long n, a[100005], b[100005];
+	scanf(""%lld"", &n);
+	int i;
+	for (i = 0; i < n; i++)
+	{
+		scanf(""%lld"", &a[i]);
+		yinzi(a[i], jg);
+	}
+	for (i = 2; i < n; i++)
+	{
+		scanf(""%lld"", &b[i]);
+		yinzi(b[i], jj);
+		while (jg[i] !=0&& jj[i]!=0)
+		{
+			printf(""No"");
+			return 0;
+		}
+	}
+	
+	printf(""Yes"");
+	return 0;
+}"
+134,C,C,54985120,2022-11-25 20:10:08,ooosws,运行超时,"#include<stdio.h>
+int main()
+{
+    int n,i,j,k=0,t,min,m;
+    scanf(""%d"",&n);
+    int a[n];
+    int b[n];
+    for(i=0;i<n;i++)    scanf(""%d"",&a[i]);
+    for(i=0;i<n;i++)    scanf(""%d"",&b[i]);
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<n;j++)
+        {
+              if(a[i]==1)    break;
+              else{
+                  min=b[j];
+                  if(a[i]<b[j])    min=a[i];
+                  for(m=min;m>0;m--)    
+                      if(a[i]%m==0&&b[j]%m==0&&m!=1)
+                      {
+                          k=1;//不独立
+                          break;
+                      }
+              }
+            if(k==1)    break;
+        }
+        if(k==1)    break;
+    }
+    if(k)    printf(""No"");
+    else    printf(""Yes"");
+    return 0;
+}"
+135,C,C,54985215,2022-11-25 20:11:06,万文轩,运行超时,"#include<stdio.h>
+const int maxn=1e5+5;
+int a[maxn],b[maxn];
+int gcd(int x,int y) {
+	int t;
+    while(y % x != 0){
+    	t = x;
+    	x = y % x;
+    	y = t;
+	}
+	return x;
+}
+int main()
+{
+    int n,cnt=0;
+    scanf(""%d"",&n);
+    for(int i=0;i<n;i++)scanf(""%d"",&a[i]);
+    for(int i=0;i<n;i++)scanf(""%d"",&b[i]);
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++){
+            if(gcd(a[i],b[j])!=1)cnt++;
+        }
+    }
+    if(cnt==0)printf(""Yes"");
+    else printf(""No"");
+    return 0;
+}"
+136,C,C,54985318,2022-11-25 20:12:06,洛痕,运行超时,"#include<stdio.h>
+int a[1000000],b[1000000];
+int main()
+{int n,flag=0;
+ scanf(""%d"",&n);
+     for(int i=0;i<n;i++)
+     {
+         scanf(""%d"",&a[i]);
+     }
+  for(int i=0;i<n;i++)
+     {
+         scanf(""%d"",&b[i]);
+     }
+ for(int i=0;i<n;i++)
+     {
+       for(int q=0;q<n;q++)
+       {int tem=a[i]<b[q]?a[i]:b[q]; 
+       for(int z=2;z<=tem;z++)
+        {
+           if(a[i]%z==0&&b[q]%z==0)goto tiaochu1;
+        }   
+       }
+     } 
+ goto tiaochu2;
+ tiaochu1:printf(""No"");flag=1;
+ if(flag==0){tiaochu2:printf(""Yes"");}
+    return 0;
+}"
+137,C,C,54985335,2022-11-25 20:12:16,Tang__Bin,答案错误,"#include<stdio.h>
+#include<stdlib.h>
+#include<math.h>
+#include<string.h>
+
+
+int arr[1000001];//是否为素数
+int arr1[100001];//输入数据
+int arr2[100001];
+int prr[1000001];//1~1000000所有素数
+int prr1[1000001];//素数是否出现
+int prr2[1000001];
+
+int main()
+{
+	arr[0] = -1;
+	arr[1] = -1;
+	int a;
+	int p = 0;
+	int i;
+	for (i = 2; i < 1000001; i++)
+	{
+		if (arr[i] != -1)
+		{
+			prr[p] = i;
+			p++;
+			a = i * 2;
+			while (a <= 1000000) { arr[a] = -1; a += i; }
+		}
+	}
+	int n;
+	scanf(""%d"", &n);
+	for (i = 0; i < n; i++)scanf(""%d"", arr1 + i);
+	for (i = 0; i < n; i++)scanf(""%d"", arr2 + i);
+	int num, prime;
+	int tp;
+	for (i = 0; i < n; i++)
+	{
+		tp = 0;
+		num = arr1[i];
+		if (num == 1)continue;
+		if (arr[num] == 0) { prr1[num] = 1; continue; }
+		else
+		{
+			while (arr[num] == -1)
+			{
+				prime = prr[tp];
+				if (num % prime == 0) { prr1[prime] = 1; num /= prime;}
+				else  tp++;
+			}
+			prr1[num] = 1;
+		}
+	}
+	for (i = 0; i < n; i++)
+	{
+		tp = 0;
+		num = arr2[i];
+		if (num == 1)continue;
+		if (arr[num] == 0) { prr2[num] = 1; continue; }
+		else
+		{
+			while (arr[num] == -1)
+			{
+				prime = prr[tp];
+				if (num % prime == 0) { prr2[prime] = 1; num /= prime; }
+				else  tp++;
+			}
+			prr2[num] = 1;
+		}
+	}
+	for (i = 0; i < p; i++)
+	{
+		if (prr1[i] & prr2[i]==1) { printf(""No\n""); goto stop; }
+	}
+	printf(""Yes\n"");
+
+	stop:return 0;
+}"
+138,C,C,54985383,2022-11-25 20:12:50,242310,运行超时,"#include<stdio.h>
+#include<string.h>
+#include<math.h>
+long long gcd(long long a,long long b){
+    if(a==1||b==1) return 1;
+	int r;
+	r=a%b;
+	while(r){
+		a=b;b=r;r=a%b;
+	}
+	return b;
+}
+int main(){
+	long long n,a[100010],b[100010];
+	int flag=0;
+	scanf(""%lld"",&n);
+	for(int i=1;i<=n;i++){
+		scanf(""%lld"",&a[i]);
+	}
+	for(int i=1;i<=n;i++){
+		scanf(""%lld"",&b[i]);
+        if(b[i]!=1){
+            for(int j=1;j<=n;j++){
+                if(gcd(a[j],b[i])!=1){
+                    flag=1;
+                    break;
+                } 
+            }
+		}
+	}
+	if(flag) printf(""No\n"");
+	else printf(""Yes\n"");
+	return 0;
+}"
+139,C,C,54985455,2022-11-25 20:13:31,洛痕,运行超时,"#include<stdio.h>
+int a[1000000],b[1000000];
+int main()
+{int n,flag=0;
+ scanf(""%d"",&n);
+     for(int i=0;i<n;i++)
+     {
+         scanf(""%d"",&a[i]);
+     }
+  for(int i=0;i<n;i++)
+     {
+         scanf(""%d"",&b[i]);
+     }
+ for(int i=0;i<n;i++)
+     {
+       for(int q=0;q<n;q++)
+       {int tem=a[i]<b[q]?a[i]:b[q]; 
+       for(int z=2;z<=tem;z++)
+        {
+           if(a[i]%z==0&&b[q]%z==0)goto tiaochu1;
+        }   
+       }
+     } 
+ goto tiaochu2;
+ tiaochu1:printf(""No"");flag=1;
+ if(flag==0){tiaochu2:printf(""Yes"");}
+    return 0;
+}"
+140,C,C,54985496,2022-11-25 20:13:57,济南大学_侯振海,运行超时,"#include<stdio.h>
+int main()
+{
+    int n,i,j,t,l;
+    int flag = 1;
+    int max=0;
+    int a[100001], b[100001];
+    scanf(""%d"", &n);
+    for (i = 1; i <= n; i++)
+    {
+        scanf(""%d"", &a[i]);
+    }
+    for (i = 1; i <= n; i++)
+    {
+        scanf(""%d"", &b[i]);
+    }
+  ;
+    for (i = 1; i <= n; i++)
+    {
+        if (flag == 0)
+            break;
+        if (a[i] == 1)
+            continue;
+        for (j = 1; j <= n; j++)   
+        {
+            if (flag == 0)
+                break;
+            if (a[i] > b[j])
+                max = b[j];
+            else
+                max = a[i];
+            if (b[j] == 1)
+                continue;
+            for (l = 2; l < max; l++)
+            {
+                if (l != a[i] && l != b[j]&&a[i] % l == 0 && b[j] % l == 0)
+                {
+                    flag = 0;
+                    break;
+                }
+            }
+        }
+    }
+    if (flag == 0)
+        printf(""No"");
+    else
+        printf(""Yes"");
+    return 0;
+}"
+141,C,C(gcc 7.5.0),54985541,2022-11-25 20:14:23,牛客344675215号,运行超时,"#include<stdio.h>
+int yinzi(int a,int b){
+	int t;
+	while(b!=0){
+		t = a%b;
+		a=b;
+		b=t;
+	}
+	if(a==1) return 1;
+	else return 0;
+}
+int main(){
+	int a[100005],b[100005];
+	int i,n;
+	scanf(""%d"",&n);
+	for(i=0;i<n;i++){
+		scanf(""%d"",&a[i]);
+	}
+	for(i=0;i<n;i++){
+		scanf(""%d"",&b[i]);
+	}
+	int j,k=1,flag=1;
+	for(i=0;i<n;i++){
+		for(j=0;j<n;j++){
+			if(!yinzi(a[i],b[j])){
+				flag=0;
+				break;
+			}
+		}
+	}
+	if(flag==1) printf(""Yes"");
+	else printf(""No"");
+}"
+142,C,C,54985549,2022-11-25 20:14:30,林卓学,运行超时,"#include <stdio.h>
+
+int isok(int a,int b)
+{
+    int t;
+    if(a < b){
+        t = a;
+        a = b;
+        b = t;
+    }
+    
+    while(a % b){
+        t = b;
+        b = a % b;
+        a = t;
+    }
+    
+    if(b == 1)
+        return 0;
+    else
+        return 1;
+}
+
+int main()
+{
+    int n;
+    int i,j;
+    int flag = 0;
+    int a[1000001] = {0};
+    int b[1000001] = {0};
+    
+    scanf(""%d"",&n);
+    
+    for(i=0; i<n; i++)
+        scanf(""%d"",a+i);
+    for(i=0; i<n; i++)
+        scanf(""%d"",b+i);
+    
+    for(i=0; i<n; i++){
+        if(a[i] == 1)
+            continue;
+        
+        for(j=0; j<n; j++){
+            if(b[j] == 1)
+                continue;
+            
+            if(isok(a[i],b[j])){
+                flag = 1;
+                break;
+            }
+        }
+        
+        if(flag)
+            break;
+    }
+    
+    if(flag)
+        printf(""No"");
+    else
+        printf(""Yes"");
+    
+    
+    return 0;
+}"
+143,C,C,54985632,2022-11-25 20:15:14,牛客766825880号,运行超时,"#include <stdio.h>
+
+int main() {
+	int n, i, j, k, woc = 0;
+	scanf(""%d"", &n);
+	int a[n], b[n];
+	for (j = 0; j < n; j++) {
+		scanf(""%d"", &a[j]);
+	}
+	for (j = 0; j < n; j++) {
+		scanf(""%d"", &b[j]);
+	}
+	for (i = 0; i < n; i++) {
+		for (k = 2; k < a[i]; k++) {
+			if (a[i] % k == 0) {
+				for (j = 0; j < n; j++) {
+					if (b[j] % k == 0) {
+						printf(""No"");
+						return 0;
+					}
+				}
+			}
+		}
+	}
+	printf(""Yes"");
+}"
+144,C,C,54985645,2022-11-25 20:15:21,liuweidihuangwan,答案错误,"#include <stdio.h>
+#include <stdlib.h>
+
+int Max_Com_Divisor(int x, int y)//用更相减损法求最大公约数
+{
+    while (1)//用大数减去小数并将结果保存起来
+    {
+        if (x > y)
+        {
+            x -= y;
+        }
+        else if(x < y)
+        {
+            y -= x;
+        }
+        else//如果两个数相等时，则这个数就是最大公约数
+        {
+            return x;
+        }
+    }
+}
+
+int main (void)
+{
+    int n;
+      int count=0;
+    scanf(""%d"",&n);
+    int* a=(int*)malloc(sizeof(int)*n);
+    int* b=(int*)malloc(sizeof(int)*n);
+    int t=n;
+    while(t--){
+        scanf(""%d"",&a[t]);
+    }
+    t=n;
+     while(t--){
+        scanf(""%d"",&b[t]);
+    }
+  
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++){
+        if(Max_Com_Divisor(a[i],a[j]) !=1) {    printf(""Yes"");
+                                                count++;
+                                                break;
+            }
+    }
+    if(count == 0 )    printf(""No"");
+        free(a);
+        free(b);
+        return 0;
+}
+}"
+145,C,C,54985660,2022-11-25 20:15:36,牛客766825880号,运行超时,"#include <stdio.h>
+
+int main() {
+	int n, i, j, k, woc = 0;
+	scanf(""%d"", &n);
+	int a[n], b[n];
+	for (j = 0; j < n; j++) {
+		scanf(""%d"", &a[j]);
+	}
+	for (j = 0; j < n; j++) {
+		scanf(""%d"", &b[j]);
+	}
+	for (i = 0; i < n; i++) {
+		for (k = 2; k < a[i]/2; k++) {
+			if (a[i] % k == 0) {
+				for (j = 0; j < n; j++) {
+					if (b[j] % k == 0) {
+						printf(""No"");
+						return 0;
+					}
+				}
+			}
+		}
+	}
+	printf(""Yes"");
+}"
+146,C,C,54985667,2022-11-25 20:15:37,353,运行超时,"#include <stdio.h>
+#include <math.h>
+#include <string.h>
+#include <stdlib.h>
+int gcd(int a,int b)
+{
+	if(b==0)
+		return a;
+	return gcd(b,a%b);
+}
+int main()
+{
+	int n;
+	scanf(""%d"",&n);
+	int a[n+1],b[n+1];
+	for(int i=1;i<=n;i++)
+		scanf(""%d"",&a[i]);
+	for(int i=1;i<=n;i++)
+		scanf(""%d"",&b[i]);
+	long long int count=0;
+	for(int i=1;i<=n;i++)
+	{
+		for(int j=1;j<=n;j++)
+		{
+			if(gcd(a[i],b[j])==1)
+				count++; 
+		}
+	}
+	if(count==n*n)
+		printf(""Yes"");
+	else
+		printf(""No"");
+}
+
+"
+147,C,C,54985696,2022-11-25 20:15:53,353,运行超时,"#include <stdio.h>
+#include <math.h>
+#include <string.h>
+#include <stdlib.h>
+int gcd(int a,int b)
+{
+	if(b==0)
+		return a;
+	return gcd(b,a%b);
+}
+int main()
+{
+	int n;
+	scanf(""%d"",&n);
+	int a[n+1],b[n+1];
+	for(int i=1;i<=n;i++)
+		scanf(""%d"",&a[i]);
+	for(int i=1;i<=n;i++)
+		scanf(""%d"",&b[i]);
+	long long int count=0;
+	for(int i=1;i<=n;i++)
+	{
+		for(int j=1;j<=n;j++)
+		{
+			if(gcd(a[i],b[j])==1)
+				count++; 
+		}
+	}
+	if(count==n*n)
+		printf(""Yes"");
+	else
+		printf(""No"");
+}
+
+"
+148,C,C,54985735,2022-11-25 20:16:26,353,运行超时,"#include <stdio.h>
+#include <math.h>
+#include <string.h>
+#include <stdlib.h>
+int gcd(int a,int b)
+{
+	if(b==0)
+		return a;
+	return gcd(b,a%b);
+}
+int main()
+{
+	int n;
+	scanf(""%d"",&n);
+	int a[n+1],b[n+1];
+	for(int i=1;i<=n;i++)
+		scanf(""%d"",&a[i]);
+	for(int i=1;i<=n;i++)
+		scanf(""%d"",&b[i]);
+	long long int count=0;
+	for(int i=1;i<=n;i++)
+	{
+		for(int j=1;j<=n;j++)
+		{
+			if(gcd(a[i],b[j])==1)
+				count++; 
+		}
+	}
+	if(count==n*n)
+		printf(""Yes"");
+	else
+		printf(""No"");
+}
+
+"
+149,C,C,54985739,2022-11-25 20:16:28,任红颖,答案错误,"#include<stdio.h>
+int sha(int a,int b)
+{
+    int i,u,w;
+    if(a!=1&&b!=1)
+    {
+        u=a<b?a:b;
+        w=a>b?a:b;
+        for(i=u;i>1;i--)
+            if(w%i==0&&u%i==0)
+                return 1;
+        return 0;
+    }
+        return 0;
+}
+int a[100000],b[100000];
+int main()
+{
+    int n,i,j,z,k=0;
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+        scanf(""%d"",&a[i]);
+    for(i=0;i<n;i++)
+        scanf(""%d"",&b[i]);
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<n;j++)
+        {
+            z=sha(a[i],b[j]);
+            if(z==1)
+            {
+                k=1;
+                break;
+            }
+        }
+        if(k==1)
+            break;
+    }
+    if(k==0)
+        printf(""YES"");
+    else
+        printf(""NO"");
+}
+"
+150,C,C,54985740,2022-11-25 20:16:28,353,运行超时,"#include <stdio.h>
+#include <math.h>
+#include <string.h>
+#include <stdlib.h>
+int gcd(int a,int b)
+{
+	if(b==0)
+		return a;
+	return gcd(b,a%b);
+}
+int main()
+{
+	int n;
+	scanf(""%d"",&n);
+	int a[n+1],b[n+1];
+	for(int i=1;i<=n;i++)
+		scanf(""%d"",&a[i]);
+	for(int i=1;i<=n;i++)
+		scanf(""%d"",&b[i]);
+	long long int count=0;
+	for(int i=1;i<=n;i++)
+	{
+		for(int j=1;j<=n;j++)
+		{
+			if(gcd(a[i],b[j])==1)
+				count++; 
+		}
+	}
+	if(count==n*n)
+		printf(""Yes"");
+	else
+		printf(""No"");
+}
+
+"
+151,C,C,54985750,2022-11-25 20:16:33,353,运行超时,"#include <stdio.h>
+#include <math.h>
+#include <string.h>
+#include <stdlib.h>
+int gcd(int a,int b)
+{
+	if(b==0)
+		return a;
+	return gcd(b,a%b);
+}
+int main()
+{
+	int n;
+	scanf(""%d"",&n);
+	int a[n+1],b[n+1];
+	for(int i=1;i<=n;i++)
+		scanf(""%d"",&a[i]);
+	for(int i=1;i<=n;i++)
+		scanf(""%d"",&b[i]);
+	long long int count=0;
+	for(int i=1;i<=n;i++)
+	{
+		for(int j=1;j<=n;j++)
+		{
+			if(gcd(a[i],b[j])==1)
+				count++; 
+		}
+	}
+	if(count==n*n)
+		printf(""Yes"");
+	else
+		printf(""No"");
+}
+
+"
+152,C,C,54985756,2022-11-25 20:16:37,353,运行超时,"#include <stdio.h>
+#include <math.h>
+#include <string.h>
+#include <stdlib.h>
+int gcd(int a,int b)
+{
+	if(b==0)
+		return a;
+	return gcd(b,a%b);
+}
+int main()
+{
+	int n;
+	scanf(""%d"",&n);
+	int a[n+1],b[n+1];
+	for(int i=1;i<=n;i++)
+		scanf(""%d"",&a[i]);
+	for(int i=1;i<=n;i++)
+		scanf(""%d"",&b[i]);
+	long long int count=0;
+	for(int i=1;i<=n;i++)
+	{
+		for(int j=1;j<=n;j++)
+		{
+			if(gcd(a[i],b[j])==1)
+				count++; 
+		}
+	}
+	if(count==n*n)
+		printf(""Yes"");
+	else
+		printf(""No"");
+}
+
+"
+153,C,C,54985772,2022-11-25 20:16:46,353,运行超时,"#include <stdio.h>
+#include <math.h>
+#include <string.h>
+#include <stdlib.h>
+int gcd(int a,int b)
+{
+	if(b==0)
+		return a;
+	return gcd(b,a%b);
+}
+int main()
+{
+	int n;
+	scanf(""%d"",&n);
+	int a[n+1],b[n+1];
+	for(int i=1;i<=n;i++)
+		scanf(""%d"",&a[i]);
+	for(int i=1;i<=n;i++)
+		scanf(""%d"",&b[i]);
+	long long int count=0;
+	for(int i=1;i<=n;i++)
+	{
+		for(int j=1;j<=n;j++)
+		{
+			if(gcd(a[i],b[j])==1)
+				count++; 
+		}
+	}
+	if(count==n*n)
+		printf(""Yes"");
+	else
+		printf(""No"");
+}
+
+"
+154,C,C,54985778,2022-11-25 20:16:51,353,运行超时,"#include <stdio.h>
+#include <math.h>
+#include <string.h>
+#include <stdlib.h>
+int gcd(int a,int b)
+{
+	if(b==0)
+		return a;
+	return gcd(b,a%b);
+}
+int main()
+{
+	int n;
+	scanf(""%d"",&n);
+	int a[n+1],b[n+1];
+	for(int i=1;i<=n;i++)
+		scanf(""%d"",&a[i]);
+	for(int i=1;i<=n;i++)
+		scanf(""%d"",&b[i]);
+	long long int count=0;
+	for(int i=1;i<=n;i++)
+	{
+		for(int j=1;j<=n;j++)
+		{
+			if(gcd(a[i],b[j])==1)
+				count++; 
+		}
+	}
+	if(count==n*n)
+		printf(""Yes"");
+	else
+		printf(""No"");
+}
+
+"
+155,C,C(gcc 7.5.0),54985780,2022-11-25 20:16:51,牛客344675215号,答案错误,"#include<stdio.h>
+int main(){
+	int a[100005],b[100005];
+	int i,n;
+	scanf(""%d"",&n);
+	for(i=0;i<n;i++){
+		scanf(""%d"",&a[i]);
+	}
+	for(i=0;i<n;i++){
+		scanf(""%d"",&b[i]);
+	}
+	int j,flag=1,t;
+	for(i=0;i<n;i++){
+		for(j=0;j<n;j++){
+			while(b[j]!=0){
+			t = a[i]%b[j];
+			a[i]=b[j];
+			b[j]=t;
+			}
+			if(a[i==1]){
+				flag=0;
+				break;
+			}
+		}
+	}
+	if(flag==1) printf(""Yes"");
+	else printf(""No"");
+}"
+156,C,C,54985786,2022-11-25 20:16:55,353,运行超时,"#include <stdio.h>
+#include <math.h>
+#include <string.h>
+#include <stdlib.h>
+int gcd(int a,int b)
+{
+	if(b==0)
+		return a;
+	return gcd(b,a%b);
+}
+int main()
+{
+	int n;
+	scanf(""%d"",&n);
+	int a[n+1],b[n+1];
+	for(int i=1;i<=n;i++)
+		scanf(""%d"",&a[i]);
+	for(int i=1;i<=n;i++)
+		scanf(""%d"",&b[i]);
+	long long int count=0;
+	for(int i=1;i<=n;i++)
+	{
+		for(int j=1;j<=n;j++)
+		{
+			if(gcd(a[i],b[j])==1)
+				count++; 
+		}
+	}
+	if(count==n*n)
+		printf(""Yes"");
+	else
+		printf(""No"");
+}
+
+"
+157,C,C(gcc 7.5.0),54985821,2022-11-25 20:17:16,牛客344675215号,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c: In function ‘main’:\nmain.c:20:14: error: expected ‘)’ before ‘]’ token\n    if(a[i]==1]){\n              ^\nmain.c:20:14: error: expected statement before ‘]’ token\nmain.c:20:15: error: expected statement before ‘)’ token\n    if(a[i]==1]){\n               ^\nmain.c:5:2: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n  scanf(\""%d\"",&n);\n  ^~~~~~~~~~~~~~\nmain.c:7:3: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n   scanf(\""%d\"",&a[i]);\n   ^~~~~~~~~~~~~~~~~\nmain.c:10:3: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n   scanf(\""%d\"",&b[i]);\n   ^~~~~~~~~~~~~~~~~""}
+
+#include<stdio.h>
+int main(){
+	int a[100005],b[100005];
+	int i,n;
+	scanf(""%d"",&n);
+	for(i=0;i<n;i++){
+		scanf(""%d"",&a[i]);
+	}
+	for(i=0;i<n;i++){
+		scanf(""%d"",&b[i]);
+	}
+	int j,flag=1,t;
+	for(i=0;i<n;i++){
+		for(j=0;j<n;j++){
+			while(b[j]!=0){
+			t = a[i]%b[j];
+			a[i]=b[j];
+			b[j]=t;
+			}
+			if(a[i]==1]){
+				flag=0;
+				break;
+			}
+		}
+	}
+	if(flag==1) printf(""Yes"");
+	else printf(""No"");
+}"
+158,C,C,54985863,2022-11-25 20:17:37,顶真的瑞克5,段错误,"#include <stdio.h>
+#include <math.h>
+int gcd(int a,int b)
+{
+    int n1=fmax(a,b),n2=fmin(a,b);
+    if (n2 != 0)
+       return gcd(n2, n1%n2);
+    else 
+       return n1;
+}
+int main()
+{
+    int n;
+    scanf(""%d"",&n);
+    int a[10001]={0},b;
+    for(int i=0;i<n;i++)scanf(""%d"",&a[i]);
+    int n1=n;
+    _Bool fl=1;
+    while(n1--)
+    {
+        scanf(""%d"",&b);
+        for(int i=0;i<n;i++)if(gcd(b,a[i])!=1){fl=0;break;}
+    }
+    if(fl==0)printf(""No"");
+    else printf(""Yes"");
+}"
+159,C,C,54985874,2022-11-25 20:17:42,353,运行超时,"#include <stdio.h>
+#include <math.h>
+#include <string.h>
+#include <stdlib.h>
+int gcd(int a,int b)
+{
+	if(b==0)
+		return a;
+	return gcd(b,a%b);
+}
+int main()
+{
+	int n;
+	scanf(""%d"",&n);
+	int a[n+1],b[n+1];
+	for(int i=1;i<=n;i++)
+		scanf(""%d"",&a[i]);
+	for(int i=1;i<=n;i++)
+		scanf(""%d"",&b[i]);
+	long long int count=0;
+	for(int i=1;i<=n;i++)
+	{
+		for(int j=1;j<=n;j++)
+		{
+			if(gcd(a[i],b[j])==1)
+				count++; 
+		}
+	}
+	if(count==n*n)
+		printf(""Yes"");
+	else
+		printf(""No"");
+}
+
+"
+160,C,C(gcc 7.5.0),54985879,2022-11-25 20:17:47,牛客344675215号,运行超时,"#include<stdio.h>
+int main(){
+	int a[100005],b[100005];
+	int i,n;
+	scanf(""%d"",&n);
+	for(i=0;i<n;i++){
+		scanf(""%d"",&a[i]);
+	}
+	for(i=0;i<n;i++){
+		scanf(""%d"",&b[i]);
+	}
+	int j,flag=1,t;
+	for(i=0;i<n;i++){
+		for(j=0;j<n;j++){
+			while(b[j]!=0){
+			t = a[i]%b[j];
+			a[i]=b[j];
+			b[j]=t;
+			}
+			if(a[i]==1){
+				flag=0;
+				break;
+			}
+		}
+	}
+	if(flag==1) printf(""Yes"");
+	else printf(""No"");
+}"
+161,C,C,54985926,2022-11-25 20:18:09,CHWCL,运行超时,"#include <stdio.h>
+int gcd(int x,int y);
+int main()
+{
+    int n;
+    scanf(""%d"",&n);
+    int a[n],b[n];
+    int i=0,j=0;
+    for(i=0;i<n;i++){
+        scanf(""%d"",&a[i]);
+        for(j=0;j<n;j++){
+            scanf(""%d"",&b[j]);
+            gcd(a[i],b[j]);
+      }
+      j=0;
+    }
+    if(gcd(a[i],b[j])>1)printf(""No"");
+    else printf(""Yes"");
+    return 0;
+}
+int gcd(int x, int y)
+{
+    int t;
+    if(x<y){
+        t=y;
+        y=x;
+        x=t;
+    }
+    if(y==0){
+        return x;
+    }
+    return 0;
+}"
+162,C,C,54985960,2022-11-25 20:18:28,CHWCL,运行超时,"#include <stdio.h>
+int gcd(int x,int y);
+int main()
+{
+    int n;
+    scanf(""%d"",&n);
+    int a[n],b[n];
+    int i=0,j=0;
+    for(i=0;i<n;i++){
+        scanf(""%d"",&a[i]);
+        for(j=0;j<n;j++){
+            scanf(""%d"",&b[j]);
+            gcd(a[i],b[j]);
+      }
+      j=0;
+    }
+    if(gcd(a[i],b[j])>1)printf(""No"");
+    else printf(""Yes"");
+    return 0;
+}
+int gcd(int x, int y)
+{
+    int t;
+    if(x<y){
+        t=y;
+        y=x;
+        x=t;
+    }
+    if(y==0){
+        return x;
+    }
+    return 0;
+}"
+163,C,C,54985995,2022-11-25 20:18:50,顶真的瑞克5,段错误,"#include <stdio.h>
+#include <math.h>
+int gcd(int a,int b)
+{
+    int n1=fmax(a,b),n2=fmin(a,b);
+    if (n2 != 0)
+       return gcd(n2, n1%n2);
+    else 
+       return n1;
+}
+int main()
+{
+    int n;
+    scanf(""%d"",&n);
+    int a[10001]={0},b;
+    for(int i=0;i<n;i++)scanf(""%d"",&a[i]);
+    int n1=n;
+    _Bool fl=1;
+    while(n1--)
+    {
+        int i=0;
+        scanf(""%d"",&b);
+        if(gcd(b,a[i])!=1){fl=0;break;}
+        i++;
+    }
+    if(fl==0)printf(""No"");
+    else printf(""Yes"");
+}"
+164,C,C,54986012,2022-11-25 20:19:00,蚌埠住了的布莱克很机灵,运行超时,"#include<stdio.h>
+int main()
+{ 
+	int n;
+	scanf(""%d"",&n);
+	int a[n],b[n];
+	int i,j,t,cnt=0;
+	for(i=0;i<n;i++){
+		scanf(""%d"",&a[i]);
+	}
+	for(i=0;i<n;i++){
+		scanf(""%d"",&b[i]);
+	}
+	for(i=0;i<n;i++){
+		for(j=0;j<n;j++){
+			while(b[j]!=0){
+				t=a[i]%b[j];
+				a[i]=b[j];
+				b[j]=t;
+			}
+			if(a[i]==1){
+				cnt++;
+			}
+		}
+	}
+	if(cnt==n){
+		printf(""Yes"");
+	}else printf(""No"");
+}
+"
+165,C,C,54986021,2022-11-25 20:19:08,林卓学,运行超时,"#include <stdio.h>
+
+int isok(int a,int b)
+{
+    int t;
+    if(a < b){
+        t = a;
+        a = b;
+        b = t;
+    }
+    
+    while(a % b){
+        t = b;
+        b = a % b;
+        a = t;
+    }
+    
+    if(b == 1)
+        return 0;
+    else
+        return 1;
+}
+
+int main()
+{
+    int n;
+    int i,j;
+    int flag = 0;
+    int flag1 = 0;
+    int a[1000001] = {0};
+    int b[1000001] = {0};
+    
+    scanf(""%d"",&n);
+    
+    for(i=0; i<n; i++){
+        scanf(""%d"",a+i);
+        
+        if(a[i] % 2 == 0)
+            flag1 = 1;
+    }
+    
+    for(i=0; i<n; i++){
+        scanf(""%d"",b+i);
+        
+        if(flag1 && b[i]%2 == 0){
+            flag = 1;
+            goto here;
+        }
+    }
+    
+    for(i=0; i<n; i++){
+        if(a[i] == 1)
+            continue;
+        
+        for(j=0; j<n; j++){
+            if(b[j] == 1)
+                continue;
+            
+            if(isok(a[i],b[j])){
+                flag = 1;
+                break;
+            }
+        }
+        
+        if(flag)
+            break;
+    }
+    
+    here:
+    if(flag)
+        printf(""No"");
+    else
+        printf(""Yes"");
+    
+    
+    return 0;
+}"
+166,C,C,54986024,2022-11-25 20:19:11,CHWCL,运行超时,"#include <stdio.h>
+int gcd(int x,int y);
+int main()
+{
+    int n;
+    scanf(""%d"",&n);
+    int a[n],b[n];
+    int i=0,j=0;
+    for(i=0;i<n;i++){
+        scanf(""%d"",&a[i]);
+        for(j=0;j<n;j++){
+            scanf(""%d"",&b[j]);
+            gcd(a[i],b[j]);
+      }
+      j=0;
+    }
+    if(gcd(a[i],b[j])>1)printf(""No"");
+    else printf(""Yes"");
+    return 0;
+}
+int gcd(int x, int y)
+{
+    int t;
+    if(x<y){
+        t=y;
+        y=x;
+        x=t;
+    }
+    if(y==0){
+        return x;
+    }
+    return 0;
+}"
+167,C,C,54986031,2022-11-25 20:19:15,cluo29,段错误,"#include <stdio.h>
+
+int f(int a, int b) {
+	int r = 1;
+	if (a < b) {
+		r = a;
+		a = b;
+		b = r;
+	}
+	while (r != 0) {         // 如果a<b,亦无需颠倒ab，在计算中商0余除数本身，在下次运算中自可颠倒回来
+		r = a % b;
+		a = b;
+		b = r;
+	}
+	if (a == 1) {
+		return 1;
+	}
+	return 0;
+
+}
+
+int main() {
+	int n;
+	scanf(""%d"", &n);
+	int a[10001] = {0}, b[10001] = {0};
+	int i, j;
+	for (i = 0; i < n; i++) {
+		scanf(""%d"", &a[i]);
+	}
+	for (i = 0; i < n; i++) {
+		scanf(""%d"", &b[i]);
+	}
+	int x = 0;
+	for (i = 0; i < n; i++) {
+		for (j = 0; j < n; j++) {
+			if (f(a[i], b[j])) {
+				x = 1;
+			} else {
+				x = 0;
+				goto ss;
+			}
+		}
+	}
+ss:
+	if (x) {
+		printf(""Yes"");
+	} else {
+		printf(""No"");
+	}
+
+
+
+	return 0;
+}
+"
+168,C,C,54986032,2022-11-25 20:19:16,353,运行超时,"#include <stdio.h>
+#include <math.h>
+#include <string.h>
+#include <stdlib.h>
+int gcd(int a,int b)
+{
+	if(b==0)
+		return a;
+	return gcd(b,a%b);
+}
+int main()
+{
+	int n;
+	scanf(""%d"",&n);
+	int a[n+1],b[n+1];
+	for(int i=1;i<=n;i++)
+		scanf(""%d"",&a[i]);
+	for(int i=1;i<=n;i++)
+		scanf(""%d"",&b[i]);
+	long long int count=0;
+	for(int i=1;i<=n;i++)
+	{
+		for(int j=1;j<=n;j++)
+		{
+			if(gcd(a[i],b[j])==1)
+				count++; 
+		}
+	}
+	if(count==n*n)
+		printf(""Yes"");
+	else
+		printf(""No"");
+}
+
+"
+169,C,C,54986047,2022-11-25 20:19:25,任红颖,答案错误,"#include<stdio.h>
+int sha(int a,int b)
+{
+    int i,u,w;
+    if(a!=1&&b!=1)
+    {
+        u=a<b?a:b;
+        w=a>b?a:b;
+        for(i=u;i>1;i--)
+            if(a%i==0&&b%i==0)
+                return 1;
+        return 0;
+    }
+        return 0;
+}
+int a[100000],b[100000];
+int main()
+{
+    long long n,i,j,k=0;
+    int z;
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+        scanf(""%d"",&a[i]);
+    for(i=0;i<n;i++)
+        scanf(""%d"",&b[i]);
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<n;j++)
+        {
+            z=sha(a[i],b[j]);
+            if(z==1)
+            {
+                k=1;
+                break;
+            }
+        }
+        if(k==1)
+            break;
+    }
+    if(k==0)
+        printf(""YES"");
+    else
+        printf(""NO"");
+}"
+170,C,C,54986096,2022-11-25 20:19:55,cluo29,运行超时,"#include <stdio.h>
+
+int f(int a, int b) {
+	int r = 1;
+	if (a < b) {
+		r = a;
+		a = b;
+		b = r;
+	}
+	while (r != 0) {         // 如果a<b,亦无需颠倒ab，在计算中商0余除数本身，在下次运算中自可颠倒回来
+		r = a % b;
+		a = b;
+		b = r;
+	}
+	if (a == 1) {
+		return 1;
+	}
+	return 0;
+
+}
+
+int main() {
+	int n;
+	scanf(""%d"", &n);
+	int a[100001] = {0}, b[100001] = {0};
+	int i, j;
+	for (i = 0; i < n; i++) {
+		scanf(""%d"", &a[i]);
+	}
+	for (i = 0; i < n; i++) {
+		scanf(""%d"", &b[i]);
+	}
+	int x = 0;
+	for (i = 0; i < n; i++) {
+		for (j = 0; j < n; j++) {
+			if (f(a[i], b[j])) {
+				x = 1;
+			} else {
+				x = 0;
+				goto ss;
+			}
+		}
+	}
+ss:
+	if (x) {
+		printf(""Yes"");
+	} else {
+		printf(""No"");
+	}
+
+
+
+	return 0;
+}
+"
+171,C,C,54986122,2022-11-25 20:20:14,cluo29,运行超时,"#include <stdio.h>
+
+int f(int a, int b) {
+	int r = 1;
+	if (a < b) {
+		r = a;
+		a = b;
+		b = r;
+	}
+	while (r != 0) {         // 如果a<b,亦无需颠倒ab，在计算中商0余除数本身，在下次运算中自可颠倒回来
+		r = a % b;
+		a = b;
+		b = r;
+	}
+	if (a == 1) {
+		return 1;
+	}
+	return 0;
+
+}
+
+int main() {
+	int n;
+	scanf(""%d"", &n);
+	int a[100001] = {0}, b[100001] = {0};
+	int i, j;
+	for (i = 0; i < n; i++) {
+		scanf(""%d"", &a[i]);
+	}
+	for (i = 0; i < n; i++) {
+		scanf(""%d"", &b[i]);
+	}
+	int x = 0;
+	for (i = 0; i < n; i++) {
+		for (j = 0; j < n; j++) {
+			if (f(a[i], b[j])) {
+				x = 1;
+			} else {
+				x = 0;
+				goto ss;
+			}
+		}
+	}
+ss:
+	if (x) {
+		printf(""Yes"");
+	} else {
+		printf(""No"");
+	}
+
+
+
+	return 0;
+}
+"
+172,C,C,54986124,2022-11-25 20:20:14,任红颖,运行超时,"#include<stdio.h>
+int sha(int a,int b)
+{
+    int i,u,w;
+    if(a!=1&&b!=1)
+    {
+        u=a<b?a:b;
+        w=a>b?a:b;
+        for(i=u;i>1;i--)
+            if(a%i==0&&b%i==0)
+                return 1;
+        return 0;
+    }
+        return 0;
+}
+int a[100000],b[100000];
+int main()
+{
+    long long n,i,j,k=0;
+    int z;
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+        scanf(""%d"",&a[i]);
+    for(i=0;i<n;i++)
+        scanf(""%d"",&b[i]);
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<n;j++)
+        {
+            z=sha(a[i],b[j]);
+            if(z==1)
+            {
+                k=1;
+                break;
+            }
+        }
+        if(k==1)
+            break;
+    }
+    if(k==0)
+        printf(""Yes"");
+    else
+        printf(""No"");
+}"
+173,C,C,54986139,2022-11-25 20:20:24,济南大学_侯振海,运行超时,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+    int n,i,j,l;
+    int flag = 1;
+    int max=0;
+    int a[100001], b[100001];
+    scanf(""%d"", &n);
+    for (i = 1; i <= n; i++)
+    {
+        scanf(""%d"", &a[i]);
+    }
+    for (i = 1; i <= n; i++)
+    {
+        scanf(""%d"", &b[i]);
+    }
+    for (i = 1; i <= n; i++)
+    {
+        if (flag == 0)break;
+        if (a[i] == 1)continue;
+        for (j = 1; j <= n; j++)   
+        {
+            if (flag == 0)break;
+            if (b[j] == 1)continue;
+            if (a[i] > b[j])
+                max = a[i];
+            else
+                max = b[j];
+            for (l = 2; l < sqrt(max); l++)
+            {
+                if (l != a[i] && l != b[j]&&a[i] % l == 0 && b[j] % l == 0)
+                {
+                    flag = 0;
+                    break;
+                }
+            }
+        }
+    }
+    if (flag == 0)
+        printf(""No"");
+    else
+        printf(""Yes"");
+    return 0;
+}"
+174,C,C,54986151,2022-11-25 20:20:32,蚌埠住了的布莱克很机灵,运行超时,"#include<stdio.h>
+int main()
+{ 
+	int n;
+	scanf(""%d"",&n);
+	int a[n],b[n];
+	int i,j,t,cnt=0;
+	for(i=0;i<n;i++){
+		scanf(""%d"",&a[i]);
+		scanf(""%d"",&b[i]);
+	}
+	for(i=0;i<n;i++){
+		for(j=0;j<n;j++){
+			while(b[j]!=0){
+				t=a[i]%b[j];
+				a[i]=b[j];
+				b[j]=t;
+			}
+			if(a[i]==1){
+				cnt++;
+			}
+		}
+	}
+	if(cnt==n){
+		printf(""Yes"");
+	}else printf(""No"");
+}
+"
+175,C,C,54986189,2022-11-25 20:20:52,服了你个老六的熊猫很好奇,运行超时,"#include <stdio.h>
+#include <math.h>
+int gcd(int a,int b);
+int main(void)
+{
+    int n,a[114514]={},b[114514]={};
+    int i,j,k,check=1;
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+        scanf(""%d"",&a[i]);
+    for(i=0;i<n;i++)
+        scanf(""%d"",&b[i]);
+    for(i=0;i<n&&check==1;i++)
+    {
+        if(a[i]==1)
+            continue;
+        for(j=i;j<n;j++)
+        {
+            if(b[j]==1)
+                continue;
+            if((a[i]%2==0&&b[j]==0)||a[i]%b[j]==0||b[j]%a[i]==0||(gcd(a[i],b[j])!=1))
+            {
+                check=0;
+                break;
+            }
+        }
+    }
+    if(check==1)
+        printf(""Yes"");
+    else printf(""No"");
+}
+int gcd(int a,int b) {
+    int r;
+    while(b>0) {
+        r=a%b;
+        a=b;
+        b=r;
+    }
+    return a;
+}"
+176,C,C,54986198,2022-11-25 20:20:56,Tang__Bin,答案错误,"#include<stdio.h>
+#include<stdlib.h>
+#include<math.h>
+#include<string.h>
+
+
+int arr[1000001];//是否为素数
+int arr1[100001];//输入数据
+int arr2[100001];
+int prr[1000001];//1~1000000所有素数
+int prr1[1000001];//素数是否出现
+int prr2[1000001];
+
+int main()
+{
+	arr[0] = -1;
+	arr[1] = -1;
+	int a;
+	int p = 0;
+	int i;
+	for (i = 2; i < 1000001; i++)
+	{
+		if (arr[i] != -1)
+		{
+			prr[p] = i;
+			p++;
+			a = i * 2;
+			while (a <= 1000000) { arr[a] = -1; a += i; }
+		}
+	}
+	int n;
+	scanf(""%d"", &n);
+	for (i = 0; i < n; i++)scanf(""%d"", arr1 + i);
+	for (i = 0; i < n; i++)scanf(""%d"", arr2 + i);
+	int num, prime;
+	int tp;
+	for (i = 0; i < n; i++)
+	{
+		tp = 0;
+		num = arr1[i];
+		if (num == 1)continue;
+		if (arr[num] == 0) { prr1[num] = 1; continue; }
+		else
+		{
+			while (arr[num] == -1)
+			{
+				prime = prr[tp];
+				if (num % prime == 0) { prr1[prime] = 1; num /= prime;}
+				else  tp++;
+			}
+			prr1[num] = 1;
+		}
+	}
+	for (i = 0; i < n; i++)
+	{
+		tp = 0;
+		num = arr2[i];
+		if (num == 1)continue;
+		if (arr[num] == 0) { prr2[num] = 1; continue; }
+		else
+		{
+			while (arr[num] == -1)
+			{
+				prime = prr[tp];
+				if (num % prime == 0) { prr2[prime] = 1; num /= prime; }
+				else  tp++;
+			}
+			prr2[num] = 1;
+		}
+	}
+	for (i = 0; i < p; i++)
+	{
+		if ((prr1[i] & prr2[i])==1) { printf(""No\n""); goto stop; }
+	}
+	printf(""Yes\n"");
+
+	stop:return 0;
+}"
+177,C,C(gcc 7.5.0),54986224,2022-11-25 20:21:09,Yxinf,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c: In function ‘main’:\nmain.c:6:2: error: variable-sized object may not be initialized\n  int a[n]={0},b[n]={0};\n  ^~~\nmain.c:6:12: warning: excess elements in array initializer\n  int a[n]={0},b[n]={0};\n            ^\nmain.c:6:12: note: (near initialization for ‘a’)\nmain.c:6:2: error: variable-sized object may not be initialized\n  int a[n]={0},b[n]={0};\n  ^~~\nmain.c:6:21: warning: excess elements in array initializer\n  int a[n]={0},b[n]={0};\n                     ^\nmain.c:6:21: note: (near initialization for ‘b’)\nmain.c:9:6: error: ‘j’ undeclared (first use in this function)\n  for(j=0;j<n;j++)\n      ^\nmain.c:9:6: note: each undeclared identifier is reported only once for each function it appears in\nmain.c:5:2: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n  scanf(\""%d\"",&n);\n  ^~~~~~~~~~~~~~\nmain.c:8:2: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n  scanf(\""%d\"",&a[n]);\n  ^~~~~~~~~~~~~~~~~\nmain.c:10:2: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n  scanf(\""%d\"",&b[n]);\n  ^~~~~~~~~~~~~~~~~""}
+
+#include<stdio.h>
+int main()
+{
+	int n,num=0,x,max,p,q;
+	scanf(""%d"",&n);
+	int a[n]={0},b[n]={0};
+	for(int i=0;i<n;i++)
+	scanf(""%d"",&a[n]);
+	for(j=0;j<n;j++)
+	scanf(""%d"",&b[n]);
+	for(int i=0;i<n;i++){
+		for(int j=0;j<n;j++){
+			if(a[i]>b[j]){
+				p=a[i];q=b[j];
+			}
+			else{
+				p=b[j];q=a[i];
+			}
+			for(int k=q;k>0;k--){
+				if(p%i==0&&q%i==0){
+					max=i;
+				}
+			}
+			if(max!=1){
+				num++;
+			}
+		}
+	}
+	if(num>0){
+		printf(""No\n"");
+	}
+	else{
+		printf(""Yes\n"");
+	}
+	return 0;
+}"
+178,C,C,54986236,2022-11-25 20:21:16,liuweidihuangwan,答案错误,"#include <stdio.h>
+#include <stdlib.h>
+
+int Max_Com_Divisor(int x, int y)//用更相减损法求最大公约数
+{
+    while (1)//用大数减去小数并将结果保存起来
+    {
+        if (x > y)
+        {
+            x -= y;
+        }
+        else if(x < y)
+        {
+            y -= x;
+        }
+        else//如果两个数相等时，则这个数就是最大公约数
+        {
+            return x;
+        }
+    }
+}
+
+int main (void)
+{
+    int n;
+      int count=0;
+    scanf(""%d"",&n);
+    int* a=(int*)malloc(sizeof(int)*n);
+    int* b=(int*)malloc(sizeof(int)*n);
+    int t=n;
+    while(t--){
+        scanf(""%d"",&a[t]);
+    }
+    t=n;
+     while(t--){
+        scanf(""%d"",&b[t]);
+    }
+  
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++){
+        if(Max_Com_Divisor(a[i],a[j]) !=1) {    
+                                                count++;
+                                                break;
+            }
+    }
+    if(count == 0 )    printf(""No"");
+        else            printf(""Yes"");
+        free(a);
+        free(b);
+        return 0;
+}
+}"
+179,C,C(gcc 7.5.0),54986248,2022-11-25 20:21:30,面试中的比尔很想回家,运行超时,"#include <stdio.h>
+
+int yue(int a,int b)
+{
+    int t;
+    while(b!=0){
+        t=a%b;
+        a=b;
+        b=t;
+    }
+    if(a==1) return 0;
+    else return 1;
+}
+
+
+int main()
+{
+    int n;
+    int a[100000];
+    int b[100000];
+    int x=0;
+    scanf(""%d"",&n);
+    for(int i=0;i<n;i++){
+        scanf(""%d"",&a[i]);
+    }
+    for(int i=0;i<n;i++){
+        scanf(""%d"",&b[i]);
+    }
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++){
+            x=yue(a[i],b[j]);
+            if(x) break;
+        }
+        if(x) break;
+    }
+    if(x) printf(""No"");
+    else printf(""Yes"");
+    return 0;
+}"
+180,C,C(gcc 7.5.0),54986259,2022-11-25 20:21:36,面试中的比尔很想回家,运行超时,"#include <stdio.h>
+
+int yue(int a,int b)
+{
+    int t;
+    while(b!=0){
+        t=a%b;
+        a=b;
+        b=t;
+    }
+    if(a==1) return 0;
+    else return 1;
+}
+
+
+int main()
+{
+    int n;
+    int a[100000];
+    int b[100000];
+    int x=0;
+    scanf(""%d"",&n);
+    for(int i=0;i<n;i++){
+        scanf(""%d"",&a[i]);
+    }
+    for(int i=0;i<n;i++){
+        scanf(""%d"",&b[i]);
+    }
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++){
+            x=yue(a[i],b[j]);
+            if(x) break;
+        }
+        if(x) break;
+    }
+    if(x) printf(""No"");
+    else printf(""Yes"");
+    return 0;
+}"
+181,C,C(gcc 7.5.0),54986262,2022-11-25 20:21:40,面试中的比尔很想回家,运行超时,"#include <stdio.h>
+
+int yue(int a,int b)
+{
+    int t;
+    while(b!=0){
+        t=a%b;
+        a=b;
+        b=t;
+    }
+    if(a==1) return 0;
+    else return 1;
+}
+
+
+int main()
+{
+    int n;
+    int a[100000];
+    int b[100000];
+    int x=0;
+    scanf(""%d"",&n);
+    for(int i=0;i<n;i++){
+        scanf(""%d"",&a[i]);
+    }
+    for(int i=0;i<n;i++){
+        scanf(""%d"",&b[i]);
+    }
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++){
+            x=yue(a[i],b[j]);
+            if(x) break;
+        }
+        if(x) break;
+    }
+    if(x) printf(""No"");
+    else printf(""Yes"");
+    return 0;
+}"
+182,C,C,54986270,2022-11-25 20:21:46,liuweidihuangwan,答案错误,"#include <stdio.h>
+#include <stdlib.h>
+
+int Max_Com_Divisor(int x, int y)//用更相减损法求最大公约数
+{
+    while (1)//用大数减去小数并将结果保存起来
+    {
+        if (x > y)
+        {
+            x -= y;
+        }
+        else if(x < y)
+        {
+            y -= x;
+        }
+        else//如果两个数相等时，则这个数就是最大公约数
+        {
+            return x;
+        }
+    }
+}
+
+int main (void)
+{
+    int n;
+      int count=0;
+    scanf(""%d"",&n);
+    int* a=(int*)malloc(sizeof(int)*n);
+    int* b=(int*)malloc(sizeof(int)*n);
+    int t=n;
+    while(t--){
+        scanf(""%d"",&a[t]);
+    }
+    t=n;
+     while(t--){
+        scanf(""%d"",&b[t]);
+    }
+  
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++){
+        if(Max_Com_Divisor(a[i],a[j]) !=1) {    
+                                                count++;
+                                                
+            }
+    }
+    if(count == 0 )    printf(""No"");
+        else            printf(""Yes"");
+        free(a);
+        free(b);
+        return 0;
+}
+}"
+183,C,C(gcc 7.5.0),54986289,2022-11-25 20:22:00,面试中的比尔很想回家,运行超时,"#include <stdio.h>
+
+int yue(int a,int b)
+{
+    int t;
+    while(b!=0){
+        t=a%b;
+        a=b;
+        b=t;
+    }
+    if(a==1) return 0;
+    else return 1;
+}
+
+
+int main()
+{
+    int n;
+    int a[100000];
+    int b[100000];
+    int x=0;
+    scanf(""%d"",&n);
+    for(int i=0;i<n;i++){
+        scanf(""%d"",&a[i]);
+    }
+    for(int i=0;i<n;i++){
+        scanf(""%d"",&b[i]);
+    }
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++){
+            x=yue(a[i],b[j]);
+            if(x) break;
+        }
+        if(x) break;
+    }
+    if(x) printf(""No"");
+    else printf(""Yes"");
+    return 0;
+}"
+184,C,C(gcc 7.5.0),54986303,2022-11-25 20:22:07,牛客135595972号,运行超时,"#include<stdio.h>
+int a[1008611];
+int b[1008611];
+int main(){
+    int x,y=0,z,m,n,c;
+    scanf(""%d"",&c);
+    for(n=0;n<c;n++)
+        scanf(""%d"",&a[n]);
+    for(m=0;m<c;m++)
+        scanf(""%d"",&b[m]);
+    for(n=0;n<c;n++){
+        for(m=0;m<c;m++){
+            if(a[n]>b[m]) x=b[m];
+            else x=a[n];
+            for(;x>1;x--){
+                if(a[n]%x==0&&b[m]%x==0){y=1;break;}
+            }
+            if(y==1) break;
+        }
+        if(y==1) break;
+    }
+    if(y==1) printf(""No"");
+    else printf(""Yes"");
+    return 0;
+}"
+185,C,C,54986306,2022-11-25 20:22:09,cluo29,运行超时,"#include <stdio.h>
+
+int f(int a, int b) {
+	int r = 1;
+	if (a < b) {
+		r = a;
+		a = b;
+		b = r;
+	}
+	while (r != 0) {         // 如果a<b,亦无需颠倒ab，在计算中商0余除数本身，在下次运算中自可颠倒回来
+		r = a % b;
+		a = b;
+		b = r;
+	}
+	if (a == 1) {
+		return 1;
+	}
+	return 0;
+
+}
+
+int main() {
+	int n;
+	scanf(""%d"", &n);
+	int a[100001] = {0}, b[100001] = {0};
+	int i, j;
+	for (i = 0; i < n; i++) {
+		scanf(""%d"", &a[i]);
+	}
+	for (i = 0; i < n; i++) {
+		scanf(""%d"", &b[i]);
+	}
+	int x = 0;
+	for (i = 0; i < n; i++) {
+		for (j = 0; j < n; j++) {
+			if (f(a[i], b[j])) {
+				x = 1;
+			} else {
+				x = 0;
+				goto ss;
+			}
+		}
+	}
+ss:
+	if (x) {
+		printf(""Yes"");
+	} else {
+		printf(""No"");
+	}
+
+
+
+	return 0;
+}
+"
+186,C,C(gcc 7.5.0),54986316,2022-11-25 20:22:18,面试中的比尔很想回家,运行超时,"#include <stdio.h>
+
+int yue(int a,int b)
+{
+    int t;
+    while(b!=0){
+        t=a%b;
+        a=b;
+        b=t;
+    }
+    if(a==1) return 0;
+    else return 1;
+}
+
+
+int main()
+{
+    int n;
+    int a[100000];
+    int b[100000];
+    int x=0;
+    scanf(""%d"",&n);
+    for(int i=0;i<n;i++){
+        scanf(""%d"",&a[i]);
+    }
+    for(int i=0;i<n;i++){
+        scanf(""%d"",&b[i]);
+    }
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++){
+            x=yue(a[i],b[j]);
+            if(x) break;
+        }
+        if(x) break;
+    }
+    if(x) printf(""No"");
+    else printf(""Yes"");
+    return 0;
+}"
+187,C,C(gcc 7.5.0),54986347,2022-11-25 20:22:34,Yxinf,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c: In function ‘main’:\nmain.c:6:2: error: variable-sized object may not be initialized\n  int a[n]={0},b[n]={0};\n  ^~~\nmain.c:6:12: warning: excess elements in array initializer\n  int a[n]={0},b[n]={0};\n            ^\nmain.c:6:12: note: (near initialization for ‘a’)\nmain.c:6:2: error: variable-sized object may not be initialized\n  int a[n]={0},b[n]={0};\n  ^~~\nmain.c:6:21: warning: excess elements in array initializer\n  int a[n]={0},b[n]={0};\n                     ^\nmain.c:6:21: note: (near initialization for ‘b’)\nmain.c:5:2: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n  scanf(\""%d\"",&n);\n  ^~~~~~~~~~~~~~\nmain.c:8:2: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n  scanf(\""%d\"",&a[n]);\n  ^~~~~~~~~~~~~~~~~\nmain.c:10:2: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n  scanf(\""%d\"",&b[n]);\n  ^~~~~~~~~~~~~~~~~""}
+
+#include<stdio.h>
+int main()
+{
+	int n,num=0,x,max,p,q;
+	scanf(""%d"",&n);
+	int a[n]={0},b[n]={0};
+	for(int i=0;i<n;i++)
+	scanf(""%d"",&a[n]);
+	for(int j=0;j<n;j++)
+	scanf(""%d"",&b[n]);
+	for(int i=0;i<n;i++){
+		for(int j=0;j<n;j++){
+			if(a[i]>b[j]){
+				p=a[i];q=b[j];
+			}
+			else{
+				p=b[j];q=a[i];
+			}
+			for(int k=q;k>0;k--){
+				if(p%i==0&&q%i==0){
+					max=i;
+				}
+			}
+			if(max!=1){
+				num++;
+			}
+		}
+	}
+	if(num>0){
+		printf(""No\n"");
+	}
+	else{
+		printf(""Yes\n"");
+	}
+	return 0;
+}"
+188,C,C(gcc 7.5.0),54986351,2022-11-25 20:22:35,tuboshu,运行超时,"#include<stdio.h>
+int main()
+{
+    int i,n,j,a[1000000],b[1000000],m,r,p,q;
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+        scanf(""%d"",&a[i]);
+    for(i=0;i<n;i++)
+        scanf(""%d"",&b[i]);
+    for(m=0;m<n;m++)
+    {
+        for(j=0;j<n;j++)
+        {
+ 
+            r = 0;
+            p=a[m];
+            q=b[j];
+            while (r=p%q)//当最后余数为0正好为假结束循环
+            {
+                p = q;
+                q= r;
+            }
+            
+            if(q!=1)
+            {
+                printf(""No"");
+                return 0;
+            }
+        }
+    }
+    
+ 
+    
+	printf(""Yes"");
+    return 0;
+}"
+189,C,C(gcc 7.5.0),54986369,2022-11-25 20:22:40,面试中的比尔很想回家,运行超时,"#include <stdio.h>
+
+int yue(int a,int b)
+{
+    int t;
+    while(b!=0){
+        t=a%b;
+        a=b;
+        b=t;
+    }
+    if(a==1) return 0;
+    else return 1;
+}
+
+
+int main()
+{
+    int n;
+    int a[100000];
+    int b[100000];
+    int x=0;
+    scanf(""%d"",&n);
+    for(int i=0;i<n;i++){
+        scanf(""%d"",&a[i]);
+    }
+    for(int i=0;i<n;i++){
+        scanf(""%d"",&b[i]);
+    }
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++){
+            x=yue(a[i],b[j]);
+            if(x) break;
+        }
+        if(x) break;
+    }
+    if(x) printf(""No"");
+    else printf(""Yes"");
+    return 0;
+}"
+190,C,C(gcc 7.5.0),54986374,2022-11-25 20:22:42,牛客135595972号,运行超时,"#include<stdio.h>
+int a[1008611];
+int b[1008611];
+int main(){
+    int x,y=0,z,m,n,c;
+    scanf(""%d"",&c);
+    for(n=0;n<c;n++)
+        scanf(""%d"",&a[n]);
+    for(m=0;m<c;m++)
+        scanf(""%d"",&b[m]);
+    for(n=0;n<c;n++){
+        for(m=0;m<c;m++){
+            if(a[n]>b[m]) x=b[m];
+            else x=a[n];
+            for(;x>1;x--){
+                if(a[n]%x==0&&b[m]%x==0){y=1;break;}
+            }
+            if(y==1) break;
+        }
+        if(y==1) break;
+    }
+    if(y==1) printf(""No"");
+    else printf(""Yes"");
+    return 0;
+}"
+191,C,C(gcc 7.5.0),54986415,2022-11-25 20:23:10,面试中的比尔很想回家,运行超时,"#include <stdio.h>
+
+int yue(int a,int b)
+{
+    int t;
+    while(b!=0){
+        t=a%b;
+        a=b;
+        b=t;
+    }
+    if(a==1) return 0;
+    else return 1;
+}
+
+
+int main()
+{
+    int n;
+    int a[100000];
+    int b[100000];
+    int x=0;
+    scanf(""%d"",&n);
+    for(int i=0;i<n;i++){
+        scanf(""%d"",&a[i]);
+    }
+    for(int i=0;i<n;i++){
+        scanf(""%d"",&b[i]);
+    }
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++){
+            x=yue(a[i],b[j]);
+            if(x) break;
+        }
+        if(x) break;
+    }
+    if(x) printf(""No"");
+    else printf(""Yes"");
+    return 0;
+}"
+192,C,C,54986441,2022-11-25 20:23:24,蚌埠住了的布莱克很机灵,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c:25:2: error: expected identifier or '('\n        if(cnt==n){\n        ^\nmain.c:27:3: error: expected identifier or '('\n        }else printf(\""No\"");\n         ^\nmain.c:28:1: error: extraneous closing brace ('}')\n}\n^\n3 errors generated.""}
+
+#include<stdio.h>
+int main()
+{ 
+	int n;
+	scanf(""%d"",&n);
+	int a[n],b[n];
+	int i,j,t,cnt=0;
+	for(i=0;i<n;i++){
+		scanf(""%d"",&a[i]);
+		scanf(""%d"",&b[i]);
+	}
+	for(i=0;i<n;i++){
+		j=0;
+			while(b[j]!=0){
+				t=a[i]%b[j];
+				a[i]=b[j];
+				b[j]=t;
+			}
+		j++;	
+			if(a[i]==1){
+				cnt++;
+			}
+		}
+	}
+	if(cnt==n){
+		printf(""Yes"");
+	}else printf(""No"");
+}
+"
+193,C,C(gcc 7.5.0),54986464,2022-11-25 20:23:39,牛客730949904号,运行超时,"#include <stdio.h>
+
+int a[100000] = {0}, b[100000] = {0};
+
+int main() {
+	int n;
+	scanf(""%d"", &n);
+	int i, j, k = 0;
+	for (i = 0; i < n; i++) {
+		scanf(""%d"", &a[i]);
+	}
+	for (i = 0; i < n; i++) {
+		scanf(""%d"", &b[i]);
+	}
+	for (i = 0; i < n; i++) {
+		for (j = 0; j < n; j++) {
+			int x = a[i];
+			int z = b[j];
+			while (b[j] != 0) {
+				int temp = a[i] % b[j];
+				a[i] = b[j];
+				b[j] = temp;
+			}
+			if (a[i] != 1) {
+				k++;
+				goto out;
+			}
+			a[i] = x;
+			b[j] = z;
+		}
+	}
+out:
+	if (k == 0) {
+		printf(""Yes"");
+	} else
+		printf(""No"");
+
+
+	return 0;
+}
+"
+194,C,C,54986474,2022-11-25 20:23:42,影..,运行超时,"#include<stdio.h>
+int gcd(int a,int b)
+{   int t;
+    if(a<b)
+    {
+       t=a;
+       a=b;
+        b=t;
+    }
+    if(a%b==0) return b;
+    else return gcd(b,a%b);
+}
+int main()
+{
+    int n,i,j,k,flag=0;
+    scanf(""%d"",&n);
+    int a[n],b[n];
+    for(i=0;i<n;i++)
+    {
+        scanf(""%d"",&a[i]);
+    }
+    for(i=0;i<n;i++)
+    {
+        scanf(""%d"",&b[i]);
+    }
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<n;j++)
+        {
+            k=gcd(a[i],b[j]);
+            if(k!=1)
+            {
+                flag=1;
+            }
+        }
+    }
+    if(flag==1) printf(""No"");
+    else printf(""Yes"");
+}"
+195,C,C,54986476,2022-11-25 20:23:42,gly07,运行超时,"#include <stdio.h>
+#include <string.h>
+int a[100005], b[100005];
+
+int gcd(int a, int b)
+{
+	if (b == 0)return a;
+	else return gcd(b, a % b);
+}
+
+int main() 
+{
+	int n;
+	int min=0;
+	int i, j;
+	int k=1,e;
+	scanf(""%d"", &n);
+	for (i = 0; i < n; i++)
+		scanf(""%d"", &a[i]);
+	for (j = 0; j < n; j++)
+		scanf(""%d"", &b[j]);
+	
+	for (i = 0; i < n; i++)
+	{
+		for (j = 0; j < n; j++)
+		{
+			e = gcd(a[i], b[j]);
+				if (e!=1)
+				{
+					k = 0;
+					break;
+				}
+		}
+	}
+	if (k)printf(""Yes"");
+	else printf(""No"");
+	return 0;
+}"
+196,C,C,54986499,2022-11-25 20:23:59,蚌埠住了的布莱克很机灵,答案错误,"#include<stdio.h>
+int main()
+{ 
+	int n;
+	scanf(""%d"",&n);
+	int a[n],b[n];
+	int i,j,t,cnt=0;
+	for(i=0;i<n;i++){
+		scanf(""%d"",&a[i]);
+		scanf(""%d"",&b[i]);
+	}
+	for(i=0;i<n;i++){
+		j=0;
+			while(b[j]!=0){
+				t=a[i]%b[j];
+				a[i]=b[j];
+				b[j]=t;
+			}
+		j++;	
+			if(a[i]==1){
+				cnt++;
+			}
+		}
+	if(cnt==n){
+		printf(""Yes"");
+	}else printf(""No"");
+}
+"
+197,C,C(gcc 7.5.0),54986541,2022-11-25 20:24:27,面试中的比尔很想回家,运行超时,"#include <stdio.h>
+
+int yue(int a,int b)
+{
+    int t;
+    while(b!=0){
+        t=a%b;
+        a=b;
+        b=t;
+    }
+    if(a==1) return 0;
+    else return 1;
+}
+
+
+int main()
+{
+    int n;
+    int a[100000];
+    int b[100000];
+    int x=0;
+    scanf(""%d"",&n);
+    for(int i=0;i<n;i++){
+        scanf(""%d"",&a[i]);
+    }
+    for(int i=0;i<n;i++){
+        scanf(""%d"",&b[i]);
+    }
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++){
+            x=yue(a[i],b[j]);
+            if(x) break;
+        }
+        if(x) break;
+    }
+    if(x) printf(""No"");
+    else printf(""Yes"");
+    return 0;
+}"
+198,C,C,54986545,2022-11-25 20:24:28,影..,运行超时,"#include<stdio.h>
+int gcd(int a,int b)
+{   int t;
+    if(a<b)
+    {
+       t=a;
+       a=b;
+        b=t;
+    }
+    if(a%b==0) return b;
+    else return gcd(b,a%b);
+}
+int main()
+{
+    int n,i,j,k,flag=0;
+    scanf(""%d"",&n);
+    int a[n],b[n];
+    for(i=0;i<n;i++)
+    {
+        scanf(""%d"",&a[i]);
+    }
+    for(i=0;i<n;i++)
+    {
+        scanf(""%d"",&b[i]);
+    }
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<n;j++)
+        {
+            k=gcd(a[i],b[j]);
+            if(k!=1)
+            {
+                flag=1;
+            }
+        }
+    }
+    if(flag==1) printf(""No"");
+    else printf(""Yes"");
+}"
+199,C,C,54986561,2022-11-25 20:24:38,任红颖,运行超时,"#include<stdio.h>
+int sha(int a,int b)
+{
+    int i,u,w;
+    if(a!=1&&b!=1)
+    {
+        u=a<b?a:b;
+        w=a>b?a:b;
+        for(i=u;i>1;i--)
+            if(a%i==0&&b%i==0)
+                return 1;
+        return 0;
+    }
+        return 0;
+}
+int a[100000],b[100000];
+int main()
+{
+    long long n,i,j=0;
+    int z,k=0;
+    scanf(""%lld"",&n);
+    for(i=0;i<n;i++)
+        scanf(""%d"",&a[i]);
+    for(i=0;i<n;i++)
+        scanf(""%d"",&b[i]);
+    for(i=0;i<n;i++)
+    {
+        z=sha(a[i],b[j]);
+        if(z==1)
+        {
+            k=1;
+            break;
+        }
+        if(j<n-1)
+            j++;
+    }
+    if(k==0)
+        printf(""Yes"");
+    else
+        printf(""No"");
+}"

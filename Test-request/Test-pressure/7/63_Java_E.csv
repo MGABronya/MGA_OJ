@@ -1,0 +1,1557 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,E,Java,55302620,2022-12-16 19:37:44,FREY4,答案正确,"import java.io.*;
+import java.util.StringTokenizer;
+
+/**
+ * @author freya
+ * @date 2022/12/16
+ **/
+public class Main {
+    public static Reader in;
+    public static PrintWriter out;
+    public static void main(String[] args) {
+        out = new PrintWriter(new BufferedOutputStream(System.out));
+        in = new Reader();
+        int t = 1;
+        while (t-- > 0)
+            solve();
+        out.close();
+    }
+
+    static int p = 998244353;
+    static void solve(){
+        int n = in.nextInt();
+        if (n==1){
+            out.println(1);
+            return;
+        }
+        long re = 2;
+        for(int i = 3;i<=n;i++){
+            re = (re*(i+2)) % p;
+        }
+        out.println(re);
+    }
+
+    static int qmi(long a, int b, int p) {
+        long ans = 1;
+        a = (a % p + p) % p;
+        for (; b>0; b >>= 1) {
+            if ((b & 1)!=0) ans = (a * ans) % p;
+            a = (a * a) % p;
+        }
+        return (int)ans;
+    }
+
+    static class Reader {
+        private BufferedReader br;
+        private StringTokenizer st;
+
+        Reader() {
+            br = new BufferedReader(new InputStreamReader(System.in));
+        }
+
+        String next() {
+            try {
+                while (st == null || !st.hasMoreTokens()) {
+                    st = new StringTokenizer(br.readLine());
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return st.nextToken();
+        }
+
+        int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        int[] nextIntArray(int n) {
+            int[] arr = new int[n];
+            for (int i = 0; i < n; i++)
+                arr[i] = nextInt();
+            return arr;
+        }
+
+        long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        String nextLine() {
+            String s = """";
+            try {
+                s = br.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return s;
+        }
+    }
+}
+"
+1,E,Java,55304817,2022-12-16 19:58:41,zzl064,答案错误,"import java.util.*;
+
+public class Main{
+    static int mod = 998244353;
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] fac = new int[n];
+        fac[0] = 1;
+        for(int i = 1; i < n; ++i) fac[i] = (int)((long)i * fac[i - 1] % mod);
+        long ans = 0;
+        for(int i = 0; i < n - 1; ++i){
+            int kk = n - i - 1;
+            long x = kk * (kk + 1L) / 2 % mod;
+            ans += (i + 1L) * x % mod;
+        }
+        ans = ans * fac[n - 2] % mod * 2 % mod;
+        System.out.println(ans);
+    }
+    
+}"
+2,E,Java,55305127,2022-12-16 20:01:51,oh19960,答案错误,"import java.util.Scanner;
+
+public class Main {
+
+    private static long MAX = 998244353L;
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        long ans = 2;
+        for (int i = 1; i <= n - 2; i++) {
+            ans *= i;
+            ans %= MAX;
+        }
+        long t = 0;
+        for (int i = 1; i < n; i++) {
+            long i1 = i * (1 + n - i) * (n - i) / 2;
+            t += i1;
+            t %= MAX;
+        }
+        ans = (ans * t) % MAX;
+        System.out.println(ans);
+    }
+}"
+3,E,Java,55305162,2022-12-16 20:02:15,oh19960,答案错误,"import java.util.Scanner;
+
+public class Main {
+
+    private static long MAX = 998244353L;
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        long ans = 2;
+        for (int i = 1; i <= n - 2; i++) {
+            ans *= i;
+            ans %= MAX;
+        }
+        long t = 0;
+        for (int i = 1; i < n; i++) {
+            long i1 = (long) i * (1 + n - i) * (n - i) / 2;
+            t += i1;
+            t %= MAX;
+        }
+        ans = (ans * t) % MAX;
+        System.out.println(ans);
+    }
+}"
+4,E,Java,55305301,2022-12-16 20:04:02,zzl064,答案错误,"import java.util.*;
+
+public class Main{
+    static int mod = 998244353;
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] fac = new int[n];
+        fac[0] = 1;
+        for(int i = 1; i < n; ++i) fac[i] = (int)((long)i * fac[i - 1] % mod);
+        long ans = 0;
+        for(int i = 0; i < n - 1; ++i){
+            int k = n - i - 1;
+            
+            int x = 0;
+            if(k % 2 == 0){
+                x = mul(k / 2, k + 1);
+            }else{
+                x = mul(k, (k + 1) / 2);
+            }
+            ans += (i + 1L) * x % mod;
+        }
+        ans = ans * fac[n - 2] % mod * 2 % mod;
+        System.out.println(ans);
+    }
+    static int mul(int a, int b){
+        int res = 0;
+        while(b > 0){
+            if(b % 2 == 1) res = (res + a) % mod;
+            b >>= 1;
+            a = a * 2 % mod;
+        }
+        return res;
+    }
+}"
+5,E,Java,55305372,2022-12-16 20:04:42,oh19960,答案错误,"import java.util.Scanner;
+
+public class Main {
+
+    private static long MAX = 998244353L;
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        long ans = 2;
+        for (int i = 1; i <= n - 2; i++) {
+            ans *= i;
+            ans %= MAX;
+        }
+        long t = 0;
+        for (int i = 1; i < n; i++) {
+            long i1 = ((((long) i * (1 + n - i)) % MAX) * (n - i) / 2) % MAX;
+            t += i1;
+            t %= MAX;
+        }
+        ans = (ans * t) % MAX;
+        System.out.println(ans);
+    }
+}"
+6,E,Java,55305445,2022-12-16 20:05:29,zzl064,执行出错,"import java.util.*;
+
+public class Main{
+    static int mod = 998244353;
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] fac = new int[n];
+        fac[0] = 1;
+        for(int i = 1; i < n; ++i) fac[i] = (int)((long)i * fac[i - 1] % mod);
+        long ans = 0;
+        for(int i = 0; i < n - 1; ++i){
+            int k = n - i - 1;
+            
+            int x = 0;
+            if(k % 2 == 0){
+                x = mul(k / 2, k + 1);
+            }else{
+                x = mul(k, (k + 1) / 2);
+            }
+            ans += (i + 1L) * x % mod;
+            ans %= mod;
+        }
+        ans = ans * fac[n - 2] % mod * 2 % mod;
+        System.out.println(ans);
+    }
+    static int mul(int a, int b){
+        int res = 0;
+        while(b > 0){
+            if(b % 2 == 1) res = (res + a) % mod;
+            b >>= 1;
+            a = a * 2 % mod;
+        }
+        return res;
+    }
+}"
+7,E,Java,55305485,2022-12-16 20:05:53,oh19960,答案错误,"import java.util.Scanner;
+
+public class Main {
+
+    private static long MAX = 998244353L;
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        long ans = 2;
+        for (int i = 1; i <= n - 2; i++) {
+            ans *= i;
+            ans %= MAX;
+        }
+        long t = 0;
+        for (int i = 1; i < n; i++) {
+            long i1 = (long) i * (((1 + n - i) * (n - i) / 2) % MAX);
+            t += i1;
+            t %= MAX;
+        }
+        ans = (ans * t) % MAX;
+        System.out.println(ans);
+    }
+}"
+8,E,Java,55305532,2022-12-16 20:06:20,oh19960,答案错误,"import java.util.Scanner;
+
+public class Main {
+
+    private static long MAX = 998244353L;
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        long ans = 2;
+        for (int i = 1; i <= n - 2; i++) {
+            ans *= i;
+            ans %= MAX;
+        }
+        long t = 0;
+        for (int i = 1; i < n; i++) {
+            long i1 = (long) i * (((long) (1 + n - i) * (n - i) / 2) % MAX);
+            t += i1;
+            t %= MAX;
+        }
+        ans = (ans * t) % MAX;
+        System.out.println(ans);
+    }
+}"
+9,E,Java,55305535,2022-12-16 20:06:22,zzl064,答案错误,"import java.util.*;
+
+public class Main{
+    static int mod = 998244353;
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] fac = new int[n];
+        fac[0] = 1;
+        if(n == 1) {
+            System.out.println(0);
+            return;
+        }
+        for(int i = 1; i < n; ++i) fac[i] = (int)((long)i * fac[i - 1] % mod);
+        long ans = 0;
+        for(int i = 0; i < n - 1; ++i){
+            int k = n - i - 1;
+            
+            int x = 0;
+            if(k % 2 == 0){
+                x = mul(k / 2, k + 1);
+            }else{
+                x = mul(k, (k + 1) / 2);
+            }
+            ans += (i + 1L) * x % mod;
+            ans %= mod;
+        }
+        ans = ans * fac[n - 2] % mod * 2 % mod;
+        System.out.println(ans);
+    }
+    static int mul(int a, int b){
+        int res = 0;
+        while(b > 0){
+            if(b % 2 == 1) res = (res + a) % mod;
+            b >>= 1;
+            a = a * 2 % mod;
+        }
+        return res;
+    }
+}"
+10,E,Java,55305635,2022-12-16 20:07:21,皮皮猪小飞侠,答案错误,"import java.util.Scanner;
+
+/**
+ * @author xjf
+ * @date 2022/12/16 18:23:39
+ */
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        sc.close();
+        long res = 2;
+        for (int i = 3; i <= n; i++) {
+            res *= (i + 2);
+            res %= 998244353;
+        }
+        System.out.println(res);
+    }
+}"
+11,E,Java,55305775,2022-12-16 20:08:54,oh19960,答案正确,"import java.util.Scanner;
+
+public class Main {
+
+    private static long MAX = 998244353L;
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        if (n == 1) {
+            System.out.println(1);
+            return;
+        }
+        long ans = 2;
+        for (int i = 1; i <= n - 2; i++) {
+            ans *= i;
+            ans %= MAX;
+        }
+        long t = 0;
+        for (int i = 1; i < n; i++) {
+            long i1 = (long) i * (((long) (1 + n - i) * (n - i) / 2) % MAX);
+            t += i1;
+            t %= MAX;
+        }
+        ans = (ans * t) % MAX;
+        System.out.println(ans);
+    }
+}"
+12,E,Java,55305852,2022-12-16 20:09:45,zzl064,答案错误,"import java.util.*;
+
+public class Main{
+    static int mod = 998244353;
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] fac = new int[n];
+        fac[0] = 1;
+        if(n == 1) {
+            System.out.println(0);
+            return;
+        }
+        for(int i = 1; i < n; ++i) fac[i] = (int)((long)i * fac[i - 1] % mod);
+        long ans = 0;
+        for(int i = 0; i < n - 1; ++i){
+            int k = n - i - 1;
+            long x = k * (k + 1L) / 2 % mod;
+            ans += (i + 1L) * x % mod;
+            ans %= mod;
+        }
+        ans = ans * fac[n - 2] % mod * 2 % mod;
+        System.out.println(ans);
+    }
+}"
+13,E,Java,55306406,2022-12-16 20:16:11,zzl064,答案正确,"import java.util.*;
+
+public class Main{
+    static int mod = 998244353;
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] fac = new int[n];
+        fac[0] = 1;
+        if(n == 1) {
+            System.out.println(1);
+            return;
+        }
+        for(int i = 1; i < n; ++i) fac[i] = (int)((long)i * fac[i - 1] % mod);
+        long ans = 0;
+        for(int i = 0; i < n - 1; ++i){
+            int k = n - i - 1;
+            long x = k * (k + 1L) / 2 % mod;
+            ans += (i + 1L) * x % mod;
+            ans %= mod;
+        }
+        ans = ans * fac[n - 2] % mod * 2 % mod;
+        System.out.println(ans);
+    }
+}"
+14,E,Java,55306409,2022-12-16 20:16:12,zzl064,答案正确,"import java.util.*;
+
+public class Main{
+    static int mod = 998244353;
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] fac = new int[n];
+        fac[0] = 1;
+        if(n == 1) {
+            System.out.println(1);
+            return;
+        }
+        for(int i = 1; i < n; ++i) fac[i] = (int)((long)i * fac[i - 1] % mod);
+        long ans = 0;
+        for(int i = 0; i < n - 1; ++i){
+            int k = n - i - 1;
+            long x = k * (k + 1L) / 2 % mod;
+            ans += (i + 1L) * x % mod;
+            ans %= mod;
+        }
+        ans = ans * fac[n - 2] % mod * 2 % mod;
+        System.out.println(ans);
+    }
+}"
+15,E,Java,55306597,2022-12-16 20:18:36,acwing-青山_12,答案错误," 
+
+import java.util.*;
+public class Main {
+
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt(), mod = 998244353;
+        long ans = 0;
+        long[] a = new long[n + 10], sum = new long[n + 10];
+        a[0] = 1;
+        for (int i = 1; i < n; ++i) {
+            a[i] = a[i - 1] << 1;
+            a[i] %= mod;
+            sum[i] = a[i] + sum[i - 1];
+            sum[i] %= mod;
+        }
+        for (int i = 0; i < n - 1; ++i) {
+            int l = i, r = n - i  - 2;
+            ans += (a[l] * sum[r]) % mod;
+            ans %= mod;
+        }
+        ans *= 2;
+        ans %= mod;
+        System.out.println(ans);
+    }
+}"
+16,E,Java,55307898,2022-12-16 20:36:39,皮皮猪小飞侠,答案错误,"import java.util.Scanner;
+
+/**
+ * @author xjf
+ * @date 2022/12/16 18:23:39
+ */
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        sc.close();
+        long res = 0;
+        long div = 1;
+        for (int i = 1; i <= n - 2; i++) {
+            div = div * i;
+            div = div %  998244353;
+        }
+         // System.out.println(div);
+        for (int i = 0; i < n; i++) {
+            long temp1 = 1L * (i + 1) * (n - i) * (n - 1 - i) / 2;
+            long temp2 = 1L * (n - i) * (i + 1) * i/ 2;
+            long temp = temp1 + temp2;
+           // System.out.println(temp);
+            res = res + temp * div;
+            res %= 998244353;
+        }
+        System.out.println(res);
+    }
+}
+"
+17,E,Java,55308165,2022-12-16 20:40:55,皮皮猪小飞侠,答案错误,"import java.util.Scanner;
+
+/**
+ * @author xjf
+ * @date 2022/12/16 18:23:39
+ */
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        sc.close();
+        long res = 2;
+        long div = 1;
+        for (int i = 1; i <= n - 2; i++) {
+            div = div * i;
+            div = div %  998244353;
+        }
+        for (int i = 0; i < n; i++) {
+            long temp1 = 1L * (i + 1) * (n - i) * (n - 1 - i) / 2;
+            long temp2 = 1L * (n - i) * (i + 1) * i / 2;
+            long temp = temp1 + temp2;
+            //System.out.println(temp);
+            //res = res + temp * div;
+            //res %= 998244353;
+            res += temp;
+            res %= 998244353;
+        }
+        res = res * div %  998244353;
+        System.out.println(res);
+    }
+}"
+18,E,Java,55308183,2022-12-16 20:41:08,皮皮猪小飞侠,答案错误,"import java.util.Scanner;
+
+/**
+ * @author xjf
+ * @date 2022/12/16 18:23:39
+ */
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        sc.close();
+        long res = 0;
+        long div = 1;
+        for (int i = 1; i <= n - 2; i++) {
+            div = div * i;
+            div = div %  998244353;
+        }
+        for (int i = 0; i < n; i++) {
+            long temp1 = 1L * (i + 1) * (n - i) * (n - 1 - i) / 2;
+            long temp2 = 1L * (n - i) * (i + 1) * i / 2;
+            long temp = temp1 + temp2;
+            //System.out.println(temp);
+            //res = res + temp * div;
+            //res %= 998244353;
+            res += temp;
+            res %= 998244353;
+        }
+        res = res * div %  998244353;
+        System.out.println(res);
+    }
+}"
+19,E,Java,55308476,2022-12-16 20:45:13,皮皮猪小飞侠,答案正确,"import java.util.Scanner;
+
+/**
+ * @author xjf
+ * @date 2022/12/16 18:23:39
+ */
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        sc.close();
+        long res = 0;
+        long div = 1;
+        if(n == 1) {
+            System.out.println(1);
+            return;
+        }
+        for (int i = 1; i <= n - 2; i++) {
+            div = div * i;
+            div = div %  998244353;
+        }
+        for (int i = 0; i < n; i++) {
+            long temp1 = 1L * (i + 1) * (n - i) * (n - 1 - i) / 2;
+            if(temp1 < 0) System.out.println(""溢出"");
+            long temp2 = 1L * (n - i) * (i + 1) * i / 2;
+            if(temp2 < 0) System.out.println(""溢出"");
+            long temp = temp1 + temp2;
+            //System.out.println(temp);
+            //res = res + temp * div;
+            //res %= 998244353;
+            res += temp;
+            res %= 998244353;
+        }
+        res = res * div %  998244353;
+        System.out.println(res);
+    }
+}
+"
+20,E,Java,55309716,2022-12-16 21:02:20,wacoder,答案正确,"// 78 G
+import java.math.*;
+import java.io.*;
+import java.util.*;
+
+public class Main extends PrintWriter {
+    Main () { super(System.out); }
+//    Main () throws IOException { super(new BufferedWriter(new FileWriter(""out.txt""))); }
+    public static void main(String[] $) {
+//    public static void main(String[] $) throws IOException {
+        Main o = new Main();
+        o.main();
+        o.flush();
+    }
+
+/*
+            ...,                                   ``  `  `   `    ` ``
+          ,3,M#MN,                              `    ..   .   ..  `   ``
+`` `` `  .` iJNNMM;                            ` ` ``.............    ``
+``` `` ` ,x.?7MMr^`.  `           `       ` ``   `   ............... ` `
+` ` ` ` `.Mc.^?Mb^.Je..`  ` ` `` ` ` ` ` `   ` `` .......^..^..........
+```` ``` .Y6.^.dN^.MNMMNNa, ``      ` ` ` ` `  ``  ......^.^.^^.^.^..^..
+````` .,`J.Qm,.`d+M#MNMMMMMN,`  `  `  `  ` ` `  `  ....^..^.^.^..^.^.^.^
+``` ,TTb ,JMMMMNNMMMMMMMMMMMP  ` ```` `` `  ` ` ```..^..^.^^.^.^.^.^^.^^
+.``...JMb.NkMMMMMMMMMMM#BUdM$````````   ` ` ````   .^.^..^.^^.^^..^..`.
+`` ?N51JM.?MBHMMH#dNWHWNkHMMk.``     ``` ``   `` ..^.^.^.^^.^^.^^^.^^^^.
+```.NHQgMy+JbZW@NZUWWWMMMMMMMN`  ` ``     ```  ..^..^...^.^^.^^..^^..^..
+.````dMMMMmx.?;WM#0&dMMNMMMMMW    ```      ...^...^.^.^..^.^^.^.^.^.^...
+````.MMMMrTMKC7TMHxudMMMMMMMNe``  ....^^....^..^.^..^^.^.^..^.^^.^.^.^^^
+..`..dMMMl.dMBMMMMMMMMMMMMMMNl``  `..........^..^.^....^.^^..^.^.^...^^^
+.`.`.MMMMMNNMMMMHNMMMNdBXMMMMMm, ` `   .^.^.^.^..^.^..^.^..^^..^..`....^
+...dHMMMMMMMMMMMHNMMMHHbMMMMMMME.``  ``..^.^.^.^..^.^^..^.^.^^.` ` .^^^^
+.,uMNJ&NNMMMMM#4MMMMM#^ ?7TUZVMMMb   ``` ......^.^.^..^..^.^..````.`^^.`
+dNMMNMMMMMYT!` `,YM#=` `  `.uMMMM#b `    .^.^...^.^..^.^.^..^ ``````` ``
+MMMMMMMMMr`` `  ` `    `  `  TMMMM#b.........^.^....^...^.^.. ``````````
+MMM5+.MMMb `  `    `` `  ``  `,WMMM#p..^..^...^.^^.^.^..^.^^````````````
+gajgN 3`MH,``` ``` `  `   .  ...?M#dNw..````^^^^.^^^^^^^^^^.````````.```
+TMMMD`.MMNMp```    .............`1+ZMRG........`:^:::^:^:``.............
+dZ=1Q,.MMNMMr..........`      ``` WNdMRh....`^::::::+``.................
+
+
+                                                        ` .....
+     `                                                `` .MNNB`
+   `       `                                          `.jNNMt
+       `                                            ` .MNN#!
+                                                  ``.+NNMY
+   `      `  `         `     `                    `.MNN#!`
+     `           `                            ```.JNNND
+       `                                      ` .MNN#'  `
+   `       `               ` ` ` `` `` `` ` `  JNNMD  `  `
+                        `  `` `` .............MNNM^` ` `
+     `         ` ` ```  ...+gMNNNNNNNNNNNNNNNNMND   .MNgJ..` `` `
+   `     `  `   ` ...gMNNNNNMMY9=7!`  ` ``.MNMM^  `,MNNNNNNMa,.` `
+       `  ` ` ..&MNNNNNM#Y=` `         ` .NNND`   `   7WNNMNNNNm,  `
+        `` ..MNNNMNNMY!``             `.MNNM^         ` .TMNNNNNNm  `
+   ` `   .dNNNNNNM9!`              `  .NNN@``            ``MNMNMNNb`
+    ```.MNNMNMNMD`                ` .dNNM=                `dNNMNNNM.`
+      JNNNMNNNM' `               ` .NNM@``               ``dNNNNMN#
+   ``JNNNMNNMM'               ```.dNNMt `             ``  .NNMNMNM^
+    .NNNMNNNNN                  .MNMB`                 ` .NNMNNNM^` `
+    .MNNNMNMNM,`  `       `` `.dNNM$              ```` .MNMNNNMY
+   ` ?NMNNNNMNN,       `    `.MNN#!  `        `     .+NNNNNM#=
+     `?MNNMNNNNMN,.` ``  ` .dNMMY`      `` `` ` ..gNNNNNM#=``
+    `   ?HNNMNNNNNNNg,  ` .MNN#!`     ` ` ...gMNNMNNM#Y!``
+         ` ?YMNMNNMN#!  .jNNMNJ.JJJ&ggNMNNNNNNNMBY=``
+   `    `    `` ?7YY` `.MNNNNNNNNMNNMMMMY9T=!  `     `
+                     .JNNMD
+     `              .MNN#' `      `
+   `       `    `` JNNMD
+               ` .MNN#^  `
+       `   ` `` JNMMD        `
+   `         `.MNNM^
+     `  `` ` .NNND     `
+         ``.dNNM^`
+   `   `  .NNND
+        `?777^`              `
+     `
+*/
+  	void main() {
+		/*
+		int token = 0;
+		while (true) {
+			try {
+				token = in.nextToken();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+            n = (int) in.nval;
+			if (token == StreamTokenizer.TT_EOF) break;
+		}
+		*/
+		single();
+	}
+
+  	void single() {
+		// enumerate
+		int n = r_int();
+		if (n == 1) {
+			println(""1"");
+			return;
+		}
+		Zint res = new Zint(0);
+		for (int i = 1; i + 1 <= n; i ++ ) {
+			Zint jj = new Zint(n - i);
+			jj.mul(n - i + 1);
+			jj.mul(i);
+			jj.div(2);
+			res.add(jj.val());
+		}
+		res.mul(2);
+		for (int i = n - 2; i >= 1; i -- )
+			res.mul(i);
+		println(res.val());
+	}
+
+	// multiple cases read
+	/*
+    int r_int() {
+		try {
+			in.nextToken();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    	return (int) in.nval;
+    }
+
+	long r_long() {
+		try {
+			in.nextToken();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return (long) in.nval;
+	}
+	*/
+   
+	int r_int() {
+		return in.nextInt();
+	}
+
+	long r_long() {
+		return in.nextLong();
+	}
+
+	int gcd(int a, int b) {
+		// assert a , b >= 0 int
+		return a == 0 ? b 
+	  : b == 0 ? a 
+	  : gcd(b, a % b);
+	}
+
+    static class RRR {
+		StringTokenizer st;
+		BufferedReader br;
+		public RRR() {
+			br = new BufferedReader(new InputStreamReader(System.in));
+//			br = new BufferedReader(new FileReader(""file.in""));
+		}
+		String next() {
+			while (st == null || !st.hasMoreElements()) {
+				try {
+					st = new StringTokenizer(br.readLine());
+				} catch(IOException e) {
+					e.printStackTrace();
+				}
+			}
+			return st.nextToken();
+		}
+		int nextInt() {
+			return Integer.parseInt(next());
+		}
+		long nextLong() {
+			return Long.parseLong(next());
+		}
+		double nextDouble() {
+			return Double.parseDouble(next());
+		}
+		String nextLine() {
+			String str = """";
+			try {
+				str = br.readLine();
+			} catch(IOException e) {
+				e.printStackTrace();
+			}
+			return str;
+		}
+	}
+
+	class Zint {
+		final int P = 998244353;
+		// final int P = 1000000007;
+		final long MP = 998244353L;
+		// final long MP = 1000000007L;
+		int x = 0;
+		int norm(int x) {
+			if (x < 0) x += P;
+			if (x >= P) x -= P;
+			return x;
+		}
+		Zint(int x) {
+			this.x = norm(x % P);
+		}
+		Zint(long x) {
+			this.x = norm((int)(x % MP));
+		}
+		int power(int a, int b) {
+			int res = 1;
+			for (; b > 0; b /= 2, a = mul(a, a)) {
+				if (b % 2 == 1) {
+					res = mul(res, a);
+				}
+			}
+			return res;
+		}
+		int power(int a, long b) {
+			int res = 1;
+			for (; b > 0L; b /= 2L, a = mul(a, a)) {
+				if (b % 2L == 1L) {
+					res = mul(res, a);
+				}
+			}
+			return res;
+		}
+		void add(int y) {
+			this.x = norm((this.x + y) % P);
+		}
+		void sub(int y) {
+			this.x = norm((this.x - y) % P);
+		}
+		void mul(int y) {
+			this.x = (int)(((long)this.x * (long)y) % MP);
+		}
+		void div(int y) {
+			this.x = mul(this.x, inv(y));
+		}
+		void inv() {
+			this.x = power(this.x, P - 2);
+		}
+
+		void add(long y) {
+			this.x = norm((this.x + (int)(y % MP)) % P);
+		}
+		void sub(long y) {
+			this.x = norm((this.x - (int)(y % MP)) % P);
+		}
+		void mul(long y) {
+			this.x = (int)(((long)this.x * (y % MP)) % MP);
+		}
+		void div(long y) {
+			this.x = mul(this.x, inv(norm((int)(y % MP))));
+		}
+		
+		int add(long x, long y) {
+			return norm((int)((x + y) % MP));
+		}
+		int sub(long x, long y) {
+			return norm((int)((x - y) % MP));
+		}
+		int mul(long x, long y) {
+			return (int)(((long)norm((int)(x % MP)) * (long)norm((int)(y % MP))) % MP);
+		}
+		int div(long x, long y) {
+			return mul(norm((int)(x % MP)), inv(norm((int)(y % MP))));
+		}
+
+		int add(int x, int y) {
+			return norm((x + y) % P);
+		}
+		int sub(int x, int y) {
+			return norm((x - y) % P);
+		}
+		int mul(int x, int y) {
+			return (int)(((long)x * (long)y) % MP);
+		}
+		int div(int x, int y) {
+			return mul(x, inv(y));
+		}
+		int inv(int x) {
+			return power(x, P - 2);
+		}
+
+		int val() {
+			return x;
+		}
+	}
+
+	final int P = 998244353;
+	// final int P = 1000000007;
+	final long MP = 998244353L;
+	// final long MP = 1000000007L;
+	int norm(int x) {
+		if (x < 0) x += P;
+		if (x >= P) x -= P;
+		return x;
+	}
+	int power(int a, int b) {
+		int res = 1;
+		for (; b > 0; b /= 2, a = mul(a, a)) {
+			if (b % 2 == 1) {
+				res = mul(res, a);
+			}
+		}
+		return res;
+	}
+	// int add(int x, int y) {
+	// 	return norm((x + y) % P);
+	// }
+	// int sub(int x, int y) {
+	// 	return norm((x - y) % P);
+	// }
+	// int mul(int x, int y) {
+	// 	return (int)(((long)x * (long)y) % MP);
+	// }
+	// int div(int x, int y) {
+	// 	return mul(x, inv(y));
+	// }
+	// int inv(int x) {
+	// 	return power(x, P - 2);
+	// }
+	
+
+	int add(long x, long y) {
+		return norm((int)((x + y) % MP));
+	}
+	int sub(long x, long y) {
+		return norm((int)((x - y) % MP));
+	}
+	int mul(long x, long y) {
+		return (int)(((long)norm((int)(x % MP)) * (long)norm((int)(y % MP))) % MP);
+	}
+	int div(long x, long y) {
+		return mul(norm((int)(x % MP)), inv(norm((int)(y % MP))));
+	}
+
+	int add(int x, int y) {
+		return norm((x + y) % P);
+	}
+	int sub(int x, int y) {
+		return norm((x - y) % P);
+	}
+	int mul(int x, int y) {
+		return (int)(((long)x * (long)y) % MP);
+	}
+	int div(int x, int y) {
+		return mul(x, inv(y));
+	}
+	int inv(int x) {
+		return power(x, P - 2);
+	}
+
+
+	//StreamTokenizer in = new StreamTokenizer(new BufferedReader(new InputStreamReader(System.in)));
+	RRR in = new RRR();
+}
+/*
+1
+10 18
+7 6 3 5
+7 10 9 2
+6 5 8 3
+2 10 5 4
+8 9 9 1
+9 4 8 6
+8 4 12 1
+6 10 15 2
+10 2 4 5
+4 9 3 4
+5 9 7 2
+7 10 9 2
+2 9 14 9
+4 5 3 14
+7 1 1 1
+5 4 14 3
+9 8 1 9
+9 8 1 8
+
+*/
+"
+21,E,Java,55311312,2022-12-16 21:47:42,冷冽谷的孙一峰,答案错误,"import java.math.BigInteger;
+import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+        if (n == 1) {
+            System.out.println(1);
+            return;
+        }
+        if (n == 2) {
+            System.out.println(2);
+            return;
+        }
+        BigInteger ans=new BigInteger(""2"");
+        BigInteger m=new BigInteger(""99824353"");
+        for (int i = 5; i < n - 2 + 5; i++) {
+            BigInteger x=new BigInteger(String.valueOf(i));
+            ans=ans.multiply(x);
+            ans=ans.mod(m);
+        }
+        System.out.println(ans);
+
+    }
+
+
+}"
+22,E,Java,55311381,2022-12-16 21:50:22,冷冽谷的孙一峰,答案错误,"import java.math.BigInteger;
+import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+        if (n == 1) {
+            System.out.println(0);
+            return;
+        }
+        if (n == 2) {
+            System.out.println(2);
+            return;
+        }
+        BigInteger ans=new BigInteger(""2"");
+        BigInteger m=new BigInteger(""99824353"");
+        for (int i = 5; i < n - 2 + 5; i++) {
+            BigInteger x=new BigInteger(String.valueOf(i));
+            ans=ans.multiply(x);
+            ans=ans.mod(m);
+        }
+        System.out.println(ans);
+
+    }
+
+
+}"
+23,E,Java,55317138,2022-12-17 13:35:43,Floating_Ocean,答案错误,"import java.util.*;
+
+public class Main {
+
+    private static int fact(int x){
+        if(x == 1) return 1;
+        return ((x % 998244353) * (fact(x - 1) % 998244353)) % 998244353;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        System.out.println(fact(n + 2) / fact(4) * 2);
+    }
+}"
+24,E,Java,55317823,2022-12-17 13:51:31,Floating_Ocean,答案错误,"import java.util.*;
+
+public class Main {
+
+    private static int fact(int x){
+        if(x == 1) return 1;
+        return ((x % 998244353) * (fact(x - 1) % 998244353)) % 998244353;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt(), a = fact(n + 2), b = fact(4);
+        System.out.println(((a % (998244353L * b)) / b * 2) % 998244353);
+    }
+}"
+25,E,Java,55317986,2022-12-17 13:54:22,Floating_Ocean,答案错误,"import java.util.*;
+
+public class Main {
+
+    private static long fact(int x){
+        if(x == 1) return 1L;
+        return ((x % 998244353) * (fact(x - 1) % 998244353)) % 998244353;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        long a = fact(n + 2), b = fact(4);
+        System.out.println(((a % (998244353L * b)) / b * 2) % 998244353);
+    }
+}"
+26,E,Java,55318410,2022-12-17 14:02:58,Floating_Ocean,答案错误,"import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        if(n == 1) System.out.println(1);
+        else if(n == 2) System.out.println(2);
+        else{
+            int ans = 2;
+            for(int i=5;i<=n + 2;i++) ans = (ans * i) % 998244353;
+            System.out.println(ans);
+        }
+    }
+}"
+27,E,Java,55318493,2022-12-17 14:04:49,Floating_Ocean,答案正确,"import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        long n = scanner.nextInt();
+        if(n == 1) System.out.println(1);
+        else if(n == 2) System.out.println(2);
+        else{
+            long ans = 2;
+            for(long i=5;i<=n + 2;i++) ans = (ans * i) % 998244353;
+            System.out.println(ans);
+        }
+    }
+}"
+28,E,Java,55331610,2022-12-18 02:00:41,牛客524308315号,答案正确,"import java.util.*;
+
+public class Main {
+    static int N = 1000010;
+    static int mod = 998244353;
+    public static void main(String[] args){
+       Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        long ans = 2;
+        if(n == 1){
+            System.out.println(1);
+        }else{
+            for(int i =3;i<=n;i++){
+                ans = (ans * (i +2)) % mod;
+            }
+            System.out.println(ans);
+        }
+   }   
+}"
+29,E,Java,55345918,2022-12-18 20:19:08,方子豪,运行超时,"import java.math.BigInteger;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        int n;
+        Scanner in = new Scanner(System.in);
+        n = in.nextInt();
+        BigInteger s = new BigInteger(""1"");
+        for(int i = 1; i <= n + 2; i++){
+            s = s.multiply(BigInteger.valueOf(i));
+        }
+        s = s.divide(BigInteger.valueOf(12));
+        System.out.println(s);
+    }
+}"
+30,E,Java,55345944,2022-12-18 20:21:04,方子豪,运行超时,"import java.math.BigInteger;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        int n;
+        Scanner in = new Scanner(System.in);
+        n = in.nextInt();
+        BigInteger s = new BigInteger(""1"");
+        for(int i = 1; i <= n + 2; i++){
+            s = s.multiply(BigInteger.valueOf(i));
+        }
+        s = s.divide(BigInteger.valueOf(12));
+        s = s.mod(BigInteger.valueOf(998244353));
+        System.out.println(s);
+    }
+}"
+31,E,Java,55346392,2022-12-18 20:54:14,方子豪,运行超时,"import java.math.BigInteger;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        int n;
+        Scanner in = new Scanner(System.in);
+        n = in.nextInt();
+        BigInteger s = new BigInteger(""1"");
+        for(int i = 1; i <= n + 2; i++){
+            s = s.multiply(BigInteger.valueOf(i));
+        }
+        s = s.divide(BigInteger.valueOf(12));
+        s = s.mod(BigInteger.valueOf(998244353));
+        System.out.println(s);
+    }
+}"
+32,E,Java,55376736,2022-12-22 15:52:53,人工智能3211江海洋,答案错误,"import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        long n = in.nextLong();
+        long ans = 1;
+        for (long i = 1; i <= n+2; i++) {
+            ans*=i;
+        }
+        System.out.println(ans/12);
+
+    }
+}
+"
+33,E,Java,60440881,2023-01-17 21:11:48,牛客562397828号,答案错误,"import java.util.Scanner;
+
+public class Main {
+
+    boolean[] vis = new boolean[5];
+    int[] fac = new int[5];
+    int ans = 0;
+    void dfs(int n){
+        if(n==5){
+            for (int i = 1; i < 4; i++) {
+                //System.out.println(i);
+                for (int j = i+1; j <= 4; j++) {
+                    boolean mn = false,mx = false;
+                    for (int k = i; k <= j; k++) {
+                        if(fac[k] == 1) mn=true;
+                        if(fac[k] == 4) mx=true;
+                    }
+                    if(mn&&mx){
+                        ans++;
+                        for (int k = i; k <= j; k++) {
+                            System.out.print(fac[k]+"" "");
+                        }
+                        System.out.println();
+                    }
+                }
+                if(fac[i] == 1 || fac[i] == 4) break;
+            }
+            return;
+        }
+        for (int i = 1; i <= 4; i++) {
+            if(vis[i]) continue;
+            vis[i] = true;
+            fac[n] = i;
+            dfs(n+1);
+            vis[i] = false;
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        long ans  = 0;
+        long fac_n = 1;
+        int mod = 998244353;
+        for (int i = 2; i <= n-2; i++) {
+            fac_n *= i;
+            fac_n %= mod;
+        }
+        for (int i = 1; i <= n; i++) {
+            ans += i * (n - i + 1) * (n - i) / 2 * 2 * fac_n;
+            ans %= mod;
+        }
+        System.out.println(ans);
+    }
+}
+"
+34,E,Java,60440888,2023-01-17 21:12:10,牛客562397828号,答案错误,"import java.util.Scanner;
+
+public class Main {
+
+    boolean[] vis = new boolean[5];
+    int[] fac = new int[5];
+    int ans = 0;
+    void dfs(int n){
+        if(n==5){
+            for (int i = 1; i < 4; i++) {
+                //System.out.println(i);
+                for (int j = i+1; j <= 4; j++) {
+                    boolean mn = false,mx = false;
+                    for (int k = i; k <= j; k++) {
+                        if(fac[k] == 1) mn=true;
+                        if(fac[k] == 4) mx=true;
+                    }
+                    if(mn&&mx){
+                        ans++;
+                        for (int k = i; k <= j; k++) {
+                            System.out.print(fac[k]+"" "");
+                        }
+                        System.out.println();
+                    }
+                }
+                if(fac[i] == 1 || fac[i] == 4) break;
+            }
+            return;
+        }
+        for (int i = 1; i <= 4; i++) {
+            if(vis[i]) continue;
+            vis[i] = true;
+            fac[n] = i;
+            dfs(n+1);
+            vis[i] = false;
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        long ans  = 0;
+        long fac_n = 1;
+        int mod = 998244353;
+        for (int i = 2; i <= n-2; i++) {
+            fac_n *= i;
+            fac_n %= mod;
+        }
+        for (int i = 1; i <= n; i++) {
+            ans += i * (n - i + 1) * (n - i) / 2 * 2 %mod * fac_n % mod;
+            ans %= mod;
+        }
+        System.out.println(ans);
+    }
+}
+"
+35,E,Java,60440919,2023-01-17 21:13:35,牛客562397828号,答案错误,"import java.util.Scanner;
+
+public class Main {
+
+    boolean[] vis = new boolean[5];
+    int[] fac = new int[5];
+    int ans = 0;
+    void dfs(int n){
+        if(n==5){
+            for (int i = 1; i < 4; i++) {
+                //System.out.println(i);
+                for (int j = i+1; j <= 4; j++) {
+                    boolean mn = false,mx = false;
+                    for (int k = i; k <= j; k++) {
+                        if(fac[k] == 1) mn=true;
+                        if(fac[k] == 4) mx=true;
+                    }
+                    if(mn&&mx){
+                        ans++;
+                        for (int k = i; k <= j; k++) {
+                            System.out.print(fac[k]+"" "");
+                        }
+                        System.out.println();
+                    }
+                }
+                if(fac[i] == 1 || fac[i] == 4) break;
+            }
+            return;
+        }
+        for (int i = 1; i <= 4; i++) {
+            if(vis[i]) continue;
+            vis[i] = true;
+            fac[n] = i;
+            dfs(n+1);
+            vis[i] = false;
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        long ans  = 0;
+        long fac_n = 1;
+        int mod = 998244353;
+        for (int i = 2; i <= n-2; i++) {
+            fac_n *= i;
+            fac_n %= mod;
+        }
+        for (int i = 1; i <= n; i++) {
+            ans += (long)i * (n - i + 1) * (n - i) / 2 * 2 %mod * fac_n % mod;
+            ans %= mod;
+        }
+        System.out.println(ans);
+    }
+}
+"
+36,E,Java,60440929,2023-01-17 21:14:10,牛客562397828号,答案错误,"import java.util.Scanner;
+
+public class Main {
+
+    boolean[] vis = new boolean[5];
+    int[] fac = new int[5];
+    int ans = 0;
+    void dfs(int n){
+        if(n==5){
+            for (int i = 1; i < 4; i++) {
+                //System.out.println(i);
+                for (int j = i+1; j <= 4; j++) {
+                    boolean mn = false,mx = false;
+                    for (int k = i; k <= j; k++) {
+                        if(fac[k] == 1) mn=true;
+                        if(fac[k] == 4) mx=true;
+                    }
+                    if(mn&&mx){
+                        ans++;
+                        for (int k = i; k <= j; k++) {
+                            System.out.print(fac[k]+"" "");
+                        }
+                        System.out.println();
+                    }
+                }
+                if(fac[i] == 1 || fac[i] == 4) break;
+            }
+            return;
+        }
+        for (int i = 1; i <= 4; i++) {
+            if(vis[i]) continue;
+            vis[i] = true;
+            fac[n] = i;
+            dfs(n+1);
+            vis[i] = false;
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        long ans  = 0;
+        long fac_n = 1;
+        int mod = 998244353;
+        for (int i = 2; i <= n-2; i++) {
+            fac_n *= i;
+            fac_n %= mod;
+        }
+        for (int i = 1; i <= n; i++) {
+            ans += (long)i * (n - i + 1) * (n - i) %mod * fac_n % mod;
+            ans %= mod;
+        }
+        System.out.println(ans);
+    }
+}
+"
+37,E,Java,60440933,2023-01-17 21:14:26,牛客562397828号,答案错误,"import java.util.Scanner;
+
+public class Main {
+
+    boolean[] vis = new boolean[5];
+    int[] fac = new int[5];
+    int ans = 0;
+    void dfs(int n){
+        if(n==5){
+            for (int i = 1; i < 4; i++) {
+                //System.out.println(i);
+                for (int j = i+1; j <= 4; j++) {
+                    boolean mn = false,mx = false;
+                    for (int k = i; k <= j; k++) {
+                        if(fac[k] == 1) mn=true;
+                        if(fac[k] == 4) mx=true;
+                    }
+                    if(mn&&mx){
+                        ans++;
+                        for (int k = i; k <= j; k++) {
+                            System.out.print(fac[k]+"" "");
+                        }
+                        System.out.println();
+                    }
+                }
+                if(fac[i] == 1 || fac[i] == 4) break;
+            }
+            return;
+        }
+        for (int i = 1; i <= 4; i++) {
+            if(vis[i]) continue;
+            vis[i] = true;
+            fac[n] = i;
+            dfs(n+1);
+            vis[i] = false;
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        long ans  = 0;
+        long fac_n = 1;
+        int mod = 998244353;
+        for (int i = 2; i <= n-2; i++) {
+            fac_n *= i;
+            fac_n %= mod;
+        }
+        for (int i = 1; i <= n; i++) {
+            ans += (long)i * (n - i + 1) %mod * (n - i) %mod * fac_n % mod;
+            ans %= mod;
+        }
+        System.out.println(ans);
+    }
+}
+"
+38,E,Java,60441016,2023-01-17 21:17:55,牛客562397828号,答案正确,"import java.util.Scanner;
+
+public class Main {
+
+    boolean[] vis = new boolean[5];
+    int[] fac = new int[5];
+    int ans = 0;
+    void dfs(int n){
+        if(n==5){
+            for (int i = 1; i < 4; i++) {
+                //System.out.println(i);
+                for (int j = i+1; j <= 4; j++) {
+                    boolean mn = false,mx = false;
+                    for (int k = i; k <= j; k++) {
+                        if(fac[k] == 1) mn=true;
+                        if(fac[k] == 4) mx=true;
+                    }
+                    if(mn&&mx){
+                        ans++;
+                        for (int k = i; k <= j; k++) {
+                            System.out.print(fac[k]+"" "");
+                        }
+                        System.out.println();
+                    }
+                }
+                if(fac[i] == 1 || fac[i] == 4) break;
+            }
+            return;
+        }
+        for (int i = 1; i <= 4; i++) {
+            if(vis[i]) continue;
+            vis[i] = true;
+            fac[n] = i;
+            dfs(n+1);
+            vis[i] = false;
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        long ans  = 0;
+        long fac_n = 1;
+        int mod = 998244353;
+        for (int i = 2; i <= n-2; i++) {
+            fac_n *= i;
+            fac_n %= mod;
+        }
+        for (int i = 1; i <= n; i++) {
+            ans += (long)i * (n - i + 1) %mod * (n - i) %mod * fac_n % mod;
+            ans %= mod;
+        }
+        if(n == 1) ans = 1;
+        System.out.println(ans);
+    }
+}
+"

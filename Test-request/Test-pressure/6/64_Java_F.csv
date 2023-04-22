@@ -1,0 +1,2156 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,F,Java,60014650,2022-12-30 20:13:24,classHello,执行出错,"import java.util.*;
+import java.io.BufferedInputStream;
+
+public class Main {
+    static int MOD = 998244353;
+    public static void main(String[] args) {
+        Scanner input = new Scanner(new BufferedInputStream(System.in));
+
+        int n = input.nextInt();
+        int m = input.nextInt();
+        boolean[][] map = new boolean[3][n];
+        int[][] dp = new int[3][n];
+        int x;
+        int y;
+        for (int i = 0; i < m; i++) {
+            x = input.nextInt();
+            y = input.nextInt();
+            map[x-1][y-1] = true;
+        }
+        dp[0][0] = 1;
+        for (int i = 0; i < n-1; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (map[j][i]){
+                    dp[Math.max(0,j-1)][i+1]=(dp[j][i]+dp[Math.max(0,j-1)][i+1])%MOD;
+                    dp[j][Math.min(i+2,n-1)]=(dp[j][i]+dp[j][Math.min(i+2,n-1)])%MOD;
+                    dp[Math.min(2,j+1)][i+1]=(dp[j][i]+dp[Math.min(2,j+1)][i+1])%MOD;
+                }else {
+                    dp[j][Math.min(n-1,i+1)] =(dp[j][i]+dp[j][Math.min(n-1,i+1)])%MOD;
+                }
+            }
+        }
+        for (int i = 0; i < 3; i++) {
+            System.out.println(dp[i][n-1]);
+        }
+        input.close();
+    }
+} "
+1,F,Java,60014987,2022-12-30 20:18:07,星海_,执行出错,"
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Main {
+    public static int[] ans = new int[3];
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        int[][] map = new int[3][n];
+        for (int i = 0; i < m; i++) {
+            map[sc.nextInt() - 1][sc.nextInt() - 1] = 1;
+        }
+        dfs(0, 0, map, n);
+        for (int i = 0; i < 3; i++)
+            System.out.println(ans[i]);
+    }
+
+    public static void dfs(int x, int y, int[][] map, int n) {
+        if (y >= n - 1) {
+            ans[x]++;
+            return;
+        }
+
+        if (map[x][y] == 0) {
+            dfs(x, y + 1, map, n);
+        } else {
+            dfs(Math.max(0, x - 1), y + 1, map, n);
+            dfs(x, y + 2, map, n);
+            dfs(Math.min(2, x + 1), y + 1, map, n);
+        }
+    }
+}
+"
+2,F,Java,60015157,2022-12-30 20:20:23,zzl064,答案正确,"import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
+
+import java.util.InputMismatchException;
+
+public class Main{
+    public static void main(String[] args) {
+        InputReader sc = new InputReader(System.in);
+        int n = sc.nextInt(), m = sc.nextInt();
+        n = Math.min(3 * m, n);
+        int[][] grid = new int[3][n];
+        int[][] a = new int[m][2];
+        for (int i = 0; i < m; i++) {
+            a[i] = new int[]{sc.nextInt() - 1, sc.nextInt() - 1};
+        }
+        Arrays.sort(a, Comparator.comparingInt(key -> key[1]));
+        int pre = -2;
+        for(int i = 0; i < m; ++i){
+            if(i == 0 || a[i][1] - a[i - 1][1] > 1){
+                grid[a[i][0]][pre + 2] = 1;
+                pre += 2;
+            }else{
+                pre += a[i][1] - a[i - 1][1];
+                grid[a[i][0]][pre] = 1;
+            }
+        }
+//        Arrays.stream(grid).map(Arrays::toString).forEach(System.out::println);
+        int[][] res = new int[3][n + 1];
+        int mod = 998244353;
+        res[0][0] = 1;
+        for(int i = 0; i < n; ++i){
+            for(int j = 0; j < 3; ++j){
+                if(grid[j][i] == 1){
+                    res[Math.max(0, j - 1)][i + 1] += res[j][i]; res[Math.max(0, j - 1)][i + 1] %= mod;
+                    res[j][Math.min(n, i + 2)] += res[j][i]; res[j][Math.min(n, i + 2)] %= mod;
+                    res[Math.min(2, j + 1)][i + 1] += res[j][i]; res[Math.min(2, j + 1)][i + 1] %= mod;
+                }else{
+                    res[j][i + 1] += res[j][i]; res[j][i + 1] %= mod;
+                }
+            }
+        }
+        for (int i = 0; i < 3; i++) {
+            System.out.println(res[i][n]);
+        }
+    }
+}
+
+class InputReader {
+    private InputStream stream;
+    private byte[] buf = new byte[1024];
+    private int curChar;
+    private int numChars;
+    private SpaceCharFilter filter;
+
+    public InputReader(InputStream stream) {
+        this.stream = stream;
+    }
+
+    public int read() {
+        if (numChars == -1) {
+            throw new InputMismatchException();
+        }
+        if (curChar >= numChars) {
+            curChar = 0;
+            try {
+                numChars = stream.read(buf);
+            } catch (IOException e) {
+                throw new InputMismatchException();
+            }
+            if (numChars <= 0) {
+                return -1;
+            }
+        }
+        return buf[curChar++];
+    }
+
+    public int nextInt() {
+        int c = read();
+        while (isSpaceChar(c))
+            c = read();
+        int sgn = 1;
+        if (c == '-') {
+            sgn = -1;
+            c = read();
+        }
+        int res = 0;
+        do {
+            if (c < '0' || c > '9') {
+                throw new InputMismatchException();
+            }
+            res *= 10;
+            res += c - '0';
+            c = read();
+        } while (!isSpaceChar(c));
+        return res * sgn;
+    }
+
+    public long nextLong() {
+        int c = read();
+        while (isSpaceChar(c))
+            c = read();
+        int sgn = 1;
+        if (c == '-') {
+            sgn = -1;
+            c = read();
+        }
+        long res = 0;
+        do {
+            if (c < '0' || c > '9') {
+                throw new InputMismatchException();
+            }
+            res *= 10;
+            res += c - '0';
+            c = read();
+        } while (!isSpaceChar(c));
+        return res * sgn;
+    }
+
+    public String nextString() {
+        int c = read();
+        while (isSpaceChar(c))
+            c = read();
+        StringBuilder res = new StringBuilder();
+        do {
+            if (Character.isValidCodePoint(c)) {
+                res.appendCodePoint(c);
+            }
+            c = read();
+        } while (!isSpaceChar(c));
+        return res.toString();
+    }
+
+    public String next() {
+        return nextString();
+    }
+
+    public static String[] readStringArray(InputReader in, int size) {
+        String[] array = new String[size];
+        for (int i = 0; i < size; i++)
+            array[i] = in.nextString();
+        return array;
+    }
+
+    public static String[][] readStringTable(InputReader in, int rowCount, int columnCount) {
+        String[][] table = new String[rowCount][];
+        for (int i = 0; i < rowCount; i++)
+            table[i] = readStringArray(in, columnCount);
+        return table;
+    }
+
+    public char nextChar() {
+        int c = read();
+        while (isSpaceChar(c))
+            c = read();
+        return (char) c;
+    }
+
+    public String nextLine() {
+        int c = read();
+        while (isSpaceChar2(c))
+            c = read();
+        StringBuilder res = new StringBuilder();
+        do {
+            if (Character.isValidCodePoint(c)) {
+                res.appendCodePoint(c);
+            }
+            c = read();
+        } while (!isSpaceChar2(c));
+        return res.toString();
+    }
+
+    public double readDouble() {
+        int c = read();
+        while (isSpaceChar(c))
+            c = read();
+        int sgn = 1;
+        if (c == '-') {
+            sgn = -1;
+            c = read();
+        }
+        double res = 0;
+        while (!isSpaceChar(c) && c != '.') {
+            if (c == 'e' || c == 'E') {
+                return res * Math.pow(10, nextInt());
+            }
+            if (c < '0' || c > '9') {
+                throw new InputMismatchException();
+            }
+            res *= 10;
+            res += c - '0';
+            c = read();
+        }
+        if (c == '.') {
+            c = read();
+            double m = 1;
+            while (!isSpaceChar(c)) {
+                if (c == 'e' || c == 'E') {
+                    return res * Math.pow(10, nextInt());
+                }
+                if (c < '0' || c > '9') {
+                    throw new InputMismatchException();
+                }
+                m /= 10;
+                res += (c - '0') * m;
+                c = read();
+            }
+        }
+        return res * sgn;
+    }
+
+    public boolean isSpaceChar(int c) {
+        if (filter != null) {
+            return filter.isSpaceChar(c);
+        }
+        return isWhitespace(c);
+    }
+
+    public boolean isSpaceChar2(int c) {
+        if (filter != null) {
+            return filter.isSpaceChar2(c);
+        }
+        return isWhitespace2(c);
+    }
+
+    public static boolean isWhitespace2(int c) {
+        return c == '\n' || c == '\r' || c == '\t' || c == -1;
+    }
+
+    public static boolean isWhitespace(int c) {
+        return c == ' ' || c == '\n' || c == '\r' || c == '\t' || c == -1;
+    }
+
+    public interface SpaceCharFilter {
+        public boolean isSpaceChar(int ch);
+
+        public boolean isSpaceChar2(int ch);
+    }
+}
+"
+3,F,Java,60015221,2022-12-30 20:21:24,星海_,执行出错,"
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Main {
+    public static int[] ans = new int[3];
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        int[][] map = new int[3][n];
+        for (int i = 0; i < m; i++) {
+            map[sc.nextInt() - 1][sc.nextInt() - 1] = 1;
+        }
+        dfs(0, 0, map, n);
+        for (int i = 0; i < 3; i++)
+            System.out.println(ans[i]);
+    }
+
+    public static void dfs(int x, int y, int[][] map, int n) {
+        if (y >= n - 1) {
+            ans[x]++;
+            return;
+        }
+
+        if (map[x][y] == 0) {
+            dfs(x, y + 1, map, n);
+        } else {
+            dfs(Math.max(0, x - 1), y + 1, map, n);
+            dfs(x, y + 2, map, n);
+            dfs(Math.min(2, x + 1), y + 1, map, n);
+        }
+    }
+}
+"
+4,F,Java,60015439,2022-12-30 20:24:19,星海_,执行出错,"
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Main {
+    public static long[] ans = new long[3];
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        int[][] map = new int[3][n];
+        for (int i = 0; i < m; i++) {
+            map[sc.nextInt() - 1][sc.nextInt() - 1] = 1;
+        }
+        dfs(0, 0, map, n);
+        for (int i = 0; i < 3; i++)
+            System.out.println(ans[i] % 998244353);
+    }
+
+    public static void dfs(int x, int y, int[][] map, int n) {
+        if (y >= n - 1) {
+            ans[x]++;
+            return;
+        }
+
+        if (map[x][y] == 0) {
+            dfs(x, y + 1, map, n);
+        } else {
+            dfs(Math.max(0, x - 1), y + 1, map, n);
+            dfs(x, y + 2, map, n);
+            dfs(Math.min(2, x + 1), y + 1, map, n);
+        }
+    }
+}
+"
+5,F,Java,60015676,2022-12-30 20:27:41,classHello,执行出错,"import java.util.*;
+import java.io.BufferedInputStream;
+
+public class Main {
+    static int MOD = 998244353;
+    public static void main(String[] args) {
+        Scanner input = new Scanner(new BufferedInputStream(System.in));
+
+        int n = input.nextInt();
+        int m = input.nextInt();
+        boolean[][] map = new boolean[3][n];
+        int[][] dp = new int[3][n];
+        int x;
+        int y;
+        for (int i = 0; i < m; i++) {
+            x = input.nextInt();
+            y = input.nextInt();
+            map[x-1][y-1] = true;
+        }
+        dp[0][0] = 1;
+        for (int i = 0; i < n-1; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (map[j][i]){
+                    dp[Math.max(0,j-1)][i+1]=(dp[j][i]+dp[Math.max(0,j-1)][i+1])%MOD;
+                    dp[j][Math.min(i+2,n-1)]=(dp[j][i]+dp[j][Math.min(i+2,n-1)])%MOD;
+                    dp[Math.min(2,j+1)][i+1]=(dp[j][i]+dp[Math.min(2,j+1)][i+1])%MOD;
+                }else {
+                    dp[j][Math.min(n-1,i+1)] =(dp[j][i]+dp[j][Math.min(n-1,i+1)])%MOD;
+                }
+            }
+        }
+        for (int i = 0; i < 3; i++) {
+            System.out.println(dp[i][n-1]);
+        }
+        input.close();
+    }
+} "
+6,F,Java,60015888,2022-12-30 20:31:14,classHello,执行出错,"import java.util.*;
+import java.io.BufferedInputStream;
+
+public class Main {
+    static int MOD = 998244353;
+    public static void main(String[] args) {
+        Scanner input = new Scanner(new BufferedInputStream(System.in));
+
+        int n = input.nextInt();
+        int m = input.nextInt();
+        boolean[][] map = new boolean[3][n];
+        int[][] dp = new int[3][n];
+        int x;
+        int y;
+        for (int i = 0; i < m; i++) {
+            x = input.nextInt();
+            y = input.nextInt();
+            map[x-1][y-1] = true;
+        }
+        dp[0][0] = 1;
+        for (int i = 0; i < n-1; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (map[j][i]){
+                    dp[Math.max(0,j-1)][i+1]=(dp[j][i]+dp[Math.max(0,j-1)][i+1])%MOD;
+                    dp[j][Math.min(i+2,n-1)]=(dp[j][i]+dp[j][Math.min(i+2,n-1)])%MOD;
+                    dp[Math.min(2,j+1)][i+1]=(dp[j][i]+dp[Math.min(2,j+1)][i+1])%MOD;
+                }else {
+                    dp[j][Math.min(n-1,i+1)] =(dp[j][i]+dp[j][Math.min(n-1,i+1)])%MOD;
+                }
+            }
+        }
+        for (int i = 0; i < 3; i++) {
+            System.out.println(dp[i][n-1]);
+        }
+        input.close();
+    }
+} "
+7,F,Java,60018276,2022-12-30 21:12:02,classHello,执行出错,"import java.util.*;
+import java.io.BufferedInputStream;
+
+public class Main {
+    static int MOD = 998244353;
+    public static void main(String[] args) {
+        Scanner input = new Scanner(new BufferedInputStream(System.in));
+
+        int n = input.nextInt();
+        int m = input.nextInt();
+        boolean[][] map = new boolean[3][n];
+        int[][] dp = new int[3][n];
+        int x;
+        int y;
+        for (int i = 0; i < m; i++) {
+            x = input.nextInt();
+            y = input.nextInt();
+            map[x-1][y-1] = true;
+        }
+        dp[0][0] = 1;
+        for (int i = 0; i < n-1; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (map[j][i]){
+                    dp[Math.max(0,j-1)][i+1]=(dp[j][i]+dp[Math.max(0,j-1)][i+1])%MOD;
+                    dp[j][Math.min(i+2,n-1)]=(dp[j][i]+dp[j][Math.min(i+2,n-1)])%MOD;
+                    dp[Math.min(2,j+1)][i+1]=(dp[j][i]+dp[Math.min(2,j+1)][i+1])%MOD;
+                }else {
+                    dp[j][Math.min(n-1,i+1)] =(dp[j][i]+dp[j][Math.min(n-1,i+1)])%MOD;
+                }
+            }
+        }
+        for (int i = 0; i < 3; i++) {
+            System.out.println(dp[i][n-1]);
+        }
+        input.close();
+    }
+} "
+8,F,Java,60018941,2022-12-30 21:31:13,我不叫jhy,执行出错,"import java.io.*;
+import java.util.*;
+import java.math.*;
+import java.util.Set;
+public class Main {
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader in = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        TaskA solver = new TaskA();
+        solver.solve(1, in, out);
+        out.close();
+    }
+
+    static class TaskA {
+        public void solve(int testNumber, InputReader in, PrintWriter out) {
+            int n= in.nextInt();
+            int m= in.nextInt();
+            long mod=998244353;
+            ArrayList<Integer>dta=new ArrayList<>();
+            ArrayList<Integer>dtb=new ArrayList<>();
+            ArrayList<Integer>dtc=new ArrayList<>();
+            for (int i = 0; i <m; i++) {
+                int x= in.nextInt();
+                if (x==1){
+                    dta.add(in.nextInt());
+                }
+                else if (x==2){
+                    dtb.add(in.nextInt());
+                }else {
+                    dtc.add(in.nextInt());
+                }
+            }
+            dta.add(n);dtb.add(n);dtc.add(n);
+            long[]dpa=new long[dta.size()+1];
+            long[]dpb=new long[dtb.size()+1];
+            long[]dpc=new long[dtc.size()+1];
+            dpa[0]=1;dpb[0]=0;dpc[0]=0;
+            int a=0,b=0,c=0;
+            while (dta.get(a)!=n||dtb.get(b)!=n||dtc.get(c)!=n){
+                if (dta.get(a)<=dta.get(b)&&dta.get(a)<=dta.get(c)&&dta.get(a)!=n){
+                    if (dta.get(a)+2<=dta.get(a+1)||dta.get(a+1)==n)dpa[a+1]=(dpa[a+1]+dpa[a])%mod;
+                    else dpa[a+2]=(dpa[a+2]+dpa[a])%mod;
+                    if (dta.get(a)>=dtb.get(b))dpb[b+1]=(dpb[b+1]+dpa[a])%mod;
+                    else   dpb[b]=(dpb[b]+dpa[a])%mod;
+                    dpa[a+1]=(dpa[a+1]+dpa[a])%mod;
+                    a++;
+                }
+                else if ((a==dta.size()-1&&dta.get(b)<=dta.get(c))||dta.get(b)<dta.get(a)&&dta.get(b)<=dta.get(c)){
+                    if (dtb.get(b)+2<=dtb.get(b+1)||dtb.get(b+1)==n)dpb[b+1]=(dpb[b+1]+dpb[b])%mod;
+                    else dpb[b+2]=(dpb[b+2]+dpb[b])%mod;
+                    if (dtb.get(b)>=dta.get(a))dpa[a+1]=(dpa[a+1]+dpb[b])%mod;
+                    else   dpa[a]=(dpa[a]+dpb[b])%mod;
+                    if (dtb.get(b)>=dtc.get(c))dpc[c+1]=(dpc[c+1]+dpb[b])%mod;
+                    else   dpc[c]=(dpc[c]+dpb[b])%mod;
+                    b++;
+                }
+                else {
+                    if (dtc.get(c)+2<=dtc.get(c+1)||dtc.get(c+1)==n)dpc[c+1]=(dpc[c+1]+dpc[c])%mod;
+                    else dpc[c+2]=(dpc[c+2]+dpc[c])%mod;
+                    if (dtc.get(c)>=dtb.get(b))dpb[b+1]=(dpb[b+1]+dpc[c])%mod;
+                    else   dpb[b]=(dpb[b]+dpc[c])%mod;
+                    dpc[c+1]=(dpc[c+1]+dpc[c])%mod;
+                    c++;
+
+                }
+            }
+            System.out.println(dpa[dta.size()-1]);
+            System.out.println(dpb[dtb.size()-1]);
+            System.out.println(dpc[dtc.size()-1]);
+
+
+        }
+    }
+
+
+static class InputReader {
+    public BufferedReader reader;
+    public StringTokenizer tokenizer;
+
+    public InputReader(InputStream stream) {
+        reader = new BufferedReader(new InputStreamReader(stream), 32768);
+        tokenizer = null;
+    }
+    boolean hasNext()
+    {
+        while (tokenizer == null || !tokenizer.hasMoreTokens())
+        {
+            try
+            {
+                tokenizer = new StringTokenizer(reader.readLine());
+            } catch (Exception e)
+            {
+                return false;
+                // TODO: handle exception
+            }
+        }
+        return true;
+    }
+    public String next() {
+        while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+            try {
+                tokenizer = new StringTokenizer(reader.readLine());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return tokenizer.nextToken();
+    }
+    public String nextLine()
+    {
+        String str = null;
+        try
+        {
+            str = reader.readLine();
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return str;
+    }
+    public int nextInt() {
+        return Integer.parseInt(next());
+    }
+    public double nextDouble(){
+        return Double.parseDouble(next());
+    }
+    public long nextLong(){
+        return Long.parseLong(next());
+    }
+    public BigInteger nextBigInteger()
+    {
+        return new BigInteger(next());
+    }
+    public BigDecimal nextBigDecimal()
+    {
+        return new BigDecimal(next());
+    }
+
+}
+}"
+9,F,Java,60019361,2022-12-30 21:45:53,我不叫jhy,执行出错,"import java.io.*;
+import java.util.*;
+import java.math.*;
+import java.util.Set;
+public class Main {
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader in = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        TaskA solver = new TaskA();
+        solver.solve(1, in, out);
+        out.close();
+    }
+
+    static class TaskA {
+        public void solve(int testNumber, InputReader in, PrintWriter out) {
+            int n= in.nextInt();
+            int m= in.nextInt();
+            long mod=998244353;
+            ArrayList<Integer>dta=new ArrayList<>();
+            ArrayList<Integer>dtb=new ArrayList<>();
+            ArrayList<Integer>dtc=new ArrayList<>();
+            for (int i = 0; i <m; i++) {
+                int x= in.nextInt();
+                if (x==1){
+                    dta.add(in.nextInt());
+                }
+                else if (x==2){
+                    dtb.add(in.nextInt());
+                }else {
+                    dtc.add(in.nextInt());
+                }
+            }
+            dta.add(n);dtb.add(n);dtc.add(n);
+            long[]dpa=new long[dta.size()+1];
+            long[]dpb=new long[dtb.size()+1];
+            long[]dpc=new long[dtc.size()+1];
+            dpa[0]=1;dpb[0]=0;dpc[0]=0;
+            int a=0,b=0,c=0;
+            System.out.println(dta.get(1));
+            while (dta.get(a)!=n||dtb.get(b)!=n||dtc.get(c)!=n){
+                if (dta.get(a)<=dtc.get(b)&&dta.get(a)<=dtc.get(c)&&dta.get(a)!=n){
+                    if (dta.get(a)+2<=dta.get(a+1)||dta.get(a+1)==n)dpa[a+1]=(dpa[a+1]+dpa[a])%mod;
+                    else dpa[a+2]=(dpa[a+2]+dpa[a])%mod;
+                    if (dta.get(a)>=dtb.get(b))dpb[b+1]=(dpb[b+1]+dpa[a])%mod;
+                    else   dpb[b]=(dpb[b]+dpa[a])%mod;
+                    dpa[a+1]=(dpa[a+1]+dpa[a])%mod;
+                    a++;
+                }
+                else if ((a==dta.size()-1&&dtb.get(b)<=dtc.get(c))||dtb.get(b)<dta.get(a)&&dtb.get(b)<=dtc.get(c)){
+                    if (dtb.get(b)+2<=dtb.get(b+1)||dtb.get(b+1)==n)dpb[b+1]=(dpb[b+1]+dpb[b])%mod;
+                    else dpb[b+2]=(dpb[b+2]+dpb[b])%mod;
+                    if (dtb.get(b)>=dta.get(a))dpa[a+1]=(dpa[a+1]+dpb[b])%mod;
+                    else   dpa[a]=(dpa[a]+dpb[b])%mod;
+                    if (dtb.get(b)>=dtc.get(c))dpc[c+1]=(dpc[c+1]+dpb[b])%mod;
+                    else   dpc[c]=(dpc[c]+dpb[b])%mod;
+                    b++;
+                }
+                else {
+                    if (dtc.get(c)+2<=dtc.get(c+1)||dtc.get(c+1)==n)dpc[c+1]=(dpc[c+1]+dpc[c])%mod;
+                    else dpc[c+2]=(dpc[c+2]+dpc[c])%mod;
+                    if (dtc.get(c)>=dtb.get(b))dpb[b+1]=(dpb[b+1]+dpc[c])%mod;
+                    else   dpb[b]=(dpb[b]+dpc[c])%mod;
+                    dpc[c+1]=(dpc[c+1]+dpc[c])%mod;
+                    c++;
+                }
+            }
+            System.out.println(dpa[dta.size()-1]);
+            System.out.println(dpb[dtb.size()-1]);
+            System.out.println(dpc[dtc.size()-1]);
+
+
+        }
+    }
+
+
+static class InputReader {
+    public BufferedReader reader;
+    public StringTokenizer tokenizer;
+
+    public InputReader(InputStream stream) {
+        reader = new BufferedReader(new InputStreamReader(stream), 32768);
+        tokenizer = null;
+    }
+    boolean hasNext()
+    {
+        while (tokenizer == null || !tokenizer.hasMoreTokens())
+        {
+            try
+            {
+                tokenizer = new StringTokenizer(reader.readLine());
+            } catch (Exception e)
+            {
+                return false;
+                // TODO: handle exception
+            }
+        }
+        return true;
+    }
+    public String next() {
+        while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+            try {
+                tokenizer = new StringTokenizer(reader.readLine());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return tokenizer.nextToken();
+    }
+    public String nextLine()
+    {
+        String str = null;
+        try
+        {
+            str = reader.readLine();
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return str;
+    }
+    public int nextInt() {
+        return Integer.parseInt(next());
+    }
+    public double nextDouble(){
+        return Double.parseDouble(next());
+    }
+    public long nextLong(){
+        return Long.parseLong(next());
+    }
+    public BigInteger nextBigInteger()
+    {
+        return new BigInteger(next());
+    }
+    public BigDecimal nextBigDecimal()
+    {
+        return new BigDecimal(next());
+    }
+
+}
+}"
+10,F,Java,60019415,2022-12-30 21:47:48,我不叫jhy,答案错误,"import java.io.*;
+import java.util.*;
+import java.math.*;
+import java.util.Set;
+public class Main {
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader in = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        TaskA solver = new TaskA();
+        solver.solve(1, in, out);
+        out.close();
+    }
+
+    static class TaskA {
+        public void solve(int testNumber, InputReader in, PrintWriter out) {
+            int n= in.nextInt();
+            int m= in.nextInt();
+            long mod=998244353;
+            ArrayList<Integer>dta=new ArrayList<>();
+            ArrayList<Integer>dtb=new ArrayList<>();
+            ArrayList<Integer>dtc=new ArrayList<>();
+            for (int i = 0; i <m; i++) {
+                int x= in.nextInt();
+                if (x==1){
+                    dta.add(in.nextInt());
+                }
+                else if (x==2){
+                    dtb.add(in.nextInt());
+                }else {
+                    dtc.add(in.nextInt());
+                }
+            }
+            dta.add(n);dtb.add(n);dtc.add(n);
+            long[]dpa=new long[dta.size()+1];
+            long[]dpb=new long[dtb.size()+1];
+            long[]dpc=new long[dtc.size()+1];
+            dpa[0]=1;dpb[0]=0;dpc[0]=0;
+            int a=0,b=0,c=0;
+            System.out.println(dta.get(1));
+            while (dta.get(a)!=n||dtb.get(b)!=n||dtc.get(c)!=n){
+                if (dta.get(a)<=dtb.get(b)&&dta.get(a)<=dtc.get(c)&&dta.get(a)!=n){
+                    if (dta.get(a)+2<=dta.get(a+1)||dta.get(a+1)==n)dpa[a+1]=(dpa[a+1]+dpa[a])%mod;
+                    else dpa[a+2]=(dpa[a+2]+dpa[a])%mod;
+                    if (dta.get(a)>=dtb.get(b))dpb[b+1]=(dpb[b+1]+dpa[a])%mod;
+                    else   dpb[b]=(dpb[b]+dpa[a])%mod;
+                    dpa[a+1]=(dpa[a+1]+dpa[a])%mod;
+                    a++;
+                }
+                else if ((a==dta.size()-1&&dtb.get(b)<=dtc.get(c))||dtb.get(b)<dta.get(a)&&dtb.get(b)<=dtc.get(c)){
+                    if (dtb.get(b)+2<=dtb.get(b+1)||dtb.get(b+1)==n)dpb[b+1]=(dpb[b+1]+dpb[b])%mod;
+                    else dpb[b+2]=(dpb[b+2]+dpb[b])%mod;
+                    if (dtb.get(b)>=dta.get(a))dpa[a+1]=(dpa[a+1]+dpb[b])%mod;
+                    else   dpa[a]=(dpa[a]+dpb[b])%mod;
+                    if (dtb.get(b)>=dtc.get(c))dpc[c+1]=(dpc[c+1]+dpb[b])%mod;
+                    else   dpc[c]=(dpc[c]+dpb[b])%mod;
+                    b++;
+                }
+                else {
+                    if (dtc.get(c)+2<=dtc.get(c+1)||dtc.get(c+1)==n)dpc[c+1]=(dpc[c+1]+dpc[c])%mod;
+                    else dpc[c+2]=(dpc[c+2]+dpc[c])%mod;
+                    if (dtc.get(c)>=dtb.get(b))dpb[b+1]=(dpb[b+1]+dpc[c])%mod;
+                    else   dpb[b]=(dpb[b]+dpc[c])%mod;
+                    dpc[c+1]=(dpc[c+1]+dpc[c])%mod;
+                    c++;
+                }
+            }
+            System.out.println(dpa[dta.size()-1]);
+            System.out.println(dpb[dtb.size()-1]);
+            System.out.println(dpc[dtc.size()-1]);
+
+
+        }
+    }
+
+
+static class InputReader {
+    public BufferedReader reader;
+    public StringTokenizer tokenizer;
+
+    public InputReader(InputStream stream) {
+        reader = new BufferedReader(new InputStreamReader(stream), 32768);
+        tokenizer = null;
+    }
+    boolean hasNext()
+    {
+        while (tokenizer == null || !tokenizer.hasMoreTokens())
+        {
+            try
+            {
+                tokenizer = new StringTokenizer(reader.readLine());
+            } catch (Exception e)
+            {
+                return false;
+                // TODO: handle exception
+            }
+        }
+        return true;
+    }
+    public String next() {
+        while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+            try {
+                tokenizer = new StringTokenizer(reader.readLine());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return tokenizer.nextToken();
+    }
+    public String nextLine()
+    {
+        String str = null;
+        try
+        {
+            str = reader.readLine();
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return str;
+    }
+    public int nextInt() {
+        return Integer.parseInt(next());
+    }
+    public double nextDouble(){
+        return Double.parseDouble(next());
+    }
+    public long nextLong(){
+        return Long.parseLong(next());
+    }
+    public BigInteger nextBigInteger()
+    {
+        return new BigInteger(next());
+    }
+    public BigDecimal nextBigDecimal()
+    {
+        return new BigDecimal(next());
+    }
+
+}
+}"
+11,F,Java,60019470,2022-12-30 21:49:28,我不叫jhy,答案错误,"import java.io.*;
+import java.util.*;
+import java.math.*;
+import java.util.Set;
+public class Main {
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader in = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        TaskA solver = new TaskA();
+        solver.solve(1, in, out);
+        out.close();
+    }
+
+    static class TaskA {
+        public void solve(int testNumber, InputReader in, PrintWriter out) {
+            int n= in.nextInt();
+            int m= in.nextInt();
+            long mod=998244353;
+            ArrayList<Integer>dta=new ArrayList<>();
+            ArrayList<Integer>dtb=new ArrayList<>();
+            ArrayList<Integer>dtc=new ArrayList<>();
+            for (int i = 0; i <m; i++) {
+                int x= in.nextInt();
+                if (x==1){
+                    dta.add(in.nextInt());
+                }
+                else if (x==2){
+                    dtb.add(in.nextInt());
+                }else {
+                    dtc.add(in.nextInt());
+                }
+            }
+            dta.add(n);dtb.add(n);dtc.add(n);
+            long[]dpa=new long[dta.size()+1];
+            long[]dpb=new long[dtb.size()+1];
+            long[]dpc=new long[dtc.size()+1];
+            dpa[0]=1;dpb[0]=0;dpc[0]=0;
+            int a=0,b=0,c=0;
+            while (dta.get(a)!=n||dtb.get(b)!=n||dtc.get(c)!=n){
+                if (dta.get(a)<=dtb.get(b)&&dta.get(a)<=dtc.get(c)&&dta.get(a)!=n){
+                    if (dta.get(a)+2<=dta.get(a+1)||dta.get(a+1)==n)dpa[a+1]=(dpa[a+1]+dpa[a])%mod;
+                    else dpa[a+2]=(dpa[a+2]+dpa[a])%mod;
+                    if (dta.get(a)>=dtb.get(b))dpb[b+1]=(dpb[b+1]+dpa[a])%mod;
+                    else   dpb[b]=(dpb[b]+dpa[a])%mod;
+                    dpa[a+1]=(dpa[a+1]+dpa[a])%mod;
+                    a++;
+                }
+                else if ((a==dta.size()-1&&dtb.get(b)<=dtc.get(c))||dtb.get(b)<dta.get(a)&&dtb.get(b)<=dtc.get(c)){
+                    if (dtb.get(b)+2<=dtb.get(b+1)||dtb.get(b+1)==n)dpb[b+1]=(dpb[b+1]+dpb[b])%mod;
+                    else dpb[b+2]=(dpb[b+2]+dpb[b])%mod;
+                    if (dtb.get(b)>=dta.get(a))dpa[a+1]=(dpa[a+1]+dpb[b])%mod;
+                    else   dpa[a]=(dpa[a]+dpb[b])%mod;
+                    if (dtb.get(b)>=dtc.get(c))dpc[c+1]=(dpc[c+1]+dpb[b])%mod;
+                    else   dpc[c]=(dpc[c]+dpb[b])%mod;
+                    b++;
+                }
+                else {
+                    if (dtc.get(c)+2<=dtc.get(c+1)||dtc.get(c+1)==n)dpc[c+1]=(dpc[c+1]+dpc[c])%mod;
+                    else dpc[c+2]=(dpc[c+2]+dpc[c])%mod;
+                    if (dtc.get(c)>=dtb.get(b))dpb[b+1]=(dpb[b+1]+dpc[c])%mod;
+                    else   dpb[b]=(dpb[b]+dpc[c])%mod;
+                    dpc[c+1]=(dpc[c+1]+dpc[c])%mod;
+                    c++;
+                }
+            }
+            System.out.println(dpa[dta.size()-1]);
+            System.out.println(dpb[dtb.size()-1]);
+            System.out.println(dpc[dtc.size()-1]);
+
+
+        }
+    }
+
+
+static class InputReader {
+    public BufferedReader reader;
+    public StringTokenizer tokenizer;
+
+    public InputReader(InputStream stream) {
+        reader = new BufferedReader(new InputStreamReader(stream), 32768);
+        tokenizer = null;
+    }
+    boolean hasNext()
+    {
+        while (tokenizer == null || !tokenizer.hasMoreTokens())
+        {
+            try
+            {
+                tokenizer = new StringTokenizer(reader.readLine());
+            } catch (Exception e)
+            {
+                return false;
+                // TODO: handle exception
+            }
+        }
+        return true;
+    }
+    public String next() {
+        while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+            try {
+                tokenizer = new StringTokenizer(reader.readLine());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return tokenizer.nextToken();
+    }
+    public String nextLine()
+    {
+        String str = null;
+        try
+        {
+            str = reader.readLine();
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return str;
+    }
+    public int nextInt() {
+        return Integer.parseInt(next());
+    }
+    public double nextDouble(){
+        return Double.parseDouble(next());
+    }
+    public long nextLong(){
+        return Long.parseLong(next());
+    }
+    public BigInteger nextBigInteger()
+    {
+        return new BigInteger(next());
+    }
+    public BigDecimal nextBigDecimal()
+    {
+        return new BigDecimal(next());
+    }
+
+}
+}"
+12,F,Java,60019848,2022-12-30 22:03:04,我不叫jhy,答案错误,"import java.io.*;
+import java.util.*;
+import java.math.*;
+import java.util.Set;
+public class Main {
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader in = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        TaskA solver = new TaskA();
+        solver.solve(1, in, out);
+        out.close();
+    }
+
+    static class TaskA {
+        public void solve(int testNumber, InputReader in, PrintWriter out) {
+            int n= in.nextInt();
+            int m= in.nextInt();
+            long mod=998244353;
+            ArrayList<Integer>dta=new ArrayList<>();
+            ArrayList<Integer>dtb=new ArrayList<>();
+            ArrayList<Integer>dtc=new ArrayList<>();
+            for (int i = 0; i <m; i++) {
+                int x= in.nextInt();
+                if (x==1){
+                    dta.add(in.nextInt());
+                }
+                else if (x==2){
+                    dtb.add(in.nextInt());
+                }else {
+                    dtc.add(in.nextInt());
+                }
+            }
+            dta.add(n);dtb.add(n);dtc.add(n);
+            long[]dpa=new long[dta.size()+1];
+            long[]dpb=new long[dtb.size()+1];
+            long[]dpc=new long[dtc.size()+1];
+            dpa[0]=1;dpb[0]=0;dpc[0]=0;
+            int a=0,b=0,c=0;int i=0;
+            while (dta.get(a)!=n||dtb.get(b)!=n||dtc.get(c)!=n){
+                if (dta.get(a)<=dtb.get(b)&&dta.get(a)<=dtc.get(c)){
+                    if (dta.get(a)+2<=dta.get(a+1)||dta.get(a+1)==n)dpa[a+1]=(dpa[a+1]+dpa[a])%mod;
+                    else dpa[a+2]=(dpa[a+2]+dpa[a])%mod;
+                    if (dta.get(a)>=dtb.get(b))dpb[b+1]=(dpb[b+1]+dpa[a])%mod;
+                    else   dpb[b]=(dpb[b]+dpa[a])%mod;
+                    dpa[a+1]=(dpa[a+1]+dpa[a])%mod;
+                    a++;
+                }
+                else if ((a==dta.size()-1&&dtb.get(b)<=dtc.get(c))||(dtb.get(b)<dta.get(a)&&dtb.get(b)<=dtc.get(c))){
+                    if (dtb.get(b)+2<=dtb.get(b+1)||dtb.get(b+1)==n)dpb[b+1]=(dpb[b+1]+dpb[b])%mod;
+                    else dpb[b+2]=(dpb[b+2]+dpb[b])%mod;
+                    if (dtb.get(b)>=dta.get(a))dpa[a+1]=(dpa[a+1]+dpb[b])%mod;
+                    else   dpa[a]=(dpa[a]+dpb[b])%mod;
+                    if (dtb.get(b)>=dtc.get(c))dpc[c+1]=(dpc[c+1]+dpb[b])%mod;
+                    else   dpc[c]=(dpc[c]+dpb[b])%mod;
+                    b++;
+                }
+                else {
+                    if (dtc.get(c)+2<=dtc.get(c+1)||dtc.get(c+1)==n)dpc[c+1]=(dpc[c+1]+dpc[c])%mod;
+                    else dpc[c+2]=(dpc[c+2]+dpc[c])%mod;
+                    if (dtc.get(c)>=dtb.get(b))dpb[b+1]=(dpb[b+1]+dpc[c])%mod;
+                    else   dpb[b]=(dpb[b]+dpc[c])%mod;
+                    dpc[c+1]=(dpc[c+1]+dpc[c])%mod;
+                    c++;
+                }
+                i++;
+            }
+
+            System.out.println(dpa[dta.size()-1]);
+            System.out.println(dpb[dtb.size()-1]);
+            System.out.println(dpc[dtc.size()-1]);
+
+
+        }
+    }
+
+
+static class InputReader {
+    public BufferedReader reader;
+    public StringTokenizer tokenizer;
+
+    public InputReader(InputStream stream) {
+        reader = new BufferedReader(new InputStreamReader(stream), 32768);
+        tokenizer = null;
+    }
+    boolean hasNext()
+    {
+        while (tokenizer == null || !tokenizer.hasMoreTokens())
+        {
+            try
+            {
+                tokenizer = new StringTokenizer(reader.readLine());
+            } catch (Exception e)
+            {
+                return false;
+                // TODO: handle exception
+            }
+        }
+        return true;
+    }
+    public String next() {
+        while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+            try {
+                tokenizer = new StringTokenizer(reader.readLine());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return tokenizer.nextToken();
+    }
+    public String nextLine()
+    {
+        String str = null;
+        try
+        {
+            str = reader.readLine();
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return str;
+    }
+    public int nextInt() {
+        return Integer.parseInt(next());
+    }
+    public double nextDouble(){
+        return Double.parseDouble(next());
+    }
+    public long nextLong(){
+        return Long.parseLong(next());
+    }
+    public BigInteger nextBigInteger()
+    {
+        return new BigInteger(next());
+    }
+    public BigDecimal nextBigDecimal()
+    {
+        return new BigDecimal(next());
+    }
+
+}
+}"
+13,F,Java,60019947,2022-12-30 22:08:32,我不叫jhy,答案错误,"import java.io.*;
+import java.util.*;
+import java.math.*;
+import java.util.Set;
+public class Main {
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader in = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        TaskA solver = new TaskA();
+        solver.solve(1, in, out);
+        out.close();
+    }
+
+    static class TaskA {
+        public void solve(int testNumber, InputReader in, PrintWriter out) {
+            int n= in.nextInt();
+            int m= in.nextInt();
+            long mod=998244353;
+            ArrayList<Integer>dta=new ArrayList<>();
+            ArrayList<Integer>dtb=new ArrayList<>();
+            ArrayList<Integer>dtc=new ArrayList<>();
+            for (int i = 0; i <m; i++) {
+                int x= in.nextInt();
+                if (x==1){
+                    dta.add(in.nextInt());
+                }
+                else if (x==2){
+                    dtb.add(in.nextInt());
+                }else {
+                    dtc.add(in.nextInt());
+                }
+            }
+            dta.add(n);dtb.add(n);dtc.add(n);
+            long[]dpa=new long[dta.size()+1];
+            long[]dpb=new long[dtb.size()+1];
+            long[]dpc=new long[dtc.size()+1];
+            dpa[0]=1;dpb[0]=0;dpc[0]=0;
+            int a=0,b=0,c=0;int i=0;
+            while (dta.get(a)!=n||dtb.get(b)!=n||dtc.get(c)!=n){
+                if (dta.get(a)<=dtb.get(b)&&dta.get(a)<=dtc.get(c)){
+                    if (dta.get(a)+2<=dta.get(a+1)||dta.get(a+1)==n)dpa[a+1]=(dpa[a+1]+dpa[a])%mod;
+                    else dpa[a+2]=(dpa[a+2]+dpa[a])%mod;
+                    if (dta.get(a)>=dtb.get(b))dpb[b+1]=(dpb[b+1]+dpa[a])%mod;
+                    else   dpb[b]=(dpb[b]+dpa[a])%mod;
+                    dpa[a+1]=(dpa[a+1]+dpa[a])%mod;
+                    a++;
+                }
+                else if ((a==dta.size()-1&&dtb.get(b)<=dtc.get(c))||(dtb.get(b)<dta.get(a)&&dtb.get(b)<=dtc.get(c))){
+                    if (dtb.get(b)+2<=dtb.get(b+1)||dtb.get(b+1)==n)dpb[b+1]=(dpb[b+1]+dpb[b])%mod;
+                    else dpb[b+2]=(dpb[b+2]+dpb[b])%mod;
+                    if (dtb.get(b)>=dta.get(a))dpa[a+1]=(dpa[a+1]+dpb[b])%mod;
+                    else   dpa[a]=(dpa[a]+dpb[b])%mod;
+                    if (dtb.get(b)>=dtc.get(c))dpc[c+1]=(dpc[c+1]+dpb[b])%mod;
+                    else   dpc[c]=(dpc[c]+dpb[b])%mod;
+                    b++;
+                }
+                else {
+                    if (dtc.get(c)+2<=dtc.get(c+1)||dtc.get(c+1)==n)dpc[c+1]=(dpc[c+1]+dpc[c])%mod;
+                    else dpc[c+2]=(dpc[c+2]+dpc[c])%mod;
+                    if (dtc.get(c)>=dtb.get(b))dpb[b+1]=(dpb[b+1]+dpc[c])%mod;
+                    else   dpb[b]=(dpb[b]+dpc[c])%mod;
+                    dpc[c+1]=(dpc[c+1]+dpc[c])%mod;
+                    c++;
+                }
+                i++;
+            }
+
+            System.out.println(dpa[dta.size()-1]);
+            System.out.println(dpb[dtb.size()-1]);
+            System.out.println(dpc[dtc.size()-1]);
+
+
+        }
+    }
+
+
+static class InputReader {
+    public BufferedReader reader;
+    public StringTokenizer tokenizer;
+
+    public InputReader(InputStream stream) {
+        reader = new BufferedReader(new InputStreamReader(stream), 32768);
+        tokenizer = null;
+    }
+    boolean hasNext()
+    {
+        while (tokenizer == null || !tokenizer.hasMoreTokens())
+        {
+            try
+            {
+                tokenizer = new StringTokenizer(reader.readLine());
+            } catch (Exception e)
+            {
+                return false;
+                // TODO: handle exception
+            }
+        }
+        return true;
+    }
+    public String next() {
+        while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+            try {
+                tokenizer = new StringTokenizer(reader.readLine());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return tokenizer.nextToken();
+    }
+    public String nextLine()
+    {
+        String str = null;
+        try
+        {
+            str = reader.readLine();
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return str;
+    }
+    public int nextInt() {
+        return Integer.parseInt(next());
+    }
+    public double nextDouble(){
+        return Double.parseDouble(next());
+    }
+    public long nextLong(){
+        return Long.parseLong(next());
+    }
+    public BigInteger nextBigInteger()
+    {
+        return new BigInteger(next());
+    }
+    public BigDecimal nextBigDecimal()
+    {
+        return new BigDecimal(next());
+    }
+
+}
+}"
+14,F,Java,60020378,2022-12-30 22:37:34,我不叫jhy,答案错误,"import java.io.*;
+import java.util.*;
+import java.math.*;
+import java.util.Set;
+public class Main {
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader in = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        TaskA solver = new TaskA();
+        solver.solve(1, in, out);
+        out.close();
+    }
+
+    static class TaskA {
+        public void solve(int testNumber, InputReader in, PrintWriter out) {
+            int n= in.nextInt();
+            int m= in.nextInt();
+            long mod=998244353;
+            ArrayList<Integer>dta=new ArrayList<>();
+            ArrayList<Integer>dtb=new ArrayList<>();
+            ArrayList<Integer>dtc=new ArrayList<>();
+            for (int i = 0; i <m; i++) {
+                int x= in.nextInt();
+                if (x==1){
+                    dta.add(in.nextInt());
+                }
+                else if (x==2){
+                    dtb.add(in.nextInt());
+                }else {
+                    dtc.add(in.nextInt());
+                }
+            }
+            dta.add(n);dtb.add(n);dtc.add(n);
+            long[]dpa=new long[dta.size()];
+            long[]dpb=new long[dtb.size()];
+            long[]dpc=new long[dtc.size()];
+            dpa[0]=1;dpb[0]=0;dpc[0]=0;
+            int a=0,b=0,c=0;int i=0;
+            while (dta.get(a)!=n||dtb.get(b)!=n||dtc.get(c)!=n){
+                if (dta.get(a)<=dtb.get(b)&&dta.get(a)<=dtc.get(c)){
+                    if (dta.get(a)+2<=dta.get(a+1)||dta.get(a+1)==n)dpa[a+1]=(dpa[a+1]+dpa[a])%mod;
+                    else dpa[a+2]=(dpa[a+2]+dpa[a])%mod;
+                    if (dta.get(a)>=dtb.get(b))dpb[b+1]=(dpb[b+1]+dpa[a])%mod;
+                    else   dpb[b]=(dpb[b]+dpa[a])%mod;
+                    dpa[a+1]=(dpa[a+1]+dpa[a])%mod;
+                    a++;
+                }
+                else if ((a==dta.size()-1&&dtb.get(b)<=dtc.get(c))||(dtb.get(b)<dta.get(a)&&dtb.get(b)<=dtc.get(c))){
+                    if (dtb.get(b)+2<=dtb.get(b+1)||dtb.get(b+1)==n)dpb[b+1]=(dpb[b+1]+dpb[b])%mod;
+                    else dpb[b+2]=(dpb[b+2]+dpb[b])%mod;
+                    if (dtb.get(b)>=dta.get(a))dpa[a+1]=(dpa[a+1]+dpb[b])%mod;
+                    else   dpa[a]=(dpa[a]+dpb[b])%mod;
+                    if (dtb.get(b)>=dtc.get(c))dpc[c+1]=(dpc[c+1]+dpb[b])%mod;
+                    else   dpc[c]=(dpc[c]+dpb[b])%mod;
+                    b++;
+                }
+                else {
+                    if (dtc.get(c)+2<=dtc.get(c+1)||dtc.get(c+1)==n)dpc[c+1]=(dpc[c+1]+dpc[c])%mod;
+                    else dpc[c+2]=(dpc[c+2]+dpc[c])%mod;
+                    if (dtc.get(c)>=dtb.get(b))dpb[b+1]=(dpb[b+1]+dpc[c])%mod;
+                    else   dpb[b]=(dpb[b]+dpc[c])%mod;
+                    dpc[c+1]=(dpc[c+1]+dpc[c])%mod;
+                    c++;
+                }
+                i++;
+            }
+
+            System.out.println(dpa[dta.size()-1]);
+            System.out.println(dpb[dtb.size()-1]);
+            System.out.println(dpc[dtc.size()-1]);
+
+
+        }
+    }
+
+
+static class InputReader {
+    public BufferedReader reader;
+    public StringTokenizer tokenizer;
+
+    public InputReader(InputStream stream) {
+        reader = new BufferedReader(new InputStreamReader(stream), 32768);
+        tokenizer = null;
+    }
+    boolean hasNext()
+    {
+        while (tokenizer == null || !tokenizer.hasMoreTokens())
+        {
+            try
+            {
+                tokenizer = new StringTokenizer(reader.readLine());
+            } catch (Exception e)
+            {
+                return false;
+                // TODO: handle exception
+            }
+        }
+        return true;
+    }
+    public String next() {
+        while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+            try {
+                tokenizer = new StringTokenizer(reader.readLine());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return tokenizer.nextToken();
+    }
+    public String nextLine()
+    {
+        String str = null;
+        try
+        {
+            str = reader.readLine();
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return str;
+    }
+    public int nextInt() {
+        return Integer.parseInt(next());
+    }
+    public double nextDouble(){
+        return Double.parseDouble(next());
+    }
+    public long nextLong(){
+        return Long.parseLong(next());
+    }
+    public BigInteger nextBigInteger()
+    {
+        return new BigInteger(next());
+    }
+    public BigDecimal nextBigDecimal()
+    {
+        return new BigDecimal(next());
+    }
+
+}
+}"
+15,F,Java,60021465,2022-12-31 08:35:22,牛客935801330号（人工智能3211吴华聪）,运行超时,"
+
+
+
+import java.io.*;
+import java.util.*;
+import java.math.*;
+
+public class Main {
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader in = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        TaskA solver = new TaskA();
+        solver.solve(1, in, out);
+        out.close();
+    }
+
+    static class TaskA {
+        int n=0,m=0;
+        long z=998244353,sum1=0,sum2=0,sum3=0;
+        class A{
+            int x1=0,y1=0;
+        }
+        A trap[]=new A[m];
+        void dfs(int xx,int yy,long s,int amount){
+            if(amount==m-1){
+                s++;
+                if(xx==1){
+                    sum1+=s;
+                    sum1%=z;
+                }
+                else if(xx==2){
+                    sum2+=s;
+                    sum2%=z;
+                }
+                else if(xx==3){
+                    sum3+=s;
+                    sum3%=z;
+                }
+            }
+            else {
+                amount++;
+                if(trap[amount].x1==xx&&trap[amount].y1>=yy){
+                        dfs(Math.max(1,xx-1),yy+1,s,amount);
+                        dfs(xx,Math.min(n,yy+2),s,amount);
+                        dfs(Math.min(3,xx+1),yy+1,s,amount);
+                }
+                else {
+                    dfs(xx,yy,s,amount);
+                }
+            }
+        }
+        public void solve(int testNumber, InputReader in, PrintWriter out) {
+                n=in.nextInt();
+                m=in.nextInt();
+                trap=new A[m];
+            for (int i = 0; i <m ; i++) {
+                int x=in.nextInt();
+                int y=in.nextInt();
+                trap[i]=new A();
+                trap[i].x1=x;
+                trap[i].y1=y;
+            }
+            Arrays.sort(trap, new Comparator<A>() {
+                @Override
+                public int compare(A o1, A o2) {
+                    return o1.y1-o2.y1;
+                }
+            });
+            dfs(1,1,0,-1);
+            out.println(sum1);
+            out.println(sum2);
+            out.println(sum3);
+        }
+    }
+    static class InputReader {
+        public BufferedReader reader;
+        public StringTokenizer tokenizer;
+
+        public InputReader(InputStream stream) {
+            reader = new BufferedReader(new InputStreamReader(stream), 32768);
+            tokenizer = null;
+        }
+        boolean hasNext()
+        {
+            while (tokenizer == null || !tokenizer.hasMoreTokens())
+            {
+                try
+                {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (Exception e)
+                {
+                    return false;
+                    // TODO: handle exception
+                }
+            }
+            return true;
+        }
+        public String next() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return tokenizer.nextToken();
+        }
+        public String nextLine()
+        {
+            String str = null;
+            try
+            {
+                str = reader.readLine();
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            return str;
+        }
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+        public double nextDouble(){
+            return Double.parseDouble(next());
+        }
+        public long nextLong(){
+            return Long.parseLong(next());
+        }
+        public BigInteger nextBigInteger()
+        {
+            return new BigInteger(next());
+        }
+        public BigDecimal nextBigDecimal()
+        {
+            return new BigDecimal(next());
+        }
+
+    }
+}"
+16,F,Java,60104923,2023-01-03 11:32:11,牛客935801330号（人工智能3211吴华聪）,答案正确,"
+
+
+
+import java.io.*;
+import java.util.*;
+import java.math.*;
+
+public class Main {
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader in = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        TaskA solver = new TaskA();
+        solver.solve(1, in, out);
+        out.close();
+    }
+
+    static class TaskA {
+
+        public void solve(int testNumber, InputReader in, PrintWriter out) {
+           int n=in.nextInt();
+           int m=in.nextInt();
+           n=Math.min(n,m*3);
+           int grid[][]=new int[3][n];
+           int a[][]=new int[m][2];
+            for (int i = 0; i <m ; i++) {
+                a[i]= new int[]{in.nextInt()-1,in.nextInt()-1};
+            }
+            Arrays.sort(a, new Comparator<int[]>() {
+                @Override
+                public int compare(int[] o1, int[] o2) {
+                    return o1[1]-o2[1];
+                }
+            });
+            int pre=-2;
+            for (int i = 0; i < m; i++) {
+                if(i==0||a[i][1]-a[i-1][1]>1){
+                    pre+=2;
+                    grid[a[i][0]][pre]=1;
+                }
+                else {
+                    pre+=a[i][1]-a[i-1][1];
+                    grid[a[i][0]][pre]=1;
+                }
+            }
+            int res[][]=new int[3][n+1];
+            int mod = 998244353;
+            res[0][0]=1;
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < 3; j++) {
+                    if(grid[j][i]==1){
+                        res[Math.max(0, j - 1)][i + 1] += res[j][i]; res[Math.max(0, j - 1)][i + 1] %= mod;
+                        res[j][Math.min(n, i + 2)] += res[j][i]; res[j][Math.min(n, i + 2)] %= mod;
+                        res[Math.min(2, j + 1)][i + 1] += res[j][i]; res[Math.min(2, j + 1)][i + 1] %= mod;
+                    }
+                    else{
+                        res[j][i + 1] += res[j][i]; res[j][i + 1] %= mod;
+                    }
+                }
+            }
+            for (int i = 0; i < 3; i++) {
+                out.println(res[i][n]);
+            }
+        }
+
+    }
+    static class InputReader {
+        public BufferedReader reader;
+        public StringTokenizer tokenizer;
+
+        public InputReader(InputStream stream) {
+            reader = new BufferedReader(new InputStreamReader(stream), 32768);
+            tokenizer = null;
+        }
+        boolean hasNext()
+        {
+            while (tokenizer == null || !tokenizer.hasMoreTokens())
+            {
+                try
+                {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (Exception e)
+                {
+                    return false;
+                    // TODO: handle exception
+                }
+            }
+            return true;
+        }
+        public String next() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return tokenizer.nextToken();
+        }
+        public String nextLine()
+        {
+            String str = null;
+            try
+            {
+                str = reader.readLine();
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            return str;
+        }
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+        public double nextDouble(){
+            return Double.parseDouble(next());
+        }
+        public long nextLong(){
+            return Long.parseLong(next());
+        }
+        public BigInteger nextBigInteger()
+        {
+            return new BigInteger(next());
+        }
+        public BigDecimal nextBigDecimal()
+        {
+            return new BigDecimal(next());
+        }
+
+    }
+}"
+17,F,Java,60107452,2023-01-03 15:52:16,牛客440280733号,执行出错,"
+
+import java.lang.*;
+import java.util.*;
+
+
+public class Main{
+    static int mod = 998244353;
+    
+    public static void main(String[] args) {
+        
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        
+        String[][] res = new String[4][n + 1];
+        
+        while(m-->0) {
+            res[sc.nextInt()][sc.nextInt()] = ""#"";
+        }
+        
+//         for (String[] arr : res) {
+//             for (String param : arr) {
+//                 System.out.print(param + "" "");
+//             }
+//             System.out.println();
+//         }
+        int[] params = new int[3];
+        dfs(1, 1, res, params);
+        
+        for(int param : params) {
+            System.out.println(param);
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    }
+    
+    public static void dfs(int i, int j, String[][] res, int[] params) {
+        
+        int n = res[0].length - 1;
+        if (j >= n) {
+            params[i - 1]++;
+            params[i - 1] %= mod;
+            return;
+        }
+        if (res[i][j] != ""#"") {
+            dfs(i, j + 1, res, params);
+        } else {
+            dfs(i, j + 2, res, params); 
+            if (i == 1) {
+                dfs(i, j + 1, res, params);
+            } else {
+                dfs(i - 1, j + 1, res, params);
+            }
+            if (i == 3) {
+                dfs(i, j + 1, res, params);
+            } else {
+                dfs(i + 1, j + 1, res, params);
+            }
+        }
+        
+        
+        
+        
+    }
+}"
+18,F,Java,60107533,2023-01-03 15:55:27,牛客440280733号,执行出错,"
+
+import java.lang.*;
+import java.util.*;
+
+
+public class Main{
+    static int mod = 998244353;
+    
+    public static void main(String[] args) {
+        
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        
+        String[][] res = new String[3][n];
+        
+        while(m-->0) {
+            res[sc.nextInt()][sc.nextInt()] = ""#"";
+        }
+        
+//         for (String[] arr : res) {
+//             for (String param : arr) {
+//                 System.out.print(param + "" "");
+//             }
+//             System.out.println();
+//         }
+        int[] params = new int[3];
+        dfs(1-1, 1-1, res, params);
+        
+        for(int param : params) {
+            System.out.println(param);
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    }
+    
+    public static void dfs(int i, int j, String[][] res, int[] params) {
+        
+        int n = res[0].length - 1;
+        if (j >= n) {
+            params[i - 1]++;
+            params[i - 1] %= mod;
+            return;
+        }
+        if (res[i][j] != ""#"") {
+            dfs(i, j + 1, res, params);
+        } else {
+            dfs(i, j + 2, res, params); 
+            if (i == 1) {
+                dfs(i, j + 1, res, params);
+            } else {
+                dfs(i - 1, j + 1, res, params);
+            }
+            if (i == 3) {
+                dfs(i, j + 1, res, params);
+            } else {
+                dfs(i + 1, j + 1, res, params);
+            }
+        }
+        
+        
+        
+        
+    }
+}"
+19,F,Java,60107992,2023-01-03 16:23:06,牛客440280733号,运行超时,"
+
+import java.lang.*;
+import java.util.*;
+
+
+public class Main{
+    static int mod = 998244353;
+    
+    public static void main(String[] args) {
+        
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        
+        List<List<Integer>> list = new ArrayList<>();
+//         System.out.println(34);
+        
+        list.add(new ArrayList<Integer>());
+        list.add(new ArrayList<Integer>());
+        list.add(new ArrayList<Integer>());
+        
+//         System.out.println(34);
+        
+        while(m-->0) {
+            list.get(sc.nextInt() - 1).add(sc.nextInt());
+        }
+        
+//         System.out.println(34);
+        for (List<Integer> sortList : list) {
+            Collections.sort(sortList);
+        }
+        
+//          for (List<Integer> sortList : list) {
+//             for (int k : sortList) {
+//                  System.out.print(k + "" "");
+//             }
+//               System.out.println();
+//         }
+        
+        
+//         for (String[] arr : res) {
+//             for (String param : arr) {
+//                 System.out.print(param + "" "");
+//             }
+//             System.out.println();
+//         }
+        
+//         System.out.println(n);
+        int[] params = new int[3];
+        dfs(0, 1, list, params, n);
+        
+        for(int param : params) {
+            System.out.println(param);
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    }
+    
+    public static void dfs(int i, int j, List<List<Integer>> list, int[] params, int n) {
+        if (j >= n) {
+            params[i]++;
+            params[i] %= mod;
+            return;
+        }
+       
+        if (list.get(i).size() > 0) {
+            List<Integer> ans = list.get(i);
+            boolean flag = false;
+            for (int param : ans) {
+                if (param >= j) {
+                    flag = true;
+                    dfs(i, param + 2, list, params, n);
+                    if (i == 0) {
+                        dfs(i, param + 1, list, params, n);
+                    } else {
+                        dfs(i - 1, param + 1, list, params, n);
+                    }
+                    if (i == 2) {
+                        dfs(i, param + 1, list, params, n);
+                    } else {
+                        dfs(i + 1, param + 1, list, params, n);
+                    }
+                    break;
+                }
+            }
+            if (!flag) {
+                params[i]++;
+                 params[i] %= mod;
+                
+            }
+        } else {
+            params[i]++;
+            params[i] %= mod;
+        }
+        
+        
+        
+        
+    }
+}"
+20,F,Java,60108153,2023-01-03 16:33:24,牛客440280733号,运行超时,"
+
+import java.lang.*;
+import java.util.*;
+
+
+public class Main{
+    static int mod = 998244353;
+    
+    public static void main(String[] args) {
+        
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        
+        List<List<Integer>> list = new ArrayList<>();
+//         System.out.println(34);
+        
+        list.add(new ArrayList<Integer>());
+        list.add(new ArrayList<Integer>());
+        list.add(new ArrayList<Integer>());
+        
+//         System.out.println(34);
+        
+        while(m-->0) {
+            list.get(sc.nextInt() - 1).add(sc.nextInt());
+        }
+        
+//         System.out.println(34);
+        for (List<Integer> sortList : list) {
+            Collections.sort(sortList);
+        }
+        
+//          for (List<Integer> sortList : list) {
+//             for (int k : sortList) {
+//                  System.out.print(k + "" "");
+//             }
+//               System.out.println();
+//         }
+        
+        
+//         for (String[] arr : res) {
+//             for (String param : arr) {
+//                 System.out.print(param + "" "");
+//             }
+//             System.out.println();
+//         }
+        
+//         System.out.println(n);
+        int[] params = new int[3];
+        dfs(0, 1, list, params, n);
+        
+        for(int param : params) {
+            System.out.println(param);
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    }
+    
+    public static void dfs(int i, int j, List<List<Integer>> list, int[] params, int n) {
+        if (j >= n) {
+            params[i]++;
+            params[i] %= mod;
+            return;
+        }
+       
+        if (list.get(i).size() > 0) {
+            List<Integer> ans = list.get(i);
+            boolean flag = false;
+            
+            int left = 0; int right = ans.size() - 1;
+            
+            if (ans.get(right) < j) {
+                 params[i]++;
+                 params[i] %= mod;
+            } else {
+                 while(left <= right) {
+                    int mid = left + right >> 1;
+                    if (ans.get(mid) >= j) {
+                        right = mid - 1;
+                    } else {
+                        left = mid + 1;
+                    }
+                }
+                int param = ans.get(left);
+                
+                dfs(i, param + 2, list, params, n);
+                    if (i == 0) {
+                        dfs(i, param + 1, list, params, n);
+                    } else {
+                        dfs(i - 1, param + 1, list, params, n);
+                    }
+                    if (i == 2) {
+                        dfs(i, param + 1, list, params, n);
+                    } else {
+                        dfs(i + 1, param + 1, list, params, n);
+                    }
+            }
+            
+           
+            
+            
+        } else {
+            params[i]++;
+            params[i] %= mod;
+        }
+        
+        
+        
+        
+    }
+}"

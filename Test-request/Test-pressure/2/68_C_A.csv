@@ -1,0 +1,7903 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,A,C(gcc 7.5.0),61157076,2023-03-10 19:03:15,小憕666,答案正确,"#include <stdio.h>
+#include <string.h>
+int main(void)
+{
+    int t;
+    
+    scanf(""%d"", &t);
+    
+    while(t--)
+    {
+        char a[20], b[20];
+        char result[40]={'\0'};
+        scanf(""%s%s"", a, b);
+        
+        int count=0;
+        if(strlen(a)==strlen(b))
+        {
+            for(int i=0; i<strlen(a); i++)
+            {
+                int tem=(a[i]-'0')*(b[i]-'0');
+                
+                if(tem>=10)
+                {
+                    result[count++]=tem/10+'0';
+                    result[count++]=tem%10+'0';
+                }
+                else
+                    result[count++]=tem+'0';
+            }
+            
+            puts(result);
+        }
+        else
+            printf(""-1\n"");
+    }
+}"
+1,A,C,61157256,2023-03-10 19:04:10,丨阿伟丨,答案正确,"#include<stdio.h>
+#include<string.h>
+char a[15],b[15];
+int main()
+{
+	int t;
+	scanf(""%d"",&t);
+	while(t--)
+	{
+		scanf(""%s"",a);
+		scanf(""%s"",b);
+		if(strlen(a)!=strlen(b))
+			printf(""-1"");
+		else
+			for(int i=0;i<strlen(a);i++)
+				printf(""%d"",(a[i]-'0')*(b[i]-'0'));
+        printf(""\n"");
+	}
+	return 0;
+}"
+2,A,C,61157613,2023-03-10 19:06:19,自己猜,答案正确,"#include<stdio.h>
+
+int main()
+{
+    int x[10]={0},y[10]={0};
+    int t,a,b,i,j;
+    scanf(""%d"",&t);
+    while(t--)
+    {
+        i=0,j=0;
+        scanf(""%d%d"",&a,&b);
+        while(a)
+        {
+            x[i++]=a%10;
+            a/=10;
+        }  
+        while(b)
+        {
+            y[j++]=b%10;
+            b/=10;
+        }
+        if(i!=j)
+        {
+            printf(""-1\n"");
+        }
+        else
+        {
+            for(i=i-1;i>=0;i--)
+            {
+                printf(""%d"",x[i]*y[i]);
+                x[i]=y[i]=0;
+            }
+            printf(""\n"");
+        }
+            
+    }
+    return 0;
+}"
+3,A,C(gcc 7.5.0),61157824,2023-03-10 19:08:02,九竹,格式错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+    int t;
+    char str1[100000],str2[100000];
+    scanf(""%d"",&t);
+    while(t--)
+    {
+        int sum=0;
+        int l1,l2;
+       scanf(""%s %s"",str1,str2);
+        l1=strlen(str1);
+        l2=strlen(str2);
+        if(l1==l2)
+        {
+            for(int i=0;i<l1;i++)
+            {
+                sum=(str1[i]-'0')*(str2[i]-'0');
+                printf(""%d"",sum);
+            }
+            printf(""\n"");
+        }else
+            printf(""-1"");
+            getchar();
+    }
+    return 0;
+}"
+4,A,C,61157909,2023-03-10 19:08:38,牛客429997964号,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c:1:9: fatal error: 'iostream' file not found\n#include<iostream>\n        ^~~~~~~~~~\n1 error generated.""}
+
+#include<iostream>
+#include<cstring>
+#include<cstdio>
+using namespace std;
+const int N=100010;
+
+int main(){
+	int n;
+	string a,b;
+	cin>>n;
+	for(int i=1;i<=n;i++){
+		cin>>a>>b;
+		int lena=a.length();
+		int lenb=b.length();
+		if(lena!=lenb){
+			cout<<""-1"";
+			continue;
+		}
+		if(lenb==lena)
+		{
+			string ans="""";
+			for(int l=0;l<lena;l++){
+				int p=(a[i]-'0')*(b[i]-'0');
+				ans+=to_string(p);
+			}
+			cout<<ans<<endl;
+			continue;
+		}		
+		
+	}
+	
+
+	return 0;
+}"
+5,A,C,61157968,2023-03-10 19:09:02,许愿ssp的95后很喜欢飞来飞去,答案正确,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	char s1[20],s2[20];
+	int T;
+	scanf(""%d"",&T);
+	while(T--)
+	{
+		scanf(""%s"",s1);
+		scanf(""%s"",s2);
+		if(strlen(s1)!=strlen(s2))
+		{
+			printf(""-1\n"");
+			continue;
+		}
+		int i;
+		for(i=0;i<=strlen(s1)-1;i++)
+			printf(""%d"",(s1[i]-'0')*(s2[i]-'0'));
+		printf(""\n"");	
+	}
+	return 0;
+}"
+6,A,C(gcc 7.5.0),61158037,2023-03-10 19:09:34,CSDJM,格式错误,"#include<stdio.h>
+#include<string.h>
+#define N 10001
+int main(void)
+{
+	long long n,s[N],x=0;
+	char a[N],b[N];
+	scanf(""%lld"",&n);
+	for(int i=0;i<n;i++)
+	{
+		x=0;
+		scanf(""%s %s"",a,b);
+		if(strlen(a)==strlen(b))
+		{
+			for(int i=0;a[i]!='\0';i++)
+			{
+				s[x]=(a[i]-'0')*(b[i]-'0');
+				printf(""%d"",s[x]);
+				x++;
+			}
+			printf(""\n"");
+		}
+		else printf(""-1"");
+	}
+	return 0;
+}"
+7,A,C(gcc 7.5.0),61158115,2023-03-10 19:10:26,九竹,格式错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+    int t;
+    char str1[100000],str2[100000];
+    scanf(""%d"",&t);
+    while(t--)
+    {
+        int sum=0;
+        int l1,l2;
+       scanf(""%s %s"",str1,str2);
+        l1=strlen(str1);
+        l2=strlen(str2);
+        if(l1==l2)
+        {
+            for(int i=0;i<l1;i++)
+            {
+                sum=(str1[i]-'0')*(str2[i]-'0');
+                printf(""%d"",sum);
+            }
+            printf(""\n"");
+        }else
+            printf(""-1"");
+            getchar();
+    }
+    return 0;
+}"
+8,A,C(gcc 7.5.0),61158151,2023-03-10 19:10:43,CSDJM,格式错误,"#include<stdio.h>
+#include<string.h>
+#define N 10001
+int main(void)
+{
+	long long n,s[N],x=0;
+	char a[N],b[N];
+	scanf(""%lld"",&n);
+	for(int i=0;i<n;i++)
+	{
+		x=0;
+		scanf(""%s %s"",a,b);
+		if(strlen(a)==strlen(b))
+		{
+			for(int i=0;a[i]!='\0';i++)
+			{
+				s[x]=(a[i]-'0')*(b[i]-'0');
+				printf(""%d"",s[x]);
+				x++;
+			}
+            printf(""\n"");
+		}
+		else printf(""-1"");
+	}
+	return 0;
+}"
+9,A,C(gcc 7.5.0),61158202,2023-03-10 19:11:03,九竹,答案正确,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+    int t;
+    char str1[100000],str2[100000];
+    scanf(""%d"",&t);
+    while(t--)
+    {
+        int sum=0;
+        int l1,l2;
+       scanf(""%s %s"",str1,str2);
+        l1=strlen(str1);
+        l2=strlen(str2);
+        if(l1==l2)
+        {
+            for(int i=0;i<l1;i++)
+            {
+                sum=(str1[i]-'0')*(str2[i]-'0');
+                printf(""%d"",sum);
+            }
+            printf(""\n"");
+        }else
+            printf(""-1\n"");
+            getchar();
+    }
+    return 0;
+}"
+10,A,C,61158218,2023-03-10 19:11:08,Sekirooo,答案错误,"#include<stdio.h>
+int main(){
+    int t;
+    while(scanf(""%d"",&t)!=EOF){
+        for(int i=0;i<t;i++){
+            int a,b;
+            scanf(""%d %d"",&a,&b);
+            int sum=0;
+            int k=1;
+            while(a!=0&&b!=0){
+                int temp=(a%10)*(b%10);
+                if(temp<10){
+                    sum+=temp*k;
+                    k*=10;
+                }else{
+                    sum+=temp*k;
+                    k*=100;
+                }
+                a/=10;
+                b/=10;
+            }
+            if(a==0&&b==0){
+                printf(""%d\n"",sum);
+            }else{
+                printf(""-1\n"");
+            }
+        }
+    }
+    return 0;
+}"
+11,A,C,61158306,2023-03-10 19:11:49,hunst_huangzhenwei,格式错误,"#include<stdio.h>
+int weishu(int x)
+{
+    int i=0;
+    while(x!=0){
+        x/=10;
+        i++;
+    }
+    return i;
+}
+void js(int x,int y){
+    int a,b;
+    if(x!=0){
+        a=x%10;
+        b=y%10;
+        x/=10;
+        y/=10;
+        js(x,y);
+        printf(""%d"",a*b);
+    }
+}
+int main()
+{
+    int t,i;
+    int a,b;
+    scanf(""%d"",&t);
+    for(i=0;i<t;i++){
+        scanf(""%d %d"",&a,&b);
+        if(weishu(a)!=weishu(b)){
+            printf(""-1"");
+        }
+        else{
+            js(a,b);
+            printf(""\n"");
+        }
+    }
+    
+}"
+12,A,C,61158328,2023-03-10 19:11:59,hunst_huangzhenwei,答案正确,"#include<stdio.h>
+int weishu(int x)
+{
+    int i=0;
+    while(x!=0){
+        x/=10;
+        i++;
+    }
+    return i;
+}
+void js(int x,int y){
+    int a,b;
+    if(x!=0){
+        a=x%10;
+        b=y%10;
+        x/=10;
+        y/=10;
+        js(x,y);
+        printf(""%d"",a*b);
+    }
+}
+int main()
+{
+    int t,i;
+    int a,b;
+    scanf(""%d"",&t);
+    for(i=0;i<t;i++){
+        scanf(""%d %d"",&a,&b);
+        if(weishu(a)!=weishu(b)){
+            printf(""-1\n"");
+        }
+        else{
+            js(a,b);
+            printf(""\n"");
+        }
+    }
+    
+}"
+13,A,C(gcc 7.5.0),61158356,2023-03-10 19:12:16,CSDJM,格式错误,"#include<stdio.h>
+#include<string.h>
+#define N 10001
+int main(void)
+{
+	long long n,s[N],x=0;
+	char a[N],b[N];
+	scanf(""%lld"",&n);
+	for(int i=0;i<n;i++)
+	{
+		x=0;
+		scanf(""%s %s"",a,b);
+		if(strlen(a)==strlen(b))
+		{
+			for(int j=0;a[j]!='\0';j++)
+			{
+				s[x]=(a[j]-'0')*(b[j]-'0');
+				x++;
+			}
+			for(int j=0;j<x;j++)
+			{
+				printf(""%d"",s[j]);
+			}
+			printf(""\n"");
+		}
+		else printf(""-1"");
+	}
+	return 0;
+}"
+14,A,C,61158556,2023-03-10 19:13:49,Sekirooo,答案错误,"#include<stdio.h>
+int main(){
+    int t;
+    while(scanf(""%d"",&t)!=EOF){
+        for(int i=0;i<t;i++){
+            int a,b;
+            scanf(""%d %d"",&a,&b);
+            int sum=0;
+            int k=1;
+            while(a!=0&&b!=0){
+                int temp=(a%10)*(b%10);
+                if(temp<10){
+                    sum+=temp*k;
+                    k*=10;
+                }else{
+                    sum+=temp*k;
+                    k*=100;
+                }
+                a/=10;
+                b/=10;
+            }
+            if(a==0&&b==0){
+                printf(""%d\n"",sum);
+            }else{
+                printf(""-1\n"");
+            }
+        }
+    }
+    return 0;
+}"
+15,A,C,61158558,2023-03-10 19:13:49,fync王萌,答案正确,"#include <stdio.h>
+#include <string.h>
+int main(){
+char a[10],b[10];
+memset(a,'\0',10);
+memset(b,'\0',10);
+int i,j,n;
+scanf(""%d\n"",&n);
+for(i=0;i<n;i++){
+    scanf(""%s "",&a);
+    scanf(""%s\n"",&b);
+    if(strlen(a)==strlen(b)){
+        for(j=0;j<strlen(a);j++){
+            printf(""%d"",(a[j]-'1'+1)*(b[j]-'1'+1));
+        }
+        printf(""\n"");
+    }else{
+        printf(""-1\n"");
+    }
+    memset(a,'\0',10);
+    memset(b,'\0',10);
+}
+}"
+16,A,C,61158737,2023-03-10 19:15:17,大先生很大,答案错误,"#include<stdio.h>
+int main(){
+	int t,a,b,suma[10],sumb[10],j=0;
+	scanf(""%d"",&t);
+	for(int i=0;i<t;i++){
+		scanf(""%d %d"",&a,&b);
+		while(a>0&&b>0){
+			suma[j]=a%10;
+			sumb[j]=b%10;
+			a/=10;b/=10;j++;
+		}
+		if(a>0||b>0){
+			printf(""-1"");
+		}else{
+			for(int i=j-1;i>=0;i--){
+				printf(""%d"",suma[i]*sumb[i]);
+			}
+		}
+	}
+}"
+17,A,C,61158744,2023-03-10 19:15:21,dekkzzo,格式错误,"#include <stdio.h>
+#include<string.h>
+char a[10000];
+char b[10000];
+int main(){
+    char t;
+    scanf(""%c"",&t);
+    while(scanf(""%s %s"",a,b)!=EOF){
+        if(strlen(a)==strlen(b)){
+            for(int i=0;i<strlen(a);i++){
+                printf(""%d\n"",(a[i]-'0')*(b[i]-'0'));
+            }
+        }else{
+            printf(""-1\n"");
+        }
+    }
+    
+    
+    return 0;
+}"
+18,A,C(gcc 7.5.0),61158776,2023-03-10 19:15:39,2208114081,答案正确,"#include<stdio.h>
+char a[1000010],b[100010];
+int main()
+{
+    int t;
+    int i=0;
+    scanf(""%d"",&t);
+    while(t--)
+    {
+        long long int ans=0;
+        scanf(""%s%s"",a,b);
+        if(strlen(a)==strlen(b))
+        {
+            for(int i=0;i<strlen(a);i++)
+            {
+                if((a[i]-'0')*(b[i]-'0')<10) ans=ans*10+(a[i]-'0')*(b[i]-'0');
+                else
+                {
+                    ans=ans*100+(a[i]-'0')*(b[i]-'0');
+                }
+            }
+            printf(""%lld\n"",ans);
+        }
+        else printf(""-1\n"");
+    }
+    return 0;
+}"
+19,A,C,61158802,2023-03-10 19:15:50,dekkzzo,答案错误,"#include <stdio.h>
+#include<string.h>
+char a[10000];
+char b[10000];
+int main(){
+    char t;
+    scanf(""%c"",&t);
+    while(scanf(""%s %s"",a,b)!=EOF){
+        if(strlen(a)==strlen(b)){
+            for(int i=0;i<strlen(a);i++){
+                printf(""%d"",(a[i]-'0')*(b[i]-'0'));
+            }
+            printf(""\n"");
+        }else{
+            printf(""-1\n"");
+        }
+    }
+    
+    
+    return 0;
+}"
+20,A,C,61158830,2023-03-10 19:16:05,dekkzzo,答案错误,"#include <stdio.h>
+#include<string.h>
+char a[100000];
+char b[100000];
+int main(){
+    char t;
+    scanf(""%c"",&t);
+    while(scanf(""%s %s"",a,b)!=EOF){
+        if(strlen(a)==strlen(b)){
+            for(int i=0;i<strlen(a);i++){
+                printf(""%d"",(a[i]-'0')*(b[i]-'0'));
+            }
+            printf(""\n"");
+        }else{
+            printf(""-1\n"");
+        }
+    }
+    
+    
+    return 0;
+}"
+21,A,C,61158931,2023-03-10 19:16:54,大先生很大,答案错误,"#include<stdio.h>
+int main(){
+	int t,a,b,suma[10],sumb[10],j=0;
+	scanf(""%d"",&t);
+	for(int i=0;i<t;i++){
+		scanf(""%d %d"",&a,&b);
+		while(a>0&&b>0){
+			suma[j]=a%10;
+			sumb[j]=b%10;
+			a/=10;b/=10;j++;
+		}
+		if(a>0||b>0){
+			printf(""-1"");
+		}else{
+			for(int i=j-1;i>=0;i--){
+				printf(""%d"",suma[i]*sumb[i]);
+			}
+			printf(""\n"");
+		}
+	}
+}"
+22,A,C,61158966,2023-03-10 19:17:09,dekkzzo,答案错误,"#include <stdio.h>
+#include<string.h>
+char a[100000];
+char b[100000];
+int main(){
+    char t;
+    scanf(""%c"",&t);
+    while(scanf(""%s %s"",a,b)!=EOF){
+        if(strlen(a)==strlen(b)){
+            for(int i=0;i<strlen(a);i++){
+                printf(""%lld"",(a[i]-'0')*(b[i]-'0'));
+            }
+            printf(""\n"");
+        }else{
+            printf(""-1\n"");
+        }
+    }
+    
+    
+    return 0;
+}"
+23,A,C,61158996,2023-03-10 19:17:28,dekkzzo,答案错误,"#include <stdio.h>
+#include<string.h>
+char a[100000];
+char b[100000];
+int main(){
+    char t;
+    scanf(""%c"",&t);
+    while(scanf(""%s %s"",a,b)!=EOF){
+        if(strlen(a)==strlen(b)){
+            for(int i=0;i<strlen(a);i++){
+                printf(""%d"",(a[i]-'0')*(b[i]-'0'));
+            }
+            printf(""\n"");
+        }else{
+            printf(""-1\n"");
+        }
+    }
+    
+    
+    return 0;
+}"
+24,A,C,61159054,2023-03-10 19:17:59,大先生很大,答案错误,"#include<stdio.h>
+int main(){
+	int t,a,b,suma[10],sumb[10],j=0;
+	scanf(""%d"",&t);
+	for(int i=0;i<t;i++){
+		for(int i=0;i<10;i++){
+			suma[i]=0;
+			sumb[i]=0;
+		}
+		scanf(""%d %d"",&a,&b);
+		while(a>0&&b>0){
+			suma[j]=a%10;
+			sumb[j]=b%10;
+			a/=10;b/=10;j++;
+		}
+		if(a>0||b>0){
+			printf(""-1"");
+		}else{
+			for(int i=j-1;i>=0;i--){
+				printf(""%d"",suma[i]*sumb[i]);
+			}
+			printf(""\n"");
+		}
+	}
+}"
+25,A,C,61159059,2023-03-10 19:18:01,牛客773309159号,答案正确,"#include<stdio.h>
+#include<string.h>
+const int N=1e6;
+int main()
+{
+    int n;
+    scanf(""%d"",&n);
+    char as[N],bs[N];
+    while(n--)
+    {
+        scanf(""%s %s"",as,bs);
+        if(strlen(as)!=strlen(bs))
+        {
+            printf(""-1\n"");
+        }
+        else
+        {
+            for(int i=0;i<strlen(as);i++)
+            {
+                printf(""%d"",(as[i]-'0')*(bs[i]-'0'));
+            }
+            printf(""\n"");
+        }
+        
+    }
+    return 0;
+}"
+26,A,C(gcc 7.5.0),61159214,2023-03-10 19:19:17,CSDJM,格式错误,"#include<stdio.h>
+#include<string.h>
+#define N 10001
+int main(void)
+{
+	long long n,s[N],x=0;
+	char a[N],b[N];
+	scanf(""%lld"",&n);
+	for(int i=0;i<n;i++)
+	{
+		x=0;
+		scanf(""%s %s"",a,b);
+		if(strlen(a)==strlen(b))
+		{
+			for(int j=0;a[j]!='\0';j++)
+			{
+				s[x]=(a[j]-'0')*(b[j]-'0');
+				x++;
+			}
+			for(int j=0;j<x;j++)
+			{
+				printf(""%lld"",s[j]);
+			}
+			printf(""\n"");
+		}
+		else printf(""-1"");
+	}
+	return 0;
+}"
+27,A,C,61159279,2023-03-10 19:19:49,大先生很大,答案错误,"#include<stdio.h>
+int main(){
+	int t,a,b,suma[10],sumb[10],j=0;
+	scanf(""%d"",&t);
+	for(int i=0;i<t;i++){
+		for(int i=0;i<10;i++){
+			suma[i]=0;
+			sumb[i]=0;
+		}
+		scanf(""%d %d"",&a,&b);
+		while(a>0&&b>0){
+			suma[j]=a%10;
+			sumb[j]=b%10;
+			a/=10;b/=10;j++;
+		}
+		if(a>0||b>0){
+			printf(""-1"");
+		}else{
+			for(int i=j-1;i>=0;i--){
+				printf(""%d"",suma[i]*sumb[i]);
+			}
+			printf(""\n"");
+		}
+	}
+}"
+28,A,C(gcc 7.5.0),61159302,2023-03-10 19:19:58,CSDJM,格式错误,"#include<stdio.h>
+#include<string.h>
+#define N 10001
+int main(void)
+{
+	long long n,s[N],x=0;
+	char a[N],b[N];
+	scanf(""%lld"",&n);
+	for(int i=0;i<n;i++)
+	{
+		x=0;
+		scanf(""%s %s"",a,b);
+		if(strlen(a)==strlen(b))
+		{
+			for(int j=0;a[j]!='\0';j++)
+			{
+				s[x]=(a[j]-'0')*(b[j]-'0');
+				x++;
+			}
+			for(int j=0;j<x;j++)
+			{
+				printf(""%lld"",s[j]);
+			}
+			if(i!=n-1)printf(""\n"");
+		}
+		else printf(""-1"");
+	}
+	return 0;
+}"
+29,A,C,61159508,2023-03-10 19:21:59,dekkzzo,答案错误,"#include <stdio.h>
+#include<string.h>
+char a[10];
+char b[10];
+int main(){
+    char t;
+    scanf(""%c"",&t);
+    while(scanf(""%s %s"",a,b)!=EOF){
+        if(strlen(a)==strlen(b)){
+            for(int i=0;i<strlen(a);i++){
+                printf(""%d"",(a[i]-'0')*(b[i]-'0'));
+            }
+            printf(""\n"");
+        }else{
+            printf(""-1\n"");
+        }
+    }
+    
+    
+    return 0;
+}"
+30,A,C,61159537,2023-03-10 19:22:14,白日做梦daydream,答案正确,"#include<stdio.h>
+long long  a, b, c, d;
+void turn()
+{
+	long long  p[100]={0};
+	scanf(""%lld%lld"", &a, &b);
+	int m = 0, n = 0;
+	c = a;
+	d = b;
+	int t = 10;
+	while (a)
+	{
+		a /= 10;
+		m++;
+	}
+	while (b)
+	{
+		b /= 10;
+		n++;
+	}
+	int i,j;
+
+	if (m != n)printf(""-1"");
+	else
+	{
+		for (i = 0; i < m; i++)
+		{
+			p[i] = (c % t) * (d % t);
+			c /= 10;
+			d /= 10;
+		}
+		for (i = m-1; i>=0; i--)
+		{
+			if(i==m-1)
+				if(p[i]!=0)
+			printf(""%lld"", p[i]);
+			if(i!=m-1)
+			printf(""%lld"", p[i]);
+		}
+		
+	}
+	printf(""\n"");
+}
+int main()
+{
+	int h,i;
+	scanf(""%d"", &h);
+	for (i = 0; i < h; i++)
+	{
+		turn();
+	}
+	
+	return 0;
+}"
+31,A,C,61159664,2023-03-10 19:23:24,dekkzzo,答案错误,"#include <stdio.h>
+#include<string.h>
+char a[10000];
+char b[10000];
+int main(){
+    char t;
+    scanf(""%c"",&t);
+    while(scanf(""%s %s"",a,b)!=EOF){
+        if(strlen(a)==strlen(b)){
+            for(int i=0;i<strlen(a);i++){
+                printf(""%d"",(a[i]-'0')*(b[i]-'0'));
+            }
+            printf(""\n"");
+        }else{
+            printf(""-1\n"");
+        }
+    }
+    
+    
+    return 0;
+}"
+32,A,C(gcc 7.5.0),61159709,2023-03-10 19:23:54,闫文博_,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c: In function ‘wc’:\nmain.c:34:1: error: control reaches end of non-void function [-Werror=return-type]\n }\n ^\nmain.c: In function ‘main’:\nmain.c:40:5: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n     scanf(\""%d\"",&n);\n     ^~~~~~~~~~~~~~\nmain.c:43:9: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n         scanf(\""%d %d\"",&a,&b);\n         ^~~~~~~~~~~~~~~~~~~~\ncc1: some warnings being treated as errors""}
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+int ws(int x)
+{
+    int n=0;
+    while(x!=0)
+    {
+        x=x/10;
+        n++;
+    }
+    return n;
+}
+int wc(int a,int b,int flaga)
+{
+    int i=0;
+    int count = flaga;
+    int k=1;
+    int s[10000];
+    while(--count){k=k*10;}
+    count = flaga;
+    while(count--)
+    {
+        s[i]=(a/k)*(b/k);
+        a=a%k;
+        b=b%k;
+        k=k/10;
+        i++;
+    }
+    for(int j=0;j<i;j++)
+    {
+        printf(""%d"",s[j]);
+    }
+}
+int main()
+{
+    int flaga,flagb;
+    int a,b;
+    int n,sum;
+    scanf(""%d"",&n);
+    while(n--)
+    {
+        scanf(""%d %d"",&a,&b);
+        flaga=ws(a);
+        flagb=ws(b);
+        if(flaga==flagb)
+        {
+            sum=wc(a,b,flaga);
+            printf(""\n"");
+        }
+        else printf(""-1\n"");
+    }
+}
+"
+33,A,C(gcc 7.5.0),61159728,2023-03-10 19:24:03,rainyling,格式错误,"#include <stdio.h>
+
+int pow(int l)
+{
+    int ret=1;
+    for(int i=1;i<=l;i++){
+        ret*=10;
+    }
+    return ret;
+}
+int len(int a,int b)
+{
+    int l=0;
+    while(a>0&&b>0)
+    {
+        a/=10;
+        b/=10;
+        l++;
+    }
+    if(a>0||b>0) return 0;
+    else return l;
+}
+
+void Print(int a,int b,int l)
+{
+    int x,y;
+   while(l--)
+   {
+        x=a/pow(l);
+        y=b/pow(l);
+        printf(""%d"",x*y);
+        a%=pow(l);
+        b%=pow(l);
+   }
+}
+int main(void)
+{
+    int n;
+    scanf(""%d"",&n);
+    
+    while(n--){
+        int a,b;
+        scanf(""%d %d"",&a,&b);
+        int l=len(a,b);
+        if(l==0){
+            printf(""-1"");
+            continue;
+        }
+        else{
+            Print(a,b,l);
+            printf(""\n"");
+        }
+    }
+    return 0;
+}"
+34,A,C,61159801,2023-03-10 19:24:37,闫文博_,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c:34:1: error: non-void function does not return a value [-Werror,-Wreturn-type]\n}\n^\n1 error generated.""}
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+int ws(int x)
+{
+    int n=0;
+    while(x!=0)
+    {
+        x=x/10;
+        n++;
+    }
+    return n;
+}
+int wc(int a,int b,int flaga)
+{
+    int i=0;
+    int count = flaga;
+    int k=1;
+    int s[10000];
+    while(--count){k=k*10;}
+    count = flaga;
+    while(count--)
+    {
+        s[i]=(a/k)*(b/k);
+        a=a%k;
+        b=b%k;
+        k=k/10;
+        i++;
+    }
+    for(int j=0;j<i;j++)
+    {
+        printf(""%d"",s[j]);
+    }
+}
+int main()
+{
+    int flaga,flagb;
+    int a,b;
+    int n,sum;
+    scanf(""%d"",&n);
+    while(n--)
+    {
+        scanf(""%d %d"",&a,&b);
+        flaga=ws(a);
+        flagb=ws(b);
+        if(flaga==flagb)
+        {
+            sum=wc(a,b,flaga);
+            printf(""\n"");
+        }
+        else printf(""-1\n"");
+    }
+}
+"
+35,A,C(gcc 7.5.0),61159924,2023-03-10 19:25:42,我是傻呗,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c: In function ‘main’:\nmain.c:6:2: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n  scanf(\""%d\"",&n);\n  ^~~~~~~~~~~~~~\nmain.c:9:3: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n   scanf(\""%d%d\"",&a,&b);\n   ^~~~~~~~~~~~~~~~~~~\n/tmp/ccA3qwWP.o: In function `main':\nmain.c:(.text.startup+0x126): undefined reference to `pow'\ncollect2: error: ld returned 1 exit status""}
+
+#include <stdio.h>
+#include <math.h>
+int main()
+{
+	int n;
+	scanf(""%d"",&n);
+	int a,b,c,d,sum1=0,sum2=0,sum,x,y;
+	while(n--){
+		scanf(""%d%d"",&a,&b);
+		c=a;
+		d=b;
+		while(c>0){
+			c=c/10;
+			sum1++;
+		}
+		while(d>0){
+			d=d/10;
+			sum2++;
+		}
+		if(sum1==sum2){
+			sum=sum1;
+			while(sum>0){
+				sum--;
+			x=pow(10,sum);
+			y=(a/x%10)*(b/x%10);
+			printf(""%d"",y);
+		}
+		printf(""\n"");
+		}else{
+			sum=-1;
+			printf(""%d\n"",sum);
+		}
+		sum1=0;
+		sum2=0;
+	} 
+ } "
+36,A,C,61159935,2023-03-10 19:25:50,大先生很大,答案正确,"#include<stdio.h>
+int main(){
+	int t,a,b,suma[10],sumb[10],j=0;
+	scanf(""%d"",&t);
+	for(int i=0;i<t;i++){
+		j=0;
+		for(int i=0;i<10;i++){
+			suma[i]=0;
+			sumb[i]=0;
+		}
+		scanf(""%d %d"",&a,&b);
+		while(a>0&&b>0){
+			suma[j]=a%10;
+			sumb[j]=b%10;
+			a/=10;b/=10;j++;
+		}
+		if(a>0||b>0){
+			printf(""-1\n"");
+		}else{
+			for(int i=j-1;i>=0;i--){
+				printf(""%d"",suma[i]*sumb[i]);
+			}
+			printf(""\n"");
+		}
+	}
+}"
+37,A,C(gcc 7.5.0),61159946,2023-03-10 19:25:59,夜里观语星满天,答案正确,"#include<stdio.h>
+typedef long long int ll;
+ll geshu(long long int a)
+{
+	ll t = 0;
+	while (a > 0)
+	{
+		t++;
+		a /= 10;
+	}
+	return t;
+}
+int main()
+{
+	int n;
+	scanf(""%d"", &n);
+	while (n--)
+	{
+		ll a, b,t=1, t1, t2;
+		scanf(""%lld %lld"", &a, &b);
+		t1 = geshu(a);
+		t2 = geshu(b);
+		if (t1 != t2)
+		{
+			printf(""-1\n"");
+		}
+		else
+		{
+			while (t1 > 1)
+			{
+				t *= 10;
+				t1--;
+			}	
+			while (t > 0)
+			{
+				t1 = a / t;
+				t2 = b / t;
+				printf(""%lld"", t1 * t2);
+				a%=t;
+				b%=t;
+				t /= 10;
+			}
+            printf(""\n"");
+		}
+	}
+}"
+38,A,C,61159967,2023-03-10 19:26:13,٩( ๑╹ ꇴ╹)۶haha,答案正确,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	int n;
+	scanf(""%d"",&n);
+	int i,j;
+	char a[11],b[11];
+	int c[11];
+	int l1,l2;
+	for(i=0;i<n;i++)
+	{
+		scanf(""%s %s"",a,b);
+		l1=strlen(a);
+		l2=strlen(b);
+		if(l1==l2)
+		{
+			for(j=0;j<l1;j++)
+			{
+				c[j]=(a[j]-'0')*(b[j]-'0');
+			}	
+			for(j=0;j<l1;j++)
+			{
+				printf(""%d"",c[j]);
+			}
+			printf(""\n"");
+		}
+		else
+		{
+			printf(""-1\n"");
+		}
+	}
+	return 0;
+}"
+39,A,C(gcc 7.5.0),61159981,2023-03-10 19:26:20,我小帅,格式错误,"#include<stdio.h>
+int main(){
+ int x,y,s[10],n[10],i,j,t;long long int a,b;
+scanf(""%d"",&t);
+for(j=0;j<t;j++){x=0;y=0;
+scanf(""%lld %lld"",&a,&b);i=0;
+while(a!=0){
+s[i]=a%10;i++;
+a=a/10;x++;	
+} i=0;
+while(b!=0){
+n[i]=b%10;b=b/10;y++;i++;	
+} 
+	if(x==y){
+				
+		for(i=x-1;i>=0;i--){
+			printf(""%d"",s[i]*n[i]);
+		}	printf(""\n""); 
+	}
+	if(x!=y)printf(""-1"");
+	}
+}"
+40,A,C(gcc 7.5.0),61159990,2023-03-10 19:26:24,李文杰-1,答案错误,"#include<stdio.h>
+int main()
+{
+	int a,b,n;
+	scanf(""%d"",&n);
+	while(n--)
+	{
+		scanf(""%d%d"",&a,&b);
+		int k=0,m=0,i=a,j=b,c[10000];
+		int s=0,x=1,t=0,q;
+		while(a)
+		{
+			a=a/10;
+			  k++;   
+		}
+		while(b)
+		{
+			b=b/10;
+			m++;
+		}
+		if(k!=m)
+		printf(""-1\n"");
+		else {
+			while(i&&j)
+			{
+				c[s++]=(i%10)*(j%10);
+				i=i/10;
+				j=j/10;
+			}
+			c[s]=i*j;
+		for(q=0;q<s;q++)
+		{
+			if(c[q]/10==0)
+			{
+				t+=c[q]*x;
+				x*=10;
+			}
+			if(c[q]/10!=0)
+			{
+				t+=c[q]*x;
+				x*=100;
+			}
+		}
+		printf(""%d\n"",t);
+	}
+	}
+	return 0;
+ } "
+41,A,C(gcc 7.5.0),61160019,2023-03-10 19:26:39,我小帅,答案正确,"#include<stdio.h>
+int main(){
+ int x,y,s[10],n[10],i,j,t;long long int a,b;
+scanf(""%d"",&t);
+for(j=0;j<t;j++){x=0;y=0;
+scanf(""%lld %lld"",&a,&b);i=0;
+while(a!=0){
+s[i]=a%10;i++;
+a=a/10;x++;	
+} i=0;
+while(b!=0){
+n[i]=b%10;b=b/10;y++;i++;	
+} 
+	if(x==y){
+				
+		for(i=x-1;i>=0;i--){
+			printf(""%d"",s[i]*n[i]);
+		}	printf(""\n""); 
+	}
+	if(x!=y)printf(""-1\n"");
+	}
+}"
+42,A,C,61160034,2023-03-10 19:26:47,我是傻呗,答案正确,"#include <stdio.h>
+#include <math.h>
+int main()
+{
+	int n;
+	scanf(""%d"",&n);
+	int a,b,c,d,sum1=0,sum2=0,sum,x,y;
+	while(n--){
+		scanf(""%d%d"",&a,&b);
+		c=a;
+		d=b;
+		while(c>0){
+			c=c/10;
+			sum1++;
+		}
+		while(d>0){
+			d=d/10;
+			sum2++;
+		}
+		if(sum1==sum2){
+			sum=sum1;
+			while(sum>0){
+				sum--;
+			x=pow(10,sum);
+			y=(a/x%10)*(b/x%10);
+			printf(""%d"",y);
+		}
+		printf(""\n"");
+		}else{
+			sum=-1;
+			printf(""%d\n"",sum);
+		}
+		sum1=0;
+		sum2=0;
+	} 
+ } "
+43,A,C,61160052,2023-03-10 19:27:03,牛XP,答案错误,"#include <stdio.h>
+int getDigit(int n)
+{
+    if(n==0){return 0;}
+    int x = 1,i=10;
+    while(n/i){
+        x++;
+        i*=10;
+    }
+    return x;
+}
+int mypow(int a,int b){
+    int ans=1;
+    for(int i=0;i<b;i++){
+        ans*=a;
+    }
+    return ans;
+}
+int main(){
+    int T,i,j,dig,cur,ans,t;
+    scanf(""%d"",&T);
+    int arrA[T],arrB[T];
+    for( i = 0;i<T;i++){
+        scanf(""%d%d"",&arrA[i],&arrB[i]);
+    }
+    for(i=0;i<T;i++){
+        dig = getDigit(arrA[i]);
+        if(dig==getDigit(arrB[i])){
+            cur=0;
+            ans=0;
+            for(j=0;j<dig;j++){
+//                 printf(""j=%d, d=%d, ans=%d"",j,mypow(10,cur),ans);
+                t=((arrA[i]%mypow(10,j+1))/mypow(10,j))*((arrB[i]%mypow(10,j+1))/mypow(10,j))*mypow(10,cur);
+                ans+=t;
+                if(t==0){cur++;}else{cur=getDigit(ans);}
+                
+//                 printf(""t=%d  %d\n"",t,ans);
+            }
+            printf(""%d\n"",ans);
+        }else{printf(""-1\n"");}
+    }
+    return 0;
+}"
+44,A,C,61160119,2023-03-10 19:27:39,dekkzzo,答案错误,"#include <stdio.h>
+#include<string.h>
+char a[10000];
+char b[10000];
+int main(){
+    char t;
+    scanf(""%c"",&t);
+    while(scanf(""%s %s"",a,b)!=EOF){
+        if(strlen(a)==strlen(b)){
+            for(int i=0;i<strlen(a);i++){
+                printf(""%d"",(a[i]-'0')*(b[i]-'0'));
+            }
+            printf(""\n"");
+        }else if(strlen(a)!=strlen(b)){
+            printf(""-1\n"");
+        }
+    }
+    
+    
+    return 0;
+}"
+45,A,C(gcc 7.5.0),61160122,2023-03-10 19:27:41,CSDJM,答案正确,"#include<stdio.h>
+#include<string.h>
+#define N 10001
+int main(void)
+{
+	long long n,s[N],x=0;
+	char a[N],b[N];
+	scanf(""%lld"",&n);
+	for(int i=0;i<n;i++)
+	{
+		x=0;
+		scanf(""%s %s"",a,b);
+		if(strlen(a)==strlen(b))
+		{
+			for(int j=0;a[j]!='\0';j++)
+			{
+				s[x]=(a[j]-'0')*(b[j]-'0');
+				x++;
+			}
+			for(int j=0;j<x;j++)
+			{
+				printf(""%lld"",s[j]);
+			}	
+			printf(""\n"");
+		}
+		else printf(""-1\n"");
+	}
+	return 0;
+}"
+46,A,C,61160177,2023-03-10 19:28:22,dekkzzo,答案正确,"#include <stdio.h>
+#include<string.h>
+char a[10000];
+char b[10000];
+int main(){
+    int t;
+    scanf(""%d"",&t);
+    while(scanf(""%s %s"",a,b)!=EOF){
+        if(strlen(a)==strlen(b)){
+            for(int i=0;i<strlen(a);i++){
+                printf(""%d"",(a[i]-'0')*(b[i]-'0'));
+            }
+            printf(""\n"");
+        }else if(strlen(a)!=strlen(b)){
+            printf(""-1\n"");
+        }
+    }
+    
+    
+    return 0;
+}"
+47,A,C,61160217,2023-03-10 19:28:42,被普调的coder很好奇,执行出错,"#include <stdio.h>
+#include <math.h>
+int fun(int a,int b)
+{
+    int T=0;
+    while(a!=0&&b!=0)
+    {
+        T=T*10;
+        T+=(a%10)*(b%10);
+        
+        a=a/10;
+        b=b/10;
+    }
+    return T;
+ }
+
+void main()
+{
+    int a,b,result;
+    scanf(""%d %d"",&a,&b);
+    result=fun(a,b);
+   printf(""%d"",result);
+}"
+48,A,C(gcc 7.5.0),61160269,2023-03-10 19:29:09,李文杰-1,答案错误,"#include<stdio.h>
+int main()
+{
+	int a,b,n;
+	scanf(""%d"",&n);
+	while(n--)
+	{
+		scanf(""%d%d"",&a,&b);
+		int k=0,m=0,i=a,j=b,c[100000];
+		int s=0,x=1,t=0,q;
+		while(a)
+		{
+			a=a/10;
+			  k++;   
+		}
+		while(b)
+		{
+			b=b/10;
+			m++;
+		}
+		if(k!=m)
+		printf(""-1\n"");
+		else {
+			while(i&&j)
+			{
+				c[s++]=(i%10)*(j%10);
+				i=i/10;
+				j=j/10;
+			}
+			c[s]=i*j;
+		for(q=0;q<s;q++)
+		{
+			if(c[q]/10==0)
+			{
+				t+=c[q]*x;
+				x*=10;
+			}
+			if(c[q]/10!=0)
+			{
+				t+=c[q]*x;
+				x*=100;
+			}
+		}
+		printf(""%d\n"",t);
+	}
+	}
+	return 0;
+ } "
+49,A,C(gcc 7.5.0),61160306,2023-03-10 19:29:32,b1acat,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c:1:9: fatal error: bits/stdc++.h: No such file or directory\n #include<bits/stdc++.h>\n         ^~~~~~~~~~~~~~~\ncompilation terminated.""}
+
+#include<bits/stdc++.h>
+using namespace std;
+
+long long a,b;
+
+int main(){
+	int n;
+	cin >>n;
+	
+	while(n--){
+		unsigned long long sum=0;
+		cin >>a >>b;
+		
+		long long i=1;
+		while(a&&b){
+			
+			sum=(a%10)*(b%10)*i+sum;
+				if(a%10==0||b%10==0)	i*=10;
+						else i*=100;
+			a/=10,b/=10;
+		
+		}
+		if(a==b) cout <<sum<<'\n';
+		else cout <<-1 <<'\n';
+		
+	}
+}"
+50,A,C,61160445,2023-03-10 19:30:55,闫文博_,答案正确,"#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+int ws(int x)
+{
+    int n=0;
+    while(x!=0)
+    {
+        x=x/10;
+        n++;
+    }
+    return n;
+}
+void wc(int a,int b,int flaga)
+{
+    int i=0;
+    int count = flaga;
+    int k=1;
+    int s[10000];
+    while(--count){k=k*10;}
+    count = flaga;
+    while(count--)
+    {
+        s[i]=(a/k)*(b/k);
+        a=a%k;
+        b=b%k;
+        k=k/10;
+        i++;
+    }
+    for(int j=0;j<i;j++)
+    {
+        printf(""%d"",s[j]);
+    }
+}
+int main(void)
+{
+    int flaga,flagb;
+    int a,b;
+    int n,sum;
+    scanf(""%d"",&n);
+    while(n--)
+    {
+        scanf(""%d %d"",&a,&b);
+        flaga=ws(a);
+        flagb=ws(b);
+        if(flaga==flagb)
+        {
+            wc(a,b,flaga);
+            printf(""\n"");
+        }
+        else printf(""-1\n"");
+    }
+}
+"
+51,A,C,61160519,2023-03-10 19:31:32,云燃,答案正确,"#include<stdio.h>
+int main()
+{
+    int t = 0;
+    scanf(""%d"",&t);
+    while(t)
+    {
+        t--;
+        int long long a = 0;
+        int long long b = 0;
+        int c[10];
+        int d[10];
+        int long long n = 0;
+        int long long m = 0;
+        scanf(""%lld %lld"",&a,&b);
+        while(a>0)
+        {
+            c[n]=a%10;
+            n++;
+            a/=10;
+        }
+        while(b>0)
+        {
+            d[m]=b%10;
+            m++;
+            b/=10;
+        }
+        if(m!=n)
+            printf(""-1\n"");
+        else{
+            int i = 0;
+            for(i=n-1;i>=0;i--)
+            {
+                printf(""%d"",c[i]*d[i]);
+            }
+            printf(""\n"");
+        }
+    }
+}"
+52,A,C(gcc 7.5.0),61160645,2023-03-10 19:32:46,学习是不可能的啦,答案正确,"#include<stdio.h>
+
+int arr1[1000];
+int arr2[1000];
+
+int main(){
+    int n=0;
+    scanf(""%d"",&n);
+    
+    for(int i=0;i<n;i++){
+        long long int x,y;
+        scanf(""%lld %lld"",&x,&y);
+        
+        int len1=0;
+        while(x){
+            arr1[len1++]=x%10;
+            x/=10;
+        }
+        int len2=0;
+        while(y){
+            arr2[len2++]=y%10;
+            y/=10;
+        }
+        if(len1==len2){
+            for(int j=len1-1;j>=0;j--){
+                printf(""%d"",arr1[j]*arr2[j]);
+            }
+            printf(""\n"");
+        }
+        else printf(""-1\n"");
+    }
+    return 0;
+}"
+53,A,C(gcc 7.5.0),61160687,2023-03-10 19:33:17,李文杰-1,答案错误,"#include<stdio.h>
+int main()
+{
+	int a,b,n;
+	scanf(""%d"",&n);
+	while(n--)
+	{
+		scanf(""%d%d"",&a,&b);
+		int k=0,m=0,i=a,j=b,c[100000];
+		int s=0,x=1,t=0,q;
+		while(a)
+		{
+			a=a/10;
+			  k++;   
+		}
+		while(b)
+		{
+			b=b/10;
+			m++;
+		}
+		if(k!=m)
+		printf(""-1\n"");
+		else {
+			while(i&&j)
+			{
+				c[s++]=(i%10)*(j%10);
+				i=i/10;
+				j=j/10;
+			}
+			c[s]=i*j;
+		for(q=0;q<s;q++)
+		{
+			if(c[q]/10==0)
+			{
+				t+=c[q]*x;
+				x*=10;
+			}
+			if(c[q]/10!=0)
+			{
+				t+=c[q]*x;
+				x*=100;
+			}
+		}
+		printf(""%d\n"",t);
+	}
+	}
+	return 0;
+ } "
+54,A,C,61160803,2023-03-10 19:34:23,在冲浪的袋鼠,答案错误,"#include<stdio.h>
+#include<string.h>
+char a[20],b[20],c[40];
+int main()
+{
+    int x,y,t1,t2,T,ans;
+    scanf(""%d"",&T);
+    while(T--)
+    {
+    scanf(""%s"",a);
+    scanf(""%s"",b);
+    x=strlen(a);
+    y=strlen(b);
+    if(x==y)
+    {
+        ans=0;
+        for(int i=0;i<x;i++)
+        {
+            t1=a[i]-48;
+            t2=b[i]-48;
+            if(t1*t2>=10)
+            {
+            c[ans]=t1*t2/10+48;
+            ans++;
+                c[ans]=t1*t2%10+48;
+                ans++;
+            }
+            else
+            {
+                c[ans]=t1*t2+48;
+                ans++;
+            }
+        }
+        printf(""%s\n"",c);
+    }
+    else
+        printf(""-1\n"");
+    }
+}"
+55,A,C,61160819,2023-03-10 19:34:34,hebq,格式错误,"#include <stdio.h>
+#include <stdlib.h>
+
+
+
+int main()
+{
+    long long a[100],b[100],r[100];
+    int T;
+    scanf(""%d"",&T);
+    for(int i=1;i<=T;i++){
+        scanf(""%lld"",&a[0]);
+        scanf(""%lld"",&b[0]);
+        int along=0,blong=0,A=a[0],B=b[0];
+        while(a[0])
+        {
+            a[along+1]=a[0]%10;
+            along=along+1;
+            a[0]=a[0]/10;
+
+        }
+        while(b[0])
+        {
+            b[blong+1]=b[0]%10;
+            blong=blong+1;
+            b[0]=b[0]/10;
+        }
+        if(along==blong){
+            for(int i=1;i<=along;i++){
+                r[i]=a[i]*b[i];
+            }
+            for(int i=along;i>=1;i--){
+                printf(""%lld"",r[i]);
+            }
+        }
+        else
+            printf(""-1\n"");
+    }
+    return 0;
+}
+"
+56,A,C,61160831,2023-03-10 19:34:38,在冲浪的袋鼠,答案错误,"#include<stdio.h>
+#include<string.h>
+char a[20],b[20],c[40];
+int main()
+{
+    int x,y,t1,t2,T,ans;
+    scanf(""%d"",&T);
+    while(T--)
+    {
+    scanf(""%s"",a);
+    scanf(""%s"",b);
+    x=strlen(a);
+    y=strlen(b);
+    if(x==y)
+    {
+        ans=0;
+        for(int i=0;i<x;i++)
+        {
+            t1=a[i]-48;
+            t2=b[i]-48;
+            if(t1*t2>=10)
+            {
+            c[ans]=t1*t2/10+48;
+            ans++;
+                c[ans]=t1*t2%10+48;
+                ans++;
+            }
+            else
+            {
+                c[ans]=t1*t2+48;
+                ans++;
+            }
+        }
+        printf(""%s\n"",c);
+    }
+    else
+        printf(""-1\n"");
+    }
+}"
+57,A,C,61160855,2023-03-10 19:34:49,紫陌.,答案正确,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+    int t;
+    scanf(""%d"",&t);
+    while(t--)
+    {
+        char a[100],b[100];
+        char odds[200];
+        scanf(""%s %s"",a,b);
+        int m=strlen(a);
+        int n=strlen(b);
+        if(m!=n)
+        {
+            printf(""-1\n"");
+            continue;
+        }
+        int j=0;
+        for(int i=0;i<m;i++)
+        {
+            int k=(a[i]-'0')*(b[i]-'0');
+            if(k<10)
+                odds[j++]=k+'0';
+            else
+            {
+                odds[j++]=k/10+'0';
+                odds[j++]=k%10+'0';
+            }
+        }
+        odds[j]='\0';
+        printf(""%s\n"",odds);
+    }
+}"
+58,A,C,61160978,2023-03-10 19:36:11,hebq,格式错误,"#include <stdio.h>
+#include <stdlib.h>
+
+
+
+int main()
+{
+    long long a[100],b[100],r[100];
+    int T;
+    scanf(""%d"",&T);
+    for(int i=1;i<=T;i++){
+        scanf(""%lld"",&a[0]);
+        scanf(""%lld"",&b[0]);
+        int along=0,blong=0,A=a[0],B=b[0];
+        while(a[0])
+        {
+            a[along+1]=a[0]%10;
+            along=along+1;
+            a[0]=a[0]/10;
+
+        }
+        while(b[0])
+        {
+            b[blong+1]=b[0]%10;
+            blong=blong+1;
+            b[0]=b[0]/10;
+        }
+        if(along==blong){
+            for(int i=1;i<=along;i++){
+                r[i]=a[i]*b[i];
+            }
+            for(int i=along;i>=1;i--){
+                printf(""%lld"",r[i]);
+            }
+        }
+        else
+            printf(""-1\n"");
+        printf(""\n"");
+    }
+    return 0;
+}
+"
+59,A,C,61161031,2023-03-10 19:36:46,在冲浪的袋鼠,答案错误,"#include<stdio.h>
+char a[20],b[20],c[40];
+#include<string.h>
+int main()
+{
+    int x,y,t1,t2,T,ans;
+    scanf(""%d"",&T);
+    while(T--)
+    {
+    char a[20],b[20],c[40];
+    scanf(""%s"",a);
+    scanf(""%s"",b);
+    x=strlen(a);
+    y=strlen(b);
+    if(x==y)
+    {
+        ans=0;
+        for(int i=0;i<x;i++)
+        {
+            t1=a[i]-48;
+            t2=b[i]-48;
+            if(t1*t2>=10)
+            {
+            c[ans]=t1*t2/10+48;
+            ans++;
+                c[ans]=t1*t2%10+48;
+                ans++;
+            }
+            else
+            {
+                c[ans]=t1*t2+48;
+                ans++;
+            }
+        }
+        printf(""%s\n"",c);
+    }
+    else
+        printf(""-1\n"");
+    }
+}"
+60,A,C,61161055,2023-03-10 19:37:01,牛XP,答案正确,"#include <stdio.h>
+int getDigit(int n)
+{
+    if (n == 0)
+    {
+        return 0;
+    }
+    int x = 1, i = 10;
+    while (n / i)
+    {
+        x++;
+        i *= 10;
+    }
+    return x;
+}
+int getDig(long long n)
+{
+    if (n == 0)
+    {
+        return 0;
+    }
+    int x = 1;
+    long long i = 10;
+    while (n / i)
+    {
+        x++;
+        i *= 10;
+    }
+    return x;
+}
+long long mpow(int b)
+{
+    long long ans = 1;
+    for (int i = 0; i < b; i++)
+    {
+        ans *= 10;
+    }
+    return ans;
+}
+int mypow(int a, int b)
+{
+    int ans = 1;
+    for (int i = 0; i < b; i++)
+    {
+        ans *= a;
+    }
+    return ans;
+}
+int main()
+{
+    int T, i, j, dig, cur;
+    long long ans, t;
+    scanf(""%d"", &T);
+    int arrA[T], arrB[T];
+    for (i = 0; i < T; i++)
+    {
+        scanf(""%d%d"", &arrA[i], &arrB[i]);
+    }
+    for (i = 0; i < T; i++)
+    {
+        dig = getDigit(arrA[i]);
+        if (dig == getDigit(arrB[i]))
+        {
+            cur = 0;
+            ans = 0;
+            for (j = 0; j < dig; j++)
+            {
+                // printf(""j=%d, ans=%lld"", j, ans);
+                t = ((arrA[i] % mypow(10, j + 1)) / mypow(10, j)) * ((arrB[i] % mypow(10, j + 1)) / mypow(10, j));
+                t *= mpow(cur);
+                ans += t;
+                if (t == 0)
+                {
+                    cur++;
+                }
+                else
+                {
+                    cur = getDig(ans);
+                }
+
+                // printf(""t=%lld  %lld\n"", t, ans);
+            }
+            printf(""%lld\n"", ans);
+        }
+        else
+        {
+            printf(""-1\n"");
+        }
+    }
+    return 0;
+}"
+61,A,C(gcc 7.5.0),61161134,2023-03-10 19:37:42,李文杰-1,答案错误,"#include<stdio.h>
+int main()
+{
+	int a,b,n;
+	scanf(""%d"",&n);
+	while(n--)
+	{
+		scanf(""%d%d"",&a,&b);
+		int k=0,m=0,i=a,j=b,c[100000];
+		int s=0,x=1,t=0,q;
+		while(a)
+		{
+			a=a/10;
+			  k++;   
+		}
+		while(b)
+		{
+			b=b/10;
+			m++;
+		}
+		if(k!=m)
+		printf(""-1\n"");
+		else {
+			while(i%10&&j%10)
+			{
+				c[s++]=(i%10)*(j%10);
+				i=i/10;
+				j=j/10;
+			}
+			c[s]=i*j;
+		for(q=0;q<s;q++)
+		{
+			if(c[q]/10==0)
+			{
+				t+=c[q]*x;
+				x*=10;
+			}
+			if(c[q]/10!=0)
+			{
+				t+=c[q]*x;
+				x*=100;
+			}
+		}
+		printf(""%d\n"",t);
+	}
+	}
+	return 0;
+ } "
+62,A,C,61161342,2023-03-10 19:39:56,hebq,答案正确,"#include <stdio.h>
+#include <stdlib.h>
+
+
+
+int main()
+{
+    long long a[100],b[100],r[100];
+    int T;
+    scanf(""%d"",&T);
+    for(int i=1;i<=T;i++){
+        scanf(""%lld"",&a[0]);
+        scanf(""%lld"",&b[0]);
+        int along=0,blong=0,A=a[0],B=b[0];
+        while(a[0])
+        {
+            a[along+1]=a[0]%10;
+            along=along+1;
+            a[0]=a[0]/10;
+
+        }
+        while(b[0])
+        {
+            b[blong+1]=b[0]%10;
+            blong=blong+1;
+            b[0]=b[0]/10;
+        }
+        if(along==blong){
+            for(int i=1;i<=along;i++){
+                r[i]=a[i]*b[i];
+            }
+            for(int i=along;i>=1;i--){
+                printf(""%lld"",r[i]);
+            }
+        }
+        else
+            printf(""-1"");
+        printf(""\n"");
+    }
+    return 0;
+}
+"
+63,A,C,61161483,2023-03-10 19:41:18,卿云秋月,答案正确,"#include<stdio.h>
+int main ()
+{    
+    int a,b,j,z,y;
+    int c[100]={0},d[100]={0},f[100]={0},T;
+    scanf(""%d"",&T);
+    for(int i=0;i<T;i++)
+    {
+        scanf(""%d%d"",&a,&b);
+    for(j=0;;j++)
+    {
+        c[j]=a%10;
+        a/=10;
+        d[j]=b%10;
+        b/=10;
+        if(a==0||b==0)
+        {
+            break;
+        }
+    }
+        if(a!=0||b!=0)
+        {
+            printf(""-1\n"");
+        }
+        else
+        {
+            for(z=0;z<=j;z++)
+            {
+                f[z]=c[z]*d[z];
+            }
+            y=z;
+            for(;y;--y)
+            {
+                printf(""%d"",f[y-1]);
+                if(y-1==0)
+                {
+                    printf(""\n"");
+                }
+            }
+        }
+    }
+  return 0;
+}"
+64,A,C,61161546,2023-03-10 19:41:59,好喜欢克莱恩,答案错误,"#include<stdio.h>
+#include<string.h>
+char a[100000000], b[100000000];
+
+int ch(char a[], char b[])
+{
+char h[10000000]={""\0""};
+    int j = 0,i;
+    if (strlen(a) != strlen(b))
+    {
+        printf(""-1\n"");
+        return 0;
+    }
+    for (i = 0, j = 0;a[i] && b[i];i++)
+    {
+        int t;
+        t = (a[i] - '0') * (b[i] - '0');
+        do{
+            h[j++] = t % 10+'0';
+            t = t / 10;
+            
+        }while(t);
+    }
+    h[j] = '\0';
+printf(""%s\n"",h);
+    return 1;
+}
+int main()
+{
+ int t;
+    scanf(""%d"",&t);
+    while (t--)
+    {
+       scanf("" %s %s"",a,b);
+        ch(a, b);
+    }
+
+
+}
+"
+65,A,C,61161568,2023-03-10 19:42:12,牛客134924962号,答案错误,"#include <stdio.h>
+
+int main(){
+    int a,b;
+    int n;
+    scanf(""%d"",&n);
+    int num1[20];
+    int num2[20];
+    int i;
+    int j;
+    while(n){
+        i=0;
+        j=0;
+        scanf(""%d %d"",&a,&b);
+        while(a > 0){
+            num1[i++]=a%10;
+            a/=10;
+        }
+        while(b > 0){
+            num2[j++]=b%10;
+            b/=10;
+        }
+        if(i != j){
+            printf(""-1\n"");
+            break;
+        }else{
+            i--;
+            j--;
+            while(i >=0 && j >= 0 ){
+                int temp=num1[i]*num2[j];
+                printf(""%d"",temp);
+                i--;
+                j--;
+            }
+            printf(""\n"");
+        }
+        n--;
+    }
+    return 0;
+}"
+66,A,C,61161657,2023-03-10 19:43:11,FirS,答案错误,"#include <stdio.h>
+#include <math.h>
+void Sit(int a,int b);
+int main(void)
+{
+    int T;
+    int a[100],b[100],n,i;
+    scanf(""%d"",&T);
+    for(i=0;i<T;i++)
+    {
+        scanf(""%d %d"",&a[i],&b[i]);
+        fflush(stdin);
+    }
+    for(i=0;i<T;i++)
+    {
+        Sit(a[i],b[i]);
+    }
+    return 0;
+}
+void Sit(int a,int b)
+{
+    int n,z=0,i;
+    int x=(int)pow(10,n);
+    int s[100],k[100];
+    n=sizeof(a)/4;
+    if(sizeof(a)!=sizeof(b))
+    {
+        printf(""-1"");
+        printf(""\n"");
+    }
+    else if(sizeof(a)==sizeof(b))
+    {
+        n=sizeof(a)/4;
+        for(i=0;i<n;i++)
+        {
+            a=a%(x/(int)pow(10,i));
+            s[i]=a/(x-i-1);
+            b=b%(x/(int)pow(10,i));
+            k[i]=b/(x-i-1);
+        }
+        for(i=0;i<n;i++)
+        {
+            z=s[i]*k[i];
+            printf(""%d"",z);
+        }
+        printf(""\n"");
+    }
+}"
+67,A,C,61161701,2023-03-10 19:43:42,FirS,答案错误,"#include <stdio.h>
+#include <math.h>
+void Sit(int a,int b);
+int main(void)
+{
+    int T;
+    int a[100],b[100],n,i;
+    scanf(""%d"",&T);
+    for(i=0;i<T;i++)
+    {
+        scanf(""%d %d"",&a[i],&b[i]);
+        fflush(stdin);
+    }
+    for(i=0;i<T;i++)
+    {
+        Sit(a[i],b[i]);
+    }
+    return 0;
+}
+void Sit(int a,int b)
+{
+    int n,z=0,i;
+    int x=(int)pow(10,n);
+    int s[100],k[100];
+    n=sizeof(a)/4;
+    if(sizeof(a)!=sizeof(b))
+    {
+        printf(""-1"");
+        printf(""\n"");
+    }
+    else if(sizeof(a)==sizeof(b))
+    {
+        n=sizeof(a)/4;
+        for(i=0;i<n;i++)
+        {
+            a=a%(x/(int)pow(10,i));
+            s[i]=a/(x-i-1);
+            b=b%(x/(int)pow(10,i));
+            k[i]=b/(x-i-1);
+        }
+        for(i=0;i<n;i++)
+        {
+            z=s[i]*k[i];
+            printf(""%d"",z);
+        }
+        printf(""\n"");
+    }
+}"
+68,A,C,61161705,2023-03-10 19:43:44,FirS,答案错误,"#include <stdio.h>
+#include <math.h>
+void Sit(int a,int b);
+int main(void)
+{
+    int T;
+    int a[100],b[100],n,i;
+    scanf(""%d"",&T);
+    for(i=0;i<T;i++)
+    {
+        scanf(""%d %d"",&a[i],&b[i]);
+        fflush(stdin);
+    }
+    for(i=0;i<T;i++)
+    {
+        Sit(a[i],b[i]);
+    }
+    return 0;
+}
+void Sit(int a,int b)
+{
+    int n,z=0,i;
+    int x=(int)pow(10,n);
+    int s[100],k[100];
+    n=sizeof(a)/4;
+    if(sizeof(a)!=sizeof(b))
+    {
+        printf(""-1"");
+        printf(""\n"");
+    }
+    else if(sizeof(a)==sizeof(b))
+    {
+        n=sizeof(a)/4;
+        for(i=0;i<n;i++)
+        {
+            a=a%(x/(int)pow(10,i));
+            s[i]=a/(x-i-1);
+            b=b%(x/(int)pow(10,i));
+            k[i]=b/(x-i-1);
+        }
+        for(i=0;i<n;i++)
+        {
+            z=s[i]*k[i];
+            printf(""%d"",z);
+        }
+        printf(""\n"");
+    }
+}"
+69,A,C,61161714,2023-03-10 19:43:49,牛客134924962号,答案正确,"#include <stdio.h>
+
+int main(){
+    int a,b;
+    int n;
+    scanf(""%d"",&n);
+    int num1[20];
+    int num2[20];
+    int i;
+    int j;
+    while(n){
+        i=0;
+        j=0;
+        scanf(""%d %d"",&a,&b);
+        while(a > 0){
+            num1[i++]=a%10;
+            a/=10;
+        }
+        while(b > 0){
+            num2[j++]=b%10;
+            b/=10;
+        }
+        if(i != j){
+            printf(""-1\n"");
+            continue;
+        }else{
+            i--;
+            j--;
+            while(i >=0 && j >= 0 ){
+                int temp=num1[i]*num2[j];
+                printf(""%d"",temp);
+                i--;
+                j--;
+            }
+            printf(""\n"");
+        }
+        n--;
+    }
+    return 0;
+}"
+70,A,C,61162105,2023-03-10 19:48:04,好喜欢克莱恩,答案正确,"#include<stdio.h>
+#include<string.h>
+char a[100000000], b[100000000];
+char h[1000000000];
+int ch(char a[], char b[])
+{
+int j = 0,i;
+    if (strlen(a) != strlen(b))
+    {
+        printf(""-1\n"");
+        return 0;
+    }
+    for (i = 0, j = 0;a[i] && b[i];i++)
+    {
+        int t;
+        t = (a[i] - '0') * (b[i] - '0');
+        if(t>=10)h[j++]=t/10+'0';
+        h[j++] =t % 10+'0';
+            t = t / 10;
+    }
+    h[j] = '\0';
+printf(""%s\n"",h);
+    return 1;
+}
+int main()
+{
+ int t;
+    scanf(""%d"",&t);
+    while (t--)
+    {
+       scanf("" %s %s"",a,b);
+        ch(a, b);
+    }
+
+
+}
+"
+71,A,C,61162296,2023-03-10 19:49:54,FirS,答案错误,"#include <stdio.h>
+#include <math.h>
+void Sit(int a,int b,int i);
+int main(void)
+{
+    int T;
+    int a[100],b[100],n,i;
+    scanf(""%d"",&T);
+    for(i=0;i<T;i++)
+    {
+        scanf(""%d %d"",&a[i],&b[i]);
+        fflush(stdin);
+    }
+    for(i=0;i<T;i++)
+    {
+        Sit(a[i],b[i],i);
+        printf(""\n"");
+    }
+    return 0;
+}
+void Sit(int a,int b,int i)
+{
+    if(i==0)
+    {
+        printf(""41018"");
+    }
+    if(i==1)
+        printf(""1000000000"");
+    if(i==2)
+        printf(""-1"");
+}"
+72,A,C(gcc 7.5.0),61162315,2023-03-10 19:50:07,李文杰-1,答案错误,"#include<stdio.h>
+int main()
+{
+	int a,b,n;
+	scanf(""%d"",&n);
+	while(n--)
+	{
+		scanf(""%d%d"",&a,&b);
+		int k=0,m=0,i=a,j=b,c[100000];
+		int s=0,x=1,t=0,q;
+		while(a)
+		{
+			a=a/10;
+			  k++;   
+		}
+		while(b)
+		{
+			b=b/10;
+			m++;
+		}
+		if(k!=m)
+		printf(""-1\n"");
+		else {
+			while(i&&j)
+			{
+				c[s++]=(i%10)*(j%10);
+				i=i/10;
+				j=j/10;
+			}
+			c[s]=i*j;
+		for(q=0;q<=s;q++)
+		{
+			if(c[q]/10==0)
+			{
+				t+=c[q]*x;
+				x*=10;
+			}
+			if(c[q]/10!=0)
+			{
+				t+=c[q]*x;
+				x*=100;
+			}
+		}
+		printf(""%d\n"",t);
+	}
+	}
+	return 0;
+ } "
+73,A,C,61162482,2023-03-10 19:51:42,书画无边缱绻,答案错误,"#include<stdio.h>
+int main(){
+    int t,i,j,num1,num2,m1,m2,count1;
+    scanf(""%d"",&t);
+    int result[t-1][10],counts[t-1];
+    for(i=0;i<t;i++){
+        scanf(""%d"",&num1);
+        scanf(""%d"",&num2);
+        if(myf(num1)==myf(num2)){
+            count1=myf(num1);
+            for(j=0;j<count1;j++){
+                m1=num1%10;
+                m2=num2%10;
+                result[i][j]=m1*m2;
+                num1/=10;
+                num2/=10;
+            }
+            counts[i]=count1;
+        }
+        else{
+            result[i][0]=-1;
+            counts[i]=-1;
+        }
+    }
+    for(i=0;i<t;i++){
+        if(result[i][0]>=0){
+            for(j=counts[i]-1;j>=0;j--){
+                printf(""%d"",result[i][j]);
+            }
+            printf(""\n"");
+        }
+        else printf(""-1\n"");
+    }
+    return 0;
+}
+int myf(int k){
+    int count=1;
+    while(k%10!=k){
+        count++;
+        k=k/10;
+    }
+    return count;
+}"
+74,A,C,61162739,2023-03-10 19:54:09,书画无边缱绻,答案错误,"#include<stdio.h>
+int main(){
+    int t,i,j,num1,num2,m1,m2,count1;
+    scanf(""%d"",&t);
+    int result[t-1][10],counts[t-1];
+    for(i=0;i<t;i++){
+        scanf(""%d"",&num1);
+        scanf(""%d"",&num2);
+        if(myf(num1)==myf(num2)){
+            count1=myf(num1);
+            for(j=0;j<count1;j++){
+                m1=num1%10;
+                m2=num2%10;
+                result[i][j]=m1*m2;
+                num1/=10;
+                num2/=10;
+            }
+            counts[i]=count1;
+        }
+        else{
+            result[i][0]=-1;
+            counts[i]=-1;
+        }
+    }
+    for(i=0;i<t;i++){
+        if(result[i][0]>=0){
+            for(j=counts[i]-1;j>=0;j--){
+                printf(""%d"",result[i][j]);
+            }
+            printf(""\n"");
+        }
+        else printf(""-1\n"");
+    }
+    return 0;
+}
+int myf(int k){
+    int count=1;
+    while(k%10!=k){
+        count++;
+        k=k/10;
+    }
+    return count;
+}"
+75,A,C,61162872,2023-03-10 19:55:34,在冲浪的袋鼠,答案错误,"#include<stdio.h>
+char a[20],b[20],c[40];
+#include<string.h>
+int main()
+{
+    int x,y,t1,t2,T,ans;
+    scanf(""%d"",&T);
+    while(T--)
+    {
+    scanf(""%s%s"",a,b);
+    x=strlen(a);
+    y=strlen(b);
+    if(x==y)
+    {
+        ans=0;
+        for(int i=0;i<x;i++)
+        {
+            t1=a[i]-48;
+            t2=b[i]-48;
+            if(t1*t2>=10)
+            {
+            c[ans]=t1*t2/10+48;
+            ans++;
+                c[ans]=t1*t2%10+48;
+                ans++;
+            }
+            else
+            {
+                c[ans]=t1*t2+48;
+                ans++;
+            }
+        }
+        printf(""%s\n"",c);
+    }
+    else
+        printf(""-1\n"");
+    }
+}"
+76,A,C(gcc 7.5.0),61163385,2023-03-10 20:01:05,李文杰-1,答案错误,"#include<stdio.h>
+int main()
+{
+	int a,b,n;
+	scanf(""%d"",&n);
+	while(n--)
+	{
+		scanf(""%d%d"",&a,&b);
+		int k=0,m=0,i=a,j=b;
+		double c[10000000],t=0;
+		int s=0,x=1,q;
+		while(a)
+		{
+			a=a/10;
+			  k++;   
+		}
+		while(b)
+		{
+			b=b/10;
+			m++;
+		}
+		if(k!=m)
+		printf(""-1\n"");
+		else {
+			while(i&&j)
+			{
+				c[s++]=(i%10)*(j%10);
+				i=i/10;
+				j=j/10;
+			}
+			c[s]=i*j;
+		for(q=0;q<s;q++)
+		{
+			if(c[q]/10==0)
+			{
+				t+=c[q]*x;
+				x*=10;
+			}
+			if(c[q]/10!=0)
+			{
+				t+=c[q]*x;
+				x*=100;
+			}
+		}
+		printf(""%.0lf\n"",t);
+	}
+	}
+	return 0;
+ } "
+77,A,C(gcc 7.5.0),61163408,2023-03-10 20:01:20,李文杰-1,答案错误,"#include<stdio.h>
+int main()
+{
+	int a,b,n;
+	scanf(""%d"",&n);
+	while(n--)
+	{
+		scanf(""%d%d"",&a,&b);
+		int k=0,m=0,i=a,j=b;
+		double c[100000000],t=0;
+		int s=0,x=1,q;
+		while(a)
+		{
+			a=a/10;
+			  k++;   
+		}
+		while(b)
+		{
+			b=b/10;
+			m++;
+		}
+		if(k!=m)
+		printf(""-1\n"");
+		else {
+			while(i&&j)
+			{
+				c[s++]=(i%10)*(j%10);
+				i=i/10;
+				j=j/10;
+			}
+			c[s]=i*j;
+		for(q=0;q<s;q++)
+		{
+			if(c[q]/10==0)
+			{
+				t+=c[q]*x;
+				x*=10;
+			}
+			if(c[q]/10!=0)
+			{
+				t+=c[q]*x;
+				x*=100;
+			}
+		}
+		printf(""%.0lf\n"",t);
+	}
+	}
+	return 0;
+ } "
+78,A,C(gcc 7.5.0),61163440,2023-03-10 20:01:37,在提需求的海螺很想退休,运行错误,"#include<stdio.h>
+
+
+int main(){
+	int i,j,x=0,y=0,k;
+	long count[9],bount[9],n,m;
+	scanf(""%d"",&k);
+	while(k--){
+		x=0,y=0;
+		scanf(""%ld%ld"",&n,&m);
+		while(n&&m){
+			if(n/10==0){
+				count[x]=n%10;
+				n=n/10;
+			}
+			else{
+			count[x]=n%10;
+			n=n/10;
+			x++;
+		}
+		if(m/10==0){
+			bount[y]=m%10;
+				m=m/10;
+		}
+		else{
+			bount[y]=m%10;
+			m=m/10;
+			y++;}
+		}
+		//printf(""%d  %d gou %d\n"",count[0], count[1],x);
+	//	printf(""%d  %d gou %d\n"",bount[0], bount[1],y);
+	long sum=0;
+	if(x!=y){
+		printf(""-1"");
+		
+	}
+	else{
+		for(i=x;i>=0;i--){
+			j=count[i]*bount[i];
+			if(j/10!=0){
+				sum=sum*100+j;
+				//	printf(""%d\n"",sum);
+			}
+			else if(j/10==0&&j!=0){
+				sum=sum*10+j;
+			//		printf(""%d\n"",sum);
+			}
+			else if(j==0){
+				sum*=10;
+			}
+		}
+		printf(""%ld\n"",sum);
+	}
+//	printf(""%d\n"",sum);
+	}
+} "
+79,A,C,61163467,2023-03-10 20:01:53,八荒犬,格式错误,"#include<stdio.h>
+#include<math.h>
+int main() {
+	int a, b;
+	int x, y = 0;
+	int T;
+	scanf(""%d"", &T);
+	for (;T > 0;T--) {
+		int cnt1 = 0;
+		int cnt2 = 0;
+		scanf(""%d %d"", &a, &b);
+		x = a;
+		y = b;
+		while (x > 0) {
+
+			x = x / 10;
+			cnt1++;
+		}
+		while (y > 0) {
+			y = y / 10;
+			cnt2++;
+		}
+		if (cnt1 == cnt2) {
+			for (;cnt1 >1;cnt1--) {
+				printf(""%d"", (a / (int)pow(10, cnt1-1 )) * (b / (int)pow(10, cnt1-1 )));
+				a = a % (int)pow(10, cnt1-1);
+				b = b % (int)pow(10, cnt1-1);
+			}
+			printf(""%d\n"", (a / (int)pow(10, cnt1 - 1)) * (b / (int)pow(10, cnt1 - 1)));
+		}
+		else {
+			printf(""-1"");
+		}
+	}
+	return 0;
+}"
+80,A,C,61163503,2023-03-10 20:02:19,八荒犬,答案正确,"#include<stdio.h>
+#include<math.h>
+int main() {
+	int a, b;
+	int x, y = 0;
+	int T;
+	scanf(""%d"", &T);
+	for (;T > 0;T--) {
+		int cnt1 = 0;
+		int cnt2 = 0;
+		scanf(""%d %d"", &a, &b);
+		x = a;
+		y = b;
+		while (x > 0) {
+
+			x = x / 10;
+			cnt1++;
+		}
+		while (y > 0) {
+			y = y / 10;
+			cnt2++;
+		}
+		if (cnt1 == cnt2) {
+			for (;cnt1 >1;cnt1--) {
+				printf(""%d"", (a / (int)pow(10, cnt1-1 )) * (b / (int)pow(10, cnt1-1 )));
+				a = a % (int)pow(10, cnt1-1);
+				b = b % (int)pow(10, cnt1-1);
+			}
+			printf(""%d\n"", (a / (int)pow(10, cnt1 - 1)) * (b / (int)pow(10, cnt1 - 1)));
+		}
+		else {
+			printf(""-1\n"");
+		}
+	}
+	return 0;
+}"
+81,A,C,61163541,2023-03-10 20:02:43,RJL666,答案错误,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+    int T;
+    scanf(""%d"",&T);
+    int i=1;
+    while(i<=T)
+    {
+       // printf(""ee"");
+        T--;
+        int t=1,s=1;
+        long long a,b,c,d,q,w=0;
+        scanf(""%lld%lld"",&a,&b);
+        c=a;d=b;
+        while(a>10)
+        {
+                a=a/10;
+                t=t+1;
+        }
+          while(b>10)
+        {
+                b=b/10;
+                s=s+1;
+
+        }
+        //printf(""%ld%ld"",c,d);
+       // printf(""%d"",s);
+       if(s!=t)
+           printf(""-1"");
+        if(s==t)
+        {
+
+            while(c>0)
+            {
+                int k1=0,k2=0;
+                k1=c/pow(10,s-1);
+                k2=d/pow(10,s-1);
+                q=k1*k2;
+                 printf(""%d "",q);
+                if(q>=10&&q<100)
+                {
+                    w=q+100*w;
+                }
+                if(q>=100)
+                {
+                    w=q+1000*w;
+                }
+
+                if(q>=0&&q<10)
+                    w=q+10*w;
+                printf(""%lld "",w);
+                c=c-k1*pow(10,s-1);
+                d=d-k2*pow(10,s-1);
+                 s=s-1;
+
+
+            }
+            printf(""%lld"",w);
+
+        }
+
+
+    }
+}
+"
+82,A,C(gcc 7.5.0),61163590,2023-03-10 20:03:15,在提需求的海螺很想退休,运行错误,"#include<stdio.h>
+
+
+int main(){
+	int i,x=0,y=0,k;
+	long count[9],bount[9],n,m,j;
+	scanf(""%d"",&k);
+	while(k--){
+		x=0,y=0;
+		scanf(""%ld%ld"",&n,&m);
+		while(n&&m){
+			if(n/10==0){
+				count[x]=n%10;
+				n=n/10;
+			}
+			else{
+			count[x]=n%10;
+			n=n/10;
+			x++;
+		}
+		if(m/10==0){
+			bount[y]=m%10;
+				m=m/10;
+		}
+		else{
+			bount[y]=m%10;
+			m=m/10;
+			y++;}
+		}
+		//printf(""%d  %d gou %d\n"",count[0], count[1],x);
+	//	printf(""%d  %d gou %d\n"",bount[0], bount[1],y);
+	long sum=0;
+	if(x!=y){
+		printf(""-1"");
+		
+	}
+	else{
+		for(i=x;i>=0;i--){
+			j=count[i]*bount[i];
+			if(j/10!=0){
+				sum=sum*100+j;
+				//	printf(""%d\n"",sum);
+			}
+			else if(j/10==0&&j!=0){
+				sum=sum*10+j;
+			//		printf(""%d\n"",sum);
+			}
+			else if(j==0){
+				sum*=10;
+			}
+		}
+		printf(""%ld\n"",sum);
+	}
+//	printf(""%d\n"",sum);
+	}
+} "
+83,A,C,61163836,2023-03-10 20:05:49,sicccc,答案错误,"#include<stdio.h>
+int fenli(int x)
+{
+    return x % 10;
+
+}
+int pd(int a,int b)
+{
+    int x = 0,y = 0;
+    while(a != 0)
+    {
+        a = (a - fenli(a))/10;
+        x++;
+    }
+    while(b != 0)
+    {
+        b = (b - fenli(b))/10;
+        y++;
+    }
+    if(x != y)
+    {
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
+}
+int main()
+{
+    int T;
+    int a,b;
+    int sum = 0;
+    int cheng = 1;
+    int arr[100];
+    int i = 0;
+    scanf(""%d"",&T);
+    int a1,b1;
+    while(T>=0)
+    {
+        scanf(""%d%d"",&a,&b);
+        if(pd(a,b))
+        {
+             while(a!=0)
+        {
+            a1 = fenli(a);
+            b1 = fenli(b);
+            sum +=a1 *b1*cheng;
+            if(a1*b1<10)
+            {
+                cheng *= 10;
+            }
+            else if(a1*b1>=10)   //129 139  12 13 1
+            {
+                cheng *= 100;
+            }
+            a = (a - a1)/10;
+            b = (b - b1)/10;
+        }
+        }
+        else
+        {
+            sum = -1;
+        }
+
+        arr[i] = sum;
+        sum = 0;
+        cheng = 1;
+        T--;
+        i++;
+    }
+   int p = 0;
+   for(p=0;p<=i;p++)
+   {
+       printf(""%d\n"",arr[p]);
+   }
+}
+"
+84,A,C(gcc 7.5.0),61163855,2023-03-10 20:06:01,在刷代码的林北很想吃开封菜,格式错误,"#include<stdio.h>
+#include<string.h>
+char a[1000000005];
+char b[1000000005];
+int main()
+{
+    int t,i,j;
+    scanf(""%d"",&t);
+    for(i=0;i<t;i++){
+        getchar();
+        scanf(""%s %s"",&a,&b);
+        if(strlen(a)==strlen(b)){
+            for(j=0;j<strlen(a);j++){
+                printf(""%d"",(a[j]-'0')*(b[j]-'0'));
+            }
+            printf(""\n"");
+        }
+        else printf(""-1"");
+    }
+    return 0;
+}
+"
+85,A,C,61163929,2023-03-10 20:06:41,被普调的coder很好奇,执行出错,"#include <stdio.h>
+#include <math.h>
+int *path;
+int n;
+void f (int a,int b)
+{
+    int T=0;
+    while(a!=0&&b!=0)
+    {
+        
+        T=(a%10)*(b%10);
+        *path=T;
+        path++;
+        n++;
+        a=a/10;
+        b=b/10;
+    }
+ }
+int hefa(int a,int b)
+{
+    int c=0,d=0;
+    while(a!=0){
+        c++;
+        a=a/10;
+    }
+    while(b!=0){
+        d++;
+        b=b/10;
+    }
+    if(c==d){
+        return 1;
+    }
+    else{
+        return -1;
+    }
+}
+void main()
+{
+    int a,b;
+    int p;
+    int i;
+    scanf(""%d %d"",&a,&b);
+    p=hefa(a,b);
+    if(p==1)
+    {
+         f(a,b);
+         for(i=n;i>=0;i--)
+         {
+             printf(""%d"",path[i]);
+         }
+    }
+    else
+    {  printf(""%d"",p);
+    }
+  
+}"
+86,A,C(gcc 7.5.0),61163955,2023-03-10 20:06:52,在刷代码的林北很想吃开封菜,答案正确,"#include<stdio.h>
+#include<string.h>
+char a[1000000005];
+char b[1000000005];
+int main()
+{
+    int t,i,j;
+    scanf(""%d"",&t);
+    for(i=0;i<t;i++){
+        getchar();
+        scanf(""%s %s"",&a,&b);
+        if(strlen(a)==strlen(b)){
+            for(j=0;j<strlen(a);j++){
+                printf(""%d"",(a[j]-'0')*(b[j]-'0'));
+            }
+            printf(""\n"");
+        }
+        else printf(""-1\n"");
+    }
+    return 0;
+}
+"
+87,A,C,61164038,2023-03-10 20:07:40,sicccc,答案错误,"#include<stdio.h>
+int fenli(int x)
+{
+    return x % 10;
+
+}
+int pd(int a,int b)
+{
+    int x = 0,y = 0;
+    while(a != 0)
+    {
+        a = (a - fenli(a))/10;
+        x++;
+    }
+    while(b != 0)
+    {
+        b = (b - fenli(b))/10;
+        y++;
+    }
+    if(x != y)
+    {
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
+}
+int main()
+{
+    int T;
+    int a,b;
+    int sum = 0;
+    int cheng = 1;
+    int arr[100];
+    int i = 0;
+    scanf(""%d"",&T);
+    int a1,b1;
+    while(T>0)
+    {
+        scanf(""%d%d"",&a,&b);
+        if(pd(a,b))
+        {
+             while(a!=0)
+        {
+            a1 = fenli(a);
+            b1 = fenli(b);
+            sum +=a1 *b1*cheng;
+            if(a1*b1<10)
+            {
+                cheng *= 10;
+            }
+            else if(a1*b1>=10)   //129 139  12 13 1
+            {
+                cheng *= 100;
+            }
+            a = (a - a1)/10;
+            b = (b - b1)/10;
+        }
+        }
+        else
+        {
+            sum = -1;
+        }
+        arr[i] = sum;
+        sum = 0;
+        cheng = 1;
+        T--;
+        i++;
+    }
+   int p = 0;
+   for(p=0;p<i;p++)
+   {
+       printf(""%d\n"",arr[p]);
+   }
+}
+"
+88,A,C,61164147,2023-03-10 20:08:43,sicccc,答案错误,"#include<stdio.h>
+int fenli(int x)
+{
+    return x % 10;
+
+}
+int pd(int a,int b)
+{
+    int x = 0,y = 0;
+    while(a != 0)
+    {
+        a = (a - fenli(a))/10;
+        x++;
+    }
+    while(b != 0)
+    {
+        b = (b - fenli(b))/10;
+        y++;
+    }
+    if(x != y)
+    {
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
+}
+int main()
+{
+    int T;
+    int a,b;
+    int sum = 0;
+    int cheng = 1;
+    int arr[100];
+    int i = 0;
+    scanf(""%d"",&T);
+    int a1,b1;
+    while(T>0)
+    {
+        scanf(""%d%d"",&a,&b);
+        if(pd(a,b))
+        {
+             while(a!=0)
+        {
+            a1 = fenli(a);
+            b1 = fenli(b);
+            sum +=a1 *b1*cheng;
+            if(a1*b1<10)
+            {
+                cheng *= 10;
+            }
+            else if(a1*b1>=10)   //129 139  12 13 1
+            {
+                cheng *= 100;
+            }
+            a = (a - a1)/10;
+            b = (b - b1)/10;
+        }
+        }
+        else
+        {
+            sum = -1;
+        }
+        arr[i] = sum;
+        sum = 0;
+        cheng = 1;
+        T--;
+        i++;
+    }
+   int p = 0;
+   for(p=0;p<i;p++)
+   {
+      if(p == i-1)
+      {
+           printf(""%d"",arr[p]);
+      }
+      else
+      {
+           printf(""%d\n"",arr[p]);
+      }
+   }
+}
+"
+89,A,C,61164202,2023-03-10 20:09:10,sicccc,答案错误,"#include<stdio.h>
+int fenli(int x)
+{
+    return x % 10;
+
+}
+int pd(int a,int b)
+{
+    int x = 0,y = 0;
+    while(a != 0)
+    {
+        a = (a - fenli(a))/10;
+        x++;
+    }
+    while(b != 0)
+    {
+        b = (b - fenli(b))/10;
+        y++;
+    }
+    if(x != y)
+    {
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
+}
+int main()
+{
+    int T;
+    int a,b;
+    int sum = 0;
+    int cheng = 1;
+    int arr[100];
+    int i = 0;
+    scanf(""%d"",&T);
+    int a1,b1;
+    while(T>0)
+    {
+        scanf(""%d%d"",&a,&b);
+        if(pd(a,b))
+        {
+             while(a!=0)
+        {
+            a1 = fenli(a);
+            b1 = fenli(b);
+            sum +=a1 *b1*cheng;
+            if(a1*b1<10)
+            {
+                cheng *= 10;
+            }
+            else if(a1*b1>=10)   //129 139  12 13 1
+            {
+                cheng *= 100;
+            }
+            a = (a - a1)/10;
+            b = (b - b1)/10;
+        }
+        }
+        else
+        {
+            sum = -1;
+        }
+        arr[i] = sum;
+        sum = 0;
+        cheng = 1;
+        T--;
+        i++;
+    }
+   int p = 0;
+   for(p=0;p<i;p++)
+   {
+      if(p == i-1)
+      {
+           printf(""%d"",arr[p]);
+      }
+      else
+      {
+           printf(""%d\n"",arr[p]);
+      }
+   }
+}
+"
+90,A,C(gcc 7.5.0),61164336,2023-03-10 20:10:37,在提需求的海螺很想退休,运行错误,"#include<stdio.h>
+
+
+int main(){
+	int i,x=0,y=0,k,o;
+	long count[9],bount[9],n,m,j;
+	scanf(""%d"",&k);
+	while(k--){
+		x=0,y=0,o=0;
+		scanf(""%ld%ld"",&n,&m);
+		while(n&&m){
+			if(n/10==0){
+				count[x]=n%10;
+				n=n/10;
+				o=x;
+			}
+			else{
+			count[x]=n%10;
+			n=n/10;
+			x++;
+		}
+		if(m/10==0){
+			bount[y]=m%10;
+				m=m/10;
+		}
+		else{
+			bount[y]=m%10;
+			m=m/10;
+			y++;}
+		}
+		//printf(""%d  %d gou %d\n"",count[0], count[1],x);
+	//	printf(""%d  %d gou %d\n"",bount[0], bount[1],y);
+	long sum=0;
+	if(x!=y){
+		printf(""-1"");
+		
+	}
+	else{
+		for(i=o;i>=0;i--){
+			j=count[i]*bount[i];
+			if(j/10!=0){
+				sum=sum*100+j;
+				//	printf(""%d\n"",sum);
+			}
+			else if(j/10==0&&j!=0){
+				sum=sum*10+j;
+			//		printf(""%d\n"",sum);
+			}
+			else if(j==0){
+				sum*=10;
+			}
+		}
+		printf(""%ld\n"",sum);
+	}
+//	printf(""%d\n"",sum);
+	}
+} "
+91,A,C,61164707,2023-03-10 20:14:50,是芒果鸭yyy,答案正确,"#include<stdio.h>
+#include<string.h>
+void run()
+{
+	int i,le_a,le_b;
+	char a[150],b[150];
+	scanf(""%s %s"",a,b);
+	le_a=strlen(a);
+	le_b=strlen(b);
+	if(le_a == le_b)
+	{
+		for(i=0;i<le_a;i++)
+		{
+			printf(""%d"",(a[i]-'0')*(b[i]-'0'));
+		}
+	}
+	else printf(""-1"");
+	printf(""\n"");
+}
+int main()
+{
+	int t;
+	scanf(""%d"",&t);
+	while(t--) run();
+	return 0;
+}"
+92,A,C,61164713,2023-03-10 20:14:54,是芒果鸭yyy,答案正确,"#include<stdio.h>
+#include<string.h>
+void run()
+{
+	int i,le_a,le_b;
+	char a[150],b[150];
+	scanf(""%s %s"",a,b);
+	le_a=strlen(a);
+	le_b=strlen(b);
+	if(le_a == le_b)
+	{
+		for(i=0;i<le_a;i++)
+		{
+			printf(""%d"",(a[i]-'0')*(b[i]-'0'));
+		}
+	}
+	else printf(""-1"");
+	printf(""\n"");
+}
+int main()
+{
+	int t;
+	scanf(""%d"",&t);
+	while(t--) run();
+	return 0;
+}"
+93,A,C,61164931,2023-03-10 20:17:21,奕羿,答案正确,"#include<stdio.h>
+int main()
+{
+    int n;
+    scanf(""%d"",&n);
+    for(int i=0;i<n;i++){
+        long long int x,y;
+        scanf(""%lld%lld"",&x,&y);
+        int cnt1=0,cnt2=0;
+        long long int w=x,m=y;
+        while(1){
+            if(w==0){
+                break;
+            }
+            cnt1++;
+            w/=10;
+        }
+        while(1){
+            if(m==0){
+                break;
+            }
+            cnt2++;
+            m/=10;
+        }
+        //printf(""cnt1=%d cnt2=%d\n"",cnt1,cnt2);
+        long long int a=x,b=y;
+        if(cnt1==cnt2){
+            int brr[1000];
+            for(int i=0;i<cnt1;i++){
+                brr[i]=(a%10)*(b%10);
+                a/=10;
+                b/=10;
+            }
+            for(int i=cnt1-1;i>=0;i--){
+                printf(""%d"",brr[i]);
+            }
+            printf(""\n"");
+        }else{
+            printf(""-1\n"");
+        }
+    }
+}"
+94,A,C,61165110,2023-03-10 20:19:08,桢得烦,答案错误,"#include<stdio.h>
+#include<math.h>
+#include<string.h>
+int panduan(int x, int y)
+{
+    int a = 0, b = 0;
+    while (x > 10)
+    {
+        x /= 10;
+        a++;
+    }
+    while (y > 10)
+    {
+        y /= 10;
+        b++;
+    }
+    if (a == b) return 1;
+    else return 0;
+}
+void jisuan(int x, int y)
+{
+    int a = 0, b = 0;
+    int len1 = 0;
+    int temp = x;
+    int ab[10000];
+    memset(ab,0,10000);
+    while (x > 10)
+    {
+        x /= 10;
+        len1++;
+    }
+    len1++;
+    int m = len1;
+    do {
+        int u = temp / pow(10, len1 - 1);
+        int v = y / pow(10, len1 - 1);
+        int p = u*v;
+        ab[a] = p;
+        u = temp / pow(10, len1 - 1);
+        v = pow(10, len1 - 1);
+        int j = u * v;
+        temp = temp -j ;
+        u = y / pow(10, len1 - 1);
+        y = y - u * v;
+        len1--;
+        a++;
+    } while (temp > 0);
+    for (int i = 0; i < m; i++)
+    {
+        printf(""%d"", ab[i]);
+        if (i == m - 1)
+            printf(""\n"");
+    }
+}
+int main()
+{
+    int a;
+    long b, c;
+    scanf(""%d"", &a);
+    for (int i = 0; i < a; i++)
+    {
+        scanf(""%ld %ld"", &b, &c);
+        getchar();
+        int m = panduan(b, c);
+        if (m == 0) printf(""-1"");
+        else jisuan(b, c);
+    }
+    return 0;
+}"
+95,A,C,61165277,2023-03-10 20:20:45,Sekirooo,答案错误,"#include<stdio.h>
+int main() {
+    int t;
+    while (scanf(""%d"", &t) != EOF) {
+        for (int i = 0; i < t; i++) {
+            int a, b;
+            scanf(""%d %d"", &a, &b);
+            int sum = 0;
+            int k = 1;
+            while (a != 0 && b != 0) {
+                int temp = (a % 10) * (b % 10);
+                if (temp < 10) {
+                    sum += temp * k;
+                    k *= 10;
+                }
+                else {
+                    sum += temp * k;
+                    k *= 100;
+                }
+                a /= 10;
+                b /= 10;
+            }
+            if (a == 0 && b == 0) {
+                printf(""%d\n"", sum);
+            }
+            else {
+                printf(""-1\n"");
+            }
+        }
+    }
+    return 0;
+}"
+96,A,C,61165463,2023-03-10 20:22:44,桢得烦,答案错误,"#include<stdio.h>
+#include<math.h>
+#include<string.h>
+int panduan(int x, int y)
+{
+    int a = 0, b = 0;
+    while (x > 10)
+    {
+        x /= 10;
+        a++;
+    }
+    while (y > 10)
+    {
+        y /= 10;
+        b++;
+    }
+    if (a == b) return 1;
+    else return 0;
+}
+void jisuan(int x, int y)
+{
+    int a = 0, b = 0;
+    int len1 = 0;
+    int temp = x;
+    int ab[10000];
+    memset(ab,0,10000);
+    while (x >= 10)
+    {
+        x /= 10;
+        len1++;
+    }
+    len1++;
+    int m = len1;
+    do {
+        int u = temp / pow(10, len1 - 1);
+        int v = y / pow(10, len1 - 1);
+        int p = u*v;
+        ab[a] = p;
+        u = temp / pow(10, len1 - 1);
+        v = pow(10, len1 - 1);
+        int j = u * v;
+        temp = temp -j ;
+        u = y / pow(10, len1 - 1);
+        y = y - u * v;
+        len1--;
+        a++;
+    } while (temp > 0);
+    for (int i = 0; i < m; i++)
+    {
+        printf(""%d"", ab[i]);
+        if (i == m - 1)
+            printf(""\n"");
+    }
+}
+int main()
+{
+    int a;
+    long b, c;
+    scanf(""%d"", &a);
+    for (int i = 0; i < a; i++)
+    {
+        scanf(""%ld %ld"", &b, &c);
+        getchar();
+        int m = panduan(b, c);
+        if (m == 0) printf(""-1"");
+        else jisuan(b, c);
+    }
+    return 0;
+}"
+97,A,C,61165733,2023-03-10 20:25:45,咕噜噜咕,答案正确,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+    int t,i=1,j=1,a[100009],b[100009],n1,n2,m,n;
+    scanf(""%d"",&t);
+    while(t--)
+    {
+       scanf(""%d%d"",&m,&n);
+        while(m)
+        {
+            a[i++]=m%10;
+            m=m/10;
+        }
+        while(n)
+        {
+            b[j++]=n%10;
+            n=n/10;
+        }
+        //printf(""i=%d\n"",i);
+        if(i==j)
+        {
+            i=i-1;
+            j=j-1;
+            while(i)
+            {
+                printf(""%d"",a[i--]*b[j--]);
+            }
+        }
+        else
+            printf(""-1"");
+        printf(""\n"");
+        i=j=1;
+    }
+}"
+98,A,C,61166223,2023-03-10 20:31:28,Sekirooo,答案正确,"#include<stdio.h>
+int main() {
+    int t;
+    while (scanf(""%d"", &t) != EOF) {
+        for (int i = 0; i < t; i++) {
+            long long int a, b;
+            scanf(""%lld %lld"", &a, &b);
+            long long int sum = 0;
+            long long int  k = 1;
+            while (a != 0 && b != 0) {
+                int temp = (a % 10) * (b % 10);
+                if (temp < 10) {
+                    sum += temp * k;
+                    k *= 10;
+                }
+                else {
+                    sum += temp * k;
+                    k *= 100;
+                }
+                a /= 10;
+                b /= 10;
+            }
+            if (a == 0 && b == 0) {
+                printf(""%lld\n"", sum);
+            }
+            else {
+                printf(""-1\n"");
+            }
+        }
+    }
+    return 0;
+}"
+99,A,C,61166331,2023-03-10 20:32:45,三岁与十里_,答案正确,"#include<stdio.h>
+int wieth(long long x);
+void cha(int a[],long long x,long long y,int n);
+int main()
+{
+    long long x,y;
+    int t,n,i;
+    int a[10];
+    scanf(""%d"",&t);
+    while(t--)
+    {
+        scanf(""%lld %lld"",&x,&y);
+        n = wieth(x);
+        if(n==wieth(y))
+        {
+            cha(a,x,y,n);
+            for(i=0;i<n;i++) printf(""%d"",a[i]);
+            printf(""\n"");
+        }
+        else printf(""-1\n"");
+    }
+    return 0;
+}
+int wieth(long long x)
+{
+    int n=0;
+    while(x)
+    {
+        n++;
+        x /= 10;
+    }
+    return n;
+}
+void cha(int a[],long long x,long long y,int n)
+{
+    int i;
+    for(i=1;i<=n;i++)
+    {
+        a[n-i] = (x%10)*(y%10);
+        x /= 10;
+        y /= 10;
+    }
+}"
+100,A,C(gcc 7.5.0),61166631,2023-03-10 20:35:43,pdsu_邢彤彤,答案正确,"#include <stdio.h>
+int main()
+{
+    int n;
+    scanf(""%d"",&n);
+    while(n--)
+    {
+        long long a,b;
+        scanf(""%lld %lld"",&a,&b);
+        int c[200];
+        int i=0,t,x,m=0,n=0;
+        while(a!=0 && b!=0)
+        {
+            t=a%10;
+            a/=10;
+            m++;
+            x=b%10;
+            b/=10;
+            n++;
+            c[i]=t*x;
+            i++;
+        }
+        if(a==0 && b==0)
+        {
+        for(i=m-1;i>=0;i--)
+        {
+            printf(""%d"",c[i]);
+        }
+        printf(""\n"");
+        }else
+        {
+            printf(""-1\n"");
+        }
+    }
+    return 0;
+}"
+101,A,C(gcc 7.5.0),61166636,2023-03-10 20:35:47,拒绝pua的柯基很讲原则,格式错误,"#include<stdio.h>
+#include <stdlib.h>
+const int maxn = 100;
+int ans_num[100];
+int isntsame(long long a, long long b){
+    int a_num = 0, b_num=0;
+    while(a){
+        a = a/10;
+        a_num++;
+    }
+    while(b){
+        b = b/10;
+        b_num++;
+    }
+    if(a_num == b_num)
+        return 0;
+    else
+        return 1;
+}
+
+int* num2array(long long num) {
+  long long temp = num;
+  int count = 0;
+  
+  // 计算num的位数
+  while(temp > 0) {
+    temp /= 10;
+    count++;
+  }
+  
+  int* arr = (int*)malloc(count * sizeof(int));
+  
+  // 将num逐位写入数组
+  for(int i = count - 1; i >= 0; i--) {
+    arr[i] = num % 10;
+    num /= 10;
+  }
+  
+  return arr;
+}
+
+int main(){
+    int n;
+    scanf(""%d"", &n);
+    long long num1[maxn],num2[maxn];
+    int i=0;
+    for(i=0; i<n; i++){
+        scanf(""%lld %lld"", &num1[i], &num2[i]);
+        if(isntsame(num1[i], num2[i]))
+            printf(""-1"");
+        else{
+            int* a;    //俩数组（指针）
+            int* b;
+            int len=0;
+            a = num2array(num1[i]);
+            b = num2array(num2[i]);
+            while(num1[i]){
+                num1[i] = num1[i]/10;
+                len++;
+            }
+            for(int k=0; k<len; k++){
+                int x = *(a+k);
+                int y = *(b+k);
+                printf(""%d"", x * y);
+            }
+            printf(""\n"");
+        }
+    }
+    
+    
+    return 0;
+}"
+102,A,C(gcc 7.5.0),61166637,2023-03-10 20:35:47,pdsu_邢彤彤,答案正确,"#include <stdio.h>
+int main()
+{
+    int n;
+    scanf(""%d"",&n);
+    while(n--)
+    {
+        long long a,b;
+        scanf(""%lld %lld"",&a,&b);
+        int c[200];
+        int i=0,t,x,m=0,n=0;
+        while(a!=0 && b!=0)
+        {
+            t=a%10;
+            a/=10;
+            m++;
+            x=b%10;
+            b/=10;
+            n++;
+            c[i]=t*x;
+            i++;
+        }
+        if(a==0 && b==0)
+        {
+        for(i=m-1;i>=0;i--)
+        {
+            printf(""%d"",c[i]);
+        }
+        printf(""\n"");
+        }else
+        {
+            printf(""-1\n"");
+        }
+    }
+    return 0;
+}"
+103,A,C(gcc 7.5.0),61166710,2023-03-10 20:36:31,拒绝pua的柯基很讲原则,格式错误,"#include<stdio.h>
+#include <stdlib.h>
+const int maxn = 100;
+int ans_num[100];
+int isntsame(long long a, long long b){
+    int a_num = 0, b_num=0;
+    while(a){
+        a = a/10;
+        a_num++;
+    }
+    while(b){
+        b = b/10;
+        b_num++;
+    }
+    if(a_num == b_num)
+        return 0;
+    else
+        return 1;
+}
+
+int* num2array(long long num) {
+  long long temp = num;
+  int count = 0;
+  
+  // 计算num的位数
+  while(temp > 0) {
+    temp /= 10;
+    count++;
+  }
+  
+  int* arr = (int*)malloc(count * sizeof(int));
+  
+  // 将num逐位写入数组
+  for(int i = count - 1; i >= 0; i--) {
+    arr[i] = num % 10;
+    num /= 10;
+  }
+  
+  return arr;
+}
+
+int main(){
+    int n;
+    scanf(""%d"", &n);
+    long long num1[maxn],num2[maxn];
+    int i=0;
+    for(i=0; i<n; i++){
+        scanf(""%lld %lld"", &num1[i], &num2[i]);
+        if(isntsame(num1[i], num2[i]))
+            printf(""%d"",-1);
+        else{
+            int* a;    //俩数组（指针）
+            int* b;
+            int len=0;
+            a = num2array(num1[i]);
+            b = num2array(num2[i]);
+            while(num1[i]){
+                num1[i] = num1[i]/10;
+                len++;
+            }
+            for(int k=0; k<len; k++){
+                int x = *(a+k);
+                int y = *(b+k);
+                printf(""%d"", x * y);
+            }
+            printf(""\n"");
+        }
+    }
+    
+    
+    return 0;
+}"
+104,A,C(gcc 7.5.0),61166772,2023-03-10 20:37:12,拒绝pua的柯基很讲原则,格式错误,"#include<stdio.h>
+#include <stdlib.h>
+const int maxn = 100;
+int ans_num[100];
+int isntsame(long long a, long long b){
+    int a_num = 0, b_num=0;
+    while(a){
+        a = a/10;
+        a_num++;
+    }
+    while(b){
+        b = b/10;
+        b_num++;
+    }
+    if(a_num == b_num)
+        return 0;
+    else
+        return 1;
+}
+
+int* num2array(long long num) {
+  long long temp = num;
+  int count = 0;
+  
+  // 计算num的位数
+  while(temp > 0) {
+    temp /= 10;
+    count++;
+  }
+  
+  int* arr = (int*)malloc(count * sizeof(int));
+  
+  // 将num逐位写入数组
+  for(int i = count - 1; i >= 0; i--) {
+    arr[i] = num % 10;
+    num /= 10;
+  }
+  
+  return arr;
+}
+
+int main(){
+    int n;
+    scanf(""%d"", &n);
+    long long num1[maxn],num2[maxn];
+    int i=0;
+    for(i=0; i<n; i++){
+        scanf(""%lld %lld"", &num1[i], &num2[i]);
+        if(isntsame(num1[i], num2[i]))
+            printf(""-1"");
+        else{
+            int* a;    //俩数组（指针）
+            int* b;
+            int len=0;
+            a = num2array(num1[i]);
+            b = num2array(num2[i]);
+            while(num1[i]){
+                num1[i] = num1[i]/10;
+                len++;
+            }
+            for(int k=0; k<len; k++){
+                int x = *(a+k);
+                int y = *(b+k);
+                printf(""%d"", x * y);
+            }
+            printf(""\n"");
+        }
+    }
+    
+    return 0;
+}"
+105,A,C(gcc 7.5.0),61166821,2023-03-10 20:37:41,拒绝pua的柯基很讲原则,答案正确,"#include<stdio.h>
+#include <stdlib.h>
+const int maxn = 100;
+int ans_num[100];
+int isntsame(long long a, long long b){
+    int a_num = 0, b_num=0;
+    while(a){
+        a = a/10;
+        a_num++;
+    }
+    while(b){
+        b = b/10;
+        b_num++;
+    }
+    if(a_num == b_num)
+        return 0;
+    else
+        return 1;
+}
+
+int* num2array(long long num) {
+  long long temp = num;
+  int count = 0;
+  
+  // 计算num的位数
+  while(temp > 0) {
+    temp /= 10;
+    count++;
+  }
+  
+  int* arr = (int*)malloc(count * sizeof(int));
+  
+  // 将num逐位写入数组
+  for(int i = count - 1; i >= 0; i--) {
+    arr[i] = num % 10;
+    num /= 10;
+  }
+  
+  return arr;
+}
+
+int main(){
+    int n;
+    scanf(""%d"", &n);
+    long long num1[maxn],num2[maxn];
+    int i=0;
+    for(i=0; i<n; i++){
+        scanf(""%lld %lld"", &num1[i], &num2[i]);
+        if(isntsame(num1[i], num2[i]))
+            printf(""-1\n"");
+        else{
+            int* a;    //俩数组（指针）
+            int* b;
+            int len=0;
+            a = num2array(num1[i]);
+            b = num2array(num2[i]);
+            while(num1[i]){
+                num1[i] = num1[i]/10;
+                len++;
+            }
+            for(int k=0; k<len; k++){
+                int x = *(a+k);
+                int y = *(b+k);
+                printf(""%d"", x * y);
+            }
+            printf(""\n"");
+        }
+    }
+    
+    return 0;
+}"
+106,A,C,61166843,2023-03-10 20:37:53,华夫饼觉醒力,答案错误,"#include<stdio.h>
+
+
+#include<string.h>
+
+#include<math.h>
+
+int lengh(int x,int y);
+
+int yuansu(int x,int y);
+
+int main()
+
+{
+
+    int n,i,j,p,q;
+
+    scanf(""%d"",&n);
+
+    int a[n][2];
+
+    for(i=0;i<n;i++)
+
+    {
+
+      for(j=0;j<2;j++)
+
+      scanf(""%d"",&a[i][j]);
+
+    }
+
+    for(i=0;i<n;i++)
+
+    {
+
+      p=lengh(a[i][0],a[i][1]);
+
+      if(p==1) printf(""-1\n"");
+
+      else
+
+      {
+
+        q=yuansu(a[i][0],a[i][1]);
+
+        printf(""%d\n"",q);
+
+      } 
+
+    }
+
+    
+
+    return 0;
+
+}
+
+int lengh(int x,int y)
+
+{
+
+    int b1=0,b2=0;
+
+    while(x!=0)
+
+    {
+
+        x=x/10;
+
+        b1++;
+
+    }
+
+    while(y!=0)
+
+    {
+
+        y=y/10;
+
+        b2++;
+
+    }
+
+    if(b1!=b2)
+
+    return 1;
+
+    else 
+
+    return 0;
+
+}
+
+
+int yuansu(int x,int y)
+
+{
+
+    int b1,b2,s=0,m,n,l=0;
+
+    while(x!=0)
+
+    {
+
+        b1=x%10;
+
+        b2=y%10;
+
+        m=b1*b2;
+
+        s=s+pow(10,l)*m;
+
+        l+=2;
+
+        x=x/10;
+
+        y=y/10;
+
+    }
+
+    return s;
+
+
+}
+
+
+"
+107,A,C,61167147,2023-03-10 20:41:15,华夫饼觉醒力,答案错误,"#include<stdio.h>
+#include<string.h>
+#include<math.h>
+int lengh(int x,int y);
+int yuansu(int x,int y);
+int main()
+{
+    int n,i,j,p,q;
+    scanf(""%d"",&n);
+    int a[n][2];
+    for(i=0;i<n;i++)
+    {
+      for(j=0;j<2;j++)
+      scanf(""%d"",&a[i][j]);
+    }
+    for(i=0;i<n;i++)
+    {
+      p=lengh(a[i][0],a[i][1]);
+      if(p==1) printf(""-1\n"");
+      else
+      {
+        q=yuansu(a[i][0],a[i][1]);
+        printf(""%d\n"",q);
+      } 
+    }   
+    return 0;
+}
+int lengh(int x,int y)
+{
+    int b1=0,b2=0;
+    while(x!=0)
+    {
+        x/=10;
+        b1++;
+    }
+    while(y!=0)
+    {
+        y=y/10;
+        b2++;
+    }
+    if(b1!=b2)
+    return 1;
+    else 
+    return 0;
+}
+int yuansu(int x,int y)
+{
+    int b1,b2,s=0,m,n,l=0;
+    while(x!=0)
+    {
+        b1=x%10;
+        b2=y%10;
+        m=b1*b2;
+        s=s+pow(10,l)*m;
+        l+=2;
+        x/=10;
+        y/=10;
+    }
+    return s;
+}"
+108,A,C,61167246,2023-03-10 20:42:26,先天智力不足,答案正确,"#include<stdio.h>
+#include<string.h>
+int main() {
+    int n;
+    scanf(""%d"", &n);
+    char num1[11];
+    char num2[11];
+    char ch = getchar();
+    for (int i = 1; i <= n; i++) {
+        scanf(""%s %s"", num1, num2);
+        if (strlen(num1) !=strlen(num2)) {
+            printf(""-1\n""); continue;
+        }
+        int length = strlen(num1);
+        for (int j = 0; j < length; j++) {
+            printf(""%d"", (num1[j] - '0') * (num2[j] - '0'));
+      }
+        printf(""\n"");
+    }
+}"
+109,A,C,61167279,2023-03-10 20:42:51,sicccc,格式错误,"#include<stdio.h>
+int weiT(int x)
+{
+    int  sum=0;
+    while(x!=0)
+    {
+        x = x/10;
+        sum++;
+    }
+    return sum;
+}
+int main()
+{
+    int T;
+    int a,b;
+    int w;
+    int arr[10000];
+    int k=1;
+    scanf(""%d"",&T);
+    while(T--)
+    {
+        int i=0;
+        scanf(""%d%d"",&a,&b);
+        w = weiT(a);
+        if(weiT(a)!=weiT(b))
+        {
+            printf(""-1\n"");
+        }
+        else
+        {
+            while(--w)
+            {
+                k = k*10;
+            }
+            w = weiT(a);
+            while(w--)
+            {
+                arr[i] = (a/k)*(b/k);
+                a = a%k;
+                b = b%k;
+                k=k/10;
+                i++;
+            }
+        }
+        for(int j = 0;j<i;j++)
+        {
+            printf(""%d"",arr[j]);
+        }
+        printf(""\n"");
+        k = 1;
+    }
+}
+"
+110,A,C,61167371,2023-03-10 20:43:57,sicccc,格式错误,"#include<stdio.h>
+int weiT(int x)
+{
+    int  sum=0;
+    while(x!=0)
+    {
+        x = x/10;
+        sum++;
+    }
+    return sum;
+}
+int main()
+{
+    int T;
+    int a,b;
+    int w;
+
+    scanf(""%d"",&T);
+    for(;T>0;T--)
+    {
+        int arr[10000];
+        int k=1;
+        int i=0;
+        scanf(""%d%d"",&a,&b);
+        w = weiT(a);
+        if(weiT(a)!=weiT(b))
+        {
+            printf(""-1\n"");
+        }
+        else
+        {
+            while(--w)
+            {
+                k = k*10;
+            }
+            w = weiT(a);
+            while(w--)
+            {
+                arr[i] = (a/k)*(b/k);
+                a = a%k;
+                b = b%k;
+                k=k/10;
+                i++;
+            }
+        }
+        for(int j = 0;j<i;j++)
+        {
+            printf(""%d"",arr[j]);
+        }
+        printf(""\n"");
+    }
+}
+"
+111,A,C,61167387,2023-03-10 20:44:05,华夫饼觉醒力,格式错误,"#include<stdio.h>
+#include<string.h>
+#include<math.h>
+int lengh(int x,int y);
+int yuansu(int x,int y);
+int main()
+{
+    int n,i,j,p,q;
+    scanf(""%d"",&n);
+    int a[n][2];
+    for(i=0;i<n;i++)
+    {
+      for(j=0;j<2;j++)
+      scanf(""%d"",&a[i][j]);
+    }
+    for(i=0;i<n;i++)
+    {
+      p=lengh(a[i][0],a[i][1]);
+      if(p==1) printf(""-1\n"");
+     
+        else if(a[i][0]==1000000000&&a[i][1]==1000000000)
+      printf(""1000000000"");
+        else
+      {
+        q=yuansu(a[i][0],a[i][1]);
+        printf(""%d\n"",q);
+      } 
+    }   
+    return 0;
+}
+int lengh(int x,int y)
+{
+    int b1=0,b2=0;
+    while(x!=0)
+    {
+        x/=10;
+        b1++;
+    }
+    while(y!=0)
+    {
+        y=y/10;
+        b2++;
+    }
+    if(b1!=b2)
+    return 1;
+    else 
+    return 0;
+}
+int yuansu(int x,int y)
+{
+    int b1,b2,s=0,m,n,l=0;
+    while(x!=0)
+    {
+        b1=x%10;
+        b2=y%10;
+        m=b1*b2;
+        s=s+pow(10,l)*m;
+        l+=2;
+        x/=10;
+        y/=10;
+    }
+    return s;
+}"
+112,A,C,61167464,2023-03-10 20:45:00,华夫饼觉醒力,答案错误,"#include<stdio.h>
+#include<string.h>
+#include<math.h>
+int lengh(int x,int y);
+int yuansu(int x,int y);
+int main()
+{
+    int n,i,j,p,q;
+    scanf(""%d"",&n);
+    int a[n][2];
+    for(i=0;i<n;i++)
+    {
+      for(j=0;j<2;j++)
+      scanf(""%d"",&a[i][j]);
+    }
+    for(i=0;i<n;i++)
+    {
+      p=lengh(a[i][0],a[i][1]);
+      if(p==1) printf(""-1\n"");
+     
+        else if(a[i][0]==1000000000&&a[i][1]==1000000000)
+      printf(""1000000000\n"");
+        else
+      {
+        q=yuansu(a[i][0],a[i][1]);
+        printf(""%d\n"",q);
+      } 
+    }   
+    return 0;
+}
+int lengh(int x,int y)
+{
+    int b1=0,b2=0;
+    while(x!=0)
+    {
+        x/=10;
+        b1++;
+    }
+    while(y!=0)
+    {
+        y=y/10;
+        b2++;
+    }
+    if(b1!=b2)
+    return 1;
+    else 
+    return 0;
+}
+int yuansu(int x,int y)
+{
+    int b1,b2,s=0,m,n,l=0;
+    while(x!=0)
+    {
+        b1=x%10;
+        b2=y%10;
+        m=b1*b2;
+        s=s+pow(10,l)*m;
+        l+=2;
+        x/=10;
+        y/=10;
+    }
+    return s;
+}"
+113,A,C,61167607,2023-03-10 20:46:30,sicccc,格式错误,"#include<stdio.h>
+int weiT(int x)
+{
+    int  sum=0;
+    while(x!=0)
+    {
+        x = x/10;
+        sum++;
+    }
+    return sum;
+}
+int main()
+{
+    int T;
+    int a,b;
+    int w;
+    int flag=0;
+    scanf(""%d"",&T);
+    for(;T>0;T--)
+    {
+        int arr[10000];
+        int k=1;
+        int i=0;
+        scanf(""%d%d"",&a,&b);
+        w = weiT(a);
+        if(weiT(a)!=weiT(b))
+        {
+            printf(""-1\n"");
+            flag=1;
+        }
+        else
+        {
+            while(--w)
+            {
+                k = k*10;
+            }
+            w = weiT(a);
+            while(w--)
+            {
+                arr[i] = (a/k)*(b/k);
+                a = a%k;
+                b = b%k;
+                k=k/10;
+                i++;
+            }
+        }
+        for(int j = 0;j<i;j++)
+        {
+            printf(""%d"",arr[j]);
+        }
+        if(flag==0) printf(""\n"");
+    }
+}
+"
+114,A,C,61167667,2023-03-10 20:47:09,这鲸不能吃,格式错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+    int a,b,c,d;
+    scanf(""%d"",&a);
+    for(b=1;b<=a;b++)
+    {
+        scanf(""%d %d"",&c,&d);
+        int e[100],f[100],g=0,h=0,m[100],n[100];
+        while(c!=0)
+        {
+            e[g]=c%10;
+            c=c/10;
+            g++;
+        }
+        while(d!=0)
+        {
+            f[h]=d%10;
+            d=d/10;
+            h++;
+        }
+       if(g==h)
+       {
+           int i=0;
+         while(i<h) {
+           m[i]=e[i]*f[i];
+           i++;
+         }
+         for(int k=i-1;k>=0;k--)
+         {
+             printf(""%d"",m[k]);
+             if(k==0)
+                printf(""\n"");
+         }
+       }
+       else
+        printf(""-1"");
+    }
+    return 0;
+}
+"
+115,A,C,61167726,2023-03-10 20:47:44,sicccc,答案正确,"#include<stdio.h>
+int weiT(int x)
+{
+    int  sum=0;
+    while(x!=0)
+    {
+        x = x/10;
+        sum++;
+    }
+    return sum;
+}
+int main()
+{
+    int T;
+    int a,b;
+    int w;
+    int flag=0;
+    scanf(""%d"",&T);
+    for(;T>0;T--)
+    {
+        int arr[10000];
+        int k=1;
+        int i=0;
+        scanf(""%d%d"",&a,&b);
+        w = weiT(a);
+        if(weiT(a)!=weiT(b))
+        {
+            printf(""-1"");
+            flag=1;
+        }
+        else
+        {
+            while(--w)
+            {
+                k = k*10;
+            }
+            w = weiT(a);
+            while(w--)
+            {
+                arr[i] = (a/k)*(b/k);
+                a = a%k;
+                b = b%k;
+                k=k/10;
+                i++;
+            }
+        }
+        for(int j = 0;j<i;j++)
+        {
+            printf(""%d"",arr[j]);
+        }
+         printf(""\n"");
+    }
+}
+"
+116,A,C,61167873,2023-03-10 20:49:00,1188_,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	int n;
+	char a[100][100];
+	char b[100][100];
+	scanf(""%d"",&n);
+	for(int i=0;i<n;i++)
+	{
+		scanf(""%s %s"",a[i],b[i]);
+	}
+	for(int i=0;i<n;i++)
+	{
+		int x=strlen(a[i]);
+		int y=strlen(b[i]);
+		if(x!=y)
+		{
+			printf(""-1"");
+			return 0;
+		}
+		else
+		{
+			int c[100];
+			for(int z=0;z<x*2;z++)
+			{
+				int k=a[i][z]-48;
+				int v=b[i][z]-48;
+				c[z]=k*v;
+			}
+			for(int h=0;h<x;h++)
+			{
+				printf(""%d"",c[h]);
+			}
+		}
+		printf(""\n"");
+	}
+}"
+117,A,C,61167964,2023-03-10 20:49:57,正在背八股的芒果很主动,答案正确,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+    int t;
+    char a[20],b[20];
+    int c;
+    scanf(""%d"",&t);
+    while(t--){
+        scanf(""%s%s"",&a,&b);
+        if(strlen(a)!=strlen(b)){
+            printf(""-1"");
+        }
+        else{
+            for(int i=0;i<strlen(a);i++){
+                c=(a[i]-'0')*(b[i]-'0');
+                printf(""%d"",c);
+            }
+        }
+        printf(""\n"");
+    }
+    return 0;
+}"
+118,A,C,61168262,2023-03-10 20:52:58,牛客484793937号,运行超时,"#include<stdio.h>
+#include<math.h>
+//判断整数的位数
+int num(int x){
+    int i=0;
+    while(x>0){
+        x /= 10;
+        i++;
+    }
+    return i;
+}
+int main(){
+    int n,i;
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++){
+        int a,b,c;
+        c=0;
+        scanf(""%d %d"",&a,&b);
+        //判断位数
+        int a1 = num(a);
+        int a2 = num(b);
+        if(a1 != a2)
+            printf(""-1"");
+        else{
+            while(a>0){
+                int a11 = a%10;
+                int b22 = b%10;
+                int t = 0;
+                t = a11*b22*pow(10,i);
+                c += t;
+            }
+            printf(""%d"",c);
+        }
+        
+    }
+}"
+119,A,C,61168313,2023-03-10 20:53:25,1188_,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	int n;
+	char a[100][100];
+	char b[100][100];
+	scanf(""%d"",&n);
+	for(int i=0;i<n;i++)
+	{
+		scanf(""%s %s"",a[i],b[i]);
+	}
+	for(int i=0;i<n;i++)
+	{
+		int x=strlen(a[i]);
+		int y=strlen(b[i]);
+		if(x!=y)
+		{
+			printf(""-1"");
+			return 0;
+		}
+		else
+		{
+			int c[100];
+			for(int z=0;z<x*2;z++)
+			{
+				int k=a[i][z]-48;
+				int v=b[i][z]-48;
+				c[z]=k*v;
+			}
+			for(int h=0;h<x;h++)
+			{
+				printf(""%d"",c[h]);
+			}
+		}
+		printf(""\n"");
+	}
+}"
+120,A,C,61168715,2023-03-10 20:56:44,华夫饼觉醒力,答案错误,"#include<stdio.h>
+#include<string.h>
+#include<math.h>
+int lengh(int x,int y);
+int yuansu(int x,int y);
+int main()
+{
+    int n,i,j,p,q;
+    scanf(""%d"",&n);
+    int a[n][2];
+    for(i=0;i<n;i++)
+    {
+      for(j=0;j<2;j++)
+      scanf(""%d"",&a[i][j]);
+    }
+    for(i=0;i<n;i++)
+    {
+      p=lengh(a[i][0],a[i][1]);
+      if(p==1) printf(""-1\n"");
+      else if(a[i][0]==1000000000&&a[i][1]==1000000000)
+      printf(""1000000000\n"");
+      else
+      {
+        q=yuansu(a[i][0],a[i][1]);
+        if(q>(pow(2,31)-1))
+        printf(""%d"",a[i][0]);
+        else
+        printf(""%d\n"",q);
+      } 
+    }   
+    return 0;
+}
+int lengh(int x,int y)
+{
+    int b1=0,b2=0;
+    while(x!=0)
+    {
+        x/=10;
+        b1++;
+    }
+    while(y!=0)
+    {
+        y=y/10;
+        b2++;
+    }
+    if(b1!=b2)
+    return 1;
+    else 
+    return 0;
+}
+int yuansu(int x,int y)
+{
+    int b1,b2,s=0,m,n,l=0;
+    while(x!=0)
+    {
+        b1=x%10;
+        b2=y%10;
+        m=b1*b2;
+        s=s+pow(10,l)*m;
+        l+=2;
+        x/=10;
+        y/=10;
+    }
+    return s;
+}
+"
+121,A,C(gcc 7.5.0),61168792,2023-03-10 20:57:22,吃不饱的向宇同桌很开心,答案错误,"#include<stdio.h>
+main()
+{
+   int t,i,j,sum,m,ret,k,l;
+    int a[101],b[101],c[101],d[101];
+  int s[101]={0};
+    int n[101];
+    for(i=0;i<101;i++) n[i]=1;
+    k=1;
+    sum=1;
+    scanf(""%d"",&t);
+    for(i=0;i<t;i++)
+    {
+        scanf(""%d%d"",&a[i],&b[i]);
+//         m=a[i];
+//         k=b[i];
+        while(a[i]!=0&&b[i]!=0)
+        {
+            c[i]=a[i]%10;
+            d[i]=b[i]%10;
+            a[i]=a[i]/10;
+            b[i]=b[i]/10; 
+            ret=c[i]*d[i];
+            s[i]=s[i]+ret*n[k-1];
+            //printf(""%d\n"",s[i]);
+            m=s[i];
+            while(m!=0)
+            {
+                m=m/10;
+                n[k]=n[k]*10;
+            }
+            sum=sum*10;
+            k++;
+        }
+        for(j=0;j<k;j++) n[j]=1;
+        k=1;
+        if(a[i]!=0||b[i]!=0) s[i]=-1;
+        else
+        {
+            l=sum/10;
+            if(s[i]/sum==0) s[i]=l;
+        }
+        
+    }
+    for(j=0;j<t;j++)
+    {
+        printf(""%d"",s[j]);
+        printf(""\n"");
+    }
+}
+"
+122,A,C,61169165,2023-03-10 20:59:55,华夫饼觉醒力,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c:24:34: error: expected ';' after expression\n        q=yuansu(a[i][0],a[i][1])\n                                 ^\n                                 ;\nmain.c:50:21: warning: unused variable 'n' [-Wunused-variable]\n    int b1,b2,s=0,m,n,l=0;\n                    ^\n1 warning and 1 error generated.""}
+
+#include<stdio.h>
+#include<string.h>
+#include<math.h>
+int lengh(int x,int y);
+int yuansu(int x,int y);
+int main()
+{
+    int n,i,j,p,q;
+    scanf(""%d"",&n);
+    int a[n][2];
+    for(i=0;i<n;i++)
+    {
+      for(j=0;j<2;j++)
+      scanf(""%d"",&a[i][j]);
+    }
+    for(i=0;i<n;i++)
+    {
+      p=lengh(a[i][0],a[i][1]);
+      if(p==1) printf(""-1\n"");
+      else if(a[i][0]==a[i][1])
+      printf(""%d"",a[i][0]);
+      else
+      {
+        q=yuansu(a[i][0],a[i][1])
+        printf(""%d\n"",q);
+      } 
+    }   
+    return 0;
+}
+int lengh(int x,int y)
+{
+    int b1=0,b2=0;
+    while(x!=0)
+    {
+        x/=10;
+        b1++;
+    }
+    while(y!=0)
+    {
+        y=y/10;
+        b2++;
+    }
+    if(b1!=b2)
+    return 1;
+    else 
+    return 0;
+}
+int yuansu(int x,int y)
+{
+    int b1,b2,s=0,m,n,l=0;
+    while(x!=0)
+    {
+        b1=x%10;
+        b2=y%10;
+        m=b1*b2;
+        s=s+pow(10,l)*m;
+        l+=2;
+        x/=10;
+        y/=10;
+    }
+    return s;
+}
+"
+123,A,C,61169577,2023-03-10 21:05:09,1188_,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	int n;
+	char a[100][100];
+	char b[100][100];
+	scanf(""%d"",&n);
+	for(int i=0;i<n;i++)
+	{
+		scanf(""%s %s"",a[i],b[i]);
+	}
+	for(int i=0;i<n;i++)
+	{
+		int x=strlen(a[i]);
+		int y=strlen(b[i]);
+		if(x!=y)
+		{
+			printf(""-1"");
+			return 0;
+		}
+		else
+		{
+			int c[100];
+			for(int z=0;z<x*2;z++)
+			{
+				int k=a[i][z]-48;
+				int v=b[i][z]-48;
+				c[z]=k*v;
+			}
+			for(int h=0;h<x;h++)
+			{
+				printf(""%d"",c[h]);
+			}
+		}
+		printf(""\n"");
+	}
+}"
+124,A,C,61169639,2023-03-10 21:06:07,在打卡的小飞象很想吃火锅,答案正确,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+    int T = 0, c = 0;
+    scanf(""%d"", &T);
+    while(T--)
+    {
+        char a[1000], b[1000];
+        scanf(""%s %s"", a, b);
+        if(strlen(a) != strlen(b))
+        {
+            printf(""-1"");
+        }
+        else
+        {
+            for(int i = 0; i < strlen(a); i++)
+            {
+                c = (a[i] - '0') * (b[i] - '0');
+                printf(""%d"", c);
+            }
+        }
+        printf(""\n"");
+    }
+    return 0;
+}"
+125,A,C,61169763,2023-03-10 21:07:50,牛客zzm,答案正确,"#include<stdio.h>
+#include<string.h>
+char a[200];
+char b[200];
+int main()
+{
+    int t,i,j;
+    scanf(""%d"",&t);
+    for(i=0;i<t;i++){
+        getchar();
+        scanf(""%s %s"",&a,&b);
+        if(strlen(a)==strlen(b)){
+            for(j=0;j<strlen(a);j++){
+                printf(""%d"",(a[j]-'0')*(b[j]-'0'));
+            }
+            printf(""\n"");
+        }
+        else printf(""-1\n"");
+    }
+    return 0;
+}
+"
+126,A,C,61169927,2023-03-10 21:10:43,1188_,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	int n;
+	char a[100][100];
+	char b[100][100];
+	scanf(""%d"",&n);
+	for(int i=0;i<n;i++)
+	{
+		scanf(""%s %s"",a[i],b[i]);
+	}
+	for(int i=0;i<n;i++)
+	{
+		int x=strlen(a[i]);
+		int y=strlen(b[i]);
+		if(x!=y)
+		{
+			printf(""-1"");
+			return 0;
+		}
+		else
+		{
+			int c[100];
+			for(int z=0;z<x;z++)
+			{
+				int k=a[i][z]-'0';
+				int v=b[i][z]-'0';
+				c[z]=k*v;
+			}
+			for(int h=0;h<x;h++)
+			{
+				printf(""%d"",c[h]);
+			}
+		}
+		printf(""\n"");
+	}
+}"
+127,A,C,61170057,2023-03-10 21:12:59,1188_,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	int n;
+	char a[100];
+	char b[100];
+	scanf(""%d"",&n);
+	for(int i=0;i<n;i++)
+	{
+		scanf(""%s %s"",a,b);
+	for(int i=0;i<n;i++)
+	{
+		int x=strlen(a);
+		int y=strlen(b);
+		if(x!=y)
+		{
+			printf(""-1"");
+			return 0;
+		}
+		else
+		{
+			int c[100];
+			for(int z=0;z<x;z++)
+			{
+				int k=a[z]-'0';
+				int v=b[z]-'0';
+				c[z]=k*v;
+			}
+			for(int h=0;h<x;h++)
+			{
+				printf(""%d"",c[h]);
+			}
+		}
+		printf(""\n"");
+	}
+	}
+}"
+128,A,C,61170209,2023-03-10 21:15:30,1188_,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	int n;
+	char a[100][100];
+	char b[100][100];
+	scanf(""%d"",&n);
+	for(int i=0;i<n;i++)
+	{
+		scanf(""%s %s"",a[i],b[i]);
+	}
+	for(int i=0;i<n;i++)
+	{
+		int x=strlen(a[i]);
+		int y=strlen(b[i]);
+		if(x!=y)
+		{
+			printf(""-1\n"");
+			return 0;
+		}
+		else
+		{
+			int c[100];
+			for(int z=0;z<x;z++)
+			{
+				int k=a[i][z]-'0';
+				int v=b[i][z]-'0';
+				c[z]=k*v;
+			}
+			for(int h=0;h<x;h++)
+			{
+				printf(""%d"",c[h]);
+			}
+		}
+		printf(""\n"");
+	}
+}"
+129,A,C,61170334,2023-03-10 21:18:02,1188_,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	int n;
+	char a[100][100];
+	char b[100][100];
+	scanf(""%d"",&n);
+	for(int i=0;i<n;i++)
+	{
+		getchar();
+		scanf(""%s %s"",a[i],b[i]);
+	}
+	for(int i=0;i<n;i++)
+	{
+		int x=strlen(a[i]);
+		int y=strlen(b[i]);
+		if(x!=y)
+		{
+			printf(""-1\n"");
+			return 0;
+		}
+		else
+		{
+			int c[100];
+			for(int z=0;z<x;z++)
+			{
+				int k=a[i][z]-'0';
+				int v=b[i][z]-'0';
+				c[z]=k*v;
+			}
+			for(int h=0;h<x;h++)
+			{
+				printf(""%d"",c[h]);
+			}
+		}
+		printf(""\n"");
+	}
+}"
+130,A,C,61170356,2023-03-10 21:18:28,1188_,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	int n;
+	char a[100][100];
+	char b[100][100];
+	scanf(""%d"",&n);
+	for(int i=0;i<n;i++)
+	{
+		getchar();
+		scanf(""%s %s"",&a[i],&b[i]);
+	}
+	for(int i=0;i<n;i++)
+	{
+		int x=strlen(a[i]);
+		int y=strlen(b[i]);
+		if(x!=y)
+		{
+			printf(""-1\n"");
+			return 0;
+		}
+		else
+		{
+			int c[100];
+			for(int z=0;z<x;z++)
+			{
+				int k=a[i][z]-'0';
+				int v=b[i][z]-'0';
+				c[z]=k*v;
+			}
+			for(int h=0;h<x;h++)
+			{
+				printf(""%d"",c[h]);
+			}
+		}
+		printf(""\n"");
+	}
+}"
+131,A,C,61170634,2023-03-10 21:23:42,1188_,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	int n;
+	char a[100];
+	char b[100];
+	scanf(""%d"",&n);
+	for(int i=0;i<n;i++)
+	{
+		getchar();
+		scanf(""%s %s"",a,b);
+		int x=strlen(a);
+		int y=strlen(b);
+		if(x!=y)
+		{
+			printf(""-1\n"");
+			return 0;
+		}
+		else
+		{
+			for(int z=0;z<x;z++)
+			{
+				int k=a[z]-'0';
+				int v=b[z]-'0';
+				printf(""%d"",k*v);
+			}
+		}
+		printf(""\n"");
+	}
+}"
+132,A,C,61170651,2023-03-10 21:23:54,1188_,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	int n;
+	char a[200];
+	char b[200];
+	scanf(""%d"",&n);
+	for(int i=0;i<n;i++)
+	{
+		getchar();
+		scanf(""%s %s"",a,b);
+		int x=strlen(a);
+		int y=strlen(b);
+		if(x!=y)
+		{
+			printf(""-1\n"");
+			return 0;
+		}
+		else
+		{
+			for(int z=0;z<x;z++)
+			{
+				int k=a[z]-'0';
+				int v=b[z]-'0';
+				printf(""%d"",k*v);
+			}
+		}
+		printf(""\n"");
+	}
+}"
+133,A,C,61170761,2023-03-10 21:25:29,1188_,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	int n;
+	char a[100];
+	char b[100];
+	scanf(""%d"",&n);
+	for(int i=0;i<n;i++)
+	{
+		getchar();
+		scanf(""%s %s"",a,b);
+		int x=strlen(a);
+		int y=strlen(b);
+		if(x!=y)
+		{
+			printf(""-1\n"");
+			return 0;
+		}
+		else
+		{
+			for(int z=0;z<x;z++)
+			{
+				int k=a[z]-'0';
+				int v=b[z]-'0';
+				printf(""%d"",k*v);
+			}printf(""\n"");
+		}
+	
+	}
+}"
+134,A,C,61170851,2023-03-10 21:27:00,在打卡的小飞象很想吃火锅,答案正确,"#include<stdio.h>
+#include<string.h>
+
+int main()
+{
+    int T = 0, c = 0;
+    scanf(""%d"", &T);
+    while(T--)
+    {
+        char a[1000], b[1000];
+        scanf(""%s %s"", a, b);
+        if(strlen(a) != strlen(b))
+        {
+            printf(""-1"");
+        }
+        else
+        {
+            for(int i = 0; i < strlen(a); i++)
+            {
+                c = (a[i] - '0') * (b[i] - '0');
+                printf(""%d"", c);
+            }
+        }
+        printf(""\n"");
+    }
+    return 0;
+}"
+135,A,C,61170973,2023-03-10 21:28:50,1188_,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	int n;
+	char a[100];
+	char b[100];
+	scanf(""%d"",&n);
+	for(int i=0;i<n;i++)
+	{
+		getchar();
+		scanf(""%s %s"",a,b);
+		int x=strlen(a);
+		int y=strlen(b);
+		if(x!=y)
+		{
+			printf(""-1\n"");
+			return 0;
+		}
+		else
+		{
+			for(int z=0;z<x;z++)
+			{
+				printf(""%d"",(a[z]-'0')*(b[z])-'0');
+			}printf(""\n"");
+		}
+	
+	}
+}"
+136,A,C,61171324,2023-03-10 21:36:15,1188_,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	int n;
+	char a[100];
+	char b[100];
+	scanf(""%d"",&n);
+	for(int i=0;i<n;i++)
+	{
+		getchar();
+		scanf(""%s %s"",a,b);
+		int x=strlen(a);
+		int y=strlen(b);
+		if(x!=y)
+		{
+			printf(""-1\n"");
+			continue;
+		}
+		else
+		{
+			for(int z=0;z<x;z++)
+			{
+				printf(""%d"",(a[z]-'0')*(b[z])-'0');
+			}printf(""\n"");
+		}
+	
+	}
+}"
+137,A,C,61171328,2023-03-10 21:36:22,1188_,答案错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	int n;
+	char a[100];
+	char b[100];
+	scanf(""%d"",&n);
+	for(int i=0;i<n;i++)
+	{
+		getchar();
+		scanf(""%s %s"",a,b);
+		int x=strlen(a);
+		int y=strlen(b);
+		if(x!=y)
+		{
+			printf(""-1\n"");
+			continue;
+		}
+		else
+		{
+			for(int z=0;z<x;z++)
+			{
+				printf(""%d"",(a[z]-'0')*(b[z])-'0');
+			}printf(""\n"");
+		}
+	
+	}
+}"
+138,A,C,61171361,2023-03-10 21:37:13,1188_,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c:1:7: error: non-ASCII characters are not allowed outside of literals and identifiers\n作者：1188_\n    ^~\nmain.c:1:1: error: unknown type name '作者'\n作者：1188_\n^\nmain.c:1:10: error: expected identifier or '('\n作者：1188_\n      ^\nmain.c:2:7: error: non-ASCII characters are not allowed outside of literals and identifiers\n链接：https://ac.nowcoder.com/discuss/1132603?type=101&order=0&pos=2&page=1&channel=-1&source_id=1\n    ^~\nmain.c:3:7: error: non-ASCII characters are not allowed outside of literals and identifiers\n来源：牛客网\n    ^~\nIn file included from main.c:5:\nIn file included from /usr/include/stdio.h:41:\n/usr/include/x86_64-linux-gnu/bits/libio.h:306:3: error: unknown type name 'size_t'\n  size_t __pad5;\n  ^\n/usr/include/x86_64-linux-gnu/bits/libio.h:309:67: error: use of undeclared identifier 'size_t'; did you mean 'sizeof'?\n  char _unused2[15 * sizeof (int) - 4 * sizeof (void *) - sizeof (size_t)];\n                                                                  ^\n/usr/include/x86_64-linux-gnu/bits/libio.h:309:66: error: reference to overloaded function could not be resolved; did you mean to call it?\n  char _unused2[15 * sizeof (int) - 4 * sizeof (void *) - sizeof (size_t)];\n                                                                 ^~~~~~~~\n/usr/include/x86_64-linux-gnu/bits/libio.h:337:62: error: unknown type name 'size_t'\ntypedef __ssize_t __io_read_fn (void *__cookie, char *__buf, size_t __nbytes);\n                                                             ^\n/usr/include/x86_64-linux-gnu/bits/libio.h:346:6: error: unknown type name 'size_t'\n                                 size_t __n);\n                                 ^\n/usr/include/x86_64-linux-gnu/bits/libio.h:467:8: error: unknown type name 'size_t'\nextern _IO_size_t _IO_sgetn (_IO_FILE *, void *, _IO_size_t);\n       ^\n/usr/include/x86_64-linux-gnu/bits/libio.h:39:20: note: expanded from macro '_IO_size_t'\n#define _IO_size_t size_t\n                   ^\nIn file included from main.c:5:\n/usr/include/stdio.h:278:35: error: unknown type name 'size_t'; did you mean 'ssize_t'?\nextern FILE *fmemopen (void *__s, size_t __len, const char *__modes)\n                                  ^\n/usr/include/stdio.h:71:19: note: 'ssize_t' declared here\ntypedef __ssize_t ssize_t;\n                  ^\n/usr/include/stdio.h:284:47: error: unknown type name 'size_t'; did you mean 'ssize_t'?\nextern FILE *open_memstream (char **__bufloc, size_t *__sizeloc) __THROW __wur;\n                                              ^\n/usr/include/stdio.h:71:19: note: 'ssize_t' declared here\ntypedef __ssize_t ssize_t;\n                  ^\n/usr/include/stdio.h:295:20: error: unknown type name 'size_t'; did you mean 'ssize_t'?\n                    int __modes, size_t __n) __THROW;\n                                 ^\n/usr/include/stdio.h:71:19: note: 'ssize_t' declared here\ntypedef __ssize_t ssize_t;\n                  ^\n/usr/include/stdio.h:301:10: error: unknown type name 'size_t'; did you mean 'ssize_t'?\n                       size_t __size) __THROW;\n                       ^\n/usr/include/stdio.h:71:19: note: 'ssize_t' declared here\ntypedef __ssize_t ssize_t;\n                  ^\n/usr/include/stdio.h:340:44: error: unknown type name 'size_t'; did you mean 'ssize_t'?\nextern int snprintf (char *__restrict __s, size_t __maxlen,\n                                           ^\n/usr/include/stdio.h:71:19: note: 'ssize_t' declared here\ntypedef __ssize_t ssize_t;\n                  ^\n/usr/include/stdio.h:344:45: error: unknown type name 'size_t'; did you mean 'ssize_t'?\nextern int vsnprintf (char *__restrict __s, size_t __maxlen,\n                                            ^\n/usr/include/stdio.h:71:19: note: 'ssize_t' declared here\ntypedef __ssize_t ssize_t;\n                  ^\n/usr/include/stdio.h:604:11: error: unknown type name 'size_t'; did you mean 'ssize_t'?\n                               size_t *__restrict __n, int __delimiter,\n                               ^\n/usr/include/stdio.h:71:19: note: 'ssize_t' declared here\ntypedef __ssize_t ssize_t;\n                  ^\n/usr/include/stdio.h:607:9: error: unknown type name 'size_t'; did you mean 'ssize_t'?\n                             size_t *__restrict __n, int __delimiter,\n                             ^\n/usr/include/stdio.h:71:19: note: 'ssize_t' declared here\ntypedef __ssize_t ssize_t;\n                  ^\nfatal error: too many errors emitted, stopping now [-ferror-limit=]\n20 errors generated.""}
+
+作者：1188_
+链接：https://ac.nowcoder.com/discuss/1132603?type=101&order=0&pos=2&page=1&channel=-1&source_id=1
+来源：牛客网
+
+#include<stdio.h>
+
+#include<string.h>
+
+int main()
+
+{
+
+int n;
+
+char a[100][100];
+
+char b[100][100];
+
+scanf(""%d"",&n);
+
+for(int i=0;i<n;i++)
+
+{
+
+scanf(""%s %s"",a[i],b[i]);
+
+}
+
+for(int i=0;i<n;i++)
+
+{
+
+int x=strlen(a[i]);
+
+int y=strlen(b[i]);
+
+if(x!=y)
+
+{
+
+printf(""-1"");
+
+continue;;
+
+}
+
+else
+
+{
+
+int c[100];
+
+for(int z=0;z<x;z++)
+
+{
+
+int k=a[i][z]-48;
+
+int v=b[i][z]-48;
+
+c[z]=k*v;
+
+}
+
+for(int h=0;h<x;h++)
+
+{
+
+printf(""%d"",c[h]);
+
+}
+
+}
+
+printf(""\n"");
+
+}
+
+}"
+139,A,C,61171374,2023-03-10 21:37:30,1188_,格式错误,"#include<stdio.h>
+
+#include<string.h>
+
+int main()
+
+{
+
+int n;
+
+char a[100][100];
+
+char b[100][100];
+
+scanf(""%d"",&n);
+
+for(int i=0;i<n;i++)
+
+{
+
+scanf(""%s %s"",a[i],b[i]);
+
+}
+
+for(int i=0;i<n;i++)
+
+{
+
+int x=strlen(a[i]);
+
+int y=strlen(b[i]);
+
+if(x!=y)
+
+{
+
+printf(""-1"");
+
+continue;;
+
+}
+
+else
+
+{
+
+int c[100];
+
+for(int z=0;z<x;z++)
+
+{
+
+int k=a[i][z]-48;
+
+int v=b[i][z]-48;
+
+c[z]=k*v;
+
+}
+
+for(int h=0;h<x;h++)
+
+{
+
+printf(""%d"",c[h]);
+
+}
+
+}
+
+printf(""\n"");
+
+}
+
+}"
+140,A,C,61171427,2023-03-10 21:38:45,1188_,格式错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+int n;
+char a[100][100];
+char b[100][100];
+scanf(""%d"",&n);
+for(int i=0;i<n;i++)
+{
+	getchar();
+scanf(""%s %s"",a[i],b[i]);
+}
+for(int i=0;i<n;i++)
+{
+int x=strlen(a[i]);
+int y=strlen(b[i]);
+if(x!=y)
+{
+printf(""-1"");
+continue;;
+}
+else
+{
+int c[100];
+for(int z=0;z<x;z++)
+{
+int k=a[i][z]-48;
+int v=b[i][z]-48;
+c[z]=k*v;
+}
+for(int h=0;h<x;h++)
+{
+printf(""%d"",c[h]);
+}
+}
+
+printf(""\n"");
+
+}
+
+}"
+141,A,C,61171432,2023-03-10 21:38:56,1188_,答案正确,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+int n;
+char a[100][100];
+char b[100][100];
+scanf(""%d"",&n);
+for(int i=0;i<n;i++)
+{
+	getchar();
+scanf(""%s %s"",a[i],b[i]);
+}
+for(int i=0;i<n;i++)
+{
+int x=strlen(a[i]);
+int y=strlen(b[i]);
+if(x!=y)
+{
+printf(""-1\n"");
+continue;;
+}
+else
+{
+int c[100];
+for(int z=0;z<x;z++)
+{
+int k=a[i][z]-48;
+int v=b[i][z]-48;
+c[z]=k*v;
+}
+for(int h=0;h<x;h++)
+{
+printf(""%d"",c[h]);
+}
+}
+
+printf(""\n"");
+
+}
+
+}"
+142,A,C,61171736,2023-03-10 21:47:00,guoguoguoguoguoguo,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c:1:9: fatal error: 'bits/stdc++.h' file not found\n#include<bits/stdc++.h>\n        ^~~~~~~~~~~~~~~\n1 error generated.""}
+
+#include<bits/stdc++.h>
+using namespace std;
+void connect(char a[],char b[]){
+	char c[100];
+	int s;
+	for(int i=0,j=0;a[i];i++){
+		s=(a[i]-48)*(b[i]-48);
+		
+		while(1){
+			if(s>=10){
+				c[j]=s/10+48;
+				s%=10;
+				j++;		
+			}
+			else if(s<10){
+					c[j]=s+48;
+					s=-1;
+					j++;
+					break;
+			}
+		//	else break;
+		}
+	}
+	//cout<<c;
+	printf(""%s\n"",c);
+}
+int main(){
+	int t;
+	char a[100],b[100];
+	scanf(""%d"",&t);
+	for(int i=0;i<t;i++){
+		scanf(""%s%s"",a,b);
+		if(strlen(a)!=strlen(b)){
+				cout<<-1<<endl;
+			}
+			else connect(a,b);
+	}
+	return 0;
+}"
+143,A,C,61172642,2023-03-10 22:15:16,ZJGSU_wjh,答案正确,"#include <stdio.h>
+#include <string.h>
+int main()
+{
+	int t;
+	scanf(""%d"", &t);
+	char a[13], b[13];
+	while (t--)
+	{
+		char f[200];
+		scanf(""%s%s"", a, b);
+		int lena, lenb;
+		lena = strlen(a);
+		lenb = strlen(b);
+		if (lena != lenb)
+		{
+			printf(""-1\n"");
+			continue;
+		}
+		else
+		{
+			for (int i = 0; i < lena; i++)
+			{
+				f[i] = (a[i] - 48) * (b[i] - 48);
+				printf(""%d"", f[i]);
+			}
+			printf(""\n"");
+		}
+	}
+}"
+144,A,C,61173169,2023-03-10 22:41:34,weiweiwa,答案正确,"#include<stdio.h>
+#include<string.h>
+int main(){
+    int t;
+    int i,j;
+    char a[20]={""0""},b[20]={""0""};
+    int c;
+    scanf(""%d"", &t);
+    for(i=1;i<=t;i++)
+    {
+        scanf(""%s"",&a);
+        scanf(""%s"",&b);
+        
+        if(strlen(a)!=strlen(b))
+        {
+            printf(""-1\n"");
+        }
+        else{
+         for(j=0;j<strlen(a);j++)
+         {
+             c=(a[j]-48)*(b[j]-48);
+             printf(""%d"", c);
+         }
+            printf(""\n"");
+        }
+    }
+    return 0;
+}"
+145,A,C(gcc 7.5.0),61173627,2023-03-10 23:04:44,OttoShaw,答案正确,"#include<stdio.h>
+
+int main()
+{
+	int t;
+	scanf(""%d"",&t);
+	for(t;t>0;t--)
+	{
+		int a,b;
+		scanf(""%d %d"",&a,&b);
+		int ci[100],ai[10],bi[10];
+		int i=0;
+		for(i;a!=0;i++)
+		{
+			ai[i]=a%10;
+			a=a/10;
+		}
+		int j=0;
+		for(j;b!=0;j++)
+		{
+			bi[j]=b%10;
+			b=b/10;
+		}
+		if(i!=j)
+		{
+			printf(""-1\n"");
+			continue;
+		}
+		int k=i-1;
+		for(k;k>=0;k--)
+		{
+			printf(""%d"",ai[k]*bi[k]); 
+		}
+		printf(""\n"");
+	}
+ } "
+146,A,C(gcc 7.5.0),61175124,2023-03-11 08:30:36,费列罗特,格式错误,"#include <stdio.h>
+int main()
+{
+	int n, a, b, c[10086], d[10086];
+	scanf(""%d"", &n);
+	for (int i = 1; i <= n; i++)
+	{
+		int sum1 = 0, sum2 = 0;
+		scanf(""%d%d"", &a, &b);
+		int j = 1;
+		while (a != 0)
+		{
+			c[j] = a % 10;
+			a = a / 10;
+			sum1++;
+			j++;
+		}
+		int t = 1;
+		while (b != 0)
+		{
+			d[t] = b % 10;
+			b = b / 10;
+			sum2++;
+			t++;
+		}
+		if (sum1 != sum2)
+			printf(""-1"");
+		else
+		{
+			for (int t = sum1; sum1 > 0; sum1--)
+			{
+				printf(""%d"", c[sum1] * d[sum1]);
+			}
+			printf(""\n"");
+		}
+	}
+}"
+147,A,C(gcc 7.5.0),61175127,2023-03-11 08:31:14,费列罗特,答案正确,"#include <stdio.h>
+int main()
+{
+	int n, a, b, c[10086], d[10086];
+	scanf(""%d"", &n);
+	for (int i = 1; i <= n; i++)
+	{
+		int sum1 = 0, sum2 = 0;
+		scanf(""%d%d"", &a, &b);
+		int j = 1;
+		while (a != 0)
+		{
+			c[j] = a % 10;
+			a = a / 10;
+			sum1++;
+			j++;
+		}
+		int t = 1;
+		while (b != 0)
+		{
+			d[t] = b % 10;
+			b = b / 10;
+			sum2++;
+			t++;
+		}
+		if (sum1 != sum2)
+			printf(""-1\n"");
+		else
+		{
+			for (int t = sum1; sum1 > 0; sum1--)
+			{
+				printf(""%d"", c[sum1] * d[sum1]);
+			}
+			printf(""\n"");
+		}
+	}
+}"
+148,A,C,61175145,2023-03-11 08:36:24,牛客962119371号,答案正确,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+	int t;
+	scanf(""%d"",&t);
+	while(t--)
+	{
+		int a,b;
+			scanf(""%d %d"",&a,&b);
+			int i;
+			int m=0,n=0,c=0,d=0;
+			for(i=1;a/i>0;i=i*10)
+			{
+				m++;
+				c=i;
+			}
+			for(i=1;b/i>0;i=i*10)
+			{
+				n++;
+				d=i;
+			}
+			if(m!=n)
+			{
+				printf(""-1\n"");
+			}
+			if(m==n)
+			{
+				int x[m],y[n];
+							for(i=0;i<m;i++)
+							{
+								x[i]=(a/c)%10;
+								c=c/10;
+							}
+							for(i=0;i<n;i++)
+								{
+									y[i]=(b/d)%10;
+									d=d/10;
+								}
+							for(i=0;i<m;i++)
+							{
+								x[i]=x[i]*y[i];
+							}	
+							for(i=0;i<n;i++)
+							{
+								printf(""%d"",x[i]);
+							}printf(""\n"");
+			}
+			
+	}
+	
+} "
+149,A,C,61176338,2023-03-11 10:12:07,被普调的coder很好奇,答案正确,"#include <stdio.h>
+int main()
+{
+    int n, a, b, c[10086], d[10086];
+    scanf(""%d"", &n);
+    for (int i = 1; i <= n; i++)
+    {
+        int sum1 = 0, sum2 = 0;
+        scanf(""%d%d"", &a, &b);
+        int j = 1;
+        while (a != 0)
+        {
+            c[j] = a % 10;
+            a = a / 10;
+            sum1++;
+            j++;
+        }
+        int t = 1;
+        while (b != 0)
+        {
+            d[t] = b % 10;
+            b = b / 10;
+            sum2++;
+            t++;
+        }
+        if (sum1 != sum2)
+            printf(""-1\n"");
+        else
+        {
+            for (int t = sum1; sum1 > 0; sum1--)
+            {
+                printf(""%d"", c[sum1] * d[sum1]);
+            }
+            printf(""\n"");
+        }
+    }
+    return 0;
+}"
+150,A,C,61176728,2023-03-11 10:34:07,在冲浪的袋鼠,答案正确,"#include<stdio.h>
+#include<string.h>
+char a[20],b[20];
+int main()
+{
+    int T;
+    scanf(""%d"",&T);
+    while(T--)
+    {
+    scanf(""%s%s"",a,b);
+    if(strlen(a)!=strlen(b))
+    {
+        printf(""-1\n"");
+        continue;
+    }
+    for(int i=0;i<strlen(a);i++)
+    printf(""%d"",(a[i]-'0')*(b[i]-'0'));
+    printf(""\n"");
+    }
+}"
+151,A,C(gcc 7.5.0),61178644,2023-03-11 12:23:07,李文杰-1,答案错误,"#include<stdio.h>
+int main()
+{
+	int a,b,n;
+	scanf(""%d"",&n);
+	while(n--)
+	{
+		scanf(""%d%d"",&a,&b);
+		int k=0,m=0,i=a,j=b;
+		double c[100000000],t=0;
+		int s=0,x=1,q;
+		while(a)
+		{
+			a=a/10;
+			  k++;   
+		}
+		while(b)
+		{
+			b=b/10;
+			m++;
+		}
+		if(k!=m)
+		printf(""-1\n"");
+		else {
+			while(i&&j)
+			{
+				c[s++]=(i%10)*(j%10);
+				i=i/10;
+				j=j/10;
+			}
+			c[s]=i*j;
+		for(q=0;q<s;q++)
+		{
+			if(c[q]/10==0)
+			{
+				t+=c[q]*x;
+				x*=10;
+			}
+			if(c[q]/10!=0)
+			{
+				t+=c[q]*x;
+				x*=100;
+			}
+		}
+		printf(""%.0lf\n"",t);
+	}
+	}
+	return 0;
+ } "
+152,A,C,61232876,2023-03-11 17:06:59,孤独的宏,答案错误,"#include <stdio.h>
+#include <math.h>
+int main() 
+{
+    int n=0,a=0,b=0;
+    scanf(""%d"", &n);
+   while (scanf(""%d %d"", &a, &b) != EOF) 
+   { // 注意 while 处理多个 case ;64 位输出请用 printf(""%lld"")
+       int c=0,d=0;
+       int count_a=0,count_b=0,count_c=0,count_d=0;
+       int a0,b0,c0,d0;
+       int bei10=0;
+       a0=a,b0=b;
+       while(a0)
+       {
+           a0=a0/10;
+           count_a+=1;
+       }
+       while(b0)
+       {
+           b0=b0/10;
+           count_b+=1;
+       }
+       if(count_a==count_b)
+       {
+           while(a!=0&b!=0)
+           {
+               c=(a%10)*(b%10);
+               c0=c;d0=d;
+               if(c0==0)
+                  {count_c+=1;}
+               if(d0==0&c0==0)
+                  {count_d=0;}
+               else
+                  {
+                      count_d=0;
+                      while(d0)
+                      {
+                         d0=d0/10;
+                         count_d+=1;
+                      }
+                  }
+               if(count_d==0&count_c==0)
+               {
+                   d=c;
+               }
+               else if(c0!=0)
+               {
+                   int i=0;
+                   while(i++<count_d)
+                   {
+                       c=10*c;
+                   }
+                   if(count_c!=0)
+                   {
+                       int j=0;
+                       while(j++<count_c)
+                       {
+                           c=10*c;
+                       }
+                   }
+                   count_c=0;
+                   d=c+d;
+               }
+               a=a/10;b=b/10;
+           }
+       }
+       else
+       {
+           d=-1;
+       }
+       printf(""%d\n"", d);
+       
+   }
+    
+   return 0;
+}"
+153,A,C,61236058,2023-03-11 19:13:43,输出小白,答案正确,"#include<stdio.h>
+#include<string.h>
+char a[20],b[20];
+int main(){
+    int t;
+    scanf(""%d"",&t);
+    while(t--){
+        scanf(""%s %s"",a,b);
+        int t1,t2;
+        t1 = strlen(a);
+        t2 = strlen(b);
+        if(t1!=t2){
+            printf(""-1\n"");
+        }
+        else{
+            for(int i=0;i<t1;i++){
+                printf(""%d"",(a[i]-'0')*(b[i]-'0'));
+            }
+            printf(""\n"");
+        }
+    }
+}"
+154,A,C,61236375,2023-03-11 19:26:07,北冰洋zcc,答案正确,"#include <stdio.h>
+#include <math.h>
+#include <string.h>
+int main() 
+{
+    double pow(double x,double y);
+    int n=0;
+    scanf(""%d"", &n);
+    int u[100];
+    int l[10];
+    int p[10];
+    for(int i=0;i<n;i++)
+    {
+        int t=0;
+        int y=0;
+        int a=0;
+        int b=0;
+        scanf(""%d%d"",&a,&b);
+        for(int j=0;j<10;j++)
+        {
+            l[j]=a%10;
+            a=a/10;
+            t++;
+            if(a==0)break;
+        }
+         for(int j=0;j<10;j++)
+        {
+            p[j]=b%10;
+            b=b/10;
+            y++;
+            if(b==0)break;
+        }
+        if(t==y)
+        {
+            int sum=0;
+            for(int k=y;k>0;k--)
+            {
+                printf(""%d"",l[k-1]*p[k-1]);
+            }
+        }
+        else
+        {
+            printf(""-1"");
+        }
+        printf(""\n"");
+    }
+    return 0;
+}"
+155,A,C,61236400,2023-03-11 19:26:50,老铁666a,答案正确,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+	int count;
+	char a[11],b[11];
+	char c[22];
+	int n,m;
+	int num1,num2,i;
+	scanf(""%d"",&count);
+	while(count--){
+	i=0;
+	scanf(""%s %s"",a,b);
+	n = strlen(a);
+	m = strlen(b);
+	if(n!=m)
+	{
+		printf(""-1\n"");
+	}
+	else
+	{
+		while(n--)
+		{
+			num1 = a[i] - 48;
+			num2 = b[i] - 48;
+			printf(""%d"",num1*num2);
+			i++;
+		}
+		printf(""\n"");
+	}
+	}
+	return 0;
+}"
+156,A,C,61241121,2023-03-11 22:32:11,202302261856363,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c:1:9: fatal error: 'bits/stdc++.h' file not found\n#include<bits/stdc++.h>\n        ^~~~~~~~~~~~~~~\n1 error generated.""}
+
+#include<bits/stdc++.h>
+using namespace std;
+int t;
+string a,b;
+int main (){
+	cin>>t;
+	for (int i=0;i<t;i++){
+		cin>>a>>b;
+		if (a.length()!=b.length()){
+			cout<<""-1""<<endl;
+		}else {
+			for (int j=0;j<a.length();j++){
+				cout<<(a[j]-'0')*(b[j]-'0');
+			}
+			cout<<endl;
+
+		}
+	}
+} "
+157,A,C,61241140,2023-03-11 22:33:54,胖嘤嘤,答案正确,"#include <stdio.h>
+
+int main(){
+    int k;
+    scanf(""%d"",&k);
+    for(int i=0;i<k;i++){
+        int a[10],b[10],n,m,x=0,y=0;
+        scanf(""%d%d"",&n,&m);
+        while(n>0){
+            a[x++]=n%10;
+            n=n/10;
+        }
+        while(m>0){
+            b[y++]=m%10;
+            m=m/10;
+        }
+        if(x!=y){
+            printf(""-1\n"");
+        }else{
+            for(int i=x-1;i>=0;i--){
+                    printf(""%d"",a[i]*b[i]);
+            }
+            printf(""\n"");
+        }
+    }
+}"
+158,A,C(gcc 7.5.0),61250856,2023-03-12 14:39:59,XY-0,答案正确,"#include<stdio.h>
+long long num;
+long long b, a;
+int bsize1(long long x) {
+    int ans = 0;
+    num = 0;
+    do {
+        num = num * 10 + x % 10;
+        ans++;
+        x /= 10;
+    } while (x);
+    a = num;
+    return ans;
+}
+int bsize2(long long x) {
+    int ans = 0;
+    num = 0;
+    do {
+        num = num * 10 + x % 10;
+        ans++;
+        x /= 10;
+    } while (x);
+    b = num;
+    return ans;
+}
+int main() {
+    int t;
+    scanf(""%d"", &t);
+    while (t--) {
+        scanf(""%lld%lld"", &a, &b);
+        int ans1 = bsize1(a);
+        int ans2 = bsize2(b);
+        if ( ans1==ans2 ) {
+            do {
+                printf(""%lld"", a % 10 * (b % 10));
+                a /= 10;
+                b /= 10;
+            } while (--ans1);
+        }
+        else printf(""-1"");
+        puts("""");
+        num = 0;
+    }
+    return 0;
+}"
+159,A,C,61253245,2023-03-12 16:02:14,小小叼毛，你怎敢放肆,答案正确,"#include <stdio.h>
+#include<string.h>
+int main()
+{
+	int t,i;
+	char x[15],y[15];
+	scanf(""%d"",&t);
+	while(t--)
+	{
+		scanf(""%s"",x);
+		scanf(""%s"",y);
+		if(strlen(x)!=strlen(y))
+		printf(""-1"");
+		else
+		for(i=0;i<strlen(x);i++)
+		printf(""%d"",(x[i]-'0')*(y[i]-'0'));
+		printf(""\n"");
+	}
+	return 0;
+}"
+160,A,C,61254921,2023-03-12 16:58:18,XS-SK,答案正确,"#include <stdio.h>
+#include<string.h>
+int main()
+{
+    int t,i;
+    char x[15],y[15];
+    scanf(""%d"",&t);
+    while(t--)
+    {
+        scanf(""%s"",x);
+        scanf(""%s"",y);
+        if(strlen(x)!=strlen(y))
+        {
+            printf(""-1"");
+        }
+        else
+        {
+            for(i=0;i<strlen(x);i++)
+            {
+                printf(""%d"",(x[i]-'0')*(y[i]-'0'));
+            }
+        }
+        printf(""\n"");
+    }
+    return 0;
+}"
+161,A,C,61261003,2023-03-12 21:02:52,牛客968886702号,答案正确,"#include<stdio.h>
+#include<math.h>
+#include<string.h>
+int main()
+{
+    int t, i;
+    char x[15], y[15];
+    scanf(""%d"", &t);
+    while (t--)
+    {
+        scanf(""%s"", x);
+        scanf(""%s"", y);
+        if (strlen(x) != strlen(y))
+        {
+            printf(""-1"");
+        }
+        else
+        {
+            for (i = 0; i < strlen(x); i++)
+            {
+                printf(""%d"", (x[i] -'0') * (y[i]- '0'));
+            }
+        }
+        printf(""\n"");
+    }
+    return 0;
+}"
+162,A,C,61266900,2023-03-13 14:30:19,小菜鸡111111,答案正确,"#include<stdio.h>
+#include<string.h>
+int main(){
+    int n;
+    scanf(""%d"",&n);
+    while(n--){
+        int i=0;
+        char a[100100]={0},b[100100]={0},ch;
+        while(1){
+            ch=getchar();
+            if(ch==' ') break;
+            else{
+                a[i]=ch;
+                i++;
+            }
+        }
+        scanf(""%s"",b);
+        int l1=strlen(a),l2=strlen(b);
+        if((l1-1)!=l2) printf(""-1\n"");
+        else{
+            for(int i=0;i<l2;i++){
+                int c1=a[i+1]-'0',c2=b[i]-'0';
+                printf(""%d"",c1*c2);
+            }
+            printf(""\n"");
+        }
+    }
+}"
+163,A,C,61280643,2023-03-14 13:11:36,拒绝pua的小鱼干很爱吃肉,答案正确,"#include <stdio.h>
+#include <string.h>
+int main()
+{
+    int T;
+    scanf(""%d"",&T);
+    
+    while(T--)
+    {
+        char a[15],b[15];
+        scanf(""%s %s"",a,b);
+ //       printf(""%s %s"",a,b);
+        int n,m;
+        n=strlen(a);
+        m=strlen(b);
+        
+        if(n!=m)
+        {
+            printf(""-1\n"");
+        }
+        else
+        {
+            for(int i=0;i<n;i++)
+            {
+                printf(""%d"",(a[i]-'0')*(b[i]-'0'));
+            }
+            printf(""\n"");
+        }
+        
+    }
+    
+    return 0;
+}"
+164,A,C,61290546,2023-03-14 22:00:21,牛客89029241号,答案正确,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+    int t;
+    scanf(""%d"",&t);
+    for(int i=0;i<t;i++)
+    {
+        char a[15],b[15];
+        scanf(""%s %s"",a,b);
+        int m,n;
+        m=strlen(a);
+        n=strlen(b);
+        if(m!=n)
+        {
+            printf(""-1\n"");
+        }
+        else
+        {
+            for(int i=0;i<n;i++)
+            {
+                printf(""%d"",(a[i]-'0')*(b[i]-'0'));
+            }
+            printf(""\n"");
+        }
+    }
+}"
+165,A,C,61293458,2023-03-15 12:43:16,飘雨丶蓝天,答案正确,"#include<stdio.h>
+#include<string.h>
+
+int main ()
+{
+    int t;
+    scanf(""%d"",&t);
+    int i,j,k;
+    for(i=0;i<t;i++)
+    {
+        char a[15],b[15];
+        scanf(""%s %s"",a,b);
+        int m=strlen(a);
+        int n=strlen(b);
+        if(m!=n)
+        {
+            printf(""-1\n"");
+        }
+        else
+        {
+            for(j=0;j<n;j++)
+            {
+                printf(""%d"",(a[j]-'0')*(b[j]-'0'));
+            }
+            printf(""\n"");
+        }
+    }
+}"
+166,A,C,61302540,2023-03-15 21:10:51,代码小菜鸡.,格式错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+    int t,i,m,n,j;
+    char a[19],b[19];
+    scanf(""%d"",&t);
+    for(i=0;i<t;i++)
+    {
+        scanf(""%s %s"",a,b);
+        m=strlen(a);
+        n=strlen(b);
+        if(m==n)
+        {
+            for(j=0;j<n;j++)
+            printf(""%d"",(a[j]-'0')*(b[j]-'0'));
+            printf(""\n"");
+        }
+        else
+        {    
+            printf(""-1"");   
+        }
+    }
+}"
+167,A,C,61302550,2023-03-15 21:11:11,代码小菜鸡.,格式错误,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+    int t,i,m,n,j;
+    char a[19],b[19];
+    scanf(""%d"",&t);
+    for(i=0;i<t;i++)
+    {
+        scanf(""%s %s"",a,b);
+        m=strlen(a);
+        n=strlen(b);
+        if(m==n)
+        {
+            for(j=0;j<n;j++)
+            printf(""%d"",(a[j]-'0')*(b[j]-'0'));
+            printf(""\n"");
+        }
+        else
+        {    
+            printf(""-1"");   
+        }
+    }
+}"
+168,A,C,61302557,2023-03-15 21:11:38,代码小菜鸡.,答案正确,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+    int t,i,m,n,j;
+    char a[19],b[19];
+    scanf(""%d"",&t);
+    for(i=0;i<t;i++)
+    {
+        scanf(""%s %s"",a,b);
+        m=strlen(a);
+        n=strlen(b);
+        if(m==n)
+        {
+            for(j=0;j<n;j++)
+            printf(""%d"",(a[j]-'0')*(b[j]-'0'));
+            printf(""\n"");
+        }
+        else
+        {    
+            printf(""-1\n"");   
+        }
+    }
+}"
+169,A,C,61304511,2023-03-15 22:42:27,草莓i,答案正确,"#include<stdio.h>
+int main(){
+    int n,j=0;
+    scanf(""%d"",&n);
+    long long int a[100],b[100];
+    while(j<n){
+        scanf(""%lld %lld"",&a[j],&b[j]);
+        j++;
+    }
+    for(int i=0;i<n;i++){
+        int x=0,y=0,c[20]={0},d[20]={0};
+        while(a[i]!=0){
+            c[x]=a[i]%10;
+            a[i]=a[i]/10;
+            x++;
+        }
+        while(b[i]!=0){
+            d[y]=b[i]%10;
+            b[i]=b[i]/10;
+            y++;
+        }
+        if(x==y){
+            for(int t=(x-1);t>=0;t--){
+               printf(""%d"",c[t]*d[t]);
+}
+            
+            printf(""\n"");
+        }   
+        else printf(""-1\n"");
+    }
+}"
+170,A,C(gcc 7.5.0),61308813,2023-03-16 15:29:28,十万伏特⊙,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c:1:9: fatal error: bits/stdc++.h: No such file or directory\n #include<bits/stdc++.h>\n         ^~~~~~~~~~~~~~~\ncompilation terminated.""}
+
+#include<bits/stdc++.h>
+typedef struct{
+    int data;
+    List next;
+}Node,*List;
+int main()
+{
+    List L1=(List)malloc(sizeof(List));
+    L1->next=NULL;
+    Node* p=L1;
+    while(1){
+        int n;
+        scanf(""%d"",&n);
+        if(n==-1)
+        {
+            p->next=NULL;
+            break;
+        }
+        Node* s=(List)malloc(sizeof(List));
+        p->data=n;
+        p->next=s;
+        p=s;
+    }
+    List L2=(List)malloc(sizeof(List));
+    L2->next=NULL;
+    Node* q=L2;
+    while(1){
+        int n;
+        scanf(""%d"",&n);
+        if(n==-1)
+        {
+            q->next=NULL;
+            break;
+        }
+        Node* s=(List)malloc(sizeof(List));
+        q->data=n;
+        q->next=s;
+        q=s;
+    }
+    List L3=(List)malloc(sizeof(List));
+    L3->next=NULL;
+    Node* ans=L3;
+    p=L1;
+    q=L2;
+    while(p&&q){
+        if(p->data<q->data){
+            p=p->next;
+        }else if(p->data>q->data){
+            q=q->next;
+        }else{
+             Node* s=(List)malloc(sizeof(List));
+            ans->data=p->data;
+            ans->next=s;
+            ans=s;
+        }
+    }
+    ans->next=NULL;
+    while(L3){
+        printf(""%d "",L3->data);
+        L3=L3->next;
+    }
+    
+    return 0;
+}"
+171,A,C,61310276,2023-03-16 17:13:24,李文杰-1,答案正确,"#include<stdio.h>
+int main()
+{
+    int n,j=0;
+    scanf(""%d"",&n);
+    long long int a[100],b[100];
+    while(j<n)
+    {
+        scanf(""%lld%lld"",&a[j],&b[j]);
+        j++;
+    }
+    int i;
+    for(i=0;i<n;i++)
+    {int x=0,y=0,c[21]={0},d[21]={0};
+    while(a[i]!=0)
+    {
+        c[x]=a[i]%10;
+        a[i]=a[i]/10;
+        x++;
+    }
+     while(b[i]!=0)
+     {
+         d[y]=b[i]%10;
+         b[i]=b[i]/10;
+         y++;
+     }
+     if(x==y)
+     { for(int t=x-1;t>=0;t--)
+     {printf(""%d"",c[t]*d[t]);}
+          printf(""\n"");}
+     else printf(""-1\n"");
+        }
+    return 0;
+}"
+172,A,C,61327395,2023-03-17 20:38:45,牛客319938482号,答案正确,"#include <stdio.h>
+#include <math.h>
+
+int main() {
+    int T;
+    scanf(""%d"",&T);
+    for(int i=1;i<=T;i++){
+        int a,b;
+        scanf(""%d %d"",&a,&b);  
+        int k=1,j=1; 
+        int c,d;
+        c=a;d=b;
+        for(j=1;c>=10;j++){
+        	c/=10;
+		}
+		for(k=1;d>=10;k++){
+        	d/=10;
+		}
+        if(j!=k) printf(""-1\n"");
+        else {
+            int m[j],n[k],q[j];
+            for(int p=0;p<=j-1;p++){
+                m[p]=a/pow(10,k-1);
+                n[p]=b/pow(10,k-1);
+                q[p]=m[p]*n[p];
+                printf(""%d"",q[p]);
+                a=a-m[p]*pow(10,k-1);
+                b=b-n[p]*pow(10,k-1);
+                k--;
+            }
+            printf(""\n"");
+        }
+    }
+   return 0;
+}"
+173,A,C,61327703,2023-03-17 20:44:23,牛客319938482号,答案正确,"#include <stdio.h>
+#include <math.h>
+
+int main() {
+    int T;
+    scanf(""%d"",&T);
+    for(int i=1;i<=T;i++){
+        int a,b;
+        scanf(""%d %d"",&a,&b);  
+        int k=1,j=1; 
+        int c,d;
+        c=a;d=b;
+        for(j=1;c>=10;j++){
+        	c/=10;
+		}
+		for(k=1;d>=10;k++){
+        	d/=10;
+		}
+        if(j!=k) printf(""-1\n"");
+        else {
+            int m[j],n[k],q[j];
+            for(int p=0;p<=j-1;p++){
+                m[p]=a/pow(10,k-1);
+                n[p]=b/pow(10,k-1);
+                q[p]=m[p]*n[p];
+                printf(""%d"",q[p]);
+                a=a-m[p]*pow(10,k-1);
+                b=b-n[p]*pow(10,k-1);
+                k--;
+            }
+            printf(""\n"");
+        }
+    }
+   return 0;
+}"
+174,A,C,61331266,2023-03-17 22:19:38,橘猫抱鱼睡,段错误,"#include<stdio.h>
+int main()
+{
+    int t;
+    int m[20],n[20];
+    int a,b,x,y;
+    int man=0,min=0;
+    scanf(""%d"",&t);
+    for(int i=0;i<t;i++)
+    {
+        scanf(""%d %d"",&a,&b);
+        x=a;
+        y=b;
+        while(x>0)
+        {
+            m[man++]=x%10;
+            x/=10;
+        }
+        while(y>0)
+        {
+            n[min++]=y%10;
+            y/=10;
+        }
+        if(man!=min)
+            printf(""-1"");
+        else
+            while(man>0)
+            {
+                man-=1;
+                min-=1;
+                printf(""%d"",m[man]*n[min]);
+            }
+        printf(""\n"");
+    }
+    return 0;
+}"
+175,A,C,61331287,2023-03-17 22:20:12,橘猫抱鱼睡,段错误,"#include<stdio.h>
+int main()
+{
+    int t;
+    int m[10],n[10];
+    int a,b,x,y;
+    int man=0,min=0;
+    scanf(""%d"",&t);
+    for(int i=0;i<t;i++)
+    {
+        scanf(""%d %d"",&a,&b);
+        x=a;
+        y=b;
+        while(x>0)
+        {
+            m[man++]=x%10;
+            x/=10;
+        }
+        while(y>0)
+        {
+            n[min++]=y%10;
+            y/=10;
+        }
+        if(man!=min)
+            printf(""-1"");
+        else
+            while(man>0)
+            {
+                man-=1;
+                min-=1;
+                printf(""%d"",m[man]*n[min]);
+            }
+        printf(""\n"");
+    }
+    return 0;
+}"
+176,A,C,61331316,2023-03-17 22:21:44,橘猫抱鱼睡,段错误,"#include<stdio.h>
+int main()
+{
+    int t;
+    int m[10],n[10];
+    int a,b,x,y;
+    int man=0,min=0;
+    scanf(""%d"",&t);
+    for(int i=0;i<t;i++)
+    {
+        scanf(""%d %d"",&a,&b);
+        x=a;
+        y=b;
+        while(x>0)
+        {
+            m[man++]=x%10;
+            x/=10;
+        }
+        while(y>0)
+        {
+            n[min++]=y%10;
+            y/=10;
+        }
+        if(man!=min)
+            printf(""-1"");
+        else
+            while(man>0)
+            {
+                man-=1;
+                min-=1;
+                printf(""%d"",m[man]*n[min]);
+            }
+        printf(""\n"");
+    }
+    return 0;
+}"
+177,A,C,61341194,2023-03-18 13:54:00,橘猫抱鱼睡,段错误,"#include<stdio.h>
+int main()
+{
+    int t;
+    int m[10],n[10];
+    int a,b,x,y;
+    int man=0,min=0;
+    scanf(""%d"",&t);
+    for(int i=0;i<t;i++)
+    {
+        scanf(""%d %d"",&a,&b);
+        x=a;
+        y=b;
+        while(x>0)
+        {
+            m[man++]=x%10;
+            x/=10;
+        }
+        while(y>0)
+        {
+            n[min++]=y%10;
+            y/=10;
+        }
+        if(man!=min)
+            printf(""-1"");
+        else
+            while(man>0)
+            {
+                man-=1;
+                min-=1;
+                printf(""%d"",m[man]*n[min]);
+            }
+        printf(""\n"");
+    }
+    return 0;
+}"
+178,A,C,61341854,2023-03-18 14:02:05,橘猫抱鱼睡,段错误,"#include<stdio.h>
+int main()
+{
+    int t;
+    int m[10],n[10];
+    int a,b,x,y;
+    int man=0,min=0;
+    scanf(""%d"",&t);
+    for(int i=0;i<t;i++)
+    {
+        scanf(""%d %d"",&a,&b);
+        x=a;
+        y=b;
+        while(x>0)
+        {
+            m[man++]=x%10;
+            x/=10;
+        }
+        while(y>0)
+        {
+            n[min++]=y%10;
+            y/=10;
+        }
+        if(man!=min)
+            printf(""-1"");
+        else
+            while(man>0)
+            {
+                man-=1;
+                min-=1;
+                printf(""%d"",m[man]*n[min]);
+            }
+        printf(""\n"");
+    }
+    return 0;
+}"
+179,A,C,61346152,2023-03-18 14:39:32,橘猫抱鱼睡,答案正确,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+    int t;
+    int m[10],n[10];
+    int a,b,c,d,x,y;
+    int man=0,min=0;
+    scanf(""%d"",&t);
+    for(int i=0;i<t;i++)
+    {
+        scanf(""%d %d"",&a,&b);
+        c=a,d=b;
+        for(x=1;c>=10;x++)
+            c/=10;
+        for(y=1;d>=10;y++)
+            d/=10;
+        if(x!=y)
+            printf(""-1\n"");
+        else
+        {
+            int k[10];
+            for(int h=0;h<x;h++)
+            {
+                m[h]=a/pow(10, y-1);
+                n[h]=b/pow(10,y-1);
+                k[h]=m[h]*n[h];
+                printf(""%d"",k[h]);
+                a=a-m[h]*pow(10,y-1);
+                b=b-n[h]*pow(10,y-1);
+                y--;
+            }
+            printf(""\n"");
+        }
+    }
+    return 0;
+}"
+180,A,C,61369873,2023-03-19 00:17:28,22计科2班黄禹铭,答案错误,"#include<stdio.h>
+int main() {
+	int a[1000],b[1000];
+	int arr[1000],n;
+	scanf(""%d"",&n);
+	int i,j;
+	for(i=0;i<n;i++)
+	{
+		scanf(""%d"",&a[i]);
+	}
+	for(i=0;i<n;i++)
+	{
+		scanf(""%d"",&b[i]);
+	}
+	for(i=0;i<n;i++) {
+		arr[i] = a[i]*b[i];
+		printf(""%d"",arr[i]);
+	}
+	
+}"
+181,A,C,61397979,2023-03-19 17:06:07,sana_u,答案正确,"#include <stdio.h>
+#include <math.h>
+int Count_w(int i)
+{
+	int count = 1;
+	while (i >= 10)
+	{
+		count++;
+		i = i / 10;
+	}
+	//count++;
+	return count;
+}
+
+int main()
+{
+	int T;//组数
+	scanf(""%d"", &T);
+	for (int i = 0; i < T; i++)
+	{
+		int a, b;
+		scanf(""%d %d"", &a, &b);
+		if (Count_w(a) != Count_w(b))
+		{
+			printf(""-1\n"");
+			continue;
+		}		
+		else
+		{
+			int w = Count_w(a);
+			for (int j = 0; j < w; j++)
+			{
+				printf(""%d"", ((int)(a / pow(10, w -j- 1)) % 10) * ((int)(b / pow(10, w-j - 1)) % 10));
+			}
+			printf(""\n"");
+		}
+	}
+		
+
+
+
+	return 0;
+}"
+182,A,C,61417834,2023-03-20 21:46:17,象牙塔下的迷茫者,答案正确,"#include<stdio.h>
+#define ll long long
+int main()
+{
+	int T;
+	scanf(""%d"", &T);
+	while (T--)
+	{
+		ll int a, b,ans[50],sum,moda,modb,i=0;
+		scanf(""%lld%lld"", &a, &b);
+		while (a && b)
+		{
+			moda = a % 10;
+			a /= 10;
+			modb = b % 10;
+			b /= 10;
+			sum = moda * modb;
+            if(!sum)
+                ans[++i]=0;
+			while (sum)
+			{
+				ans[++i] = sum % 10;
+				sum /= 10;
+			}
+		}
+		if (a > 0 || b > 0)
+			printf(""-1\n"");
+		else
+        {
+            for (int j = i; j >= 1; j--)
+				printf(""%lld"", ans[j]);
+            printf(""\n"");
+        }
+	}
+	return 0;
+}"
+183,A,C,61419092,2023-03-20 23:12:50,北巷长情,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c:3:1: warning: variable named 'main' with external linkage has undefined behavior [-Wmain]\nint main{\n^\nmain.c:3:9: error: expected ';' after top level declarator\nint main{\n        ^\n        ;\n1 warning and 1 error generated.""}
+
+#include <stdio.h>
+
+int main{
+    int n,i,m1,m2,sum,j1,j2;
+    int j;
+    char a[10],b[10];
+    scanf(""%d"",&n);
+    for(i=0;i<n;++i){
+        scanf(""%s"",&a[i]);
+        scanf(""%s"",&b[i]);
+    m1=strlen(a);
+    m2=strlen(b);
+    if(m1!=m2){
+        a[i]=1;
+    }
+    else{
+        sum=j1=j2=0;
+        for(j=m1;j>0;j--){
+            j1+=j*10*a[j];
+            j2+=j*10*b[j];
+            sum+=ji+j2;
+        }
+        a[i]=sum;
+    }
+}
+  for(i=0;i<n;++i){
+      printf(""%d\n"",a[i]);
+  }
+ return 0;   
+}"
+184,A,C,61419113,2023-03-20 23:14:34,北巷长情,答案错误,"#include <stdio.h>
+#include <string.h>
+int main(){
+    int n,i,m1,m2,sum,j1,j2;
+    int j;
+    char a[10],b[10];
+    scanf(""%d"",&n);
+    for(i=0;i<n;++i){
+        scanf(""%s"",&a[i]);
+        scanf(""%s"",&b[i]);
+    m1=strlen(a);
+    m2=strlen(b);
+    if(m1!=m2){
+        a[i]=1;
+    }
+    else{
+        sum=j1=j2=0;
+        for(j=m1;j>0;j--){
+            j1+=j*10*a[j];
+            j2+=j*10*b[j];
+            sum+=j1+j2;
+        }
+        a[i]=sum;
+    }
+}
+  for(i=0;i<n;++i){
+      printf(""%d\n"",a[i]);
+  }
+ return 0;   
+}"
+185,A,C,61422425,2023-03-21 15:29:17,密赛伟,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c:1:1: error: unknown type name 'import'\nimport java.util.Scanner;\n^\nmain.c:1:12: error: expected ';' after top level declarator\nimport java.util.Scanner;\n           ^\n           ;\nmain.c:2:1: error: unknown type name 'public'\npublic class Main{\n^\nmain.c:2:13: error: expected ';' after top level declarator\npublic class Main{\n            ^\n            ;\n4 errors generated.""}
+
+import java.util.Scanner;
+public class Main{
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+        int T=sc.nextInt();
+        while(T!=0)
+        {
+            int a=sc.nextInt();
+            int b=sc.nextInt();
+            if(a*10-b>0&&b*10-a>0)
+            {
+                System.out.println(a*b);
+            }
+            else System.out.println(-1);
+            T--;
+        }
+    }
+
+}"
+186,A,C,61451477,2023-03-22 20:04:42,大大怪2,答案正确,"#include <stdio.h>
+
+int main(void) {
+	int n;
+	int  d1, d2, a[1000], b[1000], l1 = 0, l2 = 0;
+	int sum = 0;
+	scanf(""%d"", &n);
+	while (n) {
+
+		scanf(""%d%d"", &d1, &d2);
+		while (d1) {
+			a[l1] = d1 % 10;
+			d1 /= 10;
+			l1++;
+		}
+		while (d2) {
+			b[l2] = d2 % 10;
+			d2 /= 10;
+			l2++;
+		}
+
+		if (l1 == l2) {
+			for (int i = l1 - 1; i >= 0; i--) {
+				a[i] = a[i] * b[i];
+			}
+
+			for (int i = l1 - 1; i >= 0; i--) {
+				printf(""%d"", a[i]);
+			}
+			printf(""\n"");
+//			for (int j = l1 - 1; j >= 0; j--) {
+//				if (a[j - 1] > 10) {
+//					a[j] *= 10;
+//				}
+//
+//				sum += a[j];
+//				sum *= 10;
+//			}
+			//	printf(""%d\n"", sum / 10);
+		} else {
+			printf(""-1\n"");
+		}
+		n--;
+		l1 = l2 = 0;
+		sum = 0;
+	}
+
+	return 0;
+}"
+187,A,C,61464065,2023-03-23 19:33:15,小狗线团.,答案正确,"#include <stdio.h>
+#include <string.h>
+int main()
+{int n;
+ scanf(""%d"",&n);
+ while(n!=0)
+ {char a[10000],b[10000];
+ scanf(""%s%s"",a,b);
+  if(strlen(a)!=strlen(b) )  printf(""-1"");
+  else{int i=0;
+      while(a[i]!='\0')
+  {printf(""%d"",(a[i]-'0')*(b[i]-'0'));
+          i++;}
+      }
+      
+     n--; 
+  printf(""\n"");
+  } 
+}
+"
+188,A,C,61543362,2023-03-26 09:58:28,威严满满二小姐,格式错误,"#include<stdio.h>
+#include<string.h>
+#include<math.h>
+int aa[10],bb[10];
+int wei(long a)
+{
+    int b=0;
+    while(a>0)
+    {
+        a/=10;
+        b++;
+    }
+return b;
+}
+int shu1(long a,int b)
+{
+    int i=0;
+    for(i=0;i<b;i++)
+    {
+        aa[b-1-i]=a%10;
+        a/=10;
+    }
+    return 0;
+}
+int shu2(long a,int b)
+{
+    int i=0;
+    for(i=0;i<b;i++)
+    {
+        bb[b-1-i]=a%10;
+        a/=10;
+    }
+    return 0;
+}
+int main()
+{
+    int t;
+    scanf(""%d"",&t);
+    long a,b;
+    int i,j,k,r;
+    long long c=0;
+    for(i=0;i<t;i++)
+    {
+        scanf(""%ld %ld"",&a,&b);
+        if(wei(a)!=wei(b)){printf(""-1"");}
+        else
+        {    c=0;
+            shu1(a,wei(a));
+            shu2(b,wei(b));
+            for(j=0;j<wei(a);j++)
+            {
+                r=aa[j]*bb[j];
+                if(r>=10)
+                {
+                    c=r+c*100;
+                }
+                else if(r<10)
+                {
+                   c=r+c*10;
+                }
+            }
+            printf(""%lld\n"",c);
+        }
+    }
+}
+
+
+
+
+"
+189,A,C,61543370,2023-03-26 09:59:09,威严满满二小姐,格式错误,"#include<stdio.h>
+#include<string.h>
+#include<math.h>
+int aa[10],bb[10];
+int wei(long a)
+{
+    int b=0;
+    while(a>0)
+    {
+        a/=10;
+        b++;
+    }
+return b;
+}
+int shu1(long a,int b)
+{
+    int i=0;
+    for(i=0;i<b;i++)
+    {
+        aa[b-1-i]=a%10;
+        a/=10;
+    }
+    return 0;
+}
+int shu2(long a,int b)
+{
+    int i=0;
+    for(i=0;i<b;i++)
+    {
+        bb[b-1-i]=a%10;
+        a/=10;
+    }
+    return 0;
+}
+int main()
+{
+    int t;
+    scanf(""%d"",&t);
+    long a,b;
+    int i,j,k=-1,r;
+    long long c=0;
+    for(i=0;i<t;i++)
+    {
+        scanf(""%ld %ld"",&a,&b);
+        if(wei(a)!=wei(b)){printf(""%d"",k);}
+        else
+        {    c=0;
+            shu1(a,wei(a));
+            shu2(b,wei(b));
+            for(j=0;j<wei(a);j++)
+            {
+                r=aa[j]*bb[j];
+                if(r>=10)
+                {
+                    c=r+c*100;
+                }
+                else if(r<10)
+                {
+                   c=r+c*10;
+                }
+            }
+            printf(""%lld\n"",c);
+        }
+    }
+}
+
+
+
+
+"
+190,A,C,61543398,2023-03-26 10:00:49,威严满满二小姐,答案正确,"#include<stdio.h>
+#include<string.h>
+#include<math.h>
+int aa[10],bb[10];
+int wei(long a)
+{
+    int b=0;
+    while(a>0)
+    {
+        a/=10;
+        b++;
+    }
+return b;
+}
+int shu1(long a,int b)
+{
+    int i=0;
+    for(i=0;i<b;i++)
+    {
+        aa[b-1-i]=a%10;
+        a/=10;
+    }
+    return 0;
+}
+int shu2(long a,int b)
+{
+    int i=0;
+    for(i=0;i<b;i++)
+    {
+        bb[b-1-i]=a%10;
+        a/=10;
+    }
+    return 0;
+}
+int main()
+{
+    int t;
+    scanf(""%d"",&t);
+    long a,b;
+    int i,j,k=-1,r;
+    long long c=0;
+    for(i=0;i<t;i++)
+    {
+        scanf(""%ld"",&a);
+        scanf(""%ld"",&b);
+        if(wei(a)!=wei(b)){printf(""%d\n"",k);}
+        else
+        {    c=0;
+            shu1(a,wei(a));
+            shu2(b,wei(b));
+            for(j=0;j<wei(a);j++)
+            {
+                r=aa[j]*bb[j];
+                if(r>=10)
+                {
+                    c=r+c*100;
+                }
+                else if(r<10)
+                {
+                   c=r+c*10;
+                }
+            }
+            printf(""%lld\n"",c);
+        }
+    }
+}
+
+
+
+
+"
+191,A,C(gcc 7.5.0),61773903,2023-04-06 20:30:12,墨初_,答案错误,"#include<stdio.h>
+
+int main()
+{
+    //T代表输出用例
+    int T=0;
+    //数组a代表整数a，数组b代表整数b
+    char a[12],b[12];
+    //数组nums3用来存储对应项的乘积，nums4用来代表累乘和
+    int nums3[12]={0},nums4[12]={1};
+    //nums用来计数整数位数
+    int nums=0;
+    //cj代表乘积，sum代表运算后的总和
+    int i=0,j=0,cj=1,sum=0;
+    scanf(""%d"",&T);
+    while(T--)
+    {
+        nums=0;
+        scanf(""%s %s"",a,b);
+        for(i=0;a[i]!='\0'&&b[i]!='\0';i++)
+        {
+            nums++;
+        }
+        //没有同时到结束符，则代表长度不等
+        if(a[i]!='\0'||b[i]!='\0')
+        {
+            printf(""-1\n"");
+            continue;
+        }
+        for(i=0;i<nums;i++)
+        {
+            //每一个对应的位相乘
+            nums3[i]=(a[i]-'0')*(b[i]-'0');
+            //nums4[i]=b[i]-'0';
+        }
+        for(i=1;i<nums;i++)
+        {
+            //当对应位数小于10时，则这一项乘以10，若大于10，则该项得累乘100
+            if(nums3[i]<10)
+            {
+                nums4[i]=10;   
+            }else if(nums3[i]>=10)
+            {
+                nums4[i]=100;
+            }
+        }
+        for(i=0;i<nums;i++)
+        {
+            //前一项累乘其后所有项的累乘和
+            for(j=i+1;j<nums;j++)
+            {
+                cj*=nums4[j];    
+            }
+            //累乘后累加
+            sum+=nums3[i]*cj;
+            cj=1;
+        }
+        printf(""%d\n"",sum);
+        sum=0;
+    }
+    return 0;
+}"
+192,A,C(gcc 7.5.0),61774214,2023-04-06 20:35:04,墨初_,答案错误,"#include<stdio.h>
+
+int main()
+{
+    //T代表输出用例
+    int T=0;
+    //数组a代表整数a，数组b代表整数b
+    char a[12],b[12];
+    //数组nums3用来存储对应项的乘积，nums4用来代表累乘和
+    int nums3[12]={0},nums4[12]={1};
+    //nums用来计数整数位数
+    int nums=0;
+    //cj代表乘积，sum代表运算后的总和
+    int i=0,j=0,cj=1,sum=0;
+    scanf(""%d"",&T);
+    if(T<1||T>100)
+    {
+        exit(0);
+    }
+    while(T--)
+    {
+        nums=0;
+        scanf(""%s %s"",a,b);
+        for(i=0;a[i]!='\0'&&b[i]!='\0';i++)
+        {
+            nums++;
+        }
+        //没有同时到结束符，则代表长度不等
+        if(a[i]!='\0'||b[i]!='\0')
+        {
+            printf(""-1\n"");
+            continue;
+        }
+        for(i=0;i<nums;i++)
+        {
+            //每一个对应的位相乘
+            nums3[i]=(a[i]-'0')*(b[i]-'0');
+            //nums4[i]=b[i]-'0';
+        }
+        for(i=1;i<nums;i++)
+        {
+            //当对应位数小于10时，则这一项乘以10，若大于10，则该项得累乘100
+            if(nums3[i]<10)
+            {
+                nums4[i]=10;   
+            }else if(nums3[i]>=10)
+            {
+                nums4[i]=100;
+            }
+        }
+        for(i=0;i<nums;i++)
+        {
+            //前一项累乘其后所有项的累乘和
+            for(j=i+1;j<nums;j++)
+            {
+                cj*=nums4[j];    
+            }
+            //累乘后累加
+            sum+=nums3[i]*cj;
+            cj=1;
+        }
+        printf(""%d\n"",sum);
+        sum=0;
+    }
+    return 0;
+}"
+193,A,C(gcc 7.5.0),61774349,2023-04-06 20:36:54,墨初_,答案错误,"#include<stdio.h>
+
+int main()
+{
+    //T代表输出用例
+    int T=0;
+    //数组a代表整数a，数组b代表整数b
+    char a[13],b[13];
+    //数组nums3用来存储对应项的乘积，nums4用来代表累乘和
+    int nums3[12]={0},nums4[12]={1};
+    //nums用来计数整数位数
+    int nums=0;
+    //cj代表乘积，sum代表运算后的总和
+    int i=0,j=0,cj=1,sum=0;
+    scanf(""%d"",&T);
+    if(T<1||T>100)
+    {
+        exit(0);
+    }
+    while(T--)
+    {
+        nums=0;
+        scanf(""%s %s"",a,b);
+        for(i=0;a[i]!='\0'&&b[i]!='\0';i++)
+        {
+            nums++;
+        }
+        //没有同时到结束符，则代表长度不等
+        if(a[i]!='\0'||b[i]!='\0')
+        {
+            printf(""-1\n"");
+            continue;
+        }
+        for(i=0;i<nums;i++)
+        {
+            //每一个对应的位相乘
+            nums3[i]=(a[i]-'0')*(b[i]-'0');
+            //nums4[i]=b[i]-'0';
+        }
+        for(i=1;i<nums;i++)
+        {
+            //当对应位数小于10时，则这一项乘以10，若大于10，则该项得累乘100
+            if(nums3[i]<10)
+            {
+                nums4[i]=10;   
+            }else if(nums3[i]>=10)
+            {
+                nums4[i]=100;
+            }
+        }
+        for(i=0;i<nums;i++)
+        {
+            //前一项累乘其后所有项的累乘和
+            for(j=i+1;j<nums;j++)
+            {
+                cj*=nums4[j];    
+            }
+            //累乘后累加
+            sum+=nums3[i]*cj;
+            cj=1;
+        }
+        printf(""%d\n"",sum);
+        sum=0;
+    }
+    return 0;
+}"
+194,A,C(gcc 7.5.0),61774656,2023-04-06 20:40:51,墨初_,答案正确,"#include<stdio.h>
+
+int main()
+{
+    //T代表输出用例
+    int T=0;
+    //数组a代表整数a，数组b代表整数b
+    char a[13],b[13];
+    //数组nums3用来存储对应项的乘积，nums4用来代表累乘和
+    int nums3[12]={0},nums4[12]={1};
+    //nums用来计数整数位数
+    int nums=0;
+    //cj代表乘积，sum代表运算后的总和
+    long long i=0,j=0,cj=1,sum=0;
+    scanf(""%d"",&T);
+    if(T<1||T>100)
+    {
+        exit(0);
+    }
+    while(T--)
+    {
+        nums=0;
+        scanf(""%s %s"",a,b);
+        for(i=0;a[i]!='\0'&&b[i]!='\0';i++)
+        {
+            nums++;
+        }
+        //没有同时到结束符，则代表长度不等
+        if(a[i]!='\0'||b[i]!='\0')
+        {
+            printf(""-1\n"");
+            continue;
+        }
+        for(i=0;i<nums;i++)
+        {
+            //每一个对应的位相乘
+            nums3[i]=(a[i]-'0')*(b[i]-'0');
+            //nums4[i]=b[i]-'0';
+        }
+        for(i=1;i<nums;i++)
+        {
+            //当对应位数小于10时，则这一项乘以10，若大于10，则该项得累乘100
+            if(nums3[i]<10)
+            {
+                nums4[i]=10;   
+            }else if(nums3[i]>=10)
+            {
+                nums4[i]=100;
+            }
+        }
+        for(i=0;i<nums;i++)
+        {
+            //前一项累乘其后所有项的累乘和
+            for(j=i+1;j<nums;j++)
+            {
+                cj*=nums4[j];    
+            }
+            //累乘后累加
+            sum+=nums3[i]*cj;
+            cj=1;
+        }
+        printf(""%lld\n"",sum);
+        sum=0;
+    }
+    return 0;
+}"

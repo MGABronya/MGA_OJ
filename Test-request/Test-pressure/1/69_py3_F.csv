@@ -1,0 +1,470 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,F,Python3,61623909,2023-03-30 23:22:10,牛客356292128号,答案错误,"from collections import defaultdict
+n = int(input())
+points = []
+for i in range(n):
+    points.append(list(map(int, input().split())))
+s = {(x, y) for x, y in points}
+ans = 0
+cnt = 0
+for i in range(n):
+    x, y = points[i]
+    d = defaultdict(int)
+    for j in range(n):
+        if i == j:
+            continue
+        x1, y1 = points[j]
+        dis = (x - x1) * (x - x1) + (y - y1) * (y - y1)
+        d[dis] += 1
+
+    for k, v in d.items():
+        if v >= 2:
+            ans += v * (v - 1) // 2  
+for i in range(n):
+    x, y = points[i]
+    for j in range(i + 1, n):
+        x1, y1 = points[j]
+        if (2 * x - x1, 2 * y - y1) in s:
+            cnt += 1
+print(ans - cnt)
+
+
+
+"
+1,F,Python3,61623927,2023-03-30 23:23:53,牛客356292128号,答案错误,"from collections import defaultdict
+n = int(input())
+points = []
+for i in range(n):
+    points.append(list(map(int, input().split())))
+s = {(x, y) for x, y in points}
+ans = 0
+cnt = 0
+for i in range(n):
+    x, y = points[i]
+    d = defaultdict(int)
+    for j in range(n):
+        if i == j:
+            continue
+        x1, y1 = points[j]
+        dis = (x - x1) * (x - x1) + (y - y1) * (y - y1)
+        d[dis] += 1
+
+    for k, v in d.items():
+        if v >= 2:
+            ans += v * (v - 1) // 2  
+for i in range(n):
+    x, y = points[i]
+    for j in range(i + 1, n):
+        x1, y1 = points[j]
+        x2 = x + x1
+        y2 = y + y1
+        if x2 % 2 == 0 and y2 % 2 == 0 and (x2, y2) in s:
+            cnt += 1
+print(ans - cnt)
+
+
+
+"
+2,F,Python3,61623975,2023-03-30 23:30:03,牛客356292128号,答案错误,"from collections import defaultdict
+n = int(input())
+points = []
+for i in range(n):
+    points.append(list(map(int, input().split())))
+s = {(x, y) for x, y in points}
+ans = 0
+cnt = 0
+for i in range(n):
+    x, y = points[i]
+    d = defaultdict(int)
+    for j in range(n):
+        if i == j:
+            continue
+        x1, y1 = points[j]
+        dis = (x - x1) * (x - x1) + (y - y1) * (y - y1)
+        d[dis] += 1
+
+    for k, v in d.items():
+        if v >= 2:
+            ans += v * (v - 1) // 2  
+            
+for i in range(n):
+    x, y = points[i]
+    for j in range(i + 1, n):
+        x1, y1 = points[j]
+        x2 = x + x1
+        y2 = y + y1
+        if x2 % 2 == 0 and y2 % 2 == 0 and (x2, y2) in s:
+            cnt += 1
+print(ans - cnt // 2)
+
+
+
+"
+3,F,Python3,61624017,2023-03-30 23:35:39,牛客356292128号,运行超时,"from collections import defaultdict
+n = int(input())
+points = []
+for i in range(n):
+    points.append(list(map(int, input().split())))
+s = {(x, y) for x, y in points}
+# print(points, s)
+ans = 0
+cnt = 0
+for i in range(n):
+    x, y = points[i]
+    d = defaultdict(int)
+    for j in range(n):
+        if i == j:
+            continue
+        x1, y1 = points[j]
+        dis = (x - x1) * (x - x1) + (y - y1) * (y - y1)
+        d[dis] += 1
+
+    for k, v in d.items():
+        if v >= 2:
+            ans += v * (v - 1) // 2  
+            
+for i in range(n):
+    x, y = points[i]
+    for j in range(i + 1, n):
+        x1, y1 = points[j]
+        x2 = x + x1
+        y2 = y + y1
+        if x2 % 2 == 0 and y2 % 2 == 0 and (x2 // 2, y2 // 2) in s:
+            cnt += 1
+print(ans - cnt)
+
+
+
+"
+4,F,Python3,61624024,2023-03-30 23:36:49,牛客356292128号,运行超时,"from collections import defaultdict
+n = int(input())
+points = []
+for i in range(n):
+    points.append(list(map(int, input().split())))
+s = {(x, y) for x, y in points}
+# print(points, s)
+ans = 0
+cnt = 0
+for i in range(n):
+    x, y = points[i]
+    d = defaultdict(int)
+    for j in range(n):
+        if i == j:
+            continue
+        x1, y1 = points[j]
+        dis = (x - x1) * (x - x1) + (y - y1) * (y - y1)
+        d[dis] += 1
+
+    for k, v in d.items():
+        if v >= 2:
+            ans += v * (v - 1) // 2  
+            
+for i in range(n):
+    x, y = points[i]
+    for j in range(i + 1, n):
+        x1, y1 = points[j]
+        x2 = x + x1
+        y2 = y + y1
+        if x2 % 2 == 0 and y2 % 2 == 0 and (x2 // 2, y2 // 2) in s:
+            cnt += 1
+print(ans - cnt)
+
+
+
+"
+5,F,Python3,61624060,2023-03-30 23:40:06,牛客356292128号,执行出错,"from collections import defaultdict
+n = int(input())
+points = []
+for i in range(n):
+    points.append(list(map(int, input().split())))
+s = {(x, y) for x, y in points}
+# print(points, s)
+ans = 0
+cnt = 0
+d = defaultdict(lambda: defaultdcit(int))
+for i in range(n):
+    x, y = points[i]
+    
+    for j in range(n):
+        if i == j:
+            continue
+        x1, y1 = points[j]
+        dis = (x - x1) * (x - x1) + (y - y1) * (y - y1)
+        d[i][dis] += 1
+
+for i in range(n):
+    dic = d[i]
+    for k, v in dic.items():
+        if v >= 2:
+            ans += (v - 1) * v // 2
+            
+for i in range(n):
+    x, y = points[i]
+    for j in range(i + 1, n):
+        x1, y1 = points[j]
+        x2 = x + x1
+        y2 = y + y1
+        if x2 % 2 == 0 and y2 % 2 == 0 and (x2 // 2, y2 // 2) in s:
+            cnt += 1
+print(ans - cnt)
+
+
+
+"
+6,F,Python3,61624066,2023-03-30 23:40:29,牛客356292128号,运行超时,"from collections import defaultdict
+n = int(input())
+points = []
+for i in range(n):
+    points.append(list(map(int, input().split())))
+s = {(x, y) for x, y in points}
+# print(points, s)
+ans = 0
+cnt = 0
+d = defaultdict(lambda: defaultdict(int))
+for i in range(n):
+    x, y = points[i]
+    
+    for j in range(n):
+        if i == j:
+            continue
+        x1, y1 = points[j]
+        dis = (x - x1) * (x - x1) + (y - y1) * (y - y1)
+        d[i][dis] += 1
+
+for i in range(n):
+    dic = d[i]
+    for k, v in dic.items():
+        if v >= 2:
+            ans += (v - 1) * v // 2
+            
+for i in range(n):
+    x, y = points[i]
+    for j in range(i + 1, n):
+        x1, y1 = points[j]
+        x2 = x + x1
+        y2 = y + y1
+        if x2 % 2 == 0 and y2 % 2 == 0 and (x2 // 2, y2 // 2) in s:
+            cnt += 1
+print(ans - cnt)
+
+
+
+"
+7,F,Python3,61624107,2023-03-30 23:43:17,牛客356292128号,运行超时,"from collections import defaultdict
+n = int(input())
+points = []
+for i in range(n):
+    points.append(list(map(int, input().split())))
+s = {(x, y) for x, y in points}
+# print(points, s)
+ans = 0
+cnt = 0
+d = defaultdict(int)
+for i in range(n):
+    x, y = points[i]
+    
+    for j in range(n):
+        if i == j:
+            continue
+        x1, y1 = points[j]
+        dis = (x - x1) * (x - x1) + (y - y1) * (y - y1)
+        d[(i, dis)] += 1
+
+
+for k, v in d.items():
+    if v >= 2:
+        ans += (v - 1) * v // 2
+            
+for i in range(n):
+    x, y = points[i]
+    for j in range(i + 1, n):
+        x1, y1 = points[j]
+        x2 = x + x1
+        y2 = y + y1
+        if x2 % 2 == 0 and y2 % 2 == 0 and (x2 // 2, y2 // 2) in s:
+            cnt += 1
+print(ans - cnt)
+
+
+
+"
+8,F,Python3,61625430,2023-03-31 10:38:17,牛客356292128号,答案错误,"from collections import defaultdict
+n = int(input())
+points = []
+s = [[0] * 1001 for _ in range(1001)]
+for i in range(n):
+    x, y = list(map(int, input().split()))
+    x += 500
+    y += 500
+    points.append((x, y))
+    s[x][y] = 1
+# print(points, s)
+ans = 0
+cnt = 0
+d = defaultdict(int)
+for i in range(n):
+    x, y = points[i]
+    
+    for j in range(n):
+        if i == j:
+            continue
+        x1, y1 = points[j]
+        dis = (x - x1) * (x - x1) + (y - y1) * (y - y1)
+        d[(i, dis)] += 1
+
+
+for k, v in d.items():
+    if v >= 2:
+        ans += (v - 1) * v // 2
+            
+for i in range(n):
+    x, y = points[i]
+    for j in range(i + 1, n):
+        x1, y1 = points[j]
+        x2 = x + x1
+        y2 = y + y1
+        if x2 % 2 == 0 and y2 % 2 == 0 and s[x//2][y//2]:
+            cnt += 1
+print(ans - cnt)
+
+
+
+"
+9,F,Python3,61625438,2023-03-31 10:39:17,牛客356292128号,运行超时,"from collections import defaultdict
+n = int(input())
+points = []
+s = [[0] * 1001 for _ in range(1001)]
+for i in range(n):
+    x, y = list(map(int, input().split()))
+    x += 500
+    y += 500
+    points.append((x, y))
+    s[x][y] = 1
+# print(points, s)
+ans = 0
+cnt = 0
+d = defaultdict(int)
+for i in range(n):
+    x, y = points[i]
+    
+    for j in range(n):
+        if i == j:
+            continue
+        x1, y1 = points[j]
+        dis = (x - x1) * (x - x1) + (y - y1) * (y - y1)
+        d[(i, dis)] += 1
+
+
+for k, v in d.items():
+    if v >= 2:
+        ans += (v - 1) * v // 2
+            
+for i in range(n):
+    x, y = points[i]
+    for j in range(i + 1, n):
+        x1, y1 = points[j]
+        x2 = x + x1
+        y2 = y + y1
+        if x2 % 2 == 0 and y2 % 2 == 0 and s[x2//2][y2//2]:
+            cnt += 1
+print(ans - cnt)
+
+
+
+"
+10,F,Python3,61802489,2023-04-07 20:51:03,那些i回忆,答案错误,"N=3000+10
+x=[0]*N
+y=[0]*N
+vis=[[0]*N for i in range(N)]
+M=2000+10
+f=[[0]*M for i in range(M)]
+offset_val=1000
+n=int(input())
+for i in range(n):
+    x[i],y[i]=map(int,input().split())
+    f[x[i]+offset_val][y[i]+offset_val]=1
+res=0
+for i in range(n):
+    m=dict()
+    for j in range(n):
+        if i==j:
+            continue;
+        dx=x[i]-x[j]
+        dy=y[i]-y[j]
+        dis=dx*dx+dy*dy
+        if dis not in m.keys(): 
+            m[dis]=0
+        m[dis]+=1
+    for k,v in m.items():
+        res+=v*(v-1)//2
+
+for i in range(n):
+    for j in range(i):
+        xk=2*x[i]-x[j]
+        yk=2*y[i]-y[j]
+        if f[xk+offset_val][yk+offset_val]>0:
+            res-=1
+print(res)"
+11,F,Python3,61803793,2023-04-07 21:00:30,那些i回忆,答案错误,"from collections import Counter
+
+N=3000+10
+x=[0]*N
+y=[0]*N
+vis=[[0]*N for i in range(N)]
+M=3000+10
+f=[[0]*M for i in range(M)]
+offset_val=1500
+n=int(input())
+for i in range(n):
+    x[i],y[i]=map(int,input().split())
+    f[x[i]+offset_val][y[i]+offset_val]=1
+res=0
+for i in range(n):
+    cnt=Counter()
+    for j in range(n):
+        if i==j:
+            continue;
+        dx=x[i]-x[j]
+        dy=y[i]-y[j]
+        dis=dx*dx+dy*dy
+        cnt[dis]+=1
+    for k,v in cnt.items():
+        res+=v*(v-1)//2
+
+for i in range(n):
+    for j in range(i):
+        xk=2*x[i]-x[j]
+        yk=2*y[i]-y[j]
+        if f[xk+offset_val][yk+offset_val]>0:
+            res-=1
+print(res)"
+12,F,Python3,61808312,2023-04-07 23:10:50,那些i回忆,运行超时,"from collections import Counter
+
+N=3000+10
+x=[0]*N
+y=[0]*N
+vis=[[0]*N for i in range(N)]
+M=3000+10
+f=[[0]*M for i in range(M)]
+offset_val=1500
+n=int(input())
+for i in range(n):
+    x[i],y[i]=map(int,input().split())
+    f[x[i]+offset_val][y[i]+offset_val]=1
+res=0
+for i in range(n):
+    cnt=Counter()
+    for j in range(n):
+        if i==j:
+            continue;
+        dx=x[i]-x[j]
+        dy=y[i]-y[j]
+        dis=dx*dx+dy*dy
+        res+=cnt[dis]
+        cnt[dis]+=1
+        
+        xk=2*x[i]-x[j]
+        yk=2*y[i]-y[j]
+        if f[xk+offset_val][yk+offset_val]>0:
+            res-=0.5
+print(int(res))"

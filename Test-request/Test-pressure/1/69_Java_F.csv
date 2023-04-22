@@ -1,0 +1,2546 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,F,Java,61481945,2023-03-24 19:40:29,北-北瓜,运行超时,"import java.util.*;
+import java.math.*;
+import java.io.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n= in.nextInt();
+        int[]x=new int[n];
+        int[]y=new int[n];
+        for (int i = 0; i <n; i++) {
+            x[i]= in.nextInt();
+            y[i]= in.nextInt();
+        }
+        int ans=0;
+        for (int i = 0; i <n; i++) {
+            for (int j = i+1; j <n ; j++) {
+                for (int k =j+1; k <n ; k++) {
+                    int ax=x[i]-x[j];
+                    int ay=y[i]-y[j];
+                    int bx=x[k]-x[j];
+                    int by=y[k]-y[j];
+                    if (ax*by-ay*bx!=0){
+                        int cx=x[i]-x[k];
+                        int cy=y[i]-y[k];
+                        int a=ax*ax+ay*ay;
+                        int b=bx*bx+by*by;
+                        int c=cx*cx+cy*cy;
+                        if (a==b||a==c||b==c)ans++;
+                    }
+                }
+            }
+        }
+        System.out.println(ans);
+        
+    }
+}"
+1,F,Java,61482385,2023-03-24 19:43:47,小怂很怂,答案错误,"import java.util.Scanner;
+public class Main {
+    public static void main (String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int count = 0;
+        for (int i=1; i<=n; i++) {            
+            for (int j=i+1; j<=n; j++) {                
+                for (int k=j+1; k<=n; k++) {                    
+                    if (isIsoscelesTriangle(i, j, k)) {                        
+                        count++;                    
+                    }                
+                }            
+            }        
+        }        
+        System.out.println(count*2);    
+    }    
+    private static boolean isIsoscelesTriangle(int a, int b, int c) {        
+        int ab = Math.abs(a - b);        
+        int bc = Math.abs(b - c);        
+        int ac = Math.abs(a - c);        
+        return (ab == bc || ab == ac || bc == ac);    
+    }
+}
+"
+2,F,Java,61482611,2023-03-24 19:45:29,小怂很怂,答案错误,"import java.util.Scanner;public class Main {    public static void main(String[] args) {        Scanner scanner = new Scanner(System.in);        int n = scanner.nextInt();        int[][] points = new int[n][2];        for (int i = 0; i < n; i++) {            points[i][0] = scanner.nextInt();            points[i][1] = scanner.nextInt();        }        int count = 0;        for (int i = 0; i < n; i++) {            for (int j = i + 1; j < n; j++) {                for (int k = j + 1; k < n; k++) {                    if (isIsosceles(points[i], points[j], points[k])) {                        count++;                    }                }            }        }        System.out.println(count);    }    private static boolean isIsosceles(int[] p1, int[] p2, int[] p3) {        double d1 = distance(p1, p2);        double d2 = distance(p2, p3);        double d3 = distance(p3, p1);        return d1 == d2 || d2 == d3 || d3 == d1;    }    private static double distance(int[] p1, int[] p2) {        int dx = p1[0] - p2[0];        int dy = p1[1] - p2[1];        return Math.sqrt(dx * dx + dy * dy);    }}
+"
+3,F,Java,61483639,2023-03-24 19:53:21,人工智能3212卢明涛,运行超时,"
+import java.io.*;
+import java.util.*;
+import java.math.*;
+
+public class Main {
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader in = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        TaskA solver = new TaskA();
+        solver.solve(1, in, out);
+        out.close();
+    }
+
+    static class TaskA {
+        public static long gcd(long a,long b) {
+            return b==0?a:gcd(b, a%b);
+        }
+        static long ans = 0;
+        class Person{
+            String name;
+            String dui;
+            double fen;
+        }
+        public static int binarySearch(int arr[], int target){
+            int left = 0;
+            int right = arr.length; // 注意
+            while(left<right){ // 注意
+                int mid = (left+right)/2;
+                if(arr[mid] >= target){// 注意
+                    right = mid;
+                }else{
+                    left = mid+1;
+                }
+            }
+            return left;// 注意
+        }
+        static long start = 0;
+        static long map[] = new long[100];
+        static long time[]  = new long[100];
+
+        static long use[] = new long[100];
+
+        static long n,t,p;
+
+        static long max = 0;
+
+        static long maxfen = 0;
+        static long sumtime = 0;
+        static long[] ai = new long[20];
+        static long[] bi = new long[20];
+        static long[] ci = new long[20];
+        static long[] xi = new long[20];
+        static long[] yi = new long[20];
+
+        static long sum =0;
+        static void dfs(int id){
+            for (int i=1;i<=n;i++){
+                if (use[i]==0) {
+                    if (sumtime + time[i] <= t) {
+                        sumtime = sumtime + time[i];
+                        long maxsu = Math.max(ci[i], ai[i] - sumtime * bi[i] - yi[i] * p);
+                        sum = sum + maxsu;
+                        use[i] = 1;
+                        maxfen = Math.max(maxfen, sum);
+                        dfs(0);
+                        use[i] = 0;
+                        sum = sum - maxsu;
+                        sumtime = sumtime - time[i];
+                    }
+                }
+            }
+        }
+        public void solve(int testNumber, InputReader in, PrintWriter out) {
+                int n = in.nextInt();
+                long sum = 0;
+                int x[] = new int[n+2];
+                int y[] = new int[n+2];
+                for (int i=1;i<=n; i++){
+                    x[i] = in.nextInt();
+                    y[i] = in.nextInt();
+                }
+                for (int i=1;i<=n; i++){
+                    for (int j = i+1; j <= n; j++) {
+                        for (int k=j+1;k<=n; k++){
+                            int x1 = x[i];
+                            int x2 = x[j];
+                            int x3 = x[k];
+                            int y1 = y[i];
+                            int y2 = y[j];
+                            int y3 = y[k];
+                            if (  (x1-x2) * (y2-y3)!=(x2-x3)*(y1-y2) ){
+                                long a1 = Math.abs(x1-x2) * Math.abs(x1-x2) + Math.abs(y1-y2)*Math.abs(y1-y2);
+                                long a2 = Math.abs(x2-x3) * Math.abs(x2-x3) + Math.abs(y2-y3)*Math.abs(y2-y3);
+                                long a3 = Math.abs(x1-x3) * Math.abs(x1-x3) + Math.abs(y1-y3)*Math.abs(y1-y3);
+                                if (a1 == a2 || a2==a3 || a1==a3){
+                                    sum++;
+                                }
+                            }
+                        }
+                    }
+                }
+            System.out.println(sum);
+            //            long[] math =new long[n];
+
+        }
+    }
+
+    static class InputReader {
+        public BufferedReader reader;
+        public StringTokenizer tokenizer;
+
+        public InputReader(InputStream stream) {
+            reader = new BufferedReader(new InputStreamReader(stream), 32768);
+            tokenizer = null;
+        }
+        boolean hasNext()
+        {
+            while (tokenizer == null || !tokenizer.hasMoreTokens())
+            {
+                try
+                {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (Exception e)
+                {
+                    return false;
+                    // TODO: handle exception
+                }
+            }
+            return true;
+        }
+        public String next() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return tokenizer.nextToken();
+        }
+        public String nextLine()
+        {
+            String str = null;
+            try
+            {
+                str = reader.readLine();
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            return str;
+        }
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+        public double nextDouble(){
+            return Double.parseDouble(next());
+        }
+        public long nextLong(){
+            return Long.parseLong(next());
+        }
+        public BigInteger nextBigInteger()
+        {
+            return new BigInteger(next());
+        }
+        public BigDecimal nextBigDecimal()
+        {
+            return new BigDecimal(next());
+        }
+
+    }
+}"
+4,F,Java,61486027,2023-03-24 20:12:07,何妨吟啸且徐行1,答案错误,"import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        int[][] points = new int[n][2];
+        for (int i = 0; i < n; i++) {
+            points[i][0] = scanner.nextInt();
+            points[i][1] = scanner.nextInt();
+        }
+        int ans = 0;
+        for (int i = 0; i < n; i++) {
+            Map<Integer, Integer> cnt = new HashMap<>();
+            for (int j = 0; j < n; j++) {
+                if (i != j) {
+                    int dx = points[i][0] - points[j][0], dy = points[i][1] - points[j][1];
+                    int d = dx * dx + dy * dy;
+                    cnt.put(d, cnt.getOrDefault(d, 0) + 1);
+                }
+            }
+            for (int c : cnt.values()) {
+                ans += c * (c - 1) / 2;
+            }
+        }
+        System.out.println(ans);
+    }
+}
+"
+5,F,Java,61486086,2023-03-24 20:12:37,L-0720,运行超时,"import java.io.*;
+import java.util.*;
+
+public class Main {
+
+    static StreamTokenizer reader = new StreamTokenizer(new BufferedReader(new InputStreamReader(System.in)));
+
+    public static void main(String[] args) throws IOException {
+        int n = nextInt();
+        int[][] arr = new int[n][2];
+        for (int i = 0; i < n; i++) {
+            int x = nextInt();
+            int y = nextInt();
+            arr[i][0] = x;
+            arr[i][1] = y;
+        }
+        int res = 0;
+        Map<String, Double> map = new HashMap<>();
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                for (int k = j + 1; k < n; k++) {
+                    if (arr[i][0] == arr[j][0] && arr[i][0] == arr[k][0] ||
+                            arr[i][1] == arr[j][1] && arr[i][1] == arr[k][1]) continue;
+
+                    double x1 = (double) (arr[i][0] + arr[j][0]) / 2.0;
+                    double y1 = (double) (arr[i][1] + arr[j][1]) / 2.0;
+                    double x2 = (double) (arr[i][0] + arr[k][0]) / 2.0;
+                    double y2 = (double) (arr[i][1] + arr[k][1]) / 2.0;
+                    double x3 = (double) (arr[k][0] + arr[j][0]) / 2.0;
+                    double y3 = (double) (arr[k][1] + arr[j][1]) / 2.0;
+                    if (x1 == arr[i][0] && y1 == arr[i][1] || x1 == arr[j][0] && y1 == arr[j][1] || x1 == arr[k][0] && y1 == arr[k][1]) continue;
+                    if (x2 == arr[i][0] && y2 == arr[i][1] || x2 == arr[j][0] && y2 == arr[j][1] || x2 == arr[k][0] && y2 == arr[k][1]) continue;
+                    if (x3 == arr[i][0] && y3 == arr[i][1] || x3 == arr[j][0] && y3 == arr[j][1] || x3 == arr[k][0] && y3 == arr[k][1]) continue;
+
+                    double a = 0.0;
+                    double b = 0.0;
+                    double c = 0.0;
+                    if (map.containsKey(i + ""#"" + j)) a = map.get(i + ""#"" + j);
+                    else a = Math.sqrt(Math.pow(arr[i][0] - arr[j][0], 2) + Math.pow(arr[i][1] - arr[j][1], 2));
+                    if (map.containsKey(i + ""#"" + k)) b = map.get(i + ""#"" + k);
+                    else b = Math.sqrt(Math.pow(arr[i][0] - arr[k][0], 2) + Math.pow(arr[i][1] - arr[k][1], 2));
+                    if (map.containsKey(j + ""#"" + k)) c = map.get(j + ""#"" + k);
+                    else c = Math.sqrt(Math.pow(arr[j][0] - arr[k][0], 2) + Math.pow(arr[j][1] - arr[k][1], 2));
+                    
+                    if (a == b || a == c || b == c) {
+                        map.put(i + ""#"" + j, a);
+                        map.put(i + ""#"" + k, b);
+                        map.put(j + ""#"" + k, c);
+                        res++;
+                    }
+                }
+            }
+        }
+        System.out.println(res);
+    }
+
+    public static int nextInt() throws IOException {
+        reader.nextToken();
+        return (int) reader.nval;
+    }
+
+}"
+6,F,Java,61489239,2023-03-24 20:38:31,人工智能3221黄天鲁,运行超时,"import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner=new Scanner(System.in);
+        int n= scanner.nextInt();
+       double []x=new double[n];
+        double []y=new double[n];
+        for (int i = 0; i <n; i++) {
+            x[i]= scanner.nextInt();
+            y[i]= scanner.nextInt();
+        }
+        int gs=0;
+        for (int i = 0; i < n-2; i++) {
+            for (int j = i+1; j <n-1; j++) {
+                for (int k =j+1; k <n ; k++) {
+                    int pd=0;
+                    double sum1=Math.sqrt((x[i]-x[j])*(x[i]-x[j])+(y[i]-y[j])*(y[i]-y[j]));
+                   double sum2=Math.sqrt((x[i]-x[k])*(x[i]-x[k])+(y[i]-y[k])*(y[i]-y[k]));
+                    double sum3=Math.sqrt((x[j]-x[i])*(x[j]-x[i])+(y[j]-y[i])*(y[j]-y[i]));
+                    double sum4=Math.sqrt((x[j]-x[k])*(x[j]-x[k])+(y[j]-y[k])*(y[j]-y[k]));
+                   double sum5=Math.sqrt((x[k]-x[j])*(x[k]-x[j])+(y[k]-y[j])*(y[k]-y[j]));
+                   double sum6=Math.sqrt((x[k]-x[i])*(x[k]-x[i])+(y[k]-y[i])*(y[k]-y[i]));
+                   if((x[i]==x[j]&&x[i]==x[k])||(y[i]==y[j]&&y[i]==y[k])){
+                       pd=1;
+                   }
+                   if(sum1+sum2>sum4&&sum1+sum4>sum2&&sum4+sum2>sum1&&sum1-sum2<sum4&&sum1-sum4<sum2&&sum4-sum2<sum1){
+                       if(pd==0){
+                           if(sum1==sum2||sum3==sum4||sum5==sum6){
+                               gs++;
+                           }
+                       }
+                   }
+                }
+            }
+        }
+        System.out.println(gs);
+    }
+}
+"
+7,F,Java,61490314,2023-03-24 20:47:52,北-北瓜,答案错误,"import java.util.*;
+import java.math.*;
+import java.io.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n= in.nextInt();
+        int[]x=new int[n];
+        int[]y=new int[n];
+        for (int i = 0; i <n; i++) {
+            x[i]= in.nextInt();
+            y[i]= in.nextInt();
+        }
+        long ans=0;
+        for (int i = 0; i <n; i++) {
+            Map<Integer,TreeSet<A>>map=new TreeMap<>();
+            for (int j = 0; j <n ; j++) {
+                int xx=Math.abs(x[i]-x[j]);
+                int yy=Math.abs(y[i]-y[j]);
+                if (xx==0&&yy==0)continue;
+                int lo=xx*xx+yy*yy;
+                xx=xx/gcd(xx,yy);
+                yy=yy/gcd(xx,yy);
+                
+                if (map.containsKey(lo)){
+                    if (!map.get(lo).contains(new A(xx,yy))){
+                        ans+=map.get(lo).size();
+                        map.get(lo).add(new A(xx,yy));
+                    }
+                }
+                else {
+                    TreeSet<A>a= new TreeSet<>(new Comparator<A>() {
+                        @Override
+                        public int compare(A o1, A o2) {
+                            return Integer.compare(o1.x,o2.x);
+                        }
+                    });
+                    a.add(new A(xx,yy));
+                    map.put(lo,a);
+                }
+            }
+        }
+        System.out.println(ans);
+        
+    }
+    static int gcd(int a,int b){
+        return b==0 ?a:gcd(b,a%b);
+    }
+    static class A{
+        int x,y;
+
+        public A(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            A a = (A) o;
+            return x == a.x && y == a.y;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(x, y);
+        }
+    }
+}"
+8,F,Java,61490906,2023-03-24 20:52:57,牛客285677822号,答案正确,"
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    static StreamTokenizer in = new StreamTokenizer(new BufferedReader(new InputStreamReader(System.in)));
+    static PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+    public static double nextDouble() throws IOException{ in.nextToken(); return in.nval; }
+    public static float nextFloat() throws IOException{ in.nextToken(); return (float)in.nval; }
+    public static int nextInt() throws IOException { in.nextToken(); return (int)in.nval; }
+    public static long nextLong() throws IOException { in.nextToken(); return (long)in.nval; }
+    public static String next() throws IOException{ in.nextToken(); return in.sval;}
+    static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    
+    static class Point {
+        int x,y;
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Point point = (Point) o;
+            return x == point.x && y == point.y;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(x, y);
+        }
+
+        public Point(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+    }
+
+    public int distance(Point p, Point q) {
+        return (p.x - q.x) * (p.x - q.x) + (p.y - q.y) * (p.y - q.y);
+    }
+
+    public void resolve() throws Exception {
+        int n=nextInt();
+        Point[] a=new Point[n];
+        for (int i = 0; i < n; i++) {
+            a[i]=new Point(nextInt(),nextInt());
+        }
+        long edge2=0;
+        long edge3=0;
+        for (int i = 0; i < n; i++) {
+            Map<Integer,List<Point>> dmap=new HashMap<>();
+            for (int j = 0; j < n; j++) {
+                if (i==j)continue;
+                int d=distance(a[i],a[j]);
+                List<Point> list = dmap.computeIfAbsent(d, integer -> new ArrayList<>());
+                list.add(a[j]);
+            }
+            Point base=a[i];
+            for (List<Point> list : dmap.values()) {
+                if (list.size()<2)continue;
+                int c=list.size();
+                for (int j = 0; j < c; j++) {
+                    for (int k = j+1; k < c; k++) {
+                        int x1=list.get(j).x-base.x;
+                        int y1=list.get(j).y-base.y;
+                        int x2=list.get(k).x-base.x;
+                        int y2=list.get(k).y-base.y;
+                        if (x1*y2-x2*y1==0) continue;
+                        edge2++;
+                        if (distance(base,list.get(j))==distance(list.get(j),list.get(k))){
+                            edge3++;
+                        }
+                    }
+                }
+            }
+        }
+        out.println(edge2-edge3+edge3/3);
+    }
+
+    public static void main(String[] args) throws Exception {
+        new Main().resolve();
+        out.flush();
+    }
+}
+
+"
+9,F,Java,61491155,2023-03-24 20:55:10,北-北瓜,答案错误,"import java.util.*;
+import java.math.*;
+import java.io.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n= in.nextInt();
+        int[]x=new int[n];
+        int[]y=new int[n];
+        for (int i = 0; i <n; i++) {
+            x[i]= in.nextInt();
+            y[i]= in.nextInt();
+        }
+        long ans=0;
+        for (int i = 0; i <n; i++) {
+            Map<Integer,TreeSet<A>>map=new TreeMap<>();
+            for (int j = 0; j <n ; j++) {
+                int xx=x[i]-x[j];
+                int yy=y[i]-y[j];
+                if (xx==0&&yy==0)continue;
+                int lo=xx*xx+yy*yy;
+                xx=xx/gcd(Math.abs(xx),Math.abs(yy));
+                yy=yy/gcd(Math.abs(xx),Math.abs(yy));
+                if (map.containsKey(lo)){
+                    if (!map.get(lo).contains(new A(xx,yy))){
+                        ans+=map.get(lo).size();
+                        map.get(lo).add(new A(xx,yy));
+                    }
+                }
+                else {
+                    TreeSet<A>a= new TreeSet<>(new Comparator<A>() {
+                        @Override
+                        public int compare(A o1, A o2) {
+                            return Integer.compare(o1.x,o2.x);
+                        }
+                    });
+                    a.add(new A(xx,yy));
+                    map.put(lo,a);
+                }
+            }
+        }
+        System.out.println(ans);
+        
+    }
+    static int gcd(int a,int b){
+        return b==0 ?a:gcd(b,a%b);
+    }
+    static class A{
+        int x,y;
+
+        public A(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            A a = (A) o;
+            return x == a.x && y == a.y;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(x, y);
+        }
+    }
+}"
+10,F,Java,61491227,2023-03-24 20:55:44,北-北瓜,答案错误,"import java.util.*;
+import java.math.*;
+import java.io.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n= in.nextInt();
+        int[]x=new int[n];
+        int[]y=new int[n];
+        for (int i = 0; i <n; i++) {
+            x[i]= in.nextInt();
+            y[i]= in.nextInt();
+        }
+        long ans=0;
+        for (int i = 0; i <n; i++) {
+            Map<Integer,TreeSet<A>>map=new TreeMap<>();
+            for (int j = 0; j <n ; j++) {
+                int xx=x[i]-x[j];
+                int yy=y[i]-y[j];
+                if (xx<0){
+                    xx=-xx;
+                    yy=-yy;
+                }
+                if (xx==0&&yy==0)continue;
+                int lo=xx*xx+yy*yy;
+                xx=xx/gcd(Math.abs(xx),Math.abs(yy));
+                yy=yy/gcd(Math.abs(xx),Math.abs(yy));
+                if (map.containsKey(lo)){
+                    if (!map.get(lo).contains(new A(xx,yy))){
+                        ans+=map.get(lo).size();
+                        map.get(lo).add(new A(xx,yy));
+                    }
+                }
+                else {
+                    TreeSet<A>a= new TreeSet<>(new Comparator<A>() {
+                        @Override
+                        public int compare(A o1, A o2) {
+                            return Integer.compare(o1.x,o2.x);
+                        }
+                    });
+                    a.add(new A(xx,yy));
+                    map.put(lo,a);
+                }
+            }
+        }
+        System.out.println(ans);
+        
+    }
+    static int gcd(int a,int b){
+        return b==0 ?a:gcd(b,a%b);
+    }
+    static class A{
+        int x,y;
+
+        public A(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            A a = (A) o;
+            return x == a.x && y == a.y;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(x, y);
+        }
+    }
+}"
+11,F,Java,61493129,2023-03-24 21:17:22,小小小巨人,答案正确,"import java.io.*;
+import java.math.*;
+import java.util.*;
+import java.util.Map.*;
+/**
+ * 
+ * @author TCchen
+ */
+public class Main {
+	public static void main(String[]args) throws IOException {
+		new Main().run();
+	}
+//	File input=new File("".\\input.txt"");
+//	File output=new File("".\\output.txt"");
+	void run() throws IOException{
+//		new Solve().setIO(input, output).run();
+		new Solve().setIO(System.in,System.out).run();
+	}
+	class Solve extends ioTask{
+		int n,q,m,k,i,j,x,y,len,l,r;
+		boolean[][]book=new boolean[3005][3005];
+		int[]a,b;
+		int dis(int i,int j) {
+			return (a[i]-a[j])*(a[i]-a[j])+(b[i]-b[j])*(b[i]-b[j]);
+		}
+		void solve() throws IOException{
+			n=in.in();
+			a=new int[n];
+			b=new int[n];
+			for(i=0;i<n;i++) {
+				a[i]=in.in()+1500;
+				b[i]=in.in()+1500;
+				book[a[i]][b[i]]=true;
+			}
+			long ans=0;
+			for(i=0;i<n;i++) {
+				HashMap<Integer,Integer>mp=new HashMap<Integer,Integer>();
+				for(j=0;j<n;j++) {
+					if(i==j)continue;
+					mp.merge(dis(i,j),1 , Integer::sum);
+					x=2*a[i]-a[j];
+					y=2*b[i]-b[j];
+					if(book[x][y])ans--;
+				}
+				for(int v:mp.values()) {
+					ans+=v*(v-1);
+				}
+			}
+			out.println(ans>>1);
+		}
+		int te=1;
+		void run()throws IOException{
+//			init();
+			int t=1;
+//			t=in.in();
+			for(te=1;te<=t;te++) {
+				solve();
+				out.flush();
+			}
+			out.close();
+		}
+//		long timeMillis;
+//		void st() {
+//			timeMillis=System.currentTimeMillis();
+//		}
+//		void ed() {
+//			System.out.println((System.currentTimeMillis()-timeMillis)+""ms"");
+//		}
+	}
+	class QIn{
+		StreamTokenizer st = new StreamTokenizer(new BufferedReader(new InputStreamReader(System.in)));
+		int in() throws IOException {
+			st.nextToken();
+			return (int)st.nval;
+		}
+		long inl() throws IOException {
+			st.nextToken();
+			return (long)st.nval;
+		}
+		double ind()throws IOException  {
+			st.nextToken();
+			return st.nval;
+		}
+		String ins() throws IOException {
+			st.nextToken();
+			return st.sval;
+		}
+	}
+	class In{
+		private StringTokenizer in=new StringTokenizer("""");
+		private InputStream is;
+		private BufferedReader br;
+		public In(File file) throws IOException {
+			is=new FileInputStream(file);
+			init();
+		}
+		public In(InputStream is) throws IOException{
+			this.is=is;
+			init();
+		}
+		private void init() throws IOException {
+			br=new BufferedReader(new InputStreamReader(is));
+		}
+		/**
+		 * File and OJ only
+		 */
+		boolean hasNext() throws IOException {
+			return in.hasMoreTokens()||br.ready();
+		}
+		String ins() throws IOException {
+			while(!in.hasMoreTokens()) {
+				in=new StringTokenizer(br.readLine());
+			}
+			return in.nextToken();
+		}
+		int in() throws IOException {
+			return Integer.parseInt(ins());
+		}
+		long inl() throws IOException {
+			return Long.parseLong(ins());
+		}
+		double ind() throws IOException {
+			return Double.parseDouble(ins());
+		}
+		String line() throws IOException {
+			return br.readLine();
+		}
+	}
+	class Out{
+		PrintWriter out;
+		private OutputStream os;
+		private void init() {
+			out=new PrintWriter(new BufferedWriter(new OutputStreamWriter(os)));
+		}
+		public Out(File file) throws IOException {
+			os=new FileOutputStream(file);
+			init();
+		}
+		public Out(OutputStream os) throws IOException{
+			this.os=os;
+			init();
+		}
+	}
+	abstract class ioTask{
+		In in;
+		PrintWriter out;
+		public ioTask setIO(File in,File out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		public ioTask setIO(File in,OutputStream out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		public ioTask setIO(InputStream in,OutputStream out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		public ioTask setIO(InputStream in,File out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		void run()throws IOException{}
+	}
+}"
+12,F,Java,61495693,2023-03-24 22:21:40,小小小巨人,执行出错,"import java.io.*;
+import java.math.*;
+import java.util.*;
+import java.util.Map.*;
+/**
+ * 
+ * @author TCchen
+ */
+public class Main {
+	public static void main(String[]args) throws IOException {
+		new Main().run();
+	}
+//	File input=new File("".\\input.txt"");
+//	File output=new File("".\\output.txt"");
+	void run() throws IOException{
+//		new Solve().setIO(input, output).run();
+		new Solve().setIO(System.in,System.out).run();
+	}
+	class Solve extends ioTask{
+		int n,q,m,k,i,j,x,y,len,l,r;
+		boolean[][]book=new boolean[2005][2005];
+		int[]a,b;
+		int dis(int i,int j) {
+			return (a[i]-a[j])*(a[i]-a[j])+(b[i]-b[j])*(b[i]-b[j]);
+		}
+		void solve() throws IOException{
+			n=in.in();
+			a=new int[n];
+			b=new int[n];
+			for(i=0;i<n;i++) {
+				a[i]=in.in()+1000;
+				b[i]=in.in()+1000;
+				book[a[i]][b[i]]=true;
+			}
+			long ans=0;
+			for(i=0;i<n;i++) {
+				HashMap<Integer,Integer>mp=new HashMap<Integer,Integer>();
+				for(j=0;j<n;j++) {
+					if(i==j)continue;
+					mp.merge(dis(i,j),1 , Integer::sum);
+					x=2*a[i]-a[j];
+					y=2*b[i]-b[j];
+					if(book[x][y])ans--;
+				}
+				for(int v:mp.values()) {
+					ans+=v*(v-1);
+				}
+			}
+			out.println(ans>>1);
+		}
+		int te=1;
+		void run()throws IOException{
+//			init();
+			int t=1;
+//			t=in.in();
+			for(te=1;te<=t;te++) {
+				solve();
+				out.flush();
+			}
+			out.close();
+		}
+//		long timeMillis;
+//		void st() {
+//			timeMillis=System.currentTimeMillis();
+//		}
+//		void ed() {
+//			System.out.println((System.currentTimeMillis()-timeMillis)+""ms"");
+//		}
+	}
+	class QIn{
+		StreamTokenizer st = new StreamTokenizer(new BufferedReader(new InputStreamReader(System.in)));
+		int in() throws IOException {
+			st.nextToken();
+			return (int)st.nval;
+		}
+		long inl() throws IOException {
+			st.nextToken();
+			return (long)st.nval;
+		}
+		double ind()throws IOException  {
+			st.nextToken();
+			return st.nval;
+		}
+		String ins() throws IOException {
+			st.nextToken();
+			return st.sval;
+		}
+	}
+	class In{
+		private StringTokenizer in=new StringTokenizer("""");
+		private InputStream is;
+		private BufferedReader br;
+		public In(File file) throws IOException {
+			is=new FileInputStream(file);
+			init();
+		}
+		public In(InputStream is) throws IOException{
+			this.is=is;
+			init();
+		}
+		private void init() throws IOException {
+			br=new BufferedReader(new InputStreamReader(is));
+		}
+		/**
+		 * File and OJ only
+		 */
+		boolean hasNext() throws IOException {
+			return in.hasMoreTokens()||br.ready();
+		}
+		String ins() throws IOException {
+			while(!in.hasMoreTokens()) {
+				in=new StringTokenizer(br.readLine());
+			}
+			return in.nextToken();
+		}
+		int in() throws IOException {
+			return Integer.parseInt(ins());
+		}
+		long inl() throws IOException {
+			return Long.parseLong(ins());
+		}
+		double ind() throws IOException {
+			return Double.parseDouble(ins());
+		}
+		String line() throws IOException {
+			return br.readLine();
+		}
+	}
+	class Out{
+		PrintWriter out;
+		private OutputStream os;
+		private void init() {
+			out=new PrintWriter(new BufferedWriter(new OutputStreamWriter(os)));
+		}
+		public Out(File file) throws IOException {
+			os=new FileOutputStream(file);
+			init();
+		}
+		public Out(OutputStream os) throws IOException{
+			this.os=os;
+			init();
+		}
+	}
+	abstract class ioTask{
+		In in;
+		PrintWriter out;
+		public ioTask setIO(File in,File out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		public ioTask setIO(File in,OutputStream out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		public ioTask setIO(InputStream in,OutputStream out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		public ioTask setIO(InputStream in,File out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		void run()throws IOException{}
+	}
+}"
+13,F,Java,61495717,2023-03-24 22:22:30,小小小巨人,答案正确,"import java.io.*;
+import java.math.*;
+import java.util.*;
+import java.util.Map.*;
+/**
+ * 
+ * @author TCchen
+ */
+public class Main {
+	public static void main(String[]args) throws IOException {
+		new Main().run();
+	}
+//	File input=new File("".\\input.txt"");
+//	File output=new File("".\\output.txt"");
+	void run() throws IOException{
+//		new Solve().setIO(input, output).run();
+		new Solve().setIO(System.in,System.out).run();
+	}
+	class Solve extends ioTask{
+		int n,q,m,k,i,j,x,y,len,l,r;
+		boolean[][]book=new boolean[3005][3005];
+		int[]a,b;
+		int dis(int i,int j) {
+			return (a[i]-a[j])*(a[i]-a[j])+(b[i]-b[j])*(b[i]-b[j]);
+		}
+		void solve() throws IOException{
+			n=in.in();
+			a=new int[n];
+			b=new int[n];
+			for(i=0;i<n;i++) {
+				a[i]=in.in()+1500;
+				b[i]=in.in()+1500;
+				book[a[i]][b[i]]=true;
+			}
+			long ans=0;
+			for(i=0;i<n;i++) {
+				HashMap<Integer,Integer>mp=new HashMap<Integer,Integer>();
+				for(j=0;j<n;j++) {
+					if(i==j)continue;
+					mp.merge(dis(i,j),1 , Integer::sum);
+					x=2*a[i]-a[j];
+					y=2*b[i]-b[j];
+					if(book[x][y])ans--;
+				}
+				for(int v:mp.values()) {
+					ans+=v*(v-1);
+				}
+			}
+			out.println(ans>>1);
+		}
+		int te=1;
+		void run()throws IOException{
+//			init();
+			int t=1;
+//			t=in.in();
+			for(te=1;te<=t;te++) {
+				solve();
+				out.flush();
+			}
+			out.close();
+		}
+//		long timeMillis;
+//		void st() {
+//			timeMillis=System.currentTimeMillis();
+//		}
+//		void ed() {
+//			System.out.println((System.currentTimeMillis()-timeMillis)+""ms"");
+//		}
+	}
+	class QIn{
+		StreamTokenizer st = new StreamTokenizer(new BufferedReader(new InputStreamReader(System.in)));
+		int in() throws IOException {
+			st.nextToken();
+			return (int)st.nval;
+		}
+		long inl() throws IOException {
+			st.nextToken();
+			return (long)st.nval;
+		}
+		double ind()throws IOException  {
+			st.nextToken();
+			return st.nval;
+		}
+		String ins() throws IOException {
+			st.nextToken();
+			return st.sval;
+		}
+	}
+	class In{
+		private StringTokenizer in=new StringTokenizer("""");
+		private InputStream is;
+		private BufferedReader br;
+		public In(File file) throws IOException {
+			is=new FileInputStream(file);
+			init();
+		}
+		public In(InputStream is) throws IOException{
+			this.is=is;
+			init();
+		}
+		private void init() throws IOException {
+			br=new BufferedReader(new InputStreamReader(is));
+		}
+		/**
+		 * File and OJ only
+		 */
+		boolean hasNext() throws IOException {
+			return in.hasMoreTokens()||br.ready();
+		}
+		String ins() throws IOException {
+			while(!in.hasMoreTokens()) {
+				in=new StringTokenizer(br.readLine());
+			}
+			return in.nextToken();
+		}
+		int in() throws IOException {
+			return Integer.parseInt(ins());
+		}
+		long inl() throws IOException {
+			return Long.parseLong(ins());
+		}
+		double ind() throws IOException {
+			return Double.parseDouble(ins());
+		}
+		String line() throws IOException {
+			return br.readLine();
+		}
+	}
+	class Out{
+		PrintWriter out;
+		private OutputStream os;
+		private void init() {
+			out=new PrintWriter(new BufferedWriter(new OutputStreamWriter(os)));
+		}
+		public Out(File file) throws IOException {
+			os=new FileOutputStream(file);
+			init();
+		}
+		public Out(OutputStream os) throws IOException{
+			this.os=os;
+			init();
+		}
+	}
+	abstract class ioTask{
+		In in;
+		PrintWriter out;
+		public ioTask setIO(File in,File out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		public ioTask setIO(File in,OutputStream out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		public ioTask setIO(InputStream in,OutputStream out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		public ioTask setIO(InputStream in,File out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		void run()throws IOException{}
+	}
+}"
+14,F,Java,61496684,2023-03-24 23:03:18,小小小巨人,答案正确,"import java.io.*;
+import java.math.*;
+import java.util.*;
+import java.util.Map.*;
+/**
+ * 
+ * @author TCchen
+ */
+public class Main {
+	public static void main(String[]args) throws IOException {
+		new Main().run();
+	}
+//	File input=new File("".\\input.txt"");
+//	File output=new File("".\\output.txt"");
+	void run() throws IOException{
+//		new Solve().setIO(input, output).run();
+		new Solve().setIO(System.in,System.out).run();
+	}
+	class Solve extends ioTask{
+		int n,q,m,k,i,j,x,y,len,l,r;
+		boolean[][]book=new boolean[3005][3005];
+		int[]a,b;
+		int[]cnt=new int[2000006];
+		int dis(int i,int j) {
+			return (a[i]-a[j])*(a[i]-a[j])+(b[i]-b[j])*(b[i]-b[j]);
+		}
+		void solve() throws IOException{
+			n=in.in();
+			a=new int[n];
+			b=new int[n];
+			for(i=0;i<n;i++) {
+				a[i]=in.in()+1500;
+				b[i]=in.in()+1500;
+				book[a[i]][b[i]]=true;
+			}
+			long ans=0;
+			for(i=0;i<n;i++) {
+				for(j=0;j<n;j++) {
+					if(i==j)continue;
+					ans+=cnt[dis(i,j)]++<<1;
+					x=2*a[i]-a[j];
+					y=2*b[i]-b[j];
+					if(book[x][y])ans--;
+				}
+				for(j=0;j<n;j++) {
+					cnt[dis(i,j)]=0;
+				}
+			}
+			out.println(ans>>1);
+		}
+		int te=1;
+		void run()throws IOException{
+//			init();
+			int t=1;
+//			t=in.in();
+			for(te=1;te<=t;te++) {
+				solve();
+				out.flush();
+			}
+			out.close();
+		}
+//		long timeMillis;
+//		void st() {
+//			timeMillis=System.currentTimeMillis();
+//		}
+//		void ed() {
+//			System.out.println((System.currentTimeMillis()-timeMillis)+""ms"");
+//		}
+	}
+	class QIn{
+		StreamTokenizer st = new StreamTokenizer(new BufferedReader(new InputStreamReader(System.in)));
+		int in() throws IOException {
+			st.nextToken();
+			return (int)st.nval;
+		}
+		long inl() throws IOException {
+			st.nextToken();
+			return (long)st.nval;
+		}
+		double ind()throws IOException  {
+			st.nextToken();
+			return st.nval;
+		}
+		String ins() throws IOException {
+			st.nextToken();
+			return st.sval;
+		}
+	}
+	class In{
+		private StringTokenizer in=new StringTokenizer("""");
+		private InputStream is;
+		private BufferedReader br;
+		public In(File file) throws IOException {
+			is=new FileInputStream(file);
+			init();
+		}
+		public In(InputStream is) throws IOException{
+			this.is=is;
+			init();
+		}
+		private void init() throws IOException {
+			br=new BufferedReader(new InputStreamReader(is));
+		}
+		/**
+		 * File and OJ only
+		 */
+		boolean hasNext() throws IOException {
+			return in.hasMoreTokens()||br.ready();
+		}
+		String ins() throws IOException {
+			while(!in.hasMoreTokens()) {
+				in=new StringTokenizer(br.readLine());
+			}
+			return in.nextToken();
+		}
+		int in() throws IOException {
+			return Integer.parseInt(ins());
+		}
+		long inl() throws IOException {
+			return Long.parseLong(ins());
+		}
+		double ind() throws IOException {
+			return Double.parseDouble(ins());
+		}
+		String line() throws IOException {
+			return br.readLine();
+		}
+	}
+	class Out{
+		PrintWriter out;
+		private OutputStream os;
+		private void init() {
+			out=new PrintWriter(new BufferedWriter(new OutputStreamWriter(os)));
+		}
+		public Out(File file) throws IOException {
+			os=new FileOutputStream(file);
+			init();
+		}
+		public Out(OutputStream os) throws IOException{
+			this.os=os;
+			init();
+		}
+	}
+	abstract class ioTask{
+		In in;
+		PrintWriter out;
+		public ioTask setIO(File in,File out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		public ioTask setIO(File in,OutputStream out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		public ioTask setIO(InputStream in,OutputStream out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		public ioTask setIO(InputStream in,File out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		void run()throws IOException{}
+	}
+}"
+15,F,Java,61497698,2023-03-25 00:03:48,牛客517457762号,运行超时,"import java.util.*;
+public class Main {
+    static  int n;
+    static  int[][]num;
+    static  int ans=0;
+    static  int[]curnum=new int[3];
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+        n=sc.nextInt();
+        num=new int[n][2];
+        for(int i=0;i<n;i++) {
+            num[i][0]=sc.nextInt();
+            num[i][1]=sc.nextInt();
+        }
+        dfs(0,0);
+        System.out.println(ans);
+    }
+    static  void dfs(int idx,int le){
+        if(le==3){
+            if(check()) ans++;
+            return;
+        }
+        for(int i=idx;i<n;i++){
+            curnum[le]=i;
+            dfs(i+1,le+1);
+        }
+    }
+    static  boolean check(){
+        int a1=num[curnum[0]][0],b1=num[curnum[0]][1];
+        int a2=num[curnum[1]][0],b2=num[curnum[1]][1];
+        int a3=num[curnum[2]][0],b3=num[curnum[2]][1];
+        if((a1==a2&&a2==a3)||(b1==b2&&b2==b3)) return  false;
+        int s1=(a1-a2)*(a1-a2)+(b1-b2)*(b1-b2);
+        int s2=(a1-a3)*(a1-a3)+(b1-b3)*(b1-b3);
+        int s3=(a3-a2)*(a3-a2)+(b3-b2)*(b3-b2);
+        if(Math.sqrt(s1)+Math.sqrt(s2)>Math.sqrt(s3)&Math.abs(Math.sqrt(s1)-Math.sqrt(s2))<Math.sqrt(s3)){
+            if(s1==s2||s2==s3||s3==s1) return true;
+        }
+
+        return  false;
+    }
+}"
+16,F,Java,61497834,2023-03-25 00:21:38,凯撒Katharsis,答案正确,"import java.util.*;
+import java.io.*;
+
+public class Main {
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    static final int N = 100010;
+    static int n;
+    static boolean set[][] = new boolean[3010][3010];
+    static int cnt[] = new int [2000010];
+
+    public static void main(String[] args) throws Exception {
+        n = Integer.parseInt(br.readLine());
+
+        int a[][] = new int [n][2];
+
+        String str[];
+        for(int i = 0; i < n; i ++ ) {
+            str = br.readLine().split("" "");
+            for(int j = 0; j < 2; j ++ ) a[i][j] = Integer.parseInt(str[j]);
+            set[a[i][0] + 1500][a[i][1] + 1500] = true;
+        }
+
+        int ans = 0, line = 0;
+        for(int i = 0; i < n; i ++ ) {
+            for(int j = 0; j < n; j ++ ) {
+                if(j != i) {
+                    int x = a[i][0] - a[j][0], y = a[i][1] - a[j][1];
+                    int xy = x * x + y * y;
+                    ans += cnt[xy] ++ ;
+                    if(set[a[i][0] + x + 1500][1500 + a[i][1] + y]) line ++ ;
+                }
+            }
+
+            Arrays.fill(cnt, 0);
+        }
+
+        bw.write((int)(ans - (line) / 2) + ""\n"");
+        bw.flush();
+    }
+}"
+17,F,Java,61499624,2023-03-25 10:28:50,giao1,运行超时,"import java.util.*;
+
+public class Main{
+    
+    static Vector<int[]> vector = new Vector<>();
+    static boolean[][] st = new boolean[1010][1010];
+    public static void main(String[] args){
+        Scanner cin = new Scanner(System.in);
+        int n = cin.nextInt();
+        int m = n;
+        while(m-->0){
+            int x = cin.nextInt();
+            int y = cin.nextInt();
+            if(x<0) x = Math.abs(x-500);
+            if(y<0) y = Math.abs(y-500);
+            
+            if(!st[x][y]){
+                vector.add(new int[]{x,y});
+                st[x][y] = true;
+            }
+        }
+        int sum = 0;
+        boolean flage3 = false;
+        for(int i = 0;i<n;i++)
+            for(int j = i+1;j<n;j++)
+                for(int k = j+1;k<n;k++){
+                    boolean flage1 = false;
+                    boolean flage2 = false;
+                    int x1 = vector.get(i)[0];
+                    if(x1>500) x1 = -1*x1+500;
+                    int y1 = vector.get(i)[1];
+                    if(y1>500) y1 = -1*y1+500;
+                    int x2 = vector.get(j)[0];
+                    if(x2>500) x2 = -1*x2+500;
+                    int y2 = vector.get(j)[1];
+                     if(y2>500) y2 = -1*y2+500;
+                    int x3 = vector.get(k)[0];
+                    if(x3>500) x3 = -1*x3+500;
+                    int y3 = vector.get(k)[1];
+                     if(y3>500) y3 = -1*y3+500;
+                    long a = (y1-y2)*(y1-y2)+(x1-x2)*(x1-x2);
+                    long b = (y1-y3)*(y1-y3)+(x1-x3)*(x1-x3);
+                    long c = (y2-y3)*(y2-y3)+(x2-x3)*(x2-x3);
+                    //System.out.println(a+"" ""+b+"" ""+c);
+                    if((y1-y2)*(x3-x2)!=(y3-y2)*(x1-x2)) flage1 = true;
+                    if(a==b||a==c||b==c) flage2 = true;
+                    if(flage1&&flage2) sum++;
+                }
+        System.out.println(sum);
+    }
+}"
+18,F,Java,61499659,2023-03-25 10:30:51,giao1,运行超时,"import java.util.*;
+import java.io.*;
+
+public class Main{
+    static Vector<int[]> vector = new Vector<>();
+    static boolean[][] st = new boolean[1010][1010];
+    public static void main(String[] args) throws IOException {
+        initReader();
+        int n = nextInt();
+        int m = n;
+        while(m-->0){
+            int x =nextInt();
+            int y = nextInt();
+            if(x<0) x = Math.abs(x-500);
+            if(y<0) y = Math.abs(y-500);
+            
+            if(!st[x][y]){
+                vector.add(new int[]{x,y});
+                st[x][y] = true;
+            }
+        }
+        int sum = 0;
+        boolean flage3 = false;
+        for(int i = 0;i<n;i++)
+            for(int j = i+1;j<n;j++)
+                for(int k = j+1;k<n;k++){
+                    boolean flage1 = false;
+                    boolean flage2 = false;
+                    int x1 = vector.get(i)[0];
+                    if(x1>500) x1 = -1*x1+500;
+                    int y1 = vector.get(i)[1];
+                    if(y1>500) y1 = -1*y1+500;
+                    int x2 = vector.get(j)[0];
+                    if(x2>500) x2 = -1*x2+500;
+                    int y2 = vector.get(j)[1];
+                     if(y2>500) y2 = -1*y2+500;
+                    int x3 = vector.get(k)[0];
+                    if(x3>500) x3 = -1*x3+500;
+                    int y3 = vector.get(k)[1];
+                     if(y3>500) y3 = -1*y3+500;
+                    long a = (y1-y2)*(y1-y2)+(x1-x2)*(x1-x2);
+                    long b = (y1-y3)*(y1-y3)+(x1-x3)*(x1-x3);
+                    long c = (y2-y3)*(y2-y3)+(x2-x3)*(x2-x3);
+                    //System.out.println(a+"" ""+b+"" ""+c);
+                    if((y1-y2)*(x3-x2)!=(y3-y2)*(x1-x2)) flage1 = true;
+                    if(a==b||a==c||b==c) flage2 = true;
+                    if(flage1&&flage2) sum++;
+                }
+       pw.println(sum);
+        pw.close();
+    }
+    static BufferedReader reader;
+    static StringTokenizer tokenizer;
+    static PrintWriter pw;
+
+    public static void initReader() throws IOException {
+        reader = new BufferedReader(new InputStreamReader(System.in));
+        tokenizer = new StringTokenizer("""");
+        pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+    }
+
+
+    public static boolean hasNext() {
+        try {
+            while (!tokenizer.hasMoreTokens()) {
+                tokenizer = new StringTokenizer(reader.readLine());
+            }
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
+    public static String next() throws IOException {
+        while (!tokenizer.hasMoreTokens()) {
+            tokenizer = new StringTokenizer(reader.readLine());
+        }
+        return tokenizer.nextToken();
+    }
+
+    public static String nextLine() {
+        try {
+            return reader.readLine();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public static int nextInt() throws IOException {
+        return Integer.parseInt(next());
+    }
+
+    public static long nextLong() throws IOException {
+        return Long.parseLong(next());
+    }
+
+    public static double nextDouble() throws IOException {
+        return Double.parseDouble(next());
+    }
+
+    public static char nextChar() throws IOException {
+        return next().charAt(0);
+    }
+}"
+19,F,Java,61500463,2023-03-25 11:19:37,giao1,答案正确,"import java.util.*;
+import java.io.*;
+
+public class Main {
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    static final int N = 100010;
+    static int n;
+    static boolean set[][] = new boolean[3010][3010];
+    static int cnt[] = new int [2000010];
+
+    public static void main(String[] args) throws Exception {
+        n = Integer.parseInt(br.readLine());
+
+        int a[][] = new int [n][2];
+
+        String str[];
+        for(int i = 0; i < n; i ++ ) {
+            str = br.readLine().split("" "");
+            for(int j = 0; j < 2; j ++ ) a[i][j] = Integer.parseInt(str[j]);
+            set[a[i][0] + 1500][a[i][1] + 1500] = true;
+        }
+
+        int ans = 0, line = 0;
+        for(int i = 0; i < n; i ++ ) {
+            for(int j = 0; j < n; j ++ ) {
+                if(j != i) {
+                    int x = a[i][0] - a[j][0], y = a[i][1] - a[j][1];
+                    int xy = x * x + y * y;
+                    ans += cnt[xy] ++ ;
+                    if(set[a[i][0] + x + 1500][1500 + a[i][1] + y]) line ++ ;
+                }
+            }
+
+            Arrays.fill(cnt, 0);
+        }
+
+        bw.write((int)(ans - (line) / 2) + ""\n"");
+        bw.flush();
+    }
+}"
+20,F,Java,61507666,2023-03-25 13:20:03,菜鸡想进大厂～,执行出错,"import java.util.*; 
+
+public class Main{
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in); 
+        int n = sc.nextInt(); 
+        int[][] point = new int[n][2]; 
+        boolean[][] st = new boolean[1010][1010]; 
+        for (int i = 0; i < n; i ++) {
+            point[i][0] = sc.nextInt(); 
+            point[i][1] = sc.nextInt(); 
+            st[point[i][0] + 500][point[i][1] + 500] = true; 
+        }
+        long ans = 0; 
+        long d = 0; 
+        for (int i = 0; i < n; i ++) {
+            int[] cnt = new int[2000010]; 
+            for (int j = 0; j < n; j ++) {
+                if (i == j) continue; 
+                int dis = (point[i][0] - point[j][0]) * (point[i][0] - point[j][0]) + 
+                    (point[i][1] - point[j][1]) * (point[i][1] - point[j][1]); 
+                ans += cnt[dis]; 
+                cnt[dis] ++; 
+                if (st[2 * point[i][0] - point[j][0] + 500][2 * point[i][1] - point[j][1] + 500])
+                    d ++; 
+            }
+        }
+        System.out.println(ans - d / 2); 
+    }
+}"
+21,F,Java,61507800,2023-03-25 13:21:14,菜鸡想进大厂～,执行出错,"import java.util.*; 
+
+public class Main{
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in); 
+        int n = sc.nextInt(); 
+        int[][] point = new int[n][2]; 
+        boolean[][] st = new boolean[2010][2010]; 
+        for (int i = 0; i < n; i ++) {
+            point[i][0] = sc.nextInt(); 
+            point[i][1] = sc.nextInt(); 
+            st[point[i][0] + 1500][point[i][1] + 1500] = true; 
+        }
+        long ans = 0; 
+        long d = 0; 
+        for (int i = 0; i < n; i ++) {
+            int[] cnt = new int[2000010]; 
+            for (int j = 0; j < n; j ++) {
+                if (i == j) continue; 
+                int dis = (point[i][0] - point[j][0]) * (point[i][0] - point[j][0]) + 
+                    (point[i][1] - point[j][1]) * (point[i][1] - point[j][1]); 
+                ans += cnt[dis]; 
+                cnt[dis] ++; 
+                if (st[2 * point[i][0] - point[j][0] + 1500][2 * point[i][1] - point[j][1] + 1500])
+                    d ++; 
+            }
+        }
+        System.out.println(ans - d / 2); 
+    }
+}"
+22,F,Java,61508066,2023-03-25 13:23:43,菜鸡想进大厂～,运行超时,"import java.util.*; 
+
+public class Main{
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in); 
+        int n = sc.nextInt(); 
+        int[][] point = new int[n][2]; 
+        boolean[][] st = new boolean[1010][1010]; 
+        for (int i = 0; i < n; i ++) {
+            point[i][0] = sc.nextInt(); 
+            point[i][1] = sc.nextInt(); 
+            st[point[i][0] + 500][point[i][1] + 500] = true; 
+        }
+        long ans = 0; 
+        long d = 0; 
+        for (int i = 0; i < n; i ++) {
+            int[] cnt = new int[2000010]; 
+            for (int j = 0; j < n; j ++) {
+                if (i == j) continue; 
+                int dis = (point[i][0] - point[j][0]) * (point[i][0] - point[j][0]) + 
+                    (point[i][1] - point[j][1]) * (point[i][1] - point[j][1]); 
+                ans += cnt[dis]; 
+                cnt[dis] ++; 
+                int x = 2 * point[i][0] - point[j][0]; 
+                int y = 2 * point[i][1] - point[j][1]; 
+                if (x >= -500 && x <= 500 && y >= -500 && y <= 500 && st[x + 500][y + 500])
+                    d ++; 
+            }
+        }
+        System.out.println(ans - d / 2); 
+    }
+}"
+23,F,Java,61508175,2023-03-25 13:24:50,菜鸡想进大厂～,运行超时,"import java.util.*; 
+
+public class Main{
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in); 
+        int n = sc.nextInt(); 
+        int[][] point = new int[n][2]; 
+        boolean[][] st = new boolean[1010][1010]; 
+        for (int i = 0; i < n; i ++) {
+            point[i][0] = sc.nextInt(); 
+            point[i][1] = sc.nextInt(); 
+            st[point[i][0] + 500][point[i][1] + 500] = true; 
+        }
+        long ans = 0; 
+        long d = 0; 
+        for (int i = 0; i < n; i ++) {
+            int[] cnt = new int[2000010]; 
+            for (int j = 0; j < n; j ++) {
+                if (i == j) continue; 
+                int dis = (point[i][0] - point[j][0]) * (point[i][0] - point[j][0]) + 
+                    (point[i][1] - point[j][1]) * (point[i][1] - point[j][1]); 
+                ans += cnt[dis]; 
+                cnt[dis] ++; 
+                int x = 2 * point[i][0] - point[j][0]; 
+                int y = 2 * point[i][1] - point[j][1]; 
+                if (x >= -500 && x <= 500 && y >= -500 && y <= 500 && st[x + 500][y + 500])
+                    d ++; 
+            }
+        }
+        System.out.println(ans - d / 2); 
+    }
+}"
+24,F,Java,61508382,2023-03-25 13:26:43,菜鸡想进大厂～,运行超时,"import java.util.*; 
+
+public class Main{
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in); 
+        int n = sc.nextInt(); 
+        int[][] point = new int[n][2]; 
+        boolean[][] st = new boolean[1010][1010]; 
+        for (int i = 0; i < n; i ++) {
+            point[i][0] = sc.nextInt(); 
+            point[i][1] = sc.nextInt(); 
+            st[point[i][0] + 500][point[i][1] + 500] = true; 
+        }
+        long ans = 0; 
+        long d = 0; 
+        for (int i = 0; i < n; i ++) {
+            int[] cnt = new int[2000010]; 
+            for (int j = 0; j < n; j ++) {
+                if (i == j) continue; 
+                int dis = (point[i][0] - point[j][0]) * (point[i][0] - point[j][0]) + 
+                    (point[i][1] - point[j][1]) * (point[i][1] - point[j][1]); 
+                ans += cnt[dis]; 
+                cnt[dis] ++; 
+                int x = 2 * point[i][0] - point[j][0]; 
+                int y = 2 * point[i][1] - point[j][1]; 
+                if (x >= -500 && x <= 500 && y >= -500 && y <= 500 && st[x + 500][y + 500])
+                    d ++; 
+            }
+        }
+        System.out.println(ans - d / 2); 
+    }
+}"
+25,F,Java,61508729,2023-03-25 13:30:16,菜鸡想进大厂～,运行超时,"import java.util.*; 
+import java.io.*; 
+public class Main{
+    public static void main(String[] args)throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String[] ss = br.readLine().split("" ""); 
+        int n = Integer.parseInt(ss[0]); 
+        int[][] point = new int[n][2]; 
+        boolean[][] st = new boolean[1010][1010]; 
+        for (int i = 0; i < n; i ++) {
+            ss = br.readLine().split("" ""); 
+            point[i][0] = Integer.parseInt(ss[0]); 
+            point[i][1] = Integer.parseInt(ss[1]); 
+            st[point[i][0] + 500][point[i][1] + 500] = true; 
+        }
+        long ans = 0; 
+        long d = 0; 
+        for (int i = 0; i < n; i ++) {
+            int[] cnt = new int[2000010]; 
+            for (int j = 0; j < n; j ++) {
+                if (i == j) continue; 
+                int dis = (point[i][0] - point[j][0]) * (point[i][0] - point[j][0]) + 
+                    (point[i][1] - point[j][1]) * (point[i][1] - point[j][1]); 
+                ans += cnt[dis]; 
+                cnt[dis] ++; 
+                int x = 2 * point[i][0] - point[j][0]; 
+                int y = 2 * point[i][1] - point[j][1]; 
+                if (x >= -500 && x <= 500 && y >= -500 && y <= 500 && st[x + 500][y + 500])
+                    d ++; 
+            }
+        }
+        System.out.println(ans - d / 2); 
+    }
+}"
+26,F,Java,61508937,2023-03-25 13:32:10,菜鸡想进大厂～,运行超时,"import java.util.*; 
+import java.io.*; 
+public class Main{
+    public static void main(String[] args)throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String[] ss = br.readLine().split("" ""); 
+        int n = Integer.parseInt(ss[0]); 
+        int[][] point = new int[n][2]; 
+        boolean[][] st = new boolean[1010][1010]; 
+        for (int i = 0; i < n; i ++) {
+            ss = br.readLine().split("" ""); 
+            point[i][0] = Integer.parseInt(ss[0]); 
+            point[i][1] = Integer.parseInt(ss[1]); 
+            st[point[i][0] + 500][point[i][1] + 500] = true; 
+        }
+        long ans = 0; 
+        long d = 0; 
+        int[] cnt = new int[2000010]; 
+        for (int i = 0; i < n; i ++) {
+            Arrays.fill(cnt, 0); 
+            for (int j = 0; j < n; j ++) {
+                if (i == j) continue; 
+                int dis = (point[i][0] - point[j][0]) * (point[i][0] - point[j][0]) + 
+                    (point[i][1] - point[j][1]) * (point[i][1] - point[j][1]); 
+                ans += cnt[dis]; 
+                cnt[dis] ++; 
+                int x = 2 * point[i][0] - point[j][0]; 
+                int y = 2 * point[i][1] - point[j][1]; 
+                if (x >= -500 && x <= 500 && y >= -500 && y <= 500 && st[x + 500][y + 500])
+                    d ++; 
+            }
+        }
+        System.out.println(ans - d / 2); 
+    }
+}"
+27,F,Java,61509172,2023-03-25 13:34:10,菜鸡想进大厂～,答案正确,"import java.util.*; 
+import java.io.*; 
+public class Main{
+    public static void main(String[] args)throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String[] ss = br.readLine().split("" ""); 
+        int n = Integer.parseInt(ss[0]); 
+        int[][] point = new int[n][2]; 
+        boolean[][] st = new boolean[1010][1010]; 
+        for (int i = 0; i < n; i ++) {
+            ss = br.readLine().split("" ""); 
+            point[i][0] = Integer.parseInt(ss[0]); 
+            point[i][1] = Integer.parseInt(ss[1]); 
+            st[point[i][0] + 500][point[i][1] + 500] = true; 
+        }
+        long ans = 0; 
+        long d = 0; 
+        int[] cnt = new int[2000010]; 
+        for (int i = 0; i < n; i ++) {
+            for (int j = 0; j < n; j ++) {
+                if (i == j) continue; 
+                int dis = (point[i][0] - point[j][0]) * (point[i][0] - point[j][0]) + 
+                    (point[i][1] - point[j][1]) * (point[i][1] - point[j][1]); 
+                ans += cnt[dis]; 
+                cnt[dis] ++; 
+                int x = 2 * point[i][0] - point[j][0]; 
+                int y = 2 * point[i][1] - point[j][1]; 
+                if (x >= -500 && x <= 500 && y >= -500 && y <= 500 && st[x + 500][y + 500])
+                    d ++; 
+            }
+            for (int j = 0; j < n; j ++) {
+                int dis = (point[i][0] - point[j][0]) * (point[i][0] - point[j][0]) + 
+                    (point[i][1] - point[j][1]) * (point[i][1] - point[j][1]); 
+                cnt[dis] = 0; 
+            }
+        }
+        System.out.println(ans - d / 2); 
+    }
+}"
+28,F,Java,61575288,2023-03-27 08:42:15,里卡多·伊泽克松·多斯·桑托斯·莱特,答案错误,"import java.util.*;
+import java.math.*;
+import java.io.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n= in.nextInt();
+        int[]x=new int[n];
+        int[]y=new int[n];
+        for (int i = 0; i <n; i++) {
+            x[i]= in.nextInt();
+            y[i]= in.nextInt();
+        }
+        long ans=0;
+        for (int i = 0; i <n; i++) {
+            Map<Integer,TreeSet<A>>map=new TreeMap<>();
+            for (int j = 0; j <n ; j++) {
+                int xx=x[i]-x[j];
+                int yy=y[i]-y[j];
+                if (xx<0){
+                    xx=-xx;
+                    yy=-yy;
+                }
+                int lo=xx*xx+yy*yy;
+                if (xx==0){
+                    xx=0;
+                    yy=1;
+                }else if (yy==0){
+                    yy=0;
+                    xx=1;
+                }
+                else{
+                    xx=xx/gcd(Math.abs(xx),Math.abs(yy));
+                    yy=yy/gcd(Math.abs(xx),Math.abs(yy));
+                }
+
+                if (map.containsKey(lo)){
+                    if (!map.get(lo).contains(new A(xx,yy))){
+                        ans+=map.get(lo).size();
+                        map.get(lo).add(new A(xx,yy));
+                    }
+                }
+                else {
+                    TreeSet<A>a= new TreeSet<>(new Comparator<A>() {
+                        @Override
+                        public int compare(A o1, A o2) {
+                            return Integer.compare(o1.x,o2.x);
+                        }
+                    });
+                    a.add(new A(xx,yy));
+                    map.put(lo,a);
+                }
+            }
+        }
+        System.out.println(ans);
+        
+    }
+    static int gcd(int a,int b){
+        return b==0 ?a:gcd(b,a%b);
+    }
+    static class A{
+        int x,y;
+
+        public A(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            A a = (A) o;
+            return x == a.x && y == a.y;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(x, y);
+        }
+    }
+}"
+29,F,Java,61575328,2023-03-27 08:50:53,里卡多·伊泽克松·多斯·桑托斯·莱特,执行出错,"import java.util.*;
+import java.math.*;
+import java.io.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n= in.nextInt();
+        int[]x=new int[n];
+        int[]y=new int[n];
+        for (int i = 0; i <n; i++) {
+            x[i]= in.nextInt();
+            y[i]= in.nextInt();
+        }
+        long ans=0;
+        for (int i = 0; i <n; i++) {
+            Map<Integer,TreeMap<A,Integer>>map=new TreeMap<>();
+            for (int j = 0; j <n ; j++) {
+                int xx=x[i]-x[j];
+                int yy=y[i]-y[j];
+                if (xx<0){
+                    xx=-xx;
+                    yy=-yy;
+                }
+                int lo=xx*xx+yy*yy;
+                if (xx==0){
+                    xx=0;
+                    yy=1;
+                }else if (yy==0){
+                    
+                    yy=0;
+                    xx=1;
+                }
+                else{
+                    xx=xx/gcd(Math.abs(xx),Math.abs(yy));
+                    yy=yy/gcd(Math.abs(xx),Math.abs(yy));
+                }
+
+                if (map.containsKey(lo)){
+                    if (!map.get(lo).containsKey(new A(xx,yy))){
+                        for (A a : map.get(lo).keySet()) {
+                           ans=ans+ map.get(lo).get(a);
+                        }
+                    }
+                    map.get(lo).put(new A(xx,yy),map.get(lo).getOrDefault(0,map.get(lo).get(new A(xx,yy)))+1);
+                }
+                else {
+                    TreeMap<A,Integer>a= new TreeMap<>(new Comparator<A>() {
+                        @Override
+                        public int compare(A o1, A o2) {
+                            return Integer.compare(o1.x,o2.x);
+                        }
+                    });
+                    a.put(new A(xx,yy),1);
+                    map.put(lo,a);
+                }
+            }
+        }
+        System.out.println(ans);
+        
+    }
+    static int gcd(int a,int b){
+        return b==0 ?a:gcd(b,a%b);
+    }
+    static class A{
+        int x,y;
+
+        public A(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            A a = (A) o;
+            return x == a.x && y == a.y;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(x, y);
+        }
+    }
+}"
+30,F,Java,61575343,2023-03-27 08:55:44,里卡多·伊泽克松·多斯·桑托斯·莱特,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""Main.java:48: error: cannot infer type arguments for Comparator<T>\n                    TreeMap<A,Integer>a= new TreeMap<>(new Comparator<>() {\n                                                                     ^\n  reason: cannot use '<>' with anonymous inner classes\n  where T is a type-variable:\n    T extends Object declared in interface Comparator\n1 error""}
+
+import java.util.*;
+import java.math.*;
+import java.io.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n= in.nextInt();
+        int[]x=new int[n];
+        int[]y=new int[n];
+        for (int i = 0; i <n; i++) {
+            x[i]= in.nextInt();
+            y[i]= in.nextInt();
+        }
+        long ans=0;
+        for (int i = 0; i <n; i++) {
+            Map<Integer,TreeMap<A,Integer>>map=new TreeMap<>();
+            for (int j = 0; j <n ; j++) {
+                int xx=x[i]-x[j];
+                int yy=y[i]-y[j];
+                if (xx<0){
+                    xx=-xx;
+                    yy=-yy;
+                }
+                int lo=xx*xx+yy*yy;
+                if (xx==0){
+                    xx=0;
+                    yy=1;
+                }else if (yy==0){
+
+                    yy=0;
+                    xx=1;
+                }
+                else{
+                    xx=xx/gcd(Math.abs(xx),Math.abs(yy));
+                    yy=yy/gcd(Math.abs(xx),Math.abs(yy));
+                }
+
+                if (map.containsKey(lo)){
+                    if (!map.get(lo).containsKey(new A(xx,yy))){
+                        for (A a : map.get(lo).keySet()) {
+                           ans=ans+ map.get(lo).get(a);
+                        }
+                    }
+                    map.get(lo).put(new A(xx,yy),map.get(lo).getOrDefault(new A(xx,yy),0 )+1);
+                }
+                else {
+                    TreeMap<A,Integer>a= new TreeMap<>(new Comparator<>() {
+                        @Override
+                        public int compare(A o1, A o2) {
+                            return Integer.compare(o1.x,o2.x);
+                        }
+                    });
+                    a.put(new A(xx,yy),1);
+                    map.put(lo,a);
+                }
+            }
+        }
+        System.out.println(ans);
+        
+    }
+    static int gcd(int a,int b){
+        return b==0 ?a:gcd(b,a%b);
+    }
+    static class A{
+        int x,y;
+
+        public A(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            A a = (A) o;
+            return x == a.x && y == a.y;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(x, y);
+        }
+    }
+}"
+31,F,Java,61575344,2023-03-27 08:55:55,里卡多·伊泽克松·多斯·桑托斯·莱特,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""Main.java:48: error: cannot infer type arguments for Comparator<T>\n                    TreeMap<A,Integer>a= new TreeMap<>(new Comparator<>() {\n                                                                     ^\n  reason: cannot use '<>' with anonymous inner classes\n  where T is a type-variable:\n    T extends Object declared in interface Comparator\n1 error""}
+
+import java.util.*;
+import java.math.*;
+import java.io.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n= in.nextInt();
+        int[]x=new int[n];
+        int[]y=new int[n];
+        for (int i = 0; i <n; i++) {
+            x[i]= in.nextInt();
+            y[i]= in.nextInt();
+        }
+        long ans=0;
+        for (int i = 0; i <n; i++) {
+            Map<Integer,TreeMap<A,Integer>>map=new TreeMap<>();
+            for (int j = 0; j <n ; j++) {
+                int xx=x[i]-x[j];
+                int yy=y[i]-y[j];
+                if (xx<0){
+                    xx=-xx;
+                    yy=-yy;
+                }
+                int lo=xx*xx+yy*yy;
+                if (xx==0){
+                    xx=0;
+                    yy=1;
+                }else if (yy==0){
+
+                    yy=0;
+                    xx=1;
+                }
+                else{
+                    xx=xx/gcd(Math.abs(xx),Math.abs(yy));
+                    yy=yy/gcd(Math.abs(xx),Math.abs(yy));
+                }
+
+                if (map.containsKey(lo)){
+                    if (!map.get(lo).containsKey(new A(xx,yy))){
+                        for (A a : map.get(lo).keySet()) {
+                           ans=ans+ map.get(lo).get(a);
+                        }
+                    }
+                    map.get(lo).put(new A(xx,yy),map.get(lo).getOrDefault(new A(xx,yy),0 )+1);
+                }
+                else {
+                    TreeMap<A,Integer>a= new TreeMap<>(new Comparator<>() {
+                        @Override
+                        public int compare(A o1, A o2) {
+                            return Integer.compare(o1.x,o2.x);
+                        }
+                    });
+                    a.put(new A(xx,yy),1);
+                    map.put(lo,a);
+                }
+            }
+        }
+        System.out.println(ans);
+        
+    }
+    static int gcd(int a,int b){
+        return b==0 ?a:gcd(b,a%b);
+    }
+    static class A{
+        int x,y;
+
+        public A(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            A a = (A) o;
+            return x == a.x && y == a.y;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(x, y);
+        }
+    }
+}"
+32,F,Java,61575350,2023-03-27 08:56:36,里卡多·伊泽克松·多斯·桑托斯·莱特,答案错误,"import java.util.*;
+import java.math.*;
+import java.io.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n= in.nextInt();
+        int[]x=new int[n];
+        int[]y=new int[n];
+        for (int i = 0; i <n; i++) {
+            x[i]= in.nextInt();
+            y[i]= in.nextInt();
+        }
+        long ans=0;
+        for (int i = 0; i <n; i++) {
+            Map<Integer,TreeMap<A,Integer>>map=new TreeMap<>();
+            for (int j = 0; j <n ; j++) {
+                int xx=x[i]-x[j];
+                int yy=y[i]-y[j];
+                if (xx<0){
+                    xx=-xx;
+                    yy=-yy;
+                }
+                int lo=xx*xx+yy*yy;
+                if (xx==0){
+                    xx=0;
+                    yy=1;
+                }else if (yy==0){
+
+                    yy=0;
+                    xx=1;
+                }
+                else{
+                    xx=xx/gcd(Math.abs(xx),Math.abs(yy));
+                    yy=yy/gcd(Math.abs(xx),Math.abs(yy));
+                }
+
+                if (map.containsKey(lo)){
+                    if (!map.get(lo).containsKey(new A(xx,yy))){
+                        for (A a : map.get(lo).keySet()) {
+                           ans=ans+ map.get(lo).get(a);
+                        }
+                    }
+                    map.get(lo).put(new A(xx,yy),map.get(lo).getOrDefault(new A(xx,yy),0 )+1);
+                }
+                else {
+                    TreeMap<A,Integer>a= new TreeMap<>(new Comparator<A>() {
+                        @Override
+                        public int compare(A o1, A o2) {
+                            return Integer.compare(o1.x,o2.x);
+                        }
+                    });
+                    a.put(new A(xx,yy),1);
+                    map.put(lo,a);
+                }
+            }
+        }
+        System.out.println(ans);
+        
+    }
+    static int gcd(int a,int b){
+        return b==0 ?a:gcd(b,a%b);
+    }
+    static class A{
+        int x,y;
+
+        public A(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            A a = (A) o;
+            return x == a.x && y == a.y;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(x, y);
+        }
+    }
+}"
+33,F,Java,61598253,2023-03-28 21:36:54,一只往上爬的蚂蚁,运行超时,"import java.io.*;
+public class Main {
+    static int n;
+    static int sum = 0;
+    public static void main(String[] args) throws IOException{
+        StreamTokenizer in = new StreamTokenizer(new BufferedReader(new InputStreamReader(System.in)));
+        in.nextToken();
+        n = (int) in.nval;
+        int[][] m =new int[n][2];
+        //x,y下标一一对应(x0,y0)
+        int[] x = new int[n];
+        int[] y = new int[n];
+        for(int i = 0;i < n;i++) {
+            for(int j = 0;j < 2;j++) {
+                in.nextToken();
+                m[i][j] = (int) in.nval;
+            }
+        }
+        for(int i = 0;i < n;i++) x[i] = m[i][0];
+        for(int i = 0;i < n;i++) y[i] = m[i][1];
+        for(int i = 0;i < n;i++) {
+            int x1 = x[i], y1 = y[i];
+            for(int j = i + 1;j < n;j++) {
+                int x2 = x[j], y2 = y[j];
+                for(int k = j + 1;k < n;k++) {
+                    int x3 = x[k], y3 = y[k];
+                    int corss = (x2-x1)*(y3-y2) - (y2-y1)*(x3-x2);
+                    if(corss == 0) continue;
+                    int d1 = (x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1);
+                    int d2 = (x3 - x2) * (x3 - x2) + (y3 - y2) * (y3 - y2);
+                    int d3 = (x3 - x1) * (x3 - x1) + (y3 - y1) * (y3 - y1);
+                    if(d1 == d2 || d2 == d3 || d1 == d3) sum = sum + 1;
+                }
+            }
+        }
+        System.out.println(sum);
+    }
+}"
+34,F,Java,61598273,2023-03-28 21:38:16,一只往上爬的蚂蚁,运行超时,"import java.io.*;
+public class Main {
+    static int n;
+    static int sum = 0;
+    public static void main(String[] args) throws IOException{
+        StreamTokenizer in = new StreamTokenizer(new BufferedReader(new InputStreamReader(System.in)));
+        in.nextToken();
+        n = (int) in.nval;
+        int[][] m =new int[n][2];
+        //x,y下标一一对应(x0,y0)
+        int[] x = new int[n];
+        int[] y = new int[n];
+        for(int i = 0;i < n;i++) {
+            for(int j = 0;j < 2;j++) {
+                in.nextToken();
+                m[i][j] = (int) in.nval;
+            }
+        }
+        for(int i = 0;i < n;i++) x[i] = m[i][0];
+        for(int i = 0;i < n;i++) y[i] = m[i][1];
+        for(int i = 0;i < n;i++) {
+            int x1 = x[i], y1 = y[i];
+            for(int j = i + 1;j < n;j++) {
+                int x2 = x[j], y2 = y[j];
+                for(int k = j + 1;k < n;k++) {
+                    int x3 = x[k], y3 = y[k];
+                    int cross = (x1 - x3) * (y2 - y3) - (x2 - x3) * (y1 - y3);
+                    if(cross == 0) continue;
+                    int d1 = (x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1);
+                    int d2 = (x3 - x2) * (x3 - x2) + (y3 - y2) * (y3 - y2);
+                    int d3 = (x3 - x1) * (x3 - x1) + (y3 - y1) * (y3 - y1);
+                    if(d1 == d2 || d2 == d3 || d1 == d3) sum = sum + 1;
+                }
+            }
+        }
+        System.out.println(sum);
+    }
+}
+"
+35,F,Java,61598396,2023-03-28 21:45:04,一只往上爬的蚂蚁,运行超时,"import java.io.*;
+public class Main {
+    static int n;
+    static int sum = 0;
+    public static void main(String[] args) throws IOException{
+        StreamTokenizer in = new StreamTokenizer(new BufferedReader(new InputStreamReader(System.in)));
+        in.nextToken();
+        n = (int) in.nval;
+        int[][] m =new int[n][2];
+        //x,y下标一一对应(x0,y0)
+        int[] x = new int[n];
+        int[] y = new int[n];
+        for(int i = 0;i < n;i++) {
+            for(int j = 0;j < 2;j++) {
+                in.nextToken();
+                m[i][j] = (int) in.nval;
+            }
+        }
+        for(int i = 0;i < n;i++) x[i] = m[i][0];
+        for(int i = 0;i < n;i++) y[i] = m[i][1];
+        for(int i = 0;i < n;i++) {
+            int x1 = x[i], y1 = y[i];
+            for(int j = i + 1;j < n;j++) {
+                int x2 = x[j], y2 = y[j];
+                for(int k = j + 1;k < n;k++) {
+                    int x3 = x[k], y3 = y[k];
+                    int cross = (x1 - x3) * (y2 - y3) - (x2 - x3) * (y1 - y3);
+                    if(cross == 0) continue;
+                    int d1 = (x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1);
+                    int d2 = (x3 - x2) * (x3 - x2) + (y3 - y2) * (y3 - y2);
+                    int d3 = (x3 - x1) * (x3 - x1) + (y3 - y1) * (y3 - y1);
+                    if(d1 == d2 || d2 == d3 || d1 == d3) sum = sum + 1;
+                }
+            }
+        }
+        System.out.println(sum);
+    }
+}
+"
+36,F,Java,61724500,2023-04-02 18:28:20,范宗林,运行超时,"import java.io.*;
+
+public class Main {
+    public static BufferedReader ins = new BufferedReader(new InputStreamReader(System.in));
+    public static StreamTokenizer in = new StreamTokenizer(ins);
+    public static PrintWriter out = new PrintWriter(System.out);
+    public static int MAX = Integer.MAX_VALUE;
+
+    public static void main(String[] args) throws IOException {
+        in.nextToken();
+        int n = (int) in.nval;
+        int[] x = new int[n];
+        int[] y = new int[n];
+        int count = 0;
+        for (int i = 0; i < n; i++) {
+            in.nextToken();
+            x[i] = (int) in.nval;
+            in.nextToken();
+            y[i] = (int) in.nval;
+        }
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                for (int k = j + 1; k < n; k++) {
+                    int x1 = x[i];
+                    int y1 = y[i];
+                    int x2 = x[j];
+                    int y2 = y[j];
+                    int x3 = x[k];
+                    int y3 = y[k];
+                    int k1 = (x1 - x2) * (y2 - y3);
+                    int k2 = (y1 - y2) * (x2 - x3);
+                    if (k1 == k2){
+                        continue;
+                    }
+                    int a = (int) (Math.pow(x1 - x2,2) + Math.pow(y1 - y2,2));
+                    int b = (int) (Math.pow(x1 - x3,2) + Math.pow(y1 - y3,2));
+                    int c = (int) (Math.pow(x2 - x3,2) + Math.pow(y2 - y3,2));
+                    if (a == b || a == c || b == c){
+                        count ++;
+                    }
+                }
+            }
+        }
+        out.println(count);
+        out.flush();
+        out.close();
+    }
+}
+"
+37,F,Java,61784707,2023-04-07 15:44:51,10201,运行超时,"import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.nio.channels.AcceptPendingException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+import java.util.Scanner;
+import java.util.Stack;
+
+public class Main {
+	public static void main(String[] args) throws IOException, ParseException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int n = Integer.parseInt(br.readLine());
+
+		int num[][] = new int[n][2];
+		for (int i = 0; i < n; i++) {
+			String[] s = br.readLine().split("" "");
+			num[i][0] = Integer.parseInt(s[0]);
+			num[i][1] = Integer.parseInt(s[1]);
+		}
+		int res = 0;
+		for (int i = 0; i < num.length; i++) {
+			for (int j = i; j < num.length; j++) {
+				for (int k = j; k < num.length; k++) {
+					int a = (num[i][0] - num[j][0]) * (num[i][0] - num[j][0])
+							+ (num[i][1] - num[j][1]) * (num[i][1] - num[j][1]);
+					int b = (num[i][0] - num[k][0]) * (num[i][0] - num[k][0])
+							+ (num[i][1] - num[k][1]) * (num[i][1] - num[k][1]);
+					int c = (num[j][1] - num[k][1]) * (num[j][1] - num[k][1])
+							+ (num[j][0] - num[k][0]) * (num[j][0] - num[k][0]);
+					if (a == b || b == c || a == c) {
+						double a1 = Math.sqrt(a);
+						double b1 = Math.sqrt(b);
+						double c1 = Math.sqrt(c);
+						if (a1 + b1 > c1 && a1 + c1 > b1 && b1 + c1 > a1)
+							res++;
+					}
+
+				}
+			}
+		}
+		System.out.print(res);
+	}
+}
+"

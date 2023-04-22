@@ -1,0 +1,836 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,G,Python3,61489442,2023-03-24 20:40:24,克里斯蒂亚诺梅西,答案错误,"from io import *
+import os, sys, math
+
+BUFSIZE = 4096
+class FastIO(IOBase):
+    newlines = 0
+ 
+    def __init__(self, file):
+        self._fd = file.fileno()
+        self.buffer = BytesIO()
+        self.writable = ""x"" in file.mode or ""r"" not in file.mode
+        self.write = self.buffer.write if self.writable else None
+ 
+    def read(self):
+        while True:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            if not b:
+                break
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines = 0
+        return self.buffer.read()
+ 
+    def readline(self):
+        while self.newlines == 0:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            self.newlines = b.count(b""\n"") + (not b)
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines -= 1
+        return self.buffer.readline()
+ 
+    def flush(self):
+        if self.writable:
+            os.write(self._fd, self.buffer.getvalue())
+            self.buffer.truncate(0), self.buffer.seek(0)
+ 
+class IOWrapper(IOBase):
+    def __init__(self, file):
+        self.buffer = FastIO(file)
+        self.flush = self.buffer.flush
+        self.writable = self.buffer.writable
+        self.write = lambda s: self.buffer.write(s.encode(""ascii""))
+        self.read = lambda: self.buffer.read().decode(""ascii"")
+        self.readline = lambda: self.buffer.readline().decode(""ascii"")
+ 
+sys.stdin = IOWrapper(sys.stdin)
+sys.stdout = IOWrapper(sys.stdout)
+input = lambda: sys.stdin.readline().rstrip(""\r\n"")
+
+def solve():
+    s = input()
+    l = s.split('%')
+    p = int(l[1])
+    exp = l[0]
+    l2 = exp.split('^')
+    n = int(l2[1]) if len(l2) >= 2 else 1
+    axby = l2[0]
+    laxby = axby.split('+')
+    ax = laxby[0][1:]
+    by = laxby[1][:-1]
+
+    a = 0
+    ida = 0
+    if not ax[0].isdigit():
+        a = 1
+    else:
+        while ax[ida].isdigit():
+            a = a*10 + ord(ax[ida]) - ord('0')
+            ida += 1
+    x = ax[ida:]
+
+    b = 0
+    idb = 0
+    if not by[0].isdigit():
+        b = 1
+    else:
+        while by[idb].isdigit():
+            b = b*10 + ord(by[idb]) - ord('0')
+            idb += 1
+    y = by[idb:]
+
+    #print(""a==%s, x==%s, b==%s, y==%s, n==%s, p==%s""%(a, x, b, y, n, p))
+
+    ans = """"
+    if x == y:
+        c = a + b
+        md = pow(c, n, p)
+        if md != 0 and md != 1:
+            ans = ""%s*%s^%s%%%s""%(md, x, n, p)
+        if md == 0:
+            ans = ""0""
+        if md == 1:
+            ans = ""%s^%s%%%s""%(x, n, p)
+        print(s + "" = "" + ans)
+        return
+
+    fuck = []
+    for i in range(n, -1, -1):
+        #x^i y^(n-i)
+        xstr = """" if i == 0 else (""%s*""%x if i == 1 else ""%s^%s*""%(x, i))
+        ystr = """" if i == n else (""%s""%y if i == n-1 else ""%s^%s""%(y, n-i))
+        xstrystr = ""%s%s""%(xstr, ystr) if ystr != """" else xstr[:-1]
+        coeff = (pow(a, i, p) * pow(b, n-i, p) *  math.comb(n, i))%p
+        if coeff != 0:
+            if coeff == 1:
+                fuck.append(""%s""%(xstrystr))
+            else:
+                fuck.append(""%s*%s""%(coeff, xstrystr))
+    if not fuck:
+        ans = ""0""
+    elif len(fuck) == 1:
+        ans = ""%s%%%s""%(fuck[0], p)
+    else:
+        ans = ""("" + '+'.join(fuck) + "")%%%s""%p
+    print(s + "" = "" + ans)
+
+solve()"
+1,G,Python3,61489457,2023-03-24 20:40:28,克里斯蒂亚诺梅西,答案错误,"from io import *
+import os, sys, math
+
+BUFSIZE = 4096
+class FastIO(IOBase):
+    newlines = 0
+ 
+    def __init__(self, file):
+        self._fd = file.fileno()
+        self.buffer = BytesIO()
+        self.writable = ""x"" in file.mode or ""r"" not in file.mode
+        self.write = self.buffer.write if self.writable else None
+ 
+    def read(self):
+        while True:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            if not b:
+                break
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines = 0
+        return self.buffer.read()
+ 
+    def readline(self):
+        while self.newlines == 0:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            self.newlines = b.count(b""\n"") + (not b)
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines -= 1
+        return self.buffer.readline()
+ 
+    def flush(self):
+        if self.writable:
+            os.write(self._fd, self.buffer.getvalue())
+            self.buffer.truncate(0), self.buffer.seek(0)
+ 
+class IOWrapper(IOBase):
+    def __init__(self, file):
+        self.buffer = FastIO(file)
+        self.flush = self.buffer.flush
+        self.writable = self.buffer.writable
+        self.write = lambda s: self.buffer.write(s.encode(""ascii""))
+        self.read = lambda: self.buffer.read().decode(""ascii"")
+        self.readline = lambda: self.buffer.readline().decode(""ascii"")
+ 
+sys.stdin = IOWrapper(sys.stdin)
+sys.stdout = IOWrapper(sys.stdout)
+input = lambda: sys.stdin.readline().rstrip(""\r\n"")
+
+def solve():
+    s = input()
+    l = s.split('%')
+    p = int(l[1])
+    exp = l[0]
+    l2 = exp.split('^')
+    n = int(l2[1]) if len(l2) >= 2 else 1
+    axby = l2[0]
+    laxby = axby.split('+')
+    ax = laxby[0][1:]
+    by = laxby[1][:-1]
+
+    a = 0
+    ida = 0
+    if not ax[0].isdigit():
+        a = 1
+    else:
+        while ax[ida].isdigit():
+            a = a*10 + ord(ax[ida]) - ord('0')
+            ida += 1
+    x = ax[ida:]
+
+    b = 0
+    idb = 0
+    if not by[0].isdigit():
+        b = 1
+    else:
+        while by[idb].isdigit():
+            b = b*10 + ord(by[idb]) - ord('0')
+            idb += 1
+    y = by[idb:]
+
+    #print(""a==%s, x==%s, b==%s, y==%s, n==%s, p==%s""%(a, x, b, y, n, p))
+
+    ans = """"
+    if x == y:
+        c = a + b
+        md = pow(c, n, p)
+        if md != 0 and md != 1:
+            ans = ""%s*%s^%s%%%s""%(md, x, n, p)
+        if md == 0:
+            ans = ""0""
+        if md == 1:
+            ans = ""%s^%s%%%s""%(x, n, p)
+        print(s + "" = "" + ans)
+        return
+
+    fuck = []
+    for i in range(n, -1, -1):
+        #x^i y^(n-i)
+        xstr = """" if i == 0 else (""%s*""%x if i == 1 else ""%s^%s*""%(x, i))
+        ystr = """" if i == n else (""%s""%y if i == n-1 else ""%s^%s""%(y, n-i))
+        xstrystr = ""%s%s""%(xstr, ystr) if ystr != """" else xstr[:-1]
+        coeff = (pow(a, i, p) * pow(b, n-i, p) *  math.comb(n, i))%p
+        if coeff != 0:
+            if coeff == 1:
+                fuck.append(""%s""%(xstrystr))
+            else:
+                fuck.append(""%s*%s""%(coeff, xstrystr))
+    if not fuck:
+        ans = ""0""
+    elif len(fuck) == 1:
+        ans = ""%s%%%s""%(fuck[0], p)
+    else:
+        ans = ""("" + '+'.join(fuck) + "")%%%s""%p
+    print(s + "" = "" + ans)
+
+solve()"
+2,G,Python3,61489515,2023-03-24 20:40:52,克里斯蒂亚诺梅西,答案错误,"from io import *
+import os, sys, math
+
+BUFSIZE = 4096
+class FastIO(IOBase):
+    newlines = 0
+ 
+    def __init__(self, file):
+        self._fd = file.fileno()
+        self.buffer = BytesIO()
+        self.writable = ""x"" in file.mode or ""r"" not in file.mode
+        self.write = self.buffer.write if self.writable else None
+ 
+    def read(self):
+        while True:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            if not b:
+                break
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines = 0
+        return self.buffer.read()
+ 
+    def readline(self):
+        while self.newlines == 0:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            self.newlines = b.count(b""\n"") + (not b)
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines -= 1
+        return self.buffer.readline()
+ 
+    def flush(self):
+        if self.writable:
+            os.write(self._fd, self.buffer.getvalue())
+            self.buffer.truncate(0), self.buffer.seek(0)
+ 
+class IOWrapper(IOBase):
+    def __init__(self, file):
+        self.buffer = FastIO(file)
+        self.flush = self.buffer.flush
+        self.writable = self.buffer.writable
+        self.write = lambda s: self.buffer.write(s.encode(""ascii""))
+        self.read = lambda: self.buffer.read().decode(""ascii"")
+        self.readline = lambda: self.buffer.readline().decode(""ascii"")
+ 
+sys.stdin = IOWrapper(sys.stdin)
+sys.stdout = IOWrapper(sys.stdout)
+input = lambda: sys.stdin.readline().rstrip(""\r\n"")
+
+def solve():
+    s = input()
+    l = s.split('%')
+    p = int(l[1])
+    exp = l[0]
+    l2 = exp.split('^')
+    n = int(l2[1]) if len(l2) >= 2 else 1
+    axby = l2[0]
+    laxby = axby.split('+')
+    ax = laxby[0][1:]
+    by = laxby[1][:-1]
+
+    a = 0
+    ida = 0
+    if not ax[0].isdigit():
+        a = 1
+    else:
+        while ax[ida].isdigit():
+            a = a*10 + ord(ax[ida]) - ord('0')
+            ida += 1
+    x = ax[ida:]
+
+    b = 0
+    idb = 0
+    if not by[0].isdigit():
+        b = 1
+    else:
+        while by[idb].isdigit():
+            b = b*10 + ord(by[idb]) - ord('0')
+            idb += 1
+    y = by[idb:]
+
+    #print(""a==%s, x==%s, b==%s, y==%s, n==%s, p==%s""%(a, x, b, y, n, p))
+
+    ans = """"
+    if x == y:
+        c = a + b
+        md = pow(c, n, p)
+        if md != 0 and md != 1:
+            ans = ""%s*%s^%s%%%s""%(md, x, n, p)
+        if md == 0:
+            ans = ""0""
+        if md == 1:
+            ans = ""%s^%s%%%s""%(x, n, p)
+        print(s + "" = "" + ans)
+        return
+
+    fuck = []
+    for i in range(n, -1, -1):
+        #x^i y^(n-i)
+        xstr = """" if i == 0 else (""%s*""%x if i == 1 else ""%s^%s*""%(x, i))
+        ystr = """" if i == n else (""%s""%y if i == n-1 else ""%s^%s""%(y, n-i))
+        xstrystr = ""%s%s""%(xstr, ystr) if ystr != """" else xstr[:-1]
+        coeff = (pow(a, i, p) * pow(b, n-i, p) *  math.comb(n, i))%p
+        if coeff != 0:
+            if coeff == 1:
+                fuck.append(""%s""%(xstrystr))
+            else:
+                fuck.append(""%s*%s""%(coeff, xstrystr))
+    if not fuck:
+        ans = ""0""
+    elif len(fuck) == 1:
+        ans = ""%s%%%s""%(fuck[0], p)
+    else:
+        ans = ""("" + '+'.join(fuck) + "")%%%s""%p
+    print(s + "" = "" + ans)
+
+solve()"
+3,G,Python3,61489835,2023-03-24 20:43:44,克里斯蒂亚诺梅西,答案正确,"from io import *
+import os, sys, math
+
+BUFSIZE = 4096
+class FastIO(IOBase):
+    newlines = 0
+ 
+    def __init__(self, file):
+        self._fd = file.fileno()
+        self.buffer = BytesIO()
+        self.writable = ""x"" in file.mode or ""r"" not in file.mode
+        self.write = self.buffer.write if self.writable else None
+ 
+    def read(self):
+        while True:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            if not b:
+                break
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines = 0
+        return self.buffer.read()
+ 
+    def readline(self):
+        while self.newlines == 0:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            self.newlines = b.count(b""\n"") + (not b)
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines -= 1
+        return self.buffer.readline()
+ 
+    def flush(self):
+        if self.writable:
+            os.write(self._fd, self.buffer.getvalue())
+            self.buffer.truncate(0), self.buffer.seek(0)
+ 
+class IOWrapper(IOBase):
+    def __init__(self, file):
+        self.buffer = FastIO(file)
+        self.flush = self.buffer.flush
+        self.writable = self.buffer.writable
+        self.write = lambda s: self.buffer.write(s.encode(""ascii""))
+        self.read = lambda: self.buffer.read().decode(""ascii"")
+        self.readline = lambda: self.buffer.readline().decode(""ascii"")
+ 
+sys.stdin = IOWrapper(sys.stdin)
+sys.stdout = IOWrapper(sys.stdout)
+input = lambda: sys.stdin.readline().rstrip(""\r\n"")
+
+def solve():
+    s = input()
+    l = s.split('%')
+    p = int(l[1])
+    exp = l[0]
+    l2 = exp.split('^')
+    n = int(l2[1]) if len(l2) >= 2 else 1
+    axby = l2[0]
+    laxby = axby.split('+')
+    ax = laxby[0][1:]
+    by = laxby[1][:-1]
+
+    a = 0
+    ida = 0
+    if not ax[0].isdigit():
+        a = 1
+    else:
+        while ax[ida].isdigit():
+            a = a*10 + ord(ax[ida]) - ord('0')
+            ida += 1
+    x = ax[ida:]
+
+    b = 0
+    idb = 0
+    if not by[0].isdigit():
+        b = 1
+    else:
+        while by[idb].isdigit():
+            b = b*10 + ord(by[idb]) - ord('0')
+            idb += 1
+    y = by[idb:]
+
+    #print(""a==%s, x==%s, b==%s, y==%s, n==%s, p==%s""%(a, x, b, y, n, p))
+
+    ans = """"
+    if x == y:
+        c = a + b
+        md = pow(c, n, p)
+        if md != 0 and md != 1:
+            ans = ""%s*%s^%s%%%s""%(md, x, n, p) if n != 1 else ""%s*%s%%%s""%(md, x, p)
+        if md == 0:
+            ans = ""0""
+        if md == 1:
+            ans = ""%s^%s%%%s""%(x, n, p) if n != 1 else ""%s%%%s""%(x, p)
+        print(s + "" = "" + ans)
+        return
+
+    fuck = []
+    for i in range(n, -1, -1):
+        #x^i y^(n-i)
+        xstr = """" if i == 0 else (""%s*""%x if i == 1 else ""%s^%s*""%(x, i))
+        ystr = """" if i == n else (""%s""%y if i == n-1 else ""%s^%s""%(y, n-i))
+        xstrystr = ""%s%s""%(xstr, ystr) if ystr != """" else xstr[:-1]
+        coeff = (pow(a, i, p) * pow(b, n-i, p) *  math.comb(n, i))%p
+        if coeff != 0:
+            if coeff == 1:
+                fuck.append(""%s""%(xstrystr))
+            else:
+                fuck.append(""%s*%s""%(coeff, xstrystr))
+    if not fuck:
+        ans = ""0""
+    elif len(fuck) == 1:
+        ans = ""%s%%%s""%(fuck[0], p)
+    else:
+        ans = ""("" + '+'.join(fuck) + "")%%%s""%p
+    print(s + "" = "" + ans)
+
+solve()
+
+"
+4,G,Python3,61490499,2023-03-24 20:49:32,qhnana7mi,答案错误,"
+# (ax+by)^n%p
+
+def C(n : int, m : int) -> int:
+    if m > n:
+        return 0
+    res = 1
+    for i in range(m):
+        res = res * (n - i) // (i + 1)
+    return res
+
+def pw(x : str, y : int) -> str:
+    if y == 0:
+        return """"
+    if y == 1:
+        return x
+    return x + '^' + str(y)
+def poly(c : int, ch1 : str, ch2 : str, x : int, y : int) -> str:
+    res = """"
+    if c != 1:
+        res = str(c)
+    X = pw(ch1, x)
+    if len(X) > 0:
+        if len(res) == 0:
+            res = X
+        else:
+            res += ""*"" + X
+    Y = pw(ch2, y)
+    if len(Y) > 0:
+        if len(res) == 0:
+            res = Y
+        else:
+            res += ""*"" + Y
+    return res
+
+if __name__ == '__main__':
+    inp = input()
+
+    ch1 = inp[inp.find('+') - 1]
+    ch2 = inp[inp.find(')') - 1]
+    # print(ch1, ch2)
+
+    p1 = inp.find('(')
+    p2 = inp.find(ch1)
+    a = 1
+    if p1 + 1 != p2:
+        a = int(inp[p1 + 1:p2])
+    p3 = inp.find('+')
+    p4 = inp.find(ch2, p3 + 1)
+    b = 1
+    if p3 + 1 != p4:
+        b = int(inp[p3 + 1:p4])
+    p5 = inp.find(')')
+    p6 = inp.find('%')
+    n = 1
+    if p5 + 1 != p6:
+        n = int(inp[p5 + 2:p6])
+    p = int(inp[p6 + 1:])
+    # print(a, b, n, p)
+
+    ans = ""0""
+    if ch1 == ch2:
+        a += b
+        # print(a, n, p)
+
+        con = pow(a, n, p)
+        if con > 0:
+            ans = str(con) + ""*"" + ch1 + '^' + str(n) + '%' + str(p)
+
+    else:
+        cons = []
+        cnt = 0
+        for i in range(n + 1):
+            cons.append(C(n, i) * pow(a, n - i, p) * pow(b, i, p) % p)
+            if cons[-1] != 0:
+                if cnt != 0:
+                    ans += ""+"" + poly(cons[-1], ch1, ch2, n - i, i)
+                else:
+                    ans = poly(cons[-1], ch1, ch2, n - i, i)
+                cnt += 1
+
+        if cnt > 1:
+            ans = ""("" + ans + "")""
+        if cnt > 0:
+            ans += ""%"" + str(p)
+
+    print(inp + "" = "" + ans)"
+5,G,Python3,61490925,2023-03-24 20:53:11,qhnana7mi,答案错误,"
+# (ax+by)^n%p
+
+def C(n : int, m : int) -> int:
+    if m > n:
+        return 0
+    res = 1
+    for i in range(m):
+        res = res * (n - i) // (i + 1)
+    return res
+
+def pw(x : str, y : int) -> str:
+    if y == 0:
+        return """"
+    if y == 1:
+        return x
+    return x + '^' + str(y)
+def poly(c : int, ch1 : str, ch2 : str, x : int, y : int) -> str:
+    res = """"
+    if c != 1:
+        res = str(c)
+    X = pw(ch1, x)
+    if len(X) > 0:
+        if len(res) == 0:
+            res = X
+        else:
+            res += ""*"" + X
+    Y = pw(ch2, y)
+    if len(Y) > 0:
+        if len(res) == 0:
+            res = Y
+        else:
+            res += ""*"" + Y
+    return res
+
+if __name__ == '__main__':
+    inp = input()
+
+    ch1 = inp[inp.find('+') - 1]
+    ch2 = inp[inp.find(')') - 1]
+    # print(ch1, ch2)
+
+    p1 = inp.find('(')
+    p2 = inp.find(ch1)
+    a = 1
+    if p1 + 1 != p2:
+        a = int(inp[p1 + 1:p2])
+    p3 = inp.find('+')
+    p4 = inp.find(ch2, p3 + 1)
+    b = 1
+    if p3 + 1 != p4:
+        b = int(inp[p3 + 1:p4])
+    p5 = inp.find(')')
+    p6 = inp.find('%')
+    n = 1
+    if p5 + 1 != p6:
+        n = int(inp[p5 + 2:p6])
+    p = int(inp[p6 + 1:])
+    # print(a, b, n, p)
+
+    ans = ""0""
+    if ch1 == ch2:
+        a += b
+        # print(a, n, p)
+
+        con = pow(a, n, p)
+        if con > 0:
+            if n == 1:
+                ans = str(con) + ""*"" + ch1 + '%' + str(p)
+            else:
+                ans = str(con) + ""*"" + ch1 + '^' + str(n) + '%' + str(p)
+
+    else:
+        cons = []
+        cnt = 0
+        for i in range(n + 1):
+            cons.append(C(n, i) * pow(a, n - i, p) * pow(b, i, p) % p)
+            if cons[-1] != 0:
+                if cnt != 0:
+                    ans += ""+"" + poly(cons[-1], ch1, ch2, n - i, i)
+                else:
+                    ans = poly(cons[-1], ch1, ch2, n - i, i)
+                cnt += 1
+
+        if cnt > 1:
+            ans = ""("" + ans + "")""
+        if cnt > 0:
+            ans += ""%"" + str(p)
+
+    print(inp + "" = "" + ans)"
+6,G,Python3,61492069,2023-03-24 21:02:10,qhnana7mi,答案错误,"
+# (ax+by)^n%p
+
+def C(n : int, m : int) -> int:
+    if m > n:
+        return 0
+    res = 1
+    for i in range(m):
+        res = res * (n - i) // (i + 1)
+    return res
+
+def pw(x : str, y : int) -> str:
+    if y == 0:
+        return """"
+    if y == 1:
+        return x
+    return x + '^' + str(y)
+def poly(c : int, ch1 : str, ch2 : str, x : int, y : int) -> str:
+    res = """"
+    if c != 1:
+        res = str(c)
+    X = pw(ch1, x)
+    if len(X) > 0:
+        if len(res) == 0:
+            res = X
+        else:
+            res += ""*"" + X
+    Y = pw(ch2, y)
+    if len(Y) > 0:
+        if len(res) == 0:
+            res = Y
+        else:
+            res += ""*"" + Y
+    return res
+
+if __name__ == '__main__':
+    inp = input()
+
+    ch1 = inp[inp.find('+') - 1]
+    ch2 = inp[inp.find(')') - 1]
+    # print(ch1, ch2)
+
+    p1 = inp.find('(')
+    p2 = inp.find(ch1)
+    a = 1
+    if p1 + 1 != p2:
+        a = int(inp[p1 + 1:p2])
+    p3 = inp.find('+')
+    p4 = inp.find(ch2, p3 + 1)
+    b = 1
+    if p3 + 1 != p4:
+        b = int(inp[p3 + 1:p4])
+    p5 = inp.find(')')
+    p6 = inp.find('%')
+    n = 1
+    if p5 + 1 != p6:
+        n = int(inp[p5 + 2:p6])
+    p = int(inp[p6 + 1:])
+    # print(a, b, n, p)
+
+    ans = ""0""
+    if ch1 == ch2:
+        a += b
+        # print(a, n, p)
+
+        con = pow(a, n, p)
+        if con > 0:
+            if n == 1:
+                ans = str(con) + ""*"" + ch1 + '%' + str(p)
+            else:
+                ans = str(con) + ""*"" + ch1 + '^' + str(n) + '%' + str(p)
+
+    else:
+        cons = []
+        cnt = 0
+        for i in range(n + 1):
+            cons.append(C(n, i) * pow(a, n - i, p) * pow(b, i, p) % p)
+            if cons[-1] != 0:
+                if cnt != 0:
+                    ans += ""+"" + poly(cons[-1], ch1, ch2, n - i, i)
+                else:
+                    ans = poly(cons[-1], ch1, ch2, n - i, i)
+                cnt += 1
+
+        if cnt > 1:
+            ans = ""("" + ans + "")""
+        if cnt > 0:
+            ans += ""%"" + str(p)
+
+    print(inp + "" = "" + ans)"
+7,G,Python3,61492455,2023-03-24 21:07:02,qhnana7mi,答案正确,"
+# (ax+by)^n%p
+
+def C(n : int, m : int) -> int:
+    if m > n:
+        return 0
+    res = 1
+    for i in range(m):
+        res = res * (n - i) // (i + 1)
+    return res
+
+def pw(x : str, y : int) -> str:
+    if y == 0:
+        return """"
+    if y == 1:
+        return x
+    return x + '^' + str(y)
+def poly(c : int, ch1 : str, ch2 : str, x : int, y : int) -> str:
+    res = """"
+    if c != 1:
+        res = str(c)
+    X = pw(ch1, x)
+    if len(X) > 0:
+        if len(res) == 0:
+            res = X
+        else:
+            res += ""*"" + X
+    Y = pw(ch2, y)
+    if len(Y) > 0:
+        if len(res) == 0:
+            res = Y
+        else:
+            res += ""*"" + Y
+    return res
+
+if __name__ == '__main__':
+    inp = input()
+
+    ch1 = inp[inp.find('+') - 1]
+    ch2 = inp[inp.find(')') - 1]
+    # print(ch1, ch2)
+
+    p1 = inp.find('(')
+    p2 = inp.find(ch1)
+    a = 1
+    if p1 + 1 != p2:
+        a = int(inp[p1 + 1:p2])
+    p3 = inp.find('+')
+    p4 = inp.find(ch2, p3 + 1)
+    b = 1
+    if p3 + 1 != p4:
+        b = int(inp[p3 + 1:p4])
+    p5 = inp.find(')')
+    p6 = inp.find('%')
+    n = 1
+    if p5 + 1 != p6:
+        n = int(inp[p5 + 2:p6])
+    p = int(inp[p6 + 1:])
+    # print(a, b, n, p)
+
+    ans = ""0""
+    if ch1 == ch2:
+        a += b
+        # print(a, n, p)
+
+        con = pow(a, n, p)
+        if con > 0:
+            ans = """"
+            if con != 1:
+                ans = str(con) + ""*""
+
+            if n == 1:
+                ans += ch1 + '%' + str(p)
+            else:
+                ans += ch1 + '^' + str(n) + '%' + str(p)
+
+    else:
+        cons = []
+        cnt = 0
+        for i in range(n + 1):
+            cons.append(C(n, i) * pow(a, n - i, p) * pow(b, i, p) % p)
+            if cons[-1] != 0:
+                if cnt != 0:
+                    ans += ""+"" + poly(cons[-1], ch1, ch2, n - i, i)
+                else:
+                    ans = poly(cons[-1], ch1, ch2, n - i, i)
+                cnt += 1
+
+        if cnt > 1:
+            ans = ""("" + ans + "")""
+        if cnt > 0:
+            ans += ""%"" + str(p)
+
+    print(inp + "" = "" + ans)"

@@ -1,0 +1,203 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,F,Python3,60853251,2023-02-10 20:24:04,小七爱英语,答案错误,"print(""accepted"")"
+1,F,Python3,60853521,2023-02-10 20:28:15,Marquis03,运行超时,"n = int(input())
+a = list(map(int, input().split()))
+
+ans = ''
+for i in range(0,n):
+    other = a[:i] + (a[i+1:] if i+1<n else [])
+    if sum(other)//(n-1) <= a[i]:
+        ans += '1'
+    else:
+        ans += '0'
+print(ans)"
+2,F,Python3,60853654,2023-02-10 20:30:02,Marquis03,答案错误,"n = int(input())
+a = list(map(int, input().split()))
+
+ans = ''
+suma = 0
+for i in a:
+    suma += i
+for i in range(0,n):
+    if (suma-a[i])//(n-1) <= a[i]:
+        ans += '1'
+    else:
+        ans += '0'
+print(ans)"
+3,F,Python3,60854615,2023-02-10 20:46:10,Fei_xiangShi,运行超时,"n = int(input())
+a = list(map(int,input().split()))
+index = n//2
+# print(index)
+sa = sorted(a)
+for i in a:
+    if sa.index(i) >= index:
+        print(1,end='')
+    else:
+        print(0,end='')
+# print(sorted(a))
+# print(sa.index(243))"
+4,F,Python3,60854702,2023-02-10 20:47:40,Marquis03,内存超限,"n = int(input())
+a = list(map(int, input().split()))
+
+ans = ''
+weight = [0]*n
+weight[0] = 1
+suma = 0
+for i in range(1,n):
+    weight[i] = weight[i-1]*2
+for ai,w in zip(sorted(a),weight[::-1]):
+    suma += ai*w
+judge = suma//weight[-1]
+for i in a:
+    ans += '1' if i >= judge else '0'
+        
+print(ans)"
+5,F,Python3,60855062,2023-02-10 20:53:30,Marquis03,内存超限,"n = int(input())
+a = list(map(int, input().split()))
+
+ans = ''
+weight = [0]*n
+weight[0] = 1
+asort = sorted(a)[::-1]
+suma = asort[0]
+for i in range(1,n):
+    weight[i] = weight[i-1]*2
+for ai in asort[1:]:
+    suma = (suma + ai) // 2
+# print(suma)
+for i in a:
+    ans += '1' if i >= suma*2 else '0'
+print(ans)"
+6,F,Python3,60860573,2023-02-11 11:56:40,Fei_xiangShi,运行超时,"n = int(input())
+a = list(map(int,input().split()))
+index = a.index(max(a))
+for i in range(n):
+    if a[i] > a[index]:
+        print(1,end='')
+    else:
+        nowa = a[:i]+a[i+1:]
+#         print(nowa)
+        final = max(nowa)
+        nowa.remove(final)
+        for j in range(1,n-1):
+            final = (final+max(nowa))//2
+            nowa.remove(max(nowa))
+#             print(final)
+        if a[i] >= final:
+            print(1,end='')
+            index = min(index,a.index(a[i]))
+        else:
+            print(0,end='')"
+7,F,Python3,60860631,2023-02-11 12:05:18,Fei_xiangShi,运行超时,"n = int(input())
+a = list(map(int,input().split()))
+index = a.index(max(a))
+for i in range(n):
+    if a[i] > a[index]:
+        print(1,end='')
+    else:
+        nowa = a[:i]+a[i+1:]
+#         print(nowa)
+        final = max(nowa)
+        nowa.remove(final)
+        for j in range(1,n-1):
+            maxa = max(nowa)
+            final = int((final+maxa)/2)
+            nowa.remove(maxa)
+#             print(final)
+        if a[i] >= final:
+            print(1,end='')
+            index = min(index,i)
+        else:
+            print(0,end='')"
+8,F,Python3,60860862,2023-02-11 12:46:25,Fei_xiangShi,运行超时,"import collections
+import math
+import os
+import random
+import sys
+from bisect import bisect, bisect_left
+from functools import reduce
+from heapq import heapify, heappop, heappush
+from io import BytesIO, IOBase
+
+# region fastio
+BUFSIZE = 8192
+class FastIO(IOBase):
+    newlines = 0
+
+    def __init__(self, file):
+        self._fd = file.fileno()
+        self.buffer = BytesIO()
+        self.writable = ""x"" in file.mode or ""r"" not in file.mode
+        self.write = self.buffer.write if self.writable else None
+
+    def read(self):
+        while True:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            if not b:
+                break
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines = 0
+        return self.buffer.read()
+
+    def readline(self):
+        while self.newlines == 0:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            self.newlines = b.count(b""\n"") + (not b)
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines -= 1
+        return self.buffer.readline()
+
+    def flush(self):
+        if self.writable:
+            os.write(self._fd, self.buffer.getvalue())
+            self.buffer.truncate(0), self.buffer.seek(0)
+
+class IOWrapper(IOBase):
+    def __init__(self, file):
+        self.buffer = FastIO(file)
+        self.flush = self.buffer.flush
+        self.writable = self.buffer.writable
+        self.write = lambda s: self.buffer.write(s.encode(""ascii""))
+        self.read = lambda: self.buffer.read().decode(""ascii"")
+        self.readline = lambda: self.buffer.readline().decode(""ascii"")
+        
+sys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)
+input = lambda: sys.stdin.readline().rstrip(""\r\n"")
+ints = lambda: list(map(int, input().split()))
+
+n = int(input())
+a = list(map(int,input().split()))
+index = a.index(max(a))
+for i in range(n):
+    if a[i] > a[index]:
+        print(1,end='')
+    else:
+        nowa = a[:i]+a[i+1:]
+#         print(nowa)
+        final = max(nowa)
+        nowa.remove(final)
+        for j in range(1,n-1):
+            maxa = max(nowa)
+            final = int((final+maxa)/2)
+            nowa.remove(maxa)
+#             print(final)
+        if a[i] >= final:
+            print(1,end='')
+            index = min(index,i)
+        else:
+            print(0,end='')"
+9,F,Python3,60874687,2023-02-13 19:29:53,backup_noob,运行超时,"# code blocks
+n = int(input()) # 输入玩家的数量
+a = list(map(int, input().split())) # 输入每个玩家的球的大小
+max_a = max(a) # 找到最大的球的大小
+ans = """" # 初始化答案字符串
+for i in range(n): # 遍历每个玩家
+    if a[i] == max_a: # 如果当前玩家的球的大小是最大的
+        ans += ""1"" # 那么他一定可以成为最终的胜利者
+    elif a[i] in a[:i] or a[i] in a[i+1:]: # 如果当前玩家的球的大小在其他玩家的球的大小中出现过
+        ans += ""1"" # 那么他有可能成为最终的胜利者
+    else: # 否则
+        ans += ""0"" # 那么他不可能成为最终的胜利者
+print(ans) # 输出答案字符串"

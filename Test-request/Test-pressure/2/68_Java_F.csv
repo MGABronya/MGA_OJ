@@ -1,0 +1,1562 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,F,Java,61164968,2023-03-10 20:17:46,shitter,答案错误,"import java.io.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+
+public class Main {
+
+    static InputReader in;
+    static OutputWriter out;
+
+    static LinkedList<Integer> ans1;
+    static LinkedList<Integer> ans2;
+    static int[] v;
+    static int k;
+    static int n;
+
+    public static void main(String[] args) throws Exception {
+        in=new InputReader(System.in);
+        out=new OutputWriter(System.out);
+
+        int T=in.nextInt();
+        while(T-->0) {
+            n=in.nextInt();
+            k=in.nextInt();
+            v=new int[n];
+            for(int i=0;i<n;i++)
+                v[i]=in.nextInt();
+
+            ans1=new LinkedList<>();
+            ans2=new LinkedList<>();
+
+            boolean flag=dfs(2);
+            if(flag) {
+                out.println(ans1.size());
+                while(!ans1.isEmpty() && !ans2.isEmpty())
+                    out.println((ans1.removeFirst()+1)+"" ""+(ans2.removeFirst()+1));
+            }
+            else
+                out.println(-1);
+        }
+
+        out.flush();
+    }
+
+    private static boolean dfs(int m) {
+        for(int i=0;i<n;i++) {
+            if(Math.abs(v[i]-v[(i-1+n)%n])<=k && Math.abs(v[i]-v[(i+1+n)%n])<=k)
+                continue;
+            if(m<=0)
+                return false;
+            for(int j=0;j<n;j++) {
+                int temp=v[j];
+                v[j]=v[i];
+                v[i]=temp;
+                ans1.addLast(j);
+                ans2.addLast(i);
+                boolean f=dfs(m-1);
+                if(f)
+                    return true;
+
+                temp=v[j];
+                v[j]=v[i];
+                v[i]=temp;
+                ans1.removeLast();
+                ans2.removeLast();
+            }
+        }
+        return true;
+    }
+
+
+    static class InputReader  {
+        private final BufferedReader br;
+
+        public InputReader(InputStream stream) {
+            br = new BufferedReader(new InputStreamReader(stream));
+        }
+
+        public int nextInt() throws IOException {
+            int c = br.read();
+            while (c <= 32) {
+                c = br.read();
+            }
+            boolean negative = false;
+            if (c == '-') {
+                negative = true;
+                c = br.read();
+            }
+            int x = 0;
+            while (c > 32) {
+                x = x * 10 + c - '0';
+                c = br.read();
+            }
+            return negative ? -x : x;
+        }
+
+        public long nextLong() throws IOException {
+            int c = br.read();
+            while (c <= 32) {
+                c = br.read();
+            }
+            boolean negative = false;
+            if (c == '-') {
+                negative = true;
+                c = br.read();
+            }
+            long x = 0;
+            while (c > 32) {
+                x = x * 10 + c - '0';
+                c = br.read();
+            }
+            return negative ? -x : x;
+        }
+
+        public String next() throws IOException {
+            int c = br.read();
+            while (c <= 32) {
+                c = br.read();
+            }
+            StringBuilder sb = new StringBuilder();
+            while (c > 32) {
+                sb.append((char) c);
+                c = br.read();
+            }
+            return sb.toString();
+        }
+
+        public double nextDouble() throws IOException {
+            return Double.parseDouble(next());
+        }
+    }
+
+    static class OutputWriter {
+
+        private final BufferedWriter writer;
+
+        public OutputWriter(OutputStream out) {
+            writer=new BufferedWriter(new OutputStreamWriter(out));
+        }
+
+        public void print(String str) {
+            try {
+                writer.write(str);
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public void print(Object obj) {
+            print(String.valueOf(obj));
+        }
+
+        public void println(String str) {
+            print(str+""\n"");
+        }
+
+        public void println() {
+            print('\n');
+        }
+
+        public void println(Object obj) {
+            println(String.valueOf(obj));
+        }
+
+        public void flush() {
+            try {
+                writer.flush();
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+}"
+1,F,Java,61165732,2023-03-10 20:25:45,shitter,运行超时,"import java.io.*;
+import java.util.LinkedList;
+
+public class Main {
+
+    static InputReader in;
+    static OutputWriter out;
+
+    static LinkedList<Integer> ans1;
+    static LinkedList<Integer> ans2;
+    static int[] v;
+    static int k;
+    static int n;
+
+    public static void main(String[] args) throws Exception {
+        in=new InputReader(System.in);
+        out=new OutputWriter(System.out);
+
+        int T=in.nextInt();
+        while(T-->0) {
+            n=in.nextInt();
+            k=in.nextInt();
+            v=new int[n];
+            for(int i=0;i<n;i++)
+                v[i]=in.nextInt();
+
+            ans1=new LinkedList<>();
+            ans2=new LinkedList<>();
+
+            boolean flag=dfs(2);
+            if(flag) {
+                out.println(ans1.size());
+                while(!ans1.isEmpty() && !ans2.isEmpty())
+                    out.println((ans1.removeFirst()+1)+"" ""+(ans2.removeFirst()+1));
+            }
+            else
+                out.println(-1);
+        }
+
+        out.flush();
+    }
+
+    private static boolean dfs(int m) {
+        for(int i=0;i<n;i++) {
+            if(Math.abs(v[i]-v[(i-1+n)%n])<=k)
+                continue;
+            if(m<=0)
+                return false;
+            for(int j=0;j<n;j++) {
+                int temp=v[j];
+                v[j]=v[i];
+                v[i]=temp;
+                ans1.addLast(j);
+                ans2.addLast(i);
+                boolean f=dfs(m-1);
+                if(f)
+                    return true;
+
+                temp=v[j];
+                v[j]=v[i];
+                v[i]=temp;
+                ans1.removeLast();
+                ans2.removeLast();
+            }
+        }
+        for(int i=0;i<n;i++) {
+            if(Math.abs(v[i]-v[(i-1+n)%n])<=k)
+                continue;
+            return false;
+        }
+        return true;
+    }
+
+
+    static class InputReader  {
+        private final BufferedReader br;
+
+        public InputReader(InputStream stream) {
+            br = new BufferedReader(new InputStreamReader(stream));
+        }
+
+        public int nextInt() throws IOException {
+            int c = br.read();
+            while (c <= 32) {
+                c = br.read();
+            }
+            boolean negative = false;
+            if (c == '-') {
+                negative = true;
+                c = br.read();
+            }
+            int x = 0;
+            while (c > 32) {
+                x = x * 10 + c - '0';
+                c = br.read();
+            }
+            return negative ? -x : x;
+        }
+
+        public long nextLong() throws IOException {
+            int c = br.read();
+            while (c <= 32) {
+                c = br.read();
+            }
+            boolean negative = false;
+            if (c == '-') {
+                negative = true;
+                c = br.read();
+            }
+            long x = 0;
+            while (c > 32) {
+                x = x * 10 + c - '0';
+                c = br.read();
+            }
+            return negative ? -x : x;
+        }
+
+        public String next() throws IOException {
+            int c = br.read();
+            while (c <= 32) {
+                c = br.read();
+            }
+            StringBuilder sb = new StringBuilder();
+            while (c > 32) {
+                sb.append((char) c);
+                c = br.read();
+            }
+            return sb.toString();
+        }
+
+        public double nextDouble() throws IOException {
+            return Double.parseDouble(next());
+        }
+    }
+
+    static class OutputWriter {
+
+        private final BufferedWriter writer;
+
+        public OutputWriter(OutputStream out) {
+            writer=new BufferedWriter(new OutputStreamWriter(out));
+        }
+
+        public void print(String str) {
+            try {
+                writer.write(str);
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public void print(Object obj) {
+            print(String.valueOf(obj));
+        }
+
+        public void println(String str) {
+            print(str+""\n"");
+        }
+
+        public void println() {
+            print('\n');
+        }
+
+        public void println(Object obj) {
+            println(String.valueOf(obj));
+        }
+
+        public void flush() {
+            try {
+                writer.flush();
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+}"
+2,F,Java,61165983,2023-03-10 20:28:38,shitter,运行超时,"import java.io.*;
+import java.util.LinkedList;
+
+public class Main {
+
+    static InputReader in;
+    static OutputWriter out;
+
+    static LinkedList<Integer> ans1;
+    static LinkedList<Integer> ans2;
+    static int[] v;
+    static int k;
+    static int n;
+
+    public static void main(String[] args) throws Exception {
+        in=new InputReader(System.in);
+        out=new OutputWriter(System.out);
+
+        int T=in.nextInt();
+        while(T-->0) {
+            n=in.nextInt();
+            k=in.nextInt();
+            v=new int[n];
+            for(int i=0;i<n;i++)
+                v[i]=in.nextInt();
+
+            ans1=new LinkedList<>();
+            ans2=new LinkedList<>();
+
+            boolean flag=dfs(0,2);
+            if(flag) {
+                out.println(ans1.size());
+                while(!ans1.isEmpty() && !ans2.isEmpty())
+                    out.println((ans1.removeFirst()+1)+"" ""+(ans2.removeFirst()+1));
+            }
+            else
+                out.println(-1);
+        }
+
+        out.flush();
+    }
+
+    private static boolean dfs(int idx,int m) {
+        for(int i=idx;i<n;i++) {
+            if(Math.abs(v[i]-v[(i-1+n)%n])<=k)
+                continue;
+            if(m<=0)
+                return false;
+            for(int j=idx+1;j<n;j++) {
+                int temp=v[j];
+                v[j]=v[i];
+                v[i]=temp;
+                ans1.addLast(j);
+                ans2.addLast(i);
+                boolean f=dfs(idx,m-1);
+                if(f)
+                    return true;
+
+                temp=v[j];
+                v[j]=v[i];
+                v[i]=temp;
+                ans1.removeLast();
+                ans2.removeLast();
+            }
+        }
+        for(int i=0;i<n;i++) {
+            if(Math.abs(v[i]-v[(i-1+n)%n])<=k)
+                continue;
+            return false;
+        }
+        return true;
+    }
+
+
+    static class InputReader  {
+        private final BufferedReader br;
+
+        public InputReader(InputStream stream) {
+            br = new BufferedReader(new InputStreamReader(stream));
+        }
+
+        public int nextInt() throws IOException {
+            int c = br.read();
+            while (c <= 32) {
+                c = br.read();
+            }
+            boolean negative = false;
+            if (c == '-') {
+                negative = true;
+                c = br.read();
+            }
+            int x = 0;
+            while (c > 32) {
+                x = x * 10 + c - '0';
+                c = br.read();
+            }
+            return negative ? -x : x;
+        }
+
+        public long nextLong() throws IOException {
+            int c = br.read();
+            while (c <= 32) {
+                c = br.read();
+            }
+            boolean negative = false;
+            if (c == '-') {
+                negative = true;
+                c = br.read();
+            }
+            long x = 0;
+            while (c > 32) {
+                x = x * 10 + c - '0';
+                c = br.read();
+            }
+            return negative ? -x : x;
+        }
+
+        public String next() throws IOException {
+            int c = br.read();
+            while (c <= 32) {
+                c = br.read();
+            }
+            StringBuilder sb = new StringBuilder();
+            while (c > 32) {
+                sb.append((char) c);
+                c = br.read();
+            }
+            return sb.toString();
+        }
+
+        public double nextDouble() throws IOException {
+            return Double.parseDouble(next());
+        }
+    }
+
+    static class OutputWriter {
+
+        private final BufferedWriter writer;
+
+        public OutputWriter(OutputStream out) {
+            writer=new BufferedWriter(new OutputStreamWriter(out));
+        }
+
+        public void print(String str) {
+            try {
+                writer.write(str);
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public void print(Object obj) {
+            print(String.valueOf(obj));
+        }
+
+        public void println(String str) {
+            print(str+""\n"");
+        }
+
+        public void println() {
+            print('\n');
+        }
+
+        public void println(Object obj) {
+            println(String.valueOf(obj));
+        }
+
+        public void flush() {
+            try {
+                writer.flush();
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+}"
+3,F,Java,61168387,2023-03-10 20:54:08,M1ss1n9h,答案错误,"import java.util.*;
+import java.io.*;
+public class Main {
+    static int T,a,b,c,d;
+    static boolean[]use1,use2,use3,use4;
+    static StreamTokenizer st=new StreamTokenizer(new BufferedReader(new InputStreamReader(System.in)));
+    static PrintWriter pw=new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+    static Scanner sc=new Scanner(System.in);
+    public static void main(String[] args) throws IOException {
+        System.out.println(""草拟吗的傻逼 我把你妈妈挂在你妈妈的臭B里 13点出题人"");
+    }
+}
+"
+4,F,Java,61168400,2023-03-10 20:54:12,M1ss1n9h,答案错误,"import java.util.*;
+import java.io.*;
+public class Main {
+    static int T,a,b,c,d;
+    static boolean[]use1,use2,use3,use4;
+    static StreamTokenizer st=new StreamTokenizer(new BufferedReader(new InputStreamReader(System.in)));
+    static PrintWriter pw=new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+    static Scanner sc=new Scanner(System.in);
+    public static void main(String[] args) throws IOException {
+        System.out.println(""草拟吗的傻逼 我把你妈妈挂在你妈妈的臭B里 13点出题人"");
+    }
+}
+"
+5,F,Java,61168410,2023-03-10 20:54:16,M1ss1n9h,答案错误,"import java.util.*;
+import java.io.*;
+public class Main {
+    static int T,a,b,c,d;
+    static boolean[]use1,use2,use3,use4;
+    static StreamTokenizer st=new StreamTokenizer(new BufferedReader(new InputStreamReader(System.in)));
+    static PrintWriter pw=new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+    static Scanner sc=new Scanner(System.in);
+    public static void main(String[] args) throws IOException {
+        System.out.println(""草拟吗的傻逼 我把你妈妈挂在你妈妈的臭B里 13点出题人"");
+    }
+}
+"
+6,F,Java,61169473,2023-03-10 21:03:30,小小小巨人,答案错误,"import java.io.*;
+import java.util.*;
+import java.math.*;
+import java.util.Map.*;
+import java.util.*;
+/**
+ * 
+ * @author TCchen
+ */
+public class Main {
+	public static void main(String[]args) throws IOException {
+		new Main().run();
+	}
+//	File input=new File(""D:\\test\\input.txt"");
+//	File output=new File(""D:\\test\\output.txt"");
+	void run() throws IOException{
+//		new Solve().setIO(input, output).run();
+		new Solve().setIO(System.in,System.out).run();
+	}
+	class Solve extends IOTask{
+		int n,m,w,i,j,l,r,v,x,y,k;
+		int[]a;
+		boolean[]b;
+		Integer[]id;
+		boolean edge(int x,int y) {
+			return x+1==y||y+1==x||x==1&&y==n||x==n&&y==1;
+		}
+		int[][]all;
+		int al;
+		void swap(int x,int y) {
+			int k=a[x];
+			int l=a[y];
+			a[x]=l;
+			a[y]=k;
+			if(x==1)a[n+1]=l;
+			if(y==1)a[n+1]=k;
+		}
+		int[][]ans=new int[4][2];
+		int len=3;
+		boolean dfs(int dep) {
+			all[dep][0]=0;
+			for(int i=1;i<=n;i++) {
+				if(Math.abs(a[i]-a[i+1])>k) {
+					all[dep][++all[dep][0]]=i;
+				}
+			}
+			if(all[dep][0]>dep*4)return false;
+			if(all[dep][0]==0) {
+				len=dep;
+				return true;
+			}
+			int pre=0;
+			for(int i=1;i<=all[dep][0];i++) {
+				int id=all[dep][i];
+				if(id!=pre) {
+					ans[dep][0]=id;
+					pre=i;
+					for(int j=1;j<=n;j++) {
+						if(j!=id) {
+							swap(id,j);
+							ans[dep][1]=j;
+							if(dfs(dep-1)) {
+								return true;
+							}
+							swap(id,j);
+						}
+					}
+				}
+				id=all[dep][i]+1;
+				if(id!=pre) {
+					ans[dep][0]=id;
+					pre=i;
+					for(int j=1;j<=n;j++) {
+						if(j!=id) {
+							swap(id,j);
+							ans[dep][1]=j;
+							if(dfs(dep-1)) {
+								return true;
+							}
+							swap(id,j);
+						}
+					}
+				}
+			}
+			return false;
+		}
+		void solve() throws IOException{
+			n=in.in();
+			k=in.in();
+			a=new int[n+2];
+			b=new boolean[n+2];
+			id=new Integer[n+2];
+			for(i=1;i<=n;i++) {
+				a[i]=in.in();
+			}
+			a[n+1]=a[1];
+			a[0]=a[n];
+			all=new int[3][n+1];
+			len=3;
+			if(dfs(2)) {
+				out.println(2-len);
+				for(i=2;i>len;i--) {
+					out.println(ans[i][0]+"" ""+ans[i][1]);
+				}
+			}else {
+				out.println(-1);
+			}
+			
+		}
+		void init() {
+		}
+		int te=1;
+		void run()throws IOException{
+			init();
+			int t=1;
+			t=in.in();
+			for(te=1;te<=t;te++) {
+				solve();
+//				out.flush();
+			}
+			out.close();
+		}
+//		long timeMillis;
+//		void st() {
+//			timeMillis=System.currentTimeMillis();
+//		}
+//		void ed() {
+//			System.out.println((System.currentTimeMillis()-timeMillis)+""ms"");
+//		}
+	}
+	class QIn{
+		StreamTokenizer st = new StreamTokenizer(new BufferedReader(new InputStreamReader(System.in)));
+		int in() throws IOException {
+			st.nextToken();
+			return (int)st.nval;
+		}
+		long inl() throws IOException {
+			st.nextToken();
+			return (long)st.nval;
+		}
+		double ind()throws IOException  {
+			st.nextToken();
+			return st.nval;
+		}
+		String ins() throws IOException {
+			st.nextToken();
+			return st.sval;
+		}
+	}
+	class In{
+		private StringTokenizer in=new StringTokenizer("""");
+		private InputStream is;
+		private BufferedReader bf;
+		public In(File file) throws IOException {
+			is=new FileInputStream(file);
+			init();
+		}
+		public In(InputStream is) throws IOException{
+			this.is=is;
+			init();
+		}
+		private void init() throws IOException {
+			bf=new BufferedReader(new InputStreamReader(is));
+		}
+		boolean hasNext() throws IOException {
+			return in.hasMoreTokens()||bf.ready();
+		}
+		String ins() throws IOException {
+			while(!in.hasMoreTokens()) {
+				in=new StringTokenizer(bf.readLine());
+			}
+			return in.nextToken();
+		}
+		int in() throws IOException {
+			return Integer.parseInt(ins());
+		}
+		long inl() throws IOException {
+			return Long.parseLong(ins());
+		}
+		double ind() throws IOException {
+			return Double.parseDouble(ins());
+		}
+		String line() throws IOException {
+			return bf.readLine();
+		}
+	}
+	class Out{
+		PrintWriter out;
+		private OutputStream os;
+		private void init() {
+			out=new PrintWriter(new BufferedWriter(new OutputStreamWriter(os)));
+		}
+		public Out(File file) throws IOException {
+			os=new FileOutputStream(file);
+			init();
+		}
+		public Out(OutputStream os) throws IOException{
+			this.os=os;
+			init();
+		}
+	}
+	abstract class IOTask{
+		In in;
+		PrintWriter out;
+		public IOTask setIO(File in,File out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		public IOTask setIO(File in,OutputStream out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		public IOTask setIO(InputStream in,OutputStream out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		public IOTask setIO(InputStream in,File out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		void run()throws IOException{}
+	}
+}"
+7,F,Java,61169632,2023-03-10 21:05:55,小小小巨人,答案错误,"import java.io.*;
+import java.util.*;
+import java.math.*;
+import java.util.Map.*;
+import java.util.*;
+/**
+ * 
+ * @author TCchen
+ */
+public class Main {
+	public static void main(String[]args) throws IOException {
+		new Main().run();
+	}
+//	File input=new File(""D:\\test\\input.txt"");
+//	File output=new File(""D:\\test\\output.txt"");
+	void run() throws IOException{
+//		new Solve().setIO(input, output).run();
+		new Solve().setIO(System.in,System.out).run();
+	}
+	class Solve extends IOTask{
+		int n,m,w,i,j,l,r,v,x,y,k;
+		int[]a;
+		boolean[]b;
+		Integer[]id;
+		int[][]all;
+		int al;
+		void swap(int x,int y) {
+			int k=a[x];
+			int l=a[y];
+			a[x]=l;
+			a[y]=k;
+			if(x==1)a[n+1]=l;
+			if(y==1)a[n+1]=k;
+		}
+		int[][]ans=new int[4][2];
+		int len=3;
+		boolean dfs(int dep) {
+			all[dep][0]=0;
+			for(int i=1;i<=n;i++) {
+				if(Math.abs(a[i]-a[i+1])>k) {
+					all[dep][++all[dep][0]]=i;
+				}
+			}
+			if(all[dep][0]>dep*4)return false;
+			if(all[dep][0]==0) {
+				len=dep;
+				return true;
+			}
+			if(dep==0)return false;
+			int pre=0;
+			for(int i=1;i<=all[dep][0];i++) {
+				int id=all[dep][i];
+				if(id!=pre) {
+					ans[dep][0]=id;
+					pre=i;
+					for(int j=1;j<=n;j++) {
+						if(j!=id) {
+							swap(id,j);
+							ans[dep][1]=j;
+							if(dfs(dep-1)) {
+								return true;
+							}
+							swap(id,j);
+						}
+					}
+				}
+				id=all[dep][i]+1;
+				if(id!=pre) {
+					ans[dep][0]=id;
+					pre=i;
+					for(int j=1;j<=n;j++) {
+						if(j!=id) {
+							swap(id,j);
+							ans[dep][1]=j;
+							if(dfs(dep-1)) {
+								return true;
+							}
+							swap(id,j);
+						}
+					}
+				}
+			}
+			return false;
+		}
+		void solve() throws IOException{
+			n=in.in();
+			k=in.in();
+			a=new int[n+2];
+			b=new boolean[n+2];
+			id=new Integer[n+2];
+			for(i=1;i<=n;i++) {
+				a[i]=in.in();
+			}
+			a[n+1]=a[1];
+			a[0]=a[n];
+			all=new int[3][n+1];
+			len=3;
+			if(dfs(2)) {
+				out.println(2-len);
+				for(i=2;i>len;i--) {
+					out.println(ans[i][0]+"" ""+ans[i][1]);
+				}
+			}else {
+				out.println(-1);
+			}
+			
+		}
+		void init() {
+		}
+		int te=1;
+		void run()throws IOException{
+			init();
+			int t=1;
+			t=in.in();
+			for(te=1;te<=t;te++) {
+				solve();
+//				out.flush();
+			}
+			out.close();
+		}
+//		long timeMillis;
+//		void st() {
+//			timeMillis=System.currentTimeMillis();
+//		}
+//		void ed() {
+//			System.out.println((System.currentTimeMillis()-timeMillis)+""ms"");
+//		}
+	}
+	class QIn{
+		StreamTokenizer st = new StreamTokenizer(new BufferedReader(new InputStreamReader(System.in)));
+		int in() throws IOException {
+			st.nextToken();
+			return (int)st.nval;
+		}
+		long inl() throws IOException {
+			st.nextToken();
+			return (long)st.nval;
+		}
+		double ind()throws IOException  {
+			st.nextToken();
+			return st.nval;
+		}
+		String ins() throws IOException {
+			st.nextToken();
+			return st.sval;
+		}
+	}
+	class In{
+		private StringTokenizer in=new StringTokenizer("""");
+		private InputStream is;
+		private BufferedReader bf;
+		public In(File file) throws IOException {
+			is=new FileInputStream(file);
+			init();
+		}
+		public In(InputStream is) throws IOException{
+			this.is=is;
+			init();
+		}
+		private void init() throws IOException {
+			bf=new BufferedReader(new InputStreamReader(is));
+		}
+		boolean hasNext() throws IOException {
+			return in.hasMoreTokens()||bf.ready();
+		}
+		String ins() throws IOException {
+			while(!in.hasMoreTokens()) {
+				in=new StringTokenizer(bf.readLine());
+			}
+			return in.nextToken();
+		}
+		int in() throws IOException {
+			return Integer.parseInt(ins());
+		}
+		long inl() throws IOException {
+			return Long.parseLong(ins());
+		}
+		double ind() throws IOException {
+			return Double.parseDouble(ins());
+		}
+		String line() throws IOException {
+			return bf.readLine();
+		}
+	}
+	class Out{
+		PrintWriter out;
+		private OutputStream os;
+		private void init() {
+			out=new PrintWriter(new BufferedWriter(new OutputStreamWriter(os)));
+		}
+		public Out(File file) throws IOException {
+			os=new FileOutputStream(file);
+			init();
+		}
+		public Out(OutputStream os) throws IOException{
+			this.os=os;
+			init();
+		}
+	}
+	abstract class IOTask{
+		In in;
+		PrintWriter out;
+		public IOTask setIO(File in,File out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		public IOTask setIO(File in,OutputStream out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		public IOTask setIO(InputStream in,OutputStream out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		public IOTask setIO(InputStream in,File out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		void run()throws IOException{}
+	}
+}"
+8,F,Java,61169880,2023-03-10 21:09:56,小小小巨人,答案错误,"import java.io.*;
+import java.util.*;
+import java.math.*;
+import java.util.Map.*;
+import java.util.*;
+/**
+ * 
+ * @author TCchen
+ */
+public class Main {
+	public static void main(String[]args) throws IOException {
+		new Main().run();
+	}
+//	File input=new File(""D:\\test\\input.txt"");
+//	File output=new File(""D:\\test\\output.txt"");
+	void run() throws IOException{
+//		new Solve().setIO(input, output).run();
+		new Solve().setIO(System.in,System.out).run();
+	}
+	class Solve extends IOTask{
+		int n,m,w,i,j,l,r,v,x,y,k;
+		int[]a;
+		boolean[]b;
+		Integer[]id;
+		int[][]all;
+		int al;
+		void swap(int x,int y) {
+			int k=a[x];
+			int l=a[y];
+			a[x]=l;
+			a[y]=k;
+			if(x==1)a[n+1]=l;
+			if(y==1)a[n+1]=k;
+		}
+		int[][]ans=new int[4][2];
+		int len=3;
+		boolean dfs(int dep) {
+			all[dep][0]=0;
+			for(int i=1;i<=n;i++) {
+				if(Math.abs(a[i]-a[i+1])>k) {
+					all[dep][++all[dep][0]]=i;
+				}
+			}
+			if(all[dep][0]>dep*4)return false;
+			if(all[dep][0]==0) {
+				len=dep;
+				return true;
+			}
+			int pre=0;
+			for(int i=1;i<=all[dep][0];i++) {
+				int id=all[dep][i];
+				if(id!=pre) {
+					ans[dep][0]=id;
+					pre=id;
+					for(int j=1;j<=n;j++) {
+						if(j!=id) {
+							swap(id,j);
+							ans[dep][1]=j;
+							if(dfs(dep-1)) {
+								return true;
+							}
+							swap(id,j);
+						}
+					}
+				}
+				id=all[dep][i]+1;
+				if(id!=pre) {
+					ans[dep][0]=id;
+					pre=id;
+					for(int j=1;j<=n;j++) {
+						if(j!=id) {
+							swap(id,j);
+							ans[dep][1]=j;
+							if(dfs(dep-1)) {
+								return true;
+							}
+							swap(id,j);
+						}
+					}
+				}
+			}
+			return false;
+		}
+		void solve() throws IOException{
+			n=in.in();
+			k=in.in();
+			a=new int[n+2];
+			b=new boolean[n+2];
+			id=new Integer[n+2];
+			for(i=1;i<=n;i++) {
+				a[i]=in.in();
+			}
+			a[n+1]=a[1];
+			a[0]=a[n];
+			all=new int[3][n+1];
+			len=3;
+			if(dfs(2)) {
+				out.println(2-len);
+				for(i=2;i>len;i--) {
+					out.println(ans[i][0]+"" ""+ans[i][1]);
+				}
+			}else {
+				out.println(-1);
+			}
+			
+		}
+		void init() {
+		}
+		int te=1;
+		void run()throws IOException{
+			init();
+			int t=1;
+			t=in.in();
+			for(te=1;te<=t;te++) {
+				solve();
+//				out.flush();
+			}
+			out.close();
+		}
+//		long timeMillis;
+//		void st() {
+//			timeMillis=System.currentTimeMillis();
+//		}
+//		void ed() {
+//			System.out.println((System.currentTimeMillis()-timeMillis)+""ms"");
+//		}
+	}
+	class QIn{
+		StreamTokenizer st = new StreamTokenizer(new BufferedReader(new InputStreamReader(System.in)));
+		int in() throws IOException {
+			st.nextToken();
+			return (int)st.nval;
+		}
+		long inl() throws IOException {
+			st.nextToken();
+			return (long)st.nval;
+		}
+		double ind()throws IOException  {
+			st.nextToken();
+			return st.nval;
+		}
+		String ins() throws IOException {
+			st.nextToken();
+			return st.sval;
+		}
+	}
+	class In{
+		private StringTokenizer in=new StringTokenizer("""");
+		private InputStream is;
+		private BufferedReader bf;
+		public In(File file) throws IOException {
+			is=new FileInputStream(file);
+			init();
+		}
+		public In(InputStream is) throws IOException{
+			this.is=is;
+			init();
+		}
+		private void init() throws IOException {
+			bf=new BufferedReader(new InputStreamReader(is));
+		}
+		boolean hasNext() throws IOException {
+			return in.hasMoreTokens()||bf.ready();
+		}
+		String ins() throws IOException {
+			while(!in.hasMoreTokens()) {
+				in=new StringTokenizer(bf.readLine());
+			}
+			return in.nextToken();
+		}
+		int in() throws IOException {
+			return Integer.parseInt(ins());
+		}
+		long inl() throws IOException {
+			return Long.parseLong(ins());
+		}
+		double ind() throws IOException {
+			return Double.parseDouble(ins());
+		}
+		String line() throws IOException {
+			return bf.readLine();
+		}
+	}
+	class Out{
+		PrintWriter out;
+		private OutputStream os;
+		private void init() {
+			out=new PrintWriter(new BufferedWriter(new OutputStreamWriter(os)));
+		}
+		public Out(File file) throws IOException {
+			os=new FileOutputStream(file);
+			init();
+		}
+		public Out(OutputStream os) throws IOException{
+			this.os=os;
+			init();
+		}
+	}
+	abstract class IOTask{
+		In in;
+		PrintWriter out;
+		public IOTask setIO(File in,File out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		public IOTask setIO(File in,OutputStream out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		public IOTask setIO(InputStream in,OutputStream out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		public IOTask setIO(InputStream in,File out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		void run()throws IOException{}
+	}
+}"
+9,F,Java,61170043,2023-03-10 21:12:35,小小小巨人,答案正确,"import java.io.*;
+import java.util.*;
+import java.math.*;
+import java.util.Map.*;
+import java.util.*;
+/**
+ * 
+ * @author TCchen
+ */
+public class Main {
+	public static void main(String[]args) throws IOException {
+		new Main().run();
+	}
+//	File input=new File(""D:\\test\\input.txt"");
+//	File output=new File(""D:\\test\\output.txt"");
+	void run() throws IOException{
+//		new Solve().setIO(input, output).run();
+		new Solve().setIO(System.in,System.out).run();
+	}
+	class Solve extends IOTask{
+		int n,m,w,i,j,l,r,v,x,y,k;
+		int[]a;
+		boolean[]b;
+		Integer[]id;
+		int[][]all;
+		int al;
+		void swap(int x,int y) {
+			int k=a[x];
+			int l=a[y];
+			a[x]=l;
+			a[y]=k;
+			if(x==1)a[n+1]=l;
+			if(y==1)a[n+1]=k;
+		}
+		int[][]ans=new int[4][2];
+		int len=3;
+		boolean dfs(int dep) {
+			all[dep][0]=0;
+			for(int i=1;i<=n;i++) {
+				if(Math.abs(a[i]-a[i+1])>k) {
+					all[dep][++all[dep][0]]=i;
+				}
+			}
+			if(all[dep][0]>dep*4)return false;
+			if(all[dep][0]==0) {
+				len=dep;
+				return true;
+			}
+			int pre=0;
+			for(int i=1;i<=all[dep][0];i++) {
+				int id=all[dep][i];
+				if(id!=pre) {
+					ans[dep][0]=id;
+					pre=id;
+					for(int j=1;j<=n;j++) {
+						if(j!=id) {
+							swap(id,j);
+							ans[dep][1]=j;
+							if(dfs(dep-1)) {
+								return true;
+							}
+							swap(id,j);
+						}
+					}
+				}
+				id=all[dep][i]+1;
+				if(id==n+1)id=1;
+				if(id!=pre) {
+					ans[dep][0]=id;
+					pre=id;
+					for(int j=1;j<=n;j++) {
+						if(j!=id) {
+							swap(id,j);
+							ans[dep][1]=j;
+							if(dfs(dep-1)) {
+								return true;
+							}
+							swap(id,j);
+						}
+					}
+				}
+			}
+			return false;
+		}
+		void solve() throws IOException{
+			n=in.in();
+			k=in.in();
+			a=new int[n+2];
+			b=new boolean[n+2];
+			id=new Integer[n+2];
+			for(i=1;i<=n;i++) {
+				a[i]=in.in();
+			}
+			a[n+1]=a[1];
+			a[0]=a[n];
+			all=new int[3][n+1];
+			len=3;
+			if(dfs(2)) {
+				out.println(2-len);
+				for(i=2;i>len;i--) {
+					out.println(ans[i][0]+"" ""+ans[i][1]);
+				}
+			}else {
+				out.println(-1);
+			}
+			
+		}
+		void init() {
+		}
+		int te=1;
+		void run()throws IOException{
+			init();
+			int t=1;
+			t=in.in();
+			for(te=1;te<=t;te++) {
+				solve();
+//				out.flush();
+			}
+			out.close();
+		}
+//		long timeMillis;
+//		void st() {
+//			timeMillis=System.currentTimeMillis();
+//		}
+//		void ed() {
+//			System.out.println((System.currentTimeMillis()-timeMillis)+""ms"");
+//		}
+	}
+	class QIn{
+		StreamTokenizer st = new StreamTokenizer(new BufferedReader(new InputStreamReader(System.in)));
+		int in() throws IOException {
+			st.nextToken();
+			return (int)st.nval;
+		}
+		long inl() throws IOException {
+			st.nextToken();
+			return (long)st.nval;
+		}
+		double ind()throws IOException  {
+			st.nextToken();
+			return st.nval;
+		}
+		String ins() throws IOException {
+			st.nextToken();
+			return st.sval;
+		}
+	}
+	class In{
+		private StringTokenizer in=new StringTokenizer("""");
+		private InputStream is;
+		private BufferedReader bf;
+		public In(File file) throws IOException {
+			is=new FileInputStream(file);
+			init();
+		}
+		public In(InputStream is) throws IOException{
+			this.is=is;
+			init();
+		}
+		private void init() throws IOException {
+			bf=new BufferedReader(new InputStreamReader(is));
+		}
+		boolean hasNext() throws IOException {
+			return in.hasMoreTokens()||bf.ready();
+		}
+		String ins() throws IOException {
+			while(!in.hasMoreTokens()) {
+				in=new StringTokenizer(bf.readLine());
+			}
+			return in.nextToken();
+		}
+		int in() throws IOException {
+			return Integer.parseInt(ins());
+		}
+		long inl() throws IOException {
+			return Long.parseLong(ins());
+		}
+		double ind() throws IOException {
+			return Double.parseDouble(ins());
+		}
+		String line() throws IOException {
+			return bf.readLine();
+		}
+	}
+	class Out{
+		PrintWriter out;
+		private OutputStream os;
+		private void init() {
+			out=new PrintWriter(new BufferedWriter(new OutputStreamWriter(os)));
+		}
+		public Out(File file) throws IOException {
+			os=new FileOutputStream(file);
+			init();
+		}
+		public Out(OutputStream os) throws IOException{
+			this.os=os;
+			init();
+		}
+	}
+	abstract class IOTask{
+		In in;
+		PrintWriter out;
+		public IOTask setIO(File in,File out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		public IOTask setIO(File in,OutputStream out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		public IOTask setIO(InputStream in,OutputStream out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		public IOTask setIO(InputStream in,File out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		void run()throws IOException{}
+	}
+}"
+10,F,Java,61178030,2023-03-11 11:41:23,牛客285677822号,答案正确,"
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    static StreamTokenizer in = new StreamTokenizer(new BufferedReader(new InputStreamReader(System.in)));
+    static PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+    public static double nextDouble() throws IOException{ in.nextToken(); return in.nval; }
+    public static float nextFloat() throws IOException{ in.nextToken(); return (float)in.nval; }
+    public static int nextInt() throws IOException { in.nextToken(); return (int)in.nval; }
+    public static long nextLong() throws IOException { in.nextToken(); return (long)in.nval; }
+    public static String next() throws IOException{ in.nextToken(); return in.sval;}
+    static BufferedReader re = new BufferedReader(new InputStreamReader(System.in));
+    int k;
+    int n;
+    int a[];
+    public void resolve() throws Exception {
+        n=nextInt();
+        k=nextInt();
+        a=new int[n];
+        for (int i = 0; i < n; i++) {
+            a[i]=nextInt();
+        }
+        List<int[]> list = dfs(0, new ArrayList<>());
+        if (list==null) {
+            out.println(-1);
+        } else {
+            out.println(list.size());
+            for (int[] ints : list) {
+                out.println((ints[0]+1) + "" "" + (ints[1]+1));
+            }
+        }
+    }
+
+    private List<int[]> dfs(int t, List<int[]> swap) {
+        int notGood=0;
+        for (int i = 0; i < n; i++) {
+            if (!good(i)) {
+                notGood++;
+                if (t==2) {
+                    return null;
+                }
+                for (int j = 0; j < n; j++) {
+                    if (i==j)continue;
+                    swap(i,j);
+                    swap.add(new int[]{i,j});
+                    List<int[]> list = dfs(t + 1, swap);
+                    if (list!=null) {
+                        return list;
+                    }
+                    swap.remove(swap.size()-1);
+                    swap(i,j);
+                }
+                if (notGood>=2){
+                    return null;
+                }
+            }
+        }
+        return swap;
+    }
+
+    private void swap(int i,int j) {
+        int t=a[i];
+        a[i]=a[j];
+        a[j]=t;
+    }
+
+    private boolean good(int i) {
+        if (Math.abs(a[i]-a[(i-1+n)%n])>k){
+            return false;
+        }
+        if (Math.abs(a[i]-a[(i+1+n)%n])>k){
+            return false;
+        }
+        return true;
+    }
+
+    public static void main(String[] args) throws Exception {
+        int T = nextInt();
+        for (int i = 0; i < T; i++) {
+            new Main().resolve();
+        }
+        out.flush();
+    }
+}
+
+"

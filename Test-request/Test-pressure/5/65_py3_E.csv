@@ -1,0 +1,270 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,E,Python3,60144782,2023-01-06 19:28:37,liupengsay,运行超时,"import copy
+import random
+import heapq
+import math
+import sys
+import bisect
+import datetime
+from functools import lru_cache
+from collections import deque
+from collections import Counter
+from collections import defaultdict
+from itertools import combinations
+from itertools import permutations
+from types import GeneratorType
+from functools import cmp_to_key
+inf = float(""inf"")
+sys.setrecursionlimit(10000000)
+
+
+class FastIO:
+    def __init__(self):
+        return
+
+    @staticmethod
+    def _read():
+        return sys.stdin.readline().strip()
+
+    def read_int(self):
+        return int(self._read())
+
+    def read_float(self):
+        return int(self._read())
+
+    def read_ints(self):
+        return map(int, self._read().split())
+
+    def read_floats(self):
+        return map(float, self._read().split())
+
+    def read_ints_minus_one(self):
+        return map(lambda x: int(x) - 1, self._read().split())
+
+    def read_list_ints(self):
+        return list(map(int, self._read().split()))
+
+    def read_list_floats(self):
+        return list(map(float, self._read().split()))
+
+    def read_list_ints_minus_one(self):
+        return list(map(lambda x: int(x) - 1, self._read().split()))
+
+    def read_str(self):
+        return self._read()
+
+    def read_list_strs(self):
+        return self._read().split()
+
+    def read_list_str(self):
+        return list(self._read())
+
+    @staticmethod
+    def st(x):
+        return sys.stdout.write(str(x) + '\n')
+
+    @staticmethod
+    def lst(x):
+        return sys.stdout.write("" "".join(str(w) for w in x) + '\n')
+
+    @staticmethod
+    def round_5(f):
+        res = int(f)
+        if f - res >= 0.5:
+            res += 1
+        return res
+
+    @staticmethod
+    def bootstrap(f, stack=[]):
+        def wrappedfunc(*args, **kwargs):
+            if stack:
+                return f(*args, **kwargs)
+            else:
+                to = f(*args, **kwargs)
+                while True:
+                    if isinstance(to, GeneratorType):
+                        stack.append(to)
+                        to = next(to)
+                    else:
+                        stack.pop()
+                        if not stack:
+                            break
+                        to = stack[-1].send(to)
+                return to
+        return wrappedfunc
+
+
+def main(ac=FastIO()):
+
+    n, k = ac.read_ints()
+    if k == 0:
+        ac.lst(list(range(1, n+1)))
+        return
+    nums = []
+    for i in range(n, 0, -1):
+        x = 1
+        cur = 0
+        while i-x>=1:
+            cur += 1
+            x*=2
+        nums.append(cur)
+
+    if sum(nums) < k:
+        ac.st(-1)
+        return
+
+    st = bin(k)[2:]
+    m = len(st)
+    ans = []
+
+    for i in range(m):
+        if st[i] == ""1"":
+            num = 1<<(m-1-i)
+            ans.append(num+1)
+    dct = set(ans)
+    for num in range(1, n+1):
+        if num not in dct:
+            ans.append(num)
+
+    # print(nums)
+    # ans = []
+    # for i in range(n):
+    #     if nums[i] <= k:
+    #         ans.append(n-i)
+    #         k -= nums[i]
+    #     else:
+    #         num = n - i
+    #         ans.append(num)
+    #         rest = set([n-j for j in range(i+1, n)])
+    #         x = 1
+    #         while k:
+    #             ans.append(num-x)
+    #             rest.discard(num-x)
+    #             k -= 1
+    #             x *= 2
+    #         ans.extend(sorted(list(rest)))
+    #         break
+    ac.lst(ans)
+    return
+
+
+main()
+"
+1,E,Python3,60157261,2023-01-06 21:00:07,1900300728宁申恺,执行出错,"from sys import stdin
+input = lambda: stdin.readline().rstrip()
+
+
+def run_case(case: int):
+    n, k = map(int, input().split(' '))
+    s = 0
+    for i in range(1, n + 1):
+        for j in range(0, 20):
+            if (2 ** j) + i <= n:
+                s += 1
+    if s < k:
+        print(-1)
+        return
+    res = []
+    now = 1
+    for i in range(n, 0, -1):
+        if i < now:
+            break
+        t = sum(1 for j in range(0, 20) if 2 ** j < i)
+        if k >= t:
+            res.append(i)
+        else:
+            tar = i - (2 ** (k - 1))
+            for j in range(now, tar):
+                res.append(j)
+            res.append(i)
+            now = tar
+
+    for x in res:
+        print(x, end=' ')
+    return
+
+
+cases = 1
+for case in range(cases):
+    run_case(case)
+"
+2,E,Python3,60165481,2023-01-07 13:20:00,牛客972825279号,答案错误,"import math
+n,k=map(int,input().split())
+f=[0]*(n+1)
+f[0]=0
+f[1]=0
+for i in range(2,n+1):
+    if f[i]%2==0:
+        f[i]=f[i//2]+1
+    else:
+        f[i]=f[i-1]
+SUM=sum(f[1:])
+count=[1]*(n+1)
+if k>SUM:
+    print(-1)
+else:
+    ret=[]
+    for i in range(n,0,-1):
+        if f[i]<=k:
+            k-=f[i]
+            ret.append(i)
+            count[i]=0
+    for i in range(1,n+1):
+        if count[i]:
+            ret.append(i)
+    r=""""
+    for i in ret:
+        r+=str(i)+"" ""
+    print(r)"
+3,E,Python3,60165643,2023-01-07 13:32:02,牛客972825279号,答案错误,"import math
+n,k=map(int,input().split())
+f=[0]*(n+1)
+f[0]=0
+f[1]=0
+for i in range(2,n+1):
+    f[i]=int(math.log(i-1,2))+1
+count=[1]*(n+1)
+print(f)
+SUM=sum(f[1:])
+if k>SUM:
+    print(-1)
+else:
+    ret=[]
+    for i in range(n,0,-1):
+        if f[i]<=k:
+            k-=f[i]
+            ret.append(i)
+            count[i]=0
+    for i in range(1,n+1):
+        if count[i]:
+            ret.append(i)
+    r=""""
+    for i in ret:
+        r+=str(i)+"" ""
+    print(r)"
+4,E,Python3,60166129,2023-01-07 13:59:45,牛客972825279号,答案正确,"import math
+n,k=map(int,input().split())
+f=[0]*(n+1)
+f[0]=0
+f[1]=0
+for i in range(2,n+1):
+    f[i]=int(math.log(i-1,2))+1
+count=[1]*(n+1)
+SUM=sum(f[1:])
+if k>SUM:
+    print(-1)
+else:
+    ret=[]
+    for i in range(n,0,-1):
+        if f[i]<=k:
+            k-=f[i]
+            ret.append(i)
+            count[i]=0
+    for i in range(1,n+1):
+        if count[i]:
+            ret.append(i)
+    r=""""
+    for i in ret:
+        r+=str(i)+"" ""
+    print(r)
+"

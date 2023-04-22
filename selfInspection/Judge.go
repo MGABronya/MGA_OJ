@@ -32,7 +32,7 @@ func JudgeInspection() {
 
 	output, condition, _, _ := controller.Test(test)
 	if condition != "ok" {
-		log.Println("ERROR!!!" + test.Language + ":" + output)
+		log.Println("ERROR!!!" + condition + "," + test.Language + ":" + output)
 	} else {
 		log.Println(test.Language + ":" + output)
 	}
@@ -59,7 +59,7 @@ func JudgeInspection() {
 	`
 	output, condition, _, _ = controller.Test(test)
 	if condition != "ok" {
-		log.Println("ERROR!!!" + test.Language + ":" + output)
+		log.Println("ERROR!!!" + condition + "," + test.Language + ":" + output)
 	} else {
 		log.Println(test.Language + ":" + output)
 	}
@@ -76,7 +76,7 @@ func JudgeInspection() {
 	`
 	output, condition, _, _ = controller.Test(test)
 	if condition != "ok" {
-		log.Println("ERROR!!!" + test.Language + ":" + output)
+		log.Println("ERROR!!!" + condition + "," + test.Language + ":" + output)
 	} else {
 		log.Println(test.Language + ":" + output)
 	}
@@ -93,7 +93,7 @@ func JudgeInspection() {
 	`
 	output, condition, _, _ = controller.Test(test)
 	if condition != "ok" {
-		log.Println("ERROR!!!" + test.Language + ":" + output)
+		log.Println("ERROR!!!" + condition + "," + test.Language + ":" + output)
 	} else {
 		log.Println(test.Language + ":" + output)
 	}
@@ -105,7 +105,7 @@ func JudgeInspection() {
 	`
 	output, condition, _, _ = controller.Test(test)
 	if condition != "ok" {
-		log.Println("ERROR!!!" + test.Language + ":" + output)
+		log.Println("ERROR!!!" + condition + "," + test.Language + ":" + output)
 	} else {
 		log.Println(test.Language + ":" + output)
 	}
@@ -121,7 +121,7 @@ func JudgeInspection() {
 	`
 	output, condition, _, _ = controller.Test(test)
 	if condition != "ok" {
-		log.Println("ERROR!!!" + test.Language + ":" + output)
+		log.Println("ERROR!!!" + condition + "," + test.Language + ":" + output)
 	} else {
 		log.Println(test.Language + ":" + output)
 	}
@@ -135,7 +135,7 @@ func JudgeInspection() {
 	`
 	output, condition, _, _ = controller.Test(test)
 	if condition != "ok" {
-		log.Println("ERROR!!!" + test.Language + ":" + output)
+		log.Println("ERROR!!!" + condition + "," + test.Language + ":" + output)
 	} else {
 		log.Println(test.Language + ":" + output)
 	}
@@ -145,7 +145,7 @@ func JudgeInspection() {
 	`
 	output, condition, _, _ = controller.Test(test)
 	if condition != "ok" {
-		log.Println("ERROR!!!" + test.Language + ":" + output)
+		log.Println("ERROR!!!" + condition + "," + test.Language + ":" + output)
 	} else {
 		log.Println(test.Language + ":" + output)
 	}
@@ -157,7 +157,7 @@ func JudgeInspection() {
 	`
 	output, condition, _, _ = controller.Test(test)
 	if condition != "ok" {
-		log.Println("ERROR!!!" + test.Language + ":" + output)
+		log.Println("ERROR!!!" + condition + "," + test.Language + ":" + output)
 	} else {
 		log.Println(test.Language + ":" + output)
 	}
@@ -169,7 +169,7 @@ end.
 	`
 	output, condition, _, _ = controller.Test(test)
 	if condition != "ok" {
-		log.Println("ERROR!!!" + test.Language + ":" + output)
+		log.Println("ERROR!!!" + condition + "," + test.Language + ":" + output)
 	} else {
 		log.Println(test.Language + ":" + output)
 	}
@@ -181,7 +181,7 @@ end.
 	`
 	output, condition, _, _ = controller.Test(test)
 	if condition != "ok" {
-		log.Println("ERROR!!!" + test.Language + ":" + output)
+		log.Println("ERROR!!!" + condition + "," + test.Language + ":" + output)
 	} else {
 		log.Println(test.Language + ":" + output)
 	}
@@ -191,7 +191,7 @@ end.
 	`
 	output, condition, _, _ = controller.Test(test)
 	if condition != "ok" {
-		log.Println("ERROR!!!" + test.Language + ":" + output)
+		log.Println("ERROR!!!" + condition + "," + test.Language + ":" + output)
 	} else {
 		log.Println(test.Language + ":" + output)
 	}
@@ -202,7 +202,7 @@ end.
 	`
 	output, condition, _, _ = controller.Test(test)
 	if condition != "ok" {
-		log.Println("ERROR!!!" + test.Language + ":" + output)
+		log.Println("ERROR!!!" + condition + "," + test.Language + ":" + output)
 	} else {
 		log.Println(test.Language + ":" + output)
 	}
@@ -213,7 +213,7 @@ end.
 	`
 	output, condition, _, _ = controller.Test(test)
 	if condition != "ok" {
-		log.Println("ERROR!!!" + test.Language + ":" + output)
+		log.Println("ERROR!!!" + condition + "," + test.Language + ":" + output)
 	} else {
 		log.Println(test.Language + ":" + output)
 	}
@@ -225,7 +225,7 @@ end.
 	`
 	output, condition, _, _ = controller.Test(test)
 	if condition != "ok" {
-		log.Println("ERROR!!!" + test.Language + ":" + output)
+		log.Println("ERROR!!!" + condition + "," + test.Language + ":" + output)
 	} else {
 		log.Println(test.Language + ":" + output)
 	}
@@ -239,7 +239,7 @@ end.
 	`
 	output, condition, _, _ = controller.Test(test)
 	if condition != "ok" {
-		log.Println("ERROR!!!" + test.Language + ":" + output)
+		log.Println("ERROR!!!" + condition + "," + test.Language + ":" + output)
 	} else {
 		log.Println(test.Language + ":" + output)
 	}
@@ -250,11 +250,12 @@ end.
 	`
 	output, condition, _, _ = controller.Test(test)
 	if condition != "ok" {
-		log.Println("ERROR!!!" + test.Language + ":" + output)
+		log.Println("ERROR!!!" + condition + "," + test.Language + ":" + output)
 	} else {
 		log.Println(test.Language + ":" + output)
 	}
 
 	log.Println("You can find containers with various programming language environments already deployed in the documentation " +
 		"https://github.com/MGABronya/MGA_OJ/blob/main/document/mgaOJ%E7%9A%84%E9%83%A8%E7%BD%B2%E6%96%87%E6%A1%A3.md")
+
 }

@@ -1,0 +1,1711 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,C,Python3,60141507,2023-01-06 19:10:13,liupengsay,运行超时,"import copy
+import random
+import heapq
+import math
+import sys
+import bisect
+import datetime
+from functools import lru_cache
+from collections import deque
+from collections import Counter
+from collections import defaultdict
+from itertools import combinations
+from itertools import permutations
+from types import GeneratorType
+from functools import cmp_to_key
+inf = float(""inf"")
+sys.setrecursionlimit(10000000)
+
+
+class FastIO:
+    def __init__(self):
+        return
+
+    @staticmethod
+    def _read():
+        return sys.stdin.readline().strip()
+
+    def read_int(self):
+        return int(self._read())
+
+    def read_float(self):
+        return int(self._read())
+
+    def read_ints(self):
+        return map(int, self._read().split())
+
+    def read_floats(self):
+        return map(float, self._read().split())
+
+    def read_ints_minus_one(self):
+        return map(lambda x: int(x) - 1, self._read().split())
+
+    def read_list_ints(self):
+        return list(map(int, self._read().split()))
+
+    def read_list_floats(self):
+        return list(map(float, self._read().split()))
+
+    def read_list_ints_minus_one(self):
+        return list(map(lambda x: int(x) - 1, self._read().split()))
+
+    def read_str(self):
+        return self._read()
+
+    def read_list_strs(self):
+        return self._read().split()
+
+    def read_list_str(self):
+        return list(self._read())
+
+    @staticmethod
+    def st(x):
+        return sys.stdout.write(str(x) + '\n')
+
+    @staticmethod
+    def lst(x):
+        return sys.stdout.write("" "".join(str(w) for w in x) + '\n')
+
+    @staticmethod
+    def round_5(f):
+        res = int(f)
+        if f - res >= 0.5:
+            res += 1
+        return res
+
+    @staticmethod
+    def bootstrap(f, stack=[]):
+        def wrappedfunc(*args, **kwargs):
+            if stack:
+                return f(*args, **kwargs)
+            else:
+                to = f(*args, **kwargs)
+                while True:
+                    if isinstance(to, GeneratorType):
+                        stack.append(to)
+                        to = next(to)
+                    else:
+                        stack.pop()
+                        if not stack:
+                            break
+                        to = stack[-1].send(to)
+                return to
+        return wrappedfunc
+
+
+def main(ac=FastIO()):
+
+    n, k = ac.read_ints()
+    pre = list(range(-1, n+1))
+    post = list(range(1, n+3))
+    assert len(pre) == len(post) == n+2
+    for _ in range(k):
+        op, x = ac.read_list_ints()
+
+        if op == 1:
+            a = pre[x]
+            b = post[x]
+            if 1<=b<=n:
+                pre[b] = a
+            if 1<=a<=n:
+                post[a] = b
+            pre[x] = post[x] = -1
+        else:
+            ac.st(pre[x])
+    return
+
+
+main()
+"
+1,C,Python3,60142279,2023-01-06 19:14:29,blossom_❀；,运行超时,"a, b = list(map(int, input().split("" "")))
+vis = [True] * (a + 1)
+for _ in range(b):
+    c, d = list(map(int, input().split("" "")))
+    if c == 2:
+        for i in range(d - 1, -1, -1):
+            if vis[i]:
+                print(i)
+                break
+    else:
+        vis[d] = False"
+2,C,Python3,60143160,2023-01-06 19:19:47,牛客小白wpf,运行超时,"n,m=map(int,input().split())
+l=[i for i in range(n+1)]
+while(m>0):
+    m-=1
+    a,b=map(int,input().split())
+    if a==1:
+        l.pop(l.index(b))
+    if a==2:
+        if(l[0]==b):
+            print(""0"")
+        else:
+            print(l[l.index(b)-1])"
+3,C,Python3,60143224,2023-01-06 19:20:07,牛客小白wpf,运行超时,"n,m=map(int,input().split())
+l=[i for i in range(1,n+1)]
+while(m>0):
+    m-=1
+    a,b=map(int,input().split())
+    if a==1:
+        l.pop(l.index(b))
+    if a==2:
+        if(l[0]==b):
+            print(""0"")
+        else:
+            print(l[l.index(b)-1])"
+4,C,Python3,60143836,2023-01-06 19:23:45,书生alin,运行超时,"n, k = map(int, input().split())
+person = []
+for i in range(1, n+1):
+    person.append(i)
+for i in range(k):
+    a, b = map(int, input().split())
+    if a == 1:
+        ind = person.index(b)
+        person.pop(ind)
+    elif a == 2:
+        ind = person.index(b)
+        if ind == 0:
+            print(0)
+        elif ind > 0:
+            print(person[ind-1])
+    
+
+"
+5,C,Python3,60144842,2023-01-06 19:29:02,嚣张洛伦兹做功力,运行超时,"n, k = map(int, input().split())
+
+que = [i for i in range(1, n + 1)]
+
+for i in range(k):
+    x, y = map(int, input().split())
+    if x == 1:
+        que.remove(y)
+    else:
+        tmp = que.index(y)
+        if tmp == 0:
+            print(0)
+        else:
+            print(que[tmp - 1])
+        
+    
+"
+6,C,Python3,60145293,2023-01-06 19:31:55,眼里_有光,运行超时,"n,k=tuple(map(int,input().split()))
+#n是没有用的，只有限制了大小
+
+lst=[i for i in range(n+1)]
+for time in range(k):
+    a,b=tuple(map(int,input().split()))
+    if(a==1):
+        lst[b]=b-1
+        while(1):
+            if(b+1<n+1 and lst[b+1]==b):
+                lst[b+1]=b-1
+                b+=1
+            else:
+                break
+    else:#a==2
+        print(lst[b-1])
+        
+
+
+    
+    
+    "
+7,C,Python3,60146443,2023-01-06 19:38:55,嚣张洛伦兹做功力,运行超时,"def read():
+    def get_numbers():
+        try:
+            read.s = input().split()
+            read.s_len = len(read.s)
+            if(read.s_len==0):get_numbers()
+            read.cnt=0
+            return 1
+        except:
+            return 0
+    if not hasattr(read, 'cnt'):
+        if not get_numbers():
+            return 0
+        
+    if read.cnt==read.s_len:
+        if not get_numbers():
+            return 0
+    read.cnt+=1
+    
+    return eval(read.s[read.cnt-1])
+
+
+n = read()
+k = read()
+
+que = [i for i in range(1, n + 1)]
+
+for i in range(k):
+    x = read()
+    y = read()
+    if x == 1:
+        que.remove(y)
+    else:
+        tmp = que.index(y)
+        if tmp == 0:
+            print(0)
+        else:
+            print(que[tmp - 1])
+        
+    
+"
+8,C,Python3,60146678,2023-01-06 19:40:22,Fei_xiangShi,运行超时,"nk = input()
+n = nk.split()[0]
+k = nk.split()[1]
+queue = []
+for _ in range(int(n)+1):
+    queue.append(_)
+for _ in range(int(k)):
+    xx = input()
+    x1 = int(xx.split()[0])
+    x2 = int(xx.split()[1])
+    if x1 == 1:
+        queue.remove(x2)
+    if x1 == 2:
+        print(queue[queue.index(x2)-1])"
+9,C,Python3,60146705,2023-01-06 19:40:29,1900300728宁申恺,运行超时,"from sys import stdin
+input = lambda: stdin.readline().rstrip()
+
+
+def run_case(case: int):
+    n, k = map(int, input().split(' '))
+    root = [i for i in range(0, n + 2)]
+
+    def find_root(x: int) -> int:
+        if x != root[x]:
+            root[x] = find_root(root[x])
+        return root[x]
+
+    for _ in range(0, k):
+        op, x = map(int, input().split(' '))
+        if op == 1:
+            root[x] = find_root(x - 1)
+        else:
+            print(find_root(x - 1))
+    return
+
+
+cases = 1
+for case in range(cases):
+    run_case(case)
+"
+10,C,Python3,60147381,2023-01-06 19:44:13,Fei_xiangShi,运行超时,"nk = input()
+n = nk.split()[0]
+k = nk.split()[1]
+queue = []
+for _ in range(int(n)+1):
+    queue.append(_)
+for _ in range(int(k)):
+    xx = input()
+    x1 = int(xx.split()[0])
+    x2 = int(xx.split()[1])
+    if x1 == 1:
+        queue.remove(x2)
+    if x1 == 2:
+        print(queue[queue.index(x2)-1])"
+11,C,Python3,60147568,2023-01-06 19:45:17,1900300728宁申恺,运行超时,"from sys import stdin
+import sys
+sys.setrecursionlimit(1000010)
+input = lambda: stdin.readline().rstrip()
+
+
+def run_case(case: int):
+    n, k = map(int, input().split(' '))
+    root = [i for i in range(0, n + 2)]
+
+    def find_root(x: int) -> int:
+        if x != root[x]:
+            root[x] = find_root(root[x])
+        return root[x]
+
+    for _ in range(0, k):
+        op, x = map(int, input().split(' '))
+        if op == 1:
+            root[x] = find_root(x - 1)
+        else:
+            print(find_root(x - 1))
+    return
+
+
+cases = 1
+for case in range(cases):
+    run_case(case)
+"
+12,C,Python3,60147893,2023-01-06 19:47:17,书生alin,运行超时,"n, k = map(int, input().split())
+person = []
+for i in range(1, n+1):
+    person.append(i)
+for i in range(k):
+    a, b = map(int, input().split())
+    if a == 1:
+        ind = person.index(b)
+        person.pop(ind)
+    elif a == 2:
+        ind = person.index(b)
+        if ind == 0:
+            print(0)
+        elif ind > 0:
+            print(person[ind-1])
+    
+
+"
+13,C,Python3,60148068,2023-01-06 19:48:29,皓金,运行超时,"class Node:
+  def __init__(self, value, next=None):
+    self.value = value
+    self.next = next
+
+class LinkedList:
+  def __init__(self):
+    self.head = None
+
+  def append(self, value):
+    if self.head is None:
+      self.head = Node(value)
+      return
+    curr = self.head
+    while curr.next is not None:
+      curr = curr.next
+    curr.next = Node(value)
+
+  def remove(self, value):
+    if self.head is None:
+      return
+    if self.head.value == value:
+      self.head = self.head.next
+      return
+    curr = self.head
+    while curr.next is not None:
+      if curr.next.value == value:
+        curr.next = curr.next.next
+        return
+      curr = curr.next
+
+  def find_prev(self, value):
+    if self.head is None:
+      return 0
+    if self.head.value == value:
+      return 0
+    curr = self.head
+    while curr.next is not None:
+      if curr.next.value == value:
+        return curr.value
+      curr = curr.next
+    return 0
+
+n, k = map(int, input().split())
+
+ll = LinkedList()
+for i in range(1, n+1):
+  ll.append(i)
+
+for _ in range(k):
+  op, x = map(int, input().split())
+  if op == 1:
+    ll.remove(x)
+  else:
+    print(ll.find_prev(x))
+"
+14,C,Python3,60148161,2023-01-06 19:48:56,lemu17,运行超时,"import io
+import os
+input = io.BytesIO(os.read(0, os.fstat(0).st_size)).readline
+
+n, k = map(int, input().split())
+l = [x for x in range(-1, n)]
+l [0] = 0
+r = [x for x in range(1, n + 2)]
+r [-1] = 0
+for _ in range(k):
+    op, x = map(int, input().split())
+    if op == 1:
+        l[r[x]] = l[x]
+        r[l[x]] = r[x]
+    else:
+        print(l[x])"
+15,C,Python3,60148398,2023-01-06 19:50:21,jicheboy,运行超时,"n,k=map(int,input().split())
+l=[]
+for i in range(0,n+1):
+    l.append(i)
+k1=[0]*k
+k2=[0]*k
+for i in range(k):
+    k1[i],k2[i]=map(int,input().split())
+    if k1[i]==2:
+        j=l.index(k2[i])
+        print(l[j-1])
+    else:
+        l.remove(k2[i])"
+16,C,Python3,60148859,2023-01-06 19:53:19,皓金,运行超时,"import sys
+
+class Node:
+  def __init__(self, value, next=None):
+    self.value = value
+    self.next = next
+
+class LinkedList:
+  def __init__(self):
+    self.head = None
+
+  def append(self, value):
+    if self.head is None:
+      self.head = Node(value)
+      return
+    curr = self.head
+    while curr.next is not None:
+      curr = curr.next
+    curr.next = Node(value)
+
+  def remove(self, value):
+    if self.head is None:
+      return
+    if self.head.value == value:
+      self.head = self.head.next
+      return
+    curr = self.head
+    while curr.next is not None:
+      if curr.next.value == value:
+        curr.next = curr.next.next
+        return
+      curr = curr.next
+
+  def find_prev(self, value):
+    if self.head is None:
+      return 0
+    if self.head.value == value:
+      return 0
+    curr = self.head
+    while curr.next is not None:
+      if curr.next.value == value:
+        return curr.value
+      curr = curr.next
+    return 0
+
+lines = sys.stdin.readlines()
+
+n, k = map(int, lines[0].split())
+
+ll = LinkedList()
+for i in range(1, n+1):
+  ll.append(i)
+
+for line in lines[1:]:
+  op, x = map(int, line.split())
+  if op == 1:
+    ll.remove(x)
+  else:
+    print(ll.find_prev(x))
+"
+17,C,Python3,60149436,2023-01-06 19:57:02,牛客150719313号,运行超时,"x0,y0=input().split()
+n=int(x0)
+k=int(y0)
+a=list()
+for i in range(1,n+1):
+    a.append(i)
+for i in range(k):
+    x1,y1=input().split()
+    x=int(x1)
+    y=int(y1)
+    if x==1:
+        a.remove(y)
+    else:
+        c=0
+        for j in range(y+1):
+            if(a[j]==y):
+                if(j==0):
+                    c=0
+                    break
+                else:
+                    c=a[j-1]
+                    break
+        if(c==0):
+            print(0)
+        else:
+            print(c)
+"
+18,C,Python3,60150861,2023-01-06 20:06:29,jicheboy,运行超时,"n,k=map(int,input().split())
+l=[]
+for i in range(0,n+1):
+    l.append(i)
+k1=[0]*k
+k2=[0]*k
+for i in range(k):
+    k1[i],k2[i]=map(int,input().split())
+    if k1[i]==2:
+        t=0
+        while t>=0:
+            if l[k2[i]-1-t]!=-1:
+                print(l[k2[i]-1-t])
+                break
+            else:
+                t+=1
+        t=0
+    else:
+        l[k2[i]]=-1"
+19,C,Python3,60151443,2023-01-06 20:10:45,眼里_有光,运行超时,"n,k=tuple(map(int,input().split()))
+#n是没有用的，只有限制了大小
+
+lst=[i for i in range(n+1)]
+for time in range(k):
+    a,b=tuple(map(int,input().split()))
+    if(a==1):
+        lst[b]=b-1
+        while(1):
+            if(b+1<n+1 and lst[b+1]==b):
+                lst[b+1]=b-1
+                b+=1
+            else:
+                break
+    else:#a==2
+        print(lst[b-1])
+        
+
+
+    
+    
+    "
+20,C,Python3,60151587,2023-01-06 20:11:55,眼里_有光,运行超时,"n,k=tuple(map(int,input().split()))
+#n是没有用的，只有限制了大小
+
+lst=[i for i in range(n+1)]
+for time in range(k):
+    a,b=tuple(map(int,input().split()))
+    if(a==1):
+        lst[b]=lst[b-1]
+        while(1):
+            if(b+1<n+1 and lst[b+1]==b):
+                lst[b+1]=b-1
+                b+=1
+            else:
+                break
+    else:#a==2
+        print(lst[b-1])
+        
+
+
+    
+    
+    "
+21,C,Python3,60151846,2023-01-06 20:14:06,杜迪安,运行超时,"n, k = map(int, input().split())
+
+line = [x for x in range(0,n+1)]
+
+for i in range(k):
+    opr, num = map(int, input().split())
+    if (opr == 1):
+        line.remove(num)
+    else:
+        print(line[line.index(num)-1])"
+22,C,Python3,60151892,2023-01-06 20:14:23,杜迪安,运行超时,"n, k = map(int, input().split())
+
+line = [x for x in range(0,n+1)]
+
+for i in range(k):
+    opr, num = map(int, input().split())
+    if (opr == 1):
+        line.remove(num)
+    else:
+        print(line[line.index(num)-1])"
+23,C,Python3,60151982,2023-01-06 20:15:03,杜迪安,运行超时,"n, k = map(int, input().split())
+
+line = [x for x in range(0,n+1)]
+
+for i in range(k):
+    opr, num = map(int, input().split())
+    if (opr == 1):
+        line.remove(num)
+    else:
+        print(line[line.index(num)-1])"
+24,C,Python3,60152218,2023-01-06 20:16:50,杜迪安,运行超时,"n, k = map(int, input().split())
+
+line = [x for x in range(0,n+1)]
+
+for i in range(k):
+    opr, num = map(int, input().split())
+    if (opr == 1):
+        line.remove(num)
+    else:
+        print(line[line.index(num)-1])"
+25,C,Python3,60152284,2023-01-06 20:17:26,jicheboy,运行超时,"n,k=map(int,input().split())
+l=list(range(0,n+1))
+for i in range(k):
+    a,b=map(int,input().split())
+    if a==2:
+        t=0
+        while t>=0:
+            if l[b-1-t]!=-1:
+                print(l[b-1-t])
+                break
+            else:
+                t+=1
+        t=0
+    else:
+        l[b]=-1"
+26,C,Python3,60152534,2023-01-06 20:19:22,杜迪安,运行超时,"n, k = map(int, input().split())
+
+line = [x for x in range(0,n+1)]
+
+for i in range(k):
+    opr, num = map(int, input().split())
+    if (opr == 1):
+        line.remove(num)
+    else:
+        print(line[line.index(num)-1])"
+27,C,Python3,60152717,2023-01-06 20:20:57,一半醒,内存超限,"import  sys
+sys.setrecursionlimit(60000000)
+n , k = map(int,input().split())
+f = [_ for _ in range(0,n+1)]
+def find(x):
+    if x!=f[x]+1:
+        f[x] = find(f[x])
+        return f[x]
+    return f[x]
+for i in range(1,n+1):
+    f[i] = i-1
+for j in range(0,k):
+    a,b = map(int,input().split())
+    if a==1:
+        f[b+1] = find(b)
+    else:
+        print(f[b])"
+28,C,Python3,60152867,2023-01-06 20:22:19,杜迪安,运行超时,"n, k = map(int, input().split())
+
+line = list(range(0, n+1))
+
+for i in range(k):
+    opr, num = map(int, input().split())
+    if (opr == 1):
+        line.remove(num)
+    else:
+        print(line[line.index(num)-1])"
+29,C,Python3,60153168,2023-01-06 20:25:03,牛客972825279号,运行超时,"n,k=map(int,input().split())
+dic_child={}
+dic_father={}
+for i in range(1,n+1):
+    dic_child[i]=i-1
+    dic_father[i]=i+1
+for i in range(k):
+    first,second=map(int,input().split())
+    if first==1:
+        dic_child[dic_father[second]]=dic_child[second]
+        dic_father[dic_child[second]]=dic_father[second]
+        del dic_child[second]
+        del dic_father[second]
+    else:
+        print(dic_child[second])
+"
+30,C,Python3,60153430,2023-01-06 20:27:24,眼里_有光,运行超时,"n,k=tuple(map(int,input().split()))
+#n是没有用的，只有限制了大小
+
+lst=[i for i in range(n+1)]
+for time in range(k):
+    a,b=tuple(map(int,input().split()))
+    if(a==1):
+        l=0
+        r=len(lst)-1
+        index=(l+r)//2
+        while(1):
+            if(lst[index]<b):#小了，往大找
+                l=index
+                if(r-l==1):
+                    index+=1
+                    continue
+                index=(l+r)//2
+            elif(lst[index]==b):
+                lst.pop(index)
+                break
+            else:
+                r=index    
+                index=(l+r)//2
+    else:#a==2
+        #二分查找然后输出前一个
+        l=0
+        r=len(lst)-1
+        index=(l+r)//2
+        while(1):
+            if(lst[index]<b):#小了，往大找
+                l=index
+                if(r-l==1):
+                    index+=1
+                    continue
+                index=(l+r)//2
+            elif(lst[index]==b):
+                print(lst[index-1])
+                break
+            else:
+                r=index    
+                index=(l+r)//2
+        
+        
+        
+        
+
+
+    
+    
+    "
+31,C,Python3,60153441,2023-01-06 20:27:27,牛客972825279号,运行超时,"n,k=map(int,input().split())
+dic_child={}
+dic_father={}
+for i in range(1,n+1):
+    dic_child[i]=i-1
+    dic_father[i]=i+1
+for i in range(k):
+    first,second=map(int,input().split())
+    if first==1:
+        dic_child[dic_father[second]]=dic_child[second]
+        dic_father[dic_child[second]]=dic_father[second]
+        del dic_child[second]
+        del dic_father[second]
+    else:
+        print(dic_child[second])
+"
+32,C,Python3,60153795,2023-01-06 20:30:31,牛客972825279号,运行超时,"n,k=map(int,input().split())
+dic_child={}
+dic_father={}
+for i in range(1,n+1):
+    dic_child[i]=i-1
+    dic_father[i]=i+1
+for i in range(k):
+    first,second=map(int,input().split())
+    if first==1:
+        dic_child[dic_father[second]]=dic_child[second]
+        dic_father[dic_child[second]]=dic_father[second]
+        del dic_child[second]
+        del dic_father[second]
+    else:
+        print(dic_child[second])
+"
+33,C,Python3,60153802,2023-01-06 20:30:34,眼里_有光,运行超时,"n,k=tuple(map(int,input().split()))
+#n是没有用的，只有限制了大小
+
+lst=[i for i in range(n+1)]
+for time in range(k):
+    a,b=tuple(map(int,input().split()))
+    if(a==1):
+        l=0
+        r=len(lst)-1
+        index=(l+r)//2
+        while(1):
+            if(lst[index]<b):#小了，往大找
+                l=index
+                if(r-l==1):
+                    index+=1
+                    continue
+                index=(l+r)//2
+            elif(lst[index]==b):
+                lst.pop(index)
+                break
+            else:
+                r=index    
+                index=(l+r)//2
+    else:#a==2
+        #二分查找然后输出前一个
+        l=0
+        r=len(lst)-1
+        index=(l+r)//2
+        while(1):
+            if(lst[index]<b):#小了，往大找
+                l=index
+                if(r-l==1):
+                    index+=1
+                    continue
+                index=(l+r)//2
+            elif(lst[index]==b):
+                print(lst[index-1])
+                break
+            else:
+                r=index    
+                index=(l+r)//2
+        
+        
+        
+        
+
+
+    
+    
+    "
+34,C,Python3,60154058,2023-01-06 20:32:44,牛客972825279号,运行超时,"n,k=map(int,input().split())
+dic_child=[0]*(n+2)
+dic_father=[0]*(n+2)
+for i in range(1,n+1):
+    dic_child[i]=i-1
+    dic_father[i]=i+1
+for i in range(k):
+    first,second=map(int,input().split())
+    if first==1:
+        dic_child[dic_father[second]]=dic_child[second]
+        dic_father[dic_child[second]]=dic_father[second]
+    else:
+        print(dic_child[second])"
+35,C,Python3,60154163,2023-01-06 20:33:36,牛客972825279号,运行超时,"n,k=map(int,input().split())
+dic_child=[0]*(n+2)
+dic_father=[0]*(n+2)
+for i in range(1,n+1):
+    dic_child[i]=i-1
+    dic_father[i]=i+1
+for i in range(k):
+    first,second=map(int,input().split())
+    if first==1:
+        dic_child[dic_father[second]]=dic_child[second]
+        dic_father[dic_child[second]]=dic_father[second]
+    else:
+        print(dic_child[second])"
+36,C,Python3,60154178,2023-01-06 20:33:42,erty,运行超时,"n,k=map(int,input().split())
+
+m=[1 for i in range(n)]
+
+while k>0:
+    t,x=map(int,input().split())
+    if t==1:
+        m[x]=0
+    elif t==2:
+        while x>=0:
+            if m[x-1]==1:
+                print(x-1)
+                break
+            else:
+                x=x-1
+    k=k-1"
+37,C,Python3,60154375,2023-01-06 20:35:34,尉大帅的同学,答案错误,"A=input().split()
+n=int(A[0])
+list1=[]
+for i in range(1,n+1):
+    list1.append(i)
+k=int(A[1])
+for i in range(1,k+1):
+    B=input().split()
+    if int(B[0])==1:
+       list1.remove(int(B[1]))
+    if int(B[0])==2:
+         for C in list1:
+             if int(B[1])==list1[0]:
+                 print(0)
+             if int(B[1])==C:
+                 e=list1.index(C)-1
+                 print(list1[e])
+"
+38,C,Python3,60154933,2023-01-06 20:40:06,杜迪安,运行超时,"n, k = map(int, input().split())
+
+leave = []
+
+for i in range(k):
+    opr, num = map(int, input().split())
+    if (opr == 1):
+        leave.append(num)
+    else:
+        while(num-1 in leave):
+            num -= 1
+        num -= 1
+        print(num)"
+39,C,Python3,60155229,2023-01-06 20:42:41,牛客972825279号,运行超时,"n,k=map(int,input().split())
+dic_child=[0]*(n+2)
+dic_father=[0]*(n+2)
+for i in range(1,n+1):
+    dic_child[i]=i-1
+    dic_father[i]=i+1
+for i in range(k):
+    first,second=map(int,input().split())
+    if first==1:
+        dic_child[dic_father[second]]=dic_child[second]
+        dic_father[dic_child[second]]=dic_father[second]
+    else:
+        print(dic_child[second])"
+40,C,Python3,60155607,2023-01-06 20:46:07,稀巴烂的踩踩,运行超时,"n,k=map(int,input().split())
+a=[]
+for i in range(0,n+1):
+    a.append(int(i))
+for i in range(k):
+    x,y=map(int,input().split())
+    if x==1:
+        a.remove(y)
+    else:
+        k = a.index(y)
+        print(a[k-1])"
+41,C,Python3,60155928,2023-01-06 20:48:56,杜迪安,运行超时,"n, k = map(int, input().split())
+
+leave = []
+
+for i in range(k):
+    opr, num = map(int, input().split())
+    if (opr == 1):
+        leave.append(num)
+        leave.sort()
+    else:
+        while(num-1 in leave):
+            num -= 1
+        num -= 1
+        print(num)"
+42,C,Python3,60156639,2023-01-06 20:55:20,尉大帅的同学,运行超时,"A=input().split()
+n=int(A[0])
+list1=[]
+for i in range(1,n+1):
+    list1.append(i)
+k=int(A[1])
+for i in range(1,k+1):
+    B=input().split()
+    if int(B[0])==1:
+       list1.remove(int(B[1]))
+    if int(B[0])==2:
+         for C in list1:
+             if int(B[1])==C:
+                 e=list1.index(C)-1
+                 if e==-1:
+                     print(0)
+                 else:
+                     print(list1[e])
+"
+43,C,Python3,60156900,2023-01-06 20:57:37,尉大帅的同学,运行超时,"A=input().split()
+n=int(A[0])
+list1=[]
+for i in range(1,n+1):
+    list1.append(i)
+k=int(A[1])
+for i in range(1,k+1):
+    B=input().split()
+    if int(B[0])==1:
+       list1.remove(int(B[1]))
+    if int(B[0])==2:
+         for C in list1:
+             if int(B[1])==C:
+                 e=list1.index(C)-1
+                 if e==-1:
+                     print(0)
+                 else:
+                     print(list1[e])
+"
+44,C,Python3,60156935,2023-01-06 20:57:54,尉大帅的同学,运行超时,"A=input().split()
+n=int(A[0])
+list1=[]
+for i in range(1,n+1):
+    list1.append(i)
+k=int(A[1])
+for i in range(1,k+1):
+    B=input().split()
+    if int(B[0])==1:
+       list1.remove(int(B[1]))
+    if int(B[0])==2:
+         for C in list1:
+             if int(B[1])==C:
+                 e=list1.index(C)-1
+                 if e==-1:
+                     print(0)
+                 else:
+                     print(list1[e])
+"
+45,C,Python3,60156997,2023-01-06 20:58:29,尉大帅的同学,运行超时,"A=input().split()
+n=int(A[0])
+list1=[]
+for i in range(1,n+1):
+    list1.append(i)
+k=int(A[1])
+for i in range(1,k+1):
+    B=input().split()
+    if int(B[0])==1:
+       list1.remove(int(B[1]))
+    if int(B[0])==2:
+         for C in list1:
+             if int(B[1])==C:
+                 e=list1.index(C)-1
+                 if e==-1:
+                     print(0)
+                 else:
+                     print(list1[e])
+"
+46,C,Python3,60157016,2023-01-06 20:58:37,尉大帅的同学,运行超时,"A=input().split()
+n=int(A[0])
+list1=[]
+for i in range(1,n+1):
+    list1.append(i)
+k=int(A[1])
+for i in range(1,k+1):
+    B=input().split()
+    if int(B[0])==1:
+       list1.remove(int(B[1]))
+    if int(B[0])==2:
+         for C in list1:
+             if int(B[1])==C:
+                 e=list1.index(C)-1
+                 if e==-1:
+                     print(0)
+                 else:
+                     print(list1[e])
+"
+47,C,Python3,60157169,2023-01-06 20:59:39,牛客7509号,运行超时,"n,k=map(int,input().split( ))
+a=[]
+for i in range(1,n+1):
+    a.append(i)
+
+for i in range(0,k):
+    b, c = input().split()
+    c = int(c)
+    if b == '1':
+        a.remove(c)
+
+    if b == '2':
+        d = a.index(c)
+        if d == 0:
+            print(""0"")
+        else:
+            print(a[d - 1])"
+48,C,Python3,60157172,2023-01-06 20:59:40,牛客653430191号,运行超时,"A=input().split()
+n=int(A[0])
+list1=[]
+for i in range(1,n+1):
+    list1.append(i)
+k=int(A[1])
+for i in range(1,k+1):
+    B=input().split()
+    if int(B[0])==1:
+       list1.remove(int(B[1]))
+    if int(B[0])==2:
+         for C in list1:
+             if int(B[1])==C:
+                 e=list1.index(C)-1
+                 if e==-1:
+                     print(0)
+                 else:
+                     print(list1[e])"
+49,C,Python3,60157174,2023-01-06 20:59:40,尉大帅的同学,运行超时,"A=input().split()
+n=int(A[0])
+list1=[]
+for i in range(1,n+1):
+    list1.append(i)
+k=int(A[1])
+for i in range(1,k+1):
+    B=input().split()
+    if int(B[0])==1:
+       list1.remove(int(B[1]))
+    if int(B[0])==2:
+         for C in list1:
+             if int(B[1])==C:
+                 e=list1.index(C)-1
+                 if e==-1:
+                     print(0)
+                 else:
+                     print(list1[e])
+"
+50,C,Python3,60157179,2023-01-06 20:59:43,牛客653430191号,运行超时,"A=input().split()
+n=int(A[0])
+list1=[]
+for i in range(1,n+1):
+    list1.append(i)
+k=int(A[1])
+for i in range(1,k+1):
+    B=input().split()
+    if int(B[0])==1:
+       list1.remove(int(B[1]))
+    if int(B[0])==2:
+         for C in list1:
+             if int(B[1])==C:
+                 e=list1.index(C)-1
+                 if e==-1:
+                     print(0)
+                 else:
+                     print(list1[e])"
+51,C,Python3,60157246,2023-01-06 21:00:01,牛客7509号,运行超时,"n,k=map(int,input().split( ))
+a=[]
+for i in range(1,n+1):
+    a.append(i)
+
+for i in range(0,k):
+    b, c = input().split()
+    c = int(c)
+    if b == '1':
+        a.remove(c)
+
+    if b == '2':
+        d = a.index(c)
+        if d == 0:
+            print(""0"")
+        else:
+            print(a[d - 1])"
+52,C,Python3,60157260,2023-01-06 21:00:07,牛客7509号,运行超时,"n,k=map(int,input().split( ))
+a=[]
+for i in range(1,n+1):
+    a.append(i)
+
+for i in range(0,k):
+    b, c = input().split()
+    c = int(c)
+    if b == '1':
+        a.remove(c)
+
+    if b == '2':
+        d = a.index(c)
+        if d == 0:
+            print(""0"")
+        else:
+            print(a[d - 1])"
+53,C,Python3,60157266,2023-01-06 21:00:10,牛客7509号,运行超时,"n,k=map(int,input().split( ))
+a=[]
+for i in range(1,n+1):
+    a.append(i)
+
+for i in range(0,k):
+    b, c = input().split()
+    c = int(c)
+    if b == '1':
+        a.remove(c)
+
+    if b == '2':
+        d = a.index(c)
+        if d == 0:
+            print(""0"")
+        else:
+            print(a[d - 1])"
+54,C,Python3,60157305,2023-01-06 21:00:28,牛客7509号,运行超时,"n,k=map(int,input().split( ))
+a=[]
+for i in range(1,n+1):
+    a.append(i)
+
+for i in range(0,k):
+    b, c = input().split()
+    c = int(c)
+    if b == '1':
+        a.remove(c)
+
+    if b == '2':
+        d = a.index(c)
+        if d == 0:
+            print(""0"")
+        else:
+            print(a[d - 1])"
+55,C,Python3,60157307,2023-01-06 21:00:29,牛客7509号,运行超时,"n,k=map(int,input().split( ))
+a=[]
+for i in range(1,n+1):
+    a.append(i)
+
+for i in range(0,k):
+    b, c = input().split()
+    c = int(c)
+    if b == '1':
+        a.remove(c)
+
+    if b == '2':
+        d = a.index(c)
+        if d == 0:
+            print(""0"")
+        else:
+            print(a[d - 1])"
+56,C,Python3,60157311,2023-01-06 21:00:31,牛客7509号,运行超时,"n,k=map(int,input().split( ))
+a=[]
+for i in range(1,n+1):
+    a.append(i)
+
+for i in range(0,k):
+    b, c = input().split()
+    c = int(c)
+    if b == '1':
+        a.remove(c)
+
+    if b == '2':
+        d = a.index(c)
+        if d == 0:
+            print(""0"")
+        else:
+            print(a[d - 1])"
+57,C,Python3,60157317,2023-01-06 21:00:34,牛客7509号,运行超时,"n,k=map(int,input().split( ))
+a=[]
+for i in range(1,n+1):
+    a.append(i)
+
+for i in range(0,k):
+    b, c = input().split()
+    c = int(c)
+    if b == '1':
+        a.remove(c)
+
+    if b == '2':
+        d = a.index(c)
+        if d == 0:
+            print(""0"")
+        else:
+            print(a[d - 1])"
+58,C,Python3,60157379,2023-01-06 21:01:04,牛客7509号,运行超时,"n,k=map(int,input().split( ))
+a=[]
+for i in range(1,n+1):
+    a.append(i)
+
+for i in range(0,k):
+    b, c = input().split()
+    c = int(c)
+    if b == '1':
+        a.remove(c)
+
+    if b == '2':
+        d = a.index(c)
+        if d == 0:
+            print(""0"")
+        else:
+            print(a[d - 1])"
+59,C,Python3,60157551,2023-01-06 21:03:25,牛客7509号,运行超时,"n,k=map(int,input().split( ))
+a=[]
+for i in range(1,n+1):
+    a.append(i)
+
+for i in range(0,k):
+    b, c = input().split()
+    c = int(c)
+    if b == '1':
+        a.remove(c)
+
+    if b == '2':
+        d = a.index(c)
+        if d == 0:
+            print(""0"")
+        else:
+            print(a[d - 1])"
+60,C,Python3,60157710,2023-01-06 21:05:31,牛客7509号,运行超时,"n,k=map(int,input().split( ))
+a=[]
+for i in range(1,n+1):
+    a.append(i)
+
+for i in range(0,k):
+    b, c = input().split()
+    c = int(c)
+    if b == '1':
+        a.remove(c)
+
+    if b == '2':
+        d = a.index(c)
+        if d == 0:
+            print(""0"")
+        else:
+            print(a[d - 1])"
+61,C,Python3,60157865,2023-01-06 21:07:56,牛客7509号,运行超时,"n,k=map(int,input().split( ))
+a=[]
+for i in range(1,n+1):
+    a.append(i)
+
+for i in range(0,k):
+    b, c = input().split()
+    c = int(c)
+    if b == '1':
+        a.remove(c)
+
+    if b == '2':
+        d = a.index(c)
+        if d == 0:
+            print(""0"")
+        else:
+            print(a[d - 1])"
+62,C,Python3,60157915,2023-01-06 21:08:34,牛客7509号,运行超时,"n,k=map(int,input().split( ))
+a=[]
+for i in range(1,n+1):
+    a.append(i)
+
+for i in range(0,k):
+    b, c = input().split()
+    c = int(c)
+    if b == '1':
+        a.remove(c)
+
+    if b == '2':
+        d = a.index(c)
+        if d == 0:
+            print(""0"")
+        else:
+            print(a[d - 1])"
+63,C,Python3,60158744,2023-01-06 21:23:48,牛客7509号,运行超时,"n,k=map(int,input().split( ))
+a=[]
+xx=[]
+for i in range(1,n+1):
+    a.append(i)
+
+for i in range(0,k):
+    b, c = input().split()
+    c = int(c)
+    if b == '1':
+        a.remove(c)
+
+    if b == '2':
+        d = a.index(c)
+        if d==0:
+            xx.append(0)
+        else:
+            xx.append(a[d-1])
+        '''
+         if d == 0:
+            print(""0"")
+        else:
+            print(a[d - 1])
+        '''
+for i in xx:
+    print(i)"
+64,C,Python3,60158879,2023-01-06 21:26:55,牛客7509号,运行超时,"n,k=map(int,input().split( ))
+a=[]
+xx=[]
+for i in range(1,n+1):
+    a.append(i)
+
+for i in range(0,k):
+    b, c = input().split()
+    c = int(c)
+    if b == '1':
+        a.remove(c)
+
+    if b == '2':
+        d = a.index(c)
+        if d==0:
+            xx.append(0)
+        else:
+            xx.append(a[d-1])
+        '''
+         if d == 0:
+            print(""0"")
+        else:
+            print(a[d - 1])
+        '''
+for i in xx:
+    print(i)"
+65,C,Python3,60159014,2023-01-06 21:30:11,牛客7509号,运行超时,"n,k=map(int,input().split( ))
+a=[]
+xx=[]
+for i in range(1,n+1):
+    a.append(i)
+
+for i in range(0,k):
+    b, c = input().split()
+    c = int(c)
+    if b == '1':
+        a.remove(c)
+
+    if b == '2':
+        d = a.index(c)
+        if d==0:
+            xx.append(0)
+        else:
+            xx.append(a[d-1])
+        '''
+         if d == 0:
+            print(""0"")
+        else:
+            print(a[d - 1])
+        '''
+for i in xx:
+    print(i)"
+66,C,Python3,60159137,2023-01-06 21:33:27,，。；、、。‘,运行超时,"n,k=map(int,input().split( ))
+a=[]
+for i in range(1,n+1):
+    a.append(i)
+ 
+for i in range(0,k):
+    b, c = input().split()
+    c = int(c)
+    if b == '1':
+        a.remove(c)
+ 
+    if b == '2':
+        d = a.index(c)
+        if d == 0:
+            print(""0"")
+        else:
+            print(a[d - 1])
+"
+67,C,Python3,60160846,2023-01-06 22:39:57,牛客972825279号,运行超时,"n,k=map(int,input().split())
+dic_child=[0]*(n+2)
+dic_father=[0]*(n+2)
+for i in range(1,n+1):
+    dic_child[i]=i-1
+    dic_father[i]=i+1
+for i in range(k):
+    first,second=map(int,input().split())
+    if first==1:
+        dic_child[dic_father[second]]=dic_child[second]
+        dic_father[dic_child[second]]=dic_father[second]
+    else:
+        print(dic_child[second])"
+68,C,Python3,60160890,2023-01-06 22:41:53,牛客972825279号,运行超时,"n,k=map(int,input().split())
+dic_child=[0]*(n+2)
+dic_father=[0]*(n+2)
+for i in range(1,n+1):
+    dic_child[i]=i-1
+    dic_father[i]=i+1
+for i in range(k):
+    first,second=map(int,input().split())
+    if first==1:
+        dic_child[dic_father[second]]=dic_child[second]
+        dic_father[dic_child[second]]=dic_father[second]
+    else:
+        print(dic_child[second])"
+69,C,Python3,60160949,2023-01-06 22:44:38,牛客972825279号,运行超时,"n,k=map(int,input().split())
+dic_child=[0]*(n+2)
+dic_father=[0]*(n+2)
+for i in range(1,n+1):
+    dic_child[i]=i-1
+    dic_father[i]=i+1
+for i in range(k):
+    first,second=map(int,input().split())
+    if first==1:
+        dic_child[dic_father[second]]=dic_child[second]
+        dic_father[dic_child[second]]=dic_father[second]
+    else:
+        print(dic_child[second])"
+70,C,Python3,60164699,2023-01-07 11:58:09,伊丽莎白-杰,运行超时,"n, k = map(int, input().split())
+fr = [0]*(n+1)
+ta = [0]*(n+1)
+for i in range(1, n+1):
+    fr[i] = i - 1
+    ta[i] = i + 1
+while k > 0:
+    op, x = map(int, input().split())
+    if op == 1:
+        if x != n:
+            fr[ta[x]] = fr[x]
+        ta[fr[x]] = ta[x]
+        ta[x] = -1
+        fr[x] = -1
+    else:
+        print(fr[x])
+    k -= 1
+"
+71,C,Python3,60164721,2023-01-07 11:59:11,伊丽莎白-杰,运行超时,"n, k = map(int, input().split())
+fr = [0]*(n+1)
+ta = [0]*(n+1)
+for i in range(1, n+1):
+    fr[i] = i - 1
+    ta[i] = i + 1
+while k > 0:
+    op, x = map(int, input().split())
+    if op == 1:
+        if ta[x] != n+1:
+            fr[ta[x]] = fr[x]
+        ta[fr[x]] = ta[x]
+        ta[x] = -1
+        fr[x] = -1
+    else:
+        print(fr[x])
+    k -= 1
+"
+72,C,Python3,60164784,2023-01-07 12:03:58,伊丽莎白-杰,运行超时,"n, k = map(int, input().split())
+fr = [0]*(n+1)
+ta = [0]*(n+1)
+for i in range(1, n+1):
+    fr[i] = i - 1
+    ta[i] = i + 1
+while k > 0:
+    op, x = map(int, input().split())
+    if op == 1:
+        if ta[x] != n+1:
+            fr[ta[x]] = fr[x]
+        ta[fr[x]] = ta[x]
+        ta[x] = -1
+        fr[x] = -1
+    else:
+        print(fr[x])
+    k -= 1
+"
+73,C,Python3,60174380,2023-01-07 22:54:26,懒得改了,运行超时,"n,m=map(int,input().split())
+l=[1 for _ in range(n+1)]
+g=[i for i in range(n+1)]
+
+def h(x):
+    if l[x]==0:
+        g[x]=h(g[x])
+    return g[x]
+
+for _ in range(m):
+    a,b=map(int,input().split())
+    if a==1:
+        l[b]=0
+        g[b]-=1
+    else:
+        print(h(b-1))"
+74,C,Python3,60175797,2023-01-08 10:36:09,爱打牌的登子,运行超时,"n , k = list(map(int , input().split()))
+l = [0] + [i for i in range(n)]
+b = [1] + [1 for i in range(n)]
+for i in range(k):
+    x , y = list(map(int , input().split()))
+    if x == 1:
+        b[y] = 0
+        if b[y - 1] == 1:
+            l[y + 1] = y - 1
+        else:
+            l[y + 1] = l[y - 1]
+    else:
+        print(l[y])"
+75,C,Python3,60185312,2023-01-09 00:06:46,追太阳的黑子,运行超时,"n,k = list(map(int,input().split()))
+from collections import defaultdict
+
+class ListNode:
+    def __init__(self,key=None,pre=None,nxt=None):
+        self.key = key
+        self.pre = pre
+        self.nxt = nxt
+
+class LRUCache:
+
+    def __init__(self):
+        self.head = ListNode(0)
+        self.tail = ListNode(0)
+        self.head.nxt = self.tail
+        self.tail.pre = self.head
+        self.mpt = defaultdict(ListNode)
+        
+
+    def remove(self,node):
+        node.pre.nxt = node.nxt
+        node.nxt.pre = node.pre
+    
+    def insertHead(self,node):
+        node.nxt = self.head.nxt
+        node.pre = self.head
+        self.head.nxt.pre = node
+        self.head.nxt = node
+
+        
+obj = LRUCache()
+for i in range(n,0,-1):
+    x = ListNode(i)
+    obj.insertHead(x)
+    obj.mpt[i] = x
+for _ in range(k):
+    op,x = list(map(int,input().split()))
+    if op==1:
+        obj.remove(obj.mpt[x])
+    else:
+        node = obj.mpt[x]
+        if node.pre == obj.head:
+            print(0)
+        else:
+            print(node.pre.key)
+            "
+76,C,Python3,60201754,2023-01-10 18:21:09,牛客481337953号,运行超时,"n,k=map(int,input().split())
+a=[0]+list(range(n+1))
+for _ in range(k):
+    x,y=map(int,input().split())
+    if x==1: a[y+1]=a[y]
+    else: print(a[y])"
+77,C,Python3,60216899,2023-01-12 10:26:10,牛客233537359号,运行超时,"n,k = map(int,input().split())
+lst = [i+1for i in range(n)]
+for _ in range(k):
+    op,x = map(int,input().split())
+    if op == 1:
+        lst.remove(x)
+    if op == 2:
+        if lst[0] == x:
+            print(0)
+        else:
+            print(lst[lst.index(x) - 1])"
+78,C,Python3,60231687,2023-01-13 15:31:44,拒绝pua的coder很想五点下,运行超时,"m,n = map(int,input().split())
+
+a = {}
+for i in range(0,n):
+    o,ind = map(int,input().split())
+    if o == 1 :
+        a[ind] = 1
+    elif o == 2:
+        while ind-1 in a:
+            ind=ind-1
+        print(ind-1)
+"
+79,C,Python3,60231724,2023-01-13 15:34:41,拒绝pua的coder很想五点下,运行超时,"m,n = map(int,input().split())
+
+a = {}
+for i in range(0,n):
+    o,ind = map(int,input().split())
+    if o == 1 :
+        a[ind] = 1
+    elif o == 2:
+        while ind-1 in a:
+            ind=ind-1
+        if ind<1:
+            ind=1
+        print(ind-1)
+"
+80,C,Python3,60231796,2023-01-13 15:39:15,拒绝pua的coder很想五点下,运行超时,"m,n = map(int,input().split())
+
+a = {}
+for i in range(0,n):
+    o,ind = map(int,input().split())
+    if o == 1 :
+        a[ind] = 1
+    elif o == 2:
+        while ind-1 in a:
+            ind=ind-1
+        if ind<1:
+            ind=1
+        print(ind-1)
+"
+81,C,Python3,60231884,2023-01-13 15:44:10,拒绝pua的coder很想五点下,答案错误,"m,n = map(int,input().split())
+
+a = {}
+for i in range(0,n):
+    o,ind = input().split()
+    if o == ""1"" :
+        a[ind] = 1
+    elif o == ""2"":
+        indn = int(ind)
+        while indn-1 in a:
+            indn=indn-1
+        if indn<1:
+            indn=1
+        print(indn-1)
+"
+82,C,Python3,60738699,2023-02-02 19:53:32,lianxuhanshu,运行超时,"n,k=map(int,input().split())
+pre,ne=[0]*(n+2),[0]*(n+2)
+for i in range(1,n+1):
+    pre[i]=i-1
+    ne[i]=i+1
+for i in range(k):
+    op,x=map(int,input().split())
+    if op==1:
+        ne[pre[x]]=ne[x]
+        pre[ne[x]]=pre[x]
+    else :
+        print(pre[x])
+
+    
+"
+83,C,Python3,60738736,2023-02-02 19:57:19,lianxuhanshu,运行超时,"n,k=map(int,input().split())
+pre,ne=[0]*(n+2),[0]*(n+2)
+for i in range(1,n+1):
+    pre[i]=i-1
+    ne[i]=i+1
+for i in range(k):
+    op,x=map(int,input().split())
+    if op==1:
+        ne[pre[x]]=ne[x]
+        pre[ne[x]]=pre[x]
+    else :
+        print(pre[x])
+
+    
+"
+84,C,Python3,60931409,2023-02-20 19:34:07,梁嘉玮211080119,运行超时,"n, k = map(int, input().split())
+l = [i for i in range(n + 1)]
+for i in range(k):
+    f, y = map(int, input().split())
+    if f == 1:del l[l.index(y)]
+    else:
+        idx = l.index(y)-1
+        if idx <= 0:
+            print(0)
+        else:
+            print(l[idx])"
+85,C,Python3,60987390,2023-02-25 21:03:20,陈立03,运行超时,"n,k=map(int,input().split())
+t=[i for i in range(n+1)]
+for _ in range(k):
+    a,b=map(int,input().split())
+    if a ==1 :
+        t.remove(b)
+    else:
+        print(t[t.index(b)-1])"
+86,C,Python3,60987413,2023-02-25 21:05:35,陈立03,运行超时,"n,k=map(int,input().split())
+t=[i for i in range(n+1)]
+for _ in range(k):
+    a,b=map(int,input().split())
+    if a ==1 :
+        t.remove(b)
+    else:
+        print(t[t.index(b)-1])"
+87,C,Python3,60989445,2023-02-26 09:58:52,陈立03,运行超时,"n,k=map(int,input().split())
+a=[i for i in range(n+1)]
+for _ in range(k):
+    op,x=map(int,input().split())
+    if op==1:
+        a.remove(x)
+    else:
+        print(a[a.index(x)-1])"

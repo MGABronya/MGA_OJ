@@ -1,0 +1,657 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,C,Python3,60011932,2022-12-30 19:40:25,Paren7,答案正确,"import re
+import functools
+import random
+import sys
+import os
+import math
+from collections import Counter, defaultdict, deque
+from functools import lru_cache, reduce
+from itertools import accumulate, combinations, permutations
+from heapq import nsmallest, nlargest, heappushpop, heapify, heappop, heappush
+from io import BytesIO, IOBase
+from copy import deepcopy
+import threading
+import bisect
+
+BUFSIZE = 4096
+inf = float('inf')
+
+
+class FastIO(IOBase):
+    newlines = 0
+
+    def __init__(self, file):
+        self._fd = file.fileno()
+        self.buffer = BytesIO()
+        self.writable = ""x"" in file.mode or ""r"" not in file.mode
+        self.write = self.buffer.write if self.writable else None
+
+    def read(self):
+        while True:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            if not b:
+                break
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines = 0
+        return self.buffer.read()
+
+    def readline(self):
+        while self.newlines == 0:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            self.newlines = b.count(b""\n"") + (not b)
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines -= 1
+        return self.buffer.readline()
+
+    def flush(self):
+        if self.writable:
+            os.write(self._fd, self.buffer.getvalue())
+            self.buffer.truncate(0), self.buffer.seek(0)
+
+
+class IOWrapper(IOBase):
+    def __init__(self, file):
+        self.buffer = FastIO(file)
+        self.flush = self.buffer.flush
+        self.writable = self.buffer.writable
+        self.write = lambda s: self.buffer.write(s.encode(""ascii""))
+        self.read = lambda: self.buffer.read().decode(""ascii"")
+        self.readline = lambda: self.buffer.readline().decode(""ascii"")
+
+
+sys.stdin = IOWrapper(sys.stdin)
+sys.stdout = IOWrapper(sys.stdout)
+input = lambda: sys.stdin.readline().rstrip(""\r\n"")
+
+
+def I():
+    return input()
+
+
+def II():
+    return int(input())
+
+
+def MII():
+    return map(int, input().split())
+
+
+def LI():
+    return list(input().split())
+
+
+def LII():
+    return list(map(int, input().split()))
+
+
+def GMI():
+    return map(lambda x: int(x) - 1, input().split())
+
+
+def LGMI():
+    return list(map(lambda x: int(x) - 1, input().split()))
+
+
+n, k = map(int, input().split())
+rangelist = [x for x in range(1, n + 1)]
+total = sum(rangelist)
+tmp1 = total // k
+tmp2 = total % k
+for i in range(k):
+    ans = [0] * n
+    if i < tmp2:
+        tmp = tmp1 + 1
+    else:
+        tmp = tmp1
+    while len(rangelist) != 0 and rangelist[-1] <= tmp:
+        p = rangelist.pop()
+        tmp -= p
+        ans[len(rangelist)] += p
+    if len(rangelist) != 0 and rangelist[-1] > tmp:
+        rangelist[-1] -= tmp
+        ans[len(rangelist) - 1] += tmp
+    for num in ans:
+        print(num, end=' ')
+    print()
+"
+1,C,Python3,60013488,2022-12-30 19:58:51,王万福,运行超时,"n,k = list(map(int,input().split()))
+
+ans = [[0 for j in range(n+10)] for i in range(k+10)]
+id = 0
+for i in range(n):
+    x = i + 1
+    x %= k
+    while x : 
+        ans[id][i] = 1
+        x -= 1
+        id = (id + 1) % k
+for i in range(k):
+    for j in range(n):
+        x = (j + 1) // k
+        print(x + ans[i][j],end=' ')
+    print()
+"
+2,C,Python3,60014808,2022-12-30 20:15:33,王万福,运行超时,"n,k = list(map(int,input().split()))
+
+ans = [[0 for j in range(n+10)] for i in range(k+10)]
+id = 0
+for i in range(n):
+    x = i + 1
+    x %= k
+    while x : 
+        ans[id][i] = 1
+        x -= 1
+        id = (id + 1) % k
+for i in range(k):
+    for j in range(n):
+        print((j + 1) // k + ans[i][j],end=' ')
+    print()
+"
+3,C,Python3,60014924,2022-12-30 20:17:10,王万福,运行超时,"n,k = list(map(int,input().split()))
+
+ans = [[0 for j in range(n+10)] for i in range(k+10)]
+id = 0
+for i in range(n):
+    x = i + 1
+    x %= k
+    while x != 0: 
+        ans[id][i] = 1
+        x -= 1
+        id = (id + 1) % k
+for i in range(k):
+    for j in range(n):
+        print((j + 1) // k + ans[i][j],end=' ')
+    print()
+"
+4,C,Python3,60014978,2022-12-30 20:17:57,王万福,运行超时,"n,k = list(map(int,input().split()))
+
+ans = [[0 for j in range(n+10)] for i in range(k+10)]
+id = 0
+for i in range(n):
+    x = i + 1
+    x %= k
+    while x > 0: 
+        ans[id][i] = 1
+        x -= 1
+        id = (id + 1) % k
+for i in range(k):
+    for j in range(n):
+        print((j + 1) // k + ans[i][j],end=' ')
+    print()
+"
+5,C,Python3,60020641,2022-12-30 23:04:14,牛客481337953号,运行超时,"n,k=map(int,input().split())
+a=[[0]*n for _ in range(k)]
+r=0
+for j in range(n):
+    s,v=(j+1)%k,(j+1)//k
+    for i in range(k):
+        a[i][j]+=v
+    while s:
+        a[r][j]+=1
+        r=(r+1)%k
+        s-=1
+for i in range(k):
+    for x in a[i]:
+        print(x, end="" "")
+    print()"
+6,C,Python3,60027594,2022-12-31 16:38:01,灞波儿奔en,执行出错,"n,m = map(int,input().split())
+
+ans = [[0 for i in range(n)] for i in range(n)]
+
+for i in range(m):
+    for j in range(n):
+        ans[i][j]+=j//(m-1)
+cnt = [ i for i in range(1,n+1)]
+now = 0
+for i in range(n-1):
+    while cnt[i]!=0:
+        ans[now][i] +=1
+        now = (now+1)%m
+        cnt[i]-=1
+for i in range(m):
+    print(*ans[i])"
+7,C,Python3,60027602,2022-12-31 16:38:35,灞波儿奔en,执行出错,"n,m = map(int,input().split())
+
+ans = [[0 for i in range(m)] for i in range(n)]
+
+for i in range(m):
+    for j in range(n):
+        ans[i][j]+=j//(m-1)
+cnt = [ i for i in range(1,n+1)]
+now = 0
+for i in range(n-1):
+    while cnt[i]!=0:
+        ans[now][i] +=1
+        now = (now+1)%m
+        cnt[i]-=1
+for i in range(m):
+    print(*ans[i])"
+8,C,Python3,60027607,2022-12-31 16:38:54,灞波儿奔en,答案错误,"n,m = map(int,input().split())
+
+ans = [[0 for i in range(n)] for i in range(m)]
+
+for i in range(m):
+    for j in range(n):
+        ans[i][j]+=j//(m-1)
+cnt = [ i for i in range(1,n+1)]
+now = 0
+for i in range(n-1):
+    while cnt[i]!=0:
+        ans[now][i] +=1
+        now = (now+1)%m
+        cnt[i]-=1
+for i in range(m):
+    print(*ans[i])"
+9,C,Python3,60027641,2022-12-31 16:41:28,灞波儿奔en,答案错误,"n,m = map(int,input().split())
+
+ans = [[0 for i in range(n)] for i in range(m)]
+
+for i in range(m):
+    for j in range(n):
+        ans[i][j]+=j//(m-1)
+cnt = [ i%m for i in range(1,n+1)]
+now = 0
+for i in range(n-1):
+    while cnt[i]!=0:
+        ans[now][i] +=1
+        now = (now+1)%m
+        cnt[i]-=1
+for i in range(m):
+    print(*ans[i])"
+10,C,Python3,60027773,2022-12-31 16:53:12,灞波儿奔en,运行超时,"n, k = map(int, input().split())
+rangelist = [x for x in range(1, n + 1)]
+total = sum(rangelist)
+tmp1 = total // k
+tmp2 = total % k
+for i in range(k):
+    ans = [0] * n
+    if i < tmp2:
+        tmp = tmp1 + 1
+    else:
+        tmp = tmp1
+    while len(rangelist) != 0 and rangelist[-1] <= tmp:
+        p = rangelist.pop()
+        tmp -= p
+        ans[len(rangelist)] += p
+    if len(rangelist) != 0 and rangelist[-1] > tmp:
+        rangelist[-1] -= tmp
+        ans[len(rangelist) - 1] += tmp
+    for num in ans:
+        print(num, end=' ')
+    print()
+"
+11,C,Python3,60104874,2023-01-03 11:25:30,牛客972825279号,答案错误,"import math
+n,k=map(int,input().split())
+ALL=(n+1)*n//2
+avg=ALL//k
+reserve=ALL%k
+L=[i for i in range(n+1)]
+more=k-reserve
+for i in range(k):
+    need=avg
+    ret=""""
+    index=0
+    if i==more:
+        need+=1
+    for j in range(1,n+1):
+        if not L[j] or index==need:
+            ret+=""0""+"" ""
+        else:
+            t=math.ceil(j/k)
+            if L[j]<=t:
+                if index+L[j]<=need:
+                    index+=L[j]
+                    ret += str(L[j]) + "" ""
+                    L[j]=0
+                else:
+                    ret+=str(need-index)+"" ""
+                    L[j]-=(need-index)
+                    index = need
+            else:
+                if index+t<=need:
+                    index+=t
+                    L[j]-=t
+                    ret+=str(t)+"" ""
+                else:
+                    ret+=str(need-index)+"" ""
+                    L[j] -= (need - index)
+                    index=need
+    print(ret)"
+12,C,Python3,60104878,2023-01-03 11:26:02,牛客972825279号,答案错误,"import math
+n,k=map(int,input().split())
+ALL=(n+1)*n//2
+avg=ALL//k
+reserve=ALL%k
+L=[i for i in range(n+1)]
+more=k-reserve
+for i in range(k):
+    need=avg
+    ret=""""
+    index=0
+    if i==more:
+        need+=1
+    for j in range(1,n+1):
+        if not L[j] or index==need:
+            ret+=""0""+"" ""
+        else:
+            t=math.ceil(j/k)
+            if L[j]<=t:
+                if index+L[j]<=need:
+                    index+=L[j]
+                    ret += str(L[j]) + "" ""
+                    L[j]=0
+                else:
+                    ret+=str(need-index)+"" ""
+                    L[j]-=(need-index)
+                    index = need
+            else:
+                if index+t<=need:
+                    index+=t
+                    L[j]-=t
+                    ret+=str(t)+"" ""
+                else:
+                    ret+=str(need-index)+"" ""
+                    L[j] -= (need - index)
+                    index=need
+    print(ret[:-1])"
+13,C,Python3,60104911,2023-01-03 11:30:24,牛客972825279号,答案错误,"import math
+n,k=map(int,input().split())
+ALL=(n+1)*n//2
+avg=ALL//k
+reserve=ALL%k
+L=[i for i in range(n+1)]
+more=k-reserve
+for i in range(k):
+    need=avg
+    ret=""""
+    index=0
+    if i==more:
+        need+=1
+    for j in range(n,0,-1):
+        if not L[j] or index==need:
+            ret+=""0""+"" ""
+        else:
+            t=math.ceil(j/k)
+            if L[j]<=t:
+                if index+L[j]<=need:
+                    index+=L[j]
+                    ret += str(L[j]) + "" ""
+                    L[j]=0
+                else:
+                    ret+=str(need-index)+"" ""
+                    L[j]-=(need-index)
+                    index = need
+            else:
+                if index+t<=need:
+                    index+=t
+                    L[j]-=t
+                    ret+=str(t)+"" ""
+                else:
+                    ret+=str(need-index)+"" ""
+                    L[j] -= (need - index)
+                    index=need
+    ret=ret[:-1]
+    ret=ret[::-1]
+    print(ret)"
+14,C,Python3,60105445,2023-01-03 12:43:40,牛客972825279号,答案错误,"import math
+n,k=map(int,input().split())
+ALL=(n+1)*n//2
+avg=ALL//k
+reserve=ALL%k
+L=[i for i in range(n+1)]
+more=k-reserve
+for i in range(k):
+    need=avg
+    ret=""""
+    index=0
+    if i>=more:
+        need+=1
+    for j in range(n,0,-1):
+        if not L[j] or index==need:
+            ret+=""0""+"" ""
+        else:
+            t=math.ceil(j/k)
+            if L[j]<=t:
+                if index+L[j]<=need:
+                    index+=L[j]
+                    ret += str(L[j]) + "" ""
+                    L[j]=0
+                else:
+                    ret+=str(need-index)+"" ""
+                    L[j]-=(need-index)
+                    index = need
+            else:
+                if index+t<=need:
+                    index+=t
+                    L[j]-=t
+                    ret+=str(t)+"" ""
+                else:
+                    ret+=str(need-index)+"" ""
+                    L[j] -= (need - index)
+                    index=need
+    ret=ret[:-1]
+    ret=ret[::-1]
+    print(ret)
+"
+15,C,Python3,60105560,2023-01-03 13:02:05,牛客972825279号,运行超时,"import math
+n,k=map(int,input().split())
+ALL=(n+1)*n//2
+L=[i for i in range(n+1)]
+ret=[[0]*n for _ in range(k)]
+index=0
+for j in range(1,n+1):
+    t=j//k
+    reserve=j%k
+    for f in range(k):
+        ret[f][j-1]+=t
+    for f in range(reserve):
+        ret[index][j-1]+=1
+        index=(index+1)%k
+for i in range(k):
+    r=""""
+    for j in range(n):
+        r+=str(ret[i][j])+"" ""
+    print(r)
+"
+16,C,Python3,60105563,2023-01-03 13:02:37,牛客972825279号,运行超时,"import math
+n,k=map(int,input().split())
+ALL=(n+1)*n//2
+L=[i for i in range(n+1)]
+ret=[[0]*n for _ in range(k)]
+index=0
+for j in range(1,n+1):
+    t=j//k
+    reserve=j%k
+    for f in range(k):
+        ret[f][j-1]+=t
+    for f in range(reserve):
+        ret[index][j-1]+=1
+        index=(index+1)%k
+for i in range(k):
+    r=""""
+    for j in range(n):
+        r+=str(ret[i][j])+"" ""
+    print(r)
+"
+17,C,Python3,60105613,2023-01-03 13:09:14,牛客972825279号,运行超时,"n,k=map(int,input().split())
+ALL=(n+1)*n//2
+L=[i for i in range(n+1)]
+ret=[[0]*n for _ in range(k)]
+index=0
+for j in range(1,n+1):
+    t=j//k
+    reserve=j%k
+    for f in range(k):
+        ret[f][j-1]+=t
+    for f in range(reserve):
+        ret[index][j-1]+=1
+        index+=1
+        if index==k:
+            index=0
+for i in range(k):
+    r=""""
+    for j in range(n):
+        r+=str(ret[i][j])+"" ""
+    print(r)
+"
+18,C,Python3,60105631,2023-01-03 13:12:32,牛客972825279号,运行超时,"n,k=map(int,input().split())
+ALL=(n+1)*n//2
+ret=[[0]*n for _ in range(k)]
+index=0
+for j in range(1,n+1):
+    t=j//k
+    reserve=j%k
+    for f in range(k):
+        ret[f][j-1]+=t
+    for f in range(reserve):
+        ret[index][j-1]+=1
+        index+=1
+        if index==k:
+            index=0
+for i in range(k):
+    r=""""
+    for j in range(n):
+        r+=str(ret[i][j])+"" ""
+    print(r)
+"
+19,C,Python3,60105646,2023-01-03 13:13:38,牛客972825279号,运行超时,"n,k=map(int,input().split())
+ALL=(n+1)*n//2
+ret=[[0]*n for _ in range(k)]
+index=0
+for j in range(1,n+1):
+    t=j//k
+    reserve=j%k
+    for f in range(k):
+        ret[f][j-1]=t
+    for f in range(reserve):
+        ret[index][j-1]+=1
+        index+=1
+        if index==k:
+            index=0
+for i in range(k):
+    r=""""
+    for j in range(n):
+        r+=str(ret[i][j])+"" ""
+    print(r)
+"
+20,C,Python3,60105651,2023-01-03 13:14:00,牛客972825279号,运行超时,"n,k=map(int,input().split())
+ALL=(n+1)*n//2
+ret=[[0]*n for _ in range(k)]
+index=0
+for j in range(1,n+1):
+    t=j//k
+    reserve=j%k
+    for f in range(k):
+        ret[f][j-1]=t
+    for f in range(reserve):
+        ret[index][j-1]+=1
+        index+=1
+        if index==k:
+            index=0
+for i in range(k):
+    r=""""
+    for j in range(n):
+        r+=str(ret[i][j])+"" ""
+    print(r)
+"
+21,C,Python3,60105652,2023-01-03 13:14:04,牛客972825279号,运行超时,"n,k=map(int,input().split())
+ALL=(n+1)*n//2
+ret=[[0]*n for _ in range(k)]
+index=0
+for j in range(1,n+1):
+    t=j//k
+    reserve=j%k
+    for f in range(k):
+        ret[f][j-1]=t
+    for f in range(reserve):
+        ret[index][j-1]+=1
+        index+=1
+        if index==k:
+            index=0
+for i in range(k):
+    r=""""
+    for j in range(n):
+        r+=str(ret[i][j])+"" ""
+    print(r)
+"
+22,C,Python3,60105670,2023-01-03 13:16:52,牛客972825279号,答案错误,"n,k=map(int,input().split())
+ALL=(n+1)*n//2
+ret=[[0]*n for _ in range(k)]
+index=0
+for j in range(n):
+    t=(j+1)//k
+    reserve=j%k
+    for f in range(k):
+        ret[f][j]=t
+    for f in range(reserve):
+        ret[index][j]+=1
+        index+=1
+        if index==k:
+            index=0
+for i in range(k):
+    r=""""
+    for j in range(n):
+        r+=str(ret[i][j])+"" ""
+    print(r)
+
+"
+23,C,Python3,60105682,2023-01-03 13:17:30,牛客972825279号,运行超时,"n,k=map(int,input().split())
+ALL=(n+1)*n//2
+ret=[[0]*n for _ in range(k)]
+index=0
+for j in range(n):
+    t=(j+1)//k
+    reserve=(j+1)%k
+    for f in range(k):
+        ret[f][j]=t
+    for f in range(reserve):
+        ret[index][j]+=1
+        index+=1
+        if index==k:
+            index=0
+for i in range(k):
+    r=""""
+    for j in range(n):
+        r+=str(ret[i][j])+"" ""
+    print(r)
+
+"
+24,C,Python3,60617274,2023-01-29 21:58:43,懒得改了,运行超时,"n,m=map(int,input().split())
+t=0
+ans=[]
+for i in range(1,n+1):
+    q=i//m
+    l=[q for _ in range(m)]
+    for _ in range(i%m):
+        l[t%m]+=1
+        t+=1
+    ans.append(l)
+for j in range(m):
+    for i in range(n):
+        print(ans[i][j],end=' ')
+    print()"
+25,C,Python3,60617290,2023-01-29 22:01:39,懒得改了,执行出错,"n,m=map(int,input().split())
+t=0
+ans=[[i//m for j in range(m)] for i in range(n)]
+for i in range(1,n+1):
+    for _ in range(i%m):
+        ans[i][t%m]+=1
+        t+=1
+for j in range(m):
+    for i in range(n):
+        print(ans[i][j],end=' ')
+    print()"
+26,C,Python3,60617310,2023-01-29 22:03:31,懒得改了,运行超时,"n,m=map(int,input().split())
+t=0
+ans=[[i//m for j in range(m)] for i in range(n+1)]
+for i in range(1,n+1):
+    for _ in range(i%m):
+        ans[i][t%m]+=1
+        t+=1
+for j in range(m):
+    for i in range(1,1+n):
+        print(ans[i][j],end=' ')
+    print()"

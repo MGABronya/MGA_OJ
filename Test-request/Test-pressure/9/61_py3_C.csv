@@ -1,0 +1,860 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,C,Python3,54830759,2022-11-18 19:31:35,Khoray,执行出错,"#include<bits/stdc++.h>
+using namespace std;
+#define int long long
+
+#ifdef _KHORAY
+#include<debughr.h>
+#else
+#define out(args...) 42
+#endif
+const int inf = 1e9;
+
+void solve(int testcase) {
+    int n, m;
+    int r1, r2;
+    cin >> n >> m;
+    cin >> r1 >> r2;
+    int x1, y1, x2, y2;
+    vector<vector<char>> mp(n + 1, vector<char> (m + 1));
+    for(int i = 1; i <= n; i++) {
+        for(int j = 1; j <= m; j++) {
+            cin >> mp[i][j];
+			if(mp[i][j] == 'M') x2 = i, y2 = j;
+			if(mp[i][j] == 'P') x1 = i, y1 = j;
+        }
+    }
+	vector<vector<int>> dis1(n + 1, vector<int> (m + 1, inf));
+	auto dis2 = dis1;
+	dis1[x1][y1] = 0;
+	dis2[x2][y2] = 0;
+	queue<pair<int, int>> q;
+	q.emplace(x1, y1);
+	int d[] = {-1, 0, 1, 0};
+	while(q.size()) {
+		auto [x, y] = q.front();
+		q.pop();
+		for(int dir = 0; dir < 4; dir++) {
+			int nx = x + d[dir];
+			int ny = y + d[3 - dir];
+			if(nx >= 1 && nx <= n && ny >= 1 && ny <= m) {
+				if(abs(nx - x1) + abs(ny - y1) <= r1 && mp[nx][ny] == '.' && dis1[nx][ny] > dis1[x][y] + 1) {
+					dis1[nx][ny] = dis1[x][y] + 1;
+					q.emplace(nx, ny);
+				}
+			}
+		}
+
+	}
+
+	q.emplace(x2, y2);
+	while(q.size()) {
+		auto [x, y] = q.front();
+		q.pop();
+		for(int dir = 0; dir < 4; dir++) {
+			int nx = x + d[dir];
+			int ny = y + d[3 - dir];
+			if(nx >= 1 && nx <= n && ny >= 1 && ny <= m) {
+				if(mp[nx][ny] == '.' && dis2[nx][ny] > dis2[x][y] + 1) {
+					dis2[nx][ny] = dis2[x][y] + 1;
+					q.emplace(nx, ny);
+				}
+			}
+		}
+
+	}
+	int ans = inf;
+	for(int i = 1; i <= n; i++) {
+		for(int j = 1; j <= m; j++) {
+			if(abs(i - x2) + abs(j - y2) <= r2) {
+				ans = min(ans, dis1[i][j] + dis2[i][j]);
+			}
+		}
+	}
+	cout << (ans == inf ? -1 : ans) << '\n';
+
+}
+
+signed main() {
+    // ios::sync_with_stdio(false);
+    // cin.tie(0);
+    int t = 1;
+    for(int i = 1; i <= t; i++) {
+        solve(i);
+    }
+    return 0;
+}
+
+"
+1,C,Python3,54833676,2022-11-18 19:42:07,Rewinner,运行超时,"import queue
+n,m=map(int,input().split())
+r1,r2=map(int,input().split())
+d=[[0,1],[1,0],[0,-1],[-1,0]]
+maps=[]
+for i in range(n):
+    maps.append(input())
+xp,yp,xm,ym=0,0,0,0
+for i in range(n):
+    for j in range(m):
+        if maps[i][j]=='P':
+            xp,yp=i,j
+        if maps[i][j]=='M':
+            xm,ym=i,j
+disp=[[-1]*m for i in range(n)]
+dism=[[-1]*m for i in range(n)]
+q=queue.Queue()
+
+dism[xm][ym]=0
+q.put((xm,ym))
+while not q.empty():
+    x,y=q.get()
+    for i,j in d:
+        dx=x+i
+        dy=y+j
+        if 0<=dx and dx<n and 0<=dy and dy<m and maps[dx][dy]!='*' and dism[dx][dy]==-1:
+            dism[dx][dy]=dism[x][y]+1
+            q.put((dx,dy))
+            
+disp[xp][yp]=0      
+q.put((xp,yp))
+while not q.empty():
+    x,y=q.get()
+    for i,j in d:
+        dx=x+i
+        dy=y+j
+        if 0<=dx and dx<n and 0<=dy and dy<m and maps[dx][dy]!='*' and disp[dx][dy]==-1:
+            disp[dx][dy]=disp[x][y]+1
+            q.put((dx,dy))
+ans=9999999
+for i in range(n):
+    for j in range(m):
+        if (abs(i-xp)+abs(j-yp)<=r1) and (abs(i-xm)+abs(j-ym)<=r2):
+            if disp[i][j]!=-1 and dism[i][j]!=-1:
+                ans=min(ans,disp[i][j]+dism[i][j])
+print(ans if ans!=9999999 else -1)"
+2,C,Python3,54834219,2022-11-18 19:44:15,Rewinner,运行超时,"import sys
+import os
+from io import BytesIO, IOBase
+BUFSIZE = 8192
+class FastIO(IOBase):
+    newlines = 0
+    def __init__(self, file):
+        self._fd = file.fileno()
+        self.buffer = BytesIO()
+        self.writable = ""x"" in file.mode or ""r"" not in file.mode
+        self.write = self.buffer.write if self.writable else None
+    def read(self):
+        while True:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            if not b:
+                break
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines = 0
+        return self.buffer.read()
+    def readline(self):
+        while self.newlines == 0:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            self.newlines = b.count(b""\n"") + (not b)
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines -= 1
+        return self.buffer.readline()
+    def flush(self):
+        if self.writable:
+            os.write(self._fd, self.buffer.getvalue())
+            self.buffer.truncate(0), self.buffer.seek(0)
+class IOWrapper(IOBase):
+    def __init__(self, file):
+        self.buffer = FastIO(file)
+        self.flush = self.buffer.flush
+        self.writable = self.buffer.writable
+        self.write = lambda s: self.buffer.write(s.encode(""ascii""))
+        self.read = lambda: self.buffer.read().decode(""ascii"")
+        self.readline = lambda: self.buffer.readline().decode(""ascii"")
+sys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)
+input = lambda: sys.stdin.readline().rstrip(""\r\n"")
+import queue
+n,m=map(int,input().split())
+r1,r2=map(int,input().split())
+d=[[0,1],[1,0],[0,-1],[-1,0]]
+maps=[]
+for i in range(n):
+    maps.append(input())
+xp,yp,xm,ym=0,0,0,0
+for i in range(n):
+    for j in range(m):
+        if maps[i][j]=='P':
+            xp,yp=i,j
+        if maps[i][j]=='M':
+            xm,ym=i,j
+disp=[[-1]*m for i in range(n)]
+dism=[[-1]*m for i in range(n)]
+q=queue.Queue()
+
+dism[xm][ym]=0
+q.put((xm,ym))
+while not q.empty():
+    x,y=q.get()
+    for i,j in d:
+        dx=x+i
+        dy=y+j
+        if 0<=dx and dx<n and 0<=dy and dy<m and maps[dx][dy]!='*' and dism[dx][dy]==-1:
+            dism[dx][dy]=dism[x][y]+1
+            q.put((dx,dy))
+            
+disp[xp][yp]=0      
+q.put((xp,yp))
+while not q.empty():
+    x,y=q.get()
+    for i,j in d:
+        dx=x+i
+        dy=y+j
+        if 0<=dx and dx<n and 0<=dy and dy<m and maps[dx][dy]!='*' and disp[dx][dy]==-1:
+            disp[dx][dy]=disp[x][y]+1
+            q.put((dx,dy))
+ans=9999999
+for i in range(n):
+    for j in range(m):
+        if (abs(i-xp)+abs(j-yp)<=r1) and (abs(i-xm)+abs(j-ym)<=r2):
+            if disp[i][j]!=-1 and dism[i][j]!=-1:
+                ans=min(ans,disp[i][j]+dism[i][j])
+print(ans if ans!=9999999 else -1)"
+3,C,Python3,54835340,2022-11-18 19:48:41,Rewinner,运行超时,"import queue
+n,m=map(int,input().split())
+r1,r2=map(int,input().split())
+d=[[0,1],[1,0],[0,-1],[-1,0]]
+maps=[]
+disp=[[-1]*m for i in range(n)]
+dism=[[-1]*m for i in range(n)]
+for i in range(n):
+    maps.append(input())
+xp,yp,xm,ym=0,0,0,0
+for i in range(n):
+    for j in range(m):
+        if maps[i][j]=='P':
+            xp,yp=i,j
+        if maps[i][j]=='M':
+            xm,ym=i,j
+q=queue.Queue()
+
+dism[xm][ym]=0
+q.put((xm,ym))
+while not q.empty():
+    x,y=q.get()
+    for i,j in d:
+        dx=x+i
+        dy=y+j
+        if 0<=dx and dx<n and 0<=dy and dy<m and maps[dx][dy]!='*' and dism[dx][dy]==-1:
+            dism[dx][dy]=dism[x][y]+1
+            q.put((dx,dy))
+            
+disp[xp][yp]=0      
+q.put((xp,yp))
+while not q.empty():
+    x,y=q.get()
+    for i,j in d:
+        dx=x+i
+        dy=y+j
+        if 0<=dx and dx<n and 0<=dy and dy<m and maps[dx][dy]!='*' and disp[dx][dy]==-1:
+            disp[dx][dy]=disp[x][y]+1
+            q.put((dx,dy))
+ans=9999999
+for i in range(n):
+    for j in range(m):
+        if (abs(i-xp)+abs(j-yp)<=r1) and (abs(i-xm)+abs(j-ym)<=r2):
+            if disp[i][j]!=-1 and dism[i][j]!=-1:
+                ans=min(ans,disp[i][j]+dism[i][j])
+print(ans if ans!=9999999 else -1)"
+4,C,Python3,54839104,2022-11-18 20:05:34,Rewinner,答案错误,"import queue
+n,m=map(int,input().split())
+r1,r2=map(int,input().split())
+d=[[0,1],[1,0],[0,-1],[-1,0]]
+maps=[]
+disp=[[-1]*m for i in range(n)]
+dism=[[-1]*m for i in range(n)]
+for i in range(n):
+    maps.append(input())
+#print(maps)
+xp,yp,xm,ym=0,0,0,0
+for i in range(n):
+    for j in range(m):
+        if maps[i][j]=='P':
+            xp,yp=i,j
+        if maps[i][j]=='M':
+            xm,ym=i,j
+for i in range(n):
+    for j in range(m):
+        if (abs(i-xp)+abs(j-yp)>r1) or (abs(i-xm)+abs(j-ym)>r2) or maps[i][j]=='*':
+            disp[i][j]=-2
+            dism[i][j]=-2
+q=queue.Queue()
+dism[xm][ym]=0
+q.put((xm,ym))
+while not q.empty():
+    x,y=q.get()
+    for i,j in d:
+        dx=x+i
+        dy=y+j
+        if 0<=dx and dx<n and 0<=dy and dy<m and dism[dx][dy]!=-2 and dism[dx][dy]==-1:
+            dism[dx][dy]=dism[x][y]+1
+            q.put((dx,dy))
+            
+disp[xp][yp]=0      
+q.put((xp,yp))
+while not q.empty():
+    x,y=q.get()
+    for i,j in d:
+        dx=x+i
+        dy=y+j
+        if 0<=dx and dx<n and 0<=dy and dy<m and disp[dx][dy]!=-2 and disp[dx][dy]==-1:
+            disp[dx][dy]=disp[x][y]+1
+            q.put((dx,dy))
+ans=9999999
+for i in range(n):
+    for j in range(m):
+            if disp[i][j]>=0 and dism[i][j]>=0:
+                ans=min(ans,disp[i][j]+dism[i][j])
+print(ans if ans!=9999999 else -1)"
+5,C,Python3,54840789,2022-11-18 20:13:34,Rewinner,答案错误,"import queue
+n,m=map(int,input().split())
+r1,r2=map(int,input().split())
+d=[[0,1],[1,0],[0,-1],[-1,0]]
+maps=[]
+for i in range(n):
+    maps.append(input())
+xp,yp,xm,ym=0,0,0,0
+for i in range(n):
+    for j in range(m):
+        if maps[i][j]=='P':
+            xp,yp=i,j
+        if maps[i][j]=='M':
+            xm,ym=i,j
+disp=[[-1]*m for i in range(n)]
+dism=[[-1]*m for i in range(n)]
+q=queue.Queue()
+
+dism[xm][ym]=0
+q.put((xm,ym))
+while not q.empty():
+    x,y=q.get()
+    if dism[x][y]==r2:
+        continue
+    for i,j in d:
+        dx=x+i
+        dy=y+j
+        if 0<=dx<n and 0<=dy<m and maps[dx][dy]!='*' and dism[dx][dy]==-1:
+            dism[dx][dy]=dism[x][y]+1
+            q.put((dx,dy))
+while not q.empty():
+    q.get()
+    
+disp[xp][yp]=0      
+q.put((xp,yp))
+while not q.empty():
+    x,y=q.get()
+    if disp[x][y]==r2:
+        continue
+    for i,j in d:
+        dx=x+i
+        dy=y+j
+        if 0<=dx<n and 0<=dy<m and maps[dx][dy]!='*' and disp[dx][dy]==-1:
+            disp[dx][dy]=disp[x][y]+1
+            q.put((dx,dy))
+            
+ans=9999999
+for i in range(n):
+    for j in range(m):
+        if (abs(i-xp)+abs(j-yp)<=r1) and (abs(i-xm)+abs(j-ym)<=r2):
+            if disp[i][j]!=-1 and dism[i][j]!=-1:
+                ans=min(ans,disp[i][j]+dism[i][j])
+print(ans if ans!=9999999 else -1)"
+6,C,Python3,54841479,2022-11-18 20:17:00,Rewinner,答案错误,"import queue
+n,m=map(int,input().split())
+r1,r2=map(int,input().split())
+d=[[0,1],[1,0],[0,-1],[-1,0]]
+maps=[]
+for i in range(n):
+    maps.append(input())
+xp,yp,xm,ym=0,0,0,0
+for i in range(n):
+    for j in range(m):
+        if maps[i][j]=='P':
+            xp,yp=i,j
+        if maps[i][j]=='M':
+            xm,ym=i,j
+disp=[[-1]*m for i in range(n)]
+dism=[[-1]*m for i in range(n)]
+
+q=queue.Queue()
+dism[xm][ym]=0
+q.put((xm,ym))
+while not q.empty():
+    x,y=q.get()
+    if dism[x][y]==r2:
+        continue
+    for i,j in d:
+        dx=x+i
+        dy=y+j
+        if 0<=dx<n and 0<=dy<m and maps[dx][dy]!='*' and dism[dx][dy]==-1:
+            dism[dx][dy]=dism[x][y]+1
+            q.put((dx,dy))
+            
+q=queue.Queue()
+disp[xp][yp]=0      
+q.put((xp,yp))
+while not q.empty():
+    x,y=q.get()
+    if disp[x][y]==r1:
+        continue
+    for i,j in d:
+        dx=x+i
+        dy=y+j
+        if 0<=dx<n and 0<=dy<m and maps[dx][dy]!='*' and disp[dx][dy]==-1:
+            disp[dx][dy]=disp[x][y]+1
+            q.put((dx,dy))
+            
+ans=9999999
+for i in range(n):
+    for j in range(m):
+        if (abs(i-xp)+abs(j-yp)<=r1) and (abs(i-xm)+abs(j-ym)<=r2):
+            if disp[i][j]!=-1 and dism[i][j]!=-1:
+                ans=min(ans,disp[i][j]+dism[i][j])
+print(ans if ans!=9999999 else -1)"
+7,C,Python3,54844083,2022-11-18 20:31:19,牛客972825279号,答案错误,"import collections
+n,m=map(int,input().split())
+r1,r2=map(int,input().split())
+MAP=[]
+for i in range(n):
+    MAP.append(input())
+see=set()
+dq=collections.deque()
+cat=None
+PLMM=None
+for i in range(n):
+    for j in range(m):
+        if MAP[i][j]==""P"":
+            PLMM=(i,j)
+        if MAP[i][j]==""M"":
+            cat=(i,j)
+dq.append(PLMM)
+sign=0
+direction=[(0,1),(0,-1),(1,0),(-1,0)]
+see.add(PLMM)
+for i in range(r1+1):
+    length=len(dq)
+    for j in range(length):
+        temp=dq.popleft()
+        if abs(cat[0]-temp[0])+abs(cat[1]-temp[1])<=r2:
+            sign=1
+            break
+        for X,Y in direction:
+            X+=temp[0]
+            Y+=temp[1]
+            if 0<=X<n and 0<=Y<m and MAP[X][Y]!=""*"" and (X,Y) not in see:
+                dq.append((X,Y))
+                see.add((X,Y))
+    if sign:
+        break
+if sign:
+    new_dq=collections.deque()
+    new_see=set()
+    new_dq.append((cat[0],cat[1],0))
+    new_see.add(cat)
+    while new_dq:
+        x,y,value=new_dq.popleft()
+        if (x,y)==PLMM:
+            print(value)
+            break
+        for X,Y in direction:
+            X+=x
+            Y+=y
+            if 0<=X<n and 0<=Y<m and MAP[X][Y]!=""*"" and (X,Y) not in new_see:
+                new_dq.append((X,Y,value+1))
+                new_see.add((X,Y))
+else:
+    print(-1)"
+8,C,Python3,54845240,2022-11-18 20:38:06,Rewinner,运行超时,"import queue
+n,m=map(int,input().split())
+r1,r2=map(int,input().split())
+d=[[0,1],[1,0],[0,-1],[-1,0]]
+disp=[[-1]*m for i in range(n)]
+dism=[[-1]*m for i in range(n)]
+xp,yp,xm,ym=0,0,0,0
+maps=[]
+
+for i in range(n):
+    maps.append(input())
+    for j in range(m):
+        if maps[i][j]=='P':
+            xp,yp=i,j
+        if maps[i][j]=='M':
+            xm,ym=i,j
+
+q=queue.Queue()
+disp[xp][yp]=0      
+q.put((xp,yp))
+while not q.empty():
+    x,y=q.get()
+    if disp[x][y]==r1:
+        break
+    for i,j in d:
+        dx=x+i
+        dy=y+j
+        if 0<=dx<n and 0<=dy<m and maps[dx][dy]!='*' and disp[dx][dy]==-1:
+            disp[dx][dy]=disp[x][y]+1
+            q.put((dx,dy))
+f=0
+for i in range(n):
+    for j in range(m):
+        if disp[i][j]>=0 and abs(i-xm)+abs(j-ym)<=r2:
+            f=1
+q=queue.Queue()
+dism[xm][ym]=0
+q.put((xm,ym)) 
+while not q.empty():
+    x,y=q.get()
+    for i,j in d:
+        dx=x+i
+        dy=y+j
+        if 0<=dx<n and 0<=dy<m and maps[dx][dy]!='*' and  dism[dx][dy]==-1:
+            dism[dx][dy]=dism[x][y]+1
+            q.put((dx,dy))
+
+            
+ans=99999999
+for i in range(n):
+    for j in range(m):
+            if disp[i][j]>=0 and dism[i][j]>=0:
+                ans=min(ans,disp[i][j]+dism[i][j])
+if f:
+    print(ans if ans!=99999999 else -1)
+else:
+    print(-1)"
+9,C,Python3,54845652,2022-11-18 20:40:27,Rewinner,运行超时,"import queue
+n,m=map(int,input().split())
+r1,r2=map(int,input().split())
+d=[[0,1],[1,0],[0,-1],[-1,0]]
+disp=[[-1]*m for i in range(n)]
+dism=[[-1]*m for i in range(n)]
+xp,yp,xm,ym=0,0,0,0
+maps=[]
+
+for i in range(n):
+    maps.append(input())
+    for j in range(m):
+        if maps[i][j]=='P':
+            xp,yp=i,j
+        if maps[i][j]=='M':
+            xm,ym=i,j
+
+q=queue.Queue()
+disp[xp][yp]=0      
+q.put((xp,yp))
+while not q.empty():
+    x,y=q.get()
+    if disp[x][y]==r1:
+        break
+    for i,j in d:
+        dx=x+i
+        dy=y+j
+        if 0<=dx<n and 0<=dy<m and maps[dx][dy]!='*' and disp[dx][dy]==-1:
+            disp[dx][dy]=disp[x][y]+1
+            q.put((dx,dy))
+f=0
+for i in range(n):
+    for j in range(m):
+        if disp[i][j]>=0 and abs(i-xm)+abs(j-ym)<=r2:
+            f=1
+if f:
+    q=queue.Queue()
+    dism[xm][ym]=0
+    q.put((xm,ym)) 
+    while not q.empty():
+        x,y=q.get()
+        for i,j in d:
+            dx=x+i
+            dy=y+j
+            if 0<=dx<n and 0<=dy<m and maps[dx][dy]!='*' and  dism[dx][dy]==-1:
+                dism[dx][dy]=dism[x][y]+1
+                q.put((dx,dy))
+
+
+    ans=99999999
+    for i in range(n):
+        for j in range(m):
+                if disp[i][j]>=0 and dism[i][j]>=0:
+                    ans=min(ans,disp[i][j]+dism[i][j])
+    print(ans if ans!=99999999 else -1)
+else:
+    print(-1)"
+10,C,Python3,54845691,2022-11-18 20:40:39,牛客481337953号,运行超时,"import collections
+q = collections.deque()
+n,m=map(int,input().split())
+r1,r2=map(int,input().split())
+res=[list(input()) for _ in range(n)]
+v=[[0]*m for _ in range(n)]
+w=[[0]*m for _ in range(n)]
+x1=x2=y1=y2=0
+for i in range(n):
+    for j in range(m):
+        if res[i][j] == ""P"":
+            x1=i
+            y1=j
+        if res[i][j] == ""M"":
+            x2=i
+            y2=j
+q.append((x1,y1))
+dx=[[0,1],[1,0],[0,-1],[-1,0]]
+f=False
+t=0
+while q and not f and t<=r1:
+    l=len(q)
+    for _ in range(l):
+        x,y=q.popleft()
+        v[x][y]=1
+        if abs(x-x2)+abs(y-y2)<=r2:
+            w[x][y]=1
+            f=True
+        for mx,my in dx:
+            nx=mx+x
+            ny=my+y
+            if nx>=0 and nx<n and ny>=0 and ny<m and v[nx][ny]!=1 and res[nx][ny]==""."":
+                q.append((nx,ny))
+    t+=1
+if not f:
+    print(-1)
+else:
+    md=m*n+1
+    p=collections.deque()
+    p.append((x2,y2))
+    tm=0
+    f=False
+    while p and not f:
+        l=len(p)
+        for _ in range(l):
+            x,y=p.popleft()
+            v[x][y]=2
+            if w[x][y]==1:
+                f=True
+            for mx,my in dx:
+                nx=mx+x
+                ny=my+y
+                if nx>=0 and nx<n and ny>=0 and ny<m and v[nx][ny]!=2 and res[nx][ny]!=""*"":
+                    p.append((nx,ny))
+        tm+=1
+    if not f:
+        print(-1)
+    else:
+        print(t+tm-2)
+            
+        
+
+
+
+
+
+
+
+            
+    
+"
+11,C,Python3,54847223,2022-11-18 20:50:20,牛客972825279号,答案错误,"import collections
+n,m=map(int,input().split())
+r1,r2=map(int,input().split())
+MAP=[]
+for i in range(n):
+    MAP.append(input())
+cat=None
+PLMM=None
+for i in range(n):
+    for j in range(m):
+        if MAP[i][j]==""P"":
+            PLMM=(i,j)
+        if MAP[i][j]==""M"":
+            cat=(i,j)
+direction=[(0,1),(0,-1),(1,0),(-1,0)]
+dq=collections.deque()
+dq.append(PLMM)
+sign=0
+see=set()
+see.add(PLMM)
+for i in range(r1+1):
+    length=len(dq)
+    for j in range(length):
+        temp=dq.popleft()
+        if abs(cat[0]-temp[0])+abs(cat[1]-temp[1])<=r2:
+            sign=1
+            break
+        for X,Y in direction:
+            X+=temp[0]
+            Y+=temp[1]
+            if 0<=X<n and 0<=Y<m and MAP[X][Y]!=""*"" and (X,Y) not in see:
+                dq.append((X,Y))
+                see.add((X,Y))
+    if sign:
+        break
+if sign:
+    new_dq=collections.deque()
+    new_see=set()
+    new_dq.append((cat[0],cat[1],0))
+    new_see.add(cat)
+    while new_dq:
+        x,y,value=new_dq.popleft()
+        if (x,y)==PLMM:
+            print(value)
+            break
+        for X,Y in direction:
+            X+=x
+            Y+=y
+            if 0<=X<n and 0<=Y<m and MAP[X][Y]!=""*"" and (X,Y) not in new_see:
+                new_dq.append((X,Y,value+1))
+                new_see.add((X,Y))
+else:
+    print(-1)"
+12,C,Python3,54849082,2022-11-18 21:00:20,牛客972825279号,答案错误,"import collections
+n,m=map(int,input().split())
+r1,r2=map(int,input().split())
+MAP=[]
+for i in range(n):
+    MAP.append(input())
+cat=None
+PLMM=None
+for i in range(n):
+    for j in range(m):
+        if MAP[i][j]==""P"":
+            PLMM=(i,j)
+        if MAP[i][j]==""M"":
+            cat=(i,j)
+direction=[(0,1),(0,-1),(1,0),(-1,0)]
+dq=collections.deque()
+dq.append(PLMM)
+sign=0
+see=set()
+see.add(PLMM)
+for i in range(r1+1):
+    length=len(dq)
+    for j in range(length):
+        temp=dq.popleft()
+        if abs(cat[0]-temp[0])+abs(cat[1]-temp[1])<=r2:
+            sign=1
+            break
+        for X,Y in direction:
+            X+=temp[0]
+            Y+=temp[1]
+            if 0<=X<n and 0<=Y<m and MAP[X][Y]!=""*"" and (X,Y) not in see:
+                dq.append((X,Y))
+                see.add((X,Y))
+    if sign:
+        break
+if sign:
+    new_dq=collections.deque()
+    new_see=set()
+    new_dq.append((cat[0],cat[1],0))
+    new_see.add(cat)
+    while new_dq:
+        x,y,value=new_dq.popleft()
+        if (x,y)==PLMM:
+            print(value)
+            break
+        for X,Y in direction:
+            X+=x
+            Y+=y
+            if 0<=X<n and 0<=Y<m and MAP[X][Y]!=""*"" and (X,Y) not in new_see:
+                new_dq.append((X,Y,value+1))
+                new_see.add((X,Y))
+else:
+    print(-1)"
+13,C,Python3,54849556,2022-11-18 21:03:29,牛客972825279号,答案错误,"import collections
+n,m=map(int,input().split())
+r1,r2=map(int,input().split())
+MAP=[]
+for i in range(n):
+    MAP.append(input())
+cat=None
+PLMM=None
+for i in range(n):
+    for j in range(m):
+        if MAP[i][j]==""P"":
+            PLMM=(i,j)
+        if MAP[i][j]==""M"":
+            cat=(i,j)
+direction=[(0,1),(0,-1),(1,0),(-1,0)]
+sign=0
+left=PLMM[1]-r1
+right=PLMM[1]+r1
+high=PLMM[0]
+low=PLMM[0]
+while left<=right:
+    for i in range(left,right+1):
+        if 0<=i<m and 0<=high<n and MAP[high][i]!=""*"" and abs(high-cat[0])+abs(i-cat[1])<=r2:
+            sign=1
+            break
+    for i in range(left,right+1):
+        if 0<=i<m and 0<=low<n and MAP[low][i]!=""*"" and abs(low-cat[0])+abs(i-cat[1])<=r2:
+            sign=1
+            break
+    left += 1
+    right -= 1
+    low-=1
+    high+=1
+    if sign:
+        break
+if sign:
+    new_dq=collections.deque()
+    new_see=set()
+    new_dq.append((cat[0],cat[1],0))
+    new_see.add(cat)
+    while new_dq:
+        x,y,value=new_dq.popleft()
+        if (x,y)==PLMM:
+            print(value)
+            break
+        for X,Y in direction:
+            X+=x
+            Y+=y
+            if 0<=X<n and 0<=Y<m and MAP[X][Y]!=""*"" and (X,Y) not in new_see:
+                new_dq.append((X,Y,value+1))
+                new_see.add((X,Y))
+else:
+    print(-1)
+"
+14,C,Python3,54859686,2022-11-19 08:32:35,可爱抱抱呀😥,运行超时,"from typing import *
+from collections import *
+move=[[1,0],[-1,0],[0,1],[0,-1]]
+def find(grid:List[str],k:str)->List[int]:
+    for i in range(len(grid)):
+        for j in range(len(grid[0])):
+            if grid[i][j]==k:
+                return [i,j]
+def findDis(grid:List[str],p:List[int],maxD:int)->List[List[int]]:
+    ans=[[-1]*len(grid[0]) for i in range(len(grid))]
+    ans[p[0]][p[1]]=0
+    q=deque([p])
+    while q:
+        arr=q.popleft()
+        if ans[arr[0]][arr[1]]>=maxD:
+            continue
+        for m in move:
+            x,y=arr[0]+m[0],arr[1]+m[1]
+            if x>=0 and x<len(grid) and y>=0 and y<len(grid[0]) and grid[x][y]!='*' and ans[x][y]==-1:
+                ans[x][y]=ans[arr[0]][arr[1]]+1
+                q.append([x,y])
+    return ans
+n,m=list(map(int,input().split()))
+r1,r2=list(map(int,input().split()))
+grid=[]
+for i in range(n):
+    grid.append(input())
+pm,pp=find(grid,'M'),find(grid,'P') # P和M的位置
+dm=findDis(grid,pm,m*n+1)
+if abs(pm[0]-pp[0])+abs(pm[1]-pp[1])<=r2:
+    print(dm[pp[0]][pp[1]])
+else:
+    dp=findDis(grid,pp,r1)
+    ans=10**9
+    for i in range(n):
+        for j in range(m):
+            if abs(i-pm[0])+abs(j-pm[1])==r2 and dm[i][j]!=-1 and dp[i][j]!=-1:
+                ans=min(ans,dm[i][j]+dp[i][j])
+    print(-1 if ans==10**9 else ans)"

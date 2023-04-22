@@ -1,0 +1,572 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,D,Python3,60850798,2023-02-10 19:50:38,Fei_xiangShi,答案错误,"n,m = map(int,input().split())
+a = [0]+list(map(int,input().split()))+[n]
+ans = 0
+for x in range(1,m+1):
+    l = 0
+    r = x+1
+    while r<=m:
+        L = a[r]-a[l]
+        x2 = x**2
+#         print(L,x2)
+        if L < x2:
+            pass
+        else:
+            res = L - x2
+            ans = max(ans,res)
+        l += 1
+        r += 1
+print(ans)"
+1,D,Python3,60850940,2023-02-10 19:52:14,礼乐垃圾,答案错误,"n,m=map(int,input().strip().split())
+p=sorted(list(map(int,input().strip().split())))
+ans=0
+L=0
+# print(p)
+for x in range(0,m+1):
+    if n-x*x<=ans:break
+    for i in range(m-x-1):
+        # print(type(L))
+        # print(type(p[i+x+1]-p[i]))
+        L=max(L,p[i+x+1]-p[i])
+    ans=max(ans,L-x*x)
+print(ans)"
+2,D,Python3,60851501,2023-02-10 19:59:21,Fei_xiangShi,运行超时,"n,m = map(int,input().split())
+a = [0]+list(map(int,input().split()))+[n]
+ans = 0
+for x in range(1,m+1):
+    l = 0
+    r = x+1
+    while r<=m+1:
+        L = a[r]-a[l]
+        x2 = x**2
+#         print(a[r],a[l])
+        if L < x2:
+            pass
+        else:
+            res = L - x2
+            ans = max(ans,res)
+        l += 1
+        r += 1
+print(ans)"
+3,D,Python3,60851701,2023-02-10 20:02:33,Marquis03,答案错误,"n, m = list(map(int,input().split()))
+a = set(map(int,input().split()))
+a.add(0)
+a.add(n)
+a = list(a)
+ans = 0
+for i in range(1,len(a)):
+    for j in range(0,len(a)-1-i):
+        if a[j+i]-a[j] -(i-1)**2 > ans:
+            ans = a[j+i]-a[j] -(i-1)**2
+print(ans)"
+4,D,Python3,60851750,2023-02-10 20:03:02,礼乐垃圾,运行超时,"n,m=map(int,input().strip().split())
+p=sorted(list(map(int,input().strip().split())))
+ans=0
+L=0
+# print(p)
+for x in range(0,m):
+    if n-x*x<=ans:break
+    L=max(L,p[x]-0)
+    for i in range(m-x-1):
+        # print(type(L))
+        # print(type(p[i+x+1]-p[i]))
+        # print(p[i+x+1]-p[i],end=' ')
+        L=max(L,p[i+x+1]-p[i])
+    L=max(L,n-p[m-x-1])
+    # print(x,L,L-x*x)
+    ans=max(ans,L-x*x)
+ans=max(ans,n-m*m)
+print(ans)"
+5,D,Python3,60852203,2023-02-10 20:09:48,Marquis03,答案错误,"n, m = list(map(int,input().split()))
+a = set(map(int,input().split()))
+a.add(0)
+a.add(n)
+a = list(a)
+ans = 0
+for step in range(1,len(a)):
+    for start in range(len(a)-step):
+        if a[start+step] - a[start] - (step-1)**2 > ans:
+            ans = a[start+step] - a[start] - (step-1)**2
+print(ans)"
+6,D,Python3,60852259,2023-02-10 20:10:30,礼乐垃圾,运行超时,"n,m=map(int,input().strip().split())
+p=sorted(list(map(int,input().strip().split())))
+ans=0
+L=0
+# print(p)
+for x in range(0,m):
+    if n-x*x<=ans:break
+    # L=max(L,p[x])
+    if L<p[x]:L=p[x]
+    for i in range(m-x-1):
+        # print(p[i+x+1]-p[i],end=' ')
+        tmp=p[i+x+1]-p[i]
+        if L<tmp:L=tmp
+        # L=max(L,p[i+x+1]-p[i])
+    tmp=n-p[m-x-1]
+    if L<tmp:L=tmp
+    # L=max(L,n-p[m-x-1])
+    # print(x,L,L-x*x)
+    if ans<L-x*x:ans=L-x*x
+    # ans=max(ans,L-x*x)
+ans=max(ans,n-m*m)
+print(ans)"
+7,D,Python3,60852371,2023-02-10 20:11:52,Marquis03,运行超时,"n, m = list(map(int,input().split()))
+a = set(map(int,input().split()))
+a.add(0)
+a.add(n)
+a = sorted(list(a))
+ans = 0
+# print(a)
+for step in range(1,len(a)):
+    for start in range(len(a)-step):
+        if a[start+step] - a[start] - (step-1)**2 > ans:
+            ans = a[start+step] - a[start] - (step-1)**2
+print(ans)"
+8,D,Python3,60852514,2023-02-10 20:13:36,礼乐垃圾,答案正确,"n,m=map(int,input().strip().split())
+p=sorted(list(map(int,input().strip().split())))
+maxsep=0
+for i in range(m-1):
+    tmp=p[i+1]-p[i]
+    if maxsep<tmp:maxsep=tmp
+ans=0
+L=0
+# print(p)
+for x in range(0,m):
+    if L+maxsep-x*x<=ans:break
+    if n-x*x<=ans:break
+    # L=max(L,p[x])
+    if L<p[x]:L=p[x]
+    for i in range(m-x-1):
+        # print(p[i+x+1]-p[i],end=' ')
+        tmp=p[i+x+1]-p[i]
+        if L<tmp:L=tmp
+        # L=max(L,p[i+x+1]-p[i])
+    tmp=n-p[m-x-1]
+    if L<tmp:L=tmp
+    # L=max(L,n-p[m-x-1])
+    # print(x,L,L-x*x)
+    if ans<L-x*x:ans=L-x*x
+    # ans=max(ans,L-x*x)
+ans=max(ans,n-m*m)
+print(ans)"
+9,D,Python3,60853324,2023-02-10 20:25:17,小七爱英语,答案错误,"print(""accepted"")"
+10,D,Python3,60854058,2023-02-10 20:36:26,Fei_xiangShi,运行超时,"n,m = map(int,input().split())
+a = [0]+list(map(int,input().split()))+[n]
+ans = 0
+import math
+for x in range(1,int(math.sqrt(n))+1):
+    l = 0
+    r = x+1
+    while r<=m+1:
+        L = a[r]-a[l]
+        x2 = x**2
+#         print(a[r],a[l])
+        if L < x2:
+            pass
+        else:
+            res = L - x2
+            ans = max(ans,res)
+        l += 1
+        r += 1
+print(ans)"
+11,D,Python3,60855260,2023-02-10 20:56:29,孔老大,答案错误,"import heapq
+import sys
+import bisect
+import random
+import io, os
+from bisect import *
+from collections import *
+from contextlib import redirect_stdout
+from itertools import *
+from math import sqrt, gcd, inf
+# ACW没有comb
+# from math import sqrt, gcd, inf, comb
+from array import *
+from functools import lru_cache
+from types import GeneratorType
+from heapq import *
+
+# from networkx import *
+
+RI = lambda: map(int, sys.stdin.readline().split())
+RS = lambda: map(bytes.decode, sys.stdin.readline().strip().split())
+RILST = lambda: list(RI())
+DEBUG = lambda *x: sys.stderr.write(f'{str(x)}\n')
+
+
+def solve():
+    n, m = RI()
+    a = RILST()
+    a.sort()
+    a = [0] + a + [n]
+    x = int(sqrt(n)) + 1
+    ans = 0
+    for i in range(min(x + 1, m)):
+        for j in range(i + 1, m + 1):
+            ans = max(ans, a[j] - a[j - i - 1] - i * i)
+    print(ans)
+
+
+if __name__ == '__main__':
+    solve()
+"
+12,D,Python3,60855338,2023-02-10 20:57:44,孔老大,答案错误,"import heapq
+import sys
+import bisect
+import random
+import io, os
+from bisect import *
+from collections import *
+from contextlib import redirect_stdout
+from itertools import *
+from math import sqrt, gcd, inf
+# ACW没有comb
+# from math import sqrt, gcd, inf, comb
+from array import *
+from functools import lru_cache
+from types import GeneratorType
+from heapq import *
+
+# from networkx import *
+
+RI = lambda: map(int, sys.stdin.readline().split())
+RS = lambda: map(bytes.decode, sys.stdin.readline().strip().split())
+RILST = lambda: list(RI())
+DEBUG = lambda *x: sys.stderr.write(f'{str(x)}\n')
+
+
+def solve():
+    n, m = RI()
+    a = RILST()
+    a.sort()
+    a = [0] + a + [n]
+    x = int(sqrt(n)) + 1
+    ans = 0
+    for i in range(min(x + 10, m + 1)):
+        for j in range(i + 1, m + 1):
+            ans = max(ans, a[j] - a[j - i - 1] - i * i)
+    print(ans)
+
+
+if __name__ == '__main__':
+    solve()
+"
+13,D,Python3,60855666,2023-02-10 21:02:05,孔老大,运行超时,"import heapq
+import sys
+import bisect
+import random
+import io, os
+from bisect import *
+from collections import *
+from contextlib import redirect_stdout
+from itertools import *
+from math import sqrt, gcd, inf
+# ACW没有comb
+# from math import sqrt, gcd, inf, comb
+from array import *
+from functools import lru_cache
+from types import GeneratorType
+from heapq import *
+
+# from networkx import *
+
+RI = lambda: map(int, sys.stdin.readline().split())
+RS = lambda: map(bytes.decode, sys.stdin.readline().strip().split())
+RILST = lambda: list(RI())
+DEBUG = lambda *x: sys.stderr.write(f'{str(x)}\n')
+
+
+def solve():
+    n, m = RI()
+    a = RILST()
+    a.sort()
+    a = [0] + a + [n]
+    x = int(sqrt(n)) + 1
+    ans = 0
+    for i in range(min(x + 1, m + 1)):
+        for j in range(i, m + 1):
+            ans = max(ans, a[j + 1] - a[j - i] - i * i)
+    print(ans)
+
+
+if __name__ == '__main__':
+    solve()
+"
+14,D,Python3,60855829,2023-02-10 21:05:04,孔老大,运行超时,"import heapq
+import sys
+import bisect
+import random
+import io, os
+from bisect import *
+from collections import *
+from contextlib import redirect_stdout
+from itertools import *
+from math import sqrt, gcd, inf
+# ACW没有comb
+# from math import sqrt, gcd, inf, comb
+from array import *
+from functools import lru_cache
+from types import GeneratorType
+from heapq import *
+
+# from networkx import *
+
+RI = lambda: map(int, sys.stdin.readline().split())
+RS = lambda: map(bytes.decode, sys.stdin.readline().strip().split())
+RILST = lambda: list(RI())
+DEBUG = lambda *x: sys.stderr.write(f'{str(x)}\n')
+
+
+def solve():
+    n, m = RI()
+    a = RILST()
+    a.sort()
+    a = [0] + a + [n]
+    x = int(sqrt(n)) + 1
+    ans = 0
+    for i in range(min(x + 1, m + 1)):
+        for j in range(i, m + 1):
+            x = a[j + 1] - a[j - i] - i * i
+            if ans < x:
+                ans = x
+    print(ans)
+
+
+if __name__ == '__main__':
+    solve()
+"
+15,D,Python3,60856630,2023-02-10 21:24:42,小小雨晴,答案错误,"def ad(ls):
+    lis = []
+    for i in range(len(ls) - 1):
+        lis.append(ls[i] + ls[i + 1])
+    ind = lis.index(max(lis))
+    lis = ls[0:ind] + [max(lis)] + ls[ind + 2:]
+    return lis
+
+def s(ls, m):
+    lis = [ls[0]]
+    for i in range(1, len(ls)):
+        lis.append(ls[i] - ls[i - 1])
+    lis.append(m - ls[-1])
+    return lis
+
+
+m, n = map(int, input().split())
+ls = list(map(int, input().split()))
+ls.sort()
+ls = s(ls, m)
+t = int(m ** 0.5)
+num = 0
+for i in range(1, t + 1):
+    try:
+        ls = ad(ls)
+        num = max(num, max(ls) - i ** 2)
+    except:
+        break
+print(num)"
+16,D,Python3,60856958,2023-02-10 21:34:10,小小雨晴,答案错误,"def ad(ls):
+    temp = ls[2:]
+    ls[0] = ls[0] + ls[1]
+    ls[1:] = temp
+
+def s(ls, m):
+    lis = [ls[0]]
+    for i in range(1, len(ls)):
+        lis.append(ls[i] - ls[i - 1])
+    lis.append(m - ls[-1])
+    return lis
+
+
+m, n = map(int, input().split())
+ls = list(map(int, input().split()))
+ls.sort()
+ls = s(ls, m)
+num = max(ls)
+res = 0
+t = 1
+while res >= 0 and len(ls) > 1:
+    ad(ls)
+    res = ls[0] - t ** 2
+    num = max(num, res)
+    t += 1
+print(num)"
+17,D,Python3,60856978,2023-02-10 21:34:46,小小雨晴,答案错误,"def ad(ls):
+    temp = ls[2:]
+    ls[0] = ls[0] + ls[1]
+    ls[1:] = temp
+
+def s(ls, m):
+    lis = [ls[0]]
+    for i in range(1, len(ls)):
+        lis.append(ls[i] - ls[i - 1])
+    lis.append(m - ls[-1])
+    return lis
+
+
+m, n = map(int, input().split())
+ls = list(map(int, input().split()))
+ls.sort()
+ls = s(ls, m)
+num = 0
+res = 0
+t = 1
+while res >= 0 and len(ls) > 1:
+    ad(ls)
+    res = ls[0] - t ** 2
+    num = max(num, res)
+    t += 1
+print(num)"
+18,D,Python3,60857248,2023-02-10 21:45:23,小小雨晴,答案错误,"def ad(ls):
+    lis = []
+    for i in range(len(ls) - 1):
+        lis.append(ls[i] + ls[i + 1])
+    ind = lis.index(max(lis))
+    lis = ls[0:ind] + [max(lis)] + ls[ind + 2:]
+    return lis
+
+
+def s(ls, m):
+    lis = [ls[0]]
+    for i in range(1, len(ls)):
+        lis.append(ls[i] - ls[i - 1])
+    lis.append(m - ls[-1])
+    return lis
+
+
+m, n = map(int, input().split())
+ls = list(map(int, input().split()))
+ls.sort()
+ls = s(ls, m)
+num = max(ls)
+i = 1
+res = 0
+while res >= 0:
+    ls = ad(ls)
+    if len(ls) == 1:
+        num = max(ls[0] - i ** 2, num)
+        break
+    res = max(ls) - i ** 2
+    num = max(num, res)
+    i += 1
+print(num)"
+19,D,Python3,60860238,2023-02-11 11:09:30,小小雨晴,答案错误,"def ad(ls):
+    lis = []
+    for i in range(len(ls) - 1):
+        lis.append(ls[i] + ls[i + 1])
+    ind = lis.index(max(lis))
+    lis = ls[0:ind] + [max(lis)] + ls[ind + 2:]
+    return lis
+
+
+def s(ls, m):
+    lis = [ls[0]]
+    for i in range(1, len(ls)):
+        lis.append(ls[i] - ls[i - 1])
+    lis.append(m - ls[-1])
+    return lis
+
+
+m, n = map(int, input().split())
+ls = list(map(int, input().split()))
+ls.sort()
+ls = s(ls, m)
+num = max(ls)
+i = 1
+res = 0
+while True:
+    ls = ad(ls)
+    if len(ls) == 1:
+        num = max(ls[0] - i ** 2, num)
+        break
+    res = max(ls) - i ** 2
+    num = max(num, res)
+    i += 1
+print(num)"
+20,D,Python3,60860261,2023-02-11 11:13:03,小小雨晴,答案错误,"def ad(ls):
+    lis = []
+    for i in range(len(ls) - 1):
+        lis.append(ls[i] + ls[i + 1])
+    ind = lis.index(max(lis))
+    lis = ls[0:ind] + [max(lis)] + ls[ind + 2:]
+    return lis
+
+
+def s(ls, m):
+    lis = [ls[0]]
+    for i in range(1, len(ls)):
+        lis.append(ls[i] - ls[i - 1])
+    lis.append(m - ls[-1])
+    return lis
+
+
+m, n = map(int, input().split())
+ls = list(map(int, input().split()))
+ls.sort()
+ls = s(ls, m)
+num = -1
+i = 1
+res = 0
+while True:
+    ls = ad(ls)
+    if len(ls) == 1:
+        num = max(ls[0] - i ** 2, num)
+        break
+    res = max(ls) - i ** 2
+    num = max(num, res)
+    i += 1
+print(num)"
+21,D,Python3,60878971,2023-02-14 12:47:55,lianxuhanshu,运行超时,"n,m=map(int,input().split())
+a=[0]*(m+2)
+a[1:m+1]=list(map(int,input().split()))
+a[0],a[m+1]=0,n
+mx=0
+for i in range(m+1):
+    for j in range(501):
+        r=i+j+1
+        if r>m+1:
+            break
+        mx=max(mx,a[r]-a[i]-j*j)
+print(mx)
+
+
+"
+22,D,Python3,60896262,2023-02-15 22:00:25,牛客581067831号,运行超时,"import math
+n , m = list(map(int, input().split()))
+nums = list(map(int, input().split()))
+nums = [0,] + nums + [n,]
+L = n + 1
+cnt_x = min(int(math.sqrt(L)), m)
+max_l = [0] * (cnt_x + 1)
+for i in range(1, len(nums)):
+    for j in range(i):
+        if j < cnt_x + 1:
+            max_l[j] = max(max_l[j], nums[i] - nums[i-j-1])
+for i in range(cnt_x + 1):
+    max_l[i] = (max_l[i] - i * i)
+print(max(max_l))
+    
+
+    
+    
+            "
+23,D,Python3,60896270,2023-02-15 22:01:38,牛客581067831号,运行超时,"import math
+n , m = list(map(int, input().split()))
+nums = list(map(int, input().split()))
+nums = [0,] + nums + [n,]
+L = n + 1
+cnt_x = min(int(math.sqrt(L)), m)
+max_l = [0] * (cnt_x + 1)
+for i in range(1, len(nums)):
+    for j in range(i):
+        if j < cnt_x + 1:
+            max_l[j] = max(max_l[j], nums[i] - nums[i-j-1])
+        else:
+            break
+for i in range(cnt_x + 1):
+    max_l[i] = (max_l[i] - i * i)
+print(max(max_l))
+    
+
+    
+    
+            "

@@ -1,0 +1,1433 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,E,C,60151578,2023-01-06 20:11:52,HNU_22_刘慧蕾,答案错误,"#include<stdio.h>
+int main()
+{
+	int n,k;
+	scanf(""%d%d"",&n,&k);
+	if(n==1) 
+	{
+		if(k==0) printf(""1"");
+		else printf(""-1"");
+	}
+	else if(n==2)
+	{
+		if(k==1)
+		{
+			printf(""2 1"");
+		}
+		else if(k==0) printf(""1 2"");
+		else printf(""-1"");
+	}
+	else
+	{
+		int sum=0;
+		int s=1;
+		while(s<n)
+		{	
+			sum+=n-s;
+			s*=2;
+		}
+		if(k==1)
+		{
+			for(int i=1;i<=n-2;i++)
+			{
+				printf(""%d "",i);
+			}
+			printf(""%d %d"",n,n-1);
+		}
+		if(k==0)
+		{
+			for(int i=1;i<=n;i++)
+			{
+				printf(""%d "",i);
+			}
+		}
+		if(k==sum)
+		{
+			for(int i=n;i>=1;i--)
+			{
+				printf(""%d "",i);
+			}
+		}
+		if(k!=0&&k!=1&&k!=sum)
+		{
+			printf(""-1"");
+		}
+	}
+	return 0;
+}"
+1,E,C,60152055,2023-01-06 20:15:36,HNU_22_刘慧蕾,答案错误,"#include<stdio.h>
+int main()
+{
+	int n,k;
+	scanf(""%d%d"",&n,&k);
+	if(n==1) 
+	{
+		 printf(""-1"");
+	}
+	else if(n==2)
+	{
+		if(k==1)
+		{
+			printf(""2 1"");
+		}
+		else if(k==0) printf(""1 2"");
+		else printf(""-1"");
+	}
+	else
+	{
+		int sum=0;
+		int s=1;
+		while(s<n)
+		{	
+			sum+=n-s;
+			s*=2;
+		}
+		if(k==1)
+		{
+			for(int i=1;i<=n-2;i++)
+			{
+				printf(""%d "",i);
+			}
+			printf(""%d %d"",n,n-1);
+		}
+		if(k==0)
+		{
+			for(int i=1;i<=n;i++)
+			{
+				printf(""%d "",i);
+			}
+		}
+		if(k==sum)
+		{
+			for(int i=n;i>=1;i--)
+			{
+				printf(""%d "",i);
+			}
+		}
+		if(k!=0&&k!=1&&k!=sum)
+		{
+			printf(""-1"");
+		}
+	}
+	return 0;
+}"
+2,E,C(gcc 7.5.0),60152535,2023-01-06 20:19:23,小郑213,答案错误,"#include<stdio.h>
+int main() {
+    int n,k,cz=0;
+    scanf(""%d %d"",&n,&k);
+    if(n<=k){
+		printf(""-1"");
+    }
+    else{
+    	for(int i=1;i<n-k;i++){
+    		printf(""%d "",i);
+    	}
+    	for(int i=n;i>=n-k;i--){
+    		printf(""%d "",i);
+    	}
+    }
+}"
+3,E,C(gcc 7.5.0),60163449,2023-01-07 10:22:05,牛客722252005号,执行出错,"#include<stdio.h>
+int s[1000002];
+int j[1000002];
+int a[1000002];
+int main(){
+        int n , k , sum = 0, temp = 1, pre = 1;
+        scanf(""%d %d"",&n ,&k);
+        for (int i = 2; i <= n ; i++) {
+            if(temp * 2 < i){
+                temp*= 2;
+                pre++;
+            }
+            a[i] = pre;
+            sum += a[i];
+        }
+        if(sum < k){
+            printf(""-1"");return;
+        }
+        int countS = 0 , countJ = 0;
+        for (int i = n; i >= 1 ; i--) {
+            if(k >= a[i]){
+                k-=a[i];
+                s[countS++]=i;
+            }else j[countJ++]=i;
+        }
+        for (int i = 0 ; i < countS ; i ++) {
+            printf(""%d "",s[i]);
+        }
+        for (int i = countJ - 1 ; i >= 0 ; i--){
+             printf(""%d "",j[i]);
+        }
+}"
+4,E,C(gcc 7.5.0),60163452,2023-01-07 10:22:31,牛客722252005号,执行出错,"#include<stdio.h>
+int s[1000005];
+int j[1000005];
+int a[1000005];
+int main(){
+        int n , k , sum = 0, temp = 1, pre = 1;
+        scanf(""%d %d"",&n ,&k);
+        for (int i = 2; i <= n ; i++) {
+            if(temp * 2 < i){
+                temp*= 2;
+                pre++;
+            }
+            a[i] = pre;
+            sum += a[i];
+        }
+        if(sum < k){
+            printf(""-1"");return;
+        }
+        int countS = 0 , countJ = 0;
+        for (int i = n; i >= 1 ; i--) {
+            if(k >= a[i]){
+                k-=a[i];
+                s[countS++]=i;
+            }else j[countJ++]=i;
+        }
+        for (int i = 0 ; i < countS ; i ++) {
+            printf(""%d "",s[i]);
+        }
+        for (int i = countJ - 1 ; i >= 0 ; i--){
+             printf(""%d "",j[i]);
+        }
+}"
+5,E,C(gcc 7.5.0),60163466,2023-01-07 10:24:34,牛客722252005号,执行出错,"#include<stdio.h>
+int s[1000005];
+int j[1000005];
+int a[1000005];
+int main(){
+        int n , k , sum = 0, temp = 1, pre = 1;
+        scanf(""%d %d"",&n ,&k);
+        for (int i = 2; i <= n ; i++) {
+            if(temp * 2 < i){
+                temp*= 2;
+                pre++;
+            }
+            a[i] = pre;
+            sum += a[i];
+        }
+        if(sum < k){
+            printf(""-1"");return;
+        }
+        int countS = 0 , countJ = -1;
+        for (int i = n; i >= 1 ; i--) {
+            if(k >= a[i]){
+                k-=a[i];
+                s[countS++]=i;
+            }else j[++countJ]=i;
+        }
+        for (int i = 0 ; i < countS ; i ++) {
+            printf(""%d "",s[i]);
+        }
+        for (int i = countJ ; i >= 0 ; i--){
+             printf(""%d "",j[i]);
+        }
+}"
+6,E,C(gcc 7.5.0),60163477,2023-01-07 10:25:33,牛客722252005号,答案正确,"#include<stdio.h>
+int s[1000005];
+int j[1000005];
+int a[1000005];
+int main(){
+        int n , k , sum = 0, temp = 1, pre = 1;
+        scanf(""%d %d"",&n ,&k);
+        for (int i = 2; i <= n ; i++) {
+            if(temp * 2 < i){
+                temp*= 2;
+                pre++;
+            }
+            a[i] = pre;
+            sum += a[i];
+        }
+        if(sum < k){
+            printf(""-1"");return 0;
+        }
+        int countS = 0 , countJ = -1;
+        for (int i = n; i >= 1 ; i--) {
+            if(k >= a[i]){
+                k-=a[i];
+                s[countS++]=i;
+            }else j[++countJ]=i;
+        }
+        for (int i = 0 ; i < countS ; i ++) {
+            printf(""%d "",s[i]);
+        }
+        for (int i = countJ ; i >= 0 ; i--){
+             printf(""%d "",j[i]);
+        }
+}"
+7,E,C,60209406,2023-01-11 15:14:53,xxiu_,答案错误,"#include <stdio.h>
+int main(){
+    int n,k,i;
+    scanf(""%d %d"",&n,&k);
+    int f[n],fsum[n],p[n];
+    f[0]=0;fsum[0]=0;
+    for (i=1;i<=n;i*=2){
+        f[i+1]=1;
+    }
+    for (i=1;i<=n;i++){
+        f[i]+=f[i-1];
+    }
+    for (i=1;i<=n;i++){
+        fsum[i]=fsum[i-1]+f[i];
+    }
+    if (fsum[n]<k){
+        printf(""-1"");
+        return 0;
+    }
+    for (i=n;i>=1;i--){
+        if (f[i]<=k){
+            printf(""%d "",i);
+            p[i]=1;
+            k-=f[i];
+        }
+        else{
+            p[i]=2;
+        }
+    }
+    for (i=1;i<=n;i++){
+        if (p[i]==2){
+            printf(""%d "",i);
+        }
+    }
+    return 0;
+}"
+8,E,C,60209486,2023-01-11 15:23:29,xxiu_,答案错误,"#include <stdio.h>
+int main(){
+    int n,i;
+    long long int k;
+    scanf(""%d %lld"",&n,&k);
+    int f[n],fsum[n],p[n];
+    f[0]=0;fsum[0]=0;
+    for (i=1;i<=n;i*=2){
+        f[i+1]=1;
+    }
+    for (i=1;i<=n;i++){
+        f[i]+=f[i-1];
+    }
+    for (i=1;i<=n;i++){
+        fsum[i]=fsum[i-1]+f[i];
+    }
+    if (fsum[n]<k){
+        printf(""-1"");
+        return 0;
+    }
+    for (i=n;i>=1;i--){
+        if (f[i]<=k){
+            printf(""%d "",i);
+            p[i]=1;
+            k-=f[i];
+        }
+        else{
+            p[i]=2;
+        }
+    }
+    for (i=1;i<=n;i++){
+        if (p[i]==2){
+            printf(""%d "",i);
+        }
+    }
+    return 0;
+}"
+9,E,C,60209596,2023-01-11 15:32:09,xxiu_,答案错误,"#include <stdio.h>
+int main(){
+    int n,i,k;
+    scanf(""%d %d"",&n,&k);
+    int f[n+1],fsum[n+1],p[n+1];
+    f[0]=0;fsum[0]=0;
+    for (i=1;i<=n;i*=2){
+        f[i+1]=1;
+    }
+    for (i=1;i<=n;i++){
+        f[i]+=f[i-1];
+    }
+    for (i=1;i<=n;i++){
+        fsum[i]=fsum[i-1]+f[i];
+    }
+    if (fsum[n]<k){
+        printf(""-1"");
+        return 0;
+    }
+    for (i=n;i>=1;i--){
+        if (f[i]<=k){
+            printf(""%d "",i);
+            p[i]=1;
+            k-=f[i];
+        }
+        else{
+            p[i]=2;
+        }
+    }
+    for (i=1;i<=n;i++){
+        if (p[i]==2){
+            printf(""%d "",i);
+        }
+    }
+    return 0;
+}"
+10,E,C,60209639,2023-01-11 15:34:44,xxiu_,答案错误,"#include <stdio.h>
+int main(){
+    int n,i,k;
+    scanf(""%d %d"",&n,&k);
+    int f[2*n+1],fsum[2*n+1],p[2*n+1];
+    for (i=1;i<=n;i++){
+        f[i]=0;
+        fsum[i]=0;
+    }
+    for (i=1;i<=n;i*=2){
+        f[i+1]=1;
+    }
+    for (i=1;i<=n;i++){
+        f[i]+=f[i-1];
+    }
+    for (i=1;i<=n;i++){
+        fsum[i]=fsum[i-1]+f[i];
+    }
+    if (fsum[n]<k){
+        printf(""-1"");
+        return 0;
+    }
+    for (i=n;i>=1;i--){
+        if (f[i]<=k){
+            printf(""%d "",i);
+            p[i]=1;
+            k-=f[i];
+        }
+        else{
+            p[i]=2;
+        }
+    }
+    for (i=1;i<=n;i++){
+        if (p[i]==2){
+            printf(""%d "",i);
+        }
+    }
+    return 0;
+}"
+11,E,C,60209648,2023-01-11 15:35:23,xxiu_,答案错误,"#include <stdio.h>
+int main(){
+    int n,i,k;
+    scanf(""%d %d"",&n,&k);
+    int f[n],fsum[n],p[n];
+    for (i=1;i<=n;i++){
+        f[i]=0;
+        fsum[i]=0;
+    }
+    for (i=1;i<=n;i*=2){
+        f[i+1]=1;
+    }
+    for (i=1;i<=n;i++){
+        f[i]+=f[i-1];
+    }
+    for (i=1;i<=n;i++){
+        fsum[i]=fsum[i-1]+f[i];
+    }
+    if (fsum[n]<k){
+        printf(""-1"");
+        return 0;
+    }
+    for (i=n;i>=1;i--){
+        if (f[i]<=k){
+            printf(""%d "",i);
+            p[i]=1;
+            k-=f[i];
+        }
+        else{
+            p[i]=2;
+        }
+    }
+    for (i=1;i<=n;i++){
+        if (p[i]==2){
+            printf(""%d "",i);
+        }
+    }
+    return 0;
+}"
+12,E,C,60209682,2023-01-11 15:37:50,xxiu_,答案错误,"#include <stdio.h>
+int main(){
+    int n,i,k;
+    scanf(""%d %d"",&n,&k);
+    int f[n+2],fsum[n+2],p[n+2];
+    for (i=1;i<=n;i++){
+        f[i]=0;
+        fsum[i]=0;
+    }
+    for (i=1;i<=n;i*=2){
+        f[i+1]=1;
+    }
+    for (i=1;i<=n;i++){
+        f[i]+=f[i-1];
+    }
+    for (i=1;i<=n;i++){
+        fsum[i]=fsum[i-1]+f[i];
+    }
+    if (fsum[n]<k){
+        printf(""-1"");
+        return 0;
+    }
+    for (i=n;i>=1;i--){
+        if (f[i]<=k){
+            printf(""%d "",i);
+            p[i]=1;
+            k-=f[i];
+        }
+        else{
+            p[i]=2;
+        }
+    }
+    for (i=1;i<=n;i++){
+        if (p[i]==2){
+            printf(""%d "",i);
+        }
+    }
+    return 0;
+}"
+13,E,C,60209745,2023-01-11 15:42:36,xxiu_,答案错误,"#include <stdio.h>
+int main(){
+    int n,i,k;
+    scanf(""%d %d"",&n,&k);
+    int f[n+10],fsum[n+10],p[n+10];
+    for (i=1;i<=n;i++){
+        f[i]=0;
+        fsum[i]=0;
+    }
+    for (i=1;i<=n;i*=2){
+        f[i+1]=1;
+    }
+    for (i=1;i<=n;i++){
+        f[i]+=f[i-1];
+    }
+    for (i=1;i<=n;i++){
+        fsum[i]=fsum[i-1]+f[i];
+    }
+    if (fsum[n]<k){
+        printf(""-1"");
+        return 0;
+    }
+    for (i=n;i>=1;i--){
+        if (f[i]<=k){
+            printf(""%d "",i);
+            p[i]=1;
+            k-=f[i];
+        }
+        else{
+            p[i]=2;
+        }
+    }
+    for (i=1;i<=n;i++){
+        if (p[i]==2){
+            printf(""%d "",i);
+        }
+    }
+    return 0;
+}"
+14,E,C,60209998,2023-01-11 16:01:23,xxiu_,答案正确,"#include <stdio.h>
+int main(){
+    int n,i,k;
+    scanf(""%d %d"",&n,&k);
+    int f[n+1],fsum[n+1],p[n+1];
+    for (i=0;i<=n;i++){
+        f[i]=0;
+        fsum[i]=0;
+    }
+    for (i=1;i<=n;i*=2){
+        f[i+1]=1;
+    }
+    for (i=1;i<=n;i++){
+        f[i]+=f[i-1];
+    }
+    for (i=1;i<=n;i++){
+        fsum[i]=fsum[i-1]+f[i];
+    }
+    if (fsum[n]<k){
+        printf(""-1"");
+        return 0;
+    }
+    for (i=n;i>=1;i--){
+        if (f[i]<=k){
+            printf(""%d "",i);
+            p[i]=1;
+            k-=f[i];
+        }
+        else{
+            p[i]=2;
+        }
+    }
+    for (i=1;i<=n;i++){
+        if (p[i]==2){
+            printf(""%d "",i);
+        }
+    }
+    return 0;
+}"
+15,E,C,60730427,2023-02-01 22:31:25,戴罗,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c:12:2: warning: implicit declaration of function 'scanf_s' is invalid in C99 [-Wimplicit-function-declaration]\n        scanf_s(\""%lld %lld\"", &n, &k);\n        ^\n1 warning generated.\n/tmp/main-80b3e7.o: In function `main':\nmain.c:(.text+0x16c): undefined reference to `scanf_s'\nclang: error: linker command failed with exit code 1 (use -v to see invocation)""}
+
+#include<stdio.h>
+int main()
+{
+	int a[100000], b[100000];
+	long long sum = 0;//先创立二倍数来判断
+	a[0] = 1;
+	for (int i = 1; i < 100000; i++)
+		a[i] = a[i - 1] * 2;
+	for (int i = 1; i < 100000; i++)//后继使用
+		b[i] = i;
+	long long n, k;
+	scanf_s(""%lld %lld"", &n, &k);
+	long long dai, kmax;
+	dai = n / 2;
+	if (dai * 2 == n)
+		dai = dai - 1;
+	for (int i = 0; i <= dai - 2; i++)
+		sum = sum + a[i];
+	kmax = (dai - 1) * n - sum;//当前n确定后的k的最大值
+	if (n == 1)
+	{
+		printf(""-1"");
+		return 0;
+	}
+	if (k > kmax)
+	{
+		printf(""-1"");
+		return 0;
+	}
+	else if (k == kmax)
+	{
+		for (int i = n; i > 0; i--)
+			printf(""%d "", i);
+		return 0;
+	}
+	else if (k == 0)
+	{
+		for (int i = 1; i < n + 1; i++)
+			printf(""%d "", i);
+		return 0;
+	}
+	else if (k == 1)
+	{
+		for (int i = 1; i <= n - 2; i++)
+			printf(""%d "", i);
+		for (int j = n; j > n - 2; j--)
+			printf(""%d "", j);
+		return 0;
+	}
+	else if (k == 2)
+	{
+		if (n == 3)
+		{
+			printf(""2 3 1"");
+			return 0;
+		}
+		if (n > 3)
+		{
+			for (int i = 1; i <= n - 3; i++)
+				printf(""%d "", i);
+			printf(""%lld "", n);
+			printf(""%lld %lld"", n - 2, n - 1);
+			return 0;
+		}
+	}
+	else if (k == 3)
+	{
+		for (int i = 1; i <= n - 3; i++)
+			printf(""%d "", i);
+		printf(""%lld %lld %lld"", n, n - 1, n - 2);
+		return 0;
+	}
+	else if (k == 4)
+	{
+		for (int i = 1; i <= n - 4; i++)
+			printf(""%d "", i);
+		printf(""%lld %lld %lld %lld"", n - 1, n, n - 2, n - 3);
+		return 0;
+	}
+	else if (k == 5)
+	{
+		for (int i = 1; i <= n - 4; i++)
+			printf(""%d "", i);
+		printf(""%lld %lld %lld %lld"", n, n - 1, n - 2, n - 3);
+		return 0;
+	}
+	else
+	{
+		int c;
+		c = k / 3;
+		if (k % 3 == 0)
+		{
+			c = c + 3;//转化为空间
+			for (int i = 1; i <= n - c; i++)
+				printf(""%d "", b[i]);
+			printf(""%lld %lld %lld "", n - 1, n - 2, n);
+			for (int j = 3; j < c; j++)
+				printf(""%lld "", n - j);
+			return 0;
+		}
+		else if (k % 3 == 1)
+		{
+			c = c + 3;//转化为空间
+			for (int i = 1; i <= n - c; i++)
+				printf(""%d "", b[i]);
+			printf(""%lld %lld %lld "", n-1 , n , n-2);
+			for (int j = 3; j < c; j++)
+				printf(""%lld "", n - j);
+			return 0;
+		}
+		else
+		{
+			c = c + 3;//转化为空间
+			for (int i = 1; i <= n - c; i++)
+				printf(""%d "", b[i]);
+			for (int j = 0; j < c; j++)
+				printf(""%lld "", n - j);
+			return 0;
+		}
+	}
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+16,E,C,60730435,2023-02-01 22:31:42,戴罗,答案错误,"#include<stdio.h>
+int main()
+{
+	int a[100000], b[100000];
+	long long sum = 0;//先创立二倍数来判断
+	a[0] = 1;
+	for (int i = 1; i < 100000; i++)
+		a[i] = a[i - 1] * 2;
+	for (int i = 1; i < 100000; i++)//后继使用
+		b[i] = i;
+	long long n, k;
+	scanf(""%lld %lld"", &n, &k);
+	long long dai, kmax;
+	dai = n / 2;
+	if (dai * 2 == n)
+		dai = dai - 1;
+	for (int i = 0; i <= dai - 2; i++)
+		sum = sum + a[i];
+	kmax = (dai - 1) * n - sum;//当前n确定后的k的最大值
+	if (n == 1)
+	{
+		printf(""-1"");
+		return 0;
+	}
+	if (k > kmax)
+	{
+		printf(""-1"");
+		return 0;
+	}
+	else if (k == kmax)
+	{
+		for (int i = n; i > 0; i--)
+			printf(""%d "", i);
+		return 0;
+	}
+	else if (k == 0)
+	{
+		for (int i = 1; i < n + 1; i++)
+			printf(""%d "", i);
+		return 0;
+	}
+	else if (k == 1)
+	{
+		for (int i = 1; i <= n - 2; i++)
+			printf(""%d "", i);
+		for (int j = n; j > n - 2; j--)
+			printf(""%d "", j);
+		return 0;
+	}
+	else if (k == 2)
+	{
+		if (n == 3)
+		{
+			printf(""2 3 1"");
+			return 0;
+		}
+		if (n > 3)
+		{
+			for (int i = 1; i <= n - 3; i++)
+				printf(""%d "", i);
+			printf(""%lld "", n);
+			printf(""%lld %lld"", n - 2, n - 1);
+			return 0;
+		}
+	}
+	else if (k == 3)
+	{
+		for (int i = 1; i <= n - 3; i++)
+			printf(""%d "", i);
+		printf(""%lld %lld %lld"", n, n - 1, n - 2);
+		return 0;
+	}
+	else if (k == 4)
+	{
+		for (int i = 1; i <= n - 4; i++)
+			printf(""%d "", i);
+		printf(""%lld %lld %lld %lld"", n - 1, n, n - 2, n - 3);
+		return 0;
+	}
+	else if (k == 5)
+	{
+		for (int i = 1; i <= n - 4; i++)
+			printf(""%d "", i);
+		printf(""%lld %lld %lld %lld"", n, n - 1, n - 2, n - 3);
+		return 0;
+	}
+	else
+	{
+		int c;
+		c = k / 3;
+		if (k % 3 == 0)
+		{
+			c = c + 3;//转化为空间
+			for (int i = 1; i <= n - c; i++)
+				printf(""%d "", b[i]);
+			printf(""%lld %lld %lld "", n - 1, n - 2, n);
+			for (int j = 3; j < c; j++)
+				printf(""%lld "", n - j);
+			return 0;
+		}
+		else if (k % 3 == 1)
+		{
+			c = c + 3;//转化为空间
+			for (int i = 1; i <= n - c; i++)
+				printf(""%d "", b[i]);
+			printf(""%lld %lld %lld "", n-1 , n , n-2);
+			for (int j = 3; j < c; j++)
+				printf(""%lld "", n - j);
+			return 0;
+		}
+		else
+		{
+			c = c + 3;//转化为空间
+			for (int i = 1; i <= n - c; i++)
+				printf(""%d "", b[i]);
+			for (int j = 0; j < c; j++)
+				printf(""%lld "", n - j);
+			return 0;
+		}
+	}
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+17,E,C,60730810,2023-02-01 23:06:48,戴罗,答案错误,"#include<stdio.h>
+int main()
+{
+	int a[100000], b[100000];
+	long long sum = 0;//先创立二倍数来判断
+	a[0] = 1;
+	for (int i = 1; i < 100000; i++)
+		a[i] = a[i - 1] * 2;
+	for (int i = 1; i < 100000; i++)//后继使用
+		b[i] = i;
+	long long n, k;
+	scanf(""%lld %lld"", &n, &k);
+	if (n == 1)
+	{
+		printf(""-1"");
+		return 0;
+	}
+	if (k == 0)
+	{
+		for (int i = 1; i < n + 1; i++)
+			printf(""%d "", i);
+		return 0;
+	}
+	else if (k == 1)
+	{
+		for (int i = 1; i <= n - 2; i++)
+			printf(""%d "", i);
+		for (int j = n; j > n - 2; j--)
+			printf(""%d "", j);
+		return 0;
+	}
+	else if (k == 2)
+	{
+		if (n < 3)
+		{
+			printf(""-1"");
+			return 0;
+		}
+		if (n == 3)
+		{
+			printf(""2 3 1"");
+			return 0;
+		}
+		if (n > 3)
+		{
+			for (int i = 1; i <= n - 3; i++)
+				printf(""%d "", i);
+			printf(""%lld "", n);
+			printf(""%lld %lld"", n - 2, n - 1);
+			return 0;
+		}
+	}
+	else if (k == 3)
+	{
+		if (n < 3)
+		{
+			printf(""-1"");
+			return 0;
+		}
+		for (int i = 1; i <= n - 3; i++)
+			printf(""%d "", i);
+		printf(""%lld %lld %lld"", n, n - 1, n - 2);
+		return 0;
+	}
+	else if (k == 4)
+	{
+		if (n < 4)
+		{
+			printf(""-1"");
+			return 0;
+		}
+		for (int i = 1; i <= n - 4; i++)
+			printf(""%d "", i);
+		printf(""%lld %lld %lld %lld"", n - 1, n, n - 2, n - 3);
+		return 0;
+	}
+	else if (k == 5)
+	{
+		if (n < 4)
+		{
+			printf(""-1"");
+			return 0;
+		}
+		for (int i = 1; i <= n - 4; i++)
+			printf(""%d "", i);
+		printf(""%lld %lld %lld %lld"", n, n - 1, n - 2, n - 3);
+		return 0;
+	}
+	long long dai, kmax;
+	for (int z = 0; z < 10000; z++)
+	{
+		if (n < b[z])
+		{
+			dai = z;
+			break;
+		}
+	}
+	for (int i = 0; i < dai ; i++)
+		sum = sum + a[i];
+	kmax = (dai ) * n - sum;//当前n确定后的k的最大值
+	if (k > kmax)
+	{
+		printf(""-1"");
+		return 0;
+	}
+	else if (k == kmax)
+	{
+		for (int i = n; i > 0; i--)
+			printf(""%d "", i);
+		return 0;
+	}
+	else
+	{
+		int c;
+		c = k / 3;
+		if (k % 3 == 0)
+		{
+			c = c + 3;//转化为空间
+			for (int i = 1; i <= n - c; i++)
+				printf(""%d "", b[i]);
+			printf(""%lld %lld %lld "", n - 1, n - 2, n);
+			for (int j = 3; j < c; j++)
+				printf(""%lld "", n - j);
+			return 0;
+		}
+		else if (k % 3 == 1)
+		{
+			c = c + 3;//转化为空间
+			for (int i = 1; i <= n - c; i++)
+				printf(""%d "", b[i]);
+			printf(""%lld %lld %lld "", n-1 , n , n-2);
+			for (int j = 3; j < c; j++)
+				printf(""%lld "", n - j);
+			return 0;
+		}
+		else
+		{
+			c = c + 3;//转化为空间
+			for (int i = 1; i <= n - c; i++)
+				printf(""%d "", b[i]);
+			for (int j = 0; j < c; j++)
+				printf(""%lld "", n - j);
+			return 0;
+		}
+	}
+}"
+18,E,C,60730847,2023-02-01 23:10:52,戴罗,答案错误,"#include<stdio.h>
+int main()
+{
+	int a[100000];
+	long long sum = 0;//先创立二倍数来判断
+	a[0] = 1;
+	for (int i = 1; i < 31; i++)
+		a[i] = a[i - 1] * 2;
+	long long n, k;
+	scanf(""%lld %lld"", &n, &k);
+	if (n == 1)
+	{
+		printf(""-1"");
+		return 0;
+	}
+	if (k == 0)
+	{
+		for (int i = 1; i < n + 1; i++)
+			printf(""%d "", i);
+		return 0;
+	}
+	else if (k == 1)
+	{
+		for (int i = 1; i <= n - 2; i++)
+			printf(""%d "", i);
+		for (int j = n; j > n - 2; j--)
+			printf(""%d "", j);
+		return 0;
+	}
+	else if (k == 2)
+	{
+		if (n < 3)
+		{
+			printf(""-1"");
+			return 0;
+		}
+		if (n == 3)
+		{
+			printf(""2 3 1"");
+			return 0;
+		}
+		if (n > 3)
+		{
+			for (int i = 1; i <= n - 3; i++)
+				printf(""%d "", i);
+			printf(""%lld "", n);
+			printf(""%lld %lld"", n - 2, n - 1);
+			return 0;
+		}
+	}
+	else if (k == 3)
+	{
+		if (n < 3)
+		{
+			printf(""-1"");
+			return 0;
+		}
+		for (int i = 1; i <= n - 3; i++)
+			printf(""%d "", i);
+		printf(""%lld %lld %lld"", n, n - 1, n - 2);
+		return 0;
+	}
+	else if (k == 4)
+	{
+		if (n < 4)
+		{
+			printf(""-1"");
+			return 0;
+		}
+		for (int i = 1; i <= n - 4; i++)
+			printf(""%d "", i);
+		printf(""%lld %lld %lld %lld"", n - 1, n, n - 2, n - 3);
+		return 0;
+	}
+	else if (k == 5)
+	{
+		if (n < 4)
+		{
+			printf(""-1"");
+			return 0;
+		}
+		for (int i = 1; i <= n - 4; i++)
+			printf(""%d "", i);
+		printf(""%lld %lld %lld %lld"", n, n - 1, n - 2, n - 3);
+		return 0;
+	}
+	long long dai, kmax;
+	for (int z = 0; z < 10000; z++)
+	{
+		if (n < a[z])
+		{
+			dai = z;
+			break;
+		}
+	}
+	for (int i = 0; i < dai ; i++)
+		sum = sum + a[i];
+	kmax = (dai ) * n - sum;//当前n确定后的k的最大值
+	if (k > kmax)
+	{
+		printf(""-1"");
+		return 0;
+	}
+	else if (k == kmax)
+	{
+		for (int i = n; i > 0; i--)
+			printf(""%d "", i);
+		return 0;
+	}
+	else
+	{
+		int c;
+		c = k / 3;
+		if (k % 3 == 0)
+		{
+			c = c + 3;//转化为空间
+			for (int i = 1; i <= n - c; i++)
+				printf(""%d "", i);
+			printf(""%lld %lld %lld "", n - 1, n - 2, n);
+			for (int j = 3; j < c; j++)
+				printf(""%lld "", n - j);
+			return 0;
+		}
+		else if (k % 3 == 1)
+		{
+			c = c + 3;//转化为空间
+			for (int i = 1; i <= n - c; i++)
+				printf(""%d "", i);
+			printf(""%lld %lld %lld "", n-1 , n , n-2);
+			for (int j = 3; j < c; j++)
+				printf(""%lld "", n - j);
+			return 0;
+		}
+		else
+		{
+			c = c + 3;//转化为空间
+			for (int i = 1; i <= n - c; i++)
+				printf(""%d "", i);
+			for (int j = 0; j < c; j++)
+				printf(""%lld "", n - j);
+			return 0;
+		}
+	}
+}"
+19,E,C,60731277,2023-02-02 00:02:46,戴罗,答案错误,"#include<stdio.h>
+int main()
+{
+	int a[100000];
+	long long sum = 0;//先创立二倍数来判断
+	a[0] = 1;
+	for (int i = 1; i < 31; i++)
+		a[i] = a[i - 1] * 2;
+	long long n, k;
+	scanf(""%lld %lld"", &n, &k);
+	if (n == 1)
+	{
+		printf(""-1"");
+		return 0;
+	}
+	if (k == 0)
+	{
+		for (int i = 1; i < n + 1; i++)
+			printf(""%d "", i);
+		return 0;
+	}
+	else if (k == 1)
+	{
+		for (int i = 1; i <= n - 2; i++)
+			printf(""%d "", i);
+		for (int j = n; j > n - 2; j--)
+			printf(""%d "", j);
+		return 0;
+	}
+	else if (k == 2)
+	{
+		if (n < 3)
+		{
+			printf(""-1"");
+			return 0;
+		}
+		if (n == 3)
+		{
+			printf(""2 3 1"");
+			return 0;
+		}
+		if (n > 3)
+		{
+			for (int i = 1; i <= n - 3; i++)
+				printf(""%d "", i);
+			printf(""%lld "", n);
+			printf(""%lld %lld"", n - 2, n - 1);
+			return 0;
+		}
+	}
+	else if (k == 3)
+	{
+		if (n < 3)
+		{
+			printf(""-1"");
+			return 0;
+		}
+		for (int i = 1; i <= n - 3; i++)
+			printf(""%d "", i);
+		printf(""%lld %lld %lld"", n, n - 1, n - 2);
+		return 0;
+	}
+	else if (k == 4)
+	{
+		if (n < 4)
+		{
+			printf(""-1"");
+			return 0;
+		}
+		for (int i = 1; i <= n - 4; i++)
+			printf(""%d "", i);
+		printf(""%lld %lld %lld %lld"", n - 1, n, n - 2, n - 3);
+		return 0;
+	}
+	else if (k == 5)
+	{
+		if (n < 4)
+		{
+			printf(""-1"");
+			return 0;
+		}
+		for (int i = 1; i <= n - 4; i++)
+			printf(""%d "", i);
+		printf(""%lld %lld %lld %lld"", n, n - 1, n - 2, n - 3);
+		return 0;
+	}
+	long long dai, kmax;
+	for (int z = 0; z < 10000; z++)
+	{
+		if (n < a[z])
+		{
+			dai = z;
+			break;
+		}
+	}
+	for (int i = 0; i < dai ; i++)
+		sum = sum + a[i];
+	kmax = (dai ) * n - sum;//当前n确定后的k的最大值
+	if (k > kmax)
+	{
+		printf(""-1"");
+		return 0;
+	}
+	else if (k == kmax)
+	{
+		for (int i = n; i > 0; i--)
+			printf(""%d "", i);
+		return 0;
+	}
+	else
+	{
+		int c;//代表空间
+        c=k/3;
+        c=c+3;
+		int t;//补一法
+		if (k % 3 == 0)//第一种k
+		{
+			//转化为空间
+			for (int i = 1; i <= n - c; i++)
+				printf(""%d "", i);
+			printf(""%lld %lld %lld "", n - 1, n - 2, n);
+			for (int j = 3; j < c; j++)
+				printf(""%lld "", n - j);
+			return 0;
+		}
+		else if (k % 3 == 1)//第二种k
+		{
+			//转化为空间
+			for (int i = 1; i <= n - c; i++)
+				printf(""%d "", i);
+			printf(""%lld %lld %lld "", n-1 , n , n-2);
+			for (int j = 3; j < c; j++)
+				printf(""%lld "", n - j);
+			return 0;
+		}
+		else//第三种k
+		{
+			//转化为空间
+			for (int i = 1; i <= n - c; i++)
+				printf(""%d "", i);
+			for (int j = 0; j < c; j++)
+				printf(""%lld "", n - j);
+			return 0;
+		}
+	}
+}"
+20,E,C,60731376,2023-02-02 00:24:28,戴罗,答案错误,"#include<stdio.h>
+int main()
+{
+	int a[31];
+	long long sum = 0;//先创立二倍数来判断
+	a[0] = 1;
+	for (int i = 1; i < 31; i++)
+		a[i] = a[i - 1] * 2;
+	long long n, k;
+	scanf(""%lld %lld"", &n, &k);
+	if (n == 1)
+	{
+		printf(""-1"");
+		return 0;
+	}
+	if (k == 0)
+	{
+		for (long long i = 1; i < n + 1; i++)
+			printf(""%lld "", i);
+		return 0;
+	}
+	else if (k == 1)
+	{
+		for (long long i = 1; i <= n - 2; i++)
+			printf(""%lld "", i);
+		for (long long j = n; j > n - 2; j--)
+			printf(""%lld "", j);
+		return 0;
+	}
+	else if (k == 2)
+	{
+		if (n < 3)
+		{
+			printf(""-1"");
+			return 0;
+		}
+		if (n == 3)
+		{
+			printf(""2 3 1"");
+			return 0;
+		}
+		if (n > 3)
+		{
+			for (long long i = 1; i <= n - 3; i++)
+				printf(""%lld "", i);
+			printf(""%lld "", n);
+			printf(""%lld %lld"", n - 2, n - 1);
+			return 0;
+		}
+	}
+	else if (k == 3)
+	{
+		if (n < 3)
+		{
+			printf(""-1"");
+			return 0;
+		}
+		for (long long i = 1; i <= n - 3; i++)
+			printf(""%lld "", i);
+		printf(""%lld %lld %lld"", n, n - 1, n - 2);
+		return 0;
+	}
+	else if (k == 4)
+	{
+		if (n < 4)
+		{
+			printf(""-1"");
+			return 0;
+		}
+		for (long long i = 1; i <= n - 4; i++)
+			printf(""%lld "", i);
+		printf(""%lld %lld %lld %lld"", n - 1, n, n - 2, n - 3);
+		return 0;
+	}
+	else if (k == 5)
+	{
+		if (n < 4)
+		{
+			printf(""-1"");
+			return 0;
+		}
+		for (long long i = 1; i <= n - 4; i++)
+			printf(""%lld "", i);
+		printf(""%lld %lld %lld %lld"", n, n - 1, n - 2, n - 3);
+		return 0;
+	}
+	long long dai, kmax;
+	for (int z = 0; z < 31; z++)
+	{
+		if (n < a[z])
+		{
+			dai = z;
+			break;
+		}
+	}
+	for (int i = 0; i < dai; i++)
+		sum = sum + a[i];
+	kmax = (dai)*n - sum;//当前n确定后的k的最大值
+	if (k > kmax)
+	{
+		printf(""-1"");
+		return 0;
+	}
+	else if (k == kmax)
+	{
+		for (long long i = n; i > 0; i--)
+			printf(""%lld "", i);
+		return 0;
+	}
+	else
+	{
+		long long c;//代表空间
+		c = k / 3;
+		c = c + 3;
+		if (k % 3 == 0)//第一种k
+		{
+			//转化为空间
+			for (long long i = 1; i <= n - c; i++)
+				printf(""%lld "", i);
+			printf(""%lld %lld %lld "", n - 1, n - 2, n);
+			for (long long j = 3; j < c; j++)
+				printf(""%lld "", n - j);
+			return 0;
+		}
+		else if (k % 3 == 1)//第二种k
+		{
+			//转化为空间
+			for (long long i = 1; i <= n - c; i++)
+				printf(""%lld "", i);
+			printf(""%lld %lld %lld "", n - 1, n, n - 2);
+			for (long long j = 3; j < c; j++)
+				printf(""%lld "", n - j);
+			return 0;
+		}
+		else//第三种k
+		{
+			//转化为空间
+			for (long long i = 1; i <= n - c; i++)
+				printf(""%lld "", i);
+			for (long long j = 0; j < c; j++)
+				printf(""%lld "", n - j);
+			return 0;
+		}
+	}
+}"

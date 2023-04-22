@@ -1,0 +1,261 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,E,Python3,55305908,2022-12-16 20:10:31,哆啦哆,运行超时,"n = int(input())
+ans = 2
+t = 5
+if n == 1:
+    print(""1"")
+elif n == 2:
+    print(""2"")
+else:
+    n -= 2
+    while(n):
+        n -= 1
+        ans *= t
+        t += 1
+    print(ans % 998244353)"
+1,E,Python3,55306088,2022-12-16 20:12:35,眼里_有光,运行超时,"n=eval(input())
+def A(x:int):
+    r=1
+    for i in range(1,x+1):
+        r*=i
+    return r
+s=0
+#print(2*A(n-2)*s)
+for i in range(1,n):
+    s+=i*((n-i)*(n-i+1)//2)
+    #print(s)
+print(2*A(n-2)*s%998244353)"
+2,E,Python3,55308963,2022-12-16 20:52:36,雷峰lfss,答案错误,"def solve(n):
+    ans = 0
+    for i in range(1, n+1):
+        for j in range(i, n+1):
+            max_val = -1
+            min_val = n+1
+            for k in range(i, j+1):
+                max_val = max(max_val, p[k])
+                min_val = min(min_val, p[k])
+            if max_val == n and min_val == 1:
+                ans += 1
+    return ans % 998244353
+print(int(input()))"
+3,E,Python3,55309545,2022-12-16 21:00:01,雷峰lfss,答案错误,"MOD = 998244353
+
+def solve(n: int) -> int:
+    # 计算排列中 1 的个数
+    k = 0
+    for i in range(1, n + 1):
+        k += (i == 1)
+    # 初始化答案
+    ans = 0
+    # 双指针统计最小值为 1 的子区间个数
+    l, r = 0, k - 1
+    while l < r:
+        ans = (ans + (r - l + 1) * (r - l + 1)) % MOD
+        l += 1
+        r -= 1
+    # 双指针统计最大值
+    l, r = 0, k - 1
+    while l < r:
+        ans = (ans + (r - l + 1) * (r - l + 1)) % MOD
+        l += 1
+        r -= 1
+    # 返回答案
+    return ans
+print(int(input()))"
+4,E,Python3,55313377,2022-12-17 00:52:11,UncleYiBa,运行超时,"import sys, math 
+ 
+
+    
+for line in sys.stdin:
+    n = int(line)
+    total = 0
+    for i in range(1, n):
+        for j in range(1, n - i + 1):
+            total += i * j
+    total = total * math.factorial(n -2) * math.factorial(2)
+            
+        
+    
+    print(total)"
+5,E,Python3,55313380,2022-12-17 00:52:58,UncleYiBa,运行超时,"import sys, math 
+ 
+
+    
+for line in sys.stdin:
+    n = int(line)
+    total = 0
+    for i in range(1, n):
+        for j in range(1, n - i + 1):
+            total += i * j
+    total = total * math.factorial(n -2) * math.factorial(2)
+            
+        
+    
+    print(total % 998244353)"
+6,E,Python3,55313384,2022-12-17 00:54:27,UncleYiBa,运行超时,"import sys, math 
+ 
+
+    
+for line in sys.stdin:
+    n = int(line)
+    total = 0
+    for i in range(1, n):
+        for j in range(1, n - i + 1):
+            total += i * j
+    total = total * math.factorial(n -2) * math.factorial(2)
+            
+        
+    
+    print(total % 998244353)"
+7,E,Python3,55313403,2022-12-17 00:59:35,大虫航,运行超时,"# 最大值为n，最小值为1
+n = int(input())
+import sys, math 
+ 
+
+    
+
+
+total = 0
+for i in range(1, n):
+    for j in range(1, n - i + 1):
+        total += i * j
+total = total * math.factorial(n -2) * math.factorial(2)
+            
+        
+    
+print(total % 998244353)"
+8,E,Python3,55313406,2022-12-17 01:01:02,UncleYiBa,答案错误,"import sys, math 
+ 
+
+print(1)  
+# for line in sys.stdin:
+#     n = int(line)
+#     total = 0
+#     for i in range(1, n):
+#         for j in range(1, n - i + 1):
+#             total += i * j
+#     total = total * math.factorial(n -2) * math.factorial(2)
+            
+        
+    
+#     print(total % 998244353)"
+9,E,Python3,55313599,2022-12-17 02:19:51,UncleYiBa,运行超时,"import sys, math 
+ 
+
+# print(1)  
+for line in sys.stdin:
+    i = int(line)
+    c = (i * (i - 1) * (i + 1) * (i + 2))* math.factorial(i - 2) / 12
+    print(int(c + 0.1))
+#     total = 0
+#     for i in range(1, n):
+#         for j in range(1, n - i + 1):
+#             total += i * j
+#     total = total * math.factorial(n -2) * math.factorial(2)
+            
+        
+    
+#     print(total % 998244353)"
+10,E,Python3,55313601,2022-12-17 02:20:17,UncleYiBa,运行超时,"import sys, math 
+ 
+
+# print(1)  
+for line in sys.stdin:
+    i = int(line)
+    c = (i * (i - 1) * (i + 1) * (i + 2))* math.factorial(i - 2) / 12
+    print(int(c + 0.1) % 998244353)
+#     total = 0
+#     for i in range(1, n):
+#         for j in range(1, n - i + 1):
+#             total += i * j
+#     total = total * math.factorial(n -2) * math.factorial(2)
+            
+        
+    
+#     print(total % 998244353)"
+11,E,Python3,55323252,2022-12-17 15:44:08,mslxl,答案错误,"n = int(input())
+
+modd = 998244353
+ans = 1
+for i in range(1, n + 3):
+    ans = (ans * i) % modd
+
+print(int(ans/12))"
+12,E,Python3,55325079,2022-12-17 16:27:47,goto_1600,答案错误,"# 4*3 * 2res=0
+n=int(input())
+res=0
+tmp=1
+mod=998244353
+for i in range(1,n-1):
+    tmp=tmp*i%mod
+for i in range(1,n+1):#1的位置
+    res+=tmp*(i*(i-1)//2)*(n-i+1)+tmp*i*(1+n-i)*(n-i)//2
+    res%=mod
+print(res)"
+13,E,Python3,55325127,2022-12-17 16:28:48,goto_1600,答案错误,"# 4*3 * 2res=0
+n=int(input())
+res=0
+tmp=1
+mod=998244353
+for i in range(1,n-1):
+    tmp=tmp*i%mod
+for i in range(1,n+1):#1的位置
+    res+=tmp*(i*(i-1)//2)*(n-i+1)+tmp*i*(1+n-i)*(n-i)//2
+    res%=mod
+print(res)"
+14,E,Python3,55331682,2022-12-18 05:12:51,爱打牌的登子,答案错误,"mod = 998244353
+n = int (input())
+f = [1]
+for i in range(1 , n + 1):
+    f.append(f[-1] * i % mod)
+A = 2 * f[-2] % mod 
+B = 0
+for i in range (1 , n + 1):
+    C = i *(n - i + 1) * (n - i) // 2
+    B = (B +  C % mod) % mod
+print (A * B % mod)"
+15,E,Python3,55331683,2022-12-18 05:18:15,爱打牌的登子,执行出错,"mod = 998244353
+n = int (input())
+f = [1]
+for i in range(1 , n + 1):
+    f.append(f[-1] * i % mod)
+A = 2 * f[-3] % mod 
+B = 0
+for i in range (1 , n + 1):
+    C = i *(n - i + 1) * (n - i) // 2
+    B = (B +  C % mod) % mod
+print (A * B % mod)"
+16,E,Python3,55331684,2022-12-18 05:19:27,爱打牌的登子,答案正确,"mod = 998244353
+n = int (input())
+if n == 1:
+    print (1)
+    exit(0)
+f = [1]
+for i in range(1 , n + 1):
+    f.append(f[-1] * i % mod)
+A = 2 * f[-3] % mod 
+B = 0
+for i in range (1 , n + 1):
+    C = i *(n - i + 1) * (n - i) // 2
+    B = (B +  C % mod) % mod
+print (A * B % mod)"
+17,E,Python3,55354419,2022-12-19 19:59:50,jxnu20-软开4班-熊涛,答案正确,"n = int(input())
+ans = 2
+t = 5
+if n == 1:
+    print(""1"")
+elif n == 2:
+    print(""2"")
+else:
+    n -= 2
+    while(n):
+        n -= 1
+        ans *= t
+        t += 1
+        ans %= 998244353
+    print(ans % 998244353)"
+18,E,Python3,60948355,2023-02-22 19:45:34,懒得改了,答案正确,"n=int(input())
+ans=2
+for i in range(5,n+3):
+    ans=ans*i%998244353
+print(ans if n!=1 else 1)"

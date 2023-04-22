@@ -1,0 +1,7329 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,C,C(gcc 7.5.0),60967821,2023-02-24 19:18:04,六鸟先森,答案错误,"#include <stdio.h>
+#define int long long
+signed main()
+{
+	int n;
+	scanf(""%lld"",&n);
+	for(int i=1;i<=n;i++)
+	{
+		int a,b,c;
+		float s=0;
+		scanf(""%lld%lld%lld"",&a,&b,&c);
+		if(b>=a)
+		{
+			printf(""YES\n"");
+			continue;
+		}
+		s=a*b*c*(1.0/4);
+		if((1.0/2)*a*(float)(a/b)*c>=s)
+		printf(""YES\n"");
+		else
+		printf(""NO\n"");
+		}
+		return 0;
+}"
+1,C,C(gcc 7.5.0),60968670,2023-02-24 19:27:01,Nefelibata.,答案正确,"#include<stdio.h>
+#include<math.h>
+#include<stdlib.h>
+#include<string.h>
+#include<malloc.h>
+#include<ctype.h>
+
+#define Max(a,b) (a>b?a:b)
+#define Min(a,b) (a>b?b:a)
+#define Max3(a,b,c) (Max(a,b)>c?Max(a,b):c)
+#define Min3(a,b,c) (Min(a,b)>c?c:Min(a,b))
+#define scanfint(a) scanf(""%d"",&a)
+#define scanfl(a) scanf(""%ld"",&a)
+#define scanfll(a) scanf(""%lld"",&a)
+#define scanfstr(a) scanf(""%s"",a)
+#define printfll(a) printf(""%lld\n"",a)
+#define swap(a,b) a=a+b;b=a-b;a=a-b
+#define FOR(i,l,r) for(int i=l;i<=r;i++)
+#define FORL(i,l,r) for(long i=l;i<=r;i++)
+#define FORLL(i,l,r) for(long long i=l;i<=r;i++)
+#define Get_Rand(x) (rand()%x+1)
+#define Presentation(i,r) printf(""%c"","" \n""[i==r])
+
+typedef long long ll;
+
+const double pi=3.141592653589793;
+const ll MOD=1e9+7;
+const int INF=0x7fffffff;
+const double eps=1e-8;
+
+/*----------C Head----------*/
+int main()
+{
+    ll T;
+    scanfll(T);
+    ll xb,xc,yc;
+    ll x;
+    double k,S2;
+    while(T--)
+    {
+        scanf(""%lld%lld%lld"",&xb,&xc,&yc);
+        S2=1.*xb*yc/2;
+        if(xc*2>=xb)
+        {
+            k=1.*yc/xc;
+            FORLL(i,0,xc)
+                if(fabs(1.*i*i*yc/xc/2-S2/2)<=eps)
+                {printf(""YES\n"");break;}
+                else if(i==xc) printf(""NO\n"");
+        }
+        else
+        {
+            k=1.*yc/(xb-xc);
+            for(ll i=xb;i>xc-1;i--)
+                if(fabs(1.*(xb-i)*(xb-i)*yc/(xb-xc)/2-S2/2)<=eps)
+                {printf(""YES\n"");break;}
+                else if(i==xc) printf(""NO\n"");
+        }
+    }
+    return 0;
+}"
+2,C,C,60968942,2023-02-24 19:29:57,小憕666,答案正确,"#include <stdio.h>
+#include <math.h>
+int main(void)
+{
+    int t;
+    
+    scanf(""%d"", &t);
+    
+    while(t--)
+    {
+        int a, b, c;
+        
+        scanf(""%d%d%d"", &a, &b, &c);
+        
+        if(b>=a)
+        {
+            if((a*b)&1)
+                printf(""NO\n"");
+            else
+            {
+                int s=sqrt(a*1.0*b/2);
+                
+                if(s*s==a*b/2)
+                    printf(""YES\n"");
+                else
+                    printf(""NO\n"");
+            }
+        }
+        else
+        {
+            int tag=0;
+            
+            if((a*b)&1)
+                ;
+            else
+            {
+                int s=sqrt(a*1.0*b/2);
+                
+                if(s*s==a*b/2 && s<=b)
+                    tag=1;
+            }
+            
+            if((a*(a-b))&1)
+                ;
+            else
+            {
+                int s=sqrt(a*1.0*(a-b)/2);
+                
+                if(s*s==(a*(a-b)/2) && s>=b)
+                    tag=1;
+            }
+            
+            
+            if(tag)
+                printf(""YES\n"");
+            else
+                printf(""NO\n"");
+        }
+    }
+    
+    return 0;
+}"
+3,C,C,60969096,2023-02-24 19:31:42,fync王萌,答案错误,"#include <stdio.h>
+int main(){
+    float n,i,j,a,b,c,s,r,x,y;
+    int k;
+    scanf(""%f"",&n);
+    for(i=0;i<n;i++){
+        scanf(""%f %f %f\n"",&a,&b,&c);
+        if(b==a/2){
+            printf(""YES\n"");
+        }else{
+            s=a*c/2;
+            if(b>a/2){
+                r=b;
+            }else{
+                r=a-b;
+            }
+            x=s*r/c;
+            k=x;
+            y=k;
+            if(y==x){
+                printf(""YES\n"");
+            }else{
+                printf(""NO\n"");
+            }
+        }
+    }
+}"
+4,C,C,60969103,2023-02-24 19:31:47,这个人真的很深情,答案错误,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+    int n;
+    int xb, xc, yc;
+    scanf(""%d"",&n);
+    for(int i=0;i<n;i++)
+    {
+        scanf(""%d %d %d"",&xb,&xc,&yc);
+        if(xb%xc==0)
+            printf(""YES\n"");
+        else
+            printf(""NO\n"");
+    }
+    return 0;
+}"
+5,C,C,60969151,2023-02-24 19:32:26,fync王萌,答案错误,"#include <stdio.h>
+int main(){
+    double n,i,j,a,b,c,s,r,x,y;
+    int k;
+    scanf(""%lf"",&n);
+    for(i=0;i<n;i++){
+        scanf(""%lf %lf %lf\n"",&a,&b,&c);
+        if(b==a/2){
+            printf(""YES\n"");
+        }else{
+            s=a*c/2;
+            if(b>a/2){
+                r=b;
+            }else{
+                r=a-b;
+            }
+            x=s*r/c;
+            k=x;
+            y=k;
+            if(y==x){
+                printf(""YES\n"");
+            }else{
+                printf(""NO\n"");
+            }
+        }
+    }
+}"
+6,C,C(gcc 7.5.0),60969354,2023-02-24 19:34:39,六鸟先森,答案正确,"#include <stdio.h>
+#define int long long
+signed main()
+{
+	int n;
+	scanf(""%lld"",&n);
+	for(int i=1;i<=n;i++)
+	{
+		int a,b,c,s=0;
+		scanf(""%lld%lld%lld"",&a,&b,&c);
+		int l=1,r=a,mid;
+		while(l<=r)
+		{
+			mid=(l+r)/2;
+			s=a*c;
+			if(mid<=b)
+			{
+				if((long long)2*mid*mid*c==s*b)
+	     		{
+					printf(""YES\n"");
+					break;
+				}
+				else if((long long)2*mid*mid*c<s*b)
+			    l=mid+1;
+				else 
+				r=mid-1;
+				
+			}
+			else
+			{
+				if((int)2*(a-mid)*(a-mid)*c==s*(a-b))
+				{
+					printf(""YES\n"");
+					break;
+				}
+				else if((int)2*(a-mid)*(a-mid)*c<s*(a-b))
+				r=mid-1;
+				else
+				l=mid+1;
+			}
+		}
+		if(l>r)
+		printf(""NO\n"");
+		}
+		return 0;
+}"
+7,C,C,60969418,2023-02-24 19:35:21,姜羊yskm,答案错误,"#define _CRT_SECURE_NO_WARNINGS 1
+#include<stdio.h>
+int main()
+{
+    int t;
+    scanf(""%d"", &t);
+    while (t--)
+    {
+        int xb, xc, yc;
+        scanf(""%d%d%d"", &xb, &xc, &yc);
+        double s1 = (double)xb * yc / 2;
+        double kac = (double)yc / xc;
+        double kbc = (double)(yc - 0) / (xc - xb);
+        int key = 0;
+        for (int i = 1; i < xb; i++)
+        {
+            if (i > 0 && i <xc)
+            {
+                double s2 = 0;
+                double high = i * kac;
+                s2 = i * high / 2;
+                if (2 * s2 == s1)
+                {
+                    printf(""YES\n"");
+                    key = 1;
+                    break;
+                }
+            }
+            if (i == xc)
+            {
+                if (xc * 2 == xb)
+                {
+                    printf(""YES\n"");
+                    key = 1;
+                    break;
+                }
+
+            }
+            if (i > xc && i < xb)
+            {
+                double s3 = 0;
+                double high2 = kbc * (i - xb);
+                s3 = high2 * (xb - i) / 2;
+                if (s3 * 2 == s1)
+                {
+                    printf(""YES\n"");
+                    key = 1;
+                    break;
+                }
+            }
+
+
+        }
+        if (key == 0)
+            printf(""NO\n"");
+    }
+    return 0;
+}"
+8,C,C,60969704,2023-02-24 19:38:26,bulis04_zqy,答案错误,"#include<stdio.h>
+int main()
+{
+    int t;scanf(""%d"",&t);
+    int a,b,c,i,e=0;
+    double s,ss;
+    while(t--)
+    {
+        e=0;
+        scanf(""%d %d %d"",&a,&b,&c);
+        s=a*1.0/2.0;
+        for(i=1;i<a;i++)
+        {
+            if(i<=b)
+            {
+                ss=i*(i*1.0/b);
+                if(ss==s)
+                {e=1;break;}
+            }
+            else
+            {
+                ss=(a-i)*((a-i)*1.0/(a-b));
+                if(ss==s)
+                {e=1;break;}
+            }
+        }           
+        if(e)
+                printf(""YES\n"");
+            else
+                printf(""NO\n"");
+    }
+    return 0;
+}"
+9,C,C,60969903,2023-02-24 19:40:54,bulis04_zqy,答案错误,"#include<stdio.h>
+int main()
+{
+    int t;scanf(""%d"",&t);
+    int a,b,c,i,e=0;
+    double s,ss;
+    while(t--)
+    {
+        e=0;
+        scanf(""%d %d %d"",&a,&b,&c);
+        s=a/2.0;
+        for(i=1;i<a;i++)
+        {
+            if(i<=b)
+            {
+                ss=i*(i*1.0/b);
+                if(ss==s)
+                {e=1;break;}
+            }
+            else
+            {
+                ss=(a-i)*((a-i)*1.0/(a-b));
+                if(ss==s)
+                {e=1;break;}
+            }
+        }           
+        if(e)
+                printf(""YES\n"");
+            else
+                printf(""NO\n"");
+    }
+    return 0;
+}"
+10,C,C,60969928,2023-02-24 19:41:07,这个人真的很深情,答案错误,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+    int n;
+    int xb, xc, yc, t, tt;
+    scanf(""%d"",&n);
+    for(int i=0;i<n;i++)
+    {
+        scanf(""%d %d %d"",&xb,&xc,&yc);
+        if(2*xc==xb)
+            printf(""YES\n"");
+        else
+        {
+            if(2*xc<xb)
+                xc=xb-xc;
+            t=xb*xc/2;
+            tt=sqrt(t);
+            if(tt*tt==t)
+                printf(""YES\n"");
+            else
+                printf(""NO\n"");
+        }
+    }
+    return 0;
+}"
+11,C,C,60970098,2023-02-24 19:43:01,这个人真的很深情,答案正确,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+    int n;
+    int xb, xc, yc, t, tt;
+    scanf(""%d"",&n);
+    for(int i=0;i<n;i++)
+    {
+        scanf(""%d %d %d"",&xb,&xc,&yc);
+        if(2*xc==xb)
+            printf(""YES\n"");
+        else
+        {
+            if(2*xc<xb)
+                xc=xb-xc;
+            if(xb*xc%2==1)
+                printf(""NO\n"");
+            else
+            {
+                t=xb*xc/2;
+                tt=sqrt(t);
+                if(tt*tt==t)
+                    printf(""YES\n"");
+                else
+                    printf(""NO\n"");
+            }
+        }
+    }
+    return 0;
+}"
+12,C,C,60970121,2023-02-24 19:43:20,fync王萌,答案错误,"#include <stdio.h>
+int main(){
+    double n,i,j,a,b,c,s,r,x,y;
+    int k;
+    scanf(""%lf"",&n);
+    for(i=0;i<n;i++){
+        scanf(""%lf %lf %lf\n"",&a,&b,&c);
+        if(b==a/2){
+            printf(""YES\n"");
+        }else{
+            if(b>a/2){
+                r=b;
+            }else{
+                r=a-b;
+            }
+            x=a*r/2;
+            k=x;
+            y=k;
+            if(y==x){
+                printf(""YES\n"");
+            }else{
+                printf(""NO\n"");
+            }
+        }
+    }
+}"
+13,C,C,60970153,2023-02-24 19:43:41,fync王萌,答案错误,"#include <stdio.h>
+int main(){
+    double n,i,j,a,b,c,s,r,x,y;
+    long k;
+    scanf(""%lf"",&n);
+    for(i=0;i<n;i++){
+        scanf(""%lf %lf %lf\n"",&a,&b,&c);
+        if(b==a/2){
+            printf(""YES\n"");
+        }else{
+            if(b>a/2){
+                r=b;
+            }else{
+                r=a-b;
+            }
+            x=a*r/2;
+            k=x;
+            y=k;
+            if(y==x){
+                printf(""YES\n"");
+            }else{
+                printf(""NO\n"");
+            }
+        }
+    }
+}"
+14,C,C,60970163,2023-02-24 19:43:50,fync王萌,答案错误,"#include <stdio.h>
+int main(){
+    double n,i,j,a,b,c,s,r,x,y;
+    long long k;
+    scanf(""%lf"",&n);
+    for(i=0;i<n;i++){
+        scanf(""%lf %lf %lf\n"",&a,&b,&c);
+        if(b==a/2){
+            printf(""YES\n"");
+        }else{
+            if(b>a/2){
+                r=b;
+            }else{
+                r=a-b;
+            }
+            x=a*r/2;
+            k=x;
+            y=k;
+            if(y==x){
+                printf(""YES\n"");
+            }else{
+                printf(""NO\n"");
+            }
+        }
+    }
+}"
+15,C,C(gcc 7.5.0),60970169,2023-02-24 19:43:56,拒绝pua的柯基很讲原则,答案错误,"#include<stdio.h>
+int main(){
+    int T,i=0;
+    scanf(""%d"",&T);
+    int xb,xc,yc;  //4 2 4
+    int done = 0;
+    for(;i<T;i++){
+        done = 0;
+        scanf(""%d%d%d"",&xb, &xc, &yc);
+        //printf(""%d,%d,%d\n"",xb,xc,yc);
+        float total = xb * yc / 2;
+        //printf(""total:%f\n"",total);
+        float S;
+        float x0 = 1.0;
+        for(;x0<xb;x0 += 1){
+            if(x0<=xc){
+                S = x0 * (yc/xc*x0)/2;
+                //printf(""x0 = %f, S = %f\n"",x0, S);
+                if((int)S == (int)(total / 2)){
+                    printf(""YES\n"");
+                    done++;
+                }
+            }
+            else{
+                S = (xb - xc) * yc *((xb-x0)/(xb-xc))*((xb-x0)/(xb-xc))/2;
+                //printf(""x0 = %f, S = %f\n"",x0, S);
+                if((int)S == (int)(total / 2)){
+                    printf(""YES\n"");
+                    done++;
+                }
+            }
+        }
+        if(done == 0)
+            printf(""NO\n"");
+    }
+    
+    return 0;
+}"
+16,C,C,60970176,2023-02-24 19:43:59,bulis04_zqy,答案错误,"#include<stdio.h>
+int main()
+{
+    int t;scanf(""%d"",&t);
+    int a,b,c,i,e=0;
+    double s,ss;
+    while(t--)
+    {
+        e=0;
+        scanf(""%d %d %d"",&a,&b,&c);
+        s=a/2.0;
+        for(i=1;i<a;i++)
+        {
+            if(i<=b)
+            {
+                ss=i*(i*1.0/b);
+                if(ss==s)
+                {e=1;break;}
+            }
+            else
+            {
+                ss=(a-i)*((a-i)*1.0/(a-b));
+                if(ss==s)
+                {e=1;break;}
+            }
+        }           
+        if(e)
+                printf(""YES\n"");
+            else
+                printf(""NO\n"");
+    }
+    return 0;
+}"
+17,C,C,60970276,2023-02-24 19:45:21,Tang__Bin,答案正确,"#define _CRT_SECURE_NO_WARNINGS 1
+//#define scanf scanf_s
+
+#define seedt srand(time(NULL))
+
+#include<stdio.h>
+#include<math.h>
+
+void solve()
+{
+    int xb, xc; scanf(""%d%d"", &xb, &xc);
+    int yc; scanf(""%d"", &yc);
+    if (2 * xc < xb)xc = xb - xc;
+    int mul = xb * xc;
+    if ((mul & 1) != 0) { printf(""NO\n""); return; }
+    mul /= 2;
+    int sqrtmul = sqrt(mul);
+    (sqrtmul * sqrtmul == mul) ? printf(""YES\n"") : printf(""NO\n"");
+    return;
+}
+int main()
+{
+    int t; scanf(""%d"", &t); for (int i = 0; i < t; i++)solve();
+
+    return 0;
+}"
+18,C,C,60970524,2023-02-24 19:48:11,姜羊yskm,答案错误,"#include<stdio.h>
+int main()
+{
+    int t;
+    scanf(""%d"", &t);
+    while (t--)
+    {
+        long long xb, xc, yc;
+        scanf(""%lld%lld%lld"", &xb, &xc, &yc);
+        double s1 = (double)xb * yc / 2;
+        double kac = (double)yc / xc;
+        double kbc = (double)(yc - 0) / (xc - xb);
+        int key = 0;
+        for (int i = 1; i < xb; i++)
+        {
+            if (i > 0 && i <xc)
+            {
+                double s2 = 0;
+                double high = i * kac;
+                s2 = i * high / 2;
+                if (2 * s2 == s1)
+                {
+                    printf(""YES\n"");
+                    key = 1;
+                    break;
+                }
+            }
+            if (i == xc)
+            {
+                if (xc * 2 == xb)
+                {
+                    printf(""YES\n"");
+                    key = 1;
+                    break;
+                }
+
+            }
+            if (i > xc && i < xb)
+            {
+                double s3 = 0;
+                double high2 = kbc * (i - xb);
+                s3 = high2 * (xb - i) / 2;
+                if (s3 * 2 == s1)
+                {
+                    printf(""YES\n"");
+                    key = 1;
+                    break;
+                }
+            }
+        }
+        if (key == 0)
+            printf(""NO\n"");
+    }
+    return 0;
+}"
+19,C,C(gcc 7.5.0),60970685,2023-02-24 19:50:16,拒绝pua的柯基很讲原则,答案错误,"#include<stdio.h>
+int main(){
+    int T,i=0;
+    scanf(""%d"",&T);
+    float xb,xc,yc;  //4 2 4
+    for(;i<T;i++){
+        int done = 0;
+        scanf(""%f%f%f"",&xb, &xc, &yc);
+        //printf(""%d,%d,%d\n"",xb,xc,yc);
+        float total = xb * yc / 2;
+        //printf(""total:%f\n"",total);
+        float S;
+        float x0 = 1.0;
+        for(;x0<xb;x0 += 1){
+            if(x0<=xc){
+                S = x0 * (yc/xc*x0)/2;
+                //printf(""x0 = %f, S = %f\n"",x0, S);
+                if(S == total / 2){
+                    printf(""YES\n"");
+                    done++;
+                }
+            }
+            else{
+                S = (xb - x0) * (yc*(xb-x0)/(xb-xc))/2;
+                //printf(""x0 = %f, S = %f\n"",x0, S);
+                if(S == total / 2){
+                    printf(""YES\n"");
+                    done++;
+                }
+            }
+        }
+        if(done == 0)
+            printf(""NO\n"");
+    }
+    
+    return 0;
+}"
+20,C,C(gcc 7.5.0),60970741,2023-02-24 19:51:02,神龙大侠1,答案错误,"#include<stdio.h>
+#include<math.h>
+#define MAX 10000
+int main()
+{
+	int n,i,j,k,x;
+	double s1,s2,s3;
+	scanf(""%d"",&n);
+	int a[MAX][3];
+	for(i=0;i<n;i++)
+	{
+		for(j=0;j<3;j++){
+			scanf(""%d"",&a[i][j]);
+		}
+		s1=0.5*a[i][0]*a[i][2];
+		s2=0.5*a[i][1]*a[i][2];
+		if(s2>=0.5*s1){
+			for(k=1;k<=a[i][1];k++){
+				s3=0.5*k*k*a[i][2]/a[i][1];
+				if(s3==0.5*s1){
+					printf(""YES\n"");
+					break;
+				} 
+			}
+			if(k>a[i][1]){
+				printf(""NO\n"");
+			}
+		}
+		else{
+			for(k=1;k<=a[i][0];k++){
+				s3=0.5*(a[i][0]-k)*(a[i][0]-k)*a[i][2]/(a[i][1]-a[i][0]);
+				if(s3==0.5*s1){
+					printf(""YES\n"");
+					break;
+				} 
+			}
+			if(k>a[i][1]){
+				printf(""NO\n"");
+			}
+			}
+		}
+	return 0;
+}"
+21,C,C(gcc 7.5.0),60970971,2023-02-24 19:53:58,神龙大侠1,答案错误,"#include<stdio.h>
+#include<math.h>
+#define MAX 10000
+int main()
+{
+	int n,i,j,k,x;
+	double s1,s2,s3;
+	scanf(""%d"",&n);
+	int a[MAX][3];
+	for(i=0;i<n;i++)
+	{
+		for(j=0;j<3;j++){
+			scanf(""%d"",&a[i][j]);
+		}
+		s1=0.5*a[i][0]*a[i][2];
+		s2=0.5*a[i][1]*a[i][2];
+		if(s2>=0.5*s1){
+			for(k=1;k<=a[i][1];k++){
+				s3=0.5*k*k*a[i][2]/a[i][1];
+				if(s3==0.5*s1){
+					printf(""YES\n"");
+					break;
+				} 
+			}
+			if(k>a[i][1]){
+				printf(""NO\n"");
+			}
+		}
+		else{
+			for(k=1;k<=a[i][0];k++){
+				s3=0.5*(a[i][0]-k)*(a[i][0]-k)*a[i][2]/(a[i][0]-a[i][1]);
+				if(s3==0.5*s1){
+					printf(""YES\n"");
+					break;
+				} 
+			}
+			if(k>a[i][1]){
+				printf(""NO\n"");
+			}
+			}
+		}
+	return 0;
+}"
+22,C,C(gcc 7.5.0),60971190,2023-02-24 19:57:15,牛客797594545号,答案错误,"#include <stdio.h>
+int main()
+{
+    int a,b,c,d,e,f,g;
+    double a1,b1,c1,d1,e1,f1;
+    int panduan=0;
+    scanf(""%d"",&a);
+    while(a--)
+    {
+        scanf(""%d %d %d"",&b,&c,&d);
+        b1=b;
+        c1=c;
+        d1=d;
+        e1=b1*d1/4;
+        printf(""%lf\n"",e1); 
+        for(g=0;g<c;g++)
+        {
+            f1=g*g*d1/c1;
+            f1=f1/2;
+            printf(""%lf "",f1); 
+            if(f1==e1)
+            {
+                printf(""YES\n"");
+                panduan=1;
+                break;
+            }
+        }
+        if(panduan==0)
+        for(g=b;g>=c;g--)
+        {
+            f1=(b1-g)*(b1-g)*d1/(b1-c1);
+            f1=f1/2;
+            printf(""%lf "",f1); 
+            if(f1==e1)
+            {
+                printf(""YES\n"");
+                panduan=1;
+                break;
+            }
+        }
+        if(panduan==0)
+        {
+            printf(""NO\n"");
+        }
+        panduan=0;
+    }
+}"
+23,C,C(gcc 7.5.0),60971282,2023-02-24 19:58:26,牛客797594545号,答案错误,"#include <stdio.h>
+int main()
+{
+    int a,b,c,d,e,f,g;
+    double a1,b1,c1,d1,e1,f1;
+    int panduan=0;
+    scanf(""%d"",&a);
+    while(a--)
+    {
+        scanf(""%d %d %d"",&b,&c,&d);
+        b1=b;
+        c1=c;
+        d1=d;
+        e1=b1*d1/4;
+        printf(""%lf\n"",e1); 
+        for(g=0;g<c;g++)
+        {
+            f1=g*d1/c1;
+            f1=f1*g/2;
+            printf(""%lf "",f1); 
+            if(f1==e1)
+            {
+                printf(""YES\n"");
+                panduan=1;
+                break;
+            }
+        }
+        if(panduan==0)
+        for(g=b;g>=c;g--)
+        {
+            f1=(b1-g)*(b1-g)/(b1-c1);
+            f1=f1*d1/2;
+            printf(""%lf "",f1); 
+            if(f1==e1)
+            {
+                printf(""YES\n"");
+                panduan=1;
+                break;
+            }
+        }
+        if(panduan==0)
+        {
+            printf(""NO\n"");
+        }
+        panduan=0;
+    }
+}"
+24,C,C,60971287,2023-02-24 19:58:28,bulis04_zqy,答案错误,"#include<stdio.h>
+int main()
+{
+    int t;scanf(""%d"",&t);
+    int a,b,c,i,e=0;
+    double s,ss;
+    while(t--)
+    {
+        e=0;
+        scanf(""%d %d %d"",&a,&b,&c);
+        s=a/2.0;
+        for(i=0;i<=a;i++)
+        {
+            if(i<=b)
+            {
+                ss=i*(i*1.0/b);
+                if(ss==s)
+                {e=1;break;}
+            }
+            else
+            {
+                ss=(a-i)*((a-i)*1.0/(a-b));
+                if(ss==s)
+                {e=1;break;}
+            }
+        }           
+        if(e)
+                printf(""YES\n"");
+            else
+                printf(""NO\n"");
+    }
+    return 0;
+}"
+25,C,C(gcc 7.5.0),60971353,2023-02-24 19:59:14,牛客797594545号,答案错误,"#include <stdio.h>
+int main()
+{
+    int a,b,c,d,e,f,g;
+    double a1,b1,c1,d1,e1,f1;
+    int panduan=0;
+    scanf(""%d"",&a);
+    while(a--)
+    {
+        scanf(""%d %d %d"",&b,&c,&d);
+        b1=b;
+        c1=c;
+        d1=d;
+        e1=b1*d1/4;
+        for(g=0;g<c;g++)
+        {
+            f1=g*d1/c1;
+            f1=f1*g/2;
+            if(f1==e1)
+            {
+                printf(""YES\n"");
+                panduan=1;
+                break;
+            }
+        }
+        if(panduan==0)
+        for(g=b;g>=c;g--)
+        {
+            f1=(b1-g)*(b1-g)/(b1-c1);
+            f1=f1*d1/2;
+            if(f1==e1)
+            {
+                printf(""YES\n"");
+                panduan=1;
+                break;
+            }
+        }
+        if(panduan==0)
+        {
+            printf(""NO\n"");
+        }
+        panduan=0;
+    }
+}"
+26,C,C(gcc 7.5.0),60971421,2023-02-24 19:59:59,牛客797594545号,答案错误,"#include <stdio.h>
+int main()
+{
+    int a,b,c,d,e,f,g;
+    double a1,b1,c1,d1,e1,f1;
+    int panduan=0;
+    scanf(""%d"",&a);
+    while(a--)
+    {
+        scanf(""%d %d %d"",&b,&c,&d);
+        b1=b;
+        c1=c;
+        d1=d;
+        e1=b1*d1/4;
+        for(g=1;g<c;g++)
+        {
+            f1=g*d1/c1;
+            f1=f1*g/2;
+            if(f1==e1)
+            {
+                printf(""YES\n"");
+                panduan=1;
+                break;
+            }
+        }
+        if(panduan==0)
+        for(g=b;g>=c;g--)
+        {
+            f1=(b1-g)*(b1-g)/(b1-c1);
+            f1=f1*d1/2;
+            if(f1==e1)
+            {
+                printf(""YES\n"");
+                panduan=1;
+                break;
+            }
+        }
+        if(panduan==0)
+        {
+            printf(""NO\n"");
+        }
+        panduan=0;
+    }
+}"
+27,C,C(gcc 7.5.0),60971470,2023-02-24 20:00:38,牛客797594545号,答案错误,"#include <stdio.h>
+int main()
+{
+    int a,b,c,d,e,f,g;
+    double a1,b1,c1,d1,e1,f1;
+    int panduan=0;
+    scanf(""%d"",&a);
+    while(a--)
+    {
+        scanf(""%d %d %d"",&b,&c,&d);
+        b1=b;
+        c1=c;
+        d1=d;
+        e1=b1*d1/4;
+        for(g=0;g<=c;g++)
+        {
+            f1=g*d1/c1;
+            f1=f1*g/2;
+            if(f1==e1)
+            {
+                printf(""YES\n"");
+                panduan=1;
+                break;
+            }
+        }
+        if(panduan==0)
+        for(g=b;g>c;g--)
+        {
+            f1=(b1-g)*(b1-g)/(b1-c1);
+            f1=f1*d1/2;
+            if(f1==e1)
+            {
+                printf(""YES\n"");
+                panduan=1;
+                break;
+            }
+        }
+        if(panduan==0)
+        {
+            printf(""NO\n"");
+        }
+        panduan=0;
+    }
+}"
+28,C,C(gcc 7.5.0),60971522,2023-02-24 20:01:26,牛客797594545号,答案错误,"#include <stdio.h>
+int main()
+{
+    int a,b,c,d,e,f,g;
+    double a1,b1,c1,d1,e1,f1;
+    int panduan=0;
+    scanf(""%d"",&a);
+    while(a--)
+    {
+        scanf(""%d %d %d"",&b,&c,&d);
+        b1=b;
+        c1=c;
+        d1=d;
+        e1=b1*d1/4;
+        for(g=0;g<=c;g++)
+        {
+            f1=g*d1/c1;
+            f1=f1*g/2;
+            if(f1-e1<0.000001)
+            {
+                printf(""YES\n"");
+                panduan=1;
+                break;
+            }
+        }
+        if(panduan==0)
+        for(g=b;g>c;g--)
+        {
+            f1=(b1-g)*(b1-g)/(b1-c1);
+            f1=f1*d1/2;
+            if(f1-e1<0.000001)
+            {
+                printf(""YES\n"");
+                panduan=1;
+                break;
+            }
+        }
+        if(panduan==0)
+        {
+            printf(""NO\n"");
+        }
+        panduan=0;
+    }
+}"
+29,C,C(gcc 7.5.0),60971535,2023-02-24 20:01:34,牛客797594545号,答案错误,"#include <stdio.h>
+int main()
+{
+    int a,b,c,d,e,f,g;
+    double a1,b1,c1,d1,e1,f1;
+    int panduan=0;
+    scanf(""%d"",&a);
+    while(a--)
+    {
+        scanf(""%d %d %d"",&b,&c,&d);
+        b1=b;
+        c1=c;
+        d1=d;
+        e1=b1*d1/4;
+        for(g=0;g<=c;g++)
+        {
+            f1=g*d1/c1;
+            f1=f1*g/2;
+            if(f1-e1<0.0001)
+            {
+                printf(""YES\n"");
+                panduan=1;
+                break;
+            }
+        }
+        if(panduan==0)
+        for(g=b;g>c;g--)
+        {
+            f1=(b1-g)*(b1-g)/(b1-c1);
+            f1=f1*d1/2;
+            if(f1-e1<0.0001)
+            {
+                printf(""YES\n"");
+                panduan=1;
+                break;
+            }
+        }
+        if(panduan==0)
+        {
+            printf(""NO\n"");
+        }
+        panduan=0;
+    }
+}"
+30,C,C(gcc 7.5.0),60971542,2023-02-24 20:01:39,神龙大侠1,答案正确,"#include<stdio.h>
+#include<math.h>
+#define MAX 10000
+int main()
+{
+	int n,i,j,k,x;
+	double s1,s2,s3;
+	scanf(""%d"",&n);
+	int a[MAX][3];
+	for(i=0;i<n;i++)
+	{
+		for(j=0;j<3;j++){
+			scanf(""%d"",&a[i][j]);
+		}
+		s1=0.5*a[i][0]*a[i][2];
+		s2=0.5*a[i][1]*a[i][2];
+		if(s2>=0.5*s1){
+			for(k=1;k<=a[i][1];k++){
+				s3=0.5*k*k*a[i][2]/a[i][1];
+				if(s3==0.5*s1){
+					printf(""YES\n"");
+					break;
+				} 
+			}
+			if(k>a[i][1]){
+				printf(""NO\n"");
+			}
+		}
+		else{
+			for(k=a[i][1]+1;k<=a[i][0];k++){
+				s3=0.5*(a[i][0]-k)*(k-a[i][0])*a[i][2]/(a[i][1]-a[i][0]);
+				if(s3==0.5*s1){
+					printf(""YES\n"");
+					break;
+				} 
+			}
+			if(k>a[i][0]){
+					printf(""NO\n"");
+				}
+			}
+		}
+	return 0;
+}"
+31,C,C,60971795,2023-02-24 20:05:07,丨阿伟丨,答案错误,"#include<stdio.h>
+int main()
+{
+    int T;
+    scanf(""%d"",&T);
+    while(T--)
+    {
+        double xb,xc,yc,xa=0,ya=0,yb=0;
+        scanf(""%lf %lf %lf"",&xb,&xc,&yc);
+        int flag=0;
+        for(double x0=1;x0<xb;x0++)
+        {
+            if(x0<xc)
+            {
+                double s1=((yc*(x0-xa)-ya*(x0-xc))/(xc-xa))*x0/2,s2=yc*xb/4;
+                if(s1==s2)
+                    flag=1;
+            }
+            if(x0==xc&&xc==(xb/2))
+                flag=1;
+            if(x0>xc)
+            {
+                double s1=((yc*(x0-xb)-yb*(x0-xc))/(xc-xb))*(xb-x0)/2,s2=yc*xb/4;
+                if(s1==s2)
+                    flag=1;
+            }
+            if(flag)
+                break;
+        }
+        if(flag)
+            printf(""YES\n"");
+        else
+            printf(""NO\n"");
+    }
+}"
+32,C,C,60971945,2023-02-24 20:07:03,丨阿伟丨,答案错误,"#include<stdio.h>
+int main()
+{
+    int T;
+    scanf(""%d"",&T);
+    while(T--)
+    {
+        double xb,xc,yc,xa=0,ya=0,yb=0;
+        scanf(""%lf %lf %lf"",&xb,&xc,&yc);
+        int flag=0;
+        for(double x0=1;x0<xb;x0++)
+        {
+            if(x0<xc)
+            {
+                double s1=((yc*(x0-xa)-ya*(x0-xc))/(xc-xa))*x0/2,s2=yc*xb/4;
+                //s1指x0左侧三角形面积，s2则是原三角形面积的一半
+                if(s1==s2)
+                    flag=1;
+            }
+            if(x0==xc&&xc==(xb/2))
+                flag=1;
+            if(x0>xc)
+            {
+                double s1=((yc*(x0-xb)-yb*(x0-xc))/(xc-xb))*(xb-x0)/2,s2=yc*xb/4;
+                //s1指x0右侧三角形面积，s2则是原三角形面积的一半
+                if(s1==s2)
+                    flag=1;
+            }
+            if(flag)
+                break;
+        }
+        if(flag)
+            printf(""YES\n"");
+        else
+            printf(""NO\n"");
+    }
+}"
+33,C,C,60972072,2023-02-24 20:08:28,bulis04_zqy,答案错误,"#include<stdio.h>
+int main()
+{
+    int t,e=0;scanf(""%d"",&t);
+    double a,b,c,i;
+    double s,ss;
+    while(t--)
+    {
+        e=0;
+        scanf(""%lf %lf %lf"",&a,&b,&c);
+        s=a/2.0;
+        for(i=0;i<=a;i++)
+        {
+            if(i<=b)
+            {
+                ss=i*(i/b);
+                if(ss==s)
+                {e=1;break;}
+            }
+            else
+            {
+                ss=(a-i)*((a-i)/(a-b));
+                if(ss==s)
+                {e=1;break;}
+            }
+        }           
+        if(e)
+                printf(""YES\n"");
+            else
+                printf(""NO\n"");
+    }
+    return 0;
+}"
+34,C,C,60972127,2023-02-24 20:09:05,丨阿伟丨,答案错误,"#include<stdio.h>
+int main()
+{
+    int T;
+    scanf(""%d"",&T);
+    while(T--)
+    {
+        double xb,xc,yc,xa=0,ya=0,yb=0;
+        scanf(""%lf %lf %lf"",&xb,&xc,&yc);
+        int flag=0;
+        for(double x0=0;x0<=xb;x0++)
+        {
+            if(x0<xc)
+            {
+                double s1=((yc*(x0-xa)-ya*(x0-xc))/(xc-xa))*x0/2,s2=yc*xb/4;
+                //s1指x0左侧三角形面积，即切开后的左侧面积，s2则是原三角形面积的一半
+                if(s1==s2)
+                    flag=1;
+            }
+            if(x0==xc&&xc==(xb/2))
+                flag=1;
+            if(x0>xc)
+            {
+                double s1=((yc*(x0-xb)-yb*(x0-xc))/(xc-xb))*(xb-x0)/2,s2=yc*xb/4;
+                //s1指x0右侧三角形面积，即切开后的右侧面积，s2则是原三角形面积的一半
+                if(s1==s2)
+                    flag=1;
+            }
+            if(flag)
+                break;
+        }
+        if(flag)
+            printf(""YES\n"");
+        else
+            printf(""NO\n"");
+    }
+}"
+35,C,C(gcc 7.5.0),60972256,2023-02-24 20:10:56,牛客797594545号,答案错误,"#include <stdio.h>
+int main()
+{
+    int a,b,c,d,e,f,g;
+    double a1,b1,c1,d1,e1,f1;
+    int panduan=0;
+    scanf(""%d"",&a);
+    while(a--)
+    {
+        scanf(""%d %d %d"",&b,&c,&d);
+        b1=b;
+        c1=c;
+        d1=d;
+        e1=b1*d1/4;
+        for(g=0;g<=c;g++)
+        {
+            f1=g*d1/c1;
+            f1=f1*g/2;
+            if(f1==e1)
+            {
+                printf(""YES\n"");
+                panduan=1;
+                break;
+            }
+        }
+        if(panduan==0)
+        for(g=b;g>c;g--)
+        {
+            f1=(b1-g)*(b1-g)/(b1-c1);
+            f1=f1*d1/2;
+            if(f1==e1)
+            {
+                printf(""YES\n"");
+                panduan=1;
+                break;
+            }
+        }
+        if(panduan==0)
+        {
+            printf(""NO\n"");
+        }
+        panduan=0;
+    }
+}"
+36,C,C(gcc 7.5.0),60972556,2023-02-24 20:15:16,wacoder,答案错误,"#include<stdio.h>
+int t,e1,e2,e3,ar,ag;
+int get(int x){
+    for(int i=1;i*i<=x;i++){
+        if(i*i==x)return i;
+    }
+    return -1E8;
+}
+int main(){
+    scanf(""%d"",&t);
+    while (t--){
+        scanf(""%d%d%d"",&e1,&e2,&e3);
+        if(e1*e2%2==0){
+            ar=e1*e2/2;
+            ag=get(ar);
+            if(ag>=0 && ag<=e1){ printf(""YES\n"");
+                continue;}
+        }else if(e1*(e1-e2)%2==0){
+            ar=e1*(e1-e2)/2;
+            ag=get(ar);
+            ag=-ag+e1;
+            if(ag>=e2 && ag<=e1){ printf(""YES\n"");
+                continue;}
+        }
+        printf(""NO\n"");
+    }
+}
+"
+37,C,C(gcc 7.5.0),60972586,2023-02-24 20:15:40,牛客797594545号,答案错误,"#include <stdio.h>
+int main()
+{
+    int a,b,c,d,e,f,g;
+    double a1,b1,c1,d1,e1,f1;
+    int panduan=0;
+    scanf(""%d"",&a);
+    while(a--)
+    {
+        scanf(""%d %d %d"",&b,&c,&d);
+        b1=b;
+        c1=c;
+        d1=d;
+        e1=b1*d1/4;
+        for(g=0;g<c;g++)
+        {
+            f1=g*d1/c1;
+            f1=f1*g/2;
+            if(f1==e1)
+            {
+                printf(""YES\n"");
+                panduan=1;
+                break;
+            }
+        }
+        if(panduan==0)
+        for(g=b;g>c;g--)
+        {
+            f1=(b1-g)*(b1-g)/(b1-c1);
+            f1=f1*d1/2;
+            if(f1==e1)
+            {
+                printf(""YES\n"");
+                panduan=1;
+                break;
+            }
+        }
+        if(panduan==0)
+        {
+            printf(""NO\n"");
+        }
+        panduan=0;
+    }
+}"
+38,C,C(gcc 7.5.0),60972604,2023-02-24 20:15:58,牛客797594545号,答案错误,"#include <stdio.h>
+int main()
+{
+    int a,b,c,d,e,f,g;
+    double a1,b1,c1,d1,e1,f1;
+    int panduan=0;
+    scanf(""%d"",&a);
+    while(a--)
+    {
+        scanf(""%d %d %d"",&b,&c,&d);
+        b1=b;
+        c1=c;
+        d1=d;
+        e1=b1*d1/4;
+        for(g=1;g<=c;g++)
+        {
+            f1=g*d1/c1;
+            f1=f1*g/2;
+            if(f1==e1)
+            {
+                printf(""YES\n"");
+                panduan=1;
+                break;
+            }
+        }
+        if(panduan==0)
+        for(g=b;g>c;g--)
+        {
+            f1=(b1-g)*(b1-g)/(b1-c1);
+            f1=f1*d1/2;
+            if(f1==e1)
+            {
+                printf(""YES\n"");
+                panduan=1;
+                break;
+            }
+        }
+        if(panduan==0)
+        {
+            printf(""NO\n"");
+        }
+        panduan=0;
+    }
+}"
+39,C,C,60972696,2023-02-24 20:17:09,丨阿伟丨,答案错误,"#include<stdio.h>
+int main()
+{
+    int T;
+    scanf(""%d"",&T);
+    while(T--)
+    {
+        double xb,xc,yc,xa=0,ya=0,yb=0;
+        scanf(""%lf %lf %lf"",&xb,&xc,&yc);
+        int flag=0;
+        for(double x0=0;x0<=xb;x0++)
+        {
+            if(x0<=xc)
+            {
+                double s1=((yc*(x0-xa)-ya*(x0-xc))/(xc-xa))*x0/2,s2=yc*xb/4;
+                //s1指x0左侧三角形面积，即切开后的左侧面积，s2则是原三角形面积的一半
+                if(s1==s2)
+                    flag=1;
+            }
+            if(x0>xc)
+            {
+                double s1=((yc*(x0-xb)-yb*(x0-xc))/(xc-xb))*(xb-x0)/2,s2=yc*xb/4;
+                //s1指x0右侧三角形面积，即切开后的右侧面积，s2则是原三角形面积的一半
+                if(s1==s2)
+                    flag=1;
+            }
+            if(flag)
+                break;
+        }
+        if(flag)
+            printf(""YES\n"");
+        else
+            printf(""NO\n"");
+    }
+}"
+40,C,C,60972829,2023-02-24 20:18:51,丨阿伟丨,答案错误,"#include<stdio.h>
+int main()
+{
+    int T;
+    scanf(""%d"",&T);
+    while(T--)
+    {
+        double xb,xc,yc,xa=0,ya=0,yb=0;
+        scanf(""%lf %lf %lf"",&xb,&xc,&yc);
+        int flag=0;
+        for(double x0=0;x0<=xb;x0++)
+        {
+            if(x0<=xc)
+            {
+                double s1=((yc*(x0-xa)-ya*(x0-xc))/(xc-xa))*x0/2.0,s2=yc*xb/4.0;
+                //s1指x0左侧三角形面积，即切开后的左侧面积，s2则是原三角形面积的一半
+                if(s1==s2)
+                    flag=1;
+            }
+            if(x0>xc)
+            {
+                double s1=((yc*(x0-xb)-yb*(x0-xc))/(xc-xb))*(xb-x0)/2.0,s2=yc*xb/4.0;
+                //s1指x0右侧三角形面积，即切开后的右侧面积，s2则是原三角形面积的一半
+                if(s1==s2)
+                    flag=1;
+            }
+            if(flag)
+                break;
+        }
+        if(flag)
+            printf(""YES\n"");
+        else
+            printf(""NO\n"");
+    }
+}"
+41,C,C(gcc 7.5.0),60972857,2023-02-24 20:19:13,wacoder,答案错误,"#include<stdio.h>
+int t,e1,e2,e3,ar,ag;
+int get(int x){
+    for(int i=1;i*i<=x;i++){
+        if(i*i==x)return i;
+    }
+    return -1E8;
+}
+int main(){
+    scanf(""%d"",&t);
+    while (t--){
+        scanf(""%d%d%d"",&e1,&e2,&e3);
+        if(e1*e2%2==0){
+            ar=e1*e2/2;
+            ag=get(ar);
+            if(ag>=0 && ag<=e1){ printf(""YES\n"");
+                continue;}
+        }else if(e1*(e1-e2)%2==0){
+            ar=e1*(e1-e2)/2;
+            ag=get(ar);
+            if(ag<-1E7)goto gj;
+            ag=-ag+e1;
+            if(ag>=e2 && ag<=e1){ printf(""YES\n"");
+                continue;}
+        }
+        gj:;
+        printf(""NO\n"");
+    }
+}
+"
+42,C,C,60973114,2023-02-24 20:22:54,丨阿伟丨,答案错误,"#include<stdio.h>
+int main()
+{
+    int T;
+    scanf(""%d"",&T);
+    while(T--)
+    {
+        int xb,xc,yc,xa=0,ya=0,yb=0;
+        scanf(""%d %d %d"",&xb,&xc,&yc);
+        int flag=0;
+        for(double x0=0;x0<=xb;x0++)
+        {
+            if(x0<=xc)
+            {
+                double s1=((yc*(x0-xa)-ya*(x0-xc))/(xc-xa))*x0/2,s2=yc*xb/4.0;
+                //s1指x0左侧三角形面积，即切开后的左侧面积，s2则是原三角形面积的一半
+                if(s1==s2)
+                    flag=1;
+            }
+            if(x0>xc)
+            {
+                double s1=((yc*(x0-xb)-yb*(x0-xc))/(xc-xb))*(xb-x0)/2,s2=yc*xb/4.0;
+                //s1指x0右侧三角形面积，即切开后的右侧面积，s2则是原三角形面积的一半
+                if(s1==s2)
+                    flag=1;
+            }
+            if(flag)
+                break;
+        }
+        if(flag)
+            printf(""YES\n"");
+        else
+            printf(""NO\n"");
+    }
+}"
+43,C,C,60973160,2023-02-24 20:23:32,丨阿伟丨,答案错误,"#include<stdio.h>
+int main()
+{
+    int T;
+    scanf(""%d"",&T);
+    while(T--)
+    {
+        double xb,xc,yc,xa=0,ya=0,yb=0;
+        scanf(""%lf %lf %lf"",&xb,&xc,&yc);
+        int flag=0;
+        for(int x0=0;x0<=xb;x0++)
+        {
+            if(x0<=xc)
+            {
+                double s1=((yc*(x0-xa)-ya*(x0-xc))/(xc-xa))*x0/2,s2=yc*xb/4.0;
+                //s1指x0左侧三角形面积，即切开后的左侧面积，s2则是原三角形面积的一半
+                if(s1==s2)
+                    flag=1;
+            }
+            if(x0>xc)
+            {
+                double s1=((yc*(x0-xb)-yb*(x0-xc))/(xc-xb))*(xb-x0)/2,s2=yc*xb/4.0;
+                //s1指x0右侧三角形面积，即切开后的右侧面积，s2则是原三角形面积的一半
+                if(s1==s2)
+                    flag=1;
+            }
+            if(flag)
+                break;
+        }
+        if(flag)
+            printf(""YES\n"");
+        else
+            printf(""NO\n"");
+    }
+}"
+44,C,C,60973176,2023-02-24 20:23:48,bulis04_zqy,答案正确,"#include<stdio.h>
+int main()
+{
+    int t,e=0;scanf(""%d"",&t);
+    double a,b,c,i;
+    double s,ss;
+    while(t--)
+    {
+        e=0;
+        scanf(""%lf %lf %lf"",&a,&b,&c);
+        s=a/2.0;
+        for(i=0;i<=a;i++)
+        {
+            if(i<=b)
+            {
+                ss=i*i/b;
+                if(ss==s)
+                {e=1;break;}
+            }
+            else
+            {
+                ss=(a-i)*(a-i)/(a-b);
+                if(ss==s)
+                {e=1;break;}
+            }
+        }           
+        if(e)
+                printf(""YES\n"");
+            else
+                printf(""NO\n"");
+    }
+    return 0;
+}"
+45,C,C,60973537,2023-02-24 20:29:30,冠冕堂|黄,答案错误,"#include <stdio.h>
+
+int main() {
+    int t, a, b, c, i;
+    double s1, s2, h;
+    scanf(""%d"", &t);
+    while (t--) {
+        scanf(""%d %d %d"", &a, &b, &c);
+        s1 = a * c / 2.0;
+        if (b == a / 2.0) {
+            printf(""YES\n"");
+            continue;
+        } else if (b > a / 2.0) {
+            for (i = 1; i < b; i++) {
+                h = c * i * 1.0 / b;
+                s2 = i * h / 2;
+                if (s2 == s1 / 2) {
+                    printf(""YES\n"");
+                    break;
+                }
+            }
+            if (i != b)
+                continue;
+        } else {
+            for (i = b + 1; i < a; i++) {
+                h = c * (a - i) * 1.0 / (a - b);
+                s2 = (a - i) * h / 2;
+                if (s2 == s1 / 2) {
+                    printf(""YES\n"");
+                    break;
+                }
+            }
+            if (i != a)
+                continue;
+        }
+        printf(""NO\n"");
+    }
+    return 0;
+}"
+46,C,C,60973579,2023-02-24 20:30:19,fync王萌,答案正确,"#include <stdio.h>
+#include <math.h>
+int main(){
+    double n,i,j,a,b,c,s,r,x,y;
+    int k;                                                                
+    scanf(""%lf"",&n);
+    for(i=0;i<n;i++){
+        scanf(""%lf %lf %lf\n"",&a,&b,&c);
+        if(b==a/2){
+            printf(""YES\n"");
+        }else{
+            if(b>a/2){
+                r=b;
+            }else{
+                r=a-b;
+            }
+            x=a*r/2;
+            x=sqrt(x);
+            k=x;
+            y=k;
+            if(y==x){
+                printf(""YES\n"");
+            }else{
+                printf(""NO\n"");
+            }
+        }
+    }
+}"
+47,C,C,60973667,2023-02-24 20:31:48,丨阿伟丨,答案错误,"#include<stdio.h>
+int main()
+{
+    int T;
+    scanf(""%d"",&T);
+    while(T--)
+    {
+        double xb,xc,yc,xa=0,ya=0,yb=0;
+        scanf(""%lf %lf %lf"",&xb,&xc,&yc);
+        int flag=0;
+        for(int x0=0;x0<=xb;x0++)
+        {
+            if(x0<=xc)
+            {
+                //y=(y1(x-x2)-y2(x-x1))/(x1-x2)
+                double s1=((yc*(x0-xa)-ya*(x0-xc))/(xc-xa))*(x0-xa)/2,s2=yc*xb/4.0;
+                //s1指x0左侧三角形面积，即切开后的左侧面积，s2则是原三角形面积的一半
+                if(s1==s2)
+                    flag=1;
+            }
+            if(x0>xc)
+            {
+                double s1=((yc*(x0-xb)-yb*(x0-xc))/(xc-xb))*(xb-x0)/2,s2=yc*xb/4.0;
+                //s1指x0右侧三角形面积，即切开后的右侧面积，s2则是原三角形面积的一半
+                if(s1==s2)
+                    flag=1;
+            }
+            if(flag)
+                break;
+        }
+        if(flag)
+            printf(""YES\n"");
+        else
+            printf(""NO\n"");
+    }
+}"
+48,C,C(gcc 7.5.0),60973717,2023-02-24 20:32:49,wacoder,答案错误,"#include<stdio.h>
+int t,e1,e2,e3,ar,ag;
+int get(int x){
+    for(int i=1;i*i<=x;i++){
+        if(i*i==x)return i;
+    }
+    return -1E8;
+}
+int main(){
+    scanf(""%d"",&t);
+    while (t--){
+        scanf(""%d%d%d"",&e1,&e2,&e3);
+        if(e1==e2*2){
+            printf(""YES\n"");
+            continue;
+        }else if((e1*(e1-e2))%2==0){
+            ar=e1*(e1-e2)/2;
+            ag=get(ar);
+            if(ag<-1E7)goto gj;
+            ag=-ag+e1;
+            if(ag>=e2 && ag<=e1){ printf(""YES\n"");
+                continue;}
+        }
+        gj:;
+        printf(""NO\n"");
+    }
+}
+"
+49,C,C(gcc 7.5.0),60973776,2023-02-24 20:33:55,牛客797594545号,答案错误,"#include <stdio.h>
+int main()
+{
+    int a,b,c,d,e,f,g;
+    double a1,b1,c1,d1,e1,f1;
+    int panduan=0;
+    scanf(""%d"",&a);
+    while(a--)
+    {
+        scanf(""%d %d %d"",&b,&c,&d);
+        b1=b;
+        c1=c;
+        d1=d;
+        e1=b1*d1/4;
+        for(g=1;g<=c;g++)
+        {
+            f1=g*d1/c1;
+            f1=f1*g/2;
+            if(f1==e1)
+            {
+                printf(""YES\n"");
+                panduan=1;
+                break;
+            }
+        }
+        if(panduan==0)
+        for(g=b-1;g>c;g--)
+        {
+            f1=(b1-g)*(b1-g)/(b1-c1);
+            f1=f1*d1/2;
+            if(f1==e1)
+            {
+                printf(""YES\n"");
+                panduan=1;
+                break;
+            }
+        }
+        if(panduan==0)
+        {
+            printf(""NO\n"");
+        }
+        panduan=0;
+    }
+}"
+50,C,C(gcc 7.5.0),60973779,2023-02-24 20:33:57,wacoder,答案错误,"#include<stdio.h>
+int t,e1,e2,e3,ar,ag;
+int get(int x){
+    for(int i=1;i*i<=x;i++){
+        if(i*i==x)return i;
+    }
+    return -1E8;
+}
+int main(){
+    scanf(""%d"",&t);
+    while (t--){
+        scanf(""%d%d%d"",&e1,&e2,&e3);
+        if(e1==e2*2){
+            printf(""YES\n"");
+            continue;
+        }else if(e2*2<e1&&(e1*(e1-e2))%2==0){
+            ar=e1*(e1-e2)/2;
+            ag=get(ar);
+            if(ag<-1E7)goto gj;
+            ag=-ag+e1;
+            if(ag>=e2 && ag<=e1){ printf(""YES\n"");
+                continue;}
+        }
+        gj:;
+        printf(""NO\n"");
+    }
+}
+"
+51,C,C,60973870,2023-02-24 20:35:18,丨阿伟丨,答案错误,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+    int T;
+    scanf(""%d"",&T);
+    while(T--)
+    {
+        double xb,xc,yc,xa=0,ya=0,yb=0;
+        scanf(""%lf %lf %lf"",&xb,&xc,&yc);
+        int flag=0;
+        for(int x0=0;x0<=xb;x0++)
+        {
+            if(x0<=xc)
+            {
+                //y=(y1(x-x2)-y2(x-x1))/(x1-x2)
+                double s1=fabs(((yc*(x0-xa)-ya*(x0-xc))/(xc-xa))*(x0-xa)/2),s2=fabs(yc*xb/4.0);
+                //s1指x0左侧三角形面积，即切开后的左侧面积，s2则是原三角形面积的一半
+                if(s1==s2)
+                    flag=1;
+            }
+            if(x0>xc)
+            {
+                double s1=fabs(((yc*(x0-xb)-yb*(x0-xc))/(xc-xb))*(xb-x0)/2),s2=fabs(yc*xb/4.0);
+                //s1指x0右侧三角形面积，即切开后的右侧面积，s2则是原三角形面积的一半
+                if(s1==s2)
+                    flag=1;
+            }
+            if(flag)
+                break;
+        }
+        if(flag)
+            printf(""YES\n"");
+        else
+            printf(""NO\n"");
+    }
+}"
+52,C,C(gcc 7.5.0),60973892,2023-02-24 20:35:42,runler,答案错误,"#include<stdio.h>
+#define N 1000
+int main()
+{
+	float i,j,s,m,a,b,c,h;
+	int n,f=0;
+	scanf(""%d"",&n);
+	while(n-->0){
+		scanf(""%f %f %f"",&a,&b,&c);
+		s=a*c/2;
+		for(i=1;i<a;i++){
+			if(i<=b){
+				h=i*c/b;
+				if(i*h == s){
+				    printf(""YES\n"");
+				    f=1;
+			    	break;
+		    	}
+			}
+			else{
+				h=(a-i)*c/(a-b);
+			    if((a-i)*h == s){
+				    printf(""YES\n"");
+				    f=1;
+			    	break;
+		    	}
+			}	
+		}
+		if(f == 0){
+			printf(""NO\n"");
+		}
+		f=0;
+	}
+	return 0;
+}"
+53,C,C,60974027,2023-02-24 20:37:47,丨阿伟丨,答案错误,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+    int T;
+    scanf(""%d"",&T);
+    while(T--)
+    {
+        double xb,xc,yc,xa=0,ya=0,yb=0;
+        scanf(""%lf %lf %lf"",&xb,&xc,&yc);
+        int flag=0;
+        for(int x0=0;x0<=xb;x0++)
+        {
+            if(x0<=xc)
+            {
+                //y=(y1(x-x2)-y2(x-x1))/(x1-x2)
+                double s1=((yc*(x0-xa)-ya*(x0-xc))/(xc-xa))*(x0-xa)/2,s2=yc*xb/4.0;
+                //s1指x0左侧三角形面积，即切开后的左侧面积，s2则是原三角形面积的一半
+                if(s1==s2)
+                    flag=1;
+            }
+            if(x0>xc)
+            {
+                double s1=((yc*(x0-xb)-yb*(x0-xc))/(xc-xb))*(xb-x0)/2,s2=yc*xb/4.0;
+                //s1指x0右侧三角形面积，即切开后的右侧面积，s2则是原三角形面积的一半
+                if(s1==s2)
+                    flag=1;
+            }
+            if(flag)
+                break;
+        }
+        if(flag)
+            printf(""YES\n"");
+        else
+            printf(""NO\n"");
+    }
+}"
+54,C,C,60974341,2023-02-24 20:43:30,akwu,答案错误,"#include<stdio.h>
+int main(){
+    int n;
+    scanf(""%d"",&n);
+    for(int i=0;i<n;i++){
+        int x,y,z;
+        scanf(""%d%d%d"",&x,&y,&z);
+        double s=x*z*0.5;
+        double k;
+        k=1.0*z/y;
+        double k1=1.0*z/(x-y);
+        int q=0;
+        for(int i=1;i<x;i++){
+            if(i>y){
+                if(i*k1*(x-i)==s){
+                    q=1;
+                    printf(""YES\n"");
+                    break;
+                }
+            }else{
+                if(i*k*i==s){
+                    q=1;
+                    printf(""YES\n"");
+                    break;
+                }
+            }
+        }
+        if(q==0){
+            printf(""NO\n"");
+        }  
+    }
+}"
+55,C,C(gcc 7.5.0),60974467,2023-02-24 20:45:15,runler,答案错误,"#include<stdio.h>
+#define N 1000
+int main()
+{
+	float i,j,s,m,a,b,c,h;
+	int n,f=0;
+	scanf(""%d"",&n);
+	while(n-->0){
+		scanf(""%f %f %f"",&a,&b,&c);
+		for(i=1;i<a;i++){
+			if(i<=b){
+				if(i*(i*c/b) == a*c/2){
+				    printf(""YES\n"");
+				    f=1;
+			    	break;
+		    	}
+			}
+			else{
+			    if((a-i)*((a-i)*c/(a-b)) == a*c/2){
+				    printf(""YES\n"");
+				    f=1;
+			    	break;
+		    	}
+			}	
+		}
+		if(f == 0){
+			printf(""NO\n"");
+		}
+		f=0;
+	}
+	return 0;
+}"
+56,C,C(gcc 7.5.0),60974509,2023-02-24 20:45:49,runler,答案错误,"#include<stdio.h>
+#define N 1000
+int main()
+{
+	float i,j,s,m,a,b,c,h;
+	int n,f=0;
+	scanf(""%d"",&n);
+	while(n-->0){
+		scanf(""%f %f %f"",&a,&b,&c);
+		for(i=1;i<a;i++){
+			if(i<=b){
+				if(i*(i*c/b)*2 == a*c){
+				    printf(""YES\n"");
+				    f=1;
+			    	break;
+		    	}
+			}
+			else{
+			    if((a-i)*((a-i)*c/(a-b))*2 == a*c){
+				    printf(""YES\n"");
+				    f=1;
+			    	break;
+		    	}
+			}	
+		}
+		if(f == 0){
+			printf(""NO\n"");
+		}
+		f=0;
+	}
+	return 0;
+}"
+57,C,C(gcc 7.5.0),60974540,2023-02-24 20:46:14,runler,答案错误,"#include<stdio.h>
+#define N 1000
+int main()
+{
+	float i,j,s,m,a,b,c,h;
+	int n,f;
+	scanf(""%d"",&n);
+	while(n-->0){
+        f=0;
+		scanf(""%f %f %f"",&a,&b,&c);
+		for(i=1;i<a;i++){
+			if(i<=b){
+				if(i*(i*c/b)*2 == a*c){
+				    printf(""YES\n"");
+				    f=1;
+			    	break;
+		    	}
+			}
+			else{
+			    if((a-i)*((a-i)*c/(a-b))*2 == a*c){
+				    printf(""YES\n"");
+				    f=1;
+			    	break;
+		    	}
+			}	
+		}
+		if(f == 0){
+			printf(""NO\n"");
+		}
+	}
+	return 0;
+}"
+58,C,C(gcc 7.5.0),60974568,2023-02-24 20:46:35,习丽君,答案错误,"#include<stdio.h>
+int main()
+{
+    int t, xb, xc, yc, i, j = 0;
+    scanf(""%d"", &t);
+    while(t--)
+    {
+        scanf(""%d%d%d"", &xb, &xc, &yc);
+        j = 0;
+        if(xc * 2 == xb)
+            printf(""YES\n"");
+        else if(xc * 2 < xb)
+        {
+            for (i = xc; i < xb; i++)
+            {
+                if(xb * xb - 4 * xb * i + 2 * i * i + xb * xc == 0)
+                {
+                    j = 1;
+                    printf(""YES\n"");
+                }
+            }
+            if(j == 0)
+                printf(""NO\n"");
+        }
+        else
+        {
+            for (i = 1; i < xc; i++)
+            {
+                if(xb * i - i * i == xb * xc)
+                {
+                    j = 1;
+                    printf(""YES\n"");
+                }
+            }
+            if(j == 0)
+                printf(""NO\n"");
+        }
+        
+    }
+    return 0;
+}"
+59,C,C,60974572,2023-02-24 20:46:37,正在背八股的芒果很主动,答案错误,"#include<stdio.h>
+int main()
+{
+    int T;
+    double a,b,c;
+    double x,s,f,s1;
+    scanf(""%d"",&T);
+    while(T--){
+        f=0;
+        scanf(""%lf %lf %lf"",&a,&b,&c);
+        s=a*c/4;
+        for(int i=1;i<=b;i++){
+            s1=i*i*c/b/2;
+            if(s1==s){
+                printf(""YES\n"");
+                f=1;
+            }
+        }
+        for(int i=b+1;i<a;i++){
+            s1=(a-i)*((i*c/(b-a))+a*c/(a-b))/2;
+            if(s1==s){
+                printf(""YES\n"");
+                f=1;
+            }
+        }
+        if(f==0)
+        {
+            printf(""NO\n"");
+        }
+    }
+    return 0;
+}"
+60,C,C,60974677,2023-02-24 20:48:29,akwu,答案错误,"#include<stdio.h>
+int main(){
+    int n;
+    scanf(""%d"",&n);
+    for(int j=0;j<n;j++){
+        int x,y,z;
+        scanf(""%d%d%d"",&x,&y,&z);
+        double s=x*z*0.5;
+        double k;
+        k=1.0*z/y;
+        double k1=1.0*z/(x-y);
+        int q=0;
+        for(int i=1;i<x;i++){
+            if(i>y){
+                if((x-i)*k1*(x-i)==s){
+                    q=1;
+                    printf(""YES\n"");
+                    break;
+                }
+            }else{
+                if(i*k*i==s){
+                    q=1;
+                    printf(""YES\n"");
+                    break;
+                }
+            }
+        }
+        if(q==0){
+            printf(""NO\n"");
+        }  
+    }
+}"
+61,C,C(gcc 7.5.0),60974804,2023-02-24 20:50:20,习丽君,答案错误,"#include<stdio.h>
+int main()
+{
+    int t, xb, xc, yc, i, j = 0;
+    scanf(""%d"", &t);
+    while(t--)
+    {
+        scanf(""%d%d%d"", &xb, &xc, &yc);
+        j = 0;
+        if(xc * 2 == xb)
+            printf(""YES\n"");
+        else if(xc * 2 < xb)
+        {
+            for (i = xc; i <= xb; i++)
+            {
+                if(xb * xb - 4 * xb * i + 2 * i * i + xb * xc == 0)
+                {
+                    j = 1;
+                    printf(""YES\n"");
+                }
+            }
+            if(j == 0)
+                printf(""NO\n"");
+        }
+        else
+        {
+            for (i = 0; i <= xc; i++)
+            {
+                if(xb * i - i * i == xb * xc)
+                {
+                    j = 1;
+                    printf(""YES\n"");
+                }
+            }
+            if(j == 0)
+                printf(""NO\n"");
+        }
+    }
+    return 0;
+}"
+62,C,C,60975039,2023-02-24 20:54:08,正在背八股的肱二头肌很emo,答案正确,"#include<stdio.h>
+int main()
+{
+    int T;
+    int b,c,y;
+    scanf(""%d"",&T);
+    while(T--){
+        scanf(""%d%d%d"",&b,&c,&y);
+        int p=b*c,p1=b*(b-c);
+        int pan=0;
+        for(int i=1;i<b;i++)
+        {
+            if((i<=c&&2*i*i==p)||i>=c&&2*(b-i)*(b-i)==p1)
+               {
+                   pan=1;
+                   break;
+               }
+        }
+        if(pan==0)
+        {
+            printf(""NO\n"");
+
+        }
+        else if(pan==1)
+        {
+            printf(""YES\n"");
+        }
+    }
+    
+}"
+63,C,C,60975112,2023-02-24 20:55:09,紫陌.,答案错误,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+    int n;
+    scanf(""%d"",&n);
+    int a,b,c;
+    double s1,k,x,k1,x1,p1,p2;
+    while(n--)
+    {
+        scanf(""%d %d %d"",&a,&b,&c);
+        if(b==a/2)
+        {
+            printf(""YES\n"");
+            continue;
+        }
+        s1=a*c/2.0;
+        if(b>a/2)
+        {
+            k=c*1.0/b;
+            p1=s1/k;
+            x=sqrt(p1);
+            if(x>0&&x<b&&(int)x==x)
+            {
+                printf(""YES\n"");
+                continue;
+            }
+        }
+        if(b<a/2)
+        {
+            k1=c*1.0/(a-b);
+            x1=a-sqrt(s1/k1);
+            if(x1>b&&x1<a&&(int)x1==x1)
+            {
+                printf(""YES\n"");
+                continue;
+            }
+        }
+        printf(""NO\n"");
+    }
+}"
+64,C,C(gcc 7.5.0),60975117,2023-02-24 20:55:14,拒绝pua的柯基很讲原则,答案错误,"#include<stdio.h>
+int main(){
+    int T,i=0;
+    scanf(""%d"",&T);
+    float xb,xc,yc;  //4 2 4
+    for(;i<T;i++){
+        int done = 0;
+        scanf(""%f%f%f"",&xb, &xc, &yc);
+        //printf(""%d,%d,%d\n"",xb,xc,yc);
+        float total = xb * yc / 2;
+        //printf(""total:%f\n"",total);
+        float S;
+        float x0 = 1.0;
+        for(;x0<xb;x0 += 1){
+            if(x0<=xc){
+                S = x0 * (yc/xc*x0)/2;
+                //printf(""x0 = %f, S = %f\n"",x0, S);
+                if(S == total / 2){
+                    printf(""YES\n"");
+                    done++;
+                }
+            }
+            else{
+                S = (xb - x0) * (yc*(xb-x0)/(xb-xc))/2;
+                //printf(""x0 = %f, S = %f\n"",x0, S);
+                if(S == total / 2){
+                    printf(""YES\n"");
+                    done++;
+                }
+            }
+        }
+        if(done == 0)
+            printf(""NO\n"");
+    }
+    
+    return 0;
+}"
+65,C,C,60975184,2023-02-24 20:56:39,紫陌.,答案错误,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+    int n;
+    scanf(""%d"",&n);
+    int a,b,c;
+    double s1,k,x,k1,x1,p1,p2;
+    while(n--)
+    {
+        scanf(""%d %d %d"",&a,&b,&c);
+        if(b==a/2)
+        {
+            printf(""YES\n"");
+            continue;
+        }
+        s1=a*c/2.0;
+        k=c*1.0/b;
+        p1=s1/k;
+        x=sqrt(p1);
+        if(x>0&&x<b&&(int)x==x)
+        {
+            printf(""YES\n"");
+            continue;
+        }
+        k1=c*1.0/(a-b);
+        x1=a-sqrt(s1/k1);
+        if(x1>b&&x1<a&&(int)x1==x1)
+        {
+            printf(""YES\n"");
+            continue;
+        }
+        printf(""NO\n"");
+    }
+}"
+66,C,C,60975296,2023-02-24 20:58:11,紫陌.,答案错误,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+    int n;
+    scanf(""%d"",&n);
+    int a,b,c;
+    double s1,k,x,k1,x1,p1,p2;
+    while(n--)
+    {
+        scanf(""%d %d %d"",&a,&b,&c);
+        if(b==a/2)
+        {
+            printf(""YES\n"");
+            continue;
+        }
+        s1=a*c/2.0;
+        k=c*1.0/b;
+        p1=s1/k;
+        x=sqrt(p1);
+        if(x>=0&&x<=b&&(int)x==x)
+        {
+            printf(""YES\n"");
+            continue;
+        }
+        k1=c*1.0/(a-b);
+        x1=a-sqrt(s1/k1);
+        if(x1>=b&&x1<=a&&(int)x1==x1)
+        {
+            printf(""YES\n"");
+            continue;
+        }
+        printf(""NO\n"");
+    }
+}"
+67,C,C,60975344,2023-02-24 20:58:53,Xiaokulou,答案错误,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+    int m,q;//m张牌，q次操作
+    int num[201]={0};
+    int a[101]={0};
+    int p;
+    int op;
+    int flag;
+    scanf(""%d%d"",&m,&q);
+    for(int i=0;i<q;i++)
+    {
+        flag=0;
+        scanf(""%d%d"",&op,&p);
+        if(op==1)
+        {
+            num[i]=p;
+            if(num[i]>m-3)
+        {
+            a[num[i]-3]++;
+        }
+        else if(num[i]<4)
+        {
+            a[num[i]+3]++;
+        }
+        else 
+        {
+            a[num[i]+3]++;
+            a[num[i]-3]++;
+        }
+        }
+        else 
+        {
+            for(int j=0;j<q;j++)
+            {   
+                if(num[i]==p)
+                {
+        if(num[i]>m-3)
+        {
+             a[num[i]-3]--;
+        }
+        else if(num[i]<4)
+        {
+            a[num[i]+3]--;
+        }
+        else 
+        {
+            a[num[i]+3]--;
+            a[num[i]-3]--;
+        }
+                    num[i]=0;//拿走一张p
+                    break;
+                }
+            }
+        }
+        for(int k=1;k<=m;k++)
+        {
+            if(a[k]!=0)
+            {
+                flag++;
+            }
+        }
+        printf(""%d\n"",flag);
+    
+    }
+    return 0;
+}"
+68,C,C,60975356,2023-02-24 20:59:03,在刷代码的林北很想吃开封菜,答案错误,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+	int T,i,flag=0;
+	double xb,xc,yc,x0,y0;
+	scanf(""%d"",&T);
+	for(i=1;i<=T;i++){
+		scanf(""%lf %lf %lf"",&xb,&xc,&yc);
+		for(x0=1;x0<=xb;x0++){
+			y0=(x0-xb)*yc/(xc-xb);
+			if(xc*yc+(fabs(x0-xc))*(y0+yc)+y0*(x0-xb)<1e-5) flag=1;
+		}
+		if(flag==1) printf(""YES\n"");
+		else printf(""NO\n"");
+	}
+	return 0;
+}"
+69,C,C(gcc 7.5.0),60975379,2023-02-24 20:59:14,想吃纳西达的脚,答案错误,"#include<stdio.h>
+int as(int xb, int xc, int yc) {
+
+int pd=1;
+double sz=xb*yc/2,mid=xb*xb*yc/xc;
+if(mid>=sz/2)pd=1;
+else pd=0;
+return pd;
+}
+int main () {
+	int t;
+	scanf(""%d"", &t);
+	for (int x = 0; x < t; x++) {
+		int xb, xc, yc;
+		scanf(""%d%d%d"", &xb, &xc, &yc)	;
+if(as(xb,  xc,  yc)==1)printf(""YES\n"");
+else printf(""NO\n"");
+
+	}
+	return 0;
+}"
+70,C,C,60975438,2023-02-24 20:59:48,曜花缘,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c:10:26: error: expected ';' after expression\n        else printf(\""NO\"")\n                         ^\n                         ;\n1 error generated.""}
+
+#include<stdio.h>
+int main(){
+    int t;float b,c,y;
+    scanf(""%d"",&t);
+    for(int i=0;i<t;i++){
+        scanf(""%f %f %f"",&b,&c,&y);
+        if(b>=c/2){
+          printf(""YES"");  
+        }
+        else printf(""NO"")
+            if(i==t-1) break;
+        else printf(""\n"");
+    }
+}"
+71,C,C,60975453,2023-02-24 20:59:54,曜花缘,答案错误,"#include<stdio.h>
+int main(){
+    int t;float b,c,y;
+    scanf(""%d"",&t);
+    for(int i=0;i<t;i++){
+        scanf(""%f %f %f"",&b,&c,&y);
+        if(b>=c/2){
+          printf(""YES"");  
+        }
+        else printf(""NO"");
+            if(i==t-1) break;
+        else printf(""\n"");
+    }
+}"
+72,C,C(gcc 7.5.0),60975470,2023-02-24 21:00:06,想吃纳西达的脚,答案错误,"#include<stdio.h>
+int as(int xb, int xc, int yc) {
+
+int pd=1;
+double sz=xb*yc/2,mid=xb*xb*yc/xc/2;
+if(mid>=sz/2)pd=1;
+else pd=0;
+return pd;
+}
+int main () {
+	int t;
+	scanf(""%d"", &t);
+	for (int x = 0; x < t; x++) {
+		int xb, xc, yc;
+		scanf(""%d%d%d"", &xb, &xc, &yc)	;
+if(as(xb,  xc,  yc)==1)printf(""YES\n"");
+else printf(""NO\n"");
+
+	}
+	return 0;
+}"
+73,C,C(gcc 7.5.0),60975511,2023-02-24 21:00:40,习丽君,答案错误,"#include<stdio.h>
+int main()
+{
+    int t, xb, xc, yc, i, j = 0;
+    scanf(""%d"", &t);
+    while(t--)
+    {
+        scanf(""%d%d%d"", &xb, &xc, &yc);
+        j = 0;
+        if(xc * 2 == xb)
+            printf(""YES\n"");
+        else if(xc * 2 < xb)
+        {
+            for (i = xc; i <= xb; i++)
+            {
+                if(xb * xb - 4 * xb * i + 2 * i * i + xb * xc == 0)
+                {
+                    j = 1;
+                    printf(""YES\n"");
+                }
+            }
+            if(j == 0)
+                printf(""NO\n"");
+        }
+        else
+        {
+            for (i = 0; i <= xc; i++)
+            {
+                if(xb * i - i * i == xb * xc)
+                {
+                    j = 1;
+                    printf(""YES\n"");
+                }
+            }
+            if(j == 0)
+                printf(""NO\n"");
+        }
+    }
+    return 0;
+}"
+74,C,C,60976104,2023-02-24 21:16:10,丨阿伟丨,答案错误,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+    int T;
+    scanf(""%d"",&T);
+    while(T--)
+    {
+        double xb,xc,yc;
+        scanf(""%lf %lf %lf"",&xb,&xc,&yc);
+        int flag=0;
+        for(int x0=0;x0<=xb;x0++)
+        {
+            if(x0<=xc)
+            {
+                //y=(y1(x-x2)-y2(x-x1))/(x1-x2)
+                double s1=yc*x0*x0/xc/2,s2=yc*xb/4;
+                //s1指x0左侧三角形面积，即切开后的左侧面积，s2则是原三角形面积的一半
+                if(s1==s2)
+                    flag=1;
+            }
+            if(x0>xc)
+            {
+                double s1=((yc*(x0-xb))/(xc-xb))*(xb-x0)/2,s2=yc*xb/4;
+                //s1指x0右侧三角形面积，即切开后的右侧面积，s2则是原三角形面积的一半
+                if(s1==s2)
+                    flag=1;
+            }
+            if(flag)
+                break;
+        }
+        if(flag)
+            printf(""YES\n"");
+        else
+            printf(""NO\n"");
+    }
+}"
+75,C,C(gcc 7.5.0),60976125,2023-02-24 21:16:54,牛客797594545号,答案错误,"#include <stdio.h>
+int main()
+{
+    int a,b,c,d,e,f,g;
+    double a1,b1,c1,d1,e1,f1;
+    int panduan=0;
+    scanf(""%d"",&a);
+    while(a--)
+    {
+        scanf(""%d %d %d"",&b,&c,&d);
+        b1=b;
+        c1=c;
+        d1=d;
+        e1=b1*d1/4;
+        for(g=1;g<=c;g++)
+        {
+            f1=g*d1/c1;
+            f1=f1*g/2;
+            if(f1==e1)
+            {
+                printf(""YES\n"");
+                panduan=1;
+                break;
+            }
+        }
+        if(panduan==0)
+        for(g=b-1;g>c;g--)
+        {
+            f1=(b1-g)*(b1-g)/(b1-c1);
+            f1=f1*d1/2;
+            if(f1==e1)
+            {
+                printf(""YES\n"");
+                panduan=1;
+                break;
+            }
+        }
+        if(panduan==0)
+        {
+            printf(""NO\n"");
+        }
+        panduan=0;
+    }
+}"
+76,C,C(gcc 7.5.0),60976187,2023-02-24 21:18:52,牛客797594545号,答案错误,"#include <stdio.h>
+int main()
+{
+    int a,b,c,d,e,f,g;
+    double a1,b1,c1,d1,e1,f1;
+    int panduan=0;
+    scanf(""%d"",&a);
+    while(a--)
+    {
+        scanf(""%d %d %d"",&b,&c,&d);
+        b1=b;
+        c1=c;
+        d1=d;
+        e1=b1*d1/4;
+        for(g=1;g<=c;g++)
+        {
+            f1=g*d1/c1;
+            f1=f1*g/2;
+            if(f1==e1)
+            {
+                printf(""YES\n"");
+                panduan=1;
+                break;
+            }
+        }
+        if(panduan==0)
+        for(g=b-1;g>c;g--)
+        {
+            f1=(b1-g)*(b1-g)/(b1-c1);
+            f1=f1*d1/2;
+            if(f1==e1)
+            {
+                printf(""YES\n"");
+                panduan=1;
+                break;
+            }
+        }
+        if(panduan==0)
+        {
+            printf(""NO\n"");
+        }
+        panduan=0;
+    }
+}"
+77,C,C(gcc 7.5.0),60976215,2023-02-24 21:19:48,牛客797594545号,答案错误,"#include <stdio.h>
+int main()
+{
+    int a,b,c,d,e,f,g;
+    double a1,b1,c1,d1,e1,f1;
+    int panduan=0;
+    scanf(""%d"",&a);
+    while(a--)
+    {
+        scanf(""%d %d %d"",&b,&c,&d);
+        b1=b;
+        c1=c;
+        d1=d;
+        e1=b1*d1/4;
+        for(g=1;g<=c;g++)
+        {
+            f1=g*d1/c1;
+            f1=f1*g/2;
+            if(f1==e1)
+            {
+                printf(""YES\n"");
+                panduan=1;
+                break;
+            }
+        }
+        if(panduan==0)
+        for(g=b-1;g>c;g--)
+        {
+            f1=(b1-g)*(b1-g)/(b1-c1);
+            f1=f1*d1/2;
+            if(f1==e1)
+            {
+                printf(""YES\n"");
+                panduan=1;
+                break;
+            }
+        }
+        if(b1==0&&c1==0||d1==0)
+        {
+        	printf(""YES\n"");
+		}
+        else if(panduan==0)
+        {
+            printf(""NO\n"");
+        }
+        panduan=0;
+    }
+}"
+78,C,C(gcc 7.5.0),60976239,2023-02-24 21:20:37,牛客797594545号,答案错误,"#include <stdio.h>
+int main()
+{
+    int a,b,c,d,e,f,g;
+    double a1,b1,c1,d1,e1,f1;
+    int panduan=0;
+    scanf(""%d"",&a);
+    while(a--)
+    {
+        scanf(""%d %d %d"",&b,&c,&d);
+        b1=b;
+        c1=c;
+        d1=d;
+        e1=b1*d1/4;
+        for(g=1;g<=c;g++)
+        {
+            f1=g*d1/c1;
+            f1=f1*g/2;
+            if(f1==e1)
+            {
+                printf(""YES\n"");
+                panduan=1;
+                break;
+            }
+        }
+        if(panduan==0)
+        for(g=b-1;g>c;g--)
+        {
+            f1=(b1-g)*(b1-g)/(b1-c1);
+            f1=f1*d1/2;
+            if(f1==e1)
+            {
+                printf(""YES\n"");
+                panduan=1;
+                break;
+            }
+        }
+        if(panduan==0)
+        {
+            printf(""NO\n"");
+        }
+        panduan=0;
+    }
+}"
+79,C,C,60976354,2023-02-24 21:24:39,紫陌.,答案错误,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+    int n;
+    scanf(""%d"",&n);
+    int a,b,c;
+    double s1,k,x,k1,x1,p1,p2;
+    while(n--)
+    {
+        scanf(""%d %d %d"",&a,&b,&c);
+        if(b==a/2&&a%2==0)
+        {
+            printf(""YES\n"");
+            continue;
+        }
+        s1=a*c/2.0;
+        k=c*1.0/b;
+        p1=s1/k;
+        x=sqrt(p1);
+        if(x>=0&&x<=b&&(int)x==x)
+        {
+            printf(""YES\n"");
+            continue;
+        }
+        k1=c*1.0/(a-b);
+        x1=a-sqrt(s1/k1);
+        if(x1>=b&&x1<=a&&(int)x1==x1)
+        {
+            printf(""YES\n"");
+            continue;
+        }
+        printf(""NO\n"");
+    }
+}"
+80,C,C,60976524,2023-02-24 21:29:48,紫陌.,答案正确,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+    int n,h=0;
+    scanf(""%d"",&n);
+    int a,b,c;
+    double s1,k,x,k1,x1,p1,p2;
+    while(n--)
+    {
+        h=0;
+        scanf(""%d %d %d"",&a,&b,&c);
+        for(int i=0;i<=b;i++)
+        {
+            if(2*i*i*c==a*b*c)
+            {
+                h=1;
+                break;
+            }
+        }
+        for(int i=b+1;i<a;i++)
+        {
+            if(2*i*i*c==(a-b)*a*c)
+                {
+                    h=1;
+                    break;
+                }
+        }
+        if(h==1)
+            printf(""YES\n"");
+        else
+            printf(""NO\n"");
+    }
+}"
+81,C,C(gcc 7.5.0),60977424,2023-02-24 22:13:57,牛客797594545号,答案正确,"#include <stdio.h>
+#include <math.h>
+int main()
+{
+    int a,b,c,d,e,f,g;
+    double a1,b1,c1,d1,e1,f1;
+    int panduan=0;
+    scanf(""%d"",&a);
+    while(a--)
+    {
+        scanf(""%d %d %d"",&b,&c,&d);
+        b1=b;
+        c1=c;
+        d1=d;
+        e1=b1*d1/4;
+        for(g=1;g<=c;g++)
+        {
+            f1=g*d1/c1;
+            f1=f1*g/2;
+            if(fabs(f1-e1)<0.0000001)
+            {
+                printf(""YES\n"");
+                panduan=1;
+                break;
+            }
+        }
+        if(panduan==0)
+        for(g=b-1;g>c;g--)
+        {
+            f1=(b1-g)*(b1-g)/(b1-c1);
+            f1=f1*d1/2;
+            if(fabs(f1-e1)<0.0000001)
+            {
+                printf(""YES\n"");
+                panduan=1;
+                break;
+            }
+        }
+        if(panduan==0)
+        {
+            printf(""NO\n"");
+        }
+        panduan=0;
+    }
+}"
+82,C,C,60977534,2023-02-24 22:21:35,cwbnb,答案错误,"#include<stdio.h>
+#include<math.h>
+int main(){
+    int x=0;
+    double n,xb,xc,b,yc,c,s1,s2,l1,j,a,h,b1,y1,m=2.000000;
+    scanf(""%lf"",&n);
+    for(int i=0;i<n;i++){
+        scanf(""%lf %lf %lf"",&xb,&xc,&yc);
+        a=xb;
+        b=sqrt(yc*yc+xc*xc);
+        c=sqrt(yc*yc+(xb-xc)*(xb-xc));
+        l1=(a+b+c)/2;
+        s1=sqrt(l1*(l1-a)*(l1-b)*(l1-c));
+        for(double k=0;k<xb;k++){
+              x=0;
+            if(k<=xc){
+                j=yc/xc;
+                s2=j*k*k;
+            }
+            else{
+                j=yc/(xc-xb);
+                b1=(-1)*j*xb;
+                y1=j*k+b1;
+                s2=y1*(xb-k);
+
+            }
+            if(s1==s2){
+                x=1;
+                break;
+            }
+        }
+            if(x==1){
+                printf(""YES\n"");
+           }
+        else{
+            printf(""NO\n"");
+        }
+    }
+    return 0;
+}           "
+83,C,C,60977920,2023-02-24 22:52:39,cwbnb,答案错误,"#include<stdio.h>
+#include<stdlib.h>
+#include<math.h>
+int main() {
+    int x = 0;
+    double n, xb, xc, b, yc, c, s1, s2, l1, j, a, h, b1, y1;
+    int m1=0,m2=0;
+    scanf(""%lf"", &n);
+    for (int i = 0; i < n; i++) {
+        scanf(""%lf%lf %lf"", &xb, &xc, &yc);
+        a = xb;
+        b = sqrt(yc * yc + xc * xc);
+        c = sqrt(yc * yc + (xb - xc) * (xb - xc));
+        l1 = (a + b + c) / 2;
+        s1 = sqrt(l1 * (l1 - a) * (l1 - b) * (l1 - c));
+        m1=(int)s1;
+        for (int k = 0; k < xb; k++) {
+            x = 0;
+            if (k <= xc) {
+                j = yc / xc;
+                s2 = j * k * k;
+                m2=(int)s2;
+            }
+            else {
+                j = yc / (xc - xb);
+                b1 = (-1) * j * xb;
+                y1 = j * k + b1;
+                s2 = y1 * (xb - k);
+                m2=(int)s2;
+            }
+            if (m1 == m2) {
+                x = 1;
+                break;
+            }
+        }
+        if (x == 1) {
+            printf(""YES\n"");
+        }
+        else {
+            printf(""NO\n"");
+        }
+    }
+    return 0;
+}"
+84,C,C,60977938,2023-02-24 22:53:58,cwbnb,答案正确,"#include<stdio.h>
+#include<stdlib.h>
+#include<math.h>
+int main() {
+    int x = 0;
+    double n, xb, xc, b, yc, c, s1, s2, l1, j, a, h, b1, y1;
+    float m1=0,m2=0;
+    scanf(""%lf"", &n);
+    for (int i = 0; i < n; i++) {
+        scanf(""%lf%lf %lf"", &xb, &xc, &yc);
+        a = xb;
+        b = sqrt(yc * yc + xc * xc);
+        c = sqrt(yc * yc + (xb - xc) * (xb - xc));
+        l1 = (a + b + c) / 2;
+        s1 = sqrt(l1 * (l1 - a) * (l1 - b) * (l1 - c));
+        m1=(float)s1;
+        for (int k = 0; k < xb; k++) {
+            x = 0;
+            if (k <= xc) {
+                j = yc / xc;
+                s2 = j * k * k;
+                m2=(float)s2;
+            }
+            else {
+                j = yc / (xc - xb);
+                b1 = (-1) * j * xb;
+                y1 = j * k + b1;
+                s2 = y1 * (xb - k);
+                m2=(float)s2;
+            }
+            if (m1 == m2) {
+                x = 1;
+                break;
+            }
+        }
+        if (x == 1) {
+            printf(""YES\n"");
+        }
+        else {
+            printf(""NO\n"");
+        }
+    }
+    return 0;
+}"
+85,C,C,60978108,2023-02-24 23:10:20,是芒果鸭yyy,答案正确,"#include<stdio.h>
+int main()
+{
+    int a,b,c,x,i,S,T,is;
+    scanf(""%d"",&T);
+    while(T--)
+	{
+		is=0;
+		scanf(""%d%d%d"",&a,&b,&c);
+		S=a*b;
+		for(i=1;i<=b;i++)
+		{
+			if(i*i*2==S)
+			{
+				is=1;
+				break;
+			}
+		}
+		S=(a*c)*(a-b)/c;
+		for(i=a-1;i>b;i--)
+		{
+			if((a-i)*(a-i)*2==S)
+			{
+				is=1;
+				break;
+			}
+		}
+		if(is) printf(""YES\n"");
+		else printf(""NO\n"");
+	}
+	return 0;
+}"
+86,C,C,60978592,2023-02-25 00:06:07,丨阿伟丨,答案错误,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+    int T;
+    scanf(""%d"",&T);
+    while(T--)
+    {
+        double xb,xc,yc;
+        scanf(""%lf %lf %lf"",&xb,&xc,&yc);
+        int flag=0;
+        for(double x0=0;x0<=xb;x0++)
+        {
+            if(x0<=xc)
+            {
+                //y/yc=x0/xc
+                //y=(y1(x-x2)-y2(x-x1))/(x1-x2)
+                double s1=(yc*x0/xc)*x0/2,s2=yc*xb/4;
+                //s1指x0左侧三角形面积，即切开后的左侧面积，s2则是原三角形面积的一半
+                if(s1==s2)
+                    flag=1;
+            }
+            else
+            {
+                //s1=((yc*(x0-xb))/(xc-xb))*(xb-x0)/2
+                //y/yc=(xb-x0)/(xb-xc)
+                double s1=((yc*(xb-x0))/(xb-xc))*(xb-x0)/2,s2=yc*xb/4;
+                //s1指x0右侧三角形面积，即切开后的右侧面积，s2则是原三角形面积的一半
+                if(s1==s2)
+                    flag=1;
+            }
+            if(flag)
+                break;
+        }
+        if(flag)
+            printf(""YES\n"");
+        else
+            printf(""NO\n"");
+    }
+}"
+87,C,C,60978609,2023-02-25 00:11:38,丨阿伟丨,答案正确,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+    int T;
+    scanf(""%d"",&T);
+    while(T--)
+    {
+        double xb,xc,yc;
+        scanf(""%lf %lf %lf"",&xb,&xc,&yc);
+        int flag=0;
+        for(double x0=0;x0<=xb;x0++)
+        {
+            if(x0<=xc)
+            {
+                //y/yc=x0/xc
+                //y=(y1(x-x2)-y2(x-x1))/(x1-x2)
+                //s1指x0左侧三角形面积，即切开后的左侧面积，s2则是原三角形面积的一半
+                if(2*x0*x0==xc*xb)
+                    flag=1;
+            }
+            else
+            {
+                //s1=((yc*(x0-xb))/(xc-xb))*(xb-x0)/2
+                //y/yc=(xb-x0)/(xb-xc)
+                //2*i*i==xb*(xb-yc)
+                //s1指x0右侧三角形面积，即切开后的右侧面积，s2则是原三角形面积的一半
+                if(2*(xb-x0)*(xb-x0)==xb*(xb-xc))
+                    flag=1;
+            }
+            if(flag)
+                break;
+        }
+        if(flag)
+            printf(""YES\n"");
+        else
+            printf(""NO\n"");
+    }
+}"
+88,C,C,60978610,2023-02-25 00:12:45,丨阿伟丨,答案正确,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+    int T;
+    scanf(""%d"",&T);
+    while(T--)
+    {
+        double xb,xc,yc;
+        scanf(""%lf %lf %lf"",&xb,&xc,&yc);
+        int flag=0;
+        for(double x0=0;x0<=xb;x0++)
+        {
+            if(x0<=xc)
+            {
+                //y/yc=x0/xc
+                //y=(y1(x-x2)-y2(x-x1))/(x1-x2)
+                double s1=2*x0*x0,s2=xc*xb;
+                //s1指x0左侧三角形面积，即切开后的左侧面积，s2则是原三角形面积的一半
+                if(s1==s2)
+                    flag=1;
+            }
+            else
+            {
+                //s1=((yc*(x0-xb))/(xc-xb))*(xb-x0)/2
+                //y/yc=(xb-x0)/(xb-xc)
+                //2*i*i==xb*(xb-yc)
+                double s1=2*(xb-x0)*(xb-x0),s2=xb*(xb-xc);
+                //s1指x0右侧三角形面积，即切开后的右侧面积，s2则是原三角形面积的一半
+                if(s1==s2)
+                    flag=1;
+            }
+            if(flag)
+                break;
+        }
+        if(flag)
+            printf(""YES\n"");
+        else
+            printf(""NO\n"");
+    }
+}"
+89,C,C,60978618,2023-02-25 00:13:31,丨阿伟丨,答案错误,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+    int T;
+    scanf(""%d"",&T);
+    while(T--)
+    {
+        double xb,xc,yc;
+        scanf(""%lf %lf %lf"",&xb,&xc,&yc);
+        int flag=0;
+        for(double x0=0;x0<=xb;x0++)
+        {
+            if(x0<=xc)
+            {
+                //y/yc=x0/xc
+                //y=(y1(x-x2)-y2(x-x1))/(x1-x2)
+                double s1=(yc*x0/xc)*x0*2,s2=yc*xb;
+                //s1指x0左侧三角形面积，即切开后的左侧面积，s2则是原三角形面积的一半
+                if(s1==s2)
+                    flag=1;
+            }
+            else
+            {
+                //s1=((yc*(x0-xb))/(xc-xb))*(xb-x0)/2
+                //y/yc=(xb-x0)/(xb-xc)
+                //2*i*i==xb*(xb-yc)
+                double s1=2*(xb-x0)*(xb-x0),s2=xb*(xb-xc);
+                //s1指x0右侧三角形面积，即切开后的右侧面积，s2则是原三角形面积的一半
+                if(s1==s2)
+                    flag=1;
+            }
+            if(flag)
+                break;
+        }
+        if(flag)
+            printf(""YES\n"");
+        else
+            printf(""NO\n"");
+    }
+}"
+90,C,C,60978619,2023-02-25 00:13:48,丨阿伟丨,答案错误,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+    int T;
+    scanf(""%d"",&T);
+    while(T--)
+    {
+        double xb,xc,yc;
+        scanf(""%lf %lf %lf"",&xb,&xc,&yc);
+        int flag=0;
+        for(double x0=0;x0<=xb;x0++)
+        {
+            if(x0<=xc)
+            {
+                //y/yc=x0/xc
+                //y=(y1(x-x2)-y2(x-x1))/(x1-x2)
+                double s1=(x0/xc)*x0*2,s2=xb;
+                //s1指x0左侧三角形面积，即切开后的左侧面积，s2则是原三角形面积的一半
+                if(s1==s2)
+                    flag=1;
+            }
+            else
+            {
+                //s1=((yc*(x0-xb))/(xc-xb))*(xb-x0)/2
+                //y/yc=(xb-x0)/(xb-xc)
+                //2*i*i==xb*(xb-yc)
+                double s1=2*(xb-x0)*(xb-x0),s2=xb*(xb-xc);
+                //s1指x0右侧三角形面积，即切开后的右侧面积，s2则是原三角形面积的一半
+                if(s1==s2)
+                    flag=1;
+            }
+            if(flag)
+                break;
+        }
+        if(flag)
+            printf(""YES\n"");
+        else
+            printf(""NO\n"");
+    }
+}"
+91,C,C,60978620,2023-02-25 00:14:10,丨阿伟丨,答案正确,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+    int T;
+    scanf(""%d"",&T);
+    while(T--)
+    {
+        double xb,xc,yc;
+        scanf(""%lf %lf %lf"",&xb,&xc,&yc);
+        int flag=0;
+        for(double x0=0;x0<=xb;x0++)
+        {
+            if(x0<=xc)
+            {
+                //y/yc=x0/xc
+                //y=(y1(x-x2)-y2(x-x1))/(x1-x2)
+                double s1=x0*x0/xc*2,s2=xb;
+                //s1指x0左侧三角形面积，即切开后的左侧面积，s2则是原三角形面积的一半
+                if(s1==s2)
+                    flag=1;
+            }
+            else
+            {
+                //s1=((yc*(x0-xb))/(xc-xb))*(xb-x0)/2
+                //y/yc=(xb-x0)/(xb-xc)
+                //2*i*i==xb*(xb-yc)
+                double s1=2*(xb-x0)*(xb-x0),s2=xb*(xb-xc);
+                //s1指x0右侧三角形面积，即切开后的右侧面积，s2则是原三角形面积的一半
+                if(s1==s2)
+                    flag=1;
+            }
+            if(flag)
+                break;
+        }
+        if(flag)
+            printf(""YES\n"");
+        else
+            printf(""NO\n"");
+    }
+}"
+92,C,C,60978622,2023-02-25 00:14:20,丨阿伟丨,答案错误,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+    int T;
+    scanf(""%d"",&T);
+    while(T--)
+    {
+        double xb,xc,yc;
+        scanf(""%lf %lf %lf"",&xb,&xc,&yc);
+        int flag=0;
+        for(double x0=0;x0<=xb;x0++)
+        {
+            if(x0<=xc)
+            {
+                //y/yc=x0/xc
+                //y=(y1(x-x2)-y2(x-x1))/(x1-x2)
+                double s1=x0/xc*2*x0,s2=xb;
+                //s1指x0左侧三角形面积，即切开后的左侧面积，s2则是原三角形面积的一半
+                if(s1==s2)
+                    flag=1;
+            }
+            else
+            {
+                //s1=((yc*(x0-xb))/(xc-xb))*(xb-x0)/2
+                //y/yc=(xb-x0)/(xb-xc)
+                //2*i*i==xb*(xb-yc)
+                double s1=2*(xb-x0)*(xb-x0),s2=xb*(xb-xc);
+                //s1指x0右侧三角形面积，即切开后的右侧面积，s2则是原三角形面积的一半
+                if(s1==s2)
+                    flag=1;
+            }
+            if(flag)
+                break;
+        }
+        if(flag)
+            printf(""YES\n"");
+        else
+            printf(""NO\n"");
+    }
+}"
+93,C,C,60979262,2023-02-25 09:48:38,牛客109304325号,答案错误,"#include <stdio.h>
+
+int main() {
+    int t,i,flag;
+   double xb,xc,yc,yd;
+    scanf(""%d"",&t);
+    while(t--)
+    {
+        flag=0;
+        scanf(""%lf%lf%lf"",&xb,&xc,&yc);
+        for(i=1;i<=xc;i++)
+        {
+            yd=yc*i/xc;
+            if(0.5*xb*yc==i*yd)
+                flag=1;
+        }
+        for(i=xc;i<xb;i++)
+        {
+            yd=yc*(xb-i)/(xb-xc);
+            if(0.5*xb*yc==(xb-i)*yd)
+                flag=1;
+        }
+        if(flag==1)
+            printf(""YES\n"");
+        else
+            printf(""NO\n"");
+    }
+   return 0;
+}"
+94,C,C,60979338,2023-02-25 10:01:44,fync张娟,答案正确,"#include <stdio.h>
+#include <math.h>
+int main()
+{
+    int n, xb, xc, yc, t, tt;
+    scanf(""%d"", &n);
+    for(int i=0; i<n; i++)
+    {
+        scanf(""%d %d %d"", &xb, &xc, &yc);
+        if(2*xc==xb)
+        {
+            printf(""YES\n"");
+        }
+        else
+        {
+            if(2*xc<xb)
+            {
+                xc=xb-xc;
+            }
+            if(xb*xc%2==1)
+            {
+                printf(""NO\n"");
+            }
+            else
+            {
+                t=xb*xc/2;
+                tt=sqrt(t);
+                if(tt*tt==t)
+                {
+                    printf(""YES\n"");
+                }
+                else
+                {
+                    printf(""NO\n"");
+                }
+            }
+        }
+    }
+    return 0;
+}"
+95,C,C,60979429,2023-02-25 10:12:13,牛客109304325号,答案正确,"#include <stdio.h>
+
+int main() {
+    int t,i,flag;
+   double xb,xc,yc,yd;
+    scanf(""%d"",&t);
+    while(t--)
+    {
+        flag=0;
+        scanf(""%lf%lf%lf"",&xb,&xc,&yc);
+        for(i=1;i<=xc;i++)
+        {
+           if(i*i==xb*xc/2)
+               flag=1;
+        }
+        for(i=xc;i<xb;i++)
+        {
+            if(xb*xb+xb*xc-4*xb*i+2*i*i==0)
+                flag=1;
+        }
+        if(flag==1)
+            printf(""YES\n"");
+        else
+            printf(""NO\n"");
+    }
+   return 0;
+}"
+96,C,C,60985606,2023-02-25 17:39:38,Atree_May,答案正确,"#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+#include<math.h>
+int main() {
+	int  T;
+	scanf(""%d"", &T);
+	while (T--) {
+		int b, c, y,i;
+		int flag = 0;
+		float mianji, sum;
+		scanf(""%d%d%d"", &b, &c, &y);
+		sum = 1.0*b*y / 2;
+		for (i = 1; i <= b; i++) {
+			if (i <= c) {
+				mianji = 1.0*i*i*y / c / 2;
+				if (sum - mianji == mianji) {
+					flag++;
+				}
+			}
+			else
+			{
+				mianji = 1.0*(b - i)*(b - i)*y / (b - c)/2;
+				if (sum - mianji == mianji) {
+					flag++;
+				}
+			}
+		}
+		if (flag) {
+			printf(""YES\n"");
+		}
+		else
+		{
+			printf(""NO\n"");
+		}
+	}
+	
+	return 0;
+}"
+97,C,C,60989263,2023-02-26 09:10:28,在刷代码的林北很想吃开封菜,答案错误,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+	int T,i,flag=0;
+	double xb,xc,yc,x0,y0;
+	scanf(""%d"",&T);
+	for(i=1;i<=T;i++){
+		scanf(""%lf %lf %lf"",&xb,&xc,&yc);
+		for(x0=1;x0<=xb;x0++){
+			y0=(x0-xb)*yc/(xc-xb);
+			if(xc*yc+(fabs(x0-xc))*(y0+yc)+y0*(x0-xb)<1e-5) flag=1;
+		}
+		if(flag==1) printf(""YES\n"");
+		else printf(""NO\n"");
+		flag=0; 
+	}
+	return 0;
+}"
+98,C,C,60989318,2023-02-26 09:35:25,在刷代码的林北很想吃开封菜,答案错误,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+	int T,i,flag=0;
+	double xb,xc,yc,x0,y0;
+	scanf(""%d"",&T);
+	for(i=1;i<=T;i++){
+		scanf(""%lf %lf %lf"",&xb,&xc,&yc);
+		for(x0=1;x0<=xb;x0++){
+			y0=(x0-xb)*yc/(xc-xb);
+			if(xc*yc+(fabs(x0-xc))*(y0+yc)+y0*(x0-xb)<1e-20) flag=1;
+		}
+		if(flag==1) printf(""YES\n"");
+		else printf(""NO\n"");
+		flag=0; 
+	}
+	return 0;
+}"
+99,C,C,60989452,2023-02-26 09:59:36,在刷代码的林北很想吃开封菜,答案错误,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+	int T,i,flag=0;
+	double xb,xc,yc,x0,y0;
+	scanf(""%d"",&T);
+	for(i=1;i<=T;i++){
+		scanf(""%lf %lf %lf"",&xb,&xc,&yc);
+		for(x0=1;x0<=xb;x0++){
+			if(x0>=xc){
+				y0=(x0-xb)*yc/(xc-xb);
+				if(xc*yc+(x0-xc)*(y0+yc)+y0*(x0-xb)<1e-5) flag=1;
+			}
+			else if(x0<xc){
+				y0=yc*x0/xc;
+				if((xc-x0)*(y0+yc)+(xb-xc)*yc-x0*y0<1e-5) flag=1;
+			}
+		}
+		if(flag==1) printf(""YES\n"");
+		else printf(""NO\n"");
+		flag=0; 
+	}
+	return 0;
+}"
+100,C,C,60989580,2023-02-26 10:21:48,在刷代码的林北很想吃开封菜,答案正确,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+	int T,i,flag=0;
+	double xb,xc,yc,x0,y0;
+	scanf(""%d"",&T);
+	for(i=1;i<=T;i++){
+		scanf(""%lf %lf %lf"",&xb,&xc,&yc);
+		for(x0=1;x0<=xb;x0++){
+			if(x0>=xc){
+				y0=(x0-xb)*yc/(xc-xb);
+				if(fabs(xc*yc+(x0-xc)*(y0+yc)+y0*(x0-xb))<1e-5) flag=1;
+			}
+			else if(x0<xc){
+				y0=yc*x0/xc;
+				if(fabs(2*x0*y0-xb*yc)<1e-5) flag=1;
+			}
+		}
+		if(flag==1) printf(""YES\n"");
+		else printf(""NO\n"");
+		flag=0; 
+	}
+	return 0;
+}
+"
+101,C,C,60990948,2023-02-26 12:56:22,tttx1,答案正确,"#include<stdio.h>
+#include<string.h>
+#include<math.h>
+#define ll long long
+int main()
+{
+    int t;
+    scanf(""%d"",&t);
+    for(int i=1;i<=t;i++)
+    {
+        int a,b,c;
+        int flag=0;
+        scanf(""%d%d%d"",&a,&b,&c);
+        double j=c/b;
+        int s=a*c;
+        for(int k=1;k<=b;k++)
+        {
+            if(k*c*k*2==s*b)
+            {
+                printf(""YES\n"");
+                flag=1;
+                break;
+            }
+        }
+        if(flag==0)
+        {
+            for(int k=b;k<=a;k++)
+             {
+            if((a-k)*(a-k)*c*2==s*(a-b))
+            {
+                printf(""YES\n"");
+                flag=1;
+                break;
+            }
+        }
+        }
+        if(flag==0) printf(""NO\n"");
+    }
+}"
+102,C,C,60994197,2023-02-26 16:37:58,xunmeng,答案正确,"#include <stdio.h>
+#include <math.h>
+int main(void)
+{
+	int t;
+	scanf(""%d"", &t);
+	while (t--)
+	{
+		double xb, xc, yc;
+		xb = xc = yc = 0;
+		scanf(""%lf %lf %lf"", &xb, &xc, &yc);
+		if (xc < xb / 2)
+		{
+			xc = xb - xc;
+		}
+		long long tt;
+		tt = sqrt(xb * xc / 2);
+		if (tt * tt == xb * xc / 2)
+		{
+			printf(""YES\n"");
+		}
+		else
+		{
+			printf(""NO\n"");
+		}
+	}
+}"
+103,C,C,60995706,2023-02-26 18:47:32,曜花缘,答案错误,"#include<stdio.h>
+int main(){
+    int t;
+    scanf(""%d"",&t);
+    for(int i=0;i<t;i++){
+        int xb,xc,yc,f;f=0;
+        scanf(""%d %d %d"",&xb,&xc,&yc);
+        for(int i=0;i<=xc;i++){
+            if(2*i*i==xb*xc){printf(""YES\n"");break;}
+            
+        else f=1;}
+        if(f){
+            printf(""NO\n"");
+        }
+    }
+}"
+104,C,C,60996178,2023-02-26 19:16:45,曜花缘,答案正确,"#include<stdio.h>
+int main(){
+    int t;
+    scanf(""%d"",&t);
+    for(int i=0;i<t;i++){
+        int xb,xc,yc,f1,f2=1;
+        scanf(""%d %d %d"",&xb,&xc,&yc);
+        if(2*xc>=xb) f1=2;
+        else f1=1;
+        if(f1==1){
+            for(int i=xc;i<=xb;i++){
+                if((xb-xc)*xb==2*(xb-i)*(xb-i)){
+                    printf(""YES\n"");f2=0;break;
+                }
+
+            }
+
+        }else {
+            for(int i=0;i<=xc;i++){
+                if(i*i*2==xc*xb){
+                    printf(""YES\n"");
+                    f2=0;break;
+                }
+            }
+        }
+        if(f2){printf(""NO\n"");};
+
+    }
+}"
+105,C,C,61010905,2023-02-28 12:16:52,子鱼阿森,答案错误,"#include<stdio.h>
+#include<math.h>
+int max(int a,int b){
+    return a>b ? a : b;
+}
+int main(){
+    int t;
+    scanf(""%d"",&t);
+    while(t--){
+        int xc,xb,yc;
+        scanf(""%d%d%d"",&xb,&xc,&yc);
+        int m=max(xc,xb-xc) , n=(m*xb)/2 , z=sqrt(n);
+        if(z*z==n){
+            printf(""YES"");
+        }else{
+            printf(""NO"");
+        }
+        printf(""\n"");
+    }
+    return 0;
+}"
+106,C,C,61010914,2023-02-28 12:17:40,子鱼阿森,答案错误,"#include<stdio.h>
+#include<math.h>
+int max(int a,int b){
+    return a>b ? a : b;
+}
+int main(){
+    int t;
+    scanf(""%d"",&t);
+    while(t--){
+        int xc,xb,yc;
+        scanf(""%d%d%d"",&xb,&xc,&yc);
+        int m=max(xc,xb-xc) , n=(m*xb)/2 , z=sqrt(n);
+        if(z*z==n){
+            printf(""YES"");
+        }else{
+            printf(""NO"");
+        }
+        printf(""\n"");
+    }
+    return 0;
+}"
+107,C,C,61015731,2023-02-28 16:35:59,子鱼阿森,答案错误,"#include<stdio.h>
+#include<math.h>
+int max(int a,int b){
+    return a>b ? a : b;
+}
+int main(){
+    int t;
+    scanf(""%d"",&t);
+    while(t--){
+        int xc,xb,yc;
+        scanf(""%d%d%d"",&xb,&xc,&yc);
+        int m=max(xc,xb-xc) , n=(m*xb)/2 , z=sqrt(n);
+        if(z*z==n){
+            printf(""YES"");
+        }else{
+            printf(""NO"");
+        }
+        printf(""\n"");
+    }
+    return 0;
+}"
+108,C,C,61016229,2023-02-28 16:45:33,子鱼阿森,答案错误,"#include<stdio.h>
+#include<math.h>
+int max(int a,int b){
+    return a>b ? a : b;
+}
+int main(){
+    int t;
+    scanf(""%d"",&t);
+    while(t--){
+        int xc,xb,yc;
+        scanf(""%d%d%d"",&xb,&xc,&yc);
+        int m=max(xc,xb-xc) , n=(xc*xb)/2 , z=sqrt(n);
+        if(z*z==n){
+            printf(""YES"");
+        }else{
+            printf(""NO"");
+        }
+        printf(""\n"");
+    }
+    return 0;
+}"
+109,C,C,61016442,2023-02-28 16:50:15,子鱼阿森,答案错误,"#include<stdio.h>
+#include<math.h>
+int max(int a,int b){
+    return a>b ? a : b;
+}
+int main(){
+    int t;
+    scanf(""%d"",&t);
+    while(t--){
+        int xc,xb,yc;
+        scanf(""%d%d%d"",&xb,&xc,&yc);
+        int m=max(xc,xb-xc) , n=(m*xb)/2, z=sqrt(n);
+        if(z*z==n){
+            printf(""YES"");
+        }else{
+            printf(""NO"");
+        }
+        printf(""\n"");
+    }
+    return 0;
+}"
+110,C,C,61023501,2023-02-28 23:48:10,牛客88445969号,答案错误,"#include<stdio.h>
+int main()
+{
+    int t,x0,i,j,k;
+  
+    scanf(""%d"",&t);
+    int a[3];
+    for(i=1;i<=t;i++){
+        k=0;
+         
+        scanf(""%d %d %d"",&a[0],&a[1],&a[2]);
+        for(i=1;i<=a[0];i++){
+            if(i<=a[1]&&i*a[2]/2==a[0]*a[2]/4||(i>a[1]&&a[0]*a[2]/4==a[2]/2*(a[0]-i))){
+              k++;
+            }
+            else{ k=0; }
+        }
+        if(k==0){  printf(""NO\n""); }
+        if(k!=0){  printf(""YES\n"");}
+     
+    }
+    return 0;
+}"
+111,C,C,61031317,2023-03-01 20:24:16,192211902224马文,答案错误,"#include<stdlib.h>
+#include<stdio.h>
+#include<string.h>
+
+int main() {
+    
+    int t;
+    scanf(""%d"",&t);
+    int xb,xc,yc;
+    while(t--) {
+        scanf(""%d%d%d"",&xb,&xc,&yc);
+        double big = xb * yc;
+        int fla = 1;
+        double small = -1;
+        for(int i = 1; i < xb; i++) {
+            if(i <= xc) {
+                small = xc * (double)i * yc / xc;
+            }
+            else {
+                small = (double)(xb - i)*(xb - i)*yc / (xb - xc);
+            }
+            
+            if(big == small * 2)   {
+                printf(""YES\n"");
+                fla = 0;
+                break;
+            }
+        }
+        if(fla == 1)
+            printf(""NO\n"");
+    }
+    return 0;
+}"
+112,C,C,61031521,2023-03-01 20:33:51,192211902224马文,答案正确,"#include<stdlib.h>
+#include<stdio.h>
+#include<string.h>
+
+int main() {
+    
+    int t;
+    scanf(""%d"",&t);
+    int xb,xc,yc;
+    while(t--) {
+        scanf(""%d%d%d"",&xb,&xc,&yc);
+         
+        int fla = 1;
+       
+        for(int i = 1; i < xb; i++) {
+            if(i <= xc) {
+                if( i * i * yc * 2== xb * yc * xc) {
+                    printf(""YES\n"");
+                    fla = 0;
+                    break;
+                }
+            }
+            else {
+                if(xb * yc * (xb - xc) == 2 * (xb - i)*(xb - i) * yc) {
+                    printf(""YES\n"");
+                    fla = 0;
+                    break;
+                }
+            }
+        }
+        if(fla == 1)
+            printf(""NO\n"");
+    }
+    return 0;
+}"
+113,C,C,61035694,2023-03-02 11:26:47,在冲浪的袋鼠,答案正确,"#include<stdio.h>
+int main()
+{
+    int t,xb,xc,yc;
+    scanf(""%d"",&t);
+    while(t--)
+    {
+        int p=0;
+        scanf(""%d%d%d"",&xb,&xc,&yc);
+        for(int i=1;i<=xc;i++)
+        {
+            if(xb*xc==2*i*i)
+            {
+                p=1;
+            }
+        }
+        for(int i=xc+1;i<=xb;i++)
+        {
+            if(xb*(xb-xc)==2*(xb-i)*(xb-i))
+                p=1;
+        }
+        if(p)
+            printf(""YES\n"");
+        else
+            printf(""NO\n"");
+}
+    return 0;
+}"
+114,C,C,61054126,2023-03-03 16:11:05,咕噜噜咕,答案错误,"#include<stdio.h>
+int main()
+{
+    int t,i;
+    float s1,s2,s,xb,xc,yc;
+    scanf(""%d\n"",&t);
+    while(t--)
+    {
+        scanf(""%f %f %f"",&xb,&xc,&yc);
+        s=(xb*yc)/2;
+        if(xb/2<xc)
+        {
+            for(i=1;i<xc;i++)
+            {
+                s1=(yc/xc)*i*i;
+
+                if(s==s1)
+                {
+                     printf(""YES\n"");
+                break;
+                }
+
+            }
+            if(i==xc&&s!=s1)
+                printf(""NO\n"");
+        }
+       if(xb/2>xc)
+        {
+                xb=xb-xc;xc=0;
+            for(i=1;i<xb;i++)
+            {
+                s2=(yc/xb)*i*i;
+                
+                 if(s==s2)
+                 {
+                      printf(""YES\n"");
+                break;
+                 }
+
+            }
+            if(i==xb&&s!=s1)
+                printf(""NO\n"");
+        }
+        if(xb/2==xc)
+            printf(""YES\n"");
+
+    }
+
+}
+"
+115,C,C,61054170,2023-03-03 16:15:06,咕噜噜咕,答案错误,"#include<stdio.h>
+int main()
+{
+    int t,i;
+    double s1,s2,s,xb,xc,yc;
+    scanf(""%d\n"",&t);
+    while(t--)
+    {
+        scanf(""%lf %lf %lf"",&xb,&xc,&yc);
+        s=(xb*yc)/2;
+        if(xb/2<xc)
+        {
+            for(i=1;i<xc;i++)
+            {
+                s1=(yc/xc)*i*i;
+
+                if(s==s1)
+                {
+                     printf(""YES\n"");
+                break;
+                }
+
+            }
+            if(i==xc&&s!=s1)
+                printf(""NO\n"");
+        }
+       if(xb/2>xc)
+        {
+                xb=xb-xc;xc=0;
+            for(i=1;i<xb;i++)
+            {
+                s2=(yc/xb)*i*i;
+                
+                 if(s==s2)
+                 {
+                      printf(""YES\n"");
+                break;
+                 }
+
+            }
+            if(i==xb&&s!=s1)
+                printf(""NO\n"");
+        }
+        if(xb/2==xc)
+            printf(""YES\n"");
+
+    }
+
+}
+"
+116,C,C,61054224,2023-03-03 16:19:59,咕噜噜咕,运行超时,"#include<stdio.h>
+int main()
+{
+    int t,i;
+    long long s1,s2,s,xb,xc,yc;
+    scanf(""%d\n"",&t);
+    while(t--)
+    {
+        scanf(""%lf %lf %lf"",&xb,&xc,&yc);
+        s=(xb*yc)/2;
+        if(xb/2<xc)
+        {
+            for(i=1;i<xc;i++)
+            {
+                s1=(yc/xc)*i*i;
+
+                if(s==s1)
+                {
+                     printf(""YES\n"");
+                break;
+                }
+
+            }
+            if(i==xc&&s!=s1)
+                printf(""NO\n"");
+        }
+       if(xb/2>xc)
+        {
+                xb=xb-xc;xc=0;
+            for(i=1;i<xb;i++)
+            {
+                s2=(yc/xb)*i*i;
+                
+                 if(s==s2)
+                 {
+                      printf(""YES\n"");
+                break;
+                 }
+
+            }
+            if(i==xb&&s!=s1)
+                printf(""NO\n"");
+        }
+        if(xb/2==xc)
+            printf(""YES\n"");
+
+    }
+
+}
+"
+117,C,C,61054235,2023-03-03 16:20:57,咕噜噜咕,答案错误,"#include<stdio.h>
+int main()
+{
+    int t,i;
+   double xb,xc,yc;
+    long long s1,s2,s;
+    scanf(""%d\n"",&t);
+    while(t--)
+    {
+        scanf(""%lf %lf %lf"",&xb,&xc,&yc);
+        s=(xb*yc)/2;
+        if(xb/2<xc)
+        {
+            for(i=1;i<xc;i++)
+            {
+                s1=(yc/xc)*i*i;
+
+                if(s==s1)
+                {
+                     printf(""YES\n"");
+                break;
+                }
+
+            }
+            if(i==xc&&s!=s1)
+                printf(""NO\n"");
+        }
+       if(xb/2>xc)
+        {
+                xb=xb-xc;xc=0;
+            for(i=1;i<xb;i++)
+            {
+                s2=(yc/xb)*i*i;
+                
+                 if(s==s2)
+                 {
+                      printf(""YES\n"");
+                break;
+                 }
+
+            }
+            if(i==xb&&s!=s1)
+                printf(""NO\n"");
+        }
+        if(xb/2==xc)
+            printf(""YES\n"");
+
+    }
+
+}
+"
+118,C,C,61054240,2023-03-03 16:21:22,咕噜噜咕,答案错误,"#include<stdio.h>
+int main()
+{
+    int t,i;
+   double xb,xc,yc;
+    long long s1,s2,s;
+    scanf(""%d\n"",&t);
+    while(t--)
+    {
+        scanf(""%lf %lf %lf"",&xb,&xc,&yc);
+        s=(xb*yc)/2;
+        if(xb/2<xc)
+        {
+            for(i=1;i<xc;i++)
+            {
+                s1=(yc/xc)*i*i;
+
+                if(s==s1)
+                {
+                     printf(""YES\n"");
+                break;
+                }
+
+            }
+            if(i==xc&&s!=s1)
+                printf(""NO\n"");
+        }
+       if(xb/2>xc)
+        {
+                xb=xb-xc;xc=0;
+            for(i=1;i<xb;i++)
+            {
+                s2=(yc/xb)*i*i;
+                
+                 if(s==s2)
+                 {
+                      printf(""YES\n"");
+                break;
+                 }
+
+            }
+            if(i==xb&&s!=s1)
+                printf(""NO\n"");
+        }
+        if(xb/2==xc)
+            printf(""YES\n"");
+
+    }
+
+}
+"
+119,C,C,61079117,2023-03-04 12:22:13,ZJGSU_wjh,答案正确,"#include<stdio.h>
+int main() {
+    int T;
+    scanf(""%d"", &T);
+    while (T--) {
+        int flag = 0;
+        int xb, xc, yc;
+        scanf(""%d%d%d"", &xb, &xc, &yc);
+
+        for (int i = 0; i < xc; i++) {
+            if (2 * i * i == xc * xb) {
+                flag = 1;
+                break;
+            }
+        }
+        if (!flag) {
+            for (int i = xc; i <= xb; i++) {
+                if ((xb - xc) * xb == 2 * i * i) {
+                    flag = 1;
+                    break;
+                }
+            }
+        }
+        if (flag)puts(""YES"");
+        else puts(""NO"");
+    }
+    return 0;
+}"
+120,C,C,61083830,2023-03-04 17:43:32,Sekirooo,答案错误,"#include<stdio.h>
+#include<math.h>
+int main(){
+    int T;
+    scanf(""%d"",&T);
+    while(T){
+        T--;
+        int flag=0;
+        int xb,xc,yc;
+        scanf(""%d%d%d"",&xb,&xc,&yc);
+        double x1=sqrt(xb*xc/2);
+        int x=(int)x1;
+        if(x1<=xc&&x1==x){
+            printf(""YES\n"");
+            flag=1;
+        }
+        double x2=xb-sqrt(xb*(xb-xc)/2);
+        int y=(int)x2;
+        if(x2>xc&&x2==y){
+            printf(""YES\n"");
+            flag=1;
+        }
+        if(flag==0){
+            printf(""NO\n"");
+        }
+    }
+    
+    return 0;
+}"
+121,C,C,61083876,2023-03-04 17:48:23,Sekirooo,答案错误,"#include<stdio.h>
+#include<math.h>
+int main(){
+    int T;
+    scanf(""%d"",&T);
+    while(T){
+        T--;
+        int flag=0;
+        int xb,xc,yc;
+        scanf(""%d%d%d"",&xb,&xc,&yc);
+        double x1=sqrt(xb*xc/2);
+        int x=(int)x1;
+        if(x1<=xc&&x1==x&&x1>=0&&x1<=xb){
+            printf(""YES\n"");
+            flag=1;
+        }
+        double x2=xb-sqrt(xb*(xb-xc)/2);
+        int y=(int)x2;
+        if(x2>xc&&x2==y&&x2>=0&&x2<=xb){
+            printf(""YES\n"");
+            flag=1;
+        }
+        if(flag==0){
+            printf(""NO\n"");
+        }
+    }
+    
+    return 0;
+}"
+122,C,C,61084021,2023-03-04 18:00:51,Sekirooo,答案正确,"#include<stdio.h>
+#include<math.h>
+int main(){
+    int T;
+    scanf(""%d"",&T);
+    while(T){
+        T--;
+        int flag=0;
+        double xb,xc,yc;
+        scanf(""%lf%lf%lf"",&xb,&xc,&yc);
+        double x1=sqrt(xb*xc/2);
+        if(x1<=xc&&x1==(int)x1){
+            printf(""YES\n"");
+            flag=1;
+        }
+        double x2=xb-sqrt(xb*(xb-xc)/2);
+        if(x2>xc&&x2==(int)x2){
+            printf(""YES\n"");
+            flag=1;
+        }
+        if(flag==0){
+            printf(""NO\n"");
+        }
+    }
+    
+    return 0;
+}"
+123,C,C,61126301,2023-03-07 20:37:47,puffer~,答案错误,"#include <stdio.h>
+int main(){
+    int t,i,j,x0,flag=0;
+    scanf(""%d"",&t);
+    int a[t][3];
+    for(i=0;i<t;i++){
+        for(j=0;j<3;j++){
+            scanf(""%d"",&a[t][3]);
+            
+        }
+    }
+    for(i=0;i<t;i++){
+        for(x0=0;x0<=a[i][1];x0++){
+            if(a[i][0]*a[i][1]==2*x0*x0)
+            {  flag=1;
+               break;
+            }
+        }
+        for(x0=a[i][1];x0<=a[i][0];x0++){
+            if((a[i][0]-a[i][1])*a[i][0]==2*x0*x0)
+            {  flag=1;
+               break;
+            }
+        }
+        
+        
+        if(flag)
+            printf(""YES\n"");
+        else
+            printf(""NO\n"");
+        flag=0;
+    }
+    
+}"
+124,C,C,61126317,2023-03-07 20:39:11,puffer~,运行超时,"#include <stdio.h>
+int main(){
+    int t,i,j,x0,flag=0;
+    scanf(""%d"",&t);
+    int a[t][3];
+    for(i=0;i<t;i++){
+        for(j=0;j<3;j++){
+            scanf(""%d"",&a[t][3]);
+            
+        }
+    }
+    for(i=0;i<t;i++){
+        for(x0=0;x0<=a[i][1];x0++){
+            if(a[i][0]*a[i][1]==2*x0*x0)
+            {  flag=1;
+               break;
+            }
+        }
+        for(x0=a[i][1];x0<=a[i][0];x0++){
+            if((a[i][0]-a[i][1])*a[i][0]==2*x0*x0)
+            {  flag=1;
+               break;
+            }
+        }
+        
+        
+        if(flag)
+            printf(""YES\n"");
+        else
+            printf(""NO\n"");
+        flag=0;
+    }
+    
+}"
+125,C,C,61126322,2023-03-07 20:39:18,puffer~,答案错误,"#include <stdio.h>
+int main(){
+    int t,i,j,x0,flag=0;
+    scanf(""%d"",&t);
+    int a[t][3];
+    for(i=0;i<t;i++){
+        for(j=0;j<3;j++){
+            scanf(""%d"",&a[t][3]);
+            
+        }
+    }
+    for(i=0;i<t;i++){
+        for(x0=0;x0<=a[i][1];x0++){
+            if(a[i][0]*a[i][1]==2*x0*x0)
+            {  flag=1;
+               break;
+            }
+        }
+        for(x0=a[i][1];x0<=a[i][0];x0++){
+            if((a[i][0]-a[i][1])*a[i][0]==2*x0*x0)
+            {  flag=1;
+               break;
+            }
+        }
+        
+        
+        if(flag)
+            printf(""YES\n"");
+        else
+            printf(""NO\n"");
+        flag=0;
+    }
+    
+}"
+126,C,C,61126366,2023-03-07 20:41:58,puffer~,答案错误,"#include <stdio.h>
+int main(){
+    int t,i,j,x0,flag=0;
+    scanf(""%d"",&t);
+    int a[t][3];
+    for(i=0;i<t;i++){
+        for(j=0;j<3;j++){
+            scanf(""%d"",&a[t][3]);
+            
+        }
+    }
+    for(i=0;i<t;i++){
+        for(x0=0;x0<=a[i][1];x0++){
+            if(a[i][0]*a[i][1]==2*x0*x0)
+            {  flag=1;
+               break;
+            }
+        }
+        if(flag==0){
+        for(x0=a[i][1];x0<=a[i][0];x0++){
+            if((a[i][0]-a[i][1])*a[i][0]==2*x0*x0)
+            {  flag=1;
+               break;
+            }
+        }
+        }
+        
+        if(flag)
+            printf(""YES\n"");
+        else
+            printf(""NO\n"");
+        flag=0;
+    }
+    
+}"
+127,C,C,61130464,2023-03-08 13:45:55,hhu21张宇,答案正确,"#include<stdio.h>
+#include<math.h>
+int main() {
+  long long x_b, x_c, y_c;
+  int t;
+  scanf(""%d"", &t);
+  while (t--) {
+    scanf(""%lld%lld%lld"", &x_b, &x_c, &y_c);
+    long long s = x_b * y_c;
+    if (x_c * 2 < x_b) x_c = x_b - x_c;
+    double x = sqrt((double) s * x_c / 2 * y_c);
+    if (x == (int)x) puts(""YES"");
+    else puts(""NO"");
+  }
+  return 0;
+}"
+128,C,C,61143137,2023-03-09 15:29:38,【南笙】,答案错误,"#include <stdio.h>
+int main()
+{
+    int t = 0, b = 0, c = 0, y = 0, x0 = 0, tag = 0;
+    double s = 0, s1 = 0;
+    scanf(""%d"", &t);
+    
+    while (t-- > 0)
+    {
+        tag = 0;
+        scanf(""%d %d %d"", &b, &c, &y); 
+      
+        while (tag == 0)
+        {s = (double)b * y / 4;
+            if((double)b / 2 < c)
+            {  
+                
+                for (int i = 0; i + 1< c - b / 2 && tag == 0; i++)
+                {
+                    s1 = (double)(b / 2 + i + 1) * y / c * (b / 2 + i + 1) / 2;
+                    if(s1 == s)
+                    {
+                        printf(""YES\n"");
+                        tag = 1;
+                     }  
+                }
+                if(!tag)
+                printf(""NO\n"");
+                tag = 1;
+            }
+            else if(b / 2 == c)
+            {
+                printf(""YES\n"");
+                tag = 1;
+                
+            }
+            else
+            {
+                for (int i = 0; c < (b / 2 - i - 1) && tag == 0; i++)
+                {
+                    s1 = (double)(b / 2 + i + 1) * y / (b - c) * (b / 2 + i + 1) / 2;
+                    if(s1 == s)
+                    {
+                        printf(""YES\n"");
+                        tag = 1;
+                     }
+                }
+                if(!tag)
+                printf(""NO\n"");
+                tag = 1;
+            }
+        }
+        
+    }
+    
+    
+}
+"
+129,C,C,61143185,2023-03-09 15:34:10,【南笙】,答案错误,"#include <stdio.h>
+int main()
+{
+    int t = 0, b = 0, c = 0, y = 0, x0 = 0, tag = 0;
+    double s = 0, s1 = 0;
+    scanf(""%d"", &t);
+    
+    while (t-- > 0)
+    {
+        tag = 0;
+        scanf(""%d %d %d"", &b, &c, &y); 
+      
+        while (tag == 0)
+        {
+            s = b * y;
+            if(b / 2 < c)
+            {    
+                for (int i = 0; i + 1< c - b / 2 && tag == 0; i++)
+                {
+                    s1 = 2 * (b / 2 + i + 1) * y / c * (b / 2 + i + 1);
+                    if(s1 == s)
+                    {
+                        printf(""YES\n"");
+                        tag = 1;
+                     }  
+                }
+                if(!tag)
+                printf(""NO\n"");
+                tag = 1;
+            }
+            else if(b / 2 == c)
+            {
+                printf(""YES\n"");
+                tag = 1;
+                
+            }
+            else
+            {
+                for (int i = 0; c < (b / 2 - i - 1) && tag == 0; i++)
+                {
+                    s1 = (b / 2 + i + 1) * y / (b - c) * (b / 2 + i + 1) * 2;
+                    if(s1 == s)
+                    {
+                        printf(""YES\n"");
+                        tag = 1;
+                     }
+                }
+                if(!tag)
+                printf(""NO\n"");
+                tag = 1;
+            }
+        }
+        
+    }
+    
+    
+}
+"
+130,C,C,61143193,2023-03-09 15:35:16,【南笙】,答案错误,"#include <stdio.h>
+int main()
+{
+    int t = 0, b = 0, c = 0, y = 0, x0 = 0, tag = 0;
+    double s = 0, s1 = 0;
+    scanf(""%d"", &t);
+    
+    while (t-- > 0)
+    {
+        tag = 0;
+        scanf(""%d %d %d"", &b, &c, &y); 
+      
+        while (tag == 0)
+        {
+            s = b * y;
+            if(b / 2 < c)
+            {    
+                for (int i = 0; i + 1< c - b / 2 && tag == 0; i++)
+                {
+                    s1 = 2 * (b / 2 + i + 1) * y / c * (b / 2 + i + 1);
+                    if(s1 == s)
+                    {
+                        printf(""YES\n"");
+                        tag = 1;
+                     }  
+                }
+                if(!tag)
+                printf(""NO\n"");
+                tag = 1;
+            }
+            else if(b / 2 == c)
+            {
+                printf(""YES\n"");
+                tag = 1;
+                
+            }
+            else
+            {
+                for (int i = 0; c < (b / 2 - i - 1) && tag == 0; i++)
+                {
+                    s1 = (b / 2 + i + 1) * 2 * (b / 2 + i + 1) * y / (b - c) ;
+                    if(s1 == s)
+                    {
+                        printf(""YES\n"");
+                        tag = 1;
+                     }
+                }
+                if(!tag)
+                printf(""NO\n"");
+                tag = 1;
+            }
+        }
+        
+    }
+    
+    
+}
+"
+131,C,C,61143196,2023-03-09 15:35:39,【南笙】,答案错误,"#include <stdio.h>
+int main()
+{
+    int t = 0, b = 0, c = 0, y = 0, x0 = 0, tag = 0;
+    double s = 0, s1 = 0;
+    scanf(""%d"", &t);
+    
+    while (t-- > 0)
+    {
+        tag = 0;
+        scanf(""%d %d %d"", &b, &c, &y); 
+      
+        while (tag == 0)
+        {
+            s = b * y;
+            if(b / 2 < c)
+            {    
+                for (int i = 0; i + 1< c - b / 2 && tag == 0; i++)
+                {
+                    s1 = (b / 2 + i + 1) * 2 * (b / 2 + i + 1) * y / c ;
+                    if(s1 == s)
+                    {
+                        printf(""YES\n"");
+                        tag = 1;
+                     }  
+                }
+                if(!tag)
+                printf(""NO\n"");
+                tag = 1;
+            }
+            else if(b / 2 == c)
+            {
+                printf(""YES\n"");
+                tag = 1;
+                
+            }
+            else
+            {
+                for (int i = 0; c < (b / 2 - i - 1) && tag == 0; i++)
+                {
+                    s1 = (b / 2 + i + 1) * 2 * (b / 2 + i + 1) * y / (b - c) ;
+                    if(s1 == s)
+                    {
+                        printf(""YES\n"");
+                        tag = 1;
+                     }
+                }
+                if(!tag)
+                printf(""NO\n"");
+                tag = 1;
+            }
+        }
+        
+    }
+    
+    
+}
+"
+132,C,C,61143257,2023-03-09 15:42:40,【南笙】,答案错误,"#include <stdio.h>
+int main()
+{
+    int t = 0, b = 0, c = 0, y = 0, x0 = 0, tag = 0;
+    double s = 0, s1 = 0;
+    scanf(""%d"", &t);
+    
+    while (t-- > 0)
+    {
+        tag = 0;
+        scanf(""%d %d %d"", &b, &c, &y); 
+      
+        while (tag == 0)
+        {
+            s = b * y;
+            if(b / 2 < c)
+            {    
+                for (int i = 1; i + b / 2 < c && tag == 0; i++)
+                {
+                    s1 = (b / 2 + i) * 2 * (b / 2 + i) * y / c ;
+                    if(s1 == s)
+                    {
+                        printf(""YES\n"");
+                        tag = 1;
+                     }  
+                }
+                if(!tag)
+                printf(""NO\n"");
+                tag = 1;
+            }
+            else if(b / 2 == c)
+            {
+                printf(""YES\n"");
+                tag = 1;
+                
+            }
+            else
+            {
+                for (int i = 1; c < (b / 2 - i + 1) && tag == 0; i++)
+                {
+                    s1 = (b / 2 + i) * 2 * (b / 2 + i) * y / (b - c) ;
+                    if(s1 == s)
+                    {
+                        printf(""YES\n"");
+                        tag = 1;
+                     }
+                }
+                if(!tag)
+                printf(""NO\n"");
+                tag = 1;
+            }
+        }
+        
+    }
+    
+    
+}
+"
+133,C,C,61143290,2023-03-09 15:45:51,【南笙】,答案错误,"#include <stdio.h>
+int main()
+{
+    int t = 0, b = 0, c = 0, y = 0, x0 = 0, tag = 0;
+    double s = 0, s1 = 0;
+    scanf(""%d"", &t);
+    
+    while (t-- > 0)
+    {
+        tag = 0;
+        scanf(""%d %d %d"", &b, &c, &y); 
+      
+        while (tag == 0)
+        {
+            s = b * y;
+            if(b / 2 == c)
+            {
+                printf(""YES\n"");
+                tag = 1;
+                
+            }
+            else if(b / 2 < c)
+            {    
+                //
+                for (int i = 1; i + b / 2 < c && tag == 0; i++)
+                {
+                    s1 = (b / 2 + i) * 2 * (b / 2 + i) * y / c ;
+                    if(s1 == s)
+                    {
+                        printf(""YES\n"");
+                        tag = 1;
+                     }  
+                }
+                if(!tag)
+                printf(""NO\n"");
+                tag = 1;
+            }
+            else
+            {
+                for (int i = 1; c < (b - b / 2 - i) && tag == 0; i++)
+                {
+                    s1 = (b / 2 + i) * 2 * (b / 2 + i) * y / (b - c) ;
+                    if(s1 == s)
+                    {
+                        printf(""YES\n"");
+                        tag = 1;
+                     }
+                }
+                if(!tag)
+                printf(""NO\n"");
+                tag = 1;
+            }
+        }
+        
+    }
+    
+    
+}
+"
+134,C,C,61143296,2023-03-09 15:46:32,【南笙】,答案错误,"#include <stdio.h>
+int main()
+{
+    int t = 0, b = 0, c = 0, y = 0, x0 = 0, tag = 0;
+    double s = 0, s1 = 0;
+    scanf(""%d"", &t);
+    
+    while (t-- > 0)
+    {
+        tag = 0;
+        scanf(""%d %d %d"", &b, &c, &y); 
+      
+        while (tag == 0)
+        {
+            s = b * y;
+            if(b / 2 == c)
+            {
+                printf(""YES\n"");
+                tag = 1;
+                
+            }
+            else if(b / 2 < c)
+            {    
+                //
+                for (int i = 1; i + b / 2 < c && tag == 0; i++)
+                {
+                    s1 = (b / 2 + i) * 2 * (b / 2 + i) * y / c ;
+                    if(s1 == s)
+                    {
+                        printf(""YES\n"");
+                        tag = 1;
+                     }  
+                }
+                if(!tag)
+                {
+                    printf(""NO\n"");
+                tag = 1;
+                }
+            }
+            else
+            {
+                for (int i = 1; c < (b - b / 2 - i) && tag == 0; i++)
+                {
+                    s1 = (b / 2 + i) * 2 * (b / 2 + i) * y / (b - c) ;
+                    if(s1 == s)
+                    {
+                        printf(""YES\n"");
+                        tag = 1;
+                     }
+                }
+                if(!tag)
+                {
+                printf(""NO\n"");
+                tag = 1;
+                }
+            }
+        }
+        
+    }
+    
+    
+}
+"
+135,C,C,61143333,2023-03-09 15:50:47,【南笙】,答案错误,"#include <stdio.h>
+int main()
+{
+    int t = 0, b = 0, c = 0, y = 0, x0 = 0, tag = 0, s = 0, s1 = 0;
+    scanf(""%d"", &t);
+    
+    while (t-- > 0)
+    {
+        tag = 0;
+        scanf(""%d %d %d"", &b, &c, &y); 
+      
+        while (tag == 0)
+        {
+            s = b * y;
+            if(b / 2 == c)
+            {
+                printf(""YES\n"");
+                tag = 1;
+                
+            }
+            else if(b / 2 < c)
+            {    
+                //
+                for (int i = 1; i + b / 2 < c && tag == 0; i++)
+                {
+                    s1 = (b / 2 + i) * 2 * (b / 2 + i) * y / c ;
+                    if(s1 == s)
+                    {
+                        printf(""YES\n"");
+                        tag = 1;
+                     }  
+                }
+                if(!tag)
+                {
+                    printf(""NO\n"");
+                tag = 1;
+                }
+            }
+            else
+            {
+                for (int i = 1; c < (b - b / 2 - i) && tag == 0; i++)
+                {
+                    s1 = (b / 2 + i) * 2 * (b / 2 + i) * y / (b - c) ;
+                    if(s1 == s)
+                    {
+                        printf(""YES\n"");
+                        tag = 1;
+                     }
+                }
+                if(!tag)
+                {
+                printf(""NO\n"");
+                tag = 1;
+                }
+            }
+        }   
+    }
+}
+"
+136,C,C,61143346,2023-03-09 15:51:49,【南笙】,答案错误,"#include <stdio.h>
+int main()
+{
+    int t = 0, b = 0, c = 0, y = 0, x0 = 0, tag = 0, s = 0, s1 = 0;
+    scanf(""%d"", &t);
+    
+    while (t-- > 0)
+    {
+        tag = 0;
+        scanf(""%d %d %d"", &b, &c, &y); 
+      
+        while (tag == 0)
+        {
+            s = b * y;
+            if((double)b / 2 == c)
+            {
+                printf(""YES\n"");
+                tag = 1;
+                
+            }
+            else if(b / 2 < c)
+            {    
+                //
+                for (int i = 1; i + b / 2 < c && tag == 0; i++)
+                {
+                    s1 = (b / 2 + i) * 2 * (b / 2 + i) * y / c ;
+                    if(s1 == s)
+                    {
+                        printf(""YES\n"");
+                        tag = 1;
+                     }  
+                }
+                if(!tag)
+                {
+                    printf(""NO\n"");
+                tag = 1;
+                }
+            }
+            else
+            {
+                for (int i = 1; c < (b - b / 2 - i) && tag == 0; i++)
+                {
+                    s1 = (b / 2 + i) * 2 * (b / 2 + i) * y / (b - c) ;
+                    if(s1 == s)
+                    {
+                        printf(""YES\n"");
+                        tag = 1;
+                     }
+                }
+                if(!tag)
+                {
+                printf(""NO\n"");
+                tag = 1;
+                }
+            }
+        }   
+    }
+}
+"
+137,C,C,61144544,2023-03-09 17:51:37,【南笙】,答案错误,"#include <stdio.h>
+int main()
+{
+    int t = 0, b = 0, c = 0, y = 0, x0 = 0, tag = 0, s = 0, s1 = 0;
+    scanf(""%d"", &t);
+    
+    while (t-- > 0)
+    {
+        tag = 0;
+        scanf(""%d %d %d"", &b, &c, &y); 
+        while (tag == 0)
+        {   //防止出现小数影响判断
+            s = b * y;
+            //当b为c的两倍时，由于c为整数，所以x=c即可满足题意
+            if((double)b / 2 == c)
+            {
+                printf(""YES\n"");
+                tag = 1;
+            }
+            //当b/2小于c时能平分三角形的x必定在b/2的右边，c的左边
+            else if(b / 2 < c)
+            {    
+                for (int i = 1; i + b / 2 < c && tag == 0; i++)
+                {   //面积等于底*底*高*2
+                    s1 = (b / 2 + i) * 2 * (b / 2 + i) * y / c ;
+                    if(s1 == s)
+                    {
+                        printf(""YES\n"");
+                        tag = 1;
+                     }  
+                }
+                //当未找到合适的x时输出no
+                if(!tag)
+                {
+                    printf(""NO\n"");
+                    tag = 1;
+                }
+            }
+            //当b/2大于c时能平分三角形的x必定在b/2的左边，c的右边
+            else
+            {
+                for (int i = 1; c < (b - b / 2 - i) && tag == 0; i++)
+                {
+                    s1 = (b / 2 + i) * 2 * (b / 2 + i) * y / (b - c) ;
+                    if(s1 == s)
+                    {
+                        printf(""YES\n"");
+                        tag = 1;
+                     }
+                }
+                if(!tag)
+                {
+                printf(""NO\n"");
+                tag = 1;
+                }
+            }
+        }   
+    }
+}
+"
+138,C,C,61144578,2023-03-09 17:56:26,【南笙】,答案错误,"#include <stdio.h>
+int main()
+{
+    int t = 0, b = 0, c = 0, y = 0, x0 = 0, tag = 0, s = 0, s1 = 0;
+    scanf(""%d"", &t);
+    
+    while (t-- > 0)
+    {
+        tag = 0;
+        scanf(""%d %d %d"", &b, &c, &y); 
+        while (tag == 0)
+        {   //防止出现小数影响判断
+            s = b * y;
+            //当b为c的两倍时，由于c为整数，所以x=c即可满足题意
+            if((double)b / 2 == c)
+            {   printf(""YES\n"");
+                tag = 1;
+            }
+            //当b/2小于c时能平分三角形的x必定在b/2的右边，c的左边
+            else if(b / 2 < c)
+            {   for (int i = 1; i + b / 2 < c && tag == 0; i++)
+                {   //面积等于底*底*高*2
+                    s1 = (b / 2 + i) * 2 * (b / 2 + i) * y / c ;
+                    if(s1 == s)
+                    {   printf(""YES\n"");
+                        tag = 1;
+                     }  
+                }
+                //当未找到合适的x时输出no
+                if(!tag)
+                {   printf(""NO\n"");
+                    tag = 1;
+                }
+            }
+            //当b/2大于c时能平分三角形的x必定在b/2的左边，c的右边
+            else
+            {
+                for (int i = 1; c < (b - b / 2 - i) && tag == 0; i++)
+                {   s1 = (b / 2 + i) * 2 * (b / 2 + i) * y / (b - c) ;
+                    if(s1 == s)
+                    {   printf(""YES\n"");
+                        tag = 1;
+                     }
+                }
+                if(!tag)
+                {   printf(""NO\n"");
+                    tag = 1;
+                }
+            }
+        }   
+    }
+}
+"
+139,C,C,61146628,2023-03-09 20:00:59,爱读书的三文鱼很深情,答案错误,"#include<stdio.h>
+int main()
+{
+    int T;
+    scanf(""%d"",&T);
+    int i,j,a,b,c;
+    for(i=0;i<T;i++)
+    {
+        scanf(""%d%d%d"",&a,&b,&c);
+        for(j=0;j<a;j++)
+        {
+            if(2*(a-j)*(a-j)==a*(a-b))
+                break;
+        }
+        if(j<a)
+            printf(""YES\n"");
+        else printf(""NO\n"");
+    }
+    return 0;
+}"
+140,C,C,61146634,2023-03-09 20:01:09,爱读书的三文鱼很深情,答案错误,"#include<stdio.h>
+int main()
+{
+    int T;
+    scanf(""%d"",&T);
+    int i,j,a,b,c;
+    for(i=0;i<T;i++)
+    {
+        scanf(""%d%d%d"",&a,&b,&c);
+        for(j=1;j<a;j++)
+        {
+            if(2*(a-j)*(a-j)==a*(a-b))
+                break;
+        }
+        if(j<a)
+            printf(""YES\n"");
+        else printf(""NO\n"");
+    }
+    return 0;
+}"
+141,C,C,61146733,2023-03-09 20:04:01,爱读书的三文鱼很深情,答案错误,"#include<stdio.h>
+int main()
+{
+    int T;
+    scanf(""%d"",&T);
+    int i,j,a,b,c;
+    for(i=0;i<T;i++)
+    {
+        scanf(""%d%d%d"",&a,&b,&c);
+        for(j=1;j<a;j++)
+        {
+            if(2*(a-j)*(a-j)==a*(a-b))
+                break;
+        }
+        if(j<a)
+            printf(""YES\n"");
+        else printf(""NO\n"");
+    }
+    return 0;
+}"
+142,C,C,61147501,2023-03-09 20:33:17,老铁666a,答案错误,"#include<stdio.h>
+int main()
+{
+	int n,flag;
+	double s1,s2;
+	double k1,x1,x2,y1;
+	int h,k;
+	scanf(""%d"",&n);
+	while(n--)
+	{
+		flag=0;
+		scanf(""%lf %lf %lf"",&x2,&x1,&y1);
+		s1 = x2*y1;
+		k1 = y1/x1*1.0;
+		for(int i=1;i<x2;i++)
+		{
+			if(i<=x1)
+			{
+				s2 = k1*i*i;
+				if(s1==2*s2)
+				{
+					flag=1;
+					break;
+				}
+			}
+			else
+			{
+				s2 = (x2-i)*(x2-i)*y1/(x2-x1)*1.0;
+				if(s1==s2*2)
+				{
+					flag=1;
+				}
+			}
+		}
+		if(flag==1)
+		{
+			printf(""YES\n"");
+		}
+		else
+		{
+			printf(""NO\n"");
+		}
+	}
+	return 0;
+} "
+143,C,C,61147587,2023-03-09 20:37:34,老铁666a,答案正确,"#include<stdio.h>
+int main()
+{
+	int n,flag;
+	double s1,s2;
+	double k1,x1,x2,y1;
+	int h,k;
+	scanf(""%d"",&n);
+	while(n--)
+	{
+		flag=0;
+		scanf(""%lf %lf %lf"",&x2,&x1,&y1);
+		s1 = x2*y1;
+		for(int i=1;i<x2;i++)
+		{
+			if(i<=x1)
+			{
+				s2 =i*y1*i/x1;
+				if(s1==2*s2)
+				{
+					flag=1;
+					break;
+				}
+			}
+			else
+			{
+				s2 = (x2-i)*(x2-i)*y1/(x2-x1)*1.0;
+				if(s1==s2*2)
+				{
+					flag=1;
+				}
+			}
+		}
+		if(flag==1)
+		{
+			printf(""YES\n"");
+		}
+		else
+		{
+			printf(""NO\n"");
+		}
+	}
+	return 0;
+} "
+144,C,C,61150011,2023-03-09 23:23:36,牛客743144335号,答案错误,"#include <stdio.h>
+int main()
+{
+    int T;
+    scanf(""%d"",&T);
+    while(T--)
+    {
+        int xb,xc,yc,m=0;
+        scanf(""%d %d %d"",&xb,&xc,&yc);
+        if(xc>xb/2)
+        {
+            for(int i=0;i<xc;i++)
+            { if(2*i*i==xc*xb)
+            { m=1;
+             break;}
+            }
+        }
+        if(xc==xb/2) m=1;
+        if(xc<xb/2)
+        {
+            for(int i=xc;i<xb;i++)
+            {
+                if(2*i*i==xb*(xb-xc))
+                { m=1;
+                break;}
+            }
+        }
+        if(m==1) printf(""YES"");
+        else printf(""NO"");
+        printf(""\n"");
+        
+            
+    }
+    return 0;
+}"
+145,C,C,61150014,2023-03-09 23:24:00,牛客743144335号,答案错误,"#include <stdio.h>
+int main()
+{
+    int T;
+    scanf(""%d"",&T);
+    while(T--)
+    {
+        int xb,xc,yc,m=0;
+        scanf(""%d %d %d"",&xb,&xc,&yc);
+        if(xc>xb/2)
+        {
+            for(int i=0;i<xc;i++)
+            { if(2*i*i==xc*xb)
+            { m=1;
+             break;}
+            }
+        }
+        if(xc==xb/2) m=1;
+        if(xc<xb/2)
+        {
+            for(int i=xc;i<xb;i++)
+            {
+                if(2*i*i==xb*(xb-xc))
+                { m=1;
+                break;}
+            }
+        }
+        if(m==1) printf(""YES"");
+        else printf(""NO"");
+        printf(""\n"");
+        
+            
+    }
+    return 0;
+}"
+146,C,C,61150317,2023-03-10 00:12:38,强大的雪碧想开了,答案正确,"#include<stdio.h>
+int main()
+{
+    int T;
+    double xb,xc,yc;
+    scanf(""%d"",&T);
+    for(int i=1;i<=T;i++)
+    {
+        int flag=0;
+    scanf(""%lf%lf%lf"",&xb,&xc,&yc);
+        for(int j=1;j<=xc;j++)
+        {
+            if(j*j==xb*xc/2)
+                flag=1;
+        }
+        for(int j=xc;j<xb;j++)
+        {
+            if(xb*xb+xb*xc-4*xb*j+2*j*j==0)
+                flag=1;
+        }
+        if(flag==1)
+            printf(""YES\n"");
+        else
+            printf(""NO\n"");
+    }
+    return 0;
+}"
+147,C,C,61150328,2023-03-10 00:14:18,强大的雪碧想开了,答案正确,"#include<stdio.h>
+int main()
+{
+    int T;
+    double xb,xc,yc;
+    scanf(""%d"",&T);
+    for(int i=1;i<=T;i++)
+    {
+        int flag=0;
+    scanf(""%lf%lf%lf"",&xb,&xc,&yc);
+        for(int j=1;j<=xc;j++)
+        {
+            if(2*j*j==xb*xc)
+                flag=1;
+        }
+        for(int j=xc;j<xb;j++)
+        {
+            if(2*(xb-j)*(xb-j)==xb*(xb-xc))
+                flag=1;
+        }
+        if(flag==1)
+            printf(""YES\n"");
+        else
+            printf(""NO\n"");
+    }
+    return 0;
+}"
+148,C,C,61150384,2023-03-10 00:31:18,L-李,答案错误,"#include<stdio.h>
+
+int main()
+{
+	int t;
+	scanf(""%d"",&t);
+	int i,j,a,b,c;
+	double k,s,y,sum;
+	for(i=1;i<=t;i++)
+	{
+		scanf(""%d %d %d"",&a,&b,&c);
+		s=a*c/2;
+		for(j=1;j<=a;j++)
+		{
+			y=(double)(c/b)*j;
+			sum=y*j/2;
+			if(sum==s-sum)
+			{
+				printf(""YES\n"");
+				break;
+			}
+		}
+	}
+	if(sum!=s-sum)
+	{
+		printf(""NO\n"");
+	}
+	
+	return 0;
+}"
+149,C,C,61150388,2023-03-10 00:32:44,L-李,答案错误,"#include<stdio.h>
+
+int main()
+{
+	int t;
+	scanf(""%d"",&t);
+	int i,j,a,b,c;
+	double k,s,y,sum;
+	for(i=1;i<=t;i++)
+	{
+		scanf(""%d %d %d"",&a,&b,&c);
+		s=a*c/2;
+		for(j=1;j<=a;j++)
+		{
+			y=(double)(c/b)*j;
+			sum=y*j/2;
+			if(sum==s-sum)
+			{
+				printf(""YES\n"");
+				break;
+			}
+		}
+	}
+	if(sum!=s-sum)
+	{
+		printf(""NO"");
+	}
+	
+	return 0;
+}"
+150,C,C,61150526,2023-03-10 08:33:03,L-李,答案错误,"#include<stdio.h>
+
+int main()
+{
+	int t,i;
+	scanf(""%d"",&t);
+	double k,j,s,y,s1,s2,a,b,c;
+	for(i=1;i<=t;i++)
+	{
+		scanf(""%lf %lf %lf"",&a,&b,&c);
+		s=a*c/2.0;
+		k=0;
+		for(j=1.0;j<b;j++)
+		{
+			y=j*c/b;
+			s1=y*j/2.0;
+			s2=s-s1;
+			if(s1==s2)
+			{
+				k=1;
+			}
+		}
+		for(j=b;j<=a;j++)
+		{
+			y=c*(a-j)/(a-b);
+			s1=y*(a-j)/2.0;
+			s2=s-s1;
+			if(s1==s2)
+			{
+				k=1;
+			}
+		}
+		if(k==1)
+		{
+			printf(""YES\n"");
+		}
+		else
+		{
+			printf(""NO\n"");
+		}
+	}
+	return 0;
+}"
+151,C,C,61150530,2023-03-10 08:36:18,L-李,答案错误,"#include<stdio.h>
+
+int main()
+{
+	int t,i;
+	scanf(""%d"",&t);
+	double k,j,s,y,s1,s2,a,b,c;
+	for(i=1;i<=t;i++)
+	{
+		scanf(""%lf %lf %lf"",&a,&b,&c);
+		s=a*c/2.0;
+		k=0;
+		for(j=1.0;j<=b;j++)
+		{
+			y=j*c/b;
+			s1=y*j/2.0;
+			s2=s-s1;
+			if(s1==s2)
+			{
+				k=1;
+			}
+		}
+		for(j=b;j<=a;j++)
+		{
+			y=c*(a-j)/(a-b);
+			s1=y*(a-j)/2.0;
+			s2=s-s1;
+			if(s1==s2)
+			{
+				k=1;
+			}
+		}
+		if(k==1)
+		{
+			printf(""YES\n"");
+		}
+		else
+		{
+			printf(""NO\n"");
+		}
+	}
+	return 0;
+}"
+152,C,C,61158844,2023-03-10 19:16:11,【南笙】,答案错误,"#include <stdio.h>
+int main()
+{
+    int t = 0, b = 0, c = 0, y = 0, x0 = 0, tag = 0, s = 0, s1 = 0;
+    scanf(""%d"", &t);
+    
+    while (t-- > 0)
+    {
+        tag = 0;
+        scanf(""%d %d %d"", &b, &c, &y); 
+        while (tag == 0)
+        {   
+            //防止出现小数影响判断
+            s = b * y;
+            //当b为c的两倍时，由于c为整数，所以x=c即可满足题意
+            if((double)b / 2 == c)
+            {   
+                printf(""YES\n"");
+                tag = 1;
+            }
+            //当b/2小于c时能平分三角形的x必定在b/2的右边，c的左边
+            else if(b / 2 < c)
+            {   
+                for (int i = 1; i + b / 2 < c && tag == 0; i++)
+                {   //面积等于底*底*高*2
+                    s1 = (b / 2 + i) * 2 * (b / 2 + i) * y / c ;
+                    if(s1 == s)
+                    {   
+                        printf(""YES\n"");
+                        tag = 1;
+                     }  
+                }
+                //当未找到合适的x时输出no
+                if(!tag)
+                {   
+                    printf(""NO\n"");
+                    tag = 1;
+                }
+            }
+            //当b/2大于c时能平分三角形的x必定在b/2的左边，c的右边
+            else
+            {
+                for (int i = 0; c < (b - b / 2 - i) && tag == 0; i++)
+                {   
+                    s1 = (b / 2 + i) * 2 * (b / 2 + i) * y / (b - c) ;
+                    if(s1 == s)
+                    {   
+                        printf(""YES\n"");
+                        tag = 1;
+                     }
+                }
+                if(!tag)
+                {   
+                    printf(""NO\n"");
+                    tag = 1;
+                }
+            }
+        }   
+    }
+}
+"
+153,C,C,61158866,2023-03-10 19:16:23,【南笙】,答案错误,"#include <stdio.h>
+int main()
+{
+    int t = 0, b = 0, c = 0, y = 0, x0 = 0, tag = 0, s = 0, s1 = 0;
+    scanf(""%d"", &t);
+    
+    while (t-- > 0)
+    {
+        tag = 0;
+        scanf(""%d %d %d"", &b, &c, &y); 
+        while (tag == 0)
+        {   
+            //防止出现小数影响判断
+            s = b * y;
+            //当b为c的两倍时，由于c为整数，所以x=c即可满足题意
+            if((double)b / 2 == c)
+            {   
+                printf(""YES\n"");
+                tag = 1;
+            }
+            //当b/2小于c时能平分三角形的x必定在b/2的右边，c的左边
+            else if(b / 2 < c)
+            {   
+                for (int i = 0; i + b / 2 < c && tag == 0; i++)
+                {   //面积等于底*底*高*2
+                    s1 = (b / 2 + i) * 2 * (b / 2 + i) * y / c ;
+                    if(s1 == s)
+                    {   
+                        printf(""YES\n"");
+                        tag = 1;
+                     }  
+                }
+                //当未找到合适的x时输出no
+                if(!tag)
+                {   
+                    printf(""NO\n"");
+                    tag = 1;
+                }
+            }
+            //当b/2大于c时能平分三角形的x必定在b/2的左边，c的右边
+            else
+            {
+                for (int i = 0; c < (b - b / 2 - i) && tag == 0; i++)
+                {   
+                    s1 = (b / 2 + i) * 2 * (b / 2 + i) * y / (b - c) ;
+                    if(s1 == s)
+                    {   
+                        printf(""YES\n"");
+                        tag = 1;
+                     }
+                }
+                if(!tag)
+                {   
+                    printf(""NO\n"");
+                    tag = 1;
+                }
+            }
+        }   
+    }
+}
+"
+154,C,C,61158924,2023-03-10 19:16:51,【南笙】,答案错误,"#include <stdio.h>
+int main()
+{
+    int t = 0, b = 0, c = 0, y = 0, x0 = 0, tag = 0, s = 0, s1 = 0;
+    scanf(""%d"", &t);
+    
+    while (t-- > 0)
+    {
+        tag = 0;
+        scanf(""%d %d %d"", &b, &c, &y); 
+        while (tag == 0)
+        {   
+            //防止出现小数影响判断
+            s = b * y;
+            //当b为c的两倍时，由于c为整数，所以x=c即可满足题意
+            if((double)b / 2 == c)
+            {   
+                printf(""YES\n"");
+                tag = 1;
+            }
+            //当b/2小于c时能平分三角形的x必定在b/2的右边，c的左边
+            else if(b / 2 < c)
+            {   
+                for (int i = 0; i + b / 2 < c && tag == 0; i++)
+                {   //面积等于底*底*高*2
+                    s1 = (b / 2 + i) * 2 * (b / 2 + i) * y / c ;
+                    if(s1 == s)
+                    {   
+                        printf(""YES\n"");
+                        tag = 1;
+                     }  
+                }
+                //当未找到合适的x时输出no
+                if(!tag)
+                {   
+                    printf(""NO\n"");
+                    tag = 1;
+                }
+            }
+            //当b/2大于c时能平分三角形的x必定在b/2的左边，c的右边
+            else
+            {
+                for (int i = 0; c <= (b - b / 2 - i) && tag == 0; i++)
+                {   
+                    s1 = (b / 2 + i) * 2 * (b / 2 + i) * y / (b - c) ;
+                    if(s1 == s)
+                    {   
+                        printf(""YES\n"");
+                        tag = 1;
+                     }
+                }
+                if(!tag)
+                {   
+                    printf(""NO\n"");
+                    tag = 1;
+                }
+            }
+        }   
+    }
+}
+"
+155,C,C,61158946,2023-03-10 19:17:01,【南笙】,答案错误,"#include <stdio.h>
+int main()
+{
+    int t = 0, b = 0, c = 0, y = 0, x0 = 0, tag = 0, s = 0, s1 = 0;
+    scanf(""%d"", &t);
+    
+    while (t-- > 0)
+    {
+        tag = 0;
+        scanf(""%d %d %d"", &b, &c, &y); 
+        while (tag == 0)
+        {   
+            //防止出现小数影响判断
+            s = b * y;
+            //当b为c的两倍时，由于c为整数，所以x=c即可满足题意
+            if((double)b / 2 == c)
+            {   
+                printf(""YES\n"");
+                tag = 1;
+            }
+            //当b/2小于c时能平分三角形的x必定在b/2的右边，c的左边
+            else if(b / 2 < c)
+            {   
+                for (int i = 0; i + b / 2 <= c && tag == 0; i++)
+                {   //面积等于底*底*高*2
+                    s1 = (b / 2 + i) * 2 * (b / 2 + i) * y / c ;
+                    if(s1 == s)
+                    {   
+                        printf(""YES\n"");
+                        tag = 1;
+                     }  
+                }
+                //当未找到合适的x时输出no
+                if(!tag)
+                {   
+                    printf(""NO\n"");
+                    tag = 1;
+                }
+            }
+            //当b/2大于c时能平分三角形的x必定在b/2的左边，c的右边
+            else
+            {
+                for (int i = 0; c <= (b - b / 2 - i) && tag == 0; i++)
+                {   
+                    s1 = (b / 2 + i) * 2 * (b / 2 + i) * y / (b - c) ;
+                    if(s1 == s)
+                    {   
+                        printf(""YES\n"");
+                        tag = 1;
+                     }
+                }
+                if(!tag)
+                {   
+                    printf(""NO\n"");
+                    tag = 1;
+                }
+            }
+        }   
+    }
+}
+"
+156,C,C,61161331,2023-03-10 19:39:52,【南笙】,格式错误,"#include <stdio.h>
+int main()
+{
+    int t = 0, b = 0, c = 0, y = 0, x0 = 0, tag = 0, s = 0, s1 = 0;
+    scanf(""%d"", &t);
+
+    while (t-- > 0)
+    {
+        tag = 0; 
+        scanf(""%d %d %d"", &b, &c, &y);
+        while (tag == 0)
+        {   //防止出现小数影响判断
+            s = b * y;
+            //当b为c的两倍时，由于c为整数，所以x=c即可满足题意
+            if ((double)b / 2 == c)
+            {
+                tag = 1;
+            }
+            //当b/2小于c时能平分三角形的x必定在b/2的右边，c的左边
+            else if ((double)b / 2 < c)
+            {
+                for (int i = 1; i + b / 2 < c && tag == 0; i++)
+                {   //面积等于底*底*高*2
+                    s1 = (b / 2 + i) * 2 * (b / 2 + i) * y / c;
+                    if (s1 == s)
+                    {
+                        tag = 1;
+                    }
+                }
+            }
+            //当b/2大于c时能平分三角形的x必定在b/2的左边，c的右边
+            else
+            {
+                for (int i = 1; c < (b - b / 2 - i) && tag == 0; i++)
+                {
+                    s1 = (b / 2 + i) * 2 * (b / 2 + i) * y / (b - c);
+                    if (s1 == s)
+                    {
+                        tag = 1;
+                    }
+                }
+            }
+            if (tag)
+                printf(""YES"");
+            else 
+            {
+                printf(""NO"");
+                tag = 1;
+            }
+        }
+    }
+}"
+157,C,C,61161368,2023-03-10 19:40:09,【南笙】,答案错误,"#include <stdio.h>
+int main()
+{
+    int t = 0, b = 0, c = 0, y = 0, x0 = 0, tag = 0, s = 0, s1 = 0;
+    scanf(""%d"", &t);
+
+    while (t-- > 0)
+    {
+        tag = 0; 
+        scanf(""%d %d %d"", &b, &c, &y);
+        while (tag == 0)
+        {   //防止出现小数影响判断
+            s = b * y;
+            //当b为c的两倍时，由于c为整数，所以x=c即可满足题意
+            if ((double)b / 2 == c)
+            {
+                tag = 1;
+            }
+            //当b/2小于c时能平分三角形的x必定在b/2的右边，c的左边
+            else if ((double)b / 2 < c)
+            {
+                for (int i = 1; i + b / 2 < c && tag == 0; i++)
+                {   //面积等于底*底*高*2
+                    s1 = (b / 2 + i) * 2 * (b / 2 + i) * y / c;
+                    if (s1 == s)
+                    {
+                        tag = 1;
+                    }
+                }
+            }
+            //当b/2大于c时能平分三角形的x必定在b/2的左边，c的右边
+            else
+            {
+                for (int i = 1; c < (b - b / 2 - i) && tag == 0; i++)
+                {
+                    s1 = (b / 2 + i) * 2 * (b / 2 + i) * y / (b - c);
+                    if (s1 == s)
+                    {
+                        tag = 1;
+                    }
+                }
+            }
+            if (tag)
+                printf(""YES\n"");
+            else 
+            {
+                printf(""NO\n"");
+                tag = 1;
+            }
+        }
+    }
+}"
+158,C,C,61162752,2023-03-10 19:54:19,【南笙】,答案错误,"#include <stdio.h>
+int main()
+{
+    int t = 0, b = 0, c = 0, y = 0, tag = 0, s = 0, s1 = 0;
+    scanf(""%d"", &t);
+
+    while (t-- > 0)
+    {
+        tag = 0; 
+        scanf(""%d %d %d"", &b, &c, &y);
+        while (tag == 0)
+        {   //防止出现小数影响判断
+            s = b * y;
+            //当b为c的两倍时，由于c为整数，所以x=c即可满足题意
+            if ((double)b / 2 == c)
+                tag = 1;
+            //当b/2小于c时能平分三角形的x必定在b/2的右边，c的左边
+            else if ((double)b / 2 < c)
+            {
+                for (int i = 1; i + b / 2 < c && tag == 0; i++)
+                {   //面积等于底*底*高*2
+                    s1 = (double)(b / 2 + i) * 2 * (b / 2 + i) * y / c;
+                    if (s1 == s)
+                        tag = 1;
+                }
+            }
+            //当b/2大于c时能平分三角形的x必定在b/2的左边，c的右边
+            else
+            {
+                for (int i = 1; c < (b - b / 2 - i) && tag == 0; i++)
+                {
+                    s1 = (double)(b / 2 + i) * 2 * (b / 2 + i) * y / (b - c);
+                    if (s1 == s)
+                        tag = 1;
+                }
+            }
+            if (tag)
+                printf(""YES\n"");
+            else 
+            {
+                printf(""NO\n"");
+                tag = 1;
+            }
+        }
+    }
+}"
+159,C,C,61167304,2023-03-10 20:43:13,【南笙】,答案错误,"#include <stdio.h>
+int main()
+{
+    int t = 0, b = 0, c = 0, y = 0, tag = 0, s = 0, s1 = 0;
+    scanf(""%d"", &t);
+
+    while (t-- > 0)
+    {
+        tag = 0; 
+        scanf(""%d %d %d"", &b, &c, &y);
+        while (tag == 0)
+        {   
+            //防止出现小数影响判断
+            s = b * y ;
+            //当b为c的两倍时，由于c为整数，所以x=c即可满足题意
+            if ((double)b / 2 == c)
+                tag = 1;
+            //当b/2小于c时能平分三角形的x必定在b/2的右边，c的左边
+            else if ((double)b / 2 < c)
+            {
+                for (int i = 1; i + b / 2 < c && tag == 0; i++)
+                {   //面积等于底*底*高*2
+                    s1 = (double)(b / 2 + i) * 2 * (b / 2 + i) * y / c;
+                    if (s1 == s)
+                        tag = 1;
+                }
+            }
+            //当b/2大于c时能平分三角形的x必定在b/2的左边，c的右边
+            else
+            {
+                for (int i = 1; c < (b - b / 2 - i) && tag == 0; i++)
+                {
+                    s1 = (b / 2 + i) * 2 * (b / 2 + i) * y / (b - c);
+                    if (s1 == s)
+                        tag = 1;
+                }
+            }
+            if (tag)
+                printf(""YES\n"");
+            else 
+            {
+                printf(""NO\n"");
+                tag = 1;
+            }
+        }
+    }
+}"
+160,C,C,61173402,2023-03-10 22:53:36,L-李,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c:1:1: warning: type specifier missing, defaults to 'int' [-Wimplicit-int]\nt = int(input())\n^\nmain.c:1:5: error: expected expression\nt = int(input())\n    ^\nmain.c:25:24: error: expected ';' after top level declarator\n            print(\""NO\"")\n                       ^\n                       ;\n1 warning and 2 errors generated.""}
+
+t = int(input())
+
+for i in range(0, t):
+    t = 0
+    xb = int(input())
+    xc = float(input())
+    yc = float(input())
+    s = xc * yc / 2.0
+    for j in range(1, xb + 1):
+        if j <= xc:
+            y = j * yc / xc
+            s1 = y * j / 2.0
+            s2 = s - s1
+            if s1 == s2:
+                t = 1
+        if j > xc:
+            y = yc * (xb - j) / (xb - xc)
+            s1 = (xb - j) * y / 2.0
+            s2 = s - s1
+            if s1 == s2:
+                t = 1
+        if t == 1:
+            print(""YES"")
+        else:
+            print(""NO"")"
+161,C,C,61173425,2023-03-10 22:54:20,L-李,答案错误,"#include<stdio.h>
+
+int main()
+{
+	int t,i;
+	scanf(""%d"",&t);
+	double k,j,s,y,s1,s2,a,b,c;
+	for(i=1;i<=t;i++)
+	{
+		scanf(""%lf %lf %lf"",&a,&b,&c);
+		s=a*c/2.0;
+		k=0;
+		for(j=1.0;j<=b;j++)
+		{
+			y=j*c/b;
+			s1=y*j/2.0;
+			s2=s-s1;
+			if(s1==s2)
+			{
+				k=1;
+			}
+		}
+		for(j=b;j<=a;j++)
+		{
+			y=c*(a-j)/(a-b);
+			s1=y*(a-j)/2.0;
+			s2=s-s1;
+			if(s1==s2)
+			{
+				k=1;
+			}
+		}
+		if(k==1)
+		{
+			printf(""YES\n"");
+		}
+		else
+		{
+			printf(""NO\n"");
+		}
+	}
+	return 0;
+}"
+162,C,C,61173530,2023-03-10 22:59:36,L-李,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c:15:11: error: use of undeclared identifier 'y'\n                        s1=j*c*y*j/2.0/b;\n                               ^\n1 error generated.""}
+
+#include<stdio.h>
+
+int main()
+{
+	int t,i;
+	scanf(""%d"",&t);
+	double k,j,s,s1,s2,a,b,c;
+	for(i=1;i<=t;i++)
+	{
+		scanf(""%lf %lf %lf"",&a,&b,&c);
+		s=a*c/2.0;
+		k=0;
+		for(j=1.0;j<=b;j++)
+		{
+			s1=j*c*y*j/2.0/b;
+			s2=s-s1;
+			if(s1==s2)
+				k=1;
+		}
+		for(j=b;j<=a;j++)
+		{
+			s1=c*(a-j)/(a-b)*(a-j)/2.0;
+			s2=s-s1;
+			if(s1==s2)
+				k=1;
+		}
+		if(k==1)
+		{
+			printf(""YES\n"");
+		}
+		else
+		{
+			printf(""NO\n"");
+		}
+	}
+	return 0;
+}"
+163,C,C,61173541,2023-03-10 23:00:04,L-李,答案错误,"#include<stdio.h>
+
+int main()
+{
+	int t,i;
+	scanf(""%d"",&t);
+	double k,j,s,s1,s2,a,b,c;
+	for(i=1;i<=t;i++)
+	{
+		scanf(""%lf %lf %lf"",&a,&b,&c);
+		s=a*c/2.0;
+		k=0;
+		for(j=1.0;j<=b;j++)
+		{
+			s1=j*c*j/2.0/b;
+			s2=s-s1;
+			if(s1==s2)
+				k=1;
+		}
+		for(j=b;j<=a;j++)
+		{
+			s1=c*(a-j)/(a-b)*(a-j)/2.0;
+			s2=s-s1;
+			if(s1==s2)
+				k=1;
+		}
+		if(k==1)
+		{
+			printf(""YES\n"");
+		}
+		else
+		{
+			printf(""NO\n"");
+		}
+	}
+	return 0;
+}"
+164,C,C,61173549,2023-03-10 23:00:22,L-李,答案错误,"#include<stdio.h>
+
+int main()
+{
+	int t,i;
+	scanf(""%d"",&t);
+	double k,j,s,s1,s2,a,b,c;
+	for(i=1;i<=t;i++)
+	{
+		scanf(""%lf %lf %lf"",&a,&b,&c);
+		s=a*c/2.0;
+		k=0;
+		for(j=1.0;j<=b;j++)
+		{
+			s1=j*c*j/2.0/b;
+			s2=s-s1;
+			if(s1==s2)
+				k=1;
+		}
+		for(j=b;j<=a;j++)
+		{
+			s1=c*(a-j)/(a-b)*(a-j)/2.0;
+			s2=s-s1;
+			if(s1==s2)
+				k=1;
+		}
+		if(k==1)
+			printf(""YES\n"");
+		else
+			printf(""NO\n"");
+	}
+	return 0;
+}"
+165,C,C,61173692,2023-03-10 23:08:58,L-李,答案错误,"#include<stdio.h>
+
+int main()
+{
+	int t,i;
+	scanf(""%d"",&t);
+	double k,j,s,s1,s2,a,b,c;
+	for(i=1;i<=t;i++)
+	{
+		scanf(""%lf %lf %lf"",&a,&b,&c);
+		s=a*c/2.0;
+		k=0;
+		for(j=1.0;j<=b;j++)
+		{
+			s1=j*c*j/2.0/b;
+			s2=s-s1;
+			if(s1==s2)
+				k=1;
+		}
+		for(j=b;j<=a;j++)
+		{
+			s1=c*(a-j)/(a-b)*(a-j)/2.0;
+			s2=s-s1;
+			if(s1==s2)
+				k=1;
+		}
+		if(k)
+			printf(""YES\n"");
+		else
+			printf(""NO\n"");
+	}
+	return 0;
+}"
+166,C,C,61173729,2023-03-10 23:10:47,L-李,答案错误,"#include<stdio.h>
+
+int main()
+{
+	int t,i;
+	scanf(""%d"",&t);
+	double k,j,s,s1,s2,a,b,c;
+	for(i=1;i<=t;i++)
+	{
+		scanf(""%lf %lf %lf"",&a,&b,&c);
+		s=a*c/2.0;
+		k=0;
+		for(j=1.0;j<=b;j++)
+		{
+			s1=j*c*j/2.0/b;
+			s2=s-s1;
+			if(s1==s2)
+				k=1;
+                break;
+		}
+		for(j=b;j<=a;j++)
+		{
+			s1=c*(a-j)/(a-b)*(a-j)/2.0;
+			s2=s-s1;
+			if(s1==s2)
+				k=1;
+                break;
+		}
+		if(k)
+			printf(""YES\n"");
+		else
+			printf(""NO\n"");
+	}
+	return 0;
+}"
+167,C,C,61173766,2023-03-10 23:12:36,L-李,答案错误,"#include<stdio.h>
+
+int main()
+{
+	int t,i;
+	scanf(""%d"",&t);
+	double k,j,s,s1,s2,a,b,c;
+	for(i=1;i<=t;i++)
+	{
+		scanf(""%lf %lf %lf"",&a,&b,&c);
+		s=a*c;
+		k=0;
+		for(j=1.0;j<=b;j++)
+		{
+			s1=j*c*j/b;
+			s2=s-s1;
+			if(s1==s2)
+				k=1;
+		}
+		for(j=b;j<=a;j++)
+		{
+			s1=c*(a-j)/(a-b)*(a-j);
+			s2=s-s1;
+			if(s1==s2)
+				k=1;
+		}
+		if(k)
+			printf(""YES\n"");
+		else
+			printf(""NO\n"");
+	}
+	return 0;
+}"
+168,C,C,61173845,2023-03-10 23:17:36,L-李,答案正确,"#include<stdio.h>
+
+int main()
+{
+	int t,i;
+	scanf(""%d"",&t);
+	double k,j,s,s1,s2,a,b,c;
+	for(i=1;i<=t;i++)
+	{
+		scanf(""%lf %lf %lf"",&a,&b,&c);
+		k=0;
+		for(j=1.0;j<=b;j++)
+		{
+			if(j*j*2==a*b)
+				k=1;
+		}
+		for(j=b;j<=a;j++)
+		{
+			if((a-j)*(a-j)*2==a*(a-b))
+				k=1;
+		}
+		if(k)
+		{
+			printf(""YES\n"");
+		}
+		else
+		{
+			printf(""NO\n"");
+		}
+	}
+	return 0;
+}"
+169,C,C(gcc 7.5.0),61258102,2023-03-12 19:27:10,墨初_,答案错误,"#include<stdio.h>
+
+int main()
+{
+    //s1代表左边的面积，s2代表右边的面积
+    double s1=0.0,s2=0.0;
+    int xb=0,xc=0,yc=0,t=0;
+    int x0=0,T=0;
+    scanf(""%d"",&T);
+    while(T!=0)
+    {
+    t=0;
+    //输入坐标
+    scanf(""%d%d%d"",&xb,&xc,&yc);
+    if(xc<0||xc>=xb||yc<0)
+    {
+        //不符合时直接退出
+        continue;
+    }
+    for(x0=1;x0<xb;x0++)
+    {
+        if(x0<xc)
+        {
+           //此时左边面积是一个三角形，右边面积是一个梯形 
+           s1=1.0/2*(x0)*(yc*1.0/xc)*x0;
+           s2=1.0/2*(yc*1.0/xc*x0+yc)*(xc-x0)+1.0/2*(xb-xc)*yc;
+           //printf(""%lf %lf\n"",s1,s2);
+           if(s1==s2)
+           {
+               t=1;
+               //printf(""YES\n"");
+               break;
+           }
+        }else if(x0==xc)
+        {
+            //此时左右两边面积都为三角形
+            s1=1.0/2*(x0)*yc;
+            s2=1.0/2*(xb-x0)*yc;
+            //printf("".%lf %lf\n"",s1,s2);
+            if(s1==s2)
+            {
+                t=1;
+                //printf(""YES\n"");
+                break;
+            }
+        }else if(x0>xc)
+        {
+           //此时左边面积为三角形加梯形，右边为三角形
+           s1=1.0/2*(xc)*yc+1.0/2*(yc+yc*1.0/(xc-xb)*(x0-xb))*(x0-xc);
+           s2=1.0/2*(xb-x0)*(yc*1.0/(xc-xb)*(x0-xb));
+           //printf("",%lf %lf\n"",s1,s2);
+           if(s1==s2)
+           {
+               t=1;
+               break;
+           }
+        }
+    }
+        if(t==1)
+        {
+            printf(""YES\n"");
+        }else
+        {
+            printf(""NO\n"");
+        }
+        //减少次数
+        T--;
+    }
+    return 0;
+}"
+170,C,C(gcc 7.5.0),61258150,2023-03-12 19:28:55,墨初_,答案错误,"#include<stdio.h>
+
+int main()
+{
+    //s1代表左边的面积，s2代表右边的面积
+    double s1=0.0,s2=0.0;
+    int xb=0,xc=0,yc=0,t=0;
+    int x0=0,T=0;
+    scanf(""%d"",&T);
+    while(T!=0)
+    {
+    t=0;
+    //输入坐标
+    scanf(""%d%d%d"",&xb,&xc,&yc);
+    if(xc<0||xc>=xb||yc<0)
+    {
+        //不符合时直接退出
+        exit(-1);
+    }
+    for(x0=1;x0<xb;x0++)
+    {
+        if(x0<xc)
+        {
+           //此时左边面积是一个三角形，右边面积是一个梯形 
+           s1=1.0/2*(x0)*(yc*1.0/xc)*x0;
+           s2=1.0/2*(yc*1.0/xc*x0+yc)*(xc-x0)+1.0/2*(xb-xc)*yc;
+           //printf(""%lf %lf\n"",s1,s2);
+           if(s1==s2)
+           {
+               t=1;
+               //printf(""YES\n"");
+               break;
+           }
+        }else if(x0==xc)
+        {
+            //此时左右两边面积都为三角形
+            s1=1.0/2*(x0)*yc;
+            s2=1.0/2*(xb-x0)*yc;
+            //printf("".%lf %lf\n"",s1,s2);
+            if(s1==s2)
+            {
+                t=1;
+                //printf(""YES\n"");
+                break;
+            }
+        }else if(x0>xc)
+        {
+           //此时左边面积为三角形加梯形，右边为三角形
+           s1=1.0/2*(xc)*yc+1.0/2*(yc+yc*1.0/(xc-xb)*(x0-xb))*(x0-xc);
+           s2=1.0/2*(xb-x0)*(yc*1.0/(xc-xb)*(x0-xb));
+           //printf("",%lf %lf\n"",s1,s2);
+           if(s1==s2)
+           {
+               t=1;
+               break;
+           }
+        }
+    }
+        if(t==1)
+        {
+            printf(""YES\n"");
+        }else
+        {
+            printf(""NO\n"");
+        }
+        //减少次数
+        T--;
+    }
+    return 0;
+}"
+171,C,C,61263470,2023-03-12 23:39:58,【南笙】,答案错误,"#include <stdio.h>
+int main()
+{
+    int t = 0, b = 0, c = 0, y = 0, x0 = 0, tag = 0;
+    double s = 0, s1 = 0;
+    scanf(""%d"", &t);
+    
+    while (t-- > 0)
+    {
+        tag = 0;
+        scanf(""%d %d %d"", &b, &c, &y); 
+      
+        while (tag == 0)
+        {
+            s = b * y;
+            if(b / 2 == c)
+            {
+                printf(""YES\n"");
+                tag = 1;
+                
+            }
+            else if(b / 2 < c)
+            {    
+                //
+                for (int i = 0; i + b / 2 < c && tag == 0; i++)
+                {
+                    s1 = (b / 2 + i) * 2 * (b / 2 + i) * y / c ;
+                    if(s1 == s)
+                    {
+                        printf(""YES\n"");
+                        tag = 1;
+                     }  
+                }
+                if(!tag)
+                {
+                    printf(""NO\n"");
+                tag = 1;
+                }
+            }
+            else
+            {
+                for (int i = 0; c < (b - b / 2 - i) && tag == 0; i++)
+                {
+                    s1 = (b / 2 + i) * 2 * (b / 2 + i) * y / (b - c) ;
+                    if(s1 == s)
+                    {
+                        printf(""YES\n"");
+                        tag = 1;
+                     }
+                }
+                if(!tag)
+                {
+                printf(""NO\n"");
+                tag = 1;
+                }
+            }
+        }   
+    }
+}
+"
+172,C,C,61274937,2023-03-13 20:56:43,【南笙】,格式错误,"#include <stdio.h>
+int main()
+{
+    int t = 0, b = 0, c = 0, y = 0, x0 = 0, tag = 0, s = 0, s1 = 0;
+    scanf(""%d"", &t);
+
+    while (t-- > 0)
+    {
+        tag = 0;
+        scanf(""%d %d %d"", &b, &c, &y);
+        while (tag == 0)
+        {   //防止出现小数影响判断
+            s = b * y;
+            //当b为c的两倍时，由于c为整数，所以x=c即可满足题意
+            if (b == c * 2)
+            {
+                tag = 1;
+            }
+            //当b/2小于c时能平分三角形的x必定在b/2的右边，c的左边
+            else if (b < c * 2)
+            {
+                for (int i = 1; i + b / 2 < c && tag == 0; i++)
+                {   //面积等于底*底*高*2
+                    s1 = (b / 2 + i) * 2 * (b / 2 + i) * y / c;
+                    if (s1 == s)
+                    {
+                        tag = 1;
+                    }
+                }
+            }
+            //当b/2大于c时能平分三角形的x必定在b/2的左边，c的右边
+            else
+            {
+                for (int i = 1; c < (b - b / 2 - i) && tag == 0; i++)
+                {
+                    s1 = (b / 2 + i) * 2 * (b / 2 + i) * y / (b - c);
+                    if (s1 == s)
+                    {
+                        tag = 1;
+                    }
+                }
+            }
+            if (tag)
+                printf(""YES"");
+            else
+            {
+                printf(""NO"");
+                tag = 1;
+            }
+        }
+    }
+}
+
+
+"
+173,C,C,61275209,2023-03-13 21:04:59,【南笙】,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c:1:10: fatal error: 'bits/stdc++.h' file not found\n#include <bits/stdc++.h>\n         ^~~~~~~~~~~~~~~\n1 error generated.""}
+
+#include <bits/stdc++.h>
+using namespace std;
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        double a, b, c;
+        cin >> a >> b >> c;
+        bool flag = 1;
+        for (double i = 1; i < a; i++) {
+            if (i <= b) {
+                if (2 * i * i * c / b == a * c) { cout << ""YES"" << endl; flag = 0; break; }
+            }
+            else {
+                if (2 * c * (a - i) * (a - i) / (a - b) == a * c) {
+                    cout << ""YES"" << endl; flag = 0; break;
+                }
+            }
+        }
+        if (flag) cout << ""NO"" << endl;
+    }
+
+
+
+}
+"
+174,C,C,61279547,2023-03-14 10:36:50,【南笙】,格式错误,"#include <stdio.h>
+int main()
+{
+    int t = 0, b = 0, c = 0, y = 0, x0 = 0, tag = 0, s = 0, s1 = 0;
+    scanf(""%d"", &t);
+
+    while (t-- > 0)
+    {
+        tag = 0;
+        scanf(""%d %d %d"", &b, &c, &y);
+        while (tag == 0)
+        {   //防止出现小数影响判断
+            s = b * y;
+            //当b为c的两倍时，由于c为整数，所以x=c即可满足题意
+            if (b == c * 2)
+            {
+                tag = 1;
+            }
+            //当b/2小于c时能平分三角形的x必定在b/2的右边，c的左边
+            else if (b < c * 2)
+            {
+                for (int i = 1; i + b / 2 < c && tag == 0; i++)
+                {   //面积等于底*底*高*2
+                    s1 = (b / 2 + i) * 2 * (b / 2 + i) * y / c;
+                    if (s1 == s)
+                    {
+                        tag = 1;
+                    }
+                }
+            }
+            //当b/2大于c时能平分三角形的x必定在b/2的左边，c的右边
+            else
+            {
+                for (int i = 1; c < (b - b / 2 - i) && tag == 0; i++)
+                {
+                    s1 = (b / 2 + i) * 2 * (b / 2 + i) * y / (b - c);
+                    if (s1 == s)
+                    {
+                        tag = 1;
+                    }
+                }
+            }
+            if (tag)
+                printf(""YES"");
+            else
+            {
+                printf(""NO"");
+                tag = 1;
+            }
+        }
+    }
+}
+
+"
+175,C,C,61279552,2023-03-14 10:37:07,【南笙】,答案错误,"#include <stdio.h>
+int main()
+{
+    int t = 0, b = 0, c = 0, y = 0, x0 = 0, tag = 0, s = 0, s1 = 0;
+    scanf(""%d"", &t);
+
+    while (t-- > 0)
+    {
+        tag = 0;
+        scanf(""%d %d %d"", &b, &c, &y);
+        while (tag == 0)
+        {   //防止出现小数影响判断
+            s = b * y;
+            //当b为c的两倍时，由于c为整数，所以x=c即可满足题意
+            if (b == c * 2)
+            {
+                tag = 1;
+            }
+            //当b/2小于c时能平分三角形的x必定在b/2的右边，c的左边
+            else if (b < c * 2)
+            {
+                for (int i = 1; i + b / 2 < c && tag == 0; i++)
+                {   //面积等于底*底*高*2
+                    s1 = (b / 2 + i) * 2 * (b / 2 + i) * y / c;
+                    if (s1 == s)
+                    {
+                        tag = 1;
+                    }
+                }
+            }
+            //当b/2大于c时能平分三角形的x必定在b/2的左边，c的右边
+            else
+            {
+                for (int i = 1; c < (b - b / 2 - i) && tag == 0; i++)
+                {
+                    s1 = (b / 2 + i) * 2 * (b / 2 + i) * y / (b - c);
+                    if (s1 == s)
+                    {
+                        tag = 1;
+                    }
+                }
+            }
+            if (tag)
+                printf(""YES\n"");
+            else
+            {
+                printf(""NO\n"");
+                tag = 1;
+            }
+        }
+    }
+}
+
+"
+176,C,C,61279562,2023-03-14 10:37:46,【南笙】,答案错误,"#include <stdio.h>
+int main()
+{
+    int t = 0, b = 0, c = 0, y = 0, x0 = 0, tag = 0, s = 0, s1 = 0;
+    scanf(""%d"", &t);
+
+    while (t-- > 0)
+    {
+        tag = 0;
+        scanf(""%d %d %d"", &b, &c, &y);
+        while (tag == 0)
+        {   //防止出现小数影响判断
+            s = b * y;
+            //当b为c的两倍时，由于c为整数，所以x=c即可满足题意
+            if (b == c * 2)
+            {
+                tag = 1;
+            }
+            //当b/2小于c时能平分三角形的x必定在b/2的右边，c的左边
+            else if (b < c * 2)
+            {
+                for (int i = 1; i + b / 2 < c && tag == 0; i++)
+                {   //面积等于底*底*高*2
+                    if ((b / 2 + i) * 2 * (b / 2 + i) * y / c == s)
+                    {
+                        tag = 1;
+                    }
+                }
+            }
+            //当b/2大于c时能平分三角形的x必定在b/2的左边，c的右边
+            else
+            {
+                for (int i = 1; c < (b - b / 2 - i) && tag == 0; i++)
+                {
+                    if ((b / 2 + i) * 2 * (b / 2 + i) * y / (b - c) == s)
+                    {
+                        tag = 1;
+                    }
+                }
+            }
+            if (tag)
+                printf(""YES\n"");
+            else
+            {
+                printf(""NO\n"");
+                tag = 1;
+            }
+        }
+    }
+}
+
+"
+177,C,C,61279648,2023-03-14 10:45:51,【南笙】,答案错误,"#include <stdio.h>
+int main()
+{
+    int t = 0, b = 0, c = 0, y = 0, x0 = 0, tag = 0, s = 0, s1 = 0;
+    scanf(""%d"", &t);
+
+    while (t-- > 0)
+    {
+        tag = 0;
+        scanf(""%d %d %d"", &b, &c, &y);
+        while (tag == 0)
+        {   //防止出现小数影响判断
+            s = b * y;
+            //当b为c的两倍时，由于c为整数，所以x=c即可满足题意
+            if (b == c * 2)
+            {
+                tag = 1;
+            }
+            //当b/2小于c时能平分三角形的x必定在b/2的右边，c的左边
+            else if (b < c * 2)
+            {
+                for (int i = 1; i + b / 2 < c && tag == 0; i++)
+                {   //面积等于底*底*高*2
+                    if ((b / 2 + i) * 2 * (b / 2 + i) * y / c == s)
+                    {
+                        tag = 1;
+                    }
+                }
+            }
+            //当b/2大于c时能平分三角形的x必定在b/2的左边，c的右边
+            else
+            {
+                for (int i = 1; c < (b - b / 2 - i) && tag == 0; i++)
+                {
+                    if ((double)(b / 2 + i) * 2 * (b / 2 + i) * y / (b - c) == s)
+                    {
+                        tag = 1;
+                    }
+                }
+            }
+            if (tag)
+                printf(""YES\n"");
+            else
+            {
+                printf(""NO\n"");
+                tag = 1;
+            }
+        }
+    }
+}
+
+"
+178,C,C,61279651,2023-03-14 10:46:04,【南笙】,答案正确,"#include <stdio.h>
+int main()
+{
+    int t = 0, b = 0, c = 0, y = 0, x0 = 0, tag = 0, s = 0, s1 = 0;
+    scanf(""%d"", &t);
+
+    while (t-- > 0)
+    {
+        tag = 0;
+        scanf(""%d %d %d"", &b, &c, &y);
+        while (tag == 0)
+        {   //防止出现小数影响判断
+            s = b * y;
+            //当b为c的两倍时，由于c为整数，所以x=c即可满足题意
+            if (b == c * 2)
+            {
+                tag = 1;
+            }
+            //当b/2小于c时能平分三角形的x必定在b/2的右边，c的左边
+            else if (b < c * 2)
+            {
+                for (int i = 1; i + b / 2 < c && tag == 0; i++)
+                {   //面积等于底*底*高*2
+                    if ((double)(b / 2 + i) * 2 * (b / 2 + i) * y / c == s)
+                    {
+                        tag = 1;
+                    }
+                }
+            }
+            //当b/2大于c时能平分三角形的x必定在b/2的左边，c的右边
+            else
+            {
+                for (int i = 1; c < (b - b / 2 - i) && tag == 0; i++)
+                {
+                    if ((double)(b / 2 + i) * 2 * (b / 2 + i) * y / (b - c) == s)
+                    {
+                        tag = 1;
+                    }
+                }
+            }
+            if (tag)
+                printf(""YES\n"");
+            else
+            {
+                printf(""NO\n"");
+                tag = 1;
+            }
+        }
+    }
+}
+
+"
+179,C,C,61350831,2023-03-18 15:27:43,sicccc,答案错误,"#include<stdio.h>
+int main()
+{
+    int T;
+    scanf(""%d"",&T);
+    int xa=0,ya=0;
+    int xb,yb=0;
+    int xc,yc;
+    int i;
+    double k1,k2,b2;
+    int pd = 0;
+    while(T--)
+    {
+        scanf(""%d %d %d"",&xb,&xc,&yc);
+        k1 = yc*0.1*10/xc;
+        k2 = yc*0.1*10/(xc-xb);
+        b2 = yc*xb*0.1*10/(xb-xc);
+        for(i=1;i<=xb;i++)
+        {
+            if(i<xc)
+            {
+                if(2*i*k1*i == xb*yc)
+                {
+                    printf(""YES\n"");
+                    pd = 1;
+                    break;
+                }
+            }
+            else if(i>xc)
+            {
+                if(2*(xb-i)*(i*k2+b2) == xb*yc)
+                {
+                    printf(""YES\n"");
+                    pd = 1;
+                    break;
+                }
+            }
+            else if(i == xc)
+            {
+                if(i == xb/2)
+                {
+                    printf(""YES\n"");
+                    pd =1;
+                    break;
+                }
+            }
+
+        }
+         if(pd == 0)
+            {
+                printf(""NO\n"");
+            }
+            pd = 0;
+            i=1;
+}
+}
+"
+180,C,C,61350855,2023-03-18 15:27:57,sicccc,答案错误,"#include<stdio.h>
+int main()
+{
+    int T;
+    scanf(""%d"",&T);
+    int xa=0,ya=0;
+    int xb,yb=0;
+    int xc,yc;
+    int i;
+    double k1,k2,b2;
+    int pd = 0;
+    while(T--)
+    {
+        scanf(""%d %d %d"",&xb,&xc,&yc);
+        k1 = yc*0.1*10/xc;
+        k2 = yc*0.1*10/(xc-xb);
+        b2 = yc*xb*0.1*10/(xb-xc);
+        for(i=1;i<=xb;i++)
+        {
+            if(i<xc)
+            {
+                if(2*i*k1*i == xb*yc)
+                {
+                    printf(""YES\n"");
+                    pd = 1;
+                    break;
+                }
+            }
+            else if(i>xc)
+            {
+                if(2*(xb-i)*(i*k2+b2) == xb*yc)
+                {
+                    printf(""YES\n"");
+                    pd = 1;
+                    break;
+                }
+            }
+            else if(i == xc)
+            {
+                if(i == xb/2)
+                {
+                    printf(""YES\n"");
+                    pd =1;
+                    break;
+                }
+            }
+
+        }
+         if(pd == 0)
+            {
+                printf(""NO\n"");
+            }
+            pd = 0;
+            i=1;
+}
+}
+"
+181,C,C,61351467,2023-03-18 15:33:58,sicccc,答案错误,"#include<stdio.h>
+int main()
+{
+    int T;
+    scanf(""%d"",&T);
+    int xa=0,ya=0;
+    int xb,yb=0;
+    int xc,yc;
+    int i;
+    double k1,k2,b2;
+    int pd = 0;
+    while(T--)
+    {
+        scanf(""%d %d %d"",&xb,&xc,&yc);
+        k1 = yc*0.1*10/xc;
+        k2 = yc*0.1*10/(xc-xb);
+        b2 = yc*xb*0.1*10/(xb-xc);
+        for(i=1;i<=xb;i++)
+        {
+            if(i<xc)
+            {
+                if(2*i*k1*i == xb*yc)
+                {
+                    printf(""YES\n"");
+                    pd = 1;
+                    break;
+                }
+            }
+            else if(i>xc)
+            {
+                if(2*(xb-i)*(i*k2+b2) == xb*yc)
+                {
+                    printf(""YES\n"");
+                    pd = 1;
+                    break;
+                }
+            }
+            else if(i == xc)
+            {
+                if(i == xb/2)
+                {
+                    printf(""YES\n"");
+                    pd =1;
+                    break;
+                }
+            }
+
+        }
+         if(pd == 0)
+            {
+                printf(""NO\n"");
+            }
+            pd = 0;
+            i=1;
+}
+}
+"
+182,C,C,61359370,2023-03-18 17:02:22,拒绝pua的小鱼干很爱吃肉,答案正确,"#include<stdio.h>
+#include<math.h>
+#include<stdlib.h>
+#include<string.h>
+#include<malloc.h>
+#include<ctype.h>
+
+#define Max(a,b) (a>b?a:b)
+#define Min(a,b) (a>b?b:a)
+#define Max3(a,b,c) (Max(a,b)>c?Max(a,b):c)
+#define Min3(a,b,c) (Min(a,b)>c?c:Min(a,b))
+#define scanfint(a) scanf(""%d"",&a)
+#define scanfl(a) scanf(""%ld"",&a)
+#define scanfll(a) scanf(""%lld"",&a)
+#define scanfstr(a) scanf(""%s"",a)
+#define printfll(a) printf(""%lld\n"",a)
+#define swap(a,b) a=a+b;b=a-b;a=a-b
+#define FOR(i,l,r) for(int i=l;i<=r;i++)
+#define FORL(i,l,r) for(long i=l;i<=r;i++)
+#define FORLL(i,l,r) for(long long i=l;i<=r;i++)
+#define Get_Rand(x) (rand()%x+1)
+#define Presentation(i,r) printf(""%c"","" \n""[i==r])
+
+typedef long long ll;
+
+const double pi=3.141592653589793;
+const ll MOD=1e9+7;
+const int INF=0x7fffffff;
+const double eps=1e-8;
+
+/*----------C Head----------*/
+int main()
+{
+    ll T;
+    scanfll(T);
+    ll xb,xc,yc;
+    ll x;
+    double k,S2;
+    while(T--)
+    {
+        scanf(""%lld%lld%lld"",&xb,&xc,&yc);
+        S2=1.*xb*yc/2;
+        if(xc*2>=xb)
+        {
+            k=1.*yc/xc;
+            FORLL(i,0,xc)
+                if(fabs(1.*i*i*yc/xc/2-S2/2)<=eps)
+                {printf(""YES\n"");break;}
+                else if(i==xc) printf(""NO\n"");
+        }
+        else
+        {
+            k=1.*yc/(xb-xc);
+            for(ll i=xb;i>xc-1;i--)
+                if(fabs(1.*(xb-i)*(xb-i)*yc/(xb-xc)/2-S2/2)<=eps)
+                {printf(""YES\n"");break;}
+                else if(i==xc) printf(""NO\n"");
+        }
+    }
+    return 0;//代码抄的
+}"
+183,C,C,61775924,2023-04-06 21:03:59,世故人情123,答案错误,"#include<stdio.h>
+int main()
+{
+    int n,i;
+    int a[11000];
+    int b[11000];
+    int c[11000];
+    scanf(""%d"",&n);
+    for(i=1;i<=n;i++)
+    {
+        scanf(""%d %d %d"",&a[i],&b[i],&c[i]);
+       
+        if(a[i]%2==0||b[i]/2==0|| (  (b[i]+c[i])%2==0 ) )
+		{
+            printf(""YES\n"");
+        }
+        else
+        {
+        	printf(""NO\n"");
+		}
+	}
+	return 0;
+}"
+184,C,C,61775938,2023-04-06 21:04:12,世故人情123,答案错误,"#include<stdio.h>
+int main()
+{
+    int n,i;
+    int a[11000];
+    int b[11000];
+    int c[11000];
+    scanf(""%d"",&n);
+    for(i=1;i<=n;i++)
+    {
+        scanf(""%d %d %d"",&a[i],&b[i],&c[i]);
+       
+        if(a[i]%2==0||b[i]/2==0|| (  (b[i]+c[i])%2==0 ) )
+		{
+            printf(""YES\n"");
+        }
+        else
+        {
+        	printf(""NO\n"");
+		}
+	}
+	return 0;
+}"
+185,C,C,61775999,2023-04-06 21:05:36,世故人情123,答案错误,"#include<stdio.h>
+int main()
+{
+    int n,i;
+    int a[11000];
+    int b[11000];
+    int c[11000];
+    scanf(""%d"",&n);
+    for(i=1;i<=n;i++)
+    {
+        scanf(""%d %d %d"",&a[i],&b[i],&c[i]);
+       
+        if(a[i]%2==0||b[i]%2==0|| (  (b[i]+c[i])%2==0 ) )
+		{
+            printf(""YES\n"");
+        }
+        else
+        {
+        	printf(""NO\n"");
+		}
+	}
+	return 0;
+}"
+186,C,C,61786752,2023-04-07 18:49:15,世故人情123,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c:11:12: error: expression is not assignable\n        k*k=a[i]*b[i];\n        ~~~^\n1 error generated.""}
+
+#include<stdio.h>
+int main()
+{
+    int n,i,k;
+    int a[11000];
+    int b[11000];
+    int c[11000];
+    scanf(""%d"",&n);
+    for(i=1;i<=n;i++)
+    {
+        k*k=a[i]*b[i];
+        scanf(""%d %d %d"",&a[i],&b[i],&c[i]);
+        if(k<a[i])
+		{
+            printf(""YES\n"");
+        }
+        else
+        {
+        	printf(""NO\n"");
+		}
+        k=0;
+	}
+	return 0;
+}"
+187,C,C,61802289,2023-04-07 20:49:32,loveHabe,答案错误,"#include<stdio.h>
+int main()
+{
+    
+}"
+188,C,C,61802511,2023-04-07 20:51:14,loveHabe,答案错误,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+    int n;
+    double xb, xc, yc, AC, S1, S2;
+    int x0, flag = 0;
+    scanf(""%d"",&n);
+    for(int i=1;i<=n;i++)
+    {
+    scanf(""%lf %lf %lf"", &xb, &xc, &yc);
+    AC = sqrt(xc*xc + yc*yc);  
+    for (x0 = 0; x0 <= xb; x0++) {
+        S1 = 0.5 * x0 * yc;  
+        S2 = 0.5 * (xb - x0) * yc; 
+    if (fabs(S1 - S2) < 0.000001)
+     {  
+            printf(""NO\n"");
+            flag = 1;  
+    }
+    
+    if (flag == 0) {  
+        printf(""YES\n"");
+    }
+    }
+    return 0;
+}
+}
+"
+189,C,C,61805064,2023-04-07 21:16:02,loveHabe,答案错误,"#include<stdio.h>
+#include<math.h>
+int main()
+{
+    int n;
+    double xb, xc, yc, AC, S1, S2;
+    int x0, flag = 0;
+    scanf(""%d"",&n);
+    for(int i=1;i<=n;i++)
+    {
+    scanf(""%lf %lf %lf"", &xb, &xc, &yc);
+    AC = sqrt(xc*xc + yc*yc);  
+    for (x0 = 0; x0 <= xb; x0++) {
+        S1 = 0.5 * x0 * yc;  
+        S2 = 0.5 * (xb - x0) * yc; 
+    if (fabs(S1 - S2) < 0.000001)
+     {  
+            printf(""NO\n"");
+            flag = 1;  
+    }
+    
+    if (flag == 0) {  
+        printf(""YES\n"");
+    }
+    }
+    return 0;
+}
+}
+"
+190,C,C(gcc 7.5.0),61856035,2023-04-12 15:11:54,墨初_,答案错误,"#include<stdio.h>
+
+int main()
+{
+    //s1代表左边的面积，s2代表右边的面积
+    double s1=0.0,s2=0.0;
+    int xb=0,xc=0,yc=0,t=0;
+    int x0=0,T=0;
+    scanf(""%d"",&T);
+    while(T!=0)
+    {
+    t=0;
+    //输入坐标
+    scanf(""%d%d%d"",&xb,&xc,&yc);
+    if(xc<0||xc>=xb||yc<0)
+    {
+        //不符合时直接退出
+        exit(-1);
+    }
+    for(x0=1;x0<xb;x0++)
+    {
+        if(x0<xc)
+        {
+           //此时左边面积是一个三角形，右边面积是一个梯形 
+           s1=1.0/2*(x0)*(yc*1.0/xc)*x0;
+           s2=1.0/2*(yc*1.0/xc*x0+yc)*(xc-x0)+1.0/2*(xb-xc)*yc;
+           //printf(""%lf %lf\n"",s1,s2);
+           if(s1==s2)
+           {
+               t=1;
+               //printf(""YES\n"");
+               break;
+           }
+        }else if(x0==xc)
+        {
+            //此时左右两边面积都为三角形
+            s1=1.0/2*(x0)*yc;
+            s2=1.0/2*(xb-x0)*yc;
+            //printf("".%lf %lf\n"",s1,s2);
+            if(s1==s2)
+            {
+                t=1;
+                //printf(""YES\n"");
+                break;
+            }
+        }else if(x0>xc)
+        {
+           //此时左边面积为三角形加梯形，右边为三角形
+           s1=1.0/2*(xc)*yc+1.0/2*(yc+yc*1.0/(xc-xb)*(x0-xb))*(x0-xc);
+           s2=1.0/2*(xb-x0)*(yc*1.0/(xc-xb)*(x0-xb));
+           //printf("",%lf %lf\n"",s1,s2);
+           if(s1==s2)
+           {
+               t=1;
+               break;
+           }
+        }
+    }
+        if(t==1)
+        {
+            printf(""YES\n"");
+        }else
+        {
+            printf(""NO\n"");
+        }
+        //减少次数
+        T--;
+    }
+    return 0;
+}"

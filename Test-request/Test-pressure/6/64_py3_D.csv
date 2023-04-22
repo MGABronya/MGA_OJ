@@ -1,0 +1,195 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,D,Python3,60017152,2022-12-30 20:53:05,一半醒,执行出错,"'''
+6+(6+5)+(6+5+3)+(6+5+4)+(6+2+6)
+'''
+def dfs(u):
+    global cnt
+    if len(rp[u])==0:
+        cnt[u] = 1
+        return 1
+    c = 1
+    for x in rp[u]:
+        c+=dfs(x)
+    cnt[u]=c
+    return c
+n = int(input())
+k = [int(_) for _ in input().split()]
+a =  k
+maxv = 0
+ta = sorted(a,reverse=True)
+rp = [[] for _ in range(0, n + 1)]
+cnt = [0 for _ in range(0,n+1)]
+t = list(map(int, input().split()))
+for i in range(0, n - 1):
+    rp[t[i]].append(i + 2)
+dfs(1)
+ans = 0
+cnt.sort(reverse=True)
+for i in range(0,n):
+    ans+=cnt[i]*ta[i]
+print(ans)
+
+
+
+"
+1,D,Python3,60017314,2022-12-30 20:55:44,一半醒,执行出错,"'''
+6+(6+5)+(6+5+3)+(6+5+4)+(6+2+6)
+'''
+def dfs(u):
+    global cnt
+    if len(rp[u])==0:
+        cnt[u] = 1
+        return 1
+    c = 1
+    for x in rp[u]:
+        c+=dfs(x)
+    cnt[u]=c
+    return c
+n = int(input())
+k = [int(_) for _ in input().split()]
+a = [0]+k
+maxv = 0
+ta = sorted(a,reverse=True)
+rp = [[] for _ in range(0, n + 1)]
+cnt = [0 for _ in range(0,n+1)]
+t = list(map(int, input().split()))
+for i in range(0, n - 1):
+    rp[t[i]].append(i + 2)
+dfs(1)
+ans = 0
+cnt.sort(reverse=True)
+for i in range(0,n+1):
+    ans+=cnt[i]*ta[i]
+print(ans)
+
+
+
+"
+2,D,Python3,60017946,2022-12-30 21:04:43,一半醒,执行出错,"'''
+6+(6+5)+(6+5+3)+(6+5+4)+(6+2+6)
+'''
+def dfs(u):
+    global cnt
+    c = 1
+    for x in rp[u]:
+        c+=dfs(x)
+    cnt[u]=c
+    return c
+n = int(input())
+k = [int(_) for _ in input().split()]
+a = [0]+k
+maxv = 0
+ta = sorted(a,reverse=True)
+rp = [[] for _ in range(0, n + 1)]
+cnt = [0 for _ in range(0,n+1)]
+t = list(map(int, input().split()))
+for i in range(0, n - 1):
+    rp[t[i]].append(i + 2)
+dfs(1)
+ans = 0
+cnt.sort(reverse=True)
+for i in range(0,n+1):
+    ans+=cnt[i]*ta[i]
+print(ans)
+
+
+
+"
+3,D,Python3,60017968,2022-12-30 21:05:13,一半醒,答案正确,"'''
+6+(6+5)+(6+5+3)+(6+5+4)+(6+2+6)
+'''
+import sys
+sys.setrecursionlimit(60000000)
+def dfs(u):
+    global cnt
+    c = 1
+    for x in rp[u]:
+        c+=dfs(x)
+    cnt[u]=c
+    return c
+n = int(input())
+k = [int(_) for _ in input().split()]
+a = [0]+k
+maxv = 0
+ta = sorted(a,reverse=True)
+rp = [[] for _ in range(0, n + 1)]
+cnt = [0 for _ in range(0,n+1)]
+t = list(map(int, input().split()))
+for i in range(0, n - 1):
+    rp[t[i]].append(i + 2)
+dfs(1)
+ans = 0
+cnt.sort(reverse=True)
+for i in range(0,n+1):
+    ans+=cnt[i]*ta[i]
+print(ans)
+
+
+
+"
+4,D,Python3,60018253,2022-12-30 21:11:37,一半醒,答案正确,"n = int(input())
+a = list(map(int, input().split()))
+p = [0] + list(map(int, input().split()))
+for i in range(n):
+    p[i] -= 1
+cnt = [1] * n
+for i in range(1, n)[::-1]:
+    cnt[p[i]] += cnt[i]
+cnt.sort()
+a.sort()
+ans = 0
+for i in range(n):
+    ans += a[i] * cnt[i]
+print(ans)"
+5,D,Python3,60020668,2022-12-30 23:07:11,ccca,执行出错,"# from itertools import permutations
+# for p in permutations(b): 可以学一下这个模块
+# 初始化一个1 ~ n的列表: a = [0 for i in range(n)]
+# 初始化一个二维列表 c = [[0] * 5 for i in range(5)]
+# a = list(map(int, input().split()))
+# from operator import itemgetter # 按照几级关键字进行排序
+# mod = 998244353
+n = int(input())
+g = [[] for i in range(300000 + 5)]
+sz = [0 for i in range(n + 1)]
+def dfs(u, fa):
+    sz[u] = 1
+    #print(u)
+    for v in g[u]:
+        if v == fa:
+            continue
+            pass
+        dfs(v, u)
+        sz[u] += sz[v]
+        pass
+    #print(sz[u])
+    pass
+a = list(map(int, input().split()))
+a.insert(0, 0)
+p = list(map(int, input().split()))
+for i in range(1, n):
+    g[p[i - 1]].append(i + 1)
+    g[i + 1].append(p[i - 1])
+    pass
+dfs(1, 0)
+ans = 0
+sz.sort()
+a.sort()
+for i in range(1, n + 1):
+    ans += sz[i] * a[i]
+    pass
+print(ans)
+pass"
+6,D,Python3,60020763,2022-12-30 23:18:30,牛客481337953号,答案正确,"n = int(input())
+a = list(map(int, input().split()))
+p = [0] + list(map(int, input().split()))
+for i in range(n):
+    p[i] -= 1
+cnt = [1] * n
+for i in range(1, n)[::-1]:
+    cnt[p[i]] += cnt[i]
+cnt.sort()
+a.sort()
+ans = 0
+for i in range(n):
+    ans += a[i] * cnt[i]
+print(ans)"

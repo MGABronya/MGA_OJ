@@ -1,0 +1,349 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,E,Python3,60970675,2023-02-24 19:50:09,刘雨晖,答案错误,"import sys
+input = sys.stdin.readline
+import random
+import math
+from collections import namedtuple as np
+from collections import defaultdict as ded
+from operator import attrgetter
+from collections import Counter as CT
+from queue import PriorityQueue as PQ
+from itertools import permutations as PE
+mod=1000000007
+
+#n=int(input())
+#n,m=map(int,input().split())
+#a=list(map(int,input().split()))
+#d=ded(lambda: 0)
+
+
+
+def solve():
+    n=int(input())
+    a=list(map(int,input().split()))
+    b=list(map(int,input().split()))
+    ans=0
+    st=0
+    yu=[0]*n
+    yu[-1]=(a[-1]+b[-1])/2
+    for i in range(-2,-n-1,-1):
+        yu[i]=(min(a[i],b[i])+yu[i+1])/2
+    f=0
+    for i in range(n-1):
+        if max(a[i],b[i])>yu[i+1]:
+            t=2**(-(i+1))
+            ans+=t*min(a[i],b[i])
+            st+=t
+        else:
+            t=2**(-(i+1))
+            ans+=t*(a[i]+b[i])
+            print(ans)
+            return
+    ans+=(a[n-1]+b[n-1])/2*(1-st)
+    print(ans)
+
+if __name__==""__main__"":
+    for T in range(int(input())):
+        solve()"
+1,E,Python3,60971589,2023-02-24 20:02:17,刘雨晖,答案错误,"import sys
+input = sys.stdin.readline
+import random
+import math
+from collections import namedtuple as np
+from collections import defaultdict as ded
+from operator import attrgetter
+from collections import Counter as CT
+from queue import PriorityQueue as PQ
+from itertools import permutations as PE
+mod=1000000007
+
+#n=int(input())
+#n,m=map(int,input().split())
+#a=list(map(int,input().split()))
+#d=ded(lambda: 0)
+
+
+
+def solve():
+    n=int(input())
+    a=list(map(int,input().split()))
+    b=list(map(int,input().split()))
+    ed=n-1
+    yu=[0]*n
+    yu[-1]=(a[-1]+b[-1])/2
+    for i in range(-2,-n-1,-1):
+        if yu[i+1]>=max(a[i],b[i]):
+            ed=n+i
+            break
+        yu[i]=(min(a[i],b[i])+yu[i+1])/2
+    ans=0
+    st=0
+    for i in range(min(n,ed+1)):
+        if i!=min(n,ed+1)-1:
+            t=2**(-(i+1))
+            ans+=t*min(a[i],b[i])
+            st+=t
+        else:
+            t=2**(-(i+1))
+            ans+=t*(a[i]+b[i])
+            print(ans)
+            return
+    print(ans)
+
+if __name__==""__main__"":
+    for T in range(int(input())):
+        solve()"
+2,E,Python3,60972743,2023-02-24 20:17:42,GHOSTANDBREAD,答案错误,"import sys
+inf = 1 << 31
+t = int(input())
+for _ in range(t):
+    n = int(input())
+    a = list(map(int, sys.stdin.readline().split()))
+    b = list(map(int, sys.stdin.readline().split()))
+    a = [0] + a; b = [0] + b
+    
+    minn = inf; mini = -1
+    for i in range(1, n + 1):
+        if a[i] + b[i] < minn:
+            minn = a[i] + b[i]
+            mini = i
+    
+    s = 0
+    for i in range(1, mini):
+        s += min(a[i], b[i])
+    s += (a[mini] + b[mini]) / 2
+    
+    s /= mini
+    
+    print(""%.6f"" % s)
+        
+        
+        "
+3,E,Python3,60973465,2023-02-24 20:28:26,謝拾叁,答案错误,"T = int(input())
+for t in range(T):
+    n = int(input())
+    a = list(map(int,input().split()))
+    b = list(map(int,input().split()))
+    c = []
+    for i in range(n):
+        c.append((a[i]+b[i]) / 2)
+    dp = []
+    cnt = 2
+    for i in range(n):
+        mi = min(a[i],b[i])
+        ma = max(a[i],b[i])
+        if i == n-1:
+            dp.append(mi/cnt)
+            dp.append(ma/cnt)
+            break
+        if mi <= c[i+1]:
+            dp.append(mi/cnt)
+            if ma <= c[i+1]:
+                dp.append(ma/cnt)
+                break
+        cnt *= 2
+    print(sum(dp))
+            
+    "
+4,E,Python3,60973489,2023-02-24 20:28:46,GHOSTANDBREAD,答案错误,"import sys
+inf = 1 << 31
+t = int(input())
+for _ in range(t):
+    n = int(input())
+    
+    s = [0] * (n + 10)
+    
+    a = list(map(int, sys.stdin.readline().split()))
+    b = list(map(int, sys.stdin.readline().split()))
+    a = [0] + a; b = [0] + b
+    
+    for i in range(1, n + 1):
+        s[i] = min(s[i - 1] + a[i], s[i - 1] + b[i], s[i - 1] + (a[i] + b[i]) / 2)
+    
+    res = inf
+    for i in range(1, n + 1):
+        res = min(res, (s[i - 1] + (a[i] + b[i]) / 2) / i)
+    
+    
+    # minn = inf; mini = -1
+    # for i in range(1, n + 1):
+    #     if a[i] + b[i] < minn:
+    #         minn = a[i] + b[i]
+    #         mini = i
+    
+    # s = 0
+    # for i in range(1, mini):
+    #     s += min(a[i], b[i])
+    # s += (a[mini] + b[mini]) / 2
+    
+    # s /= mini
+    
+    print(""%.6f"" % res)
+        
+        
+        "
+5,E,Python3,60973704,2023-02-24 20:32:32,牛客481337953号,答案错误,"from heapq import *
+for _ in range(int(input())):
+    n = int(input())
+    s = list(map(int, input().split()))
+    t = list(map(int, input().split()))
+    v = float('inf')
+    d = -1
+    for i in range(n):
+        if s[i] + t[i] <= v:
+            v = s[i] + t[i]
+            d = i
+    m = (s[d] + t[d]) / 2
+    l, r = m, 1
+    q = []
+    for i in range(d - 1, -1, -1):
+        f = min(s[i], t[i])
+        if f < m:
+            heappush(q, f)
+    while q and q[0] < l / r:
+        l += heappop(q)
+        r += 1
+    print(l / r)
+        
+    "
+6,E,Python3,60973945,2023-02-24 20:36:35,牛客396138626号,答案错误,"for _ in range(int(input())):
+    n = int(input())
+    a = list(map(int,input().split()))
+    b = list(map(int,input().split()))
+    ans = 0
+    for i in range(n):
+        if a[i] < b[i]:
+            ans +=a[i]
+        else:
+            ans +=b[i]
+    print(f'{ans/n:.6f}')"
+7,E,Python3,60973976,2023-02-24 20:37:03,牛客481337953号,答案错误,"from heapq import *
+for _ in range(int(input())):
+    n = int(input())
+    s = list(map(int, input().split()))
+    t = list(map(int, input().split()))
+    v = float('inf')
+    d = -1
+    for i in range(n):
+        if s[i] + t[i] <= v:
+            v = s[i] + t[i]
+            d = i
+    m = (s[d] + t[d]) / 2
+    l, r = m, 1
+    for i in range(d - 1, -1, -1):
+        f = min(s[i], t[i])
+        if f < m:
+            l += f
+            r += 1
+    print(l / r)
+        
+    "
+8,E,Python3,60974197,2023-02-24 20:41:11,牛客545811652号,答案错误,"T=int(input())
+a=[]
+b=[]
+for i in range(T):
+    day=int(input())
+    for j in range(day):
+        pay1,pay2=map(int,input().split())
+        a.append(pay1)
+        a.append(pay2)
+        b.append(min(a))
+        a.clear()
+    print(""{:.6f}"".format(sum(b)/2))
+    b.clear()"
+9,E,Python3,60974378,2023-02-24 20:43:59,牛客396138626号,答案错误,"for _ in range(int(input())):
+    n = int(input())
+    a = list(map(int,input().split()))
+    b = list(map(int,input().split()))
+    t = min(a[0],b[0])
+    ans = t
+    for i in range(1,n):
+        k = min(a[i],b[i])
+        if k>max(a[i-1],b[i-1]):
+            k = max(a[i-1],b[i-1])
+        ans +=k 
+    print(f'{ans/n:.6f}')"
+10,E,Python3,60974982,2023-02-24 20:53:11,牛客545811652号,答案错误,"T=int(input())
+a=[]
+b=[]
+c=[]
+for i in range(T):
+    day=int(input())
+    for j in range(day):
+        pay=list(map(int,input().split()))
+        c.append(pay)
+    a.append(min(c[0]))
+    a.append(min(c[1]))
+    print(""{:.6f}"".format(sum(a)/2))
+    a.clear()"
+11,E,Python3,60976226,2023-02-24 21:20:13,GHOSTANDBREAD,答案错误,"import sys
+inf = 1 << 31
+t = int(input())
+for _ in range(t):
+    n = int(input())
+    
+    s = [0] * (n + 10)
+    
+    a = list(map(int, sys.stdin.readline().split()))
+    b = list(map(int, sys.stdin.readline().split()))
+    a = [0] + a; b = [0] + b
+    
+    for i in range(1, n + 1):
+        s[i] = min(s[i - 1] + a[i], s[i - 1] + b[i], s[i - 1] + (a[i] + b[i]) / 2)
+    
+    res = inf
+    for i in range(1, n + 1):
+        res = min(res, (s[i - 1] + (a[i] + b[i]) / 2) / i)
+    
+    
+    # minn = inf; mini = -1
+    # for i in range(1, n + 1):
+    #     if a[i] + b[i] < minn:
+    #         minn = a[i] + b[i]
+    #         mini = i
+    
+    # s = 0
+    # for i in range(1, mini):
+    #     s += min(a[i], b[i])
+    # s += (a[mini] + b[mini]) / 2
+    
+    # s /= mini
+    
+    print(""%.6f"" % res)
+        
+        
+        "
+12,E,Python3,60976350,2023-02-24 21:24:31,懒得改了,答案正确,"for _ in range(int(input())):
+    input()
+    c=1e7
+    for a,b in zip(list(map(int,input().split()))[::-1],list(map(int,input().split()))[::-1]):
+        c=(min(c,a)+min(c,b))/2
+    print(c)"
+13,E,Python3,60978262,2023-02-24 23:22:45,牛客481337953号,答案正确,"for _ in range(int(input())):
+    n = int(input())
+    s = list(map(int, input().split()))
+    t = list(map(int, input().split()))
+    v = float('inf')
+    for i in range(n - 1, -1, -1):
+        v = min(v, (min(v, s[i]) + min(v, t[i])) * 0.5)
+    print(v)"
+14,E,Python3,61429642,2023-03-21 21:08:50,ccca,执行出错,"# from operator import itemgetter
+# l.sort(key = lambda x: (x[0],-x[1])) 按照1级关键字升序，二级降序排序
+def solve():
+    n = int(input())
+    a = list(map(int, input().split()))
+    b = list(map(int, input().split()))
+    dp = [0 for i in range(n + 1)]
+    dp[n] = 9999999
+    for i in range(n - 1, -1, -1):
+        dp[i] = min((a[i] + b[i]) / 2, (dp[i + 1] + min(a[i], b[i])) / 2)
+    print(format(dp[0],'%.6'))
+    pass
+
+if __name__ == ""__main__"":
+    T = int(input())
+    for _ in range(T):
+        solve()
+    pass
+
+"

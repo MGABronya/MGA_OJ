@@ -1,0 +1,2765 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,B,Python3,60009339,2022-12-30 19:14:44,一半醒,答案正确,"n,m = map(int,input().split())
+strs =[]
+for i in range(0,n):
+    strs.append(list(input()))
+ans = 0
+for i in range(0,n):
+    for j in range(0,m):
+        if strs[i][j]=='#':
+            ans = max(ans,i+j)
+            ans = max(ans,abs(i-n+1)+j)
+            ans = max(ans,abs(j-m+1)+i)
+            ans = max(ans,abs(i-n+1)+abs(j-m+1))
+print(ans)"
+1,B,Python3,60009711,2022-12-30 19:17:42,GHOSTANDBREAD,运行超时,"from collections import deque
+import math
+
+n, m = map(int, input().split())
+
+g = []
+
+for i in range(n): g.append(input())
+
+q = deque()
+
+for i in range(n):
+    for j in range(m):
+        if g[i][j] == '#':
+            q.append([i + 1, j + 1])
+
+
+ans = -1
+while q:
+    x, y = q.popleft()
+    tmp = abs(x - 1) + abs(y - 1)
+    ans = max(ans, tmp)
+    tmp = abs(x - 1) + abs(y - n)
+    ans = max(ans, tmp)
+    tmp = abs(x - n) + abs(y - 1)
+    ans = max(ans, tmp)
+    tmp = abs(x - n) + abs(y - m)
+    ans = max(ans, tmp)
+
+
+print(ans)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+        
+
+"
+2,B,Python3,60010254,2022-12-30 19:23:01,书生alin,答案错误,"n, m = map(int, input().split())
+bou = []
+dis = []
+for i in range(n):
+    bou.append(input())
+for i in range(n):
+    for j in range(m):
+        if bou[i][j] == '#':
+            dis1 = i + j
+            dis2 = m-1-i+j
+            dis3 = i+n-1-j
+            dis4 = m-1-i+n-1-j
+            dis.append(dis1)
+            dis.append(dis2)
+            dis.append(dis3)
+            dis.append(dis4)
+print(max(dis))
+
+
+"
+3,B,Python3,60010735,2022-12-30 19:27:45,s13,答案错误,"list = input().split(' ')
+n = int(list[0])
+m = int(list[1])
+list1 = [[]*m for j in range(n)]
+for i in range(n):
+    s = input()
+    j = 0
+    for x in s :
+        list1[i].append(x)
+        if x == '#':
+            k = i
+            t = j
+        j = j+1
+t1 = abs(n-1-k)+abs(m-1-t)
+t2 = abs(0-k)+abs(0-t)
+print(max(t1,t2))
+"
+4,B,Python3,60010785,2022-12-30 19:28:26,CAMB,答案错误,"nm=input().split(' ')
+n=int(nm[0])
+m=int(nm[1])
+arr = []
+pos = None
+for i in range(n):
+	arr.append(input())
+	for j in range(m):
+		if arr[i][j] == '#':
+			pos = (i+1,j+1)
+
+if pos == (1,1):
+	print(n-1+m-1)
+
+print(pos[0]-1+pos[1]-1)"
+5,B,Python3,60010799,2022-12-30 19:28:34,CAMB,答案错误,"nm=input().split(' ')
+n=int(nm[0])
+m=int(nm[1])
+arr = []
+pos = None
+for i in range(n):
+	arr.append(input())
+	for j in range(m):
+		if arr[i][j] == '#':
+			pos = (i+1,j+1)
+
+if pos == (1,1):
+	print(n-1+m-1)
+
+print(pos[0]-1+pos[1]-1)"
+6,B,Python3,60010966,2022-12-30 19:30:17,CAMB,答案错误,"nm=input().split(' ')
+n=int(nm[0])
+m=int(nm[1])
+arr = []
+pos = None
+for i in range(n):
+	arr.append(input())
+	for j in range(m):
+		if arr[i][j] == '#':
+			pos = (i+1,j+1)
+
+if pos == (1,1):
+	print(n-1+m-1)
+else:
+	print(pos[0]-1+pos[1]-1)"
+7,B,Python3,60011157,2022-12-30 19:32:24,s13,执行出错,"list = input().split(' ')
+n = int(list[0])
+m = int(list[1])
+list1 = [[]*m for j in range(n)]
+for i in range(n):
+    s = input()
+    j = 0
+    for x in s :
+        list1[i].append(x)
+        if x == '#':
+            k = i
+            t = j
+        j = j+1
+t1 = abs(n-1-k)+abs(m-1-t)
+t2 = abs(0-k)+abs(0-t)
+a = max(t1,t2)
+t3 = abs(m - 1 - k)+abs(0-t)
+t4 = abs(0 - k)+abs(n-1-t)
+max(t3,t4)
+print(max(a,b))
+"
+8,B,Python3,60011176,2022-12-30 19:32:38,数学家是我理想,运行超时,"import math
+n, m = list(map(int, input().split()))
+arr = [['.' for _ in range(m)] for _ in range(n)]
+fish_dict = []
+op = [[0, 0], [0, m - 1], [n - 1, 0], [n - 1, m - 1]]
+
+for i in range(n):
+    tmp = input()
+    for j in range(m):
+        arr[i][j] = tmp[j]
+        if tmp[j] == '#':
+            fish_dict.append([i, j])
+
+ans = n + m - 2
+if ans == 0:
+    print(0)
+else:
+    ans = 0
+    for i in range(4):
+        tmp = 0
+        for j in fish_dict:
+            tmp = max(tmp, abs(op[i][0] - j[0]) + abs(op[i][1] - j[1]))
+        ans = max(ans, tmp)
+    print(ans)"
+9,B,Python3,60011187,2022-12-30 19:32:48,s13,答案错误,"list = input().split(' ')
+n = int(list[0])
+m = int(list[1])
+list1 = [[]*m for j in range(n)]
+for i in range(n):
+    s = input()
+    j = 0
+    for x in s :
+        list1[i].append(x)
+        if x == '#':
+            k = i
+            t = j
+        j = j+1
+t1 = abs(n-1-k)+abs(m-1-t)
+t2 = abs(0-k)+abs(0-t)
+a = max(t1,t2)
+t3 = abs(m - 1 - k)+abs(0-t)
+t4 = abs(0 - k)+abs(n-1-t)
+b = max(t3,t4)
+print(max(a,b))
+"
+10,B,Python3,60011264,2022-12-30 19:33:35,书生alin,答案错误,"n, m = map(int, input().split())
+bou = []
+dis = []
+asd = 0
+for i in range(n):
+    bou.append(input())
+for i in range(n):
+    for j in range(m):
+        if bou[i][j] == '#':
+            dis1 = i + j
+            dis2 = m-1-i+j
+            dis3 = i+n-1-j
+            dis4 = m-1-i+n-1-j
+            dis.append(dis1)
+            dis.append(dis2)
+            dis.append(dis3)
+            dis.append(dis4)
+            asd += 1
+if asd == 0:
+    print(0)
+else:
+    print(max(dis))
+
+
+"
+11,B,Python3,60011510,2022-12-30 19:36:02,s13,答案错误,"list = input().split(' ')
+n = int(list[0])
+m = int(list[1])
+list1 = [[]*m for j in range(n)]
+for i in range(n):
+    s = input()
+    j = 0
+    for x in s :
+        list1[i].append(x)
+        if x == '#':
+            k = i
+            t = j
+        j = j+1
+t1 = abs(n-1-k)+abs(m-1-t)
+t2 = abs(0-k)+abs(0-t)
+a = max(t1,t2)
+t3 = abs(n - 1 - k)+abs(0-t)
+t4 = abs(0 - k)+abs(n-1-t)
+b = max(t3,t4)
+print(max(a,b))
+"
+12,B,Python3,60011523,2022-12-30 19:36:08,s13,答案错误,"list = input().split(' ')
+n = int(list[0])
+m = int(list[1])
+list1 = [[]*m for j in range(n)]
+for i in range(n):
+    s = input()
+    j = 0
+    for x in s :
+        list1[i].append(x)
+        if x == '#':
+            k = i
+            t = j
+        j = j+1
+t1 = abs(n-1-k)+abs(m-1-t)
+t2 = abs(0-k)+abs(0-t)
+a = max(t1,t2)
+t3 = abs(n - 1 - k)+abs(0-t)
+t4 = abs(0 - k)+abs(n-1-t)
+b = max(t3,t4)
+print(max(a,b))
+"
+13,B,Python3,60011649,2022-12-30 19:37:26,s13,答案错误,"list = input().split(' ')
+n = int(list[0])
+m = int(list[1])
+list1 = [[]*m for j in range(n)]
+for i in range(n):
+    s = input()
+    j = 0
+    for x in s :
+        list1[i].append(x)
+        if x == '#':
+            k = i
+            t = j
+        j = j+1
+t1 = abs(n-1-k)+abs(m-1-t)
+t2 = abs(0-k)+abs(0-t)
+a = max(t1,t2)
+t3 = abs(n - 1 - k)+abs(0-t)
+t4 = abs(0 - k)+abs(n-1-t)
+b = max(t3,t4)
+print(max(a,b))
+"
+14,B,Python3,60011664,2022-12-30 19:37:37,小飞棒来了~,答案错误,"n,m=input().split()
+n,m=int(n),int(m)
+list1=[]
+list2=[]
+for i in range(0,n):
+    list1 = list(input().split())
+    list2.extend(list1)
+    list1 = list1.clear()
+for i in list2:
+    for j in i:
+        if j=='#':
+            x = i.index(j)
+            y = list2.index(i)
+# x,y为’#‘的位置
+list3 = []
+p1 = abs(x-0)+abs(y-0)
+list3.append(p1)
+p2 = abs(x-(n-1))+abs(y-0)
+list3.append(p2)
+p3 = abs(x-0)+abs(y-(n-1))
+list3.append(p3)
+p4 = abs(x-(n-1))+abs(y-(m-1))
+list3.append(p4)
+sorted(list3)
+print(list3[-1])
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    "
+15,B,Python3,60011939,2022-12-30 19:40:32,数学家是我理想,运行超时,"import math
+n, m = list(map(int, input().split()))
+arr = [['.' for _ in range(m)] for _ in range(n)]
+fish_dict = []
+op = [[0, 0], [0, m - 1], [n - 1, 0], [n - 1, m - 1]]
+
+for i in range(n):
+    tmp = input()
+    for j in range(m):
+        arr[i][j] = tmp[j]
+        if tmp[j] == '#':
+            fish_dict.append([i, j])
+    
+ans = n + m - 2
+if ans == 0:
+    print(0)
+else:
+    for i in range(1, ans + 1):
+        flag = True
+        for j in op:
+            for t in fish_dict:
+                if abs(j[0] - t[0]) + abs(j[1] - t[1]) > i:
+                    flag = False
+                    break
+        if flag:
+            print(i)
+            break"
+16,B,Python3,60012025,2022-12-30 19:41:44,王万福,答案正确,"
+def main():
+    n,m = map(int,input().split())
+    g = []
+    for _ in range(n):
+        g.append(input())
+    ans = 0
+    def f(x,y):
+        return max(x+y,x+m-1-y,n-1-x+y,n-1-x+m-1-y)
+    for i in range(n):
+        for j in range(m):
+            if g[i][j] == '#': ans = max(ans,f(i,j))
+    print(ans)
+main()"
+17,B,Python3,60012092,2022-12-30 19:42:27,s13,答案错误,"list = input().split(' ')
+n = int(list[0])
+m = int(list[1])
+list1 = [[]*m for j in range(n)]
+min1 = 10000
+for i in range(n):
+    s = input()
+    j = 0
+    for x in s :
+        list1[i].append(x)
+        if x == '#':
+            k = i
+            t = j
+            t1 = abs(n - 1 - k) + abs(m - 1 - t)
+            t2 = abs(0 - k) + abs(0 - t)
+            a = max(t1, t2)
+            t3 = abs(n - 1 - k) + abs(0 - t)
+            t4 = abs(0 - k) + abs(n - 1 - t)
+            b = max(t3, t4)
+            min1= min(min1,max(a,b))
+        j = j+1
+
+print(min1)
+"
+18,B,Python3,60012294,2022-12-30 19:44:46,小飞棒来了~,答案错误,"n,m=input().split()
+n,m=int(n),int(m)
+list1=[]
+list2=[]
+for i in range(0,n):
+    list1 = list(input().split())
+    list2.extend(list1)
+    list1 = list1.clear()
+for i in list2:
+    for j in i:
+        if j=='#':
+            x = i.index(j)
+            y = list2.index(i)
+            break
+# x,y为’#‘的位置
+list3 = []
+p1 = abs(x-0)+abs(y-0)
+list3.append(p1)
+p2 = abs(x-(n-1))+abs(y-0)
+list3.append(p2)
+p3 = abs(x-0)+abs(y-(n-1))
+list3.append(p3)
+p4 = abs(x-(n-1))+abs(y-(m-1))
+list3.append(p4)
+sorted(list3)
+print(int(list3[-1]))
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    "
+19,B,Python3,60012356,2022-12-30 19:45:40,小飞棒来了~,答案错误,"n,m=input().split()
+n,m=int(n),int(m)
+list1=[]
+list2=[]
+for i in range(0,n):
+    list1 = list(input().split())
+    list2.extend(list1)
+    list1 = list1.clear()
+for i in list2:
+    for j in i:
+        if j=='#':
+            x = i.index(j)
+            y = list2.index(i)
+            break
+# x,y为’#‘的位置
+list3 = []
+p1 = abs(x-0)+abs(y-0)
+list3.append(p1)
+p2 = abs(x-(n-1))+abs(y-0)
+list3.append(p2)
+p3 = abs(x-0)+abs(y-(n-1))
+list3.append(p3)
+p4 = abs(x-(n-1))+abs(y-(m-1))
+list3.append(p4)
+sorted(list3)
+print(int(list3[-1]+0.5))
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    "
+20,B,Python3,60012602,2022-12-30 19:48:34,jicheboy,运行超时,"def func(x,y):
+    return sum(map(lambda i, j: abs(i-j), x, y))
+
+n,m=map(int,input().split())
+list=[]
+k=[]
+for i in range(n):
+    str=input()
+    list.append(str)
+for i in range(n):
+    for j in range(m):
+        if list[i][j]=='#':
+            a=func([0,0],[i,j])
+            b=func([0,m-1],[i,j])
+            c=func([n-1,0],[i,j])
+            d=func([n-1,m-1],[i,j])
+            k.append(max(a,b,c,d))
+print(max(k))"
+21,B,Python3,60012985,2022-12-30 19:52:47,s13,答案错误,"list = input().split(' ')
+n = int(list[0])
+m = int(list[1])
+list1 = [[]*m for j in range(n)]
+min1 = 10000
+for i in range(n):
+    s = input()
+    j = 0
+    for x in s :
+        list1[i].append(x)
+        if x == '#':
+            k = i
+            t = j
+            t1 = abs(n - 1 - k) + abs(m - 1 - t)
+            t2 = abs(0 - k) + abs(0 - t)
+            a = max(t1, t2)
+            t3 = abs(n - 1 - k) + abs(0 - t)
+            t4 = abs(0 - k) + abs(m - 1 - t)
+            b = max(t3, t4)
+            min1= min(min1,max(a,b))
+        j = j+1
+print(min1)
+"
+22,B,Python3,60013076,2022-12-30 19:53:46,s13,答案错误,"list = input().split(' ')
+n = int(list[0])
+m = int(list[1])
+list1 = [[]*m for j in range(n)]
+min1 = 1000000
+for i in range(n):
+    s = input()
+    j = 0
+    for x in s :
+        list1[i].append(x)
+        if x == '#':
+            k = i
+            t = j
+            t1 = abs(n - 1 - k) + abs(m - 1 - t)
+            t2 = abs(0 - k) + abs(0 - t)
+            a = max(t1, t2)
+            t3 = abs(n - 1 - k) + abs(0 - t)
+            t4 = abs(0 - k) + abs(m - 1 - t)
+            b = max(t3, t4)
+            min1= min(min1,max(a,b))
+        j = j+1
+print(min1)
+"
+23,B,Python3,60013322,2022-12-30 19:56:54,小飞棒来了~,答案错误,"n,m=input().split()
+n,m=int(n),int(m)
+list1=[]
+list2=[]
+for i in range(0,n):
+    list1 = list(input().split())
+    list2.extend(list1)
+    list1 = list1.clear()
+for i in list2:
+    for j in i:
+        if j=='#':
+            x = i.index(j)
+            y = list2.index(i)
+            break
+# x,y为’#‘的位置
+list3 = []
+p1 = abs(x-0)+abs(y-0)
+list3.append(p1)
+p2 = abs(x-(n-1))+abs(y-0)
+list3.append(p2)
+p3 = abs(x-0)+abs(y-(n-1))
+list3.append(p3)
+p4 = abs(x-(m-1))+abs(y-(n-1))# 9 1 6 0
+list3.append(p4)
+list3=sorted(list3)
+print(list3[-1])
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    "
+24,B,Python3,60013584,2022-12-30 19:59:50,小飞棒来了~,答案错误,"n,m=input().split()
+n,m=int(n),int(m)
+list1=[]
+list2=[]
+for i in range(0,n):
+    list1 = list(input().split())
+    list2.extend(list1)
+    list1 = list1.clear()
+for i in list2:
+    for j in i:
+        if j=='#':
+            x = i.index(j)
+            y = list2.index(i)
+            break
+# x,y为’#‘的位置
+list3 = []
+p1 = abs(x-0)+abs(y-0)
+list3.append(p1)
+p2 = abs(x-(n-1))+abs(y-0)
+list3.append(p2)
+p3 = abs(x-0)+abs(y-(n-1))
+list3.append(p3)
+p4 = abs(x-(m-1))+abs(y-(n-1))# 9 1 6 0
+list3.append(p4)
+list3=sorted(list3)
+if n==1:
+    print(list3[-1]+1)
+else:
+    print(list3[-1])
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    "
+25,B,Python3,60013613,2022-12-30 20:00:11,小飞棒来了~,答案错误,"n,m=input().split()
+n,m=int(n),int(m)
+list1=[]
+list2=[]
+for i in range(0,n):
+    list1 = list(input().split())
+    list2.extend(list1)
+    list1 = list1.clear()
+for i in list2:
+    for j in i:
+        if j=='#':
+            x = i.index(j)
+            y = list2.index(i)
+            break
+# x,y为’#‘的位置
+list3 = []
+p1 = abs(x-0)+abs(y-0)
+list3.append(p1)
+p2 = abs(x-(n-1))+abs(y-0)
+list3.append(p2)
+p3 = abs(x-0)+abs(y-(n-1))
+list3.append(p3)
+p4 = abs(x-(m-1))+abs(y-(n-1))# 9 1 6 0
+list3.append(p4)
+list3=sorted(list3)
+if n==1 or m==1:
+    print(list3[-1]+1)
+else:
+    print(list3[-1])
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    "
+26,B,Python3,60013682,2022-12-30 20:00:57,jicheboy,运行超时,"def func(x,y):
+    return sum(map(lambda i, j: abs(i-j), x, y))
+
+n,m=map(int,input().split())
+list=[]
+k=[]
+for i in range(n):
+    str=input()
+    list.append(str)
+for i in range(n):
+    for j in range(m):
+        if list[i][j]=='#':
+            a=func([0,0],[i,j])
+            b=func([0,m-1],[i,j])
+            c=func([n-1,0],[i,j])
+            d=func([n-1,m-1],[i,j])
+            k.append(max(a,b,c,d))
+            continue
+print(max(k))"
+27,B,Python3,60013880,2022-12-30 20:03:07,jicheboy,答案错误,"def func(x,y):
+    return sum(map(lambda i, j: abs(i-j), x, y))
+
+n,m=map(int,input().split())
+list=[]
+k=[]
+for i in range(n):
+    str=input()
+    list.append(str)
+for i in range(n):
+    for j in range(m):
+        if list[i][j]=='#':
+            a=func([0,0],[i,j])
+            b=func([0,m-1],[i,j])
+            c=func([n-1,0],[i,j])
+            d=func([n-1,m-1],[i,j])
+            k.append(max(a,b,c,d))
+            break
+print(max(k))"
+28,B,Python3,60013885,2022-12-30 20:03:11,s13,答案错误,"list = input().split(' ')
+n = int(list[0])
+m = int(list[1])
+list1 = [[]*m for j in range(n)]
+min1 = 1000000
+for i in range(n):
+    s = input()
+    j = 0
+    for x in s :
+        list1[i].append(x)
+        if x == '#':
+            k = i
+            t = j
+            t1 = abs(n - 1 - k) + abs(m - 1 - t)
+            t2 = abs(0 - k) + abs(0 - t)
+            a = max(t1, t2)
+            t3 = abs(n - 1 - k) + abs(0 - t)
+            t4 = abs(0 - k) + abs(m - 1 - t)
+            b = max(t3, t4)
+            min1= min(min1,max(a,b))
+        j = j+1
+print(min1)
+"
+29,B,Python3,60013960,2022-12-30 20:04:06,多少分,答案错误,"a=list(map(int,input().split()))#n,m
+n=a[0]
+m=a[1]
+b=[[0]*a[1]]*a[0]
+c=[[0]*a[1]]*a[0]
+d=[]
+for i in range(a[0]):
+    b[i]=list(map(str,input()))
+for i in range(n):
+    for j in range(m):
+        if b[i][j]=='#':
+            zs=abs(i-0)+abs(j-0)
+            zx=abs(i-n+1)+abs(i-0)
+            ys=abs(i-0)+abs(j-n+1)
+            yx=abs(i-n+1)+abs(j-n+1)
+            d.append(zs)
+            d.append(zx)
+            d.append(ys)
+            d.append(yx)
+s=max(d)
+print(s)
+"
+30,B,Python3,60014059,2022-12-30 20:05:26,若飘渺,答案正确,"nm=input().split()
+hang=int(nm[0])
+lie=int(nm[1])
+i=1
+c=list()
+while i<=hang:
+    everyhang=list(input())
+    a=1
+    while a<=lie:
+        if everyhang[a-1]=='#':
+            mhd1=abs(i-1)+abs(a-1)
+            mhd2=abs(i-hang)+abs(a-1)
+            mhd3=abs(i-1)+abs(a-lie)
+            mhd4=abs(i-hang)+abs(a-lie)
+            c.append(mhd1)
+            c.append(mhd2)
+            c.append(mhd3)
+            c.append(mhd4)
+        a=a+1
+    i=i+1
+k=max(c)
+print(k)"
+31,B,Python3,60014159,2022-12-30 20:06:48,PartinG_QAQ,答案错误,"n, m = list(map(int,input().split()))
+res = []
+x1, y1 = 0, 0
+for i in range(n):
+    kids = input()
+    if ""#"" in kids:
+        x1 = i
+    res.append(kids)
+
+for i, x in enumerate(res[x1]):
+    if x == '#':
+        y1 = i
+        break
+
+point1 = [[0, 0],[n - 1, 0],[0, m - 1],[n - 1, m - 1]]
+
+ot = 0
+
+for i in range(4):
+    x, y = point1[i]
+    lc = abs(x - x1) + abs(y - y1)
+    ot = max(lc, ot)
+
+print(ot)"
+32,B,Python3,60014576,2022-12-30 20:12:26,小飞棒来了~,答案错误,"n,m=input().split()
+n,m=int(n),int(m)
+list1=[]
+list2=[]
+for i in range(0,n):
+    list1 = list(input().split())
+    list2.extend(list1)
+    list1 = list1.clear()
+for i in list2:
+    for j in i:
+        if j=='#':
+            x = i.index(j)
+            y = list2.index(i)
+            break
+# x,y为’#‘的位置
+list3 = []
+p1 = abs(x-0)+abs(y-0)
+list3.append(p1)
+p2 = abs(x-(m-1))+abs(y-0)
+list3.append(p2)
+p3 = abs(x-0)+abs(y-(n-1))
+list3.append(p3)
+p4 = abs(x-(m-1))+abs(y-(n-1))# 9 1 6 0
+list3.append(p4)
+list3=sorted(list3)
+if n==1 or m==1:
+    print(list3[-1]+1)
+else:
+    print(list3[-1])
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    "
+33,B,Python3,60014602,2022-12-30 20:12:52,小飞棒来了~,答案错误,"n,m=input().split()
+n,m=int(n),int(m)
+list1=[]
+list2=[]
+for i in range(0,n):
+    list1 = list(input().split())
+    list2.extend(list1)
+    list1 = list1.clear()
+for i in list2:
+    for j in i:
+        if j=='#':
+            x = i.index(j)
+            y = list2.index(i)
+            break
+# x,y为’#‘的位置
+list3 = []
+p1 = abs(x-0)+abs(y-0)
+list3.append(p1)
+p2 = abs(x-(m-1))+abs(y-0)
+list3.append(p2)
+p3 = abs(x-0)+abs(y-(n-1))
+list3.append(p3)
+p4 = abs(x-(m-1))+abs(y-(n-1))# 9 1 6 0
+list3.append(p4)
+list3=sorted(list3)
+print(list3[-1])
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    "
+34,B,Python3,60014713,2022-12-30 20:14:16,小飞棒来了~,答案错误,"n,m=input().split()
+n,m=int(n),int(m)
+list1=[]
+list2=[]
+for i in range(0,n):
+    list1 = list(input().split())
+    list2.extend(list1)
+    list1 = list1.clear()
+for i in list2:
+    for j in i:
+        if j=='#':
+            x = i.index(j)
+            y = list2.index(i)
+            break
+# x,y为’#‘的位置
+list3 = []
+p1 = abs(x-0)+abs(y-0)
+list3.append(p1)
+p2 = abs(x-(m-1))+abs(y-0)
+list3.append(p2)
+p3 = abs(x-0)+abs(y-(n-1))
+list3.append(p3)
+p4 = abs(x-(m-1))+abs(y-(n-1))# 9 1 6 0
+list3.append(p4)
+list3=sorted(list3)
+if n==1 or m==1:
+    print(list3[-1]+1)
+else:
+    print(list[-1])
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    "
+35,B,Python3,60014887,2022-12-30 20:16:43,小飞棒来了~,答案错误,"n,m=input().split()
+n,m=int(n),int(m)
+list1=[]
+list2=[]
+for i in range(0,n):
+    list1 = list(input().split())
+    list2.extend(list1)
+    list1 = list1.clear()
+for i in list2:
+    for j in i:
+        if j=='#':
+            x = i.index(j)
+            y = list2.index(i)
+            break
+# x,y为’#‘的位置
+list3 = []
+p1 = abs(x-0)+abs(y-0)
+list3.append(p1)
+p2 = abs(x-(m-1))+abs(y-0)
+list3.append(p2)
+p3 = abs(x-0)+abs(y-(n-1))
+list3.append(p3)
+p4 = abs(x-(m-1))+abs(y-(n-1))# 9 1 6 0
+list3.append(p4)
+list3=sorted(list3)
+if n==1 and m==1:
+    print(list3[-1])
+    exit()
+if n==1 or m==1:
+    print(list3[-1]+1)
+else:
+    print(list3[-1])
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    "
+36,B,Python3,60015054,2022-12-30 20:19:06,小飞棒来了~,答案错误,"n,m=input().split()
+n,m=int(n),int(m)
+list1=[]
+list2=[]
+for i in range(0,n):
+    list1 = list(input().split())
+    list2.extend(list1)
+    list1 = list1.clear()
+for i in list2:
+    for j in i:
+        if j=='#':
+            x = i.index(j)
+            y = list2.index(i)
+            break
+# x,y为’#‘的位置
+list3 = []
+p1 = abs(x-0)+abs(y-0)
+list3.append(p1)
+p2 = abs(x-(m-1))+abs(y-0)
+list3.append(p2)
+p3 = abs(x-0)+abs(y-(n-1))
+list3.append(p3)
+p4 = abs(x-(m-1))+abs(y-(n-1))# 9 1 6 0
+list3.append(p4)
+list3=sorted(list3)
+if n==1 and m==1:
+    print(list3[-1])
+    exit()
+if n==1 or m==1:
+    print(list3[-1])
+else:
+    print(list3[-1])
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    "
+37,B,Python3,60015903,2022-12-30 20:31:36,小确幸a,答案错误,"n,m=map(int, input().split(' '))
+a=[[0,0],[0,m],[n,0],[n,m]]
+b=[]
+max1=0
+for i in range(n):
+    k=list(input())
+    b.append(k)
+for i in range(0,n):
+    for j in range(0,m):
+        if b[i][j]=='#':
+            for k in a:
+                c=abs(k[0]-i)+abs(k[1]-j)
+                if c>max1:
+                    max1=c
+print(max1-2)"
+38,B,Python3,60016190,2022-12-30 20:36:11,s13,执行出错,"list = input().split(' ')
+n = int(list[0])
+m = int(list[1])
+list1 = [[]*m for j in range(n)]
+list2 = [[]*2 for j in range(n)]
+k = 0
+max1 = 0
+max2 = 0
+for i in range(n):
+    s = input()
+    j = 0
+    for x in s :
+        list1[i].append(x)
+        if x == '#':
+            list2[k].append(i)
+            list2[k].append(j)
+            k =k +1
+        j = j+1
+for i in range(n):
+    for j in range(len(list1[0])):
+        if list1[i][j] !='#':
+            for t in range(k):
+                max1 = max(max1,abs(list2[t][0]-i)+abs(list2[t][1]-j))
+            max2 = max(max2,max1)
+
+print(max2)
+
+# t1 = abs(n - 1 - k) + abs(m - 1 - t)
+# t2 = abs(0 - k) + abs(0 - t)
+# a = max(t1, t2)
+# t3 = abs(n - 1 - k) + abs(0 - t)
+# t4 = abs(0 - k) + abs(m - 1 - t)
+# b = max(t3, t4)
+# min1 = min(min1, max(a, b))"
+39,B,Python3,60016215,2022-12-30 20:36:36,小确幸a,答案正确,"n,m=map(int, input().split(' '))
+a=[[1,1],[1,m],[n,1],[n,m]]
+b=[]
+max1=0
+for i in range(n):
+    k=list(input())
+    b.append(k)
+for i in range(0,n):
+    for j in range(0,m):
+        if b[i][j]=='#':
+            for k in a:
+                c=abs(k[0]-(i+1))+abs(k[1]-(1+j))
+                if c>max1:
+                    max1=c
+print(max1)"
+40,B,Python3,60016231,2022-12-30 20:37:00,s13,执行出错,"list = input().split(' ')
+n = int(list[0])
+m = int(list[1])
+list1 = [[]*m for j in range(n)]
+list2 = [[]*2 for j in range(n)]
+k = 0
+max1 = 0
+max2 = 0
+for i in range(n):
+    s = input()
+    j = 0
+    for x in s :
+        list1[i].append(x)
+        if x == '#':
+            list2[k].append(i)
+            list2[k].append(j)
+            k =k +1
+        j = j+1
+for i in range(n):
+    for j in range(len(list1[0])):
+        if list1[i][j] !='#':
+            for t in range(k):
+                max1 = max(max1,abs(list2[t][0]-i)+abs(list2[t][1]-j))
+            max2 = max(max2,max1)
+print(max2)"
+41,B,Python3,60016343,2022-12-30 20:39:04,s13,执行出错,"list = input().split(' ')
+n = int(list[0])
+m = int(list[1])
+list1 = [[]*m for j in range(n)]
+list2 = [[]*2 for j in range(n)]
+k = 0
+max1 = 0
+max2 = 0
+for i in range(n):
+    s = input()
+    j = 0
+    for x in s :
+        list1[i].append(x)
+        if x == '#':
+            list2[k].append(i)
+            list2[k].append(j)
+            k =k +1
+        j = j+1
+for i in range(n):
+    for j in range(m):
+        if list1[i][j] !='#':
+            for t in range(k):
+                max1 = max(max1,abs(list2[t][0]-i)+abs(list2[t][1]-j))
+            max2 = max(max2,max1)
+
+print(max2)"
+42,B,Python3,60016560,2022-12-30 20:43:48,冠道,答案错误,"n,m=map(int,input().split())
+b=[]
+x=0
+y=0
+for i in range(n):
+    x+=1
+    a=input()
+    for j in a:
+        y+=1
+        if j=='#':
+            b.append(n-x+m-y)
+    y=0
+b.sort()
+print(b[len(b)-1])"
+43,B,Python3,60016613,2022-12-30 20:44:45,s13,运行超时,"list = input().split(' ')
+n = int(list[0])
+m = int(list[1])
+list1 = [[]*m for j in range(n)]
+list2 = [[]*2 for j in range(1000001)]
+k = 0
+max1 = 0
+max2 = 0
+for i in range(n):
+    s = input()
+    j = 0
+    for x in s :
+        list1[i].append(x)
+        if x == '#':
+            list2[k].append(i)
+            list2[k].append(j)
+            k =k +1
+        j = j+1
+for i in range(n):
+    for j in range(m):
+        if list1[i][j] !='#':
+            for t in range(k):
+                max1 = max(max1,abs(list2[t][0]-i)+abs(list2[t][1]-j))
+            max2 = max(max2,max1)
+
+print(max2)"
+44,B,Python3,60016620,2022-12-30 20:44:49,冠道,执行出错,"n,m=map(int,input().split())
+b=[]
+x=0
+y=0
+for i in range(n):
+    x+=1
+    a=input()
+    for j in a:
+        y+=1
+        if j=='#':
+            b.append(n-x+m-y)
+    y=0
+b.sort(reverse=false)
+print(b[len(b)-1])"
+45,B,Python3,60016627,2022-12-30 20:44:56,冠道,答案错误,"n,m=map(int,input().split())
+b=[]
+x=0
+y=0
+for i in range(n):
+    x+=1
+    a=input()
+    for j in a:
+        y+=1
+        if j=='#':
+            b.append(n-x+m-y)
+    y=0
+b.sort(reverse=False)
+print(b[len(b)-1])"
+46,B,Python3,60016651,2022-12-30 20:45:20,冠道,答案错误,"n,m=map(int,input().split())
+b=[]
+x=0
+y=0
+for i in range(n):
+    x+=1
+    a=input()
+    for j in a:
+        y+=1
+        if j=='#':
+            b.append(n-x+m-y)
+    y=0
+b.sort()
+print(b[0])"
+47,B,Python3,60016658,2022-12-30 20:45:27,s13,运行超时,"list = input().split(' ')
+n = int(list[0])
+m = int(list[1])
+list1 = [[]*m for j in range(n)]
+list2 = [[]*2 for j in range(1000001)]
+k = 0
+max1 = 0
+max2 = 0
+for i in range(n):
+    s = input()
+    j = 0
+    for x in s :
+        list1[i].append(x)
+        if x == '#':
+            list2[k].append(i)
+            list2[k].append(j)
+            k =k +1
+        j = j+1
+for i in range(n):
+    for j in range(m):
+        if list1[i][j] !='#':
+            for t in range(k):
+                max1 = max(max1,abs(list2[t][0]-i)+abs(list2[t][1]-j))
+            max2 = max(max2,max1)
+
+print(max2)"
+48,B,Python3,60016681,2022-12-30 20:45:48,冠道,答案错误,"n,m=map(int,input().split())
+b=[]
+x=0
+y=0
+for i in range(n):
+    x+=1
+    a=input()
+    for j in a:
+        y+=1
+        if j=='#':
+            b.append(n-x+m-y)
+    y=0
+b.sort()
+print(b[len(b)-1])"
+49,B,Python3,60016725,2022-12-30 20:46:36,冠道,答案错误,"n,m=map(int,input().split())
+b=[]
+x=0
+y=0
+for i in range(n):
+    x+=1
+    a=input()
+    for j in a:
+        y+=1
+        if j=='#':
+            b.append(n-x+m-y)
+    y=0
+b.sort()
+print(b[len(b)-1])"
+50,B,Python3,60017001,2022-12-30 20:50:48,冠道,答案错误,"n,m=map(int,input().split())
+b=[]
+x=0
+y=0
+for i in range(n):
+    x+=1
+    a=input()
+    for j in a:
+        y+=1
+        if j=='#':
+            if x>n//2+1 or y>m//2+1:
+                x=n-x
+                y=m-y
+            b.append(n-x+m-y)
+    y=0
+b.sort()
+print(b[len(b)-1])"
+51,B,Python3,60017026,2022-12-30 20:51:10,PartinG_QAQ,答案错误,"n, m = list(map(int,input().split()))
+res = []
+x1, y1 = 0, 0
+for i in range(n):
+    kids = input()
+    if ""#"" in kids:
+        x1 = i
+    res.append(kids)
+
+for i, x in enumerate(res[x1]):
+    if x == '#':
+        y1 = i
+        break
+
+point1 = [[0, 0],[n - 1, 0],[0, m - 1],[n - 1, m - 1]]
+
+l1 = (n + m - 2) - x1 - y1
+b = x1 - y1
+if b > 0:
+    l2 = n - 1 + b
+else:
+    l2 = n - 1 - b
+c = y1 - x1
+if c > 0:
+    l4 = m - 1 + b
+else:
+    l4 = m - 1 - b
+
+l3 = x1 + y1
+print(max(l1,l2,l3,l4))"
+52,B,Python3,60017086,2022-12-30 20:52:01,s13,运行超时,"list = input().split(' ')
+n = int(list[0])
+m = int(list[1])
+list1 = [[]*m for j in range(n)]
+list2 = [[]]
+
+min1 = 0
+for i in range(n):
+    s = input()
+    j = 0
+    for x in s :
+        list1[i].append(x)
+        if x == '#':
+            k = i
+            t = j
+            t1 = abs(n - 1 - k) + abs(m - 1 - t)
+            t2 = abs(0 - k) + abs(0 - t)
+            a = max(t1, t2)
+            t3 = abs(n - 1 - k) + abs(0 - t)
+            t4 = abs(0 - k) + abs(m - 1 - t)
+            b = max(t3, t4)
+            min1 = max(min1, max(a, b))
+
+        j = j+1
+print(min1)
+
+# list = input().split(' ')
+# n = int(list[0])
+# m = int(list[1])
+# list1 = [[]*m for j in range(n)]
+# list2 = [[]*2 for j in range(1000001)]
+# k = 0
+# max1 = 0
+# max2 = 0
+# for i in range(n):
+#     s = input()
+#     j = 0
+#     for x in s :
+#         list1[i].append(x)
+#         if x == '#':
+#             list2[k].append(i)
+#             list2[k].append(j)
+#             k =k +1
+#         j = j+1
+# for i in range(n):
+#     for j in range(m):
+#         if list1[i][j] !='#':
+#             for t in range(k):
+#                 max1 = max(max1,abs(list2[t][0]-i)+abs(list2[t][1]-j))
+#             max2 = max(max2,max1)
+# print(max2)"
+53,B,Python3,60017217,2022-12-30 20:54:21,冠道,答案错误,"n,m=map(int,input().split())
+b=[]
+x=0
+y=0
+for i in range(n):
+    x+=1
+    a=input()
+    for j in a:
+        y+=1
+        if j=='#':
+            if x>n//2 or y>m//2:
+                x=n-x+1
+                y=m-y+1
+            b.append(n-x+m-y)
+    y=0
+b.sort()
+print(b[len(b)-1])"
+54,B,Python3,60017236,2022-12-30 20:54:35,s13,运行超时,"list = input().split(' ')
+n = int(list[0])
+m = int(list[1])
+list1 = [[]*m for j in range(n)]
+list2 = [[]]
+
+min1 = 0
+for i in range(n):
+    s = input()
+    j = 0
+    for x in s :
+        list1[i].append(x)
+        if x == '#':
+            k = i
+            t = j
+            t1 = abs(n - 1 - k) + abs(m - 1 - t)
+            t2 = abs(0 - k) + abs(0 - t)
+            a = max(t1, t2)
+            t3 = abs(n - 1 - k) + abs(0 - t)
+            t4 = abs(0 - k) + abs(m - 1 - t)
+            b = max(t3, t4)
+            min1 = max(min1, max(a, b))
+
+        j = j+1
+print(min1)
+
+# list = input().split(' ')
+# n = int(list[0])
+# m = int(list[1])
+# list1 = [[]*m for j in range(n)]
+# list2 = [[]*2 for j in range(1000001)]
+# k = 0
+# max1 = 0
+# max2 = 0
+# for i in range(n):
+#     s = input()
+#     j = 0
+#     for x in s :
+#         list1[i].append(x)
+#         if x == '#':
+#             list2[k].append(i)
+#             list2[k].append(j)
+#             k =k +1
+#         j = j+1
+# for i in range(n):
+#     for j in range(m):
+#         if list1[i][j] !='#':
+#             for t in range(k):
+#                 max1 = max(max1,abs(list2[t][0]-i)+abs(list2[t][1]-j))
+#             max2 = max(max2,max1)
+# print(max2)"
+55,B,Python3,60017329,2022-12-30 20:55:56,PartinG_QAQ,答案错误,"n, m = list(map(int,input().split()))
+res = []
+x1, y1 = 0, 0
+for i in range(n):
+    kids = input()
+    if ""#"" in kids:
+        x1 = i
+    res.append(kids)
+
+for i, x in enumerate(res[x1]):
+    if x == '#':
+        y1 = i
+        break
+
+point1 = [[0, 0],[n - 1, 0],[0, m - 1],[n - 1, m - 1]]
+
+l1 = (n + m - 2) - x1 - y1
+b = x1 - y1
+if b > 0:
+    l2 = n - 1 - b
+else:
+    l2 = n - 1 - b
+c = y1 - x1
+if c > 0:
+    l4 = m - 1 - b
+else:
+    l4 = m - 1 - b
+
+l3 = x1 + y1
+print(max(l1,l2,l3,l4))"
+56,B,Python3,60017372,2022-12-30 20:56:32,s13,运行超时,"list = input().split(' ')
+n = int(list[0])
+m = int(list[1])
+list1 = [[]*m for j in range(n)]
+list2 = [[]]
+
+min1 = 0
+for i in range(n):
+    s = input()
+    j = 0
+    for x in s :
+        list1[i].append(x)
+        if x == '#':
+            k = i
+            t = j
+            t1 = abs(n - 1 - k) + abs(m - 1 - t)
+            t2 = abs(0 - k) + abs(0 - t)
+            a = max(t1, t2)
+            t3 = abs(n - 1 - k) + abs(0 - t)
+            t4 = abs(0 - k) + abs(m - 1 - t)
+            b = max(t3, t4)
+            min1 = max(min1, max(a, b))
+
+        j = j+1
+print(min1)
+
+# list = input().split(' ')
+# n = int(list[0])
+# m = int(list[1])
+# list1 = [[]*m for j in range(n)]
+# list2 = [[]*2 for j in range(1000001)]
+# k = 0
+# max1 = 0
+# max2 = 0
+# for i in range(n):
+#     s = input()
+#     j = 0
+#     for x in s :
+#         list1[i].append(x)
+#         if x == '#':
+#             list2[k].append(i)
+#             list2[k].append(j)
+#             k =k +1
+#         j = j+1
+# for i in range(n):
+#     for j in range(m):
+#         if list1[i][j] !='#':
+#             for t in range(k):
+#                 max1 = max(max1,abs(list2[t][0]-i)+abs(list2[t][1]-j))
+#             max2 = max(max2,max1)
+# print(max2)"
+57,B,Python3,60017476,2022-12-30 20:58:04,PartinG_QAQ,答案错误,"n, m = list(map(int,input().split()))
+res = []
+x1, y1 = 0, 0
+for i in range(n):
+    kids = input()
+    if ""#"" in kids:
+        x1 = i
+    res.append(kids)
+
+for i, x in enumerate(res[x1]):
+    if x == '#':
+        y1 = i
+        break
+
+point1 = [[0, 0],[n - 1, 0],[0, m - 1],[n - 1, m - 1]]
+
+l1 = (n + m - 2) - x1 - y1
+b = x1 - y1
+if b > 0:
+    l2 = n - 1 - b
+else:
+    l2 = n - 1 - b
+c = y1 - x1
+if c > 0:
+    l4 = m - 1 - c
+else:
+    l4 = m - 1 - c
+
+l3 = x1 + y1
+print(max(l1,l2,l3,l4))"
+58,B,Python3,60017514,2022-12-30 20:58:32,冠道,运行超时,"from math import*
+n,m=map(int,input().split())
+b=[]
+c=[]
+x=0
+y=0
+for i in range(n):
+    x+=1
+    a=input()
+    for j in a:
+        y+=1
+        if j=='#':
+            for k in range(n):
+                for l in range(m):
+                    c.append(abs(k-x+1)+abs(l-y+1))
+            c.sort()
+            b.append(c[len(c)-1])
+    y=0
+b.sort()
+print(b[len(b)-1])"
+59,B,Python3,60017544,2022-12-30 20:59:01,冠道,运行超时,"from math import*
+n,m=map(int,input().split())
+b=[]
+c=[]
+x=0
+y=0
+for i in range(n):
+    x+=1
+    a=input()
+    for j in a:
+        y+=1
+        if j=='#':
+            for k in range(n):
+                for l in range(m):
+                    c.append(abs(k-x+1)+abs(l-y+1))
+            c.sort()
+            b.append(c[len(c)-1])
+    y=0
+b.sort()
+print(b[len(b)-1])"
+60,B,Python3,60017811,2022-12-30 21:02:24,PartinG_QAQ,答案错误,"n, m = list(map(int,input().split()))
+res = []
+x1, y1 = 0, 0
+for i in range(n):
+    kids = input()
+    if ""#"" in kids:
+        x1 = i
+    res.append(kids)
+
+for i, x in enumerate(res[x1]):
+    if x == '#':
+        y1 = i
+        break
+
+point1 = [[0, 0],[n - 1, 0],[0, m - 1],[n - 1, m - 1]]
+
+l1 = (n + m - 2) - x1 - y1
+b = x1 - y1
+if b > 0:
+    l2 = n - 1 - b
+else:
+    l2 = n - 1 - b
+c = y1 - x1
+if c > 0:
+    l4 = m - 1 - c
+else:
+    l4 = m - 1 - c
+
+l3 = x1 + y1
+print(max(l1,l2,l3,l4))"
+61,B,Python3,60017948,2022-12-30 21:04:45,PartinG_QAQ,答案错误,"n, m = list(map(int,input().split()))
+res = []
+x1, y1 = 0, 0
+for i in range(n):
+    kids = input()
+    if ""#"" in kids:
+        x1 = i
+    res.append(kids)
+
+for i, x in enumerate(res[x1]):
+    if x == '#':
+        y1 = i
+        break
+
+point1 = [[0, 0],[n - 1, 0],[0, m - 1],[n - 1, m - 1]]
+
+ot = 0
+
+for i in range(4):
+    x, y = point1[i]
+    lc = abs(x1 - x) + abs(y1 - y)
+    ot = max(lc, ot)
+
+print(ot)"
+62,B,Python3,60018016,2022-12-30 21:06:31,PartinG_QAQ,答案错误,"n, m = list(map(int,input().split()))
+res = []
+x1, y1 = 0, 0
+for i in range(n):
+    kids = input()
+    if ""#"" in kids:
+        x1 = i
+    res.append(kids)
+
+for i, x in enumerate(res):
+    if x == '#':
+        y1 = i
+        break
+
+point1 = [[0, 0],[n - 1, 0],[0, m - 1],[n - 1, m - 1]]
+
+ot = 0
+
+for i in range(4):
+    x, y = point1[i]
+    lc = abs(x - x1) + abs(y - y1)
+    ot = max(lc, ot)
+
+print(ot)"
+63,B,Python3,60018228,2022-12-30 21:11:09,PartinG_QAQ,答案错误,"n, m = list(map(int,input().split()))
+res = []
+x1, y1 = 0, 0
+for i in range(n):
+    kids = input()
+    if ""#"" in kids:
+        x1 = i
+    res.append(kids)
+
+for i, b in enumerate(res[x1]):
+    if b == '#':
+        y1 = i
+        break
+        
+
+point1 = [[0, 0],[n - 1, 0],[0, m - 1],[n - 1, m - 1]]
+
+ot = 0
+
+for i in range(4):
+    x, y = point1[i]
+    lc = abs(x - x1) + abs(y - y1)
+    ot = max(lc, ot)
+
+print(ot)"
+64,B,Python3,60018376,2022-12-30 21:14:30,冠道,答案错误,"from math import*
+n,m=map(int,input().split())
+b=[]
+c=[]
+x=0
+y=0
+mx=0
+for i in range(n):
+    x+=1
+    a=input()
+    for j in a:
+        y+=1
+        if j=='#':
+            mx=max(mx,abs(n-x)+abs(m-y))
+            mx=max(mx,abs(x)+abs(m-y))
+            mx=max(mx,abs(n-x)+abs(y))
+            mx=max(mx,abs(x)+abs(y))
+            b.append(mx)
+    y=0
+b.sort()
+print(b[len(b)-1])"
+65,B,Python3,60018425,2022-12-30 21:15:32,冠道,答案正确,"from math import*
+n,m=map(int,input().split())
+b=[]
+c=[]
+x=0
+y=0
+mx=0
+for i in range(n):
+    x+=1
+    a=input()
+    for j in a:
+        y+=1
+        if j=='#':
+            mx=max(mx,abs(n-x)+abs(m-y))
+            mx=max(mx,abs(1-x)+abs(m-y))
+            mx=max(mx,abs(n-x)+abs(1-y))
+            mx=max(mx,abs(1-x)+abs(1-y))
+            b.append(mx)
+    y=0
+b.sort()
+print(b[len(b)-1])"
+66,B,Python3,60018469,2022-12-30 21:16:23,冠道,答案正确,"from math import*
+n,m=map(int,input().split())
+b=[]
+c=[]
+x=0
+y=0
+mx=0
+for i in range(n):
+    x+=1
+    a=input()
+    for j in a:
+        y+=1
+        if j=='#':
+            mx=max(mx,abs(n-x)+abs(m-y))
+            mx=max(mx,abs(1-x)+abs(m-y))
+            mx=max(mx,abs(n-x)+abs(1-y))
+            mx=max(mx,abs(1-x)+abs(1-y))
+    y=0
+print(mx)"
+67,B,Python3,60018631,2022-12-30 21:22:00,PartinG_QAQ,答案错误,"n, m = list(map(int,input().split()))
+res = []
+x1, y1 = 0, 0
+for i in range(n):
+    kids = input()
+    if ""#"" in kids:
+        x1 = i
+    res.append(kids)
+
+for i, b in enumerate(res[x1]):
+    if b == '#':
+        y1 = i
+        break
+        
+
+point1 = [[0, 0],[n - 1, 0],[0, m - 1],[n - 1, m - 1]]
+
+ot = 0
+
+for i in range(4):
+    x, y = point1[i]
+    lc = abs(x - x1) + abs(y - y1)
+    ot = max(lc, ot)
+
+print(ot)"
+68,B,Python3,60018738,2022-12-30 21:25:07,PartinG_QAQ,答案错误,"n, m = list(map(int, input().split()))
+res = []
+x1, y1 = 0, 0
+for i in range(n):
+    kids = input()
+    if ""#"" in kids:
+        x1 = i
+    res.append(kids)
+
+for i, b in enumerate(res[x1]):
+    if b == '#':
+        y1 = i
+        break
+
+point1 = [[0, 0], [n - 1, 0], [0, m - 1], [n - 1, m - 1]]
+
+ot = 0
+
+for x, y in point1:
+    lc = abs(x - x1) + abs(y - y1)
+    ot = max(lc, ot)
+
+print(ot)"
+69,B,Python3,60018819,2022-12-30 21:27:25,PartinG_QAQ,答案错误,"n, m = list(map(int, input().split()))
+res = []
+i, j = 0, 0
+for k in range(n):
+    kids = input()
+    if ""#"" in kids:
+        i = k
+    res.append(kids)
+
+for k, b in enumerate(res[i]):
+    if b == '#':
+        j = k
+        break
+
+ans = 0
+
+ans = max(ans, i + j)
+ans = max(ans, abs(i - n + 1) + j)
+ans = max(ans, abs(j - m + 1) + i)
+ans = max(ans, abs(i - n + 1) + abs(j - m + 1))
+
+print(ans)"
+70,B,Python3,60018827,2022-12-30 21:27:38,PartinG_QAQ,答案错误,"n, m = list(map(int, input().split()))
+res = []
+i, j = 0, 0
+for k in range(n):
+    kids = input()
+    if ""#"" in kids:
+        i = k
+    res.append(kids)
+
+for k, b in enumerate(res[i]):
+    if b == ""#"":
+        j = k
+        break
+
+ans = 0
+
+ans = max(ans, i + j)
+ans = max(ans, abs(i - n + 1) + j)
+ans = max(ans, abs(j - m + 1) + i)
+ans = max(ans, abs(i - n + 1) + abs(j - m + 1))
+
+print(ans)"
+71,B,Python3,60018835,2022-12-30 21:27:57,PartinG_QAQ,答案正确,"n,m = map(int,input().split())
+strs =[]
+for i in range(0,n):
+    strs.append(list(input()))
+ans = 0
+for i in range(0,n):
+    for j in range(0,m):
+        if strs[i][j]=='#':
+            ans = max(ans,i+j)
+            ans = max(ans,abs(i-n+1)+j)
+            ans = max(ans,abs(j-m+1)+i)
+            ans = max(ans,abs(i-n+1)+abs(j-m+1))
+print(ans)"
+72,B,Python3,60018844,2022-12-30 21:28:10,PartinG_QAQ,答案错误,"n,m = map(int,input().split())
+strs =[]
+for i in range(0,n):
+    strs.append(list(input()))
+ans = 0
+for i in range(0,n):
+    for j in range(0,m):
+        if strs[i][j]=='#':
+            ans = max(ans,i+j)
+            ans = max(ans,abs(i-n+1)+j)
+            ans = max(ans,abs(j-m+1)+i)
+            ans = max(ans,abs(i-n+1)+abs(j-m+1))
+            break
+print(ans)"
+73,B,Python3,60018900,2022-12-30 21:30:02,PartinG_QAQ,答案错误,"n, m = list(map(int,input().split()))
+res = []
+x1, y1 = 0, 0
+for i in range(n):
+    kids = input()
+    if ""#"" in kids:
+        x1 = i
+    res.append(kids)
+
+for i, b in enumerate(res[x1]):
+    if b == '#':
+        y1 = i
+        point1 = [[0, 0],[n - 1, 0],[0, m - 1],[n - 1, m - 1]]
+        ot = 0
+        for i in range(4):
+            x, y = point1[i]
+            lc = abs(x - x1) + abs(y - y1)
+            ot = max(lc, ot)
+
+
+
+
+
+print(ot)"
+74,B,Python3,60018909,2022-12-30 21:30:24,PartinG_QAQ,执行出错,"n, m = list(map(int,input().split()))
+res = []
+x1, y1 = 0, 0
+for i in range(n):
+    kids = input()
+    if ""#"" in kids:
+        x1 = i
+    res.append(kids)
+
+ot = 0
+ point1 = [[0, 0],[n - 1, 0],[0, m - 1],[n - 1, m - 1]]
+for i, b in enumerate(res[x1]):
+    if b == '#':
+        y1 = i    
+        for i in range(4):
+            x, y = point1[i]
+            lc = abs(x - x1) + abs(y - y1)
+            ot = max(lc, ot)
+
+
+
+
+
+print(ot)"
+75,B,Python3,60018912,2022-12-30 21:30:27,PartinG_QAQ,答案错误,"n, m = list(map(int,input().split()))
+res = []
+x1, y1 = 0, 0
+for i in range(n):
+    kids = input()
+    if ""#"" in kids:
+        x1 = i
+    res.append(kids)
+
+ot = 0
+point1 = [[0, 0],[n - 1, 0],[0, m - 1],[n - 1, m - 1]]
+for i, b in enumerate(res[x1]):
+    if b == '#':
+        y1 = i    
+        for i in range(4):
+            x, y = point1[i]
+            lc = abs(x - x1) + abs(y - y1)
+            ot = max(lc, ot)
+
+
+
+
+
+print(ot)"
+76,B,Python3,60018922,2022-12-30 21:30:46,PartinG_QAQ,执行出错,"n, m = list(map(int,input().split()))
+res = []
+x1, y1 = 0, 0
+for i in range(n):
+    kids = input()
+    if ""#"" in kids:
+        x1 = i
+    res.append(kids)
+
+ot = 0
+point1 = [[0, 0],[n - 1, 0],[0, m - 1],[n - 1, m - 1]]
+for i, b in enumerate(res[x1]):
+    if b == '#':
+        y1 = i    
+        for x, y in range(4):
+            lc = abs(x - x1) + abs(y - y1)
+            ot = max(lc, ot)
+
+
+
+
+
+print(ot)"
+77,B,Python3,60018927,2022-12-30 21:30:59,PartinG_QAQ,答案错误,"n, m = list(map(int,input().split()))
+res = []
+x1, y1 = 0, 0
+for i in range(n):
+    kids = input()
+    if ""#"" in kids:
+        x1 = i
+    res.append(kids)
+
+ot = 0
+point1 = [[0, 0],[n - 1, 0],[0, m - 1],[n - 1, m - 1]]
+for i, b in enumerate(res[x1]):
+    if b == '#':
+        y1 = i    
+        for x, y in point1:
+            lc = abs(x - x1) + abs(y - y1)
+            ot = max(lc, ot)
+
+
+
+
+
+print(ot)"
+78,B,Python3,60018976,2022-12-30 21:32:16,PartinG_QAQ,运行超时,"n, m = list(map(int,input().split()))
+res = []
+x1, y1 = 0, 0
+ot = 0
+point1 = [[0, 0],[n - 1, 0],[0, m - 1],[n - 1, m - 1]]
+for i in range(n):
+    kids = input()
+    if ""#"" in kids:
+        x1 = i
+    res.append(kids)
+    for i, b in enumerate(res[x1]):
+        if b == '#':
+            y1 = i    
+            for x, y in point1:
+                lc = abs(x - x1) + abs(y - y1)
+                ot = max(lc, ot)
+
+
+
+
+
+
+
+
+print(ot)"
+79,B,Python3,60019024,2022-12-30 21:33:54,PartinG_QAQ,运行超时,"n, m = list(map(int,input().split()))
+res = []
+x1, y1 = 0, 0
+ot = 0
+point1 = [[0, 0],[n - 1, 0],[0, m - 1],[n - 1, m - 1]]
+for i in range(n):
+    kids = input()
+    res.append(kids)
+    if ""#"" in kids:
+        x1 = i
+        for i, b in enumerate(res[x1]):
+            if b == '#':
+                y1 = i    
+                for x, y in point1:
+                    lc = abs(x - x1) + abs(y - y1)
+                    ot = max(lc, ot)
+
+
+
+
+
+
+
+
+print(ot)"
+80,B,Python3,60019619,2022-12-30 21:54:55,s13,运行超时,"list = input().split(' ')
+n = int(list[0])
+m = int(list[1])
+list1 = [[]*m for j in range(n)]
+min1 = 0
+for i in range(n):
+    s = input()
+    j = 0
+    for x in s :
+        list1[i].append(x)
+        if x == '#':
+            k = i
+            t = j
+            t1 = abs(n - 1 - k) + abs(m - 1 - t)
+            t2 = abs(0 - k) + abs(0 - t)
+            a = max(t1, t2)
+            t3 = abs(n - 1 - k) + abs(0 - t)
+            t4 = abs(0 - k) + abs(m - 1 - t)
+            b = max(t3, t4)
+            min1 = max(min1, max(a, b))
+        j = j+1
+print(min1)
+
+# list = input().split(' ')
+# n = int(list[0])
+# m = int(list[1])
+# list1 = [[]*m for j in range(n)]
+# list2 = [[]*2 for j in range(1000001)]
+# k = 0
+# max1 = 0
+# max2 = 0
+# for i in range(n):
+#     s = input()
+#     j = 0
+#     for x in s :
+#         list1[i].append(x)
+#         if x == '#':
+#             list2[k].append(i)
+#             list2[k].append(j)
+#             k =k +1
+#         j = j+1
+# for i in range(n):
+#     for j in range(m):
+#         if list1[i][j] !='#':
+#             for t in range(k):
+#                 max1 = max(max1,abs(list2[t][0]-i)+abs(list2[t][1]-j))
+#             max2 = max(max2,max1)
+# print(max2)"
+81,B,Python3,60020041,2022-12-30 22:14:15,牛客481337953号,答案正确,"n,m=map(int,input().split())
+res=[list(input()) for  _ in range(n)]
+k=0
+for i in range(n):
+    for j in range(m):
+        if res[i][j] == ""#"":
+            k = max(k,i+j,i+(m-1-j),j+(n-1-i),(m-1-j)+(n-1-i))
+print(k)"
+82,B,Python3,60020207,2022-12-30 22:24:32,牛客57026366号,运行超时,"n,m = map(int,input().split())
+g = []
+for i in range(n):
+    g.append(input())
+
+l,r = 0,m+n
+
+
+def check(mid):
+    t = [(0,0),(0,m-1),(n-1,0),(n-1,m-1)]
+    
+    for i in range(n):
+        for j in range(m):
+            if g[i][j] == '#':
+                for x,y in t:
+                    if abs(i-x)+abs(j-y)>mid:
+                        
+                        return False
+    return True
+while l<r:
+    mid = (l+r)//2
+    if check(mid):
+        r = mid
+    else:
+        l = mid + 1
+        
+print(l)"
+83,B,Python3,60020248,2022-12-30 22:27:54,牛客57026366号,运行超时,"n,m = map(int,input().split())
+g = []
+for i in range(n):
+    g.append(input())
+
+f = []
+for i in range(m):
+    for j in range(n):
+        if g[i][j] == '#':
+            f.append((i,j))
+
+l,r = 0,m+n
+
+
+def check(mid):
+    t = [(0,0),(0,m-1),(n-1,0),(n-1,m-1)]
+    
+    
+    for i,j in f:
+        for x,y in t:
+            if abs(i-x)+abs(j-y)>mid:
+                return False
+    return True
+while l<r:
+    mid = (l+r)//2
+    if check(mid):
+        r = mid
+    else:
+        l = mid + 1
+        
+print(l)"
+84,B,Python3,60020305,2022-12-30 22:31:58,牛客57026366号,运行超时,"n,m = map(int,input().split())
+g = []
+for i in range(n):
+    g.append(input())
+
+t = [(0,0),(0,m-1),(n-1,0),(n-1,m-1)]
+ans = 0
+for i in range(m):
+    for j in range(n):
+        if g[i][j] == '#':
+            for x,y in t:
+                ans = max(abs(i-x)+abs(j-y),ans)
+
+            
+
+
+
+
+        
+print(ans)"
+85,B,Python3,60020352,2022-12-30 22:35:37,牛客57026366号,运行超时,"n,m = map(int,input().split())
+t = [(0,0),(0,m-1),(n-1,0),(n-1,m-1)]
+
+ans = 0
+for i in range(n):
+    s = input()
+    for j in range(m):
+        if s[j] == '#':
+            for x,y in t:
+                ans = max(abs(i-x)+abs(j-y),ans)
+        
+print(ans)"
+86,B,Python3,60021085,2022-12-31 00:26:37,s13,运行超时,"list = input().split(' ')
+n = int(list[0])
+m = int(list[1])
+list1 = [[]*m for j in range(n)]
+min1 = 0
+for i in range(n):
+    s = input()
+    j = 0
+    for x in s :
+        list1[i].append(x)
+        if x == '#':
+            k = i
+            t = j
+            t1 = abs(n - 1 - k) + abs(m - 1 - t)
+            t2 = abs(0 - k) + abs(0 - t)
+            a = max(t1, t2)
+            t3 = abs(n - 1 - k) + abs(0 - t)
+            t4 = abs(0 - k) + abs(m - 1 - t)
+            b = max(t3, t4)
+            min1 = max(min1, max(a, b))
+        j = j+1
+print(min1)
+
+# list = input().split(' ')
+# n = int(list[0])
+# m = int(list[1])
+# list1 = [[]*m for j in range(n)]
+# list2 = [[]*2 for j in range(1000001)]
+# k = 0
+# max1 = 0
+# max2 = 0
+# for i in range(n):
+#     s = input()
+#     j = 0
+#     for x in s :
+#         list1[i].append(x)
+#         if x == '#':
+#             list2[k].append(i)
+#             list2[k].append(j)
+#             k =k +1
+#         j = j+1
+# for i in range(n):
+#     for j in range(m):
+#         if list1[i][j] !='#':
+#             for t in range(k):
+#                 max1 = max(max1,abs(list2[t][0]-i)+abs(list2[t][1]-j))
+#             max2 = max(max2,max1)
+# print(max2)"
+87,B,Python3,60021087,2022-12-31 00:27:21,s13,运行超时,"list = input().split(' ')
+n = int(list[0])
+m = int(list[1])
+list1 = [[] for j in range(n)]
+min1 = 0
+for i in range(n):
+    s = input()
+    j = 0
+    for x in s :
+        list1[i].append(x)
+        if x == '#':
+            k = i
+            t = j
+            t1 = abs(n - 1 - k) + abs(m - 1 - t)
+            t2 = abs(0 - k) + abs(0 - t)
+            a = max(t1, t2)
+            t3 = abs(n - 1 - k) + abs(0 - t)
+            t4 = abs(0 - k) + abs(m - 1 - t)
+            b = max(t3, t4)
+            min1 = max(min1, max(a, b))
+        j = j+1
+print(min1)
+
+# list = input().split(' ')
+# n = int(list[0])
+# m = int(list[1])
+# list1 = [[]*m for j in range(n)]
+# list2 = [[]*2 for j in range(1000001)]
+# k = 0
+# max1 = 0
+# max2 = 0
+# for i in range(n):
+#     s = input()
+#     j = 0
+#     for x in s :
+#         list1[i].append(x)
+#         if x == '#':
+#             list2[k].append(i)
+#             list2[k].append(j)
+#             k =k +1
+#         j = j+1
+# for i in range(n):
+#     for j in range(m):
+#         if list1[i][j] !='#':
+#             for t in range(k):
+#                 max1 = max(max1,abs(list2[t][0]-i)+abs(list2[t][1]-j))
+#             max2 = max(max2,max1)
+# print(max2)"
+88,B,Python3,60021091,2022-12-31 00:29:25,s13,运行超时,"list = input().split(' ')
+n = int(list[0])
+m = int(list[1])
+list1 = [[] for j in range(n)]
+min1 = 0
+for i in range(n):
+    s = input()
+    j = 0
+    for x in s :
+        list1[i].append(x)
+        if x == '#':
+            k = i
+            t = j
+            t1 = abs(n - 1 - k) + abs(m - 1 - t)
+            t2 = abs(0 - k) + abs(0 - t)
+            a = max(t1, t2)
+            t3 = abs(n - 1 - k) + abs(0 - t)
+            t4 = abs(0 - k) + abs(m - 1 - t)
+            b = max(max(t3, t4),a)
+            min1 = max(min1, b)
+        j = j+1
+print(min1)
+
+# list = input().split(' ')
+# n = int(list[0])
+# m = int(list[1])
+# list1 = [[]*m for j in range(n)]
+# list2 = [[]*2 for j in range(1000001)]
+# k = 0
+# max1 = 0
+# max2 = 0
+# for i in range(n):
+#     s = input()
+#     j = 0
+#     for x in s :
+#         list1[i].append(x)
+#         if x == '#':
+#             list2[k].append(i)
+#             list2[k].append(j)
+#             k =k +1
+#         j = j+1
+# for i in range(n):
+#     for j in range(m):
+#         if list1[i][j] !='#':
+#             for t in range(k):
+#                 max1 = max(max1,abs(list2[t][0]-i)+abs(list2[t][1]-j))
+#             max2 = max(max2,max1)
+# print(max2)"
+89,B,Python3,60021095,2022-12-31 00:30:50,s13,运行超时,"list = input().split(' ')
+n = int(list[0])
+m = int(list[1])
+list1 = [[] for j in range(n)]
+min1 = 0
+for i in range(n):
+    s = input()
+    j = 0
+    for x in s :
+        list1[i].append(x)
+        if x == '#':
+            k = i
+            t = j
+            t1 = abs(k-n+1 ) + abs(t-m +1)
+            t2 = abs(k - 0) + abs(t-0)
+            a = max(t1, t2)
+            t3 = abs(k - n + 1) + abs(t-0)
+            t4 = abs(k-0) + abs(t-m + 1)
+            b = max(max(t3, t4),a)
+            min1 = max(min1, b)
+        j = j+1
+print(min1)
+
+# list = input().split(' ')
+# n = int(list[0])
+# m = int(list[1])
+# list1 = [[]*m for j in range(n)]
+# list2 = [[]*2 for j in range(1000001)]
+# k = 0
+# max1 = 0
+# max2 = 0
+# for i in range(n):
+#     s = input()
+#     j = 0
+#     for x in s :
+#         list1[i].append(x)
+#         if x == '#':
+#             list2[k].append(i)
+#             list2[k].append(j)
+#             k =k +1
+#         j = j+1
+# for i in range(n):
+#     for j in range(m):
+#         if list1[i][j] !='#':
+#             for t in range(k):
+#                 max1 = max(max1,abs(list2[t][0]-i)+abs(list2[t][1]-j))
+#             max2 = max(max2,max1)
+# print(max2)"
+90,B,Python3,60021103,2022-12-31 00:34:16,s13,运行超时,"list = input().split(' ')
+n = int(list[0])
+m = int(list[1])
+list1 = [[] for j in range(n)]
+min1 = 0
+for i in range(n):
+    s = input()
+    j = 0
+    for x in s :
+        list1[i].append(x)
+        if x == '#':
+            k = i
+            t = j
+            t1 = abs(k-n+1 ) + abs(t-m +1)
+            t2 = abs(k - 0) + abs(t-0)
+            a = max(t1, t2)
+            t3 = abs(k - n + 1) + abs(t-0)
+            t4 = abs(k-0) + abs(t-m + 1)
+            b = max(max(t3, t4),a)
+            min1 = max(t1,t2,t3,t4,min1)
+        j = j+1
+print(min1)
+
+# list = input().split(' ')
+# n = int(list[0])
+# m = int(list[1])
+# list1 = [[]*m for j in range(n)]
+# list2 = [[]*2 for j in range(1000001)]
+# k = 0
+# max1 = 0
+# max2 = 0
+# for i in range(n):
+#     s = input()
+#     j = 0
+#     for x in s :
+#         list1[i].append(x)
+#         if x == '#':
+#             list2[k].append(i)
+#             list2[k].append(j)
+#             k =k +1
+#         j = j+1
+# for i in range(n):
+#     for j in range(m):
+#         if list1[i][j] !='#':
+#             for t in range(k):
+#                 max1 = max(max1,abs(list2[t][0]-i)+abs(list2[t][1]-j))
+#             max2 = max(max2,max1)
+# print(max2)"
+91,B,Python3,60021110,2022-12-31 00:37:07,s13,答案正确,"list = input().split(' ')
+n = int(list[0])
+m = int(list[1])
+list1 = [[] for j in range(n)]
+min1 = 0
+for i in range(n):
+    s = input()
+    j = 0
+    for x in s :
+        list1[i].append(x)
+        if x == '#':
+            t1 = abs(i-n+1 ) + abs(j-m +1)
+            t2 = abs(i - 0) + abs(j-0)
+            t3 = abs(i - n + 1) + abs(j-0)
+            t4 = abs(i-0) + abs(j-m + 1)
+            min1 = max(t1,t2,t3,t4,min1)
+        j = j+1
+print(min1)"
+92,B,Python3,60021494,2022-12-31 09:07:56,书生alin,答案错误,"n, m = map(int, input().split())
+bou = []
+dis = []
+asd = 0
+for i in range(n):
+    bou.append(input())
+for i in range(n):
+    for j in range(m):
+        if bou[i][j] == '#':
+            dis1 = i + j
+            dis2 = m-1-i+j
+            dis3 = i+n-1-j
+            dis4 = m-1-i+n-1-j
+            dis.append(dis1)
+            dis.append(dis2)
+            dis.append(dis3)
+            dis.append(dis4)
+            asd += 1
+if asd == 0:
+    print(0)
+else:
+    print(max(dis))
+
+
+"
+93,B,Python3,60021544,2022-12-31 09:31:01,书生alin,答案正确,"n, m = map(int, input().split())
+bou = []
+dis = []
+asd = 0
+for i in range(n):
+    bou.append(input())
+for i in range(n):
+    for j in range(m):
+        if bou[i][j] == '#':
+            dis1 = i + j
+            dis2 = i+m-j-1
+            dis3 = n-1-i+j
+            dis4 = n-1-i+m-1-j
+            dis.append(dis1)
+            dis.append(dis2)
+            dis.append(dis3)
+            dis.append(dis4)
+            asd += 1
+if asd == 0:
+    print(0)
+else:
+    print(max(dis))
+
+
+"
+94,B,Python3,60024652,2022-12-31 14:21:00,牛客972825279号,答案正确,"import math
+n,m=map(int,input().split())
+L=[]
+for i in range(n):
+    temp=input()
+    L.append(temp)
+length=0
+ret=0
+for i in range(n):
+    for j in range(m):
+        if L[i][j]==""#"":
+            ret=max(ret,abs(i)+abs(j),abs(i)+abs(m-1-j),abs(n-1-i)+abs(j),abs(n-1-i)+abs(m-1-j))
+print(ret)"
+95,B,Python3,60026236,2022-12-31 15:25:04,灞波儿奔en,运行超时,"n,m = map(int,input().split())
+
+ans = []
+book = [[0 for i in range(n)] for i in range(m)]
+for i in range(n):
+    ans.append(input())
+idx = []
+for i in range(n):
+    for j in range(m):
+        if  ans[i][j]=='#':
+            idx.append((i,j))
+            book[i][j] = 1
+juli = -1000000
+for item in idx:
+    x,y = item
+    for i in range(n):
+        for j in range(m):
+            if book[i][j] == 1:
+                #print(i,j)
+                continue
+            juli = max(juli,abs(x-i)+abs(y-j))
+print(juli)"
+96,B,Python3,60026372,2022-12-31 15:31:07,灞波儿奔en,答案正确,"n,m = map(int,input().split())
+
+ans = []
+book = [[0 for i in range(n)] for i in range(m)]
+for i in range(n):
+    ans.append(input())
+idx = []
+juli = 0
+for i in range(n):
+    for j in range(m):
+        if  ans[i][j]=='#':
+            juli = max(juli,i+j,i+(m-j-1),(n-i-1)+j,(m-j-1)+(n-i-1))
+print(juli)"
+97,B,Python3,60027512,2022-12-31 16:32:37,zxcv0112358,运行超时,"from math import *
+
+def ManhattanDistance(x0,x1,y0,y1):
+    return abs(x0-x1)+abs(y0-y1)
+
+
+n,m=map(int,input().split())
+ret=0
+for i in range(n):
+    s=input()
+    for j in range(m):
+        if s[j]=='#':
+            ret=max(ret,ManhattanDistance(i,0,j,0))
+            ret=max(ret,ManhattanDistance(i,n-1,j,0))
+            ret=max(ret,ManhattanDistance(i,0,j,m-1))
+            ret=max(ret,ManhattanDistance(i,n-1,j,m-1))
+print(ret)       "
+98,B,Python3,60027529,2022-12-31 16:33:25,zxcv0112358,运行超时,"from math import *
+
+def ManhattanDistance(x0,x1,y0,y1):
+    return abs(x0-x1)+abs(y0-y1)
+
+
+n,m=map(int,input().split())
+ret=0
+for i in range(n):
+    s=input()
+    for j in range(m):
+        if s[j]=='#':
+            ret=max(ret,ManhattanDistance(i,0,j,0))
+            ret=max(ret,ManhattanDistance(i,n-1,j,0))
+            ret=max(ret,ManhattanDistance(i,0,j,m-1))
+            ret=max(ret,ManhattanDistance(i,n-1,j,m-1))
+print(ret)       "
+99,B,Python3,60027534,2022-12-31 16:33:44,zxcv0112358,执行出错,"n,k,a,b = map(int,input().split())
+dian = n+k-2
+sd = dian*b
+sl = (n-1)*a
+if sd>sl:
+    print(2)
+elif sd<sl:
+    print(1)
+else:
+    print(0)"
+100,B,Python3,60027537,2022-12-31 16:33:49,zxcv0112358,执行出错,"n,k,a,b = map(int,input().split())
+dian = n+k-2
+sd = dian*b
+sl = (n-1)*a
+if sd>sl:
+    print(2)
+elif sd<sl:
+    print(1)
+else:
+    print(0)"
+101,B,Python3,60027541,2022-12-31 16:34:08,zxcv0112358,答案正确,"n,m = map(int,input().split())
+
+ans = []
+book = [[0 for i in range(n)] for i in range(m)]
+for i in range(n):
+    ans.append(input())
+idx = []
+juli = 0
+for i in range(n):
+    for j in range(m):
+        if  ans[i][j]=='#':
+            juli = max(juli,i+j,i+(m-j-1),(n-i-1)+j,(m-j-1)+(n-i-1))
+print(juli)"
+102,B,Python3,60127631,2023-01-05 16:40:57,云中翻月,答案正确,"import sys
+# sys.stdin = open('test.in', 'r')
+
+n, m = map(int, input().split())
+a = []
+for i in range(n):
+    a.append(input())
+ans = 0
+for i in range(n):
+    for j in range(m):
+        if a[i][j] == '#':
+            d1 = i + j
+            d2 = n-1-i+j
+            d3 = i+m-1-j
+            d4 = n-1-i+m-1-j
+            ans = max(ans, d1, d2, d3, d4)
+print(ans)
+"
+103,B,Python3,60244124,2023-01-14 15:03:48,小霸王菜花,答案错误,"n,m = map(int,input().split())
+posi = [list(input()) for _ in range(n)]
+ans=0
+for i in range(n):
+    for j in range(m):
+        if posi[i][j] == '#':
+            ans = max(ans,(i+j-2),(n-i+j-1),(m-j+i-1),(m-j+n-i-2))
+print(ans)
+            
+            "
+104,B,Python3,60244186,2023-01-14 15:07:46,小霸王菜花,答案正确,"n,m = map(int,input().split())
+posi = [list(input()) for _ in range(n)]
+ans=0
+for i in range(n):
+    for j in range(m):
+        if posi[i][j] == '#':
+            ans = max(ans,(i+j),(n-i+j-1),(m-j+i-1),(m-j+n-i-2))
+print(ans)
+            
+            "
+105,B,Python3,60587705,2023-01-24 09:57:59,小许刷题,答案正确,"'''
+最差的情况就是把渔网撒在四个角上了，我们需要遍历每条鱼计算其与四个角的距离，取这些数值的最大值即可。
+'''
+def solve(testcase):
+    n, m = map(int,input().split())
+    a = b = c = d = 0
+    '''
+    (0, 0) (0, m - 1) (n - 1, 0) (n - 1, m - 1)
+    '''
+    grid = [input() for _ in range(n)]
+
+    for i in range(n):
+        for j in range(m):
+            if grid[i][j] == '#':
+                a = max(a, abs(i - 0) + abs(j - 0))
+                b = max(b, abs(i - 0) + abs(j - (m - 1)))
+                c = max(c, abs(i - (n - 1)) + abs(j - 0))
+                d = max(d, abs(i - (n - 1)) + abs(j - (m - 1)))
+    
+    print(max(a, b, c, d))
+
+for testcase in range(1):
+    solve(testcase)"
+106,B,Python3,60677003,2023-01-31 16:48:58,牛客660948461号,执行出错,"n,m=int(input().split())
+for x in range(n)
+    for y in range(m)
+        a=input()
+"
+107,B,Python3,60832760,2023-02-08 10:42:41,summerEDward,运行超时,"m,n=map(int,input().split())
+mat=[]
+for i in range(m):
+    r=input()
+    mat.append(r)
+res=[]
+for i in range(m):
+    for j in range(n):
+        if mat[i][j]=='#':
+            res.append([i,j])
+z=0
+for x,y in ((0,0),(0,n-1),(m-1,0),(m-1,n-1)):
+    for i in range(len(res)):
+        x1,y1=res[i][0],res[i][1]
+        z=max(z,abs(x-x1)+abs(y-y1))
+print(z)"
+108,B,Python3,60832778,2023-02-08 10:45:43,summerEDward,答案正确,"m,n=map(int,input().split())
+mat=[]
+for i in range(m):
+    r=input()
+    mat.append(r)
+a=b=c=d=0
+for i in range(m):
+    for j in range(n):
+        if mat[i][j]=='#':
+            a=max(a,abs(i)+abs(j))
+            b=max(b,abs(m-1-i)+abs(j))
+            c=max(c,abs(i)+abs(n-1-j))
+            d=max(d,abs(m-1-i)+abs(n-1-j))
+print(max(a,b,c,d))"
+109,B,Python3,60832787,2023-02-08 10:47:03,summerEDward,运行超时,"m,n=map(int,input().split())
+mat=[input() for _ in range(n)]
+
+a=b=c=d=0
+for i in range(m):
+    for j in range(n):
+        if mat[i][j]=='#':
+            a=max(a,abs(i)+abs(j))
+            b=max(b,abs(m-1-i)+abs(j))
+            c=max(c,abs(i)+abs(n-1-j))
+            d=max(d,abs(m-1-i)+abs(n-1-j))
+print(max(a,b,c,d))"
+110,B,Python3,60832801,2023-02-08 10:50:16,summerEDward,执行出错,"m,n=map(int,input().split())
+mat=[input() for _ in range(n)]
+
+ans=0
+for i in range(m):
+    for j in range(n):
+        if mat[i][j]=='#':
+            ans=max(ans,i+j,m-1-i+j,n-1-j+i,m-1+n-1-i-j)
+print(ans)"
+111,B,Python3,60832806,2023-02-08 10:50:34,summerEDward,答案正确,"m,n=map(int,input().split())
+mat=[input() for _ in range(m)]
+
+ans=0
+for i in range(m):
+    for j in range(n):
+        if mat[i][j]=='#':
+            ans=max(ans,i+j,m-1-i+j,n-1-j+i,m-1+n-1-i-j)
+print(ans)"

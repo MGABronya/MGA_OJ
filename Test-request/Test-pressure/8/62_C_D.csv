@@ -1,0 +1,503 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,D,C,54983973,2022-11-25 19:59:24,YiLinG依零,运行超时,"#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+
+typedef long long ll;
+
+
+ll n, k, m, q;
+int len;
+
+void next(ll rng[2]) {
+	ll l = rng[0], r = rng[1];
+	rng[0] = (l * k + 1), rng[1] = (r * k + k);
+}
+
+int isOut(ll rng[2]) {
+	return rng[0] >= n;
+}
+int isIn(ll rng[2]) {
+	return rng[1] < n;
+}
+ll getSub(ll rng[2]) {
+	if (isIn(rng)) return rng[1] - rng[0] + 1;
+	return n - rng[0];
+}
+
+void solve() {
+	scanf(""%lld%lld%lld"", &n, &k, &m);
+	while (m --) {
+		scanf(""%lld"", &q);
+		ll rng[] = {q, q};
+		ll cnt = 0;
+		while (!isOut(rng)) {
+			cnt += getSub(rng);
+			next(rng);
+		}
+		printf(""%lld\n"", cnt);
+	}
+}
+
+int main() {
+	int _t;
+	scanf(""%d"", &_t);
+//	int _t = 1;
+	while (_t --) {
+		solve();
+	}
+	return 0;
+}"
+1,D,C,54984062,2022-11-25 20:00:16,YiLinG依零,运行超时,"#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+
+typedef long long ll;
+
+
+ll n, k, m, q;
+int len;
+
+void next(ll rng[2]) {
+	ll l = rng[0], r = rng[1];
+	rng[0] = (l * k + 1), rng[1] = (r * k + k);
+}
+
+int isOut(ll rng[2]) {
+	return rng[0] >= n;
+}
+int isIn(ll rng[2]) {
+	return rng[1] < n;
+}
+ll getSub(ll rng[2]) {
+	if (isIn(rng)) return rng[1] - rng[0] + 1;
+	return n - rng[0];
+}
+
+void solve() {
+	scanf(""%lld%lld%lld"", &n, &k, &m);
+	while (m --) {
+		scanf(""%lld"", &q);
+		ll rng[] = {q, q};
+		ll cnt = 0;
+		while (!isOut(rng)) {
+			cnt += getSub(rng);
+			next(rng);
+		}
+		printf(""%lld\n"", cnt);
+	}
+}
+
+int main() {
+	int _t;
+	scanf(""%d"", &_t);
+//	int _t = 1;
+	while (_t --) {
+		solve();
+	}
+	return 0;
+}"
+2,D,C,54984687,2022-11-25 20:06:16,YiLinG依零,运行超时,"#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+
+typedef long long ll;
+
+
+ll n, k, m, q;
+int len;
+
+void next(ll *l, ll *r) {
+	ll l1 = *l, r1 = *r;
+	*l = (l1 * k + 1), *r = (r1 * k + k);
+}
+
+int isOut(ll l, ll r) {
+	return l >= n;
+}
+int isIn(ll l, ll r) {
+	return r < n;
+}
+ll getSub(ll l, ll r) {
+	if (isIn(l, r)) return r - l + 1;
+	return n - l;
+}
+
+void solve() {
+	scanf(""%lld%lld%lld"", &n, &k, &m);
+	while (m --) {
+		scanf(""%lld"", &q);
+		ll l = q, r = q;
+		ll cnt = 0;
+		while (!isOut(l, r)) {
+			cnt += getSub(l, r);
+			next(&l, &r);
+		}
+		printf(""%lld\n"", cnt);
+	}
+}
+
+int main() {
+	int _t;
+	scanf(""%d"", &_t);
+//	int _t = 1;
+	while (_t --) {
+		solve();
+	}
+	return 0;
+}"
+3,D,C,54985023,2022-11-25 20:09:21,YiLinG依零,答案正确,"#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+
+typedef long long ll;
+
+
+ll n, k, m, q;
+int len;
+
+void next(ll *l, ll *r) {
+	ll l1 = *l, r1 = *r;
+	*l = (l1 * k + 1), *r = (r1 * k + k);
+}
+
+int isOut(ll l, ll r) {
+	return l >= n;
+}
+int isIn(ll l, ll r) {
+	return r < n;
+}
+ll getSub(ll l, ll r) {
+	if (isIn(l, r)) return r - l + 1;
+	return n - l;
+}
+
+void solve() {
+	scanf(""%lld%lld%lld"", &n, &k, &m);
+	while (m --) {
+		scanf(""%lld"", &q);
+		if (k == 1 || q == 0) {
+			printf(""%lld\n"", n - q);
+		} else {
+			ll l = q, r = q;
+			ll cnt = 0;
+			while (!isOut(l, r)) {
+				cnt += getSub(l, r);
+				next(&l, &r);
+			}
+			printf(""%lld\n"", cnt);
+		}
+	}
+}
+
+int main() {
+	int _t;
+	scanf(""%d"", &_t);
+//	int _t = 1;
+	while (_t --) {
+		solve();
+	}
+	return 0;
+}"
+4,D,C,54985056,2022-11-25 20:09:39,瑞克Ric_ick,内存超限,"#include <stdio.h>
+
+int T, k, m[300], q[100000], ans[300][300000];
+long long n;
+
+struct node
+{
+	int son[101];
+	int sonnum;
+}tree[10000];
+
+int main()
+{
+	scanf(""%d"", &T);
+	tree[0].sonnum = 0;
+	for (int i = 0; i < T; i++)
+	{
+		scanf(""%lld%d%d"", &n, &k, &m[i]);
+		for (int j = 1; j < n; j++)
+		{
+			tree[j].sonnum = 1;
+		}
+		for (int j = 0; j < m[i]; j++)
+		{
+			scanf(""%d"", &q[j]);
+		}
+		for (int j = 0; j < n; j++)
+		{
+			for (int kn = 1; kn <= k; kn++)
+			{
+				if (k * j + kn < n)
+				{
+					tree[j].son[kn] = j * k + kn;
+				}
+				else
+				{
+					tree[j].son[kn] = 0;
+				}
+			}
+		}
+		for (int j = n - 1; j > 0; j--)
+		{
+			for (int kn = 1; kn <= k; kn++)
+			{
+				tree[j].sonnum += tree[tree[j].son[kn]].sonnum;
+			}
+		}
+		for (int j = 0; j < m[i]; j++)
+		{
+			if (q[j] == 0)
+			{
+				ans[i][j] = n;
+			}
+			else
+			{
+				ans[i][j] = tree[q[j]].sonnum;
+			}
+		}
+	}
+	for (int i = 0; i < T; i++)
+	{
+		for (int j = 0; j < m[i]; j++)
+		{
+			printf(""%d\n"", ans[i][j]);
+		}
+	}
+	
+    return 0;
+}"
+5,D,C,54985087,2022-11-25 20:09:51,瑞克Ric_ick,段错误,"#include <stdio.h>
+
+int T, k, m[300], q[100000], ans[300][30000];
+long long n;
+
+struct node
+{
+	int son[101];
+	int sonnum;
+}tree[10000];
+
+int main()
+{
+	scanf(""%d"", &T);
+	tree[0].sonnum = 0;
+	for (int i = 0; i < T; i++)
+	{
+		scanf(""%lld%d%d"", &n, &k, &m[i]);
+		for (int j = 1; j < n; j++)
+		{
+			tree[j].sonnum = 1;
+		}
+		for (int j = 0; j < m[i]; j++)
+		{
+			scanf(""%d"", &q[j]);
+		}
+		for (int j = 0; j < n; j++)
+		{
+			for (int kn = 1; kn <= k; kn++)
+			{
+				if (k * j + kn < n)
+				{
+					tree[j].son[kn] = j * k + kn;
+				}
+				else
+				{
+					tree[j].son[kn] = 0;
+				}
+			}
+		}
+		for (int j = n - 1; j > 0; j--)
+		{
+			for (int kn = 1; kn <= k; kn++)
+			{
+				tree[j].sonnum += tree[tree[j].son[kn]].sonnum;
+			}
+		}
+		for (int j = 0; j < m[i]; j++)
+		{
+			if (q[j] == 0)
+			{
+				ans[i][j] = n;
+			}
+			else
+			{
+				ans[i][j] = tree[q[j]].sonnum;
+			}
+		}
+	}
+	for (int i = 0; i < T; i++)
+	{
+		for (int j = 0; j < m[i]; j++)
+		{
+			printf(""%d\n"", ans[i][j]);
+		}
+	}
+	
+    return 0;
+}"
+6,D,C,54991340,2022-11-25 21:26:41,sucredit,格式错误,"#include<stdio.h>
+#include<math.h>
+long long num=0;
+long long min(long long a,long long b)
+{
+    return a>b?b:a;
+}
+  long long n,k,m,T,q;
+void p(long long l,long long r)
+{
+    if(l>=n)return;
+    r=min(n-1,r);
+    num+=(r-l+1);
+    p(l*k+1,r*k+k);
+}
+int main()
+{
+  
+    scanf(""%lld"",&T);
+    while(T)
+    {
+        scanf(""%lld %lld %lld"",&n,&k,&m);
+        while(m)
+        {
+            long long sum=0;
+            scanf(""%lld"",&q);
+          if(k==1)
+          {
+              printf(""%lld"",n-q);
+              m--;
+              continue;
+          }
+          p(q,q); 
+            printf(""%lld\n"",num);
+            num=0;
+            m--;
+            }
+          
+        T--;
+    }
+    
+}"
+7,D,C,54991350,2022-11-25 21:26:58,sucredit,答案正确,"#include<stdio.h>
+#include<math.h>
+long long num=0;
+long long min(long long a,long long b)
+{
+    return a>b?b:a;
+}
+  long long n,k,m,T,q;
+void p(long long l,long long r)
+{
+    if(l>=n)return;
+    r=min(n-1,r);
+    num+=(r-l+1);
+    p(l*k+1,r*k+k);
+}
+int main()
+{
+  
+    scanf(""%lld"",&T);
+    while(T)
+    {
+        scanf(""%lld %lld %lld"",&n,&k,&m);
+        while(m)
+        {
+            long long sum=0;
+            scanf(""%lld"",&q);
+          if(k==1)
+          {
+              printf(""%lld\n"",n-q);
+              m--;
+              continue;
+          }
+          p(q,q); 
+            printf(""%lld\n"",num);
+            num=0;
+            m--;
+            }
+          
+        T--;
+    }
+    
+}"
+8,D,C,55005222,2022-11-26 17:26:33,翩花飞梦,运行超时,"#include <stdio.h>
+#include <stdlib.h>
+int comp(const void*a,const void*b)
+{
+    return*(int*)a-*(int*)b;
+}
+int main()
+{
+    long int n,m,i;
+    scanf(""%ld%ld"",&n,&m);
+    long int s[n];
+    for(i=0;i<n;i++)
+    {
+        scanf(""%ld"",&s[i]);
+    }
+    qsort(s,n,sizeof(s[0]),comp);
+    for(i=0;i<m;i++)
+    {
+        if(s[n-1]-s[n-2]<s[1]-s[0])
+        {
+            s[0]=s[n-1];
+        }
+        else
+        {
+            s[n-1]=s[0];
+        }
+    }
+    if(n==1)
+    {
+        printf(""%ld"",s[0]);
+    }
+    else
+        printf(""%ld"",s[n-1]-s[0]);
+}"
+9,D,C,61858727,2023-04-12 19:28:43,威严满满大小姐,答案正确,"#include<stdio.h>
+#include<math.h>
+long long num=0;
+long long min(long long a,long long b)
+{
+    return a>b?b:a;
+}
+  long long n,k,m,T,q;
+void p(long long l,long long r)
+{
+    if(l>=n)return;
+    r=min(n-1,r);
+    num+=(r-l+1);
+    p(l*k+1,r*k+k);
+}
+int main()
+{
+  
+    scanf(""%lld"",&T);
+    while(T)
+    {
+        scanf(""%lld %lld %lld"",&n,&k,&m);
+        while(m)
+        {
+            long long sum=0;
+            scanf(""%lld"",&q);
+          if(k==1)
+          {
+              printf(""%lld\n"",n-q);
+              m--;
+              continue;
+          }
+          p(q,q); 
+            printf(""%lld\n"",num);
+            num=0;
+            m--;
+            }
+          
+        T--;
+    }
+    
+}"

@@ -16,6 +16,7 @@ import (
 	"log"
 	"math"
 	"os"
+	"os/exec"
 	"runtime"
 	"sync"
 	"time"
@@ -142,6 +143,25 @@ leap:
 		s.Redis.HSet(s.ctx, "RecordCompetition", fmt.Sprint(record.ID), v)
 		// TODO 将record存入mysql
 		s.DB.Save(&record)
+		os.RemoveAll("./user-code")
+		os.MkdirAll("./user-code", 0751)
+		cmd1 := exec.Command("pgrep", "-u", "mgaoj")
+		cmd2 := exec.Command("xargs", "kill", "-9")
+
+		cmd2.Stdin, _ = cmd1.StdoutPipe()
+
+		if err := cmd2.Start(); err != nil {
+			return
+		}
+
+		if err := cmd1.Run(); err != nil {
+			cmd2.Process.Kill()
+			return
+		}
+
+		if err := cmd2.Wait(); err != nil {
+			return
+		}
 	}()
 
 	// TODO 一些准备工作
@@ -153,8 +173,6 @@ leap:
 		// TODO 将record存入redis
 		v, _ = json.Marshal(record)
 		s.Redis.HSet(s.ctx, "RecordCompetition", fmt.Sprint(record.ID), v)
-		// TODO 将record存入mysql
-		s.DB.Save(&record)
 	}
 	// TODO 查看代码是否为空
 	if record.Code == "" {
@@ -209,8 +227,6 @@ leap:
 			// TODO 将record存入redis
 			v, _ = json.Marshal(record)
 			s.Redis.HSet(s.ctx, "RecordCompetition", fmt.Sprint(record.ID), v)
-			// TODO 将record存入mysql
-			s.DB.Save(&record)
 		}
 
 		// TODO defer延迟调用 关闭文件，释放资源
@@ -256,6 +272,35 @@ leap:
 			return
 		}
 
+		// TODO 获取权限
+		cmd = cmdI.Chmod("./user-code/", id)
+
+		// TODO 权限错误
+		if err := cmd.Start(); err != nil {
+			record.Condition = "System Error 6"
+			return
+		}
+		// TODO 启动routine等待结束
+		done = make(chan error)
+		go func() { done <- cmd.Wait() }()
+
+		// 设定超时时间，并select它
+		after = time.After(time.Duration(5 * time.Second))
+		select {
+		// TODO 权限超时
+		case <-after:
+			cmd.Process.Kill()
+			record.Condition = "Compile timeout"
+			return
+		case err = <-done:
+		}
+
+		// TODO 编译出错
+		if err != nil {
+			record.Condition = "Compile Error"
+			return
+		}
+
 		// TODO 开始运行工作
 		{
 			record.Condition = "Runing"
@@ -265,16 +310,14 @@ leap:
 			// TODO 将record存入redis
 			v, _ = json.Marshal(record)
 			s.Redis.HSet(s.ctx, "RecordCompetition", fmt.Sprint(record.ID), v)
-			// TODO 将record存入mysql
-			s.DB.Save(&record)
 		}
 
 		for i := 0; i < len(cases); i++ {
 			var bm runtime.MemStats
 			runtime.ReadMemStats(&bm)
 
-			// TODO 运行可执行文件
-			cmd = cmdI.Run("./user-code/", fileId)
+			// TODO 通过沙箱运行可执行文件
+			cmd = exec.Command("./seccomp")
 
 			var out, stderr bytes.Buffer
 			cmd.Stderr = &stderr

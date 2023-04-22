@@ -1,0 +1,799 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,A,Python3,60007151,2022-12-30 19:02:09,牛客636523364号,答案正确,"n,k,a,b=map(int,input().split())
+t1=(k-1)*b+(n-1)*b
+t2=(n-1)*a
+if t1<t2:
+    print(1)
+elif t1>t2:
+    print(2)
+else:
+    print(0)"
+1,A,Python3,60007185,2022-12-30 19:02:25,数学家是我理想,答案正确,"n, k, a, b = list(map(int, input().split()))
+lou = (n - 1) * a
+dian = (k - 1) * b + (n - 1) * b
+if lou > dian:
+    print('1')
+elif dian > lou:
+    print('2')
+else:
+    print(""0"")"
+2,A,Python3,60007212,2022-12-30 19:02:32,SDNU_JXD,执行出错,"/*
+* @Author: GENESIS_JXD
+* @Date:   2022-12-30 19:00:47
+*/
+#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+#define debug(x) std::cerr << #x << ""="" << x << std::endl;
+#define _for(i, a, b) for(int i = (a); i < (b); i ++)
+#define _rep(i, a, b) for(int i = (a); i <= (b); i ++)
+
+// using namespace std;
+using ll = long long;
+using PII = std::pair<int, int>;
+using namespace __gnu_pbds;
+using namespace __gnu_cxx;
+
+constexpr int INF = 0x3f3f3f3f;
+constexpr int mod = 1e9 + 7;
+
+void solve(){
+	ll n, k, a, b;
+	std::cin >> n >> k >> a >> b;
+
+	ll suma = (n - 1) * a, sumb = (k + n - 2) * b;
+	if(suma > sumb) std::cout << 1 << '\n';
+	else if(suma < sumb) std::cout << 2 << '\n';
+	else std::cout << 0 << '\n';
+}
+
+int main()
+{
+	std::ios::sync_with_stdio(false);
+	std::cin.tie(nullptr);
+    
+    int tt = 1;
+    // std::cin >> tt;
+    while(tt --) solve();
+    
+	return 0;
+}"
+3,A,Python3,60007325,2022-12-30 19:03:02,枫落落,执行出错,"#include <bits/stdc++.h>
+#define IOS   ios::sync_with_stdio(false),cin.tie(0),cout.tie(0);
+#define xs(a) cout<<setiosflags(ios::fixed)<<setprecision(a);
+#define FOR(i, a, b) for (int (i) = (a); (i) <= (b); (i)++)
+#define ROF(i, a, b) for (int (i) = (a); (i) >= (b); (i)--)
+using namespace std;
+#define ull unsigned long long
+#define ll long long
+typedef pair<ll,ll> pll;
+const int N=1e6+5;
+const int mod=1e9+7;
+/*-----------------------------------------------------------------------------------------------*/
+
+
+
+
+signed main(){IOS
+	ll n,k,a,b;cin>>n>>k>>a>>b;
+	ll x=a*(n-1),y=(k+n-2)*b;
+	if(x<y)cout<<""2""<<endl;
+	else if(y<x)cout<<1<<endl;
+	else cout<<0<<endl;
+
+
+
+	return 0;
+}"
+4,A,Python3,60007453,2022-12-30 19:03:32,qdljerry,答案正确,"n,k,a,b=map(int,input().split())
+if (n-1)*a>(n-1+k-1)*b:
+    print(1)
+elif (n-1)*a==(n-2+k)*b:
+    print(0)
+else:
+    print(2)"
+5,A,Python3,60007470,2022-12-30 19:03:34,iCatOH,答案正确,"n,k,a,b = map(int,input().split())
+walk = (n - 1) * a
+ele = (k - 1) * b + (n - 1) * b
+if ele == walk:
+    print(0)
+elif ele < walk:
+    print(1)
+else:
+    print(2)"
+6,A,Python3,60007592,2022-12-30 19:03:57,南岸以南南岸哀,答案正确,"import random
+import sys
+import os
+import math
+from collections import Counter, defaultdict, deque
+from functools import lru_cache, reduce
+from itertools import accumulate, combinations, permutations
+from heapq import nsmallest, nlargest, heapify, heappop, heappush
+from io import BytesIO, IOBase
+from copy import deepcopy
+import bisect
+
+# from sortedcontainers import SortedList
+BUFSIZE = 4096
+
+
+class FastIO(IOBase):
+    newlines = 0
+
+    def __init__(self, file):
+        self._fd = file.fileno()
+        self.buffer = BytesIO()
+        self.writable = ""x"" in file.mode or ""r"" not in file.mode
+        self.write = self.buffer.write if self.writable else None
+
+    def read(self):
+        while True:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            if not b:
+                break
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines = 0
+        return self.buffer.read()
+
+    def readline(self):
+        while self.newlines == 0:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            self.newlines = b.count(b""\n"") + (not b)
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines -= 1
+        return self.buffer.readline()
+
+    def flush(self):
+        if self.writable:
+            os.write(self._fd, self.buffer.getvalue())
+            self.buffer.truncate(0), self.buffer.seek(0)
+
+
+class IOWrapper(IOBase):
+    def __init__(self, file):
+        self.buffer = FastIO(file)
+        self.flush = self.buffer.flush
+        self.writable = self.buffer.writable
+        self.write = lambda s: self.buffer.write(s.encode(""ascii""))
+        self.read = lambda: self.buffer.read().decode(""ascii"")
+        self.readline = lambda: self.buffer.readline().decode(""ascii"")
+
+
+sys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)
+input = lambda: sys.stdin.readline().rstrip(""\r\n"")
+
+
+def I():
+    return input()
+
+
+def II():
+    return int(input())
+
+
+def MI():
+    return map(int, input().split())
+
+
+def LI():
+    return list(input().split())
+
+
+def LII():
+    return list(map(int, input().split()))
+
+
+def GMI():
+    return map(lambda x: int(x) - 1, input().split())
+
+
+def LGMI():
+    return list(map(lambda x: int(x) - 1, input().split()))
+
+
+def solve():
+    n,k,a,b=MI()
+    s1=a*(n-1)
+    s2=(k-1)*b+(n-1)*b
+ 
+    if s1>s2:
+        print(1)
+    elif s1<s2:
+        print(2)
+    else:print(0)
+
+
+if __name__ == '__main__':
+    for _ in range(1):
+        solve()
+
+
+
+
+
+
+"
+7,A,Python3,60007680,2022-12-30 19:04:19,GHOSTANDBREAD,答案正确,"n, k, a, b = map(int, input().split())
+
+if (k - 1 + n - 1) * b > (n - 1) * a: print(2)
+elif (k - 1 + n - 1) * b < (n - 1) * a: print(1)
+else: print(0)
+"
+8,A,Python3,60007742,2022-12-30 19:04:33,s13,答案正确,"n = input().split(' ')
+
+list1 = [int(x) for x in n]
+
+a = (list1[1]-1)*list1[3]+(list1[0]-1)*list1[3]
+b = (list1[0]-1)*list1[2]
+
+if a > b:
+    print(2)
+if a == b:
+    print(0)
+if a < b:
+    print(1)"
+9,A,Python3,60007774,2022-12-30 19:04:39,Tang__Bin,答案错误,"def main():
+    n,k,a,b=map(int,input().split(' '))
+    t1=(k+n-2)*b
+    t2=(n-1)*a
+    if t1<t2:
+        print(1)
+    elif t1>t2:
+        print(2)
+    else:
+        print(0)
+        
+    main()"
+10,A,Python3,60007836,2022-12-30 19:04:52,Tang__Bin,答案正确,"def main():
+    n,k,a,b=map(int,input().split(' '))
+    t1=(k+n-2)*b
+    t2=(n-1)*a
+    if t1<t2:
+        print(1)
+    elif t1>t2:
+        print(2)
+    else:
+        print(0)
+        
+main()"
+11,A,Python3,60007905,2022-12-30 19:05:10,hath19260817,答案正确,"n, k, a, b = map(int, input().split())
+t1, t2 = a * (n - 1), b * (n + k - 2)
+if t1 > t2:
+    print(1)
+elif t1 < t2:
+    print(2)
+else:
+    print(0)
+"
+12,A,Python3,60007966,2022-12-30 19:05:25,李迪锴,答案正确,"n,k,a,b=map(int,input().split())
+people=(n-1)*a
+ti=(k-1)*b+(n-1)*b
+if(people==ti):
+    print(0)
+elif ti>people:
+    print(2)
+else:
+    print(1)"
+13,A,Python3,60007982,2022-12-30 19:05:29,一半醒,答案正确,"n,k,a,b = map(int,input().split())
+dianti = (k-1+n-1)*b
+loudi = (abs(n-1))*a
+if dianti > loudi:
+    print(""2"")
+elif dianti < loudi:
+    print(""1"")
+else:
+    print(""0"")"
+14,A,Python3,60008080,2022-12-30 19:05:56,尖毛草666,答案错误,"n,k,a,b=[int(x) for x in input().split("" "")]
+sum1=(n-1)*a
+sum2=(k-1)*2+(n-1)*b
+if(sum1>sum2):
+    print(1)
+elif sum1<sum2:
+    print(2)
+else:
+    print(0)"
+15,A,Python3,60008168,2022-12-30 19:06:21,尖毛草666,答案错误,"n,k,a,b=[int(x) for x in input().split("" "")]
+sum1=(n-1)*a
+sum2=(k-1)*2+(n-1)*b
+if(sum1>sum2):
+    print(1)
+elif sum1<sum2:
+    print(2)
+else:
+    print(0)"
+16,A,Python3,60008222,2022-12-30 19:06:44,jicheboy,答案正确,"n,k,a,b=map(int,input().split())
+t1=(n-1)*a
+t2=(k-1+n-1)*b
+if t2>t1:
+    print(2)
+elif t1>t2:
+    print(1)
+else:
+    print(0)"
+17,A,Python3,60008578,2022-12-30 19:08:54,2111114046,答案正确,"n,k,a,b=map(int,input().split())
+#假设电梯在k楼,到1楼停止,速度为b
+k_1=(k-1)*b
+one_n=(n-1)*b
+#走楼梯
+al=(n-1)*a
+
+if k_1+one_n>al:
+    print(""2"")
+elif k_1+one_n<al:
+    print(""1"")
+else:
+    print(""0"")"
+18,A,Python3,60008744,2022-12-30 19:09:52,多少分,答案正确,"a=list(map(int,input().split()))#n,k,a,b
+s1=(a[0]-1)*a[2]#走楼梯所需时间
+s2=(a[0]+a[1]-2)*a[3]#坐电梯所需时间
+if s2>s1:
+    print(2)
+elif s1>s2:
+    print(1)
+else:
+    print(0)
+"
+19,A,Python3,60008806,2022-12-30 19:10:22,小飞棒来了~,答案正确,"a,b,c,d=input().split()
+a,b,c,d=int(a),int(b),int(c),int(d)
+bu=(a-1)*c
+ele=(b-1)*d+(a-1)*d
+if ele>bu:
+    print(2)
+elif bu==ele:
+    print(0)
+else:
+    print(1)"
+20,A,Python3,60008890,2022-12-30 19:11:01,牛78筋,答案正确,"n, k, a, b = [int(i) for i in input().split()]
+zou = (n - 1) * a
+dian = (k - 1 + n - 1) * b
+print(0 if zou == dian else (1 if dian < zou else 2))"
+21,A,Python3,60009012,2022-12-30 19:12:01,尖毛草666,答案错误,"import math
+n,k,a,b=[int(x) for x in input().split("" "")]
+sum1=(n-1)*a
+sum2=(abs(k)-1)*2+(n-1)*b
+if(sum1>sum2):
+    print(1)
+elif sum1<sum2:
+    print(2)
+else:
+    print(0)"
+22,A,Python3,60009058,2022-12-30 19:12:23,陈立03,答案正确,"n,k,a,b=map(int,input().split())
+t1=b*(k-1+n-1)
+t2=a*(n-1)
+if t1<t2:
+    print(""1"")
+elif t1==t2:
+    print(""0"")
+else:
+    print(""2"")"
+23,A,Python3,60009459,2022-12-30 19:15:46,想拿A仰泳鲈鱼想要offer,答案错误,"def test(n,k,a,b):
+    time1 = (n-1)*a
+    time2 = (k-1)*b+(n-1)*(a-1)
+    if time1==time2:
+        return 0
+    elif time1>time2:
+        return 1
+    else:
+        return 2
+
+
+
+print(test(7,5,3,2))
+"
+24,A,Python3,60009600,2022-12-30 19:16:50,想拿A仰泳鲈鱼想要offer,答案错误,"def test(n,k,a,b):
+    time1 = (n-1)*a
+    time2 = (k-1)*(a-1)+(n-1)*b
+    if time1==time2:
+        return 0
+    elif time1>time2:
+        return 1
+    else:
+        return 2
+
+
+
+print(test(7,5,3,2))
+"
+25,A,Python3,60009721,2022-12-30 19:17:47,若飘渺,答案正确,"shuru=input().split()
+n=int(shuru[0])
+k=int(shuru[1])
+a=int(shuru[2])
+b=int(shuru[3])
+zou=(n-1)*a
+dianti=(k-1)*b+(n-1)*b
+if dianti<zou:
+    print(1)
+if zou<dianti:
+    print(2)
+if dianti==zou:
+    print(0)"
+26,A,Python3,60010101,2022-12-30 19:21:26,尖毛草666,答案正确,"n,k,a,b=[int(x) for x in input().split("" "")]
+sum1=(n-1)*a
+sum2=(k-1)*b+(n-1)*b
+if(sum1>sum2):
+    print(1)
+elif sum1<sum2:
+    print(2)
+else:
+    print(0)"
+27,A,Python3,60010162,2022-12-30 19:22:01,致残打击,答案正确,"n, k, a, b = map(int, input().split())
+sum1 = (n-1)*a
+sum2 = (k-1)*b+(n-1)*b#电梯
+if sum1<sum2:
+    print('2')
+elif sum1>sum2:
+    print('1')
+elif sum1==sum2:
+    print('0')
+"
+28,A,Python3,60010299,2022-12-30 19:23:25,HHU-20-郭校廷,答案正确,"n, k, a, b = map(int, input().split())
+tfoot = (n - 1) * a
+tal = (k + n -  2) * b
+if tfoot > tal:
+    print(1)
+elif tfoot < tal:
+    print(2)
+else:
+    print(0)"
+29,A,Python3,60010479,2022-12-30 19:25:17,王万福,答案正确,"n,k,a,b = list(map(int,input().split()))
+x = (n - 1) * a
+y = (k - 1 + n - 1) * b
+ans = 0 if x == y else 1 if x > y else 2
+print(ans)
+    "
+30,A,Python3,60010921,2022-12-30 19:29:45,PartinG_QAQ,答案正确,"n, k, a, b = list(map(int,input().split()))
+
+eve = (k - 1) * b + (n - 1) * b
+run = (n - 1) * a
+
+if eve < run:
+    print(1)
+elif eve > run:
+    print(2)
+else:
+    print(0)
+"
+31,A,Python3,60011379,2022-12-30 19:34:43,想拿A仰泳鲈鱼想要offer,答案错误,"n=7
+k=4
+a=3
+b = 2
+time1=(k-1)*b+(n-1)*b
+time2 = (n-1)*a
+if time1<time2:
+    print(1)
+elif time1>time2:
+    print(2)
+else:
+    print(0)"
+32,A,Python3,60012057,2022-12-30 19:42:06,想拿A仰泳鲈鱼想要offer,答案错误,"n=7
+k=5
+a=3
+b=2
+time1 = (k-1)*b+(n-1)*b
+time2 = (n-1)*a
+if time1<time2:
+    print(1)
+elif time1>time2:
+    print(2)
+else:
+    print(0)"
+33,A,Python3,60012109,2022-12-30 19:42:36,KevinSo,答案正确,"n, k, a, b = map(int, input().split())
+if (n - 1) * a > b * (k + n - 2):
+    print(1)
+elif (n - 1) * a == b * (k + n - 2):
+    print(0)
+else: print(2)"
+34,A,Python3,60012369,2022-12-30 19:45:47,想拿A仰泳鲈鱼想要offer,执行出错,"time1 = (k-1)*b+(n-1)*b
+time2 = (n-1)*a
+if time1<time2:
+    print(1)
+elif time1>time2:
+    print(2)
+else:
+    print(0)"
+35,A,Python3,60012530,2022-12-30 19:47:45,想拿A仰泳鲈鱼想要offer,答案错误,"def test(n,k,a,b):
+    time1 = (k-1)*b+(n-1)*b
+    time2 = (n-1)*a
+    if time1<time2:
+        print(1)
+    elif time1>time2:
+        print(2)
+    else:
+        print(0)"
+36,A,Python3,60013083,2022-12-30 19:53:52,三枫,答案正确,"n,k,a,b = map(int,input().split())
+time1 = (n-1)*a 
+time2 = (k+n-2)*b 
+if time1 > time2:
+    print(""1"")
+elif time1< time2:
+    print(""2"")
+elif time1 == time2:
+    print(""0"")"
+37,A,Python3,60013300,2022-12-30 19:56:38,孔老大,答案正确,"n, k, a, b = list(map(int, input().split()))
+
+x1 = (k + n - 2) * b
+x2 = (n - 1) * a
+
+if x1 == x2:
+    print(0)
+if x1 < x2:
+    print(1)
+if x2 < x1:
+    print(2)"
+38,A,Python3,60014540,2022-12-30 20:12:00,小确幸a,答案错误,"n,k,a,b=map(int, input().split(' '))
+if (n-1)*a>(k-1)*b+(k-1)*b:
+    print(1)
+elif (n-1)*a==(k-1)*b+(k-1)*b:
+    print(0)
+else:
+    print(2)"
+39,A,Python3,60014669,2022-12-30 20:13:39,小确幸a,答案正确,"n,k,a,b=map(int, input().split(' '))
+if (n-1)*a>(k-1)*b+(n-1)*b:
+    print(1)
+elif (n-1)*a==(k-1)*b+(n-1)*b:
+    print(0)
+else:
+    print(2)"
+40,A,Python3,60015703,2022-12-30 20:28:12,Kur1su,答案正确,"n, k, a, b = map(int, input().split())
+x = (k - 1) * b + (n - 1) * b
+y = (n - 1) * a
+
+if x == y:
+    print(0)
+elif x < y:
+    print(1)
+else:
+    print(2)"
+41,A,Python3,60016284,2022-12-30 20:37:52,想拿A仰泳鲈鱼想要offer,答案正确,"def main(n,k,a,b):
+    time1 = (k-1)*b+(n-1)*b
+    time2 = (n-1)*a
+    if time1<time2:
+        return 1
+    elif time1>time2:
+        return 2
+    else:
+        return 0
+    
+#n = input()
+
+#k = input()
+#a = input()
+#b = input()
+n,k,a,b=map(int,input().split())
+print(main(n,k,a,b))
+
+
+
+"
+42,A,Python3,60019899,2022-12-30 22:05:29,牛客57026366号,答案正确,"n,k,a,b = map(int,input().split())
+
+if (n-1)*a == (k-1)*b+(n-1)*b:
+    print(0)
+elif (n-1)*a>(k-1)*b+(n-1)*b:
+    print(1)
+else:
+    print(2)
+
+"
+43,A,Python3,60019941,2022-12-30 22:08:00,牛客481337953号,答案正确,"n,k,a,b=map(int,input().split())
+v=(n-1)*a-(n-1)*b-(k-1)*b
+print(0 if v == 0 else (1 if v > 0 else 2))"
+44,A,Python3,60021874,2022-12-31 10:34:16,牛客260517492号,答案正确,"n,k,a,b=map(int,input().split())
+x=(n-1)*a
+y=(k-1)*b+(n-1)*b
+if x>y:
+    print(1)
+elif x<y:
+    print(2)
+else:
+    print(0)"
+45,A,Python3,60023818,2022-12-31 13:37:28,牛客972825279号,答案正确,"n,k,a,b=map(int,input().split())
+t1=(n-1)*a
+t2=(n-1+k-1)*b
+if t1==t2:
+    print(0)
+elif t1>t2:
+    print(1)
+else:
+    print(2)"
+46,A,Python3,60025738,2022-12-31 15:04:59,灞波儿奔en,答案正确,"n,k,a,b = map(int,input().split())
+dian = n+k-2
+sd = dian*b
+sl = (n-1)*a
+if sd>sl:
+    print(2)
+elif sd<sl:
+    print(1)
+else:
+    print(0)"
+47,A,Python3,60119447,2023-01-04 19:44:21,工大一队,答案错误,"a = list(map(int,input().split()))
+b = a[0]*a[2]
+c = (a[0]+a[1])*a[3]
+if b>c:
+    print(1)
+elif b<c:
+    print(2)
+else:
+    print(0)"
+48,A,Python3,60119494,2023-01-04 19:47:27,工大一队,答案正确,"a = list(map(int,input().split()))
+b = (a[0]-1)*a[2]
+c = (a[0]+a[1]-2)*a[3]
+if b>c:
+    print(1)
+elif b<c:
+    print(2)
+else:
+    print(0)"
+49,A,Python3,60123484,2023-01-05 11:17:45,北衍海棠,答案正确,"n,k,a,b=map(int,input().split(' '))
+walk=int((n-1)*a)
+fly=((n+k-2)*b)
+if(walk>fly):
+    print('1')
+elif(walk==fly):
+    print('0')
+elif(walk<fly):
+    print('2')"
+50,A,Python3,60127485,2023-01-05 16:31:21,云中翻月,答案正确,"import sys
+# sys.stdin = open('test.in', 'r')
+
+n, k, a, b = map(int, input().split())
+t1 = b*(k-1+n-1)
+t2 = a*(n-1)
+if t1 == t2:
+    print('0')
+elif t1 < t2:
+    print('1')
+else:
+    print('2')
+"
+51,A,Python3,60134839,2023-01-06 12:13:04,summerEDward,答案正确,"n,k,a,b=map(int,input().split())
+x1=(n-1)*a
+x2=(k+n-2)*b
+if x1==x2:print(0)
+elif x1>x2:print(1)
+else:print(2)"
+52,A,Python3,60234031,2023-01-13 17:44:14,lby_commandBlock,答案错误,"n, k, a, b = map(int, input().split())
+time_d = 0
+time_z = 0
+for i in range(k - 1):
+    time_d += b
+for i in range(n - 1):
+    time_d += b
+for i in range(n - 1):
+    time_z += a
+print(time_z if time_z < time_d else time_d)"
+53,A,Python3,60234045,2023-01-13 17:45:08,lby_commandBlock,答案正确,"n, k, a, b = map(int, input().split())
+time_d = 0
+time_z = 0
+for i in range(k - 1):
+    time_d += b
+for i in range(n - 1):
+    time_d += b
+for i in range(n - 1):
+    time_z += a
+if time_z < time_d:
+    print('2')
+elif time_z > time_d:
+    print('1')
+else:
+    print('0')"
+54,A,Python3,60243371,2023-01-14 14:15:14,小霸王菜花,答案正确,"n,k,a,b=map(int,input().split())
+climb=(n-1)*a
+ele=(n-1)*b+(k-1)*b
+if climb<ele:
+    print(2)
+elif climb>ele:
+    print(1)
+else:
+    print(0)"
+55,A,Python3,60587598,2023-01-24 08:52:50,小许刷题,答案正确,"n,k,a,b = map(int,input().split())
+
+t1 = a * (n - 1)
+t2 = b * (k - 1) + b * (n - 1)
+if t1 == t2:
+    print(0)
+elif t1 > t2:
+    print(1)
+else: print(2)"
+56,A,Python3,60676588,2023-01-31 16:21:51,牛客660948461号,答案正确,"n,k,a,b=map(int,input().split())
+ren= (n-1)*a
+dian=(k-1)*b+(n-1)*b
+if ren >dian :
+    print(1)
+elif ren < dian :
+    print(2)
+else :
+    print(0)"
+57,A,Python3,60676602,2023-01-31 16:22:36,牛客660948461号,答案正确,"n,k,a,b=map(int,input().split())
+ren= (n-1)*a
+dian=(k-1)*b+(n-1)*b
+if ren >dian :
+    print(1)
+elif ren < dian :
+    print(2)
+else :
+    print(0)"
+58,A,Python3,60729039,2023-02-01 21:18:41,前程似锦的三文鱼很大胆,答案错误,"import sys
+
+for line in sys.stdin:
+    n,k,a,b = list(map(int, line.strip().split(' ')[:4]))
+    elevator = (n+k) / b
+    walk = a/b
+    if elevator > walk:
+        print(1)
+    elif elevator < walk:
+        print(2)
+    else:
+        print(0)"
+59,A,Python3,60729093,2023-02-01 21:20:44,前程似锦的三文鱼很大胆,答案错误,"import sys
+
+for line in sys.stdin:
+    n,k,a,b = list(map(int, line.strip().split(' ')[:4]))
+    elevator = (n+k-2) / b
+    walk = (n-1)/b
+    if elevator > walk:
+        print(1)
+    elif elevator < walk:
+        print(2)
+    else:
+        print(0)"
+60,A,Python3,60729159,2023-02-01 21:24:15,前程似锦的三文鱼很大胆,答案正确,"import sys
+
+for line in sys.stdin:
+    n,k,a,b = list(map(int, line.strip().split(' ')[:4]))
+    elevator = (n+k-2) * b
+    walk = (n-1) * a
+    if elevator > walk:
+        print(2)
+    elif elevator < walk:
+        print(1)
+    else:
+        print(0)"
+61,A,Python3,60813459,2023-02-05 11:23:38,搁浅^,答案正确,"n,k,a,b=map(int,input().split())
+if b*(k+n-2)>a*(n-1):
+    print(2)
+elif b*(k+n-2)==a*(n-1):
+    print(0)
+else:
+    print(1)
+"
+62,A,Python3,60870791,2023-02-12 21:05:17,山东协和学院_秦思佳,答案正确,"ke,ting,zou,fei=map(int,input().split())
+zoutime=(ke-1)*zou
+feitime=(ting-1)*fei+(ke-1)*fei
+if zoutime>feitime:
+    print('1')
+elif feitime>zoutime:
+    print('2')
+elif feitime==zoutime:
+    print('0')"
+63,A,Python3,60944298,2023-02-22 09:39:30,我是lj,答案正确,"lis = list(map(int,input().split()));
+a = (lis[0]-1)*lis[2];
+b = (lis[1]-1+lis[0]-1)*lis[3];
+if a < b:
+    print(2)
+elif a > b:
+    print(1)
+else:
+    print(0)"
+64,A,Python3,61124684,2023-03-07 19:05:10,heng-,答案正确,"n,k,a,b=map(int,input().split())
+t1=(abs(k-1)+abs(n-1))*b
+t2=abs(n-1)*a
+if t1<t2:
+    print(1)
+elif t1==t2:
+    print(0)
+else:
+    print(2)
+    "
+65,A,Python3,61898084,2023-04-15 14:55:52,想开了的秋田犬很爱吃,答案正确,"a=str(input()).split()
+for i in range(len(a)):
+    a[i]=int(a[i])
+
+if (a[0]-1)*(a[2])>(a[1]-1)*a[3]+(a[0]-1)*a[3]:
+    print(""1"")
+elif(a[0]-1)*(a[2])<(a[1]-1)*a[3]+(a[0]-1)*a[3]:
+    print(""2"")
+else:
+    print(""0"")"

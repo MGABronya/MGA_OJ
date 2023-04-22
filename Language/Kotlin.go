@@ -30,6 +30,15 @@ func (k Kotlin) Run(path string, ID string) *exec.Cmd {
 	return exec.Command("java", "-jar", path+ID+".jar")
 }
 
+// @title    Chmod
+// @description   获得权限
+// @auth      MGAronya（张健）       2022-9-16 12:15
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (k Kotlin) Chmod(path string, ID string) *exec.Cmd {
+	return exec.Command("chmod", "755", path+ID+".jar")
+}
+
 // @title    Suffix
 // @description   获得文件后缀
 // @auth      MGAronya（张健）       2022-9-16 12:15

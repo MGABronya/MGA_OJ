@@ -1,0 +1,2554 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,A,Python3,60846443,2023-02-10 19:03:35,一半醒,答案正确,"
+
+t = int(input())
+
+def solve():
+    n = int(input())
+    a = [int(x) for x in input().split()]
+    if a[0]&1:
+        print(0)
+        return
+    ans = False
+    for i in range(1,n):
+        if a[0]>a[i] and a[i]&1:
+            ans = True
+            break
+    if ans:
+        print(1)
+    else:
+        print(-1)
+for _ in range(t):
+    solve()"
+1,A,Python3,60846453,2023-02-10 19:03:40,礼乐垃圾,答案正确,"t=int(input())
+for i in range(t):
+    n=int(input())
+    a=list(map(int,input().strip().split()))
+    ans=-1
+    if a[0]%2:
+        print(""0"")
+        continue
+    for k in range(1,n):
+        if a[0]>a[k] and a[k]%2:
+            ans=1
+            break
+    print(ans)"
+2,A,Python3,60846730,2023-02-10 19:06:37,Fei_xiangShi,答案正确,"t = int(input())
+flag = 0
+for i in range(t):
+    flag = 0
+    n = int(input())
+    a = list(map(int,input().split()))
+    if a[0]&1:
+        flag = 1
+    if flag:
+        print(0)
+    else:
+        for j in a:
+            if j < a[0] and j & 1:
+                print(1)
+                break
+        else:
+            print(-1)"
+3,A,Python3,60846826,2023-02-10 19:07:37,渡歌,答案正确,"t = int(input())
+flag = 0
+for i in range(t):
+    flag = 0
+    n = int(input())
+    a = list(map(int,input().split()))
+    if a[0]%2:
+        flag = 1
+        print(0)
+    if not flag:
+        for j in a:
+            if j < a[0] and j%2:
+                print(1)
+                break
+        else:
+            print(-1)"
+4,A,Python3,60846886,2023-02-10 19:08:23,小小雨晴,答案错误,"for _ in range(int(input())):
+    n = int(input())
+    ls = list(map(int, input().split()))
+    if ls[0] == 1:
+        print(0)
+    elif 1 not in ls:
+        print(-1)
+    elif ls[0] == 0:
+        print(-1)
+    else:
+        print(1)
+"
+5,A,Python3,60846933,2023-02-10 19:08:57,Marquis03,答案错误,"for _ in range(int(input())):
+    n = int(input())
+    a = list(map(int,input().split()))
+    if a[0] % 2:
+        print(0)
+    elif a[0] > min(a):
+        print(1)
+    else:
+        print(-1)"
+6,A,Python3,60846961,2023-02-10 19:09:20,lgem,答案错误,"t = int(input())
+for i in range(t):
+    n = int(input())
+    an = list(map(int,input().split()))
+    if an[0]&1 != 0:
+        print(""0"")
+    else:
+        flag = 0
+        for j in range(n):
+            if an[0] > an[j]:
+                flag = 1
+                break
+            else:
+                flag = 0
+        if flag:
+            print(""1"")
+        else:
+            print(""-1"")
+                
+        
+    "
+7,A,Python3,60846968,2023-02-10 19:09:24,摆渡人和211,答案正确,"t = int(input())
+while t:
+    n = int(input())
+    s = input().split()
+    arr = [0]*n
+    for i in range(0,n):
+        arr[i] = int(s[i])
+    if arr[0]%2 == 1:
+        print(0)
+    else:
+        sign = 0
+        for i in range(1,n):
+            if arr[i]%2 == 1 and arr[0] > arr[i]:
+                print(1)
+                sign = 1
+                break
+        if sign == 0:
+            print(-1)
+    t-=1"
+8,A,Python3,60846990,2023-02-10 19:09:34,Mr.Rongrong,答案正确,"t = int(input())
+res = 0 
+for i in range(t):
+    n = int(input())
+    a = list(map(int ,input().split()))
+    suma = sum(a)
+    if a[0] % 2 == 1: 
+        print(0)
+    elif a[0] % 2 == 0:
+        flag = True 
+        for j in range(1,n):
+            if a[j] < a[0] and a[j] % 2 == 1:
+                print(1)
+                flag = False
+                break  
+        if flag:
+            print(-1)
+            
+    else:
+        print(-1)
+    
+"
+9,A,Python3,60847040,2023-02-10 19:10:05,孔老大,答案正确,"import sys
+import bisect
+import random
+import io, os
+from bisect import *
+from collections import *
+from contextlib import redirect_stdout
+from itertools import *
+from math import sqrt, gcd, inf
+# ACW没有comb
+# from math import sqrt, gcd, inf, comb
+from array import *
+from functools import lru_cache
+from types import GeneratorType
+from heapq import *
+
+# from networkx import *
+
+RI = lambda: map(int, sys.stdin.readline().split())
+RS = lambda: map(bytes.decode, sys.stdin.readline().strip().split())
+RILST = lambda: list(RI())
+DEBUG = lambda *x: sys.stderr.write(f'{str(x)}\n')
+
+
+def solve():
+    t, = RI()
+    for _ in range(t):
+        n, = RI()
+        arr = RILST()
+        if arr[0] % 2 == 1:
+            print(0)
+            continue
+        for i in range(1, n):
+            if arr[i] < arr[0] and arr[i] % 2 == 1:
+                print(1)
+                break
+        else:
+            print(-1)
+
+
+if __name__ == '__main__':
+    solve()
+"
+10,A,Python3,60847101,2023-02-10 19:10:53,lgem,答案正确,"t = int(input())
+for i in range(t):
+    n = int(input())
+    an = list(map(int,input().split()))
+    if an[0]&1 != 0:
+        print(""0"")
+    else:
+        flag = 0
+        for j in range(n):
+            if an[0] > an[j] and an[j]&1 != 0:
+                flag = 1
+                break
+            else:
+                flag = 0
+        if flag:
+            print(""1"")
+        else:
+            print(""-1"")
+                
+        
+    "
+11,A,Python3,60847107,2023-02-10 19:10:54,Marquis03,答案正确,"for _ in range(int(input())):
+    n = int(input())
+    a = list(map(int,input().split()))
+    if a[0] % 2:
+        print(0)
+    else:
+        a_low = [i for i in a if i < a[0] and i % 2]
+        if len(a_low) == 0:
+            print(-1)
+        else:
+            print(1)
+        "
+12,A,Python3,60847156,2023-02-10 19:11:27,爱吸血的小蚊子,答案错误,"n = int(input())
+for i in range(n):
+    t = int(input())
+    lis = list(input().split())
+    if int(lis[0]) % 2 != 0:
+        print(0)
+    else:
+        for j in lis[1::]:
+            j = int(j)
+            if j % 2 != 0 and int(lis[0]) > j:
+                print(1)
+                break
+            else:
+                print(-1)
+"
+13,A,Python3,60847248,2023-02-10 19:12:18,小霸王菜花,执行出错,"num = int(input())
+for i in range(num):
+    n = int(input())
+    array = list(map(int,input().split()))
+    t = 0
+    j = 0
+    while array[j] - array[j+1] > 0:
+        array[j] = array[j+1]
+        array[j+1] = array[j]
+        t += 1
+    if array[0] % 2 == 1:
+        print(t)
+    else:
+        print(-1)
+        
+        
+"
+14,A,Python3,60847650,2023-02-10 19:16:52,小许刷题,答案错误,"case = int(input())
+
+def slove():
+    n = int(input())
+    a = list(map(int,input().split()))
+    ans = -1
+    if a[0] % 2 == 1:
+        return 0
+    for i in range(1,n):
+        if a[i] < a[0]:
+            return 1
+    return -1
+for _ in range(case):
+    print(slove())"
+15,A,Python3,60847667,2023-02-10 19:17:02,Sun04,答案错误,"t=int(input())
+for i in range(t):
+    n=int(input())
+    ls=[int(x) for x in input().split()]
+    count=0
+    if ls[0]%2!=0:
+        print(0)
+    else:
+        s=0
+        for j in range(n-1):
+            if ls[j]<=ls[j+1]:
+                s+=1
+        if s==n-1 or ls[0]==0:
+            print(-1)
+        else:
+            print(1)"
+16,A,Python3,60848059,2023-02-10 19:21:14,qhhhhhhhhhhhhhhhhhhhhhhh,答案错误,"n=int(input())
+sum=0
+for i in range(n):
+ s=int(input())  
+ list1=list(map(int,input().split()))
+ for i in range(s):
+  if list1[i]%2!=0 and list1[i]<=list1[0]:
+        print(i)
+        break
+  if i==s-1:
+     print(-1)
+     break
+"
+17,A,Python3,60848310,2023-02-10 19:24:00,渡歌,执行出错,"t = int(input())
+for _ in range(t):
+    length = int(input())
+    a = input()
+    b = input()
+    for i in range(length):
+        c = a[:i]+b[i]+a[i+1:]
+        d = b[:i]+a[i]+b[i+1:]
+        if c < d:
+            print(i+1,i+1)
+            break"
+18,A,Python3,60848486,2023-02-10 19:25:47,qhhhhhhhhhhhhhhhhhhhhhhh,答案错误,"n=int(input())
+sum=0
+for i in range(n):
+ s=int(input())  
+ list1=list(map(int,input().split()))
+ for i in range(s):
+  if list1[i]%2!=0:
+        print(i)
+        break
+  if i==s-1 or list1[i]<list1[i+1]:
+     print(-1)
+     break
+"
+19,A,Python3,60848666,2023-02-10 19:27:35,小许刷题,答案正确,"case = int(input())
+
+def slove():
+    n = int(input())
+    a = list(map(int,input().split()))
+    ans = -1
+    if a[0] % 2 == 1:
+        return 0
+    for i in range(1,n):
+        if a[i] < a[0] and a[i] % 2 == 1:
+            return 1
+    return -1
+for _ in range(case):
+    print(slove())"
+20,A,Python3,60849475,2023-02-10 19:35:49,小霸王菜花,答案错误,"num = int(input())
+for i in range(num):
+    n = int(input())
+    array = list(map(int,input().split()))
+    t = 0
+    while 1:
+        try:
+            if array[j] - array[j+1] > 0:
+                array[j] = array[j+1]
+                array[j+1] = array[j]
+                t += 1                    
+        except:
+            break
+    if array[0] % 2 == 1:
+        print(t)
+    else:
+        print(-1)
+            
+
+        
+"
+21,A,Python3,60849535,2023-02-10 19:36:19,小小雨晴,答案正确,"for _ in range(int(input())):
+    lens = int(input())
+    ls = list(map(int, input().split()))
+    if ls[0] == 0:
+        print(-1)
+    elif ls[0] % 2 != 0:
+        print(0)
+    else:
+        temp = ls[0]
+        if lens == 1:
+            print(-1)
+        else:
+            for i in ls[1:]:
+                if i % 2 != 0 and i < temp:
+                    print(1)
+                    break
+            else:
+                print(-1)"
+22,A,Python3,60849587,2023-02-10 19:36:55,qhhhhhhhhhhhhhhhhhhhhhhh,答案错误,"n=int(input())
+for i in range(n):
+ sum,temp=0,0   
+ s=int(input())
+ list1=list(map(int,input().split()))
+ for i in range(1,s):
+    a1=list1[0]
+    if a1>list1[i]:
+        sum+=1
+        a1=list1[i]
+    if a1%2!=0:
+        print(sum)
+        break    
+    temp+=1    
+    if temp==s-1:
+        print(-1)
+        break
+"
+23,A,Python3,60849664,2023-02-10 19:37:56,qhhhhhhhhhhhhhhhhhhhhhhh,答案错误,"n=int(input())
+for i in range(n):
+ sum,temp=0,0   
+ s=int(input())
+ list1=list(map(int,input().split()))
+ for i in range(1,s):
+    a1=list1[0]
+    if a1>list1[i]:
+        sum+=1
+        a1=list1[i]
+    if a1%2!=0:
+        print(sum)
+        break    
+    temp+=1    
+    if temp==s-1:
+        print('-1')
+        break
+"
+24,A,Python3,60849723,2023-02-10 19:38:39,给一个让我瞠目的算法,答案错误,"k = int(input())
+for i in range(k):
+    num = 0
+    n = int(input())
+    nums = list(map(int, input().split()))
+    if n < 1:
+        print(-1)
+        continue
+    elif nums[0]%2 == 1:
+        print(num)
+        continue
+    elif n == 1:
+        print(-1)
+        continue
+    for q in range(1, n):
+        if nums[0] > nums[q]:
+            nums[0], nums[q] = nums[q], nums[0]
+            num += 1
+            if nums[0]%2 == 1:
+                print(num)
+                break
+        if q == n-1:
+            print(-1)
+
+
+                "
+25,A,Python3,60849728,2023-02-10 19:38:42,triwhiter,执行出错,"if __name__ == ""__main__"":
+    t = int(input())
+
+    while t:
+        n = int(input())
+        a= [int(x) for x in input().split()]
+        f = 0
+        a1 = a[0]
+        if a1%2 ==1:
+            print(0)
+            continue
+        for ai in a:
+            if ai<a1 and ai%2 == 1:
+                print(1)
+                f=1
+                continue
+        if f==0:
+            print(-1)
+        t -= 1"
+26,A,Python3,60849733,2023-02-10 19:38:43,qhhhhhhhhhhhhhhhhhhhhhhh,答案错误,"n=int(input())
+for i in range(n):
+ sum,temp=0,0   
+ s=int(input())
+ list1=list(map(int,input().split()))
+ for i in range(1,s):
+    a1=list1[0]
+    if a1>list1[i]:
+        sum+=1
+        a1=list1[i]
+    if a1%2!=0:
+        print(sum)
+        break    
+    temp+=1    
+    if temp==s-1:
+        print(-1)
+        break
+"
+27,A,Python3,60849841,2023-02-10 19:40:01,给一个让我瞠目的算法,答案错误,"k = int(input())
+for i in range(k):
+    num = 0
+    try:
+        n = int(input())
+    except:
+        print(-1)
+        break
+    nums = list(map(int, input().split()))
+    if n < 1:
+        print(-1)
+        continue
+    elif nums[0]%2 == 1:
+        print(num)
+        continue
+    elif n == 1:
+        print(-1)
+        continue
+    for q in range(1, n):
+        if nums[0] > nums[q]:
+            nums[0], nums[q] = nums[q], nums[0]
+            num += 1
+            if nums[0]%2 == 1:
+                print(num)
+                break
+        if q == n-1:
+            print(-1)
+
+
+                "
+28,A,Python3,60849980,2023-02-10 19:41:24,triwhiter,答案错误,"if __name__ == ""__main__"":
+    t = int(input())
+
+    while t:
+        t =t - 1
+        n = int(input())
+        a= [int(x) for x in input().split()]
+        f = 0
+        a1 = a[0]
+        if a1%2 ==1:
+            print(0)
+            continue
+        for ai in a:
+            if ai<a1 and ai%2 == 1:
+                print(1)
+                f=1
+                continue
+        if f==0:
+            print(-1)
+            
+        "
+29,A,Python3,60850025,2023-02-10 19:41:56,qhhhhhhhhhhhhhhhhhhhhhhh,答案错误,"n=int(input())
+for i in range(n):
+ sum,temp=0,0   
+ s=int(input())
+ list1=list(map(int,input().split()))
+ for i in range(1,s):
+    a1=list1[0]
+    if a1>list1[i]:
+        sum+=1
+        a1=list1[i]
+    if a1%2!=0:
+        print(temp)
+        break    
+    temp+=1    
+    if temp==s-1:
+        print(-1)
+        break
+"
+30,A,Python3,60850202,2023-02-10 19:43:58,triwhiter,答案错误,"if __name__ == ""__main__"":
+    t = int(input())
+
+    while t:
+        t = t - 1
+        n = int(input())
+        a= [int(x) for x in input().split()]
+        f = 0
+        a1 = a[0]
+        if a1%2 ==1:
+            print(0)
+            continue
+        for ai in a[1:]:
+            if ai<a1 and ai%2 == 1:
+                print(1)
+                f=1
+                continue
+        if f==0:
+            print(-1)
+            
+        "
+31,A,Python3,60850206,2023-02-10 19:44:00,qhhhhhhhhhhhhhhhhhhhhhhh,答案错误,"n=int(input())
+for i in range(n):
+ sum,temp=0,0   
+ s=int(input())
+ list1=list(map(int,input().split()))
+ for i in range(1,s):
+    a1=list1[0]
+    if a1>list1[i]:
+        sum+=1
+        a1=list1[i]
+    if a1%2!=0:
+        print(sum)
+        break    
+    temp+=1    
+    if temp==s-1:
+        print(-1)
+        break
+"
+32,A,Python3,60850212,2023-02-10 19:44:05,给一个让我瞠目的算法,答案错误,"k = int(input())
+for i in range(k):
+    num = 0
+    n = int(input())
+    nums = list(map(int, input().split()))
+    if n < 1:
+        print(-1)
+        continue
+    elif nums[0]%2 == 1:
+        print(num)
+        continue
+    elif n == 1:
+        print(-1)
+        continue
+    for q in range(1, n):
+        if nums[0] > nums[q]:
+            nums[0], nums[q] = nums[q], nums[0]
+            num += 1
+            if nums[0]%2 == 1:
+                print(num)
+                break
+        if q == n-1:
+            print(-1)
+
+
+                "
+33,A,Python3,60850300,2023-02-10 19:45:05,小淼子,答案错误,"n=int(input())
+list1=list((map(int,input().split())))
+a=int(list1[0])
+s=0
+b=0
+if a%2==0:
+    i=1
+    if int(list1[i-1])>int(list1[i]):
+            s=list1[i]
+            list1[i]=list1[i-1]
+            list1[i-1]=s
+            b=b+1
+            i=i+1
+            print(b)
+    else:
+        print(0)
+else:
+    print(-1)
+"
+34,A,Python3,60850309,2023-02-10 19:45:10,qhhhhhhhhhhhhhhhhhhhhhhh,答案错误,"n=int(input())
+for i in range(n):
+ sum,temp=0,0   
+ s=int(input())
+ list1=list(map(int,input().split()))
+ for i in range(1,s):
+    a1=list1[0]
+    if a1>list1[i]:
+        sum+=1
+        a1=list1[i]
+    if a1%2!=0:
+        print(sum)
+        break    
+    temp+=1    
+    if temp==s-1:
+        print('-1')
+        break
+"
+35,A,Python3,60850664,2023-02-10 19:49:11,小霸王菜花,答案错误,"num = int(input())
+for i in range(num):
+    n = int(input())
+    array = list(map(int,input().split()))
+    m = 0
+    for t in range(1,n):  
+        if array[t-1] - array[t] > 0:
+            x = array[t-1]
+            y = array[t]
+            array[t-1] = y
+            array[t] = x
+            m += 1
+    if array[0] % 2 == 1:
+        print(m)
+    else:
+        print(-1)
+            
+
+        
+"
+36,A,Python3,60850734,2023-02-10 19:49:58,小霸王菜花,答案错误,"num = int(input())
+for i in range(num):
+    n = int(input())
+    array = list(map(int,input().split()))
+    m = 0
+    for t in range(1,n):  
+        if array[t-1] - array[t] > 0:
+            x = array[t-1]
+            y = array[t]
+            array[t-1] = y
+            array[t] = x
+            m += 1
+    if array[0] % 2 == 1:
+        print(m)
+    else:
+        print(-1)
+            
+
+        
+"
+37,A,Python3,60850742,2023-02-10 19:50:03,小淼子,答案错误,"m=int(input())
+for i in range(0,m):
+    n=int(input())
+    list1=list((map(int,input().split())))
+    a=int(list1[0])
+    s=0
+    b=0
+    if a%2==0:
+        i=1
+        if int(list1[i-1])>int(list1[i]):
+                s=list1[i]
+                list1[i]=list1[i-1]
+                list1[i-1]=s
+                b=b+1
+                i=i+1
+                print(b)
+        else:
+            print(0)
+    else:
+        print(-1)
+"
+38,A,Python3,60850875,2023-02-10 19:51:28,qhhhhhhhhhhhhhhhhhhhhhhh,答案错误,"n=int(input())
+for i in range(n):
+ sum,temp=0,0   
+ s=int(input())
+ list1=list(map(int,input().split()))
+ for i in range(1,s):
+    a1=list1[0]
+    if a1%2!=0:
+        print(sum)
+        break  
+    if a1>list1[i]:
+        sum+=1
+        a1=list1[i]  
+    temp+=1    
+    if temp==s-1:
+        print(-1)
+        break
+"
+39,A,Python3,60851105,2023-02-10 19:54:19,triwhiter,答案正确,"if __name__ == ""__main__"":
+    t = int(input())
+
+    while t:
+        t = t - 1
+        n = int(input())
+        a= [int(x) for x in input().split()]
+        f = 0
+        a1 = a[0]
+        if a1%2 ==1:
+            print(0)
+            continue
+        for ai in a[1:]:
+            if ai<a1 and ai%2 == 1:
+                print(1)
+                f = 1
+                break
+        if f==0:
+            print(-1)
+            
+        "
+40,A,Python3,60851314,2023-02-10 19:56:47,qhhhhhhhhhhhhhhhhhhhhhhh,答案错误,"n=int(input())
+for i in range(n):
+ sum,temp=0,0   
+ s=int(input())
+ list1=list(map(int,input().split()))
+ for i in range(1,s):
+    a1=list1[0]
+    if a1%2!=0:
+        print(sum)
+        break 
+    if a1>list1[i]:
+        sum+=1
+        a1=list1[i]
+        if a1%2!=0:
+            print(sum)
+            break
+    temp+=1    
+    if temp==s-1:
+        print(-1)
+        break
+"
+41,A,Python3,60851344,2023-02-10 19:57:08,小淼子,执行出错,"m=int(input())
+for j in range(0,m):
+    n=int(input())
+    list1=list((map(int,input().split())))
+    a=int(list1[0])
+    s=0
+    b=0
+    if (a+2)%2==0:
+        i=1
+        if int(list1[i-1])>int(list1[i]):
+                s=list1[i]
+                list1[i]=list1[i-1]
+                list1[i-1]=s
+                b=b+1
+                i=i+1
+                print(b)
+        else:
+            print(-1)
+    else:
+        print(0)"
+42,A,Python3,60851364,2023-02-10 19:57:22,小淼子,执行出错,"m=int(input())
+for j in range(0,m):
+    n=int(input())
+    list1=list((map(int,input().split())))
+    a=int(list1[0])
+    s=0
+    b=0
+    if (a+2)%2==0:
+        i=1
+        if int(list1[i-1])>int(list1[i]):
+                s=list1[i]
+                list1[i]=list1[i-1]
+                list1[i-1]=s
+                b=b+1
+                i=i+1
+                print(b)
+        else:
+            print(-1)
+    else:
+        print(0)"
+43,A,Python3,60851414,2023-02-10 19:58:05,月黑风高AC夜,答案正确,"T = int(input())
+for i in range(T):
+    n = int(input())
+    arr = list(map(int, input().strip().split()))
+    ans = 0
+    a0 = arr[0]
+    if not a0 % 2:
+        ans = -1
+        for i in range(1, n):
+            if a0 > arr[i] and arr[i] % 2:
+                ans = 1
+                break
+    print(ans)
+                "
+44,A,Python3,60851422,2023-02-10 19:58:08,小淼子,执行出错,"m=int(input())
+for j in range(0,m):
+    n=int(input())
+    list1=list((map(int,input().split())))
+    a=int(list1[0])
+    s=0
+    b=0
+    if (a+2)%2==0:
+        i=1
+        if int(list1[i-1])>int(list1[i]):
+                s=list1[i]
+                list1[i]=list1[i-1]
+                list1[i-1]=s
+                b=b+1
+                i=i+1
+                print(b)
+        else:
+            print(-1)
+    else:
+        print(0)"
+45,A,Python3,60851542,2023-02-10 20:00:02,小淼子,执行出错,"m=int(input())
+for j in range(1,m+1):
+    n=int(input())
+    list1=list((map(int,input().split())))
+    a=int(list1[0])
+    s=0
+    b=0
+    if (a+2)%2==0:
+        i=1
+        if int(list1[i-1])>int(list1[i]):
+                s=list1[i]
+                list1[i]=list1[i-1]
+                list1[i-1]=s
+                b=b+1
+                i=i+1
+                print(b)
+        else:
+            print(-1)
+    else:
+        print(0)"
+46,A,Python3,60851669,2023-02-10 20:02:05,小淼子,执行出错,"m=int(input())
+for j in range(1,m+1):
+    n=int(input())
+    list1=list((map(int,input().split())))
+    a=int(list1[0])
+    s=0
+    b=0
+    if (a+2)%2==0:
+        i=1
+        if int(list1[i-1])>int(list1[i]):
+                s=list1[i]
+                list1[i]=list1[i-1]
+                list1[i-1]=s
+                b=b+1
+                i=i+1
+                print(b)
+        else:
+            print(-1)
+    else:
+        print(0)"
+47,A,Python3,60851711,2023-02-10 20:02:39,xiajibaqi,执行出错,"def szi(q:str):
+    q=q.split("" "")
+    w=[]
+    for e in q:
+        w.append(int(e))
+    return w
+q=input()
+for w in range(q):
+    e=input()
+    r=input()
+    r=szi(r)
+    if min(r)==r[0]:
+        if r[0]%2==0:
+            print(-1)
+            break
+        else:
+            print(0)
+            break
+    elif min(r)<r[0]:
+        t=r[0]
+        r.sort()
+        r.index(t)
+        for y in range(r.index(t)):
+            if y%2!=0:
+                print(1)
+                break
+            else:
+                print(-1)
+                break"
+48,A,Python3,60851774,2023-02-10 20:03:17,Katha,答案错误,"t = int(input())
+for _ in range(t):
+    n = int(input())
+    a = list(map(int, input().split()))
+    x = 0
+    count = 0
+    for i in range(n):
+            if a[0]%2!=0:
+                count=0
+            elif a[0]%2==0 and a[i]%2==0:
+                count=-1
+            elif i>0 and a[i] % 2 != 0 and (a[0] > a[i]):
+                count =1
+
+    print(count)
+"
+49,A,Python3,60851797,2023-02-10 20:03:36,qhhhhhhhhhhhhhhhhhhhhhhh,答案错误,"n=int(input())
+for i in range(n):
+ sum,temp=0,0   
+ s=int(input())
+ list1=list(map(int,input().split()))
+ for i in range(1,s):
+    a1=list1[0]
+    if a1%2!=0:
+        print(sum)
+        break 
+    if a1>list1[i]:
+        sum+=1
+        a1=list1[i]
+        if a1%2!=0:
+            print(sum)
+            break
+    temp+=1    
+    if temp==s-1:
+        print(-1)
+        break
+"
+50,A,Python3,60851838,2023-02-10 20:04:10,小淼子,执行出错,"m=int(input())
+for j in range(1,m+1):
+    n=int(input())
+    list1=list((map(int,input().split())))
+    a=int(list1[0])
+    s=0
+    b=0
+    if (a+2)%2==0:
+        i=1
+        if int(list1[i-1])>int(list1[i]):
+                s=list1[i]
+                list1[i]=list1[i-1]
+                list1[i-1]=s
+                b=b+1
+                i=i+1
+                print(b)
+        else:
+            print(-1)
+    else:
+        print(0)"
+51,A,Python3,60851849,2023-02-10 20:04:22,Katha,答案错误,"t = int(input())
+for _ in range(t):
+    n = int(input())
+    a = list(map(int, input().split()))
+    x = 0
+    count = 0
+    for i in range(n):
+            if a[0]%2!=0:
+                count=0
+            elif a[0]%2==0 and a[i]%2==0:
+                count=-1
+            elif i>0 and a[i] % 2 != 0 and (a[0] > a[i]):
+                count =1
+    print(count)
+"
+52,A,Python3,60851994,2023-02-10 20:06:09,Katha,答案错误,"t = int(input())
+for _ in range(t):
+    n = int(input())
+    a = list(map(int, input().split()))
+    x = 0
+    count = 0
+    for i in range(n):
+            if a[0]%2!=0:
+                count=0
+            elif i>0 and a[i] % 2 != 0 and (a[0] > a[i]):
+                count = 1
+            else:
+                count=-1
+    print(count)"
+53,A,Python3,60852200,2023-02-10 20:09:47,qhhhhhhhhhhhhhhhhhhhhhhh,答案错误,"n=int(input())
+for i in range(n):
+ sum,temp=0,0   
+ s=int(input())
+ list1=list(map(int,input().split()))
+ for i in range(1,s):
+    a1=list1[0]
+    if a1%2!=0:
+        print(sum)
+        break 
+    if a1>list1[i]:
+        sum+=1
+        a1=list1[i]
+        if a1%2!=0:
+            print(sum)
+            break
+    temp+=1    
+    if temp==s-1:
+        print(-1)
+        break
+"
+54,A,Python3,60852357,2023-02-10 20:11:44,underdog_1,执行出错,"t = int(input())
+for i in range(t):
+    n = int(input())
+    l = [int(i) for i in input().split()]
+    if l[0] % 2:
+        print(0)
+        continue
+    elif l[0] == 0:
+        print(-1)
+        continue
+    else:
+        l1 = []
+        l2 = []
+        for j in l:
+            if j % 2:
+                l1.append(j)
+            else:
+                l2.append(j)
+        if l[0] < min(l1) and max(l2) < min(l1):
+            print(-1)
+        elif l[0] < min(l1) and max(l2) > min(l1):
+            print(2)
+        elif l[0] > min(l1):
+            print(1)
+        "
+55,A,Python3,60852424,2023-02-10 20:12:31,小淼子,执行出错,"m=int(input())
+list2=[]
+for j in range(1,m+1):
+    n=int(input())
+    list1=list((map(int,input().split())))
+    a=int(list1[0])
+    s=0
+    b=0
+    if (a+2)%2==0:
+        i=1
+        if int(list1[i-1])>int(list1[i]):
+                s=list1[i]
+                list1[i]=list1[i-1]
+                list1[i-1]=s
+                b=b+1
+                i=i+1
+                list2.append(b)
+        else:
+            list2.append(-1)
+    else:
+        list2.append(0)
+for x in list2:
+    print(int(x))"
+56,A,Python3,60852520,2023-02-10 20:13:39,qhhhhhhhhhhhhhhhhhhhhhhh,答案错误,"n=int(input())
+list2=[]
+for i in range(n):
+ sum,temp=0,0   
+ s=int(input())
+ list1=list(map(int,input().split()))
+ for i in range(1,s):
+    a1=list1[0]
+    if a1%2!=0:
+        list2.append(sum)
+        break 
+    if a1>list1[i]:
+        sum+=1
+        a1=list1[i]
+        if a1%2!=0:
+            list2.append(sum)
+            break
+    temp+=1    
+    if temp==s-1:
+        list2.append(-1)
+        break
+for i in list2:
+    print(i)
+"
+57,A,Python3,60852714,2023-02-10 20:16:32,xiajibaqi,答案错误,"def szi(q:str):
+    q=q.split("" "")
+    w=[]
+    for e in q:
+        w.append(int(e))
+    return w
+
+q=int(input())
+for w in range(q):
+    e=input()
+    r=input()
+    r=szi(r)
+    if min(r)==r[0]:
+        if r[0]%2==0:
+            print(-1)
+        else:
+            print(0)
+    elif min(r)<r[0]:
+        t=r[0]
+        r.sort()
+        for y in r[:r.index(t)]:
+            if y%2!=0:
+                print(1)
+            else:
+                print(-1)"
+58,A,Python3,60852866,2023-02-10 20:18:42,许大大1,运行超时,"for i in range(int(input())):
+    a = int(input())
+    b = list(map(int,input().split()))
+    while True:
+        try:
+            for q in range(a):
+                for j in range(a-1-q):
+                    c = 0
+                    if b[j] > b[j+1]:
+                        b[j+1],b[j] = b[j],b[j+1]
+                        c += 1
+                        if b[0]%2 == 1:
+                            print(c)
+        except:
+            print(-1)
+            break
+          "
+59,A,Python3,60852983,2023-02-10 20:20:26,qhhhhhhhhhhhhhhhhhhhhhhh,答案错误,"n=int(input())
+list2=[]
+for i in range(n):
+ sum,temp=0,0   
+ s=int(input())
+ list1=list(map(int,input().split()))
+ for i in range(1,s):
+    a1=list1[0]
+    if a1%2!=0:
+        list2.append(sum)
+        break 
+    if a1>list1[i]:
+        sum+=1
+        a1=list1[i]
+        if a1%2!=0:
+            list2.append(sum)
+            break
+    temp+=1    
+    if temp==s-1:
+        list2.append(-1)
+        break
+for i in list2:
+    print(i)
+"
+60,A,Python3,60853014,2023-02-10 20:20:50,xiajibaqi,答案错误,"def szi(q:str):
+    q=q.split("" "")
+    w=[]
+    for e in q:
+        w.append(int(e))
+    return w
+
+q=int(input())
+for w in range(q):
+    e=input()
+    r=input()
+    r=szi(r)
+    if min(r)==r[0]:
+        if r[0]%2==0:
+            print(-1)
+        else:
+            print(0)
+    elif min(r)<r[0]:
+        t=r[0]
+        r.sort()
+        for y in r[:r.index(t)]:
+            if y%2!=0:
+                print(1)
+            else:
+                print(-1)"
+61,A,Python3,60853020,2023-02-10 20:20:56,牛客396138626号,答案错误,"x = int(input())
+for _ in range(x):
+    n = int(input())
+    a = [0]+list(map(int,input().split()))
+
+    if a[1]%2!=0:
+        print(""0"")
+    else:
+        for i in range(2,n+1):
+            if a[i]%2 != 0 and a[i]<a[1]:
+                print(""1"")
+                break
+            elif i==n:
+                print(""-1"")"
+62,A,Python3,60853050,2023-02-10 20:21:23,qhhhhhhhhhhhhhhhhhhhhhhh,答案错误,"n=int(input())
+list2=[]
+for i in range(n):
+ sum,temp=0,0   
+ s=int(input())
+ list1=list(map(int,input().split()))
+ for i in range(1,s):
+    a1=list1[0]
+    if a1%2!=0:
+        list2.append(sum)
+        break 
+    if a1>list1[i]:
+        sum+=1
+        a1=list1[i]
+        if a1%2!=0:
+            list2.append(sum)
+            break
+    temp+=1    
+    if temp==s-1:
+        list2.append(-1)
+        break
+for i in list2:
+    print(i)
+"
+63,A,Python3,60853058,2023-02-10 20:21:25,牛客396138626号,答案错误,"x = int(input())
+for _ in range(x):
+    n = int(input())
+    a = [0]+list(map(int,input().split()))
+
+    if a[1]%2!=0 or n<=1:
+        print(""0"")
+    else:
+        for i in range(2,n+1):
+            if a[i]%2 != 0 and a[i]<a[1]:
+                print(""1"")
+                break
+            elif i==n:
+                print(""-1"")"
+64,A,Python3,60853371,2023-02-10 20:25:56,小七爱英语,答案错误,"print(""accepted"")"
+65,A,Python3,60854233,2023-02-10 20:39:13,qhhhhhhhhhhhhhhhhhhhhhhh,答案错误,"n=int(input())
+list2=[]
+for i in range(n):
+ temp=0
+ s=int(input())
+ list1=list(map(int,input().split()))
+ if list1[0]%2!=0:
+        list2.append(0)
+ else:
+  for i in range(1,s):
+    a1=list1[0]
+    if a1>list1[i] and list1[i]%2!=0:
+            list2.append(1)
+            break
+    temp+=1    
+    if temp==s-1:
+        list2.append(-1)
+        break
+for i in list2:
+    print(i)
+"
+66,A,Python3,60854769,2023-02-10 20:48:46,qhhhhhhhhhhhhhhhhhhhhhhh,答案正确,"n=int(input())
+list2=[]
+for i in range(n):
+ y=0
+ temp=0
+ s=int(input())
+ list1=list(map(int,input().split()))
+ if list1[0]%2!=0:
+        list2.append(0)
+        y=1
+ else:
+  for i in range(1,s):
+    a1=list1[0]
+    if a1>list1[i] and list1[i]%2==1:
+            list2.append(1)
+            y=1
+            break
+  if y==0:           
+    list2.append(-1)
+for i in list2:
+    print(i)
+"
+67,A,Python3,60854989,2023-02-10 20:52:16,小淼子,执行出错,"m=int(input())
+list2=[]
+for j in range(1,m+1):
+    n=int(input())
+    list1=list((map(int,input().split())))
+    a=int(list1[0])
+    s=0
+    b=0
+    if (a+2)%2==0:
+        i=1
+        if int(list1[i-1])>int(list1[i]):
+                s=list1[i]
+                list1[i]=list1[i-1]
+                list1[i-1]=s
+                b=b+1
+                i=i+1
+                list2.append(b)
+        else:
+            list2.append(-1)
+    else:
+        list2.append(0)
+for x in list2:
+    print(int(x))"
+68,A,Python3,60855612,2023-02-10 21:00:54,tendance,答案错误,"import os
+import sys
+n = int(input())
+flag = 0
+while n:
+  m = int(input())
+  a = list(map(int,input().split()))
+  if a[0]%2!=0:
+    print(0)
+  else:
+    for i in range(1,len(a)):
+      if a[i]<a[0] and a[i]%2!=0:
+        print(1)
+        flag = 1
+        break
+    if flag == 0:
+      print(-1)
+  n-=1
+  "
+69,A,Python3,60855723,2023-02-10 21:03:18,tendance,答案错误,"import os
+import sys
+n = int(input())
+flag = 0
+while n:
+  m = int(input())
+  a = list(map(int,input().split()))
+  if a[0]%2!=0:
+    print(0)
+  else:
+    for i in range(1,len(a)):
+      if a[i]<a[0] and a[i]%2!=0:
+        print(1)
+        flag = 1
+        break
+    if flag == 0:
+      print(-1)
+  n-=1
+  "
+70,A,Python3,60855817,2023-02-10 21:04:52,tendance,答案正确,"import os
+import sys
+n = int(input())
+
+while n:
+  flag = 0
+  m = int(input())
+  a = list(map(int,input().split()))
+  if a[0]%2!=0:
+    print(0)
+  else:
+    for i in range(1,len(a)):
+      if a[i]<a[0] and a[i]%2!=0:
+        print(1)
+        flag = 1
+        break
+    if flag == 0:
+      print(-1)
+  n-=1
+  "
+71,A,Python3,60856015,2023-02-10 21:09:24,小淼子,答案正确,"m=int(input())
+list2=[]
+for j in range(1,m+1):
+    n=int(input())
+    list1=list((map(int,input().split())))
+    flog = False
+    for i in list1:
+        if list1[0] > i and i & 1 == 1:
+            flog = True
+    if list1[0] & 1:
+        print(0)
+    elif flog:
+        print(1)
+    else:
+        print(-1)"
+72,A,Python3,60856117,2023-02-10 21:11:40,江2003,答案正确,"t=int(input())
+for i in range(t):
+    n=int(input())
+    a=list(map(int,input().strip().split()))
+    ans=-1
+    if a[0]%2:
+        print(""0"")
+        continue
+    for k in range(1,n):
+        if a[0]>a[k] and a[k]%2:
+            ans=1
+            break
+    print(ans)"
+73,A,Python3,60856179,2023-02-10 21:13:04,NP_Prob,答案正确,"import os
+import sys
+from io import BytesIO, IOBase
+from math import gcd
+
+MOD0 = 10 ** 9 + 7
+MOD1 = 998244353
+BUFSIZE = 8192
+
+
+class FastIO(IOBase):
+    newlines = 0
+
+    def __init__(self, file):
+        self._fd = file.fileno()
+        self.buffer = BytesIO()
+        self.writable = ""x"" in file.mode or ""r"" not in file.mode
+        self.write = self.buffer.write if self.writable else None
+
+    def read(self):
+        while True:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            if not b:
+                break
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines = 0
+        return self.buffer.read()
+
+    def readline(self):
+        while self.newlines == 0:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            self.newlines = b.count(b""\n"") + (not b)
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines -= 1
+        return self.buffer.readline()
+
+    def flush(self):
+        if self.writable:
+            os.write(self._fd, self.buffer.getvalue())
+            self.buffer.truncate(0), self.buffer.seek(0)
+
+
+class IOWrapper(IOBase):
+    def __init__(self, file):
+        self.buffer = FastIO(file)
+        self.flush = self.buffer.flush
+        self.writable = self.buffer.writable
+        self.write = lambda s: self.buffer.write(s.encode(""ascii""))
+        self.read = lambda: self.buffer.read().decode(""ascii"")
+        self.readline = lambda: self.buffer.readline().decode(""ascii"")
+
+
+sys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)
+input = lambda: sys.stdin.readline().rstrip(""\r\n"")
+
+t = int(input())
+
+for _ in range(t):
+    n = int(input())
+    nums = list(map(int, input().split()))
+    if nums[0] % 2:
+        print(0)
+        continue
+    flag = 0
+    for i in range(1, n):
+        if nums[i] < nums[0] and nums[i] % 2:
+            print(1)
+            flag = 1
+            break
+    if flag:
+        continue
+    print(-1)
+"
+74,A,Python3,60857294,2023-02-10 21:47:38,Katha,答案正确,"t = int(input())
+for _ in range(t):
+    n = int(input())
+    a = list(map(int, input().split()))
+    x = 0
+    count =-1
+    for i in range(n):
+        if a[0] % 2 != 0:
+            count = 0
+        elif a[i] % 2 != 0 and (a[0] > a[i]):
+            count = 1
+    print(count)
+"
+75,A,Python3,60857346,2023-02-10 21:49:14,Katha,答案错误,"t = int(input())
+for _ in range(t):
+    n = int(input())
+    a = list(map(int, input().split()))
+    x = 0
+    count = 0
+    for i in range(n):
+        if a[0] % 2 != 0:
+            count = 0
+        elif a[i] % 2 != 0 and (a[0] > a[i]):
+            count = 1
+        else:
+            count = -1
+    print(count)
+"
+76,A,Python3,60857414,2023-02-10 21:52:23,dqqqqqqqq,答案错误,"n=int(input())
+for _ in range(n):
+    k=int(input())
+    a=list(map(int,input().split()))
+    b=min(a)
+    if b==a[0]:
+        if b%2:
+            print(0)
+        else:
+            print(-1)
+    else:
+        f=0
+        for j in a[1:len(a)]:
+            if j<a[0] and j%2:
+                print(1)
+                f=1
+                break
+        if not f:
+            print(-1)"
+77,A,Python3,60857487,2023-02-10 21:56:11,dqqqqqqqq,答案正确,"n=int(input())
+for _ in range(n):
+    k=int(input())
+    a=list(map(int,input().split()))
+    b=min(a)
+    if a[0]%2:
+        print(0)
+    elif b==a[0]:
+        if b%2:
+            print(0)
+        else:
+            print(-1)
+    else:
+        f=0
+        for j in a[1:len(a)]:
+            if j<a[0] and j%2:
+                print(1)
+                f=1
+                break
+        if not f:
+            print(-1)"
+78,A,Python3,60857518,2023-02-10 21:57:16,dqqqqqqqq,答案正确,"n=int(input())
+for _ in range(n):
+    k=int(input())
+    a=list(map(int,input().split()))
+    b=min(a)
+    if a[0]%2:
+        print(0)
+    else:
+        f=0
+        for j in a[1:len(a)]:
+            if j<a[0] and j%2:
+                print(1)
+                f=1
+                break
+        if not f:
+            print(-1)"
+79,A,Python3,60859387,2023-02-11 07:26:55,staneyffer,答案正确,"def RAI():
+    return [int(i) for i in input().split()]
+def RI():
+    return int(input())
+
+def main():
+    t = RI()
+    while t:
+        t -= 1
+        n = RI()
+        a = RAI()
+        if a[0] % 2 == 1:
+            print(0)
+        else:
+            ok = False
+            for i in range(1, n):
+                if a[i] < a[0] and a[i] % 2 == 1:
+                    ok = True
+                    break
+            if ok:
+                print(1)
+            else:
+                print(-1)
+main()"
+80,A,Python3,60860902,2023-02-11 12:55:27,ONE_yy31319,答案正确,"for i in range(int(input())):
+    n = int(input())
+    li = list(map(int, input().split()))
+    if (li[0] & 1) == 1:
+        print(0)
+        continue
+    for i in range(1, n):
+        if li[i] < li[0] and (li[i] & 1) == 1:
+            print(1)
+            break
+    else:
+        print(-1)"
+81,A,Python3,60864865,2023-02-11 20:33:20,yingyaoyao,答案错误,"import collections
+import random
+import sys
+import os
+import math
+from bisect import bisect_left, bisect_right
+from collections import Counter, defaultdict, deque
+from fractions import Fraction
+from itertools import accumulate, combinations, permutations
+from heapq import heappop, heappush
+from io import BytesIO, IOBase
+from copy import deepcopy
+from numbers import Rational
+from typing import List
+
+BUFSIZE = 4096
+
+
+def exgcd(a, b):
+    if b == 0:
+        return 1, 0, a
+    else:
+        x, y, q = exgcd(b, a % b)
+        x, y = y, (x - (a // b) * y)
+        return x, y, q
+
+
+def ModReverse(a, p):
+    x, y, q = exgcd(a, p)
+    return x % p
+
+
+def modpow(x, y, mod):
+    res = 1
+    while y:
+        if y & 1: res = res * x % mod
+        x = x * x % mod
+        y >>= 1
+    return res
+
+
+def qmi(x, y):
+    res = 1
+    while y:
+        if y & 1: res = res * x
+        x = x * x
+        y >>= 1
+    return res
+
+
+class FenwickTree:
+    def __init__(self, n):
+        self.n = n
+        self.bit = [0] * n
+
+    def sum(self, r):
+        res = 0
+        while r >= 0:
+            res += self.bit[r]
+            r = (r & (r + 1)) - 1
+        return res
+
+    def rsum(self, l, r):
+        return self.sum(r) - self.sum(l - 1)
+
+    def add(self, idx, delta):
+        while idx < self.n:
+            self.bit[idx] += delta
+            idx = idx | (idx + 1)
+
+
+class MaxNumArray:
+    def __init__(self, n):
+        self.n = n
+        self.tree = [0] * (2 * n)
+
+    def update(self, pos, val):
+        pos += self.n
+        self.tree[pos] = val
+        while pos:
+            l = r = pos
+            if pos % 2 == 0:
+                r = pos + 1
+            else:
+                l = pos - 1
+            self.tree[pos // 2] = max(self.tree[l], self.tree[r])
+            pos //= 2
+
+    def maxRange(self, l, r):
+        l += self.n
+        r += self.n
+        ans = 0
+        while l <= r:
+            if l & 1:
+                ans = max(ans, self.tree[l])
+                l += 1
+            if (r & 1) == 0:
+                ans = max(ans, self.tree[r])
+                r -= 1
+            l //= 2
+            r //= 2
+        return ans
+
+
+def gcd(a, b):
+    if a < 0: a = -a
+    if b < 0: b = -b
+    if a < b:
+        a, b = b, a
+    if a % b == 0:
+        return b
+    return gcd(b, a % b)
+
+
+class FastIO(IOBase):
+    newlines = 0
+
+    def __init__(self, file):
+        self._fd = file.fileno()
+        self.buffer = BytesIO()
+        self.writable = ""x"" in file.mode or ""r"" not in file.mode
+        self.write = self.buffer.write if self.writable else None
+
+    def read(self):
+        while True:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            if not b:
+                break
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines = 0
+        return self.buffer.read()
+
+    def readline(self):
+        while self.newlines == 0:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            self.newlines = b.count(b""\n"") + (not b)
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines -= 1
+        return self.buffer.readline()
+
+    def flush(self):
+        if self.writable:
+            os.write(self._fd, self.buffer.getvalue())
+            self.buffer.truncate(0), self.buffer.seek(0)
+
+
+class IOWrapper(IOBase):
+    def __init__(self, file):
+        self.buffer = FastIO(file)
+        self.flush = self.buffer.flush
+        self.writable = self.buffer.writable
+        self.write = lambda s: self.buffer.write(s.encode(""ascii""))
+        self.read = lambda: self.buffer.read().decode(""ascii"")
+        self.readline = lambda: self.buffer.readline().decode(""ascii"")
+
+
+sys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)
+input = lambda: sys.stdin.readline().rstrip(""\r\n"")
+
+
+def I():
+    return input()
+
+
+def ii():
+    return int(input())
+
+
+def li():
+    return list(input().split())
+
+
+def lii():
+    return list(map(int, input().split()))
+
+
+def solve():
+    for _ in range(ii()):
+        n = ii()
+        a = lii()
+        if a[0] & 1:
+            print(0)
+            continue
+        ok = 0
+        for i in range(1,n):
+            if a[i] >= a[i - 1]:
+                break
+            if a[i] & 1:
+                ok = 1
+                print(i)
+                break
+        if not ok:
+            print(-1)
+
+
+
+
+if __name__ == '__main__':
+    sys.setrecursionlimit(400005)
+    solve()
+"
+82,A,Python3,60864874,2023-02-11 20:35:42,yingyaoyao,答案错误,"import collections
+import random
+import sys
+import os
+import math
+from bisect import bisect_left, bisect_right
+from collections import Counter, defaultdict, deque
+from fractions import Fraction
+from itertools import accumulate, combinations, permutations
+from heapq import heappop, heappush
+from io import BytesIO, IOBase
+from copy import deepcopy
+from numbers import Rational
+from typing import List
+
+BUFSIZE = 4096
+
+
+def exgcd(a, b):
+    if b == 0:
+        return 1, 0, a
+    else:
+        x, y, q = exgcd(b, a % b)
+        x, y = y, (x - (a // b) * y)
+        return x, y, q
+
+
+def ModReverse(a, p):
+    x, y, q = exgcd(a, p)
+    return x % p
+
+
+def modpow(x, y, mod):
+    res = 1
+    while y:
+        if y & 1: res = res * x % mod
+        x = x * x % mod
+        y >>= 1
+    return res
+
+
+def qmi(x, y):
+    res = 1
+    while y:
+        if y & 1: res = res * x
+        x = x * x
+        y >>= 1
+    return res
+
+
+class FenwickTree:
+    def __init__(self, n):
+        self.n = n
+        self.bit = [0] * n
+
+    def sum(self, r):
+        res = 0
+        while r >= 0:
+            res += self.bit[r]
+            r = (r & (r + 1)) - 1
+        return res
+
+    def rsum(self, l, r):
+        return self.sum(r) - self.sum(l - 1)
+
+    def add(self, idx, delta):
+        while idx < self.n:
+            self.bit[idx] += delta
+            idx = idx | (idx + 1)
+
+
+class MaxNumArray:
+    def __init__(self, n):
+        self.n = n
+        self.tree = [0] * (2 * n)
+
+    def update(self, pos, val):
+        pos += self.n
+        self.tree[pos] = val
+        while pos:
+            l = r = pos
+            if pos % 2 == 0:
+                r = pos + 1
+            else:
+                l = pos - 1
+            self.tree[pos // 2] = max(self.tree[l], self.tree[r])
+            pos //= 2
+
+    def maxRange(self, l, r):
+        l += self.n
+        r += self.n
+        ans = 0
+        while l <= r:
+            if l & 1:
+                ans = max(ans, self.tree[l])
+                l += 1
+            if (r & 1) == 0:
+                ans = max(ans, self.tree[r])
+                r -= 1
+            l //= 2
+            r //= 2
+        return ans
+
+
+def gcd(a, b):
+    if a < 0: a = -a
+    if b < 0: b = -b
+    if a < b:
+        a, b = b, a
+    if a % b == 0:
+        return b
+    return gcd(b, a % b)
+
+
+class FastIO(IOBase):
+    newlines = 0
+
+    def __init__(self, file):
+        self._fd = file.fileno()
+        self.buffer = BytesIO()
+        self.writable = ""x"" in file.mode or ""r"" not in file.mode
+        self.write = self.buffer.write if self.writable else None
+
+    def read(self):
+        while True:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            if not b:
+                break
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines = 0
+        return self.buffer.read()
+
+    def readline(self):
+        while self.newlines == 0:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            self.newlines = b.count(b""\n"") + (not b)
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines -= 1
+        return self.buffer.readline()
+
+    def flush(self):
+        if self.writable:
+            os.write(self._fd, self.buffer.getvalue())
+            self.buffer.truncate(0), self.buffer.seek(0)
+
+
+class IOWrapper(IOBase):
+    def __init__(self, file):
+        self.buffer = FastIO(file)
+        self.flush = self.buffer.flush
+        self.writable = self.buffer.writable
+        self.write = lambda s: self.buffer.write(s.encode(""ascii""))
+        self.read = lambda: self.buffer.read().decode(""ascii"")
+        self.readline = lambda: self.buffer.readline().decode(""ascii"")
+
+
+sys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)
+input = lambda: sys.stdin.readline().rstrip(""\r\n"")
+
+
+def I():
+    return input()
+
+
+def ii():
+    return int(input())
+
+
+def li():
+    return list(input().split())
+
+
+def lii():
+    return list(map(int, input().split()))
+
+
+def solve():
+    for _ in range(ii()):
+        n = ii()
+        a = lii()
+        if a[0] & 1:
+            print(0)
+            continue
+        ok = 0
+        for i in range(n):
+            if a[i] & 1 and a[i] < a[0]:
+                print(i)
+                ok = 1
+                break
+        if not ok:
+            print(-1)
+
+
+
+
+if __name__ == '__main__':
+    sys.setrecursionlimit(400005)
+    solve()
+"
+83,A,Python3,60864880,2023-02-11 20:36:22,yingyaoyao,答案正确,"import collections
+import random
+import sys
+import os
+import math
+from bisect import bisect_left, bisect_right
+from collections import Counter, defaultdict, deque
+from fractions import Fraction
+from itertools import accumulate, combinations, permutations
+from heapq import heappop, heappush
+from io import BytesIO, IOBase
+from copy import deepcopy
+from numbers import Rational
+from typing import List
+
+BUFSIZE = 4096
+
+
+def exgcd(a, b):
+    if b == 0:
+        return 1, 0, a
+    else:
+        x, y, q = exgcd(b, a % b)
+        x, y = y, (x - (a // b) * y)
+        return x, y, q
+
+
+def ModReverse(a, p):
+    x, y, q = exgcd(a, p)
+    return x % p
+
+
+def modpow(x, y, mod):
+    res = 1
+    while y:
+        if y & 1: res = res * x % mod
+        x = x * x % mod
+        y >>= 1
+    return res
+
+
+def qmi(x, y):
+    res = 1
+    while y:
+        if y & 1: res = res * x
+        x = x * x
+        y >>= 1
+    return res
+
+
+class FenwickTree:
+    def __init__(self, n):
+        self.n = n
+        self.bit = [0] * n
+
+    def sum(self, r):
+        res = 0
+        while r >= 0:
+            res += self.bit[r]
+            r = (r & (r + 1)) - 1
+        return res
+
+    def rsum(self, l, r):
+        return self.sum(r) - self.sum(l - 1)
+
+    def add(self, idx, delta):
+        while idx < self.n:
+            self.bit[idx] += delta
+            idx = idx | (idx + 1)
+
+
+class MaxNumArray:
+    def __init__(self, n):
+        self.n = n
+        self.tree = [0] * (2 * n)
+
+    def update(self, pos, val):
+        pos += self.n
+        self.tree[pos] = val
+        while pos:
+            l = r = pos
+            if pos % 2 == 0:
+                r = pos + 1
+            else:
+                l = pos - 1
+            self.tree[pos // 2] = max(self.tree[l], self.tree[r])
+            pos //= 2
+
+    def maxRange(self, l, r):
+        l += self.n
+        r += self.n
+        ans = 0
+        while l <= r:
+            if l & 1:
+                ans = max(ans, self.tree[l])
+                l += 1
+            if (r & 1) == 0:
+                ans = max(ans, self.tree[r])
+                r -= 1
+            l //= 2
+            r //= 2
+        return ans
+
+
+def gcd(a, b):
+    if a < 0: a = -a
+    if b < 0: b = -b
+    if a < b:
+        a, b = b, a
+    if a % b == 0:
+        return b
+    return gcd(b, a % b)
+
+
+class FastIO(IOBase):
+    newlines = 0
+
+    def __init__(self, file):
+        self._fd = file.fileno()
+        self.buffer = BytesIO()
+        self.writable = ""x"" in file.mode or ""r"" not in file.mode
+        self.write = self.buffer.write if self.writable else None
+
+    def read(self):
+        while True:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            if not b:
+                break
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines = 0
+        return self.buffer.read()
+
+    def readline(self):
+        while self.newlines == 0:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            self.newlines = b.count(b""\n"") + (not b)
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines -= 1
+        return self.buffer.readline()
+
+    def flush(self):
+        if self.writable:
+            os.write(self._fd, self.buffer.getvalue())
+            self.buffer.truncate(0), self.buffer.seek(0)
+
+
+class IOWrapper(IOBase):
+    def __init__(self, file):
+        self.buffer = FastIO(file)
+        self.flush = self.buffer.flush
+        self.writable = self.buffer.writable
+        self.write = lambda s: self.buffer.write(s.encode(""ascii""))
+        self.read = lambda: self.buffer.read().decode(""ascii"")
+        self.readline = lambda: self.buffer.readline().decode(""ascii"")
+
+
+sys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)
+input = lambda: sys.stdin.readline().rstrip(""\r\n"")
+
+
+def I():
+    return input()
+
+
+def ii():
+    return int(input())
+
+
+def li():
+    return list(input().split())
+
+
+def lii():
+    return list(map(int, input().split()))
+
+
+def solve():
+    for _ in range(ii()):
+        n = ii()
+        a = lii()
+        if a[0] & 1:
+            print(0)
+            continue
+        ok = 0
+        for i in range(n):
+            if a[i] & 1 and a[i] < a[0]:
+                print(1)
+                ok = 1
+                break
+        if not ok:
+            print(-1)
+
+
+
+
+if __name__ == '__main__':
+    sys.setrecursionlimit(400005)
+    solve()
+"
+84,A,Python3,60867663,2023-02-12 13:59:40,许大大1,答案正确,"for j in range(int(input())):
+    a = int(input())
+    b = list(map(int,input().split()))
+    if b[0]%2 == 1:
+        print(0)
+    else:
+        for i in range(1, a):
+            if b[i] < b[0] and (b[i] % 2) == 1:
+                print(1)
+                break
+        else:
+            print(-1)
+            
+                
+    "
+85,A,Python3,60880547,2023-02-14 17:28:19,拒绝pua的coder很想五点下,答案正确,"arrn = int(input())
+for i in range (0,arrn):
+    l = int(input())
+    arr = list(map(int,input().split()))
+    if arr[0]%2==1:
+        print(0)
+    elif l==1:
+        print(-1)
+    else:
+        flag = False 
+        for j in range(1,l):
+            if arr[j]%2==1 and arr[j]<arr[0]:
+                flag = True
+                break
+        if flag:
+            print(1)
+        else:
+            print(-1)
+        "
+86,A,Python3,60880555,2023-02-14 17:29:21,拒绝pua的coder很想五点下,答案正确,"arrn = int(input())
+for i in range (0,arrn):
+    l = int(input())
+    arr = list(map(int,input().split()))
+    if arr[0]%2==1:
+        print(0)
+    else:
+        flag = False 
+        for j in range(1,l):
+            if arr[j]%2==1 and arr[j]<arr[0]:
+                flag = True
+                break
+        if flag:
+            print(1)
+        else:
+            print(-1)
+        "
+87,A,Python3,60890654,2023-02-14 23:02:39,Spy97,答案正确,"t=int(input())
+for x in range(t):
+    n=int(input())
+    a=list(map(int,input().split()))
+    b=[]
+    f=1
+    for i in range(1,len(a)):
+        if a[i]%2==1 and a[i]<a[0]:
+            f=0
+    if a[0]%2==1:
+        print(0)
+    elif f==1:
+        print(-1)
+    else:
+        print(1)
+            "
+88,A,Python3,60892515,2023-02-15 12:18:41,summerEDward,答案正确,"T=int(input())
+for i in range(T):
+    n=int(input())
+    a=list(map(int,input().split()))
+    x1=a[0]
+    if x1%2!=0:
+        print(0)
+        continue
+    else:
+        flag=0
+        a.sort()
+        for j in range(n):
+            if a[j]%2!=0 and a[j]<x1:
+                flag=1
+                break
+        if flag==1:
+            print(1)
+        else:
+            print(-1)"
+89,A,Python3,60895232,2023-02-15 20:07:23,牛客581067831号,答案错误,"def main():
+    N = int(input())
+    for i in range(N):
+        n = int(input())
+        nums = list(map(int, input().split()))
+        if nums[0] & 1:
+            print(0)
+        else:
+            for i in range(1, n):
+                if nums[i] & 1 and nums[i] < nums[0]:
+                    print(1)
+                    return
+                print(-1)
+main()"
+90,A,Python3,60895239,2023-02-15 20:08:10,牛客581067831号,答案错误,"def main():
+    N = int(input())
+    for i in range(N):
+        n = int(input())
+        nums = list(map(int, input().split()))
+        if nums[0] & 1:
+            print(0)
+        else:
+            for i in range(1, n):
+                if nums[i] & 1 and nums[i] < nums[0]:
+                    print(1)
+                    return
+            print(-1)
+main()"
+91,A,Python3,60895290,2023-02-15 20:14:33,爱打牌的登子,答案正确,"t = int (input())
+for _ in range (t):
+    ans = -1
+    n = int (input())
+    a = list (map(int , input().split()))
+    if a[0] % 2 == 1:
+        print (0)
+    else:
+        ok = False
+        for i in range (1 , n):
+            if a[0] > a[i] and a[i] % 2 == 1:
+                ok = True 
+        if ok:
+            print (1)
+        else:
+            print (-1)"
+92,A,Python3,60895311,2023-02-15 20:16:39,牛客581067831号,答案错误,"def main():
+    N = int(input())
+    for i in range(N):
+        n = int(input())
+        nums = list(map(int, input().split()))
+        if nums[0] & 1:
+            print(0)
+        else:
+            for i in range(1, n):
+                if (nums[i] & 1 )and nums[i] < nums[0]:
+                    print(1)
+                    return
+            print(-1)
+main()"
+93,A,Python3,60895332,2023-02-15 20:19:47,牛客581067831号,答案错误,"def main():
+    N = int(input().strip())
+    for i in range(N):
+        n = int(input())
+        nums = list(map(int, input().strip().split()))
+        if nums[0] & 1:
+            print(0)
+        else:
+            for i in range(1, n):
+                if (nums[i] & 1 )and nums[i] < nums[0]:
+                    print(1)
+                    return
+            print(-1)
+main()"
+94,A,Python3,60895342,2023-02-15 20:20:43,牛客581067831号,答案错误,"def main():
+    N = int(input().strip())
+    for i in range(N):
+        n = int(input())
+        nums = list(map(int, input().strip().split()))
+        if nums[0] & 1:
+            print(0)
+        else:
+            for j in range(1, n):
+                if (nums[j] & 1 )and nums[j] < nums[0]:
+                    print(1)
+                    return
+            print(-1)
+main()"
+95,A,Python3,60895356,2023-02-15 20:21:28,牛客581067831号,答案错误,"def main():
+    N = int(input().strip())
+    for i in range(N):
+        n = int(input())
+        nums = list(map(int, input().strip().split()))
+        if nums[0] & 1:
+            print(0)
+        else:
+            for j in range(1, n):
+                if (nums[j] & 1 )and (nums[j] < nums[0]):
+                    print(1)
+                    continue
+            print(-1)
+main()"
+96,A,Python3,60895362,2023-02-15 20:22:05,牛客581067831号,答案正确,"def main():
+    N = int(input().strip())
+    for i in range(N):
+        n = int(input())
+        nums = list(map(int, input().strip().split()))
+        if nums[0] & 1:
+            print(0)
+        else:
+            for j in range(1, n):
+                if (nums[j] & 1 )and (nums[j] < nums[0]):
+                    print(1)
+                    break
+            else:
+                print(-1)
+main()"
+97,A,Python3,60927497,2023-02-19 22:11:52,FRANS4X,执行出错,"n = int(input())
+a = list(map(int, input().split()))
+
+# 统计奇偶数个数
+odd_count = sum([1 for i in a if i % 2 == 1])
+even_count = n - odd_count
+
+# 如果a[1]本来就是奇数，不需要任何操作
+if a[1] % 2 == 1:
+    print(0)
+else:
+    # 如果a[1]是偶数，需要找到第一个奇数并交换
+    found = False
+    for i in range(2, n + 1):
+        if a[i] % 2 == 1:
+            a[1], a[i] = a[i], a[1]
+            print(1)
+            found = True
+            break
+    # 如果找不到奇数，无法操作
+    if not found:
+        print(-1)
+    else:
+        # 重复交换，直到a[1]变成奇数或者无法再进行交换
+        while a[1] % 2 == 0 and even_count > 0:
+            for i in range(2, n + 1):
+                if a[i] % 2 == 1:
+                    a[1], a[i] = a[i], a[1]
+                    print(1)
+                    break
+            even_count -= 1
+        # 如果无法变成奇数，输出-1
+        if a[1] % 2 == 0:
+            print(-1)
+"
+98,A,Python3,60928568,2023-02-20 10:58:11,屠晓莹,答案正确,"def changeNum(count:int,nums:list)->int:
+    if nums[0]%2==1:
+        return 0
+    for i in range(1,count):
+        if nums[i]%2==1 and nums[0]>nums[i]:
+            return 1
+    return -1
+testNum=int(input())
+for i in range(testNum):
+    count=int(input())
+    nums=list(map(int,input().split()))
+    print(changeNum(count,nums))
+    "
+99,A,Python3,60932068,2023-02-20 20:07:30,420k,答案正确,"t = int (input())
+for _ in range (t):
+    ans = -1
+    n = int (input())
+    a = list (map(int , input().split()))
+    if a[0] % 2 == 1:
+        print (0)
+    else:
+        ok = False
+        for i in range (1 , n):
+            if a[0] > a[i] and a[i] % 2 == 1:
+                ok = True 
+        if ok:
+            print (1)
+        else:
+            print (-1)"
+100,A,Python3,60941450,2023-02-21 20:10:53,懒得改了,答案错误,"for _ in range(int(input())):
+    input()
+    m=int(1e12)
+    for i,x in enumerate(list(map(int,input().split()))):
+        if x&1:
+            if x<m:
+                print(i)
+                break
+        elif x<m:
+            m=x
+    else:
+        print(-1)"
+101,A,Python3,60941655,2023-02-21 20:19:52,懒得改了,答案正确,"for _ in range(int(input())):
+    input()
+    l=list(map(int,input().split()))
+    print(1-(l[0]&1) if l[0]&1 or any(x&1and x<l[0] for x in l)else -1)"
+102,A,Python3,60944302,2023-02-22 09:42:29,盐渍咸鱼,答案错误,"t = int(input())
+while(t > 0):
+    n = int(input())
+    lis = list(map(int, input().split()))
+    MAX = lis[0]
+    flag = False
+    if(MAX % 2 == 1):
+        flag = True
+    for i in range(1, n, 1):
+        if(lis[i] < MAX and lis[i]%2 == 1):
+            flag = True
+    if(flag == True):
+        print(1)
+    else:
+        print(-1)
+    t = t - 1"
+103,A,Python3,60944313,2023-02-22 09:45:33,盐渍咸鱼,答案正确,"t = int(input())
+while(t > 0):
+    n = int(input())
+    lis = []
+    lis = list(map(int, input().split()))
+    MAX = lis[0]
+    flag = False
+    if(MAX % 2 == 1):
+        print(0)
+        t = t - 1
+        continue
+    for i in range(1, n, 1):
+        if(lis[i] < MAX and lis[i]%2 == 1):
+            flag = True
+    if(flag == True):
+        print(1)
+    else:
+        print(-1)
+    t = t - 1"
+104,A,Python3,61126796,2023-03-07 21:06:44,2022zhangchuanlong,答案错误,"t=int(input())
+while t:
+    t-=1
+    n=int(input())
+    a=list(map(int,input().split()))
+    if a[0]%2==1:
+        print(""0"")
+        continue
+    x=0
+    for item in a:
+        if item%2==1:
+            x=max(x,item)
+    if(x>a[0]):
+        print(""-1"")
+        continue
+    print(""1"")
+"
+105,A,Python3,61126822,2023-03-07 21:08:21,2022zhangchuanlong,答案正确,"t=int(input())
+while t:
+    t-=1
+    n=int(input())
+    a=list(map(int,input().split()))
+    if a[0]%2==1:
+        print(""0"")
+        continue
+    x=2e9
+    for item in a:
+        if item%2==1:
+            x=min(x,item)
+    if(x>a[0]):
+        print(""-1"")
+        continue
+    print(""1"")
+"
+106,A,Python3,61277924,2023-03-13 23:10:42,阿来想AC,答案正确,"t = int(input())
+for _ in range(t):
+    n = int(input())
+    alist = list(map(int,input().split(' ')))
+    flag = 0
+    for j in range(n):
+        if alist[0]%2 == 1:
+            print(0)
+            flag = 1
+            break
+        if alist[j] < alist[0] and alist[j]%2 == 1:
+            print(1)
+            flag = 1
+            break
+    if flag == 0:
+        print(-1)"

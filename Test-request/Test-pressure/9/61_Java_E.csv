@@ -1,0 +1,2082 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,E,Java,54842750,2022-11-18 20:23:38,humwawe,答案错误,"import java.io.OutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.io.Writer;
+import java.io.OutputStreamWriter;
+import java.io.InputStream;
+
+/**
+ * Built using CHelper plug-in
+ * Actual solution is at the top
+ */
+public class Main {
+  public static void main(String[] args) {
+    InputStream inputStream = System.in;
+    OutputStream outputStream = System.out;
+    InputReader in = new InputReader(inputStream);
+    OutputWriter out = new OutputWriter(outputStream);
+    TaskE solver = new TaskE();
+    solver.solve(1, in, out);
+    out.close();
+  }
+
+  static class TaskE {
+    public void solve(int testNumber, InputReader in, OutputWriter out) {
+      int n = in.nextInt();
+      int[] a = in.nextInt(n);
+      int N = (int) (1e5 + 5);
+      int[] cnt = new int[N];
+      if (n == 1) {
+        out.println(0);
+        return;
+      }
+      int mod = (int) (1e9 + 7);
+      long res = 1;
+      for (int i = 1; i <= n; i++) {
+        cnt[a[i - 1]]++;
+        res *= i;
+        res %= mod;
+      }
+      res /= 2;
+      long t = CombinationMath.comb(n, 2);
+      for (int i = 1; i < N; i++) {
+        if (cnt[i] > 1) {
+          t -= CombinationMath.comb(cnt[i], 2);
+          t = CombinationMath.mod(t);
+        }
+      }
+
+      out.println(res * t % mod);
+    }
+
+  }
+
+  static class InputReader {
+    private InputStream stream;
+    private byte[] buf = new byte[1024];
+    private int curChar;
+    private int numChars;
+    private InputReader.SpaceCharFilter filter;
+
+    public InputReader(InputStream stream) {
+      this.stream = stream;
+    }
+
+    public int read() {
+      if (numChars == -1) {
+        throw new UnknownError();
+      }
+      if (curChar >= numChars) {
+        curChar = 0;
+        try {
+          numChars = stream.read(buf);
+        } catch (IOException e) {
+          throw new UnknownError();
+        }
+        if (numChars <= 0) {
+          return -1;
+        }
+      }
+      return buf[curChar++];
+    }
+
+    public int nextInt() {
+      int c = read();
+      while (isSpaceChar(c)) {
+        c = read();
+      }
+      int sgn = 1;
+      if (c == '-') {
+        sgn = -1;
+        c = read();
+      }
+      int res = 0;
+      do {
+        if (c < '0' || c > '9') {
+          throw new UnknownError();
+        }
+        res *= 10;
+        res += c - '0';
+        c = read();
+      } while (!isSpaceChar(c));
+      return res * sgn;
+    }
+
+    public int[] nextInt(int n) {
+      int[] a = new int[n];
+      for (int i = 0; i < n; i++) {
+        a[i] = nextInt();
+      }
+      return a;
+    }
+
+    public boolean isSpaceChar(int c) {
+      if (filter != null) {
+        return filter.isSpaceChar(c);
+      }
+      return isWhitespace(c);
+    }
+
+    public static boolean isWhitespace(int c) {
+      return c == ' ' || c == '\n' || c == '\r' || c == '\t' || c == -1;
+    }
+
+    public interface SpaceCharFilter {
+      public boolean isSpaceChar(int ch);
+
+    }
+
+  }
+
+  static class CombinationMath {
+    private static final int MEMO_THRESHOLD = 1000005;
+    static long mod = (long) (1e9 + 7);
+    private static final List<Long> inv = new ArrayList<>();
+    private static final List<Long> fact = new ArrayList<>();
+    private static final List<Long> invFact = new ArrayList<>();
+
+    private static void buildInvTable(int n) {
+      if (inv.isEmpty()) {
+        inv.add(null);
+        inv.add(1L);
+      }
+      for (int i = inv.size(); i <= n; i++) {
+        inv.add(mod - inv.get((int) (mod % i)) * (mod / i) % mod);
+      }
+    }
+
+    private static void buildFactTable(int n) {
+      if (fact.isEmpty()) {
+        fact.add(1L);
+        invFact.add(1L);
+      }
+      for (int i = fact.size(); i <= n; i++) {
+        fact.add(fact.get(i - 1) * i % mod);
+        invFact.add(inv(fact.get(i)));
+      }
+    }
+
+    private static void rangeCheck(long n, long r) {
+      if (n < r) {
+        throw new IllegalArgumentException(""n < r"");
+      }
+      if (n < 0) {
+        throw new IllegalArgumentException(""n < 0"");
+      }
+      if (r < 0) {
+        throw new IllegalArgumentException(""r < 0"");
+      }
+    }
+
+    public static long fact(int n) {
+      buildFactTable(n);
+      return fact.get(n);
+    }
+
+    public static long invFact(int n) {
+      buildFactTable(n);
+      return invFact.get(n);
+    }
+
+    private static long comb0(int n, int r) {
+      rangeCheck(n, r);
+      return fact(n) * invFact(r) % mod * invFact(n - r) % mod;
+    }
+
+    public static long comb(long n, long r) {
+      rangeCheck(n, r);
+      if (n < MEMO_THRESHOLD) {
+        return comb0((int) n, (int) r);
+      }
+      r = Math.min(r, n - r);
+      long x = 1, y = 1;
+      for (long i = 1; i <= r; i++) {
+        x = x * (n - r + i) % mod;
+        y = y * i % mod;
+      }
+      return x * inv(y) % mod;
+    }
+
+    private static long inv0(int a) {
+      buildInvTable(a);
+      return inv.get(a);
+    }
+
+    public static long inv(long a) {
+      if (a < MEMO_THRESHOLD) {
+        return inv0((int) a);
+      }
+      long b = mod;
+      long u = 1, v = 0;
+      while (b >= 1) {
+        long t = a / b;
+        a -= t * b;
+        u -= t * v;
+        if (a < 1) {
+          return (v %= mod) < 0 ? v + mod : v;
+        }
+        t = b / a;
+        b -= t * a;
+        v -= t * u;
+      }
+      return (u %= mod) < 0 ? u + mod : u;
+    }
+
+    public static long mod(long a) {
+      while (a >= mod) {
+        a -= mod;
+      }
+      while (a < 0) {
+        a += mod;
+      }
+      return a;
+    }
+
+  }
+
+  static class OutputWriter {
+    private final PrintWriter writer;
+
+    public OutputWriter(OutputStream outputStream) {
+      writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(outputStream)));
+    }
+
+    public OutputWriter(Writer writer) {
+      this.writer = new PrintWriter(writer);
+    }
+
+    public void close() {
+      writer.close();
+    }
+
+    public void println(long i) {
+      writer.println(i);
+    }
+
+    public void println(int i) {
+      writer.println(i);
+    }
+
+  }
+}
+
+"
+1,E,Java,54843047,2022-11-18 20:25:13,humwawe,答案正确,"import java.io.OutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.io.Writer;
+import java.io.OutputStreamWriter;
+import java.io.InputStream;
+
+/**
+ * Built using CHelper plug-in
+ * Actual solution is at the top
+ */
+public class Main {
+  public static void main(String[] args) {
+    InputStream inputStream = System.in;
+    OutputStream outputStream = System.out;
+    InputReader in = new InputReader(inputStream);
+    OutputWriter out = new OutputWriter(outputStream);
+    TaskE solver = new TaskE();
+    solver.solve(1, in, out);
+    out.close();
+  }
+
+  static class TaskE {
+    public void solve(int testNumber, InputReader in, OutputWriter out) {
+      int n = in.nextInt();
+      int[] a = in.nextInt(n);
+      int N = (int) (1e5 + 5);
+      int[] cnt = new int[N];
+      if (n == 1) {
+        out.println(0);
+        return;
+      }
+      int mod = (int) (1e9 + 7);
+      long res = 1;
+      for (int i = 1; i <= n; i++) {
+        cnt[a[i - 1]]++;
+        if (i == 2) {
+          continue;
+        }
+        res *= i;
+        res %= mod;
+      }
+      long t = CombinationMath.comb(n, 2);
+      for (int i = 1; i < N; i++) {
+        if (cnt[i] > 1) {
+          t -= CombinationMath.comb(cnt[i], 2);
+          t = CombinationMath.mod(t);
+        }
+      }
+
+      out.println(res * t % mod);
+    }
+
+  }
+
+  static class InputReader {
+    private InputStream stream;
+    private byte[] buf = new byte[1024];
+    private int curChar;
+    private int numChars;
+    private InputReader.SpaceCharFilter filter;
+
+    public InputReader(InputStream stream) {
+      this.stream = stream;
+    }
+
+    public int read() {
+      if (numChars == -1) {
+        throw new UnknownError();
+      }
+      if (curChar >= numChars) {
+        curChar = 0;
+        try {
+          numChars = stream.read(buf);
+        } catch (IOException e) {
+          throw new UnknownError();
+        }
+        if (numChars <= 0) {
+          return -1;
+        }
+      }
+      return buf[curChar++];
+    }
+
+    public int nextInt() {
+      int c = read();
+      while (isSpaceChar(c)) {
+        c = read();
+      }
+      int sgn = 1;
+      if (c == '-') {
+        sgn = -1;
+        c = read();
+      }
+      int res = 0;
+      do {
+        if (c < '0' || c > '9') {
+          throw new UnknownError();
+        }
+        res *= 10;
+        res += c - '0';
+        c = read();
+      } while (!isSpaceChar(c));
+      return res * sgn;
+    }
+
+    public int[] nextInt(int n) {
+      int[] a = new int[n];
+      for (int i = 0; i < n; i++) {
+        a[i] = nextInt();
+      }
+      return a;
+    }
+
+    public boolean isSpaceChar(int c) {
+      if (filter != null) {
+        return filter.isSpaceChar(c);
+      }
+      return isWhitespace(c);
+    }
+
+    public static boolean isWhitespace(int c) {
+      return c == ' ' || c == '\n' || c == '\r' || c == '\t' || c == -1;
+    }
+
+    public interface SpaceCharFilter {
+      public boolean isSpaceChar(int ch);
+
+    }
+
+  }
+
+  static class CombinationMath {
+    private static final int MEMO_THRESHOLD = 1000005;
+    static long mod = (long) (1e9 + 7);
+    private static final List<Long> inv = new ArrayList<>();
+    private static final List<Long> fact = new ArrayList<>();
+    private static final List<Long> invFact = new ArrayList<>();
+
+    private static void buildInvTable(int n) {
+      if (inv.isEmpty()) {
+        inv.add(null);
+        inv.add(1L);
+      }
+      for (int i = inv.size(); i <= n; i++) {
+        inv.add(mod - inv.get((int) (mod % i)) * (mod / i) % mod);
+      }
+    }
+
+    private static void buildFactTable(int n) {
+      if (fact.isEmpty()) {
+        fact.add(1L);
+        invFact.add(1L);
+      }
+      for (int i = fact.size(); i <= n; i++) {
+        fact.add(fact.get(i - 1) * i % mod);
+        invFact.add(inv(fact.get(i)));
+      }
+    }
+
+    private static void rangeCheck(long n, long r) {
+      if (n < r) {
+        throw new IllegalArgumentException(""n < r"");
+      }
+      if (n < 0) {
+        throw new IllegalArgumentException(""n < 0"");
+      }
+      if (r < 0) {
+        throw new IllegalArgumentException(""r < 0"");
+      }
+    }
+
+    public static long fact(int n) {
+      buildFactTable(n);
+      return fact.get(n);
+    }
+
+    public static long invFact(int n) {
+      buildFactTable(n);
+      return invFact.get(n);
+    }
+
+    private static long comb0(int n, int r) {
+      rangeCheck(n, r);
+      return fact(n) * invFact(r) % mod * invFact(n - r) % mod;
+    }
+
+    public static long comb(long n, long r) {
+      rangeCheck(n, r);
+      if (n < MEMO_THRESHOLD) {
+        return comb0((int) n, (int) r);
+      }
+      r = Math.min(r, n - r);
+      long x = 1, y = 1;
+      for (long i = 1; i <= r; i++) {
+        x = x * (n - r + i) % mod;
+        y = y * i % mod;
+      }
+      return x * inv(y) % mod;
+    }
+
+    private static long inv0(int a) {
+      buildInvTable(a);
+      return inv.get(a);
+    }
+
+    public static long inv(long a) {
+      if (a < MEMO_THRESHOLD) {
+        return inv0((int) a);
+      }
+      long b = mod;
+      long u = 1, v = 0;
+      while (b >= 1) {
+        long t = a / b;
+        a -= t * b;
+        u -= t * v;
+        if (a < 1) {
+          return (v %= mod) < 0 ? v + mod : v;
+        }
+        t = b / a;
+        b -= t * a;
+        v -= t * u;
+      }
+      return (u %= mod) < 0 ? u + mod : u;
+    }
+
+    public static long mod(long a) {
+      while (a >= mod) {
+        a -= mod;
+      }
+      while (a < 0) {
+        a += mod;
+      }
+      return a;
+    }
+
+  }
+
+  static class OutputWriter {
+    private final PrintWriter writer;
+
+    public OutputWriter(OutputStream outputStream) {
+      writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(outputStream)));
+    }
+
+    public OutputWriter(Writer writer) {
+      this.writer = new PrintWriter(writer);
+    }
+
+    public void close() {
+      writer.close();
+    }
+
+    public void println(long i) {
+      writer.println(i);
+    }
+
+    public void println(int i) {
+      writer.println(i);
+    }
+
+  }
+}
+
+"
+2,E,Java,54904747,2022-11-20 16:07:53,桃李.,答案错误,"// package com.csh.E;
+/**
+ * @author :Changersh
+ * @date : 2022/11/20
+ */
+
+import java.io.*;
+import java.util.*;
+import java.lang.*;
+
+public class Main {
+    private static final long mod = 1000000007;
+    private static int N = 100005, n;
+    private static int[] a = new int[N], cnt = new int[N];
+    public static void main(String[] args) {
+        n = sc.nextInt();
+        long ans = 1; // n!
+        for (int i = 0; i < n; i++) {
+            int t = sc.nextInt();
+            a[i] = t;
+            cnt[t]++;
+            ans = ((ans % mod) * (t % mod)) % mod;
+        }
+        long t = getInv(2, mod);
+        ans = ((ans % mod) * (t % mod)) % mod; // n! / 2;
+        long sum = 0;
+        for (int i = 0; i < 100002; i++) {
+            if (cnt[i] > 1) {
+                int a = cnt[i];
+                sum += (a * (a - 1)) / 2;
+            }
+        }
+        long b = ((n % mod * (n - 1) % mod) / 2) % mod;
+        sum = b - sum;
+        out.println((ans % mod) * (sum) % mod);
+        out.close();
+    }
+    // 快速幂求逆元
+    private static long qkpow(long a,long p,long mod)
+    {
+        long t=1,tt=a%mod;
+        while(p > 0)
+        {
+            if((p&1) != 0)t=t*tt%mod;
+            tt=tt*tt%mod;
+            p>>=1;
+        }
+        return t;
+    }
+    private static long getInv(long a,long mod)
+    {
+        return qkpow(a,mod-2,mod);
+    }
+
+    static class FastScanner{
+        // sc.xxx;
+        // out.print();
+        // out.flush();
+        // out.close();
+        BufferedReader br;
+        StringTokenizer st;
+        public FastScanner(InputStream in) {
+            br=new BufferedReader( new InputStreamReader(System.in));
+            eat("""");
+        }
+        public void eat(String s) {
+            st=new StringTokenizer(s);
+        }
+
+        public String nextLine() {
+            try {
+                return br.readLine();
+            }catch(IOException e) {
+                return null;
+            }
+        }
+
+        public boolean hasNext() {
+            while(!st.hasMoreTokens()) {
+                String s=nextLine();
+                if(s==null)return false;
+                eat(s);
+            }
+
+            return true;
+        }
+
+        public String next() {
+            hasNext();
+            return st.nextToken();
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        public long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        public double nextDouble() {
+            return Double.parseDouble(next());
+        }
+    }
+
+    static FastScanner sc=new FastScanner(System.in);
+    static PrintWriter out=new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+}"
+3,E,Java,54905122,2022-11-20 16:13:17,桃李.,答案错误,"// package com.csh.E;
+/**
+ * @author :Changersh
+ * @date : 2022/11/20
+ */
+
+import java.io.*;
+import java.util.*;
+import java.lang.*;
+
+public class Main {
+    private static final long mod = 1000000000 + 7;
+    private static int N = 100005, n;
+    private static int[] a = new int[N], cnt = new int[N];
+    public static void main(String[] args) {
+        n = sc.nextInt();
+        long ans = 1; // n!
+        for (int i = 0; i < n; i++) {
+            int t = sc.nextInt();
+            a[i] = t;
+            cnt[t]++;
+            ans = ((ans % mod) * ((i + 1) % mod)) % mod;
+        }
+//        out.println(ans);
+        long t = getInv(2, mod);
+//        out.println(t);
+        ans = ((ans % mod) * (t % mod)) % mod; // n! / 2;
+        long sum = 0;
+        for (int i = 0; i < 100002; i++) {
+            if (cnt[i] > 1) {
+                int a = cnt[i];
+                sum += (a * (a - 1)) / 2;
+            }
+        }
+        long b = ((n % mod * (n - 1) % mod) / 2) % mod;
+        sum = b - sum;
+        out.println((ans * sum) % mod);
+        out.close();
+    }
+    // 快速幂求逆元
+    private static long qkpow(long a,long p,long mod)
+    {
+        long t=1,tt=a%mod;
+        while(p > 0)
+        {
+            if((p&1) != 0)t=t*tt%mod;
+            tt=tt*tt%mod;
+            p>>=1;
+        }
+        return t;
+    }
+    private static long getInv(long a,long mod)
+    {
+        return qkpow(a,mod-2,mod);
+    }
+
+    static class FastScanner{
+        // sc.xxx;
+        // out.print();
+        // out.flush();
+        // out.close();
+        BufferedReader br;
+        StringTokenizer st;
+        public FastScanner(InputStream in) {
+            br=new BufferedReader( new InputStreamReader(System.in));
+            eat("""");
+        }
+        public void eat(String s) {
+            st=new StringTokenizer(s);
+        }
+
+        public String nextLine() {
+            try {
+                return br.readLine();
+            }catch(IOException e) {
+                return null;
+            }
+        }
+
+        public boolean hasNext() {
+            while(!st.hasMoreTokens()) {
+                String s=nextLine();
+                if(s==null)return false;
+                eat(s);
+            }
+
+            return true;
+        }
+
+        public String next() {
+            hasNext();
+            return st.nextToken();
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        public long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        public double nextDouble() {
+            return Double.parseDouble(next());
+        }
+    }
+
+    static FastScanner sc=new FastScanner(System.in);
+    static PrintWriter out=new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+}"
+4,E,Java,54906037,2022-11-20 16:25:39,桃李.,答案错误,"// package com.csh.E;
+/**
+ * @author :Changersh
+ * @date : 2022/11/20
+ */
+
+import java.io.*;
+import java.util.*;
+import java.lang.*;
+
+public class Main {
+    private static final long mod = 1000000000 + 7;
+    private static int N = 100005, n;
+    private static int[] a = new int[N], cnt = new int[N];
+
+    public static void main(String[] args) {
+        n = sc.nextInt();
+        long ans = 1; // n!
+        for (int i = 0; i < n; i++) {
+            int t = sc.nextInt();
+            a[i] = t;
+            cnt[t]++;
+            ans = ((ans % mod) * ((i + 1) % mod)) % mod;
+        }
+//        out.println(ans);
+        long t = 500000004;
+//         out.println(t);
+        ans = ((ans % mod) * (t % mod)) % mod; // n! / 2;
+        long sum = 0;
+        for (int i = 0; i < 100002; i++) {
+            if (cnt[i] > 1) {
+                int a = cnt[i];
+                sum += (a * (a - 1)) / 2;
+            }
+        }
+        long b = ((n % mod * (n - 1) % mod) / 2) % mod;
+        sum = b - sum;
+        out.println((ans * sum) % mod);
+        out.close();
+    }
+
+    static class FastScanner {
+        // sc.xxx;
+        // out.print();
+        // out.flush();
+        // out.close();
+        BufferedReader br;
+        StringTokenizer st;
+
+        public FastScanner(InputStream in) {
+            br = new BufferedReader(new InputStreamReader(System.in));
+            eat("""");
+        }
+
+        public void eat(String s) {
+            st = new StringTokenizer(s);
+        }
+
+        public String nextLine() {
+            try {
+                return br.readLine();
+            } catch (IOException e) {
+                return null;
+            }
+        }
+
+        public boolean hasNext() {
+            while (!st.hasMoreTokens()) {
+                String s = nextLine();
+                if (s == null) return false;
+                eat(s);
+            }
+
+            return true;
+        }
+
+        public String next() {
+            hasNext();
+            return st.nextToken();
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        public long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        public double nextDouble() {
+            return Double.parseDouble(next());
+        }
+    }
+
+    static FastScanner sc = new FastScanner(System.in);
+    static PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+}"
+5,E,Java,54906150,2022-11-20 16:26:59,桃李.,答案错误,"// package com.csh.E;
+/**
+ * @author :Changersh
+ * @date : 2022/11/20
+ */
+
+import java.io.*;
+import java.util.*;
+import java.lang.*;
+
+public class Main {
+    private static final long mod = 1000000000 + 7;
+    private static int N = 100005, n;
+    private static int[] a = new int[N], cnt = new int[N];
+
+    public static void main(String[] args) {
+        n = sc.nextInt();
+        long ans = 1; // n!
+        for (int i = 0; i < n; i++) {
+            int t = sc.nextInt();
+            a[i] = t;
+            cnt[t]++;
+            ans = ((ans % mod) * ((i + 1L) % mod)) % mod;
+        }
+//        out.println(ans);
+        long t = 500000004;
+//         out.println(t);
+        ans = ((ans % mod) * (t % mod)) % mod; // n! / 2;
+        long sum = 0;
+        for (int i = 0; i < 100002; i++) {
+            if (cnt[i] > 1) {
+                int a = cnt[i];
+                sum += (a * (a - 1)) / 2;
+            }
+        }
+        long b = ((n % mod * (n - 1) % mod) / 2) % mod;
+        sum = b - sum;
+        out.println((ans * sum) % mod);
+        out.close();
+    }
+
+    static class FastScanner {
+        // sc.xxx;
+        // out.print();
+        // out.flush();
+        // out.close();
+        BufferedReader br;
+        StringTokenizer st;
+
+        public FastScanner(InputStream in) {
+            br = new BufferedReader(new InputStreamReader(System.in));
+            eat("""");
+        }
+
+        public void eat(String s) {
+            st = new StringTokenizer(s);
+        }
+
+        public String nextLine() {
+            try {
+                return br.readLine();
+            } catch (IOException e) {
+                return null;
+            }
+        }
+
+        public boolean hasNext() {
+            while (!st.hasMoreTokens()) {
+                String s = nextLine();
+                if (s == null) return false;
+                eat(s);
+            }
+
+            return true;
+        }
+
+        public String next() {
+            hasNext();
+            return st.nextToken();
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        public long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        public double nextDouble() {
+            return Double.parseDouble(next());
+        }
+    }
+
+    static FastScanner sc = new FastScanner(System.in);
+    static PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+}"
+6,E,Java,54906281,2022-11-20 16:28:52,桃李.,答案错误,"// package com.csh.E;
+/**
+ * @author :Changersh
+ * @date : 2022/11/20
+ */
+
+import java.io.*;
+import java.util.*;
+import java.lang.*;
+
+public class Main {
+    private static final long mod = 1000000000 + 7;
+    private static int N = 100005, n;
+    private static int[] a = new int[N], cnt = new int[N];
+
+    public static void main(String[] args) {
+        n = sc.nextInt();
+        long ans = 1; // n!
+        for (int i = 0; i < n; i++) {
+            int t = sc.nextInt();
+            a[i] = t;
+            cnt[t]++;
+            ans = ((ans % mod) * ((i + 1L) % mod)) % mod;
+        }
+//        out.println(ans);
+        long t = 500000004;
+//         out.println(t);
+        ans = ((ans % mod) * (t % mod)) % mod; // n! / 2;
+        long sum = 0;
+        for (int i = 0; i < 100002; i++) {
+            if (cnt[i] > 1) {
+                int a = cnt[i];
+                sum += (a * (a - 1)) / 2;
+            }
+        }
+        long b = ((n % mod * (n - 1) % mod) / 2) % mod;
+        sum = b - sum;
+        sum %= mod;
+        out.println((ans * sum) % mod);
+        out.close();
+    }
+
+    static class FastScanner {
+        // sc.xxx;
+        // out.print();
+        // out.flush();
+        // out.close();
+        BufferedReader br;
+        StringTokenizer st;
+
+        public FastScanner(InputStream in) {
+            br = new BufferedReader(new InputStreamReader(System.in));
+            eat("""");
+        }
+
+        public void eat(String s) {
+            st = new StringTokenizer(s);
+        }
+
+        public String nextLine() {
+            try {
+                return br.readLine();
+            } catch (IOException e) {
+                return null;
+            }
+        }
+
+        public boolean hasNext() {
+            while (!st.hasMoreTokens()) {
+                String s = nextLine();
+                if (s == null) return false;
+                eat(s);
+            }
+
+            return true;
+        }
+
+        public String next() {
+            hasNext();
+            return st.nextToken();
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        public long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        public double nextDouble() {
+            return Double.parseDouble(next());
+        }
+    }
+
+    static FastScanner sc = new FastScanner(System.in);
+    static PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+}"
+7,E,Java,54906386,2022-11-20 16:30:16,桃李.,答案错误,"// package com.csh.E;
+/**
+ * @author :Changersh
+ * @date : 2022/11/20
+ */
+
+import java.io.*;
+import java.util.*;
+import java.lang.*;
+
+public class Main {
+    private static final long mod = 1000000000 + 7;
+    private static int N = 100005, n;
+    private static int[] a = new int[N], cnt = new int[N];
+
+    public static void main(String[] args) {
+        n = sc.nextInt();
+        long ans = 1; // n!
+        for (int i = 0; i < n; i++) {
+            int t = sc.nextInt();
+            a[i] = t;
+            cnt[t]++;
+            ans = ((ans % mod) * ((i + 1L) % mod)) % mod;
+        }
+//        out.println(ans);
+        long t = 500000004;
+//        out.println(t);
+        ans = ((ans % mod) * (t % mod)) % mod; // n! / 2;
+        long sum = ((n % mod * (n - 1) % mod) / 2) % mod;
+        for (int i = 0; i < 100002; i++) {
+            if (cnt[i] > 1) {
+                int a = cnt[i];
+                sum -= (a * (a - 1)) / 2;
+            }
+        }
+        
+        sum %= mod;
+        out.println((ans * sum) % mod);
+        out.close();
+    }
+
+    static class FastScanner {
+        // sc.xxx;
+        // out.print();
+        // out.flush();
+        // out.close();
+        BufferedReader br;
+        StringTokenizer st;
+
+        public FastScanner(InputStream in) {
+            br = new BufferedReader(new InputStreamReader(System.in));
+            eat("""");
+        }
+
+        public void eat(String s) {
+            st = new StringTokenizer(s);
+        }
+
+        public String nextLine() {
+            try {
+                return br.readLine();
+            } catch (IOException e) {
+                return null;
+            }
+        }
+
+        public boolean hasNext() {
+            while (!st.hasMoreTokens()) {
+                String s = nextLine();
+                if (s == null) return false;
+                eat(s);
+            }
+
+            return true;
+        }
+
+        public String next() {
+            hasNext();
+            return st.nextToken();
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        public long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        public double nextDouble() {
+            return Double.parseDouble(next());
+        }
+    }
+
+    static FastScanner sc = new FastScanner(System.in);
+    static PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+}"
+8,E,Java,54906594,2022-11-20 16:33:15,桃李.,答案错误,"// package com.csh.E;
+/**
+ * @author :Changersh
+ * @date : 2022/11/20
+ */
+
+import java.io.*;
+import java.util.*;
+import java.lang.*;
+
+public class Main {
+    private static final long mod = 1000000000 + 7;
+    private static int N = 100005, n;
+    private static int[] a = new int[N], cnt = new int[N];
+
+    public static void main(String[] args) {
+        n = sc.nextInt();
+        long ans = 1; // n!
+        for (int i = 0; i < n; i++) {
+            int t = sc.nextInt();
+            a[i] = t;
+            cnt[t]++;
+            ans = ((ans % mod) * ((i + 1L) % mod)) % mod;
+        }
+//        out.println(ans);
+        long t = 500000004;
+//        out.println(t);
+        ans = ((ans % mod) * (t % mod)) % mod; // n! / 2;
+        long sum = ((n % mod * (n - 1) % mod) % mod / 2) % mod;
+        for (int i = 0; i < 100002; i++) {
+            if (cnt[i] > 1) {
+                int a = cnt[i];
+                sum -= (a * (a - 1)) / 2;
+            }
+        }
+
+        sum %= mod;
+        out.println((ans * sum) % mod);
+        out.close();
+    }
+
+    static class FastScanner {
+        // sc.xxx;
+        // out.print();
+        // out.flush();
+        // out.close();
+        BufferedReader br;
+        StringTokenizer st;
+
+        public FastScanner(InputStream in) {
+            br = new BufferedReader(new InputStreamReader(System.in));
+            eat("""");
+        }
+
+        public void eat(String s) {
+            st = new StringTokenizer(s);
+        }
+
+        public String nextLine() {
+            try {
+                return br.readLine();
+            } catch (IOException e) {
+                return null;
+            }
+        }
+
+        public boolean hasNext() {
+            while (!st.hasMoreTokens()) {
+                String s = nextLine();
+                if (s == null) return false;
+                eat(s);
+            }
+
+            return true;
+        }
+
+        public String next() {
+            hasNext();
+            return st.nextToken();
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        public long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        public double nextDouble() {
+            return Double.parseDouble(next());
+        }
+    }
+
+    static FastScanner sc = new FastScanner(System.in);
+    static PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+}"
+9,E,Java,54906700,2022-11-20 16:34:28,桃李.,答案错误,"// package com.csh.E;
+/**
+ * @author :Changersh
+ * @date : 2022/11/20
+ */
+
+import java.io.*;
+import java.util.*;
+import java.lang.*;
+
+public class Main {
+    private static final long mod = 1000000000 + 7;
+    private static int N = 100005, n;
+    private static int[] a = new int[N], cnt = new int[N];
+
+    public static void main(String[] args) {
+        n = sc.nextInt();
+        long ans = 1; // n!
+        for (int i = 0; i < n; i++) {
+            int t = sc.nextInt();
+            a[i] = t;
+            cnt[t]++;
+            ans = ((ans % mod) * ((i + 1L) % mod)) % mod;
+        }
+//        out.println(ans);
+        long t = 500000004;
+//        out.println(t);
+        ans = ((ans % mod) * (t % mod)) % mod; // n! / 2;
+        long sum = ((n % mod * (n - 1) % mod) % mod / 2) % mod;
+        for (int i = 0; i < 100002; i++) {
+            if (cnt[i] > 1) {
+                int a = cnt[i];
+                sum = (sum - (a * (a - 1)) / 2) % mod;
+            }
+        }
+
+        sum %= mod;
+        out.println((ans * sum) % mod);
+        out.close();
+    }
+
+    static class FastScanner {
+        // sc.xxx;
+        // out.print();
+        // out.flush();
+        // out.close();
+        BufferedReader br;
+        StringTokenizer st;
+
+        public FastScanner(InputStream in) {
+            br = new BufferedReader(new InputStreamReader(System.in));
+            eat("""");
+        }
+
+        public void eat(String s) {
+            st = new StringTokenizer(s);
+        }
+
+        public String nextLine() {
+            try {
+                return br.readLine();
+            } catch (IOException e) {
+                return null;
+            }
+        }
+
+        public boolean hasNext() {
+            while (!st.hasMoreTokens()) {
+                String s = nextLine();
+                if (s == null) return false;
+                eat(s);
+            }
+
+            return true;
+        }
+
+        public String next() {
+            hasNext();
+            return st.nextToken();
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        public long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        public double nextDouble() {
+            return Double.parseDouble(next());
+        }
+    }
+
+    static FastScanner sc = new FastScanner(System.in);
+    static PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+}"
+10,E,Java,54906923,2022-11-20 16:37:23,桃李.,答案错误,"// package com.csh.E;
+/**
+ * @author :Changersh
+ * @date : 2022/11/20
+ */
+
+import java.io.*;
+import java.util.*;
+import java.lang.*;
+
+public class Main {
+    private static final long mod = 1000000000 + 7;
+    private static int N = 100005, n;
+    private static int[] a = new int[N], cnt = new int[N];
+
+    public static void main(String[] args) {
+        n = sc.nextInt();
+        long ans = 1; // n!
+        for (int i = 0; i < n; i++) {
+            int t = sc.nextInt();
+            a[i] = t;
+            cnt[t]++;
+            ans = ((ans % mod) * ((i + 1L) % mod)) % mod;
+        }
+//        out.println(ans);
+        long t = 500000004;
+//        out.println(t);
+//        ans = ((ans % mod) * (t % mod)) % mod; // n! / 2;
+        ans = ((ans % mod) / 2) % mod;
+        long sum = ((n % mod * (n - 1) % mod) % mod / 2) % mod;
+        for (int i = 0; i < 100002; i++) {
+            if (cnt[i] > 1) {
+                int a = cnt[i];
+                sum = (sum - (a * (a - 1)) / 2) % mod;
+            }
+        }
+
+        sum %= mod;
+        out.println((ans * sum) % mod);
+        out.close();
+    }
+
+    static class FastScanner {
+        // sc.xxx;
+        // out.print();
+        // out.flush();
+        // out.close();
+        BufferedReader br;
+        StringTokenizer st;
+
+        public FastScanner(InputStream in) {
+            br = new BufferedReader(new InputStreamReader(System.in));
+            eat("""");
+        }
+
+        public void eat(String s) {
+            st = new StringTokenizer(s);
+        }
+
+        public String nextLine() {
+            try {
+                return br.readLine();
+            } catch (IOException e) {
+                return null;
+            }
+        }
+
+        public boolean hasNext() {
+            while (!st.hasMoreTokens()) {
+                String s = nextLine();
+                if (s == null) return false;
+                eat(s);
+            }
+
+            return true;
+        }
+
+        public String next() {
+            hasNext();
+            return st.nextToken();
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        public long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        public double nextDouble() {
+            return Double.parseDouble(next());
+        }
+    }
+
+    static FastScanner sc = new FastScanner(System.in);
+    static PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+}"
+11,E,Java,54906950,2022-11-20 16:37:43,桃李.,答案错误,"// package com.csh.E;
+/**
+ * @author :Changersh
+ * @date : 2022/11/20
+ */
+
+import java.io.*;
+import java.util.*;
+import java.lang.*;
+
+public class Main {
+    private static final long mod = 1000000000 + 7;
+    private static int N = 100005, n;
+    private static int[] a = new int[N], cnt = new int[N];
+
+    public static void main(String[] args) {
+        n = sc.nextInt();
+        long ans = 1; // n!
+        for (int i = 0; i < n; i++) {
+            int t = sc.nextInt();
+            a[i] = t;
+            cnt[t]++;
+            ans = ((ans % mod) * ((i + 1L) % mod)) % mod;
+        }
+//        out.println(ans);
+        long t = 500000004;
+//        out.println(t);
+        ans = ((ans % mod) * (t % mod)) % mod; // n! / 2;
+        long sum = ((n % mod * (n - 1) % mod) % mod / 2) % mod;
+        for (int i = 0; i < 100002; i++) {
+            if (cnt[i] > 1) {
+                int a = cnt[i];
+                sum = (sum - (a * (a - 1)) / 2) % mod;
+            }
+        }
+
+        sum %= mod;
+        out.println((ans * sum) % mod);
+        out.close();
+    }
+
+    static class FastScanner {
+        // sc.xxx;
+        // out.print();
+        // out.flush();
+        // out.close();
+        BufferedReader br;
+        StringTokenizer st;
+
+        public FastScanner(InputStream in) {
+            br = new BufferedReader(new InputStreamReader(System.in));
+            eat("""");
+        }
+
+        public void eat(String s) {
+            st = new StringTokenizer(s);
+        }
+
+        public String nextLine() {
+            try {
+                return br.readLine();
+            } catch (IOException e) {
+                return null;
+            }
+        }
+
+        public boolean hasNext() {
+            while (!st.hasMoreTokens()) {
+                String s = nextLine();
+                if (s == null) return false;
+                eat(s);
+            }
+
+            return true;
+        }
+
+        public String next() {
+            hasNext();
+            return st.nextToken();
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        public long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        public double nextDouble() {
+            return Double.parseDouble(next());
+        }
+    }
+
+    static FastScanner sc = new FastScanner(System.in);
+    static PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+}"
+12,E,Java,54970266,2022-11-24 22:07:14,iu_,答案错误,"import java.io.*;
+import java.util.*;
+
+public class Main {
+    private static class Task {
+        public void solve(int testNumber, InputReader in, PrintWriter out) {
+            int n = in.nextInt();
+            HashMap<Integer, Integer> map = new HashMap<>();
+            for (int i = 0; i < n; i++) {
+                int x = in.nextInt();
+                map.put(x, map.getOrDefault(x, 0) + 1);
+            }
+            if (n == 1) {
+                out.println(0);
+            } else {
+                Comb comb = new Comb(n + 1);
+                long ans = comb.calc(n, n);
+                for (int key : map.keySet()) {
+                    int val = map.get(key);
+                    ans -= comb.calc(n, val);
+                }
+                out.println(ans);
+            }
+        }
+
+        public class Comb {
+            private final int P = 1000000007;
+            private final long[] invF, F;
+
+            public Comb(int n) {
+                F = new long[n];
+                invF = new long[n];
+                F[0] = invF[0] = 1;
+                for (int i = 1; i < n; i++) {
+                    F[i] = F[i - 1] * i % P;
+                    invF[i] = invF[i - 1] * power(i, P - 2) % P;
+                }
+            }
+
+            private long power(long a, long k) {
+                long ans = 1;
+                while (k > 0) {
+                    if ((k & 1) > 0) {
+                        ans = ans * a % P;
+                    }
+                    a = a * a % P;
+                    k >>>= 1;
+                }
+                return ans;
+            }
+
+            private long C(int n, int k) {
+                if (n < k || k < 0) {
+                    return 0;
+                }
+                return F[n] * invF[k] % P * invF[n - k] % P;
+            }
+
+            private long calc(int n, int m) {
+                return ((F[n - 2] % P * n * (n - 1) / 2 % P * m * (m - 1) / 2 % P) + P) % P;
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader in = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        Task solver = new Task();
+        solver.solve(1, in, out);
+//        int testNumber = in.nextInt();
+//        for (int i = 1; i <= testNumber; i++) {
+//            solver.solve(i, in, out);
+//        }
+        out.close();
+    }
+
+    private static class InputReader {
+        private final BufferedReader reader;
+        private StringTokenizer tokenizer;
+
+        private InputReader(InputStream stream) {
+            reader = new BufferedReader(new InputStreamReader(stream), 32768);
+            tokenizer = null;
+        }
+
+        private String next() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return tokenizer.nextToken();
+        }
+
+        private String nextLine() {
+            String str;
+            try {
+                str = reader.readLine();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            return str;
+        }
+
+        private boolean hasNext() {
+            while (tokenizer != null && !tokenizer.hasMoreTokens()) {
+                String nextLine = null;
+                try {
+                    nextLine = reader.readLine();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                if (nextLine == null) {
+                    return false;
+                }
+                tokenizer = new StringTokenizer(nextLine);
+            }
+            return true;
+        }
+
+        private int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        private long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        private double nextDouble() {
+            return Double.parseDouble(next());
+        }
+    }
+}"
+13,E,Java,54970274,2022-11-24 22:07:47,iu_,答案正确,"import java.io.*;
+import java.util.*;
+
+public class Main {
+    private static class Task {
+        public void solve(int testNumber, InputReader in, PrintWriter out) {
+            int n = in.nextInt();
+            HashMap<Integer, Integer> map = new HashMap<>();
+            for (int i = 0; i < n; i++) {
+                int x = in.nextInt();
+                map.put(x, map.getOrDefault(x, 0) + 1);
+            }
+            if (n == 1) {
+                out.println(0);
+            } else {
+                Comb comb = new Comb(n + 1);
+                long ans = comb.calc(n, n);
+                for (int key : map.keySet()) {
+                    int val = map.get(key);
+                    ans -= comb.calc(n, val);
+                }
+                out.println((ans % comb.P + comb.P) % comb.P);
+            }
+        }
+
+        public class Comb {
+            private final int P = 1000000007;
+            private final long[] invF, F;
+
+            public Comb(int n) {
+                F = new long[n];
+                invF = new long[n];
+                F[0] = invF[0] = 1;
+                for (int i = 1; i < n; i++) {
+                    F[i] = F[i - 1] * i % P;
+                    invF[i] = invF[i - 1] * power(i, P - 2) % P;
+                }
+            }
+
+            private long power(long a, long k) {
+                long ans = 1;
+                while (k > 0) {
+                    if ((k & 1) > 0) {
+                        ans = ans * a % P;
+                    }
+                    a = a * a % P;
+                    k >>>= 1;
+                }
+                return ans;
+            }
+
+            private long C(int n, int k) {
+                if (n < k || k < 0) {
+                    return 0;
+                }
+                return F[n] * invF[k] % P * invF[n - k] % P;
+            }
+
+            private long calc(int n, int m) {
+                return ((F[n - 2] % P * n * (n - 1) / 2 % P * m * (m - 1) / 2 % P) + P) % P;
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader in = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        Task solver = new Task();
+        solver.solve(1, in, out);
+//        int testNumber = in.nextInt();
+//        for (int i = 1; i <= testNumber; i++) {
+//            solver.solve(i, in, out);
+//        }
+        out.close();
+    }
+
+    private static class InputReader {
+        private final BufferedReader reader;
+        private StringTokenizer tokenizer;
+
+        private InputReader(InputStream stream) {
+            reader = new BufferedReader(new InputStreamReader(stream), 32768);
+            tokenizer = null;
+        }
+
+        private String next() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return tokenizer.nextToken();
+        }
+
+        private String nextLine() {
+            String str;
+            try {
+                str = reader.readLine();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            return str;
+        }
+
+        private boolean hasNext() {
+            while (tokenizer != null && !tokenizer.hasMoreTokens()) {
+                String nextLine = null;
+                try {
+                    nextLine = reader.readLine();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                if (nextLine == null) {
+                    return false;
+                }
+                tokenizer = new StringTokenizer(nextLine);
+            }
+            return true;
+        }
+
+        private int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        private long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        private double nextDouble() {
+            return Double.parseDouble(next());
+        }
+    }
+}"
+14,E,Java,54972958,2022-11-25 11:06:55,giao1,答案正确,"import java.io.OutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.io.Writer;
+import java.io.OutputStreamWriter;
+import java.io.InputStream;
+
+/**
+ * Built using CHelper plug-in
+ * Actual solution is at the top
+ */
+public class Main {
+  public static void main(String[] args) {
+    InputStream inputStream = System.in;
+    OutputStream outputStream = System.out;
+    InputReader in = new InputReader(inputStream);
+    OutputWriter out = new OutputWriter(outputStream);
+    TaskE solver = new TaskE();
+    solver.solve(1, in, out);
+    out.close();
+  }
+
+  static class TaskE {
+    public void solve(int testNumber, InputReader in, OutputWriter out) {
+      int n = in.nextInt();
+      int[] a = in.nextInt(n);
+      int N = (int) (1e5 + 5);
+      int[] cnt = new int[N];
+      if (n == 1) {
+        out.println(0);
+        return;
+      }
+      int mod = (int) (1e9 + 7);
+      long res = 1;
+      for (int i = 1; i <= n; i++) {
+        cnt[a[i - 1]]++;
+        if (i == 2) {
+          continue;
+        }
+        res *= i;
+        res %= mod;
+      }
+      long t = CombinationMath.comb(n, 2);
+      for (int i = 1; i < N; i++) {
+        if (cnt[i] > 1) {
+          t -= CombinationMath.comb(cnt[i], 2);
+          t = CombinationMath.mod(t);
+        }
+      }
+
+      out.println(res * t % mod);
+    }
+
+  }
+
+  static class InputReader {
+    private InputStream stream;
+    private byte[] buf = new byte[1024];
+    private int curChar;
+    private int numChars;
+    private InputReader.SpaceCharFilter filter;
+
+    public InputReader(InputStream stream) {
+      this.stream = stream;
+    }
+
+    public int read() {
+      if (numChars == -1) {
+        throw new UnknownError();
+      }
+      if (curChar >= numChars) {
+        curChar = 0;
+        try {
+          numChars = stream.read(buf);
+        } catch (IOException e) {
+          throw new UnknownError();
+        }
+        if (numChars <= 0) {
+          return -1;
+        }
+      }
+      return buf[curChar++];
+    }
+
+    public int nextInt() {
+      int c = read();
+      while (isSpaceChar(c)) {
+        c = read();
+      }
+      int sgn = 1;
+      if (c == '-') {
+        sgn = -1;
+        c = read();
+      }
+      int res = 0;
+      do {
+        if (c < '0' || c > '9') {
+          throw new UnknownError();
+        }
+        res *= 10;
+        res += c - '0';
+        c = read();
+      } while (!isSpaceChar(c));
+      return res * sgn;
+    }
+
+    public int[] nextInt(int n) {
+      int[] a = new int[n];
+      for (int i = 0; i < n; i++) {
+        a[i] = nextInt();
+      }
+      return a;
+    }
+
+    public boolean isSpaceChar(int c) {
+      if (filter != null) {
+        return filter.isSpaceChar(c);
+      }
+      return isWhitespace(c);
+    }
+
+    public static boolean isWhitespace(int c) {
+      return c == ' ' || c == '\n' || c == '\r' || c == '\t' || c == -1;
+    }
+
+    public interface SpaceCharFilter {
+      public boolean isSpaceChar(int ch);
+
+    }
+
+  }
+
+  static class CombinationMath {
+    private static final int MEMO_THRESHOLD = 1000005;
+    static long mod = (long) (1e9 + 7);
+    private static final List<Long> inv = new ArrayList<>();
+    private static final List<Long> fact = new ArrayList<>();
+    private static final List<Long> invFact = new ArrayList<>();
+
+    private static void buildInvTable(int n) {
+      if (inv.isEmpty()) {
+        inv.add(null);
+        inv.add(1L);
+      }
+      for (int i = inv.size(); i <= n; i++) {
+        inv.add(mod - inv.get((int) (mod % i)) * (mod / i) % mod);
+      }
+    }
+
+    private static void buildFactTable(int n) {
+      if (fact.isEmpty()) {
+        fact.add(1L);
+        invFact.add(1L);
+      }
+      for (int i = fact.size(); i <= n; i++) {
+        fact.add(fact.get(i - 1) * i % mod);
+        invFact.add(inv(fact.get(i)));
+      }
+    }
+
+    private static void rangeCheck(long n, long r) {
+      if (n < r) {
+        throw new IllegalArgumentException(""n < r"");
+      }
+      if (n < 0) {
+        throw new IllegalArgumentException(""n < 0"");
+      }
+      if (r < 0) {
+        throw new IllegalArgumentException(""r < 0"");
+      }
+    }
+
+    public static long fact(int n) {
+      buildFactTable(n);
+      return fact.get(n);
+    }
+
+    public static long invFact(int n) {
+      buildFactTable(n);
+      return invFact.get(n);
+    }
+
+    private static long comb0(int n, int r) {
+      rangeCheck(n, r);
+      return fact(n) * invFact(r) % mod * invFact(n - r) % mod;
+    }
+
+    public static long comb(long n, long r) {
+      rangeCheck(n, r);
+      if (n < MEMO_THRESHOLD) {
+        return comb0((int) n, (int) r);
+      }
+      r = Math.min(r, n - r);
+      long x = 1, y = 1;
+      for (long i = 1; i <= r; i++) {
+        x = x * (n - r + i) % mod;
+        y = y * i % mod;
+      }
+      return x * inv(y) % mod;
+    }
+
+    private static long inv0(int a) {
+      buildInvTable(a);
+      return inv.get(a);
+    }
+
+    public static long inv(long a) {
+      if (a < MEMO_THRESHOLD) {
+        return inv0((int) a);
+      }
+      long b = mod;
+      long u = 1, v = 0;
+      while (b >= 1) {
+        long t = a / b;
+        a -= t * b;
+        u -= t * v;
+        if (a < 1) {
+          return (v %= mod) < 0 ? v + mod : v;
+        }
+        t = b / a;
+        b -= t * a;
+        v -= t * u;
+      }
+      return (u %= mod) < 0 ? u + mod : u;
+    }
+
+    public static long mod(long a) {
+      while (a >= mod) {
+        a -= mod;
+      }
+      while (a < 0) {
+        a += mod;
+      }
+      return a;
+    }
+
+  }
+
+  static class OutputWriter {
+    private final PrintWriter writer;
+
+    public OutputWriter(OutputStream outputStream) {
+      writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(outputStream)));
+    }
+
+    public OutputWriter(Writer writer) {
+      this.writer = new PrintWriter(writer);
+    }
+
+    public void close() {
+      writer.close();
+    }
+
+    public void println(long i) {
+      writer.println(i);
+    }
+
+    public void println(int i) {
+      writer.println(i);
+    }
+
+  }
+}
+
+"

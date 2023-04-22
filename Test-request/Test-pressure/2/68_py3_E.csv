@@ -1,0 +1,772 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,E,Python3,61159086,2023-03-10 19:18:16,zxcv0112358,答案错误,"from math import sqrt,floor,ceil
+
+t=int(input())
+while t:
+    t=t-1
+    a,b=map(int,input().split())
+    print(max([ceil(sqrt(a*2)),ceil(sqrt(2*b))]))"
+1,E,Python3,61159326,2023-03-10 19:20:07,zxcv0112358,答案错误,"from math import sqrt,floor,ceil
+
+def func(a):
+    if a&0x01:
+        return ceil(sqrt(a*2-2))
+    else:
+        return ceil(sqrt(a*2))
+
+t=int(input())
+while t:
+    t=t-1
+    a,b=map(int,input().split())
+    print(max([func(a),func(b)]))"
+2,E,Python3,61159911,2023-03-10 19:25:35,牛客481337953号,答案正确,"for _ in range(int(input())):
+    a, b = map(int, input().split())
+    l, r = min(a, b), max(a, b)
+    t = int((r * 2) ** 0.5)
+    while True:
+        p = t * t
+        if l <= p // 2 and r <= (p + 1)// 2:
+            print(t)
+            break
+        t += 1
+"
+3,E,Python3,61166101,2023-03-10 20:30:02,小嗷犬,答案错误,"for _ in range(int(input())):
+    a, b = map(int, input().split())
+    n = (max(a, b)*2)**0.5
+    n = int(n) if n == int(n) else int(n)+1
+    if a + b == (n-1)**2 and abs(a-b) <= 1:
+        n -= 1
+    print(n)"
+4,E,Python3,61166501,2023-03-10 20:34:27,小嗷犬,答案错误,"for _ in range(int(input())):
+    a, b = map(int, input().split())
+    n = (max(a, b)*2)**0.5
+    n = int(n) if n == int(n) else int(n)+1
+    if n % 2 == 0 and (n-1)**2//2 + 1 >= max(a,b):
+        n -= 1
+    print(n)
+"
+5,E,Python3,61166838,2023-03-10 20:37:51,小嗷犬,答案正确,"for _ in range(int(input())):
+    a, b = map(int, input().split())
+    n = (max(a, b)*2)**0.5
+    n = int(n) if n == int(n) else int(n)+1
+    if n % 2 == 0 and (n-1)**2//2 + 1 >= max(a,b) and a + b <= (n-1)**2:
+        n -= 1
+    print(n)
+"
+6,E,Python3,61167462,2023-03-10 20:44:58,阿来想AC,答案错误,"import math
+t = int(input())
+for i in range(t):
+    a,b = list(map(int,input().split(' ')))
+    maxa = max(a,b)
+    if maxa %2 == 0:
+        n = math.ceil(math.sqrt(2*maxa))
+    else:
+        n = math.ceil(math.sqrt(2*maxa-1))
+    print(n)"
+7,E,Python3,61167502,2023-03-10 20:45:24,檐下的和平鸽,运行超时,"T=int(input())
+for t in range(T):
+    a,b=map(int,input().split())
+    m=max(a,b)
+    
+    i=1
+    while 1:
+        if i%2==0:
+            n=(i**2)/2
+        else:
+            n=(i**2+1)/2
+        if n>=m:
+            if a==b:
+                print(i+1)
+                break
+            else:
+                print(i)
+                break
+        i+=1"
+8,E,Python3,61167776,2023-03-10 20:48:12,阿来想AC,答案错误,"import math
+t = int(input())
+for i in range(t):
+    a,b = list(map(int,input().split(' ')))
+    maxa = max(a,b)
+    if maxa %2 == 0:
+        n = math.ceil(math.sqrt(2*maxa))
+    else:
+        n = math.ceil(math.sqrt(2*maxa-1))
+    print(n)"
+9,E,Python3,61168091,2023-03-10 20:51:17,阿来想AC,答案错误,"import math
+t = int(input())
+for i in range(t):
+    a,b = list(map(int,input().split(' ')))
+    maxa = max(a,b)
+    if maxa % 2 == 0:
+        n = math.ceil(math.sqrt(2*maxa))
+        print(n)
+        continue
+    if maxa % 2 == 1:
+        n = math.ceil(math.sqrt(2*maxa-1))
+        print(n)
+        continue
+    "
+10,E,Python3,61168462,2023-03-10 20:54:43,阿来想AC,答案错误,"import math
+t = int(input())
+for i in range(t):
+    a,b = list(map(int,input().split(' ')))
+    maxa = max(a,b)
+    if maxa % 2 == 0:
+        n = math.ceil(math.sqrt(2*maxa))
+        print(n)
+        continue
+    if maxa % 2 == 1:
+        n = math.ceil(math.sqrt(2*maxa))-1
+        print(n)
+        continue
+    "
+11,E,Python3,61168950,2023-03-10 20:58:34,阿来想AC,答案错误,"import math
+t = int(input())
+for i in range(t):
+    a,b = list(map(int,input().split(' ')))
+    maxa = max(a,b)
+    n = math.ceil(math.sqrt(2*maxa))
+    if maxa == 0.5*((n-1)*(n-1)+1):
+        n -= 1
+    print(n)
+    "
+12,E,Python3,61169351,2023-03-10 21:01:47,檐下的和平鸽,答案错误,"T=int(input())
+for t in range(T):
+    a,b=map(int,input().split())
+    m=max(a,b)
+    
+    k1=(2*m)**0.5
+    k2=(2*m-1)**0.5
+    left1=(k1//2)*2
+    if k1==left1:
+        print(int(left1))
+        continue
+    a=int(left1+2)
+    
+    left2=(k2//2)*2+1
+    if left2==k2:
+        print(int(left2))
+        continue
+    b=int(left2+2)
+    print(min(a,b))
+    "
+13,E,Python3,61169642,2023-03-10 21:06:09,阿来想AC,答案正确,"import math
+t = int(input())
+for i in range(t):
+    a,b = list(map(int,input().split(' ')))
+    maxa = max(a,b)
+    n = math.ceil(math.sqrt(2*maxa))
+    if n % 2 == 0 and (n-1)**2//2 +1 >= maxa and a+b<=(n-1)**2:
+        n -= 1
+    print(n)
+    "
+14,E,Python3,61174411,2023-03-10 23:57:41,HHU-20-郭校廷,答案错误,"import math
+T = int(input())
+while T > 0:
+    T -= 1
+    a, b = map(int, input().split())
+    c = max(a, b)
+    k = math.floor(math.sqrt(c * 2))
+    if(math.ceil(k * k / 2) >= c):
+        print(k)
+    else:
+        print(k + 1)
+    "
+15,E,Python3,61174463,2023-03-11 00:04:35,HHU-20-郭校廷,答案正确,"import math
+T = int(input())
+while T > 0:
+    T -= 1
+    a, b = map(int, input().split())
+    c = max(a, b)
+    k = math.floor(math.sqrt(c * 2))
+    if(math.ceil(k * k / 2) >= c and a + b <= k * k):
+        print(k)
+    else:
+        print(k + 1)
+    "
+16,E,Python3,61223086,2023-03-11 15:45:24,AuJinn,运行超时,"import sys
+
+input = sys.stdin.buffer.readline
+
+for _ in range(int(input())):
+    a, b = map(int, input().split())
+    
+    l, r = 1, a + b
+    while l < r:
+        m = (l + r + 1) // 2;
+        if m * m >= a + b and (m * m + 1) // 2 >= max(a, b):
+            r = m
+        else:
+            l = m + 1
+            
+    print(r)"
+17,E,Python3,61223292,2023-03-11 15:46:04,AuJinn,运行超时,"import sys
+
+input = sys.stdin.buffer.readline
+
+for _ in range(int(input())):
+    a, b = map(int, input().split())
+    
+    l, r = 1, a + b
+    while l < r:
+        m = (l + r) // 2;
+        if m * m >= a + b and (m * m + 1) // 2 >= max(a, b):
+            r = m
+        else:
+            l = m + 1
+            
+    print(r)"
+18,E,Python3,61223852,2023-03-11 15:47:56,AuJinn,运行超时,"import sys
+
+input = sys.stdin.buffer.readline
+
+for _ in range(int(input())):
+    a, b = map(int, input().split())
+    
+    l, r = 1, a + b
+    while l < r:
+        m = (l + r) // 2;
+        if m * m >= a + b and (m * m + 1) // 2 >= max(a, b):
+            r = m
+        else:
+            l = m + 1
+            
+    print(r)"
+19,E,Python3,61224122,2023-03-11 15:48:52,AuJinn,答案错误,"import sys
+
+input = sys.stdin.buffer.readline
+
+for _ in range(int(input())):
+    a, b = map(int, input().split())
+    
+    l, r = 1, max(a, b)
+    while l < r:
+        m = (l + r) // 2;
+        if m * m >= a + b and (m * m + 1) // 2 >= max(a, b):
+            r = m
+        else:
+            l = m + 1
+            
+    print(r)"
+20,E,Python3,61224688,2023-03-11 15:50:40,AuJinn,答案正确,"import sys, math
+
+input = sys.stdin.buffer.readline
+
+for _ in range(int(input())):
+    a, b = map(int, input().split())
+    
+    c = max(a, b)
+    k = math.floor(math.sqrt(c * 2))
+    
+    if math.ceil(k * k / 2) >= c and a + b <= k * k:
+        print(k)
+    else:
+        print(k + 1)"
+21,E,Python3,61238914,2023-03-11 20:51:24,❃寻梅᭄ꦿ࿐,运行超时,"def read():
+    res = 0
+    f = 1
+    c = getchar()
+    while c < '0' or c > '9':
+        if c == '-':
+            f = -1
+        c = getchar()
+    while c >= '0' and c <= '9':
+        res = (res << 1)+(res << 3)+int(c)
+        c = getchar()
+    return res*f
+
+
+def main():
+    t = 1
+    t = read()
+    while t:
+        a=max(read(),read())
+        for i in range(a):
+            if(i*i>=2*a-1):
+                print(i)
+                break
+        t -= 1
+    return 0
+
+
+""""""于2023年03月11日 20:46:27 导入模板
+ *                                                          _ooOoo_
+ *                                                         o8888888o
+ *                                                         88"" . ""88
+ *                                                         (| -_- |)
+ *                                                          O\ = /O
+ *                                                      ____/`---'\____
+ *                                                    .   ' \\| |// `.
+ *                                                     / \\||| : |||// \
+ *                                                   / _||||| -:- |||||- \
+ *                                                     | | \\\ - /// | |
+ *                                                   | \_| ''\---/'' | |
+ *                                                    \ .-\__ `-` ___/-. /
+ *                                                 ___`. .' /--.--\ `. . __
+ *                                              ."""" '< `.___\_<|>_/___.' >'"""".
+ *                                             | | : `- \`.;`\ _ /`;.`/ - ` : | |
+ *                                               \ \ `-. \_ __\ /__ _/ .-` / /
+ *                                       ======`-.____`-.___\_____/___.-`____.-'======
+ *                                                          `=---='
+ *
+ *                                       .............................................
+ *                                              佛祖保佑             永无BUG
+ *                                      佛曰:
+ *                                              写字楼里写字间，写字间里程序员；
+ *                                              程序人员写程序，又拿程序换酒钱。
+ *                                              酒醒只在网上坐，酒醉还来网下眠；
+ *                                              酒醉酒醒日复日，网上网下年复年。
+ *                                              但愿老死电脑间，不愿鞠躬老板前；
+ *                                              奔驰宝马贵者趣，公交自行程序员。
+ *                                              别人笑我忒疯癫，我笑自己命太贱；
+""""""
+std = list()
+mark = 0
+
+
+def getchar():
+    global mark
+    if mark == len(std):
+        stdin()
+    dd = mark
+    mark += 1
+    return std[dd]
+
+
+def getc():
+    while True:
+        c = getchar()
+        if (c != ' ' and c != '\n' and c != '\t'):
+            return c
+
+
+def getstr():
+    str1 = list(getc())
+    c = getchar()
+    while (c != ' ' and c != '\t' and c != '\n'):
+        str1 = str1+[c]
+        c = getchar()
+    return """".join(str1)
+
+
+def gets():
+    str1 = list()
+    c = getchar()
+    while (c != '\n'):
+        str1 = str1+[c]
+        c = getchar()
+    return """".join(str1)
+
+
+def stdin():
+    global std
+    global mark
+    try:
+        del(std)
+        std = list(input())+['\n']
+        mark = 0
+    except:
+        exit(0)
+
+
+if __name__ == ""__main__"":
+    main()
+"
+22,E,Python3,61238984,2023-03-11 20:53:31,❃寻梅᭄ꦿ࿐,运行超时,"from math import sqrt
+def read():
+    res = 0
+    f = 1
+    c = getchar()
+    while c < '0' or c > '9':
+        if c == '-':
+            f = -1
+        c = getchar()
+    while c >= '0' and c <= '9':
+        res = (res << 1)+(res << 3)+int(c)
+        c = getchar()
+    return res*f
+
+
+def main():
+    t = 1
+    t = read()
+    while t:
+        a=sqrt(2*max(read(),read())-1)
+        print(int(a)+(int(a)!=a))
+        t -= 1
+    return 0
+
+
+""""""于2023年03月11日 20:46:27 导入模板
+ *                                                          _ooOoo_
+ *                                                         o8888888o
+ *                                                         88"" . ""88
+ *                                                         (| -_- |)
+ *                                                          O\ = /O
+ *                                                      ____/`---'\____
+ *                                                    .   ' \\| |// `.
+ *                                                     / \\||| : |||// \
+ *                                                   / _||||| -:- |||||- \
+ *                                                     | | \\\ - /// | |
+ *                                                   | \_| ''\---/'' | |
+ *                                                    \ .-\__ `-` ___/-. /
+ *                                                 ___`. .' /--.--\ `. . __
+ *                                              ."""" '< `.___\_<|>_/___.' >'"""".
+ *                                             | | : `- \`.;`\ _ /`;.`/ - ` : | |
+ *                                               \ \ `-. \_ __\ /__ _/ .-` / /
+ *                                       ======`-.____`-.___\_____/___.-`____.-'======
+ *                                                          `=---='
+ *
+ *                                       .............................................
+ *                                              佛祖保佑             永无BUG
+ *                                      佛曰:
+ *                                              写字楼里写字间，写字间里程序员；
+ *                                              程序人员写程序，又拿程序换酒钱。
+ *                                              酒醒只在网上坐，酒醉还来网下眠；
+ *                                              酒醉酒醒日复日，网上网下年复年。
+ *                                              但愿老死电脑间，不愿鞠躬老板前；
+ *                                              奔驰宝马贵者趣，公交自行程序员。
+ *                                              别人笑我忒疯癫，我笑自己命太贱；
+""""""
+std = list()
+mark = 0
+
+
+def getchar():
+    global mark
+    if mark == len(std):
+        stdin()
+    dd = mark
+    mark += 1
+    return std[dd]
+
+
+def getc():
+    while True:
+        c = getchar()
+        if (c != ' ' and c != '\n' and c != '\t'):
+            return c
+
+
+def getstr():
+    str1 = list(getc())
+    c = getchar()
+    while (c != ' ' and c != '\t' and c != '\n'):
+        str1 = str1+[c]
+        c = getchar()
+    return """".join(str1)
+
+
+def gets():
+    str1 = list()
+    c = getchar()
+    while (c != '\n'):
+        str1 = str1+[c]
+        c = getchar()
+    return """".join(str1)
+
+
+def stdin():
+    global std
+    global mark
+    try:
+        del(std)
+        std = list(input())+['\n']
+        mark = 0
+    except:
+        exit(0)
+
+
+if __name__ == ""__main__"":
+    main()
+"
+23,E,Python3,61239044,2023-03-11 20:54:57,❃寻梅᭄ꦿ࿐,答案错误,"from math import sqrt
+def read():
+    res = 0
+    f = 1
+    c = getchar()
+    while c < '0' or c > '9':
+        if c == '-':
+            f = -1
+        c = getchar()
+    while c >= '0' and c <= '9':
+        res = (res << 1)+(res << 3)+int(c)
+        c = getchar()
+    return res*f
+
+
+def main():
+    t = 1
+    t = int(input())
+    while t:
+        a=sqrt(2*max(map(int,input().split("" "")))-1)
+        print(int(a)+(int(a)!=a))
+        t -= 1
+    return 0
+
+
+""""""于2023年03月11日 20:46:27 导入模板
+ *                                                          _ooOoo_
+ *                                                         o8888888o
+ *                                                         88"" . ""88
+ *                                                         (| -_- |)
+ *                                                          O\ = /O
+ *                                                      ____/`---'\____
+ *                                                    .   ' \\| |// `.
+ *                                                     / \\||| : |||// \
+ *                                                   / _||||| -:- |||||- \
+ *                                                     | | \\\ - /// | |
+ *                                                   | \_| ''\---/'' | |
+ *                                                    \ .-\__ `-` ___/-. /
+ *                                                 ___`. .' /--.--\ `. . __
+ *                                              ."""" '< `.___\_<|>_/___.' >'"""".
+ *                                             | | : `- \`.;`\ _ /`;.`/ - ` : | |
+ *                                               \ \ `-. \_ __\ /__ _/ .-` / /
+ *                                       ======`-.____`-.___\_____/___.-`____.-'======
+ *                                                          `=---='
+ *
+ *                                       .............................................
+ *                                              佛祖保佑             永无BUG
+ *                                      佛曰:
+ *                                              写字楼里写字间，写字间里程序员；
+ *                                              程序人员写程序，又拿程序换酒钱。
+ *                                              酒醒只在网上坐，酒醉还来网下眠；
+ *                                              酒醉酒醒日复日，网上网下年复年。
+ *                                              但愿老死电脑间，不愿鞠躬老板前；
+ *                                              奔驰宝马贵者趣，公交自行程序员。
+ *                                              别人笑我忒疯癫，我笑自己命太贱；
+""""""
+std = list()
+mark = 0
+
+
+def getchar():
+    global mark
+    if mark == len(std):
+        stdin()
+    dd = mark
+    mark += 1
+    return std[dd]
+
+
+def getc():
+    while True:
+        c = getchar()
+        if (c != ' ' and c != '\n' and c != '\t'):
+            return c
+
+
+def getstr():
+    str1 = list(getc())
+    c = getchar()
+    while (c != ' ' and c != '\t' and c != '\n'):
+        str1 = str1+[c]
+        c = getchar()
+    return """".join(str1)
+
+
+def gets():
+    str1 = list()
+    c = getchar()
+    while (c != '\n'):
+        str1 = str1+[c]
+        c = getchar()
+    return """".join(str1)
+
+
+def stdin():
+    global std
+    global mark
+    try:
+        del(std)
+        std = list(input())+['\n']
+        mark = 0
+    except:
+        exit(0)
+
+
+if __name__ == ""__main__"":
+    main()
+"
+24,E,Python3,61239341,2023-03-11 21:03:37,❃寻梅᭄ꦿ࿐,执行出错,"from math import sqrt
+
+
+def read():
+    res = 0
+    f = 1
+    c = getchar()
+    while c < '0' or c > '9':
+        if c == '-':
+            f = -1
+        c = getchar()
+    while c >= '0' and c <= '9':
+        res = (res << 1)+(res << 3)+int(c)
+        c = getchar()
+    return res*f
+
+
+def sums(x, y):
+    if (x== y):
+        return sum(x, y)
+    return 2*max(x,y)-1
+
+
+def main():
+    t = 1
+    t = int(input())
+    while t:
+        a,b=map(int, input().split("" ""))
+        a = sqrt(sums(a,b))
+        print(int(a)+(int(a) != a))
+        t -= 1
+    return 0
+
+
+""""""于2023年03月11日 20:46:27 导入模板
+ *                                                          _ooOoo_
+ *                                                         o8888888o
+ *                                                         88"" . ""88
+ *                                                         (| -_- |)
+ *                                                          O\ = /O
+ *                                                      ____/`---'\____
+ *                                                    .   ' \\| |// `.
+ *                                                     / \\||| : |||// \
+ *                                                   / _||||| -:- |||||- \
+ *                                                     | | \\\ - /// | |
+ *                                                   | \_| ''\---/'' | |
+ *                                                    \ .-\__ `-` ___/-. /
+ *                                                 ___`. .' /--.--\ `. . __
+ *                                              ."""" '< `.___\_<|>_/___.' >'"""".
+ *                                             | | : `- \`.;`\ _ /`;.`/ - ` : | |
+ *                                               \ \ `-. \_ __\ /__ _/ .-` / /
+ *                                       ======`-.____`-.___\_____/___.-`____.-'======
+ *                                                          `=---='
+ *
+ *                                       .............................................
+ *                                              佛祖保佑             永无BUG
+ *                                      佛曰:
+ *                                              写字楼里写字间，写字间里程序员；
+ *                                              程序人员写程序，又拿程序换酒钱。
+ *                                              酒醒只在网上坐，酒醉还来网下眠；
+ *                                              酒醉酒醒日复日，网上网下年复年。
+ *                                              但愿老死电脑间，不愿鞠躬老板前；
+ *                                              奔驰宝马贵者趣，公交自行程序员。
+ *                                              别人笑我忒疯癫，我笑自己命太贱；
+""""""
+std = list()
+mark = 0
+
+
+def getchar():
+    global mark
+    if mark == len(std):
+        stdin()
+    dd = mark
+    mark += 1
+    return std[dd]
+
+
+def getc():
+    while True:
+        c = getchar()
+        if (c != ' ' and c != '\n' and c != '\t'):
+            return c
+
+
+def getstr():
+    str1 = list(getc())
+    c = getchar()
+    while (c != ' ' and c != '\t' and c != '\n'):
+        str1 = str1+[c]
+        c = getchar()
+    return """".join(str1)
+
+
+def gets():
+    str1 = list()
+    c = getchar()
+    while (c != '\n'):
+        str1 = str1+[c]
+        c = getchar()
+    return """".join(str1)
+
+
+def stdin():
+    global std
+    global mark
+    try:
+        del (std)
+        std = list(input())+['\n']
+        mark = 0
+    except:
+        exit(0)
+
+
+if __name__ == ""__main__"":
+    main()
+"
+25,E,Python3,61239393,2023-03-11 21:06:10,❃寻梅᭄ꦿ࿐,答案正确,"from math import sqrt
+t=int(input())
+while t:
+    t-=1
+    a,b=map(int,input().split("" ""))
+    if(a==b):a=2*a;
+    else:a=2*max(a,b)-1
+    print(int(sqrt(a))+(sqrt(a)!=int(sqrt(a))))"
+26,E,Python3,61333651,2023-03-18 08:55:14,zxcv0112358,答案正确,"from math import sqrt
+t=int(input())
+while t:
+    t-=1
+    a,b=map(int,input().split("" ""))
+    if(a==b):a=2*a;
+    else:a=2*max(a,b)-1
+    print(int(sqrt(a))+(sqrt(a)!=int(sqrt(a))))"
+27,E,Python3,61346399,2023-03-18 14:42:10,zxcv0112358,答案错误,"from math import sqrt
+
+def minimum_board_size(a: int, b: int) -> int:
+    max_pieces = max(a, b)
+    min_side = 1
+    
+    while (min_side * min_side + 1) // 2 < max_pieces:
+        min_side += 1
+    
+    return min_side
+
+
+
+t=int(input())
+while t:
+    t-=1
+    a,b=map(int,input().split("" ""))
+    print(minimum_board_size(a,b))
+#     if(a==b):a=2*a;
+#     else:a=2*max(a,b)-1
+#     print(int(sqrt(a))+(sqrt(a)!=int(sqrt(a))))"
+28,E,Python3,61407949,2023-03-20 00:54:49,.201803242316477,答案错误,"from math import sqrt
+
+for _ in range(int(input())):
+    a, b = map(int, input().split("" ""))
+    n = 0
+    # 1.a和b的值相等，说明a和b的加为偶数，此时棋盘各一半放不同的棋子，
+    # 且棋盘大小为 a+b，sqrt(a+b)就是棋盘边长，若不为整数，向上加1
+    # 2.a和b的值不相等，棋盘大小最大为 2*max(a,b)-1，比如a=4,b=5时，
+    # 此时棋盘最大为9，sqrt(a+b)就是棋盘边长，若不为整数，向上加1
+    if a == b:   
+        n = 2*a
+    else:
+        n = 2*max(a,b)
+    print(int(sqrt(n)) + (sqrt(n)!=int(sqrt(n))))"
+29,E,Python3,61407951,2023-03-20 00:55:15,.201803242316477,答案正确,"from math import sqrt
+
+for _ in range(int(input())):
+    a, b = map(int, input().split("" ""))
+    n = 0
+    # 1.a和b的值相等，说明a和b的加为偶数，此时棋盘各一半放不同的棋子，
+    # 且棋盘大小为 a+b，sqrt(a+b)就是棋盘边长，若不为整数，向上加1
+    # 2.a和b的值不相等，棋盘大小最大为 2*max(a,b)-1，比如a=4,b=5时，
+    # 此时棋盘最大为9，sqrt(a+b)就是棋盘边长，若不为整数，向上加1
+    if a == b:   
+        n = 2*a
+    else:
+        n = 2*max(a,b) - 1
+    print(int(sqrt(n)) + (sqrt(n)!=int(sqrt(n))))"

@@ -1,0 +1,345 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,E,C,54988948,2022-11-25 20:51:03,瑞克Ric_ick,运行超时,"#include <stdio.h>
+
+struct node
+{
+	int l, r;
+	int kg;
+}tree[10000001];
+
+int op1(int a)
+{
+	if (a == 0)
+	{
+		return 0;
+	}
+	tree[a].kg++;
+	op1(tree[a].l);
+	op1(tree[a].r);
+	return 0;
+}
+
+int op2(int a, int b)
+{
+	if (a == b || a == 0)
+	{
+		return 0;
+	}
+	tree[a].kg++;
+	op2(tree[a].l, b);
+	op2(tree[a].r, b);
+	return 0;
+}
+
+int op3(int a)
+{
+	if (a == 0)
+	{
+		return 0;
+	}
+	tree[a].kg++;
+	op3(a / 2);
+	return 0;
+}
+
+int op4(int a)
+{
+	if (a == 0)
+	{
+		return 0;
+	}
+	tree[a].kg--;
+	op4(a / 2);
+	return 0;
+}
+
+int n, m, num[500001] = { 0 }, way, nod;
+
+int main()
+{
+	scanf(""%d%d"", &n, &m);
+	for (int i = 1; i <= n; i++)
+	{
+		if (2 * i <= n)
+		{
+			tree[i].l = 2 * i;
+		}
+		else
+		{
+			tree[i].l = 0;
+		}
+		if (2 * i + 1 <= n)
+		{
+			tree[i].r = 2 * i + 1;
+		}
+		else
+		{
+			tree[i].r = 0;
+		}
+		tree[i].kg = 0;
+	}
+	for (int i = 0; i < m; i++)
+	{
+		scanf(""%d%d"", &way, &nod);
+		if (way == 1)
+		{
+			op1(nod);
+		}
+		else if (way == 2)
+		{
+			op2(1, nod);
+		}
+		else if (way == 3)
+		{
+			op3(nod);
+		}
+		else if (way == 4)
+		{
+			op4(nod);
+			op1(1);
+		}
+	}
+	for (int i = 1; i <= n; i++)
+	{
+		num[tree[i].kg]++;
+	}
+	printf(""%d"", num[0]);
+	for (int i = 1; i <= m; i++)
+	{
+		printf("" %d"", num[i]);
+	}
+	
+	return 0;
+}"
+1,E,C,54989601,2022-11-25 20:57:42,瑞克Ric_ick,运行超时,"#include <stdio.h>
+
+struct node
+{
+	int l, r;
+	int kg;
+}tree[10000001];
+
+int op1(int a)
+{
+	if (a == 0)
+	{
+		return 0;
+	}
+	tree[a].kg++;
+	op1(tree[a].l);
+	op1(tree[a].r);
+	return 0;
+}
+
+int op2(int a, int b)
+{
+	if (a == b || a == 0)
+	{
+		return 0;
+	}
+	tree[a].kg++;
+	op2(tree[a].l, b);
+	op2(tree[a].r, b);
+	return 0;
+}
+
+int op3(int a)
+{
+	if (a == 0)
+	{
+		return 0;
+	}
+	tree[a].kg++;
+	op3(a / 2);
+	return 0;
+}
+
+int n, m, num[500001] = { 0 }, way, nod;
+
+int main()
+{
+	scanf(""%d%d"", &n, &m);
+	for (int i = 1; i <= n; i++)
+	{
+		if (2 * i <= n)
+		{
+			tree[i].l = 2 * i;
+		}
+		else
+		{
+			tree[i].l = 0;
+		}
+		if (2 * i + 1 <= n)
+		{
+			tree[i].r = 2 * i + 1;
+		}
+		else
+		{
+			tree[i].r = 0;
+		}
+		tree[i].kg = 0;
+	}
+	for (int i = 0; i < m; i++)
+	{
+		scanf(""%d%d"", &way, &nod);
+		if (way == 1)
+		{
+			op1(nod);
+		}
+		else if (way == 2)
+		{
+			op2(1, nod);
+		}
+		else if (way == 3)
+		{
+			op3(nod);
+		}
+		else if (way == 4)
+		{
+			for (int j = nod + 1; j <= n; j++)
+			{
+				tree[j].kg++;
+			}
+			while (nod / 2)
+			{
+				for (int j = nod / 2 + 1; j < nod; j++)
+				{
+					tree[j].kg++;
+				}
+				nod /= 2;
+			}
+		}
+	}
+	for (int i = 1; i <= n; i++)
+	{
+		num[tree[i].kg]++;
+	}
+	printf(""%d"", num[0]);
+	for (int i = 1; i <= m; i++)
+	{
+		printf("" %d"", num[i]);
+	}
+	
+	return 0;
+}"
+2,E,C(gcc 7.5.0),61858714,2023-04-12 19:28:02,威严满满大小姐,运行超时,"#include<stdio.h>
+#include<math.h>
+long long num=0;
+long long min(long long a,long long b)
+{
+    return a>b?b:a;
+}
+  long long n,k,m,T,q;
+void p(long long l,long long r)
+{
+    if(l>=n)return;
+    r=min(n-1,r);
+    num+=(r-l+1);
+    p(l*k+1,r*k+k);
+}
+int main()
+{
+  
+    scanf(""%lld"",&T);
+    while(T)
+    {
+        scanf(""%lld %lld %lld"",&n,&k,&m);
+        while(m)
+        {
+            long long sum=0;
+            scanf(""%lld"",&q);
+          if(k==1)
+          {
+              printf(""%lld\n"",n-q);
+              m--;
+              continue;
+          }
+          p(q,q); 
+            printf(""%lld\n"",num);
+            num=0;
+            m--;
+            }
+          
+        T--;
+    }
+    
+}"
+3,E,C,61859959,2023-04-12 20:36:00,威严满满大小姐,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c:12:5: warning: implicit declaration of function 'bfs1' is invalid in C99 [-Wimplicit-function-declaration]\n    bfs1(x);\n    ^\nmain.c:17:5: warning: implicit declaration of function 'bfs1' is invalid in C99 [-Wimplicit-function-declaration]\n    bfs1(1);\n    ^\nmain.c:19:5: warning: implicit declaration of function 'bfs2' is invalid in C99 [-Wimplicit-function-declaration]\n    bfs2(x);\n    ^\nmain.c:23:5: warning: implicit declaration of function 'bfs3' is invalid in C99 [-Wimplicit-function-declaration]\n    bfs3(x);\n    ^\nmain.c:28:5: warning: implicit declaration of function 'bfs1' is invalid in C99 [-Wimplicit-function-declaration]\n    bfs1(1);\n    ^\nmain.c:29:5: warning: implicit declaration of function 'bfs4' is invalid in C99 [-Wimplicit-function-declaration]\n    bfs4(x);\n    ^\nmain.c:31:6: error: conflicting types for 'bfs1'\nvoid bfs1(long x)\n     ^\nmain.c:12:5: note: previous implicit declaration is here\n    bfs1(x);\n    ^\nmain.c:38:6: error: conflicting types for 'bfs2'\nvoid bfs2(long x)\n     ^\nmain.c:19:5: note: previous implicit declaration is here\n    bfs2(x);\n    ^\nmain.c:45:6: error: conflicting types for 'bfs3'\nvoid bfs3(long x)\n     ^\nmain.c:23:5: note: previous implicit declaration is here\n    bfs3(x);\n    ^\nmain.c:51:6: error: conflicting types for 'bfs4'\nvoid bfs4(long x)\n     ^\nmain.c:29:5: note: previous implicit declaration is here\n    bfs4(x);\n    ^\n6 warnings and 4 errors generated.""}
+
+#include<stdio.h>
+#include<math.h>
+#include<stdlib.h>
+#include<string.h>
+int op;
+long n,m,i,max=0;
+long num[10000005]={0};
+long sum[500005]={0};
+void num1(long x)
+{
+    num[x]++;
+    bfs1(x);
+}
+void num2(long x)
+{
+    num[1]++;
+    bfs1(1);
+    num[x]--;
+    bfs2(x);
+}
+void num3(long x)
+{
+    bfs3(x);
+}
+void num4(long x)
+{
+    num[1]++;
+    bfs1(1);
+    bfs4(x);
+}
+void bfs1(long x)
+{
+    if(x>n)return;
+    num[2*x]++,num[2*x+1]++;
+    bfs1(2*x);
+    bfs1(2*x+1);
+}
+void bfs2(long x)
+{
+    if(x>n)return;
+    num[2*x]--,num[2*x+1]--;
+    bfs2(2*x);
+    bfs2(2*x+1);
+}
+void bfs3(long x)
+{
+    if(x<1)return;
+    num[x]++;
+    bfs3(x/2);
+}
+void bfs4(long x)
+{
+    if(x<1)return;
+    num[x]--;
+    bfs3(x/2);
+}
+int main()
+{
+    scanf("" %ld %ld"",&n,&m);
+    while(m)
+    {
+        scanf("" %d %ld"",&op,&i);
+        switch(op)
+        {
+        case 1:{num1(i);break;}
+        case 2:{if(i==1)break;num2(i);break;}
+        case 3:{num3(i);break;}
+        case 4:{num4(i);break;}
+        }
+    }
+    for(i=0;i<n;i++)
+        {   if(num[i]>max)max=num[i];
+            sum[num[i]]++;
+        }
+    for(i=0;i<max;i++)printf(""%ld "",sum[i]);
+}
+"

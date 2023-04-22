@@ -10,10 +10,10 @@ import (
 	"MGA_OJ/vo"
 	"bufio"
 	"bytes"
-	"io"
 	"log"
 	"math"
 	"os"
+	"os/exec"
 	"runtime"
 	"sync"
 	"time"
@@ -100,6 +100,28 @@ func Test(requestTest vo.TestRequest) (output string, condition string, memory u
 		return
 	}
 
+	defer func() {
+		os.RemoveAll("./user-code")
+		os.MkdirAll("./user-code", 0751)
+		cmd1 := exec.Command("pgrep", "-u", "mgaoj")
+		cmd2 := exec.Command("xargs", "kill", "-9")
+
+		cmd2.Stdin, _ = cmd1.StdoutPipe()
+
+		if err := cmd2.Start(); err != nil {
+			return
+		}
+
+		if err := cmd1.Run(); err != nil {
+			cmd2.Process.Kill()
+			return
+		}
+
+		if err := cmd2.Wait(); err != nil {
+			return
+		}
+	}()
+
 	// TODO defer延迟调用 关闭文件，释放资源
 	defer fp.Close()
 
@@ -140,25 +162,47 @@ func Test(requestTest vo.TestRequest) (output string, condition string, memory u
 		return
 	}
 
+	// TODO 获取权限
+	cmd = cmdI.Chmod("./user-code/", id)
+
+	// TODO 权限错误
+	if err := cmd.Start(); err != nil {
+		condition = "System Error 6"
+		return
+	}
+	// TODO 启动routine等待结束
+	done = make(chan error)
+	go func() { done <- cmd.Wait() }()
+
+	// 设定超时时间，并select它
+	after = time.After(time.Duration(5 * time.Second))
+	select {
+	// TODO 权限超时
+	case <-after:
+		cmd.Process.Kill()
+		condition = "Compile timeout"
+		return
+	case err = <-done:
+	}
+
+	// TODO 编译出错
+	if err != nil {
+		condition = "Compile Error"
+		return
+	}
+
 	var bm runtime.MemStats
 	runtime.ReadMemStats(&bm)
 
-	// TODO 运行可执行文件
-	cmd = cmdI.Run("./user-code/", id)
+	// TODO 通过沙箱运行可执行文件
+	cmd = exec.Command("./seccomp", "-language", requestTest.Language, "-input", requestTest.Input)
 
 	var out, stderr bytes.Buffer
 	cmd.Stderr = &stderr
 	cmd.Stdout = &out
-	stdinPipe, err := cmd.StdinPipe()
-	// TODO 系统错误
-	if err != nil {
-		condition = "System Error 3"
-		return
-	}
-	io.WriteString(stdinPipe, requestTest.Input+"\n")
-	// TODO 关闭管道制造EOF信息
-	stdinPipe.Close()
+
 	now := time.Now().UnixMilli()
+
 	// TODO 系统错误
 	if err := cmd.Start(); err != nil {
 		condition = "System Error 4"
@@ -178,6 +222,7 @@ func Test(requestTest vo.TestRequest) (output string, condition string, memory u
 		return
 	case err = <-done:
 	}
+
 	end := time.Now().UnixMilli()
 
 	// TODO 运行时错误

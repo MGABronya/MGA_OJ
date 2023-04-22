@@ -1,0 +1,1006 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,E,Java,60848718,2023-02-10 19:28:03,皓金,答案错误,"import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
+import java.util.StringTokenizer;
+
+public class Main {
+  static int T, n, m, cnt;
+  static StringBuilder sb = new StringBuilder();
+
+  public static void main(String[] args) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    T = Integer.parseInt(br.readLine().trim());
+    while (T-- > 0) {
+      StringTokenizer st = new StringTokenizer(br.readLine().trim());
+      n = Integer.parseInt(st.nextToken());
+      m = Integer.parseInt(st.nextToken());
+      cnt = 1;
+      for (int i = 2; i < n; i++) {
+        sb.append(""1 "").append(i).append("" "").append(cnt++).append(""\n"");
+      }
+      sb.append(""1 "").append(n).append("" "").append(cnt++).append(""\n"");
+      for (int i = n - 1; i < m; i++) {
+        sb.append((i % (n - 1) + 2)).append("" "").append(n).append("" "").append(cnt++).append(""\n"");
+      }
+    }
+    System.out.print(sb.toString());
+  }
+}
+"
+1,E,Java,60851175,2023-02-10 19:55:09,FREY4,答案错误,"import java.io.*;
+import java.util.StringTokenizer;
+
+/**
+ * @author freya
+ * @date 2023/2/10
+ **/
+public class Main {
+    public static Reader in;
+    public static PrintWriter out;
+    public static void main(String[] args) {
+        out = new PrintWriter(new BufferedOutputStream(System.out));
+        in = new Reader();
+        int t = in.nextInt();
+        while (t-- > 0)
+            solve();
+        out.close();
+    }
+
+    static void solve(){
+        int n = in.nextInt(), m = in.nextInt();
+        for (int i = 1; i<n;i++){
+            out.println(i + "" "" + (i+1) + "" "" + i);
+        }
+        int v = n;
+        for (int i = 1; i<n; i++){
+            for (int j = i+2; j<=n;j++){
+                if (v > m)return;
+                out.println(i + "" "" + j + "" "" + v);
+                v++;
+            }
+        }
+    }
+
+    static int qmi(long a, int b, int p) {
+        long ans = 1;
+        a = (a % p + p) % p;
+        for (; b>0; b >>= 1) {
+            if ((b & 1)!=0) ans = (a * ans) % p;
+            a = (a * a) % p;
+        }
+        return (int)ans;
+    }
+
+    static class Reader {
+        private BufferedReader br;
+        private StringTokenizer st;
+
+        Reader() {
+            br = new BufferedReader(new InputStreamReader(System.in));
+        }
+
+        String next() {
+            try {
+                while (st == null || !st.hasMoreTokens()) {
+                    st = new StringTokenizer(br.readLine());
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return st.nextToken();
+        }
+
+        int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        int[] nextIntArray(int n) {
+            int[] arr = new int[n];
+            for (int i = 0; i < n; i++)
+                arr[i] = nextInt();
+            return arr;
+        }
+
+        long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        String nextLine() {
+            String s = """";
+            try {
+                s = br.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return s;
+        }
+    }
+}
+"
+2,E,Java,60851627,2023-02-10 20:01:21,FREY4,答案正确,"import java.io.*;
+import java.util.StringTokenizer;
+
+/**
+ * @author freya
+ * @date 2023/2/10
+ **/
+public class Main {
+    public static Reader in;
+    public static PrintWriter out;
+    public static void main(String[] args) {
+        out = new PrintWriter(new BufferedOutputStream(System.out));
+        in = new Reader();
+        int t = in.nextInt();
+        while (t-- > 0)
+            solve();
+        out.close();
+    }
+
+    static void solve(){
+        int n = in.nextInt(), m = in.nextInt();
+        for (int i = 1; i<n;i++){
+            out.println(i + "" "" + (i+1) + "" "" + i);
+        }
+        int v = n;
+        for (int len = 2; len < n;len++){
+            for (int i = 1; i+len<=n;i++){
+                if (v > m)return;
+                out.println(i + "" "" + (i+len) + "" "" + (v++));
+            }
+        }
+    }
+
+    static int qmi(long a, int b, int p) {
+        long ans = 1;
+        a = (a % p + p) % p;
+        for (; b>0; b >>= 1) {
+            if ((b & 1)!=0) ans = (a * ans) % p;
+            a = (a * a) % p;
+        }
+        return (int)ans;
+    }
+
+    static class Reader {
+        private BufferedReader br;
+        private StringTokenizer st;
+
+        Reader() {
+            br = new BufferedReader(new InputStreamReader(System.in));
+        }
+
+        String next() {
+            try {
+                while (st == null || !st.hasMoreTokens()) {
+                    st = new StringTokenizer(br.readLine());
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return st.nextToken();
+        }
+
+        int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        int[] nextIntArray(int n) {
+            int[] arr = new int[n];
+            for (int i = 0; i < n; i++)
+                arr[i] = nextInt();
+            return arr;
+        }
+
+        long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        String nextLine() {
+            String s = """";
+            try {
+                s = br.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return s;
+        }
+    }
+}
+"
+3,E,Java,60853391,2023-02-10 20:26:12,悠然小白,答案错误,"import java.util.*;
+import java.io.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Scanner in = new Scanner(new BufferedReader(new InputStreamReader(System.in)));
+        PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+
+        int t = in.nextInt();
+        while(t-- > 0) {
+            int n = in.nextInt();
+            int m = in.nextInt();
+            for (int i = 1, v = 1; i < n && v <= m; i++) {
+                for (int j = 1; j < n && v <= m; j++, v++) {
+                    out.println(j + "" "" + (j + i) + "" "" + v);
+                }
+            }
+            
+
+
+        }
+
+        out.flush();
+    }
+
+}
+"
+4,E,Java,60853420,2023-02-10 20:26:38,悠然小白,答案错误,"import java.util.*;
+import java.io.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Scanner in = new Scanner(new BufferedReader(new InputStreamReader(System.in)));
+        PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+
+        int t = in.nextInt();
+        while(t-- > 0) {
+            int n = in.nextInt();
+            int m = in.nextInt();
+            for (int i = 1, v = 1; i < n && v <= m; i++) {
+                for (int j = 1; j + i < n && v <= m; j++, v++) {
+                    out.println(j + "" "" + (j + i) + "" "" + v);
+                }
+            }
+            
+
+
+        }
+
+        out.flush();
+    }
+
+}
+"
+5,E,Java,60853462,2023-02-10 20:27:12,悠然小白,答案正确,"import java.util.*;
+import java.io.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Scanner in = new Scanner(new BufferedReader(new InputStreamReader(System.in)));
+        PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+
+        int t = in.nextInt();
+        while(t-- > 0) {
+            int n = in.nextInt();
+            int m = in.nextInt();
+            for (int i = 1, v = 1; i < n && v <= m; i++) {
+                for (int j = 1; j + i <= n && v <= m; j++, v++) {
+                    out.println(j + "" "" + (j + i) + "" "" + v);
+                }
+            }
+            
+
+
+        }
+
+        out.flush();
+    }
+
+}
+"
+6,E,Java,60854078,2023-02-10 20:36:49,小小小巨人,答案正确,"import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.StreamTokenizer;
+import java.util.StringTokenizer;
+import java.math.BigInteger;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Deque;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Map.Entry;
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.Random;
+import java.util.Scanner;
+import java.util.Stack;
+import java.util.TreeMap;
+import java.util.TreeSet;
+/**
+ * 
+ * @author TCchen
+ */
+public class Main {
+	public static void main(String[]args) throws IOException {
+		new Main().run();
+	}
+//	File input=new File(""D:\\test\\input.txt"");
+//	File output=new File(""D:\\test\\output.txt"");
+	void run() throws IOException{
+//		new Solve().setIO(input, output).run();
+		new Solve().setIO(System.in,System.out).run();
+	}
+	class Solve extends IOTask{
+		int n,m,w,k,i,j,l,r;
+		void solve() throws IOException{
+			n=in.in();
+			m=in.in();
+			k=1;
+			l=1;
+			r=2;
+			while(r<=n) {
+				out.println(l+++"" ""+r+++"" ""+k++);
+			}
+			w=2;
+			for(w=2;k<=m;w++) {
+				l=1;
+				r=l+w;
+				while(r<=n&&k<=m)
+					out.println(l+++"" ""+r+++"" ""+k++);
+			}
+		}
+		int te=1;
+		void run()throws IOException{
+			int t=1;
+			t=in.in();
+			for(te=1;te<=t;te++) {
+				solve();
+//				out.flush();
+			}
+			out.close();
+		}
+		long timeMillis;
+		void st() {
+			timeMillis=System.currentTimeMillis();
+		}
+		void ed() {
+			System.out.println((System.currentTimeMillis()-timeMillis)+""ms"");
+		}
+	}
+	class QIn{
+		StreamTokenizer st = new StreamTokenizer(new BufferedReader(new InputStreamReader(System.in)));
+		int in() throws IOException {
+			st.nextToken();
+			return (int)st.nval;
+		}
+		long inl() throws IOException {
+			st.nextToken();
+			return (long)st.nval;
+		}
+		double ind()throws IOException  {
+			st.nextToken();
+			return st.nval;
+		}
+		String ins() throws IOException {
+			st.nextToken();
+			return st.sval;
+		}
+	}
+	class In{
+		private StringTokenizer in=new StringTokenizer("""");
+		private InputStream is;
+		private BufferedReader bf;
+		public In(File file) throws IOException {
+			is=new FileInputStream(file);
+			init();
+		}
+		public In(InputStream is) throws IOException{
+			this.is=is;
+			init();
+		}
+		private void init() throws IOException {
+			bf=new BufferedReader(new InputStreamReader(is));
+		}
+		boolean hasNext() throws IOException {
+			return in.hasMoreTokens()||bf.ready();
+		}
+		String ins() throws IOException {
+			while(!in.hasMoreTokens()) {
+				in=new StringTokenizer(bf.readLine());
+			}
+			return in.nextToken();
+		}
+		int in() throws IOException {
+			return Integer.parseInt(ins());
+		}
+		long inl() throws IOException {
+			return Long.parseLong(ins());
+		}
+		double ind() throws IOException {
+			return Double.parseDouble(ins());
+		}
+		String line() throws IOException {
+			return bf.readLine();
+		}
+	}
+	class Out{
+		PrintWriter out;
+		private OutputStream os;
+		private void init() {
+			out=new PrintWriter(new BufferedWriter(new OutputStreamWriter(os)));
+		}
+		public Out(File file) throws IOException {
+			os=new FileOutputStream(file);
+			init();
+		}
+		public Out(OutputStream os) throws IOException{
+			this.os=os;
+			init();
+		}
+	}
+	abstract class IOTask{
+		In in;
+		PrintWriter out;
+		public IOTask setIO(File in,File out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		public IOTask setIO(File in,OutputStream out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		public IOTask setIO(InputStream in,OutputStream out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		public IOTask setIO(InputStream in,File out) throws IOException{
+			this.in=new In(in);
+			this.out=new Out(out).out;
+			return this;
+		}
+		void run()throws IOException{}
+	}
+}"
+7,E,Java,60854320,2023-02-10 20:40:32,孤独二叉树,答案错误,"import java.util.*;
+public class Main {
+	 static int f, n, m, x, y, z;
+	    static void add(int x, int y, int z) {
+	    	HashMap<Integer, Integer> map = new HashMap<>();
+	        map.put(x, y);
+	        map.put(y, x);
+	        map.put(z, z);
+	        System.out.println(map.get(x) + "" "" + map.get(y) + "" "" + map.get(z));
+	    }
+	    public static void main(String[] args) {
+	        Scanner in = new Scanner(System.in);
+	        f = in.nextInt();
+	        while (f-- > 0) {
+	            n = in.nextInt();
+	            m = in.nextInt();
+	            for (x = 1; x <= n - 1; x++)
+	                for (y = x + 1; y <= n; y++) {
+	                    z = m - (n - 2);
+	                    add(x, y, z);
+	                    m--;
+	                }
+	        }
+	    }
+	}"
+8,E,Java,60858830,2023-02-10 23:36:13,challow,答案错误,"import java.util.*;
+import java.io.*;
+
+public class Main{
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int t = Integer.parseInt(br.readLine());
+        while(t -- > 0) {
+            String[] strs = br.readLine().split("" "");
+            int n = Integer.parseInt(strs[0]);
+            int m = Integer.parseInt(strs[1]);
+            int w = 1;
+            for (int i = 1; i < n; i ++) System.out.println(i + "" "" + (i + 1) + "" "" + w ++);
+//             System.out.println(m);
+            m -= (n - 1);
+//             System.out.println(m);
+            int st = 1;
+            int len = 2;
+            while(m > 0) {
+                for (int i = 1; i < n; i += len) {
+                    if(m == 0) break;
+                    System.out.println(i + "" "" + (i + len) + "" "" + w ++);
+                    m --;
+                }
+                len ++;
+            }
+        }
+    }
+}"
+9,E,Java,60858840,2023-02-10 23:36:59,challow,答案错误,"import java.util.*;
+import java.io.*;
+
+public class Main{
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int t = Integer.parseInt(br.readLine());
+        while(t -- > 0) {
+            String[] strs = br.readLine().split("" "");
+            int n = Integer.parseInt(strs[0]);
+            int m = Integer.parseInt(strs[1]);
+            int w = 1;
+            for (int i = 1; i < n; i ++) System.out.println(i + "" "" + (i + 1) + "" "" + w ++);
+//             System.out.println(m);
+            m -= (n - 1);
+//             System.out.println(m);
+            for (int len = 2; len <= n; len ++) {
+                for (int i = 1; i < n; i += len) {
+                    if(m == 0) break;
+                    System.out.println(i + "" "" + (i + len) + "" "" + w ++);
+                    m --;
+                }
+            }
+        }
+    }
+}"
+10,E,Java,60858841,2023-02-10 23:37:19,challow,答案错误,"import java.util.*;
+import java.io.*;
+
+public class Main{
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int t = Integer.parseInt(br.readLine());
+        while(t -- > 0) {
+            String[] strs = br.readLine().split("" "");
+            int n = Integer.parseInt(strs[0]);
+            int m = Integer.parseInt(strs[1]);
+            int w = 1;
+            for (int i = 1; i < n; i ++) System.out.println(i + "" "" + (i + 1) + "" "" + w ++);
+//             System.out.println(m);
+            m -= (n - 1);
+//             System.out.println(m);
+            for (int len = 2; len <= n; len ++) {
+                if(m == 0) break;
+                for (int i = 1; i < n; i += len) {
+                    System.out.println(i + "" "" + (i + len) + "" "" + w ++);
+                    m --;
+                }
+            }
+        }
+    }
+}"
+11,E,Java,60858842,2023-02-10 23:37:44,challow,答案错误,"import java.util.*;
+import java.io.*;
+
+public class Main{
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int t = Integer.parseInt(br.readLine());
+        while(t -- > 0) {
+            String[] strs = br.readLine().split("" "");
+            int n = Integer.parseInt(strs[0]);
+            int m = Integer.parseInt(strs[1]);
+            int w = 1;
+            for (int i = 1; i < n; i ++) System.out.println(i + "" "" + (i + 1) + "" "" + w ++);
+//             System.out.println(m);
+            m -= (n - 1);
+//             System.out.println(m);
+            for (int len = 2; len <= n; len ++) {
+                if(m == 0) break;
+                for (int i = 1; i < n; i += len) {
+                    if(m == 0) break;
+                    System.out.println(i + "" "" + (i + len) + "" "" + w ++);
+                    m --;
+                }
+            }
+        }
+    }
+}"
+12,E,Java,60858849,2023-02-10 23:38:27,challow,答案错误,"import java.util.*;
+import java.io.*;
+
+public class Main{
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int t = Integer.parseInt(br.readLine());
+        while(t -- > 0) {
+            String[] strs = br.readLine().split("" "");
+            int n = Integer.parseInt(strs[0]);
+            int m = Integer.parseInt(strs[1]);
+            int w = 1;
+            for (int i = 1; i < n; i ++) System.out.println(i + "" "" + (i + 1) + "" "" + w ++);
+//             System.out.println(m);
+            m -= (n - 1);
+//             System.out.println(m);
+            for (int len = 2; len <= n; len ++) {
+                if(m == 0) break;
+                for (int i = 1; i <= n; i += len) {
+                    if(m == 0) break;
+                    if(i + len > n) continue;
+                    System.out.println(i + "" "" + (i + len) + "" "" + w ++);
+                    m --;
+                }
+            }
+        }
+    }
+}"
+13,E,Java,60858856,2023-02-10 23:39:22,challow,答案错误,"import java.util.*;
+import java.io.*;
+
+public class Main{
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int t = Integer.parseInt(br.readLine());
+        while(t -- > 0) {
+            String[] strs = br.readLine().split("" "");
+            int n = Integer.parseInt(strs[0]);
+            int m = Integer.parseInt(strs[1]);
+            int w = 1;
+            for (int i = 1; i <= n - 1; i ++) System.out.println(i + "" "" + (i + 1) + "" "" + w ++);
+//             System.out.println(m);
+            m -= (n - 1);
+//             System.out.println(m);
+            for (int len = 2; len < n; len ++) {
+                if(m == 0) break;
+                for (int i = 1; i <= n; i += len) {
+                    if(m == 0) break;
+                    if(i + len > n) continue;
+                    System.out.println(i + "" "" + (i + len) + "" "" + w ++);
+                    m --;
+                }
+            }
+        }
+    }
+}"
+14,E,Java,60858872,2023-02-10 23:40:50,challow,答案错误,"import java.util.*;
+import java.io.*;
+
+public class Main{
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int t = Integer.parseInt(br.readLine());
+        while(t -- > 0) {
+            String[] strs = br.readLine().split("" "");
+            int n = Integer.parseInt(strs[0]);
+            int m = Integer.parseInt(strs[1]);
+            int w = 1;
+            for (int i = 1; i <= n - 1; i ++) System.out.println(i + "" "" + (i + 1) + "" "" + w ++);
+//             System.out.println(m);
+            m -= (n - 1);
+//             System.out.println(m);
+            for (int len = 2; len < n; len ++) {
+                if(m == 0) break;
+                for (int i = 1; i + len <= n; i += len) {
+                    if(m == 0) break;
+                    System.out.println(i + "" "" + (i + len) + "" "" + w ++);
+                    m --;
+                }
+            }
+        }
+    }
+}"
+15,E,Java,60858921,2023-02-10 23:45:30,challow,答案正确,"import java.util.*;
+import java.io.*;
+
+public class Main{
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int t = Integer.parseInt(br.readLine());
+        while(t -- > 0) {
+            String[] strs = br.readLine().split("" "");
+            int n = Integer.parseInt(strs[0]);
+            int m = Integer.parseInt(strs[1]);
+            int w = 1;
+            for (int i = 1; i <= n - 1; i ++) System.out.println(i + "" "" + (i + 1) + "" "" + (w ++));
+//             System.out.println(m);
+            m -= (n - 1);
+//             System.out.println(m);
+            for (int len = 2; len < n; len ++) {
+                if(m == 0) break;
+                for (int i = 1; i + len <= n; i ++) {
+                    if(m == 0) break;
+                    System.out.println(i + "" "" + (i + len) + "" "" + w ++);
+                    m --;
+                }
+            }
+        }
+    }
+}"
+16,E,Java,60870571,2023-02-12 20:33:50,Eunoiay,答案正确,"import java.io.*;
+
+public class Main {
+    
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        PrintWriter pw = new PrintWriter(new OutputStreamWriter(System.out));
+        
+        int t = Integer.parseInt(br.readLine());
+        String[] in = null;
+        while (t-- != 0) {
+            in = br.readLine().split("" "");
+            int n = Integer.parseInt(in[0]);
+            int m = Integer.parseInt(in[1]);
+            
+            for (int i = 1; i < n; i++) {
+                pw.printf(""%d %d %d\n"", i, i + 1, i);
+            }
+            
+            int v = 1, gap = 2;
+            for (int i = n; i <= m; i++) {
+                pw.printf(""%d %d %d\n"", v, v + gap, i);
+                v++;
+                if (v + gap > n) {
+                    v = 1;
+                    gap++;
+                }
+            }
+        }
+        
+        pw.close();
+    }
+}"
+17,E,Java,60870588,2023-02-12 20:36:08,Eunoiay,答案错误,"import java.io.*;
+
+public class Main {
+    
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        PrintWriter pw = new PrintWriter(new OutputStreamWriter(System.out));
+        
+        int t = Integer.parseInt(br.readLine());
+        String[] in = null;
+        while (t-- != 0) {
+            in = br.readLine().split("" "");
+            int n = Integer.parseInt(in[0]);
+            int m = Integer.parseInt(in[1]);
+            
+            for (int i = 1; i < n; i++) {
+                System.out.printf(""%d %d %d\n"", i, i + 1, i);
+            }
+            
+            int v = 1, gap = 2;
+            for (int i = n; i <= m; i++) {
+                pw.printf(""%d %d %d\n"", v, v + gap, i);
+                v++;
+                if (v + gap > n) {
+                    v = 1;
+                    gap++;
+                }
+            }
+        }
+        
+        pw.close();
+    }
+}"
+18,E,Java,60870594,2023-02-12 20:36:57,Eunoiay,答案正确,"import java.io.*;
+
+public class Main {
+    
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        PrintWriter pw = new PrintWriter(new OutputStreamWriter(System.out));
+        
+        int t = Integer.parseInt(br.readLine());
+        String[] in = null;
+        while (t-- != 0) {
+            in = br.readLine().split("" "");
+            int n = Integer.parseInt(in[0]);
+            int m = Integer.parseInt(in[1]);
+            
+            for (int i = 1; i < n; i++) {
+                pw.printf(""%d %d %d\n"", i, i + 1, i);
+            }
+            
+            int v = 1, gap = 2;
+            for (int i = n; i <= m; i++) {
+                pw.printf(""%d %d %d\n"", v, v + gap, i);
+                v++;
+                if (v + gap > n) {
+                    v = 1;
+                    gap++;
+                }
+            }
+        }
+        
+        pw.close();
+    }
+}"
+19,E,Java,60870598,2023-02-12 20:37:37,Eunoiay,运行超时,"import java.io.*;
+
+public class Main {
+    
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        PrintWriter pw = new PrintWriter(new OutputStreamWriter(System.out));
+        
+        int t = Integer.parseInt(br.readLine());
+        String[] in = null;
+        while (t-- != 0) {
+            in = br.readLine().split("" "");
+            int n = Integer.parseInt(in[0]);
+            int m = Integer.parseInt(in[1]);
+            
+            for (int i = 1; i < n; i++) {
+                System.out.printf(""%d %d %d\n"", i, i + 1, i);
+            }
+            
+            int v = 1, gap = 2;
+            for (int i = n; i <= m; i++) {
+                System.out.printf(""%d %d %d\n"", v, v + gap, i);
+                v++;
+                if (v + gap > n) {
+                    v = 1;
+                    gap++;
+                }
+            }
+        }
+        
+        //pw.close();
+    }
+}"
+20,E,Java,60870605,2023-02-12 20:38:27,Eunoiay,答案错误,"import java.io.*;
+
+public class Main {
+    
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        PrintWriter pw = new PrintWriter(new OutputStreamWriter(System.out));
+        
+        int t = Integer.parseInt(br.readLine());
+        String[] in = null;
+        while (t-- != 0) {
+            in = br.readLine().split("" "");
+            int n = Integer.parseInt(in[0]);
+            int m = Integer.parseInt(in[1]);
+            
+            for (int i = 1; i < n; i++) {
+                System.out.printf(""%d %d %d\n"", i, i + 1, i);
+            }
+            
+            int v = 1, gap = 2;
+            for (int i = n; i <= m; i++) {
+                pw.printf(""%d %d %d\n"", v, v + gap, i);
+                v++;
+                if (v + gap > n) {
+                    v = 1;
+                    gap++;
+                }
+            }
+        }
+        
+        //pw.close();
+    }
+}"
+21,E,Java,60870606,2023-02-12 20:38:34,Eunoiay,答案错误,"import java.io.*;
+
+public class Main {
+    
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        PrintWriter pw = new PrintWriter(new OutputStreamWriter(System.out));
+        
+        int t = Integer.parseInt(br.readLine());
+        String[] in = null;
+        while (t-- != 0) {
+            in = br.readLine().split("" "");
+            int n = Integer.parseInt(in[0]);
+            int m = Integer.parseInt(in[1]);
+            
+            for (int i = 1; i < n; i++) {
+                System.out.printf(""%d %d %d\n"", i, i + 1, i);
+            }
+            
+            int v = 1, gap = 2;
+            for (int i = n; i <= m; i++) {
+                pw.printf(""%d %d %d\n"", v, v + gap, i);
+                v++;
+                if (v + gap > n) {
+                    v = 1;
+                    gap++;
+                }
+            }
+        }
+        
+        pw.close();
+    }
+}"
+22,E,Java,60870611,2023-02-12 20:39:00,Eunoiay,运行超时,"import java.io.*;
+
+public class Main {
+    
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        PrintWriter pw = new PrintWriter(new OutputStreamWriter(System.out));
+        
+        int t = Integer.parseInt(br.readLine());
+        String[] in = null;
+        while (t-- != 0) {
+            in = br.readLine().split("" "");
+            int n = Integer.parseInt(in[0]);
+            int m = Integer.parseInt(in[1]);
+            
+            for (int i = 1; i < n; i++) {
+                System.out.printf(""%d %d %d\n"", i, i + 1, i);
+            }
+            
+            int v = 1, gap = 2;
+            for (int i = n; i <= m; i++) {
+                pw.printf(""%d %d %d\n"", v, v + gap, i);
+                v++;
+                if (v + gap > n) {
+                    v = 1;
+                    gap++;
+                }
+            }
+            pw.flush();
+        }
+        
+        pw.close();
+    }
+}"
+23,E,Java,60870617,2023-02-12 20:39:49,Eunoiay,答案正确,"import java.io.*;
+
+public class Main {
+    
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        PrintWriter pw = new PrintWriter(new OutputStreamWriter(System.out));
+        
+        int t = Integer.parseInt(br.readLine());
+        String[] in = null;
+        while (t-- != 0) {
+            in = br.readLine().split("" "");
+            int n = Integer.parseInt(in[0]);
+            int m = Integer.parseInt(in[1]);
+            
+            for (int i = 1; i < n; i++) {
+                pw.printf(""%d %d %d\n"", i, i + 1, i);
+            }
+            
+            int v = 1, gap = 2;
+            for (int i = n; i <= m; i++) {
+                pw.printf(""%d %d %d\n"", v, v + gap, i);
+                v++;
+                if (v + gap > n) {
+                    v = 1;
+                    gap++;
+                }
+            }
+        }
+        
+        pw.close();
+    }
+}"
+24,E,Java,60902346,2023-02-16 19:33:41,刘映辰,答案正确,"import java.util.*;
+import java.lang.*;
+
+public class Main{
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        int test_count = sc.nextInt();
+        for(int i = 0; i < test_count; i++){
+            int n = sc.nextInt();
+            int m = sc.nextInt();
+            
+            help_funciton(n, m);
+        }
+    }
+    
+    public static void help_funciton(int n, int m){
+        for(int i = 1, k = 1; i < n && k <= m; i++){
+            for(int j = 1; j + i <= n && k <= m; j++){
+                System.out.println(j + "" "" + (j + i) + "" "" + k++);
+            }
+        }
+    }
+}"

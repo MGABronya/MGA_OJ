@@ -1,0 +1,2346 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,C,Python3,55301155,2022-12-16 19:25:14,牛客481337953号,答案错误,"n=int(input())
+a=list(map(int,input().split()))
+b=list(map(int,input().split()))
+f=[0,0,0]
+def dfs(x):
+    if x == n:
+        v=sum(a[i]-b[i]>0 for i in range(n))
+        if v*2>n:
+            f[0]+=1
+        elif v*2<n:
+            f[1]+=1
+        else:
+            f[2]+=1
+        return
+    for i in range(x, n):
+        a[x], a[i] = a[i], a[x]
+        dfs(x + 1)
+        a[x], a[i] = a[i], a[x]
+dfs(0)
+print(f[0], f[1], f[2])"
+1,C,Python3,55301337,2022-12-16 19:26:45,牛客481337953号,运行超时,"n=int(input())
+a=list(map(int,input().split()))
+b=list(map(int,input().split()))
+f=[0,0,0]
+def dfs(x):
+    if x == n:
+        l=r=0
+        for i in range(n):
+            if a[i] - b[i] > 0:
+                l += 1
+            if a[i] - b[i] < 0:
+                r += 1
+        if l > r:
+            f[0]+=1
+        elif l < r:
+            f[1]+=1
+        else:
+            f[2]+=1
+        return
+    for i in range(x, n):
+        a[x], a[i] = a[i], a[x]
+        dfs(x + 1)
+        a[x], a[i] = a[i], a[x]
+dfs(0)
+print(f[0], f[1], f[2])"
+2,C,Python3,55301549,2022-12-16 19:28:24,数学家是我理想,执行出错,"import itertools
+
+def permutation(li):
+    return list(itertools.permutations(li))
+n = int(input())
+arr = list(map(int, input().split()))
+brr = list(map(int ,input().split()))
+arr = permutation(arr)
+brr = [brr] * 2
+win, lost, default = 0, 0, 0
+for i in range(len(arr)):
+    win_tmp, lost_tmp = 0, 0
+    for j in range(len(arr[i])):
+        if arr[i][j] > brr[i][j]:
+            win_tmp += 1
+        elif arr[i][j] < brr[i][j]:
+            lost_tmp += 1
+        else:
+            continue
+    if win_tmp == lost_tmp:
+        default += 1
+    elif win_tmp > lost_tmp:
+        win += 1
+    else:
+        lost += 1
+print(win, lost, default)"
+3,C,Python3,55301716,2022-12-16 19:29:46,数学家是我理想,内存超限,"import itertools
+
+def permutation(li):
+    return list(itertools.permutations(li))
+n = int(input())
+arr = list(map(int, input().split()))
+brr = list(map(int ,input().split()))
+arr = permutation(arr)
+brr = [brr] * len(arr)
+win, lost, default = 0, 0, 0
+for i in range(len(arr)):
+    win_tmp, lost_tmp = 0, 0
+    for j in range(len(arr[i])):
+        if arr[i][j] > brr[i][j]:
+            win_tmp += 1
+        elif arr[i][j] < brr[i][j]:
+            lost_tmp += 1
+        else:
+            continue
+    if win_tmp == lost_tmp:
+        default += 1
+    elif win_tmp > lost_tmp:
+        win += 1
+    else:
+        lost += 1
+print(win, lost, default)"
+4,C,Python3,55301812,2022-12-16 19:30:34,数学家是我理想,运行超时,"import itertools
+
+def permutation(li):
+    return list(itertools.permutations(li))
+n = int(input())
+arr = list(map(int, input().split()))
+brr = list(map(int ,input().split()))
+arr = permutation(arr)
+win, lost, default = 0, 0, 0
+for i in range(len(arr)):
+    win_tmp, lost_tmp = 0, 0
+    for j in range(len(arr[i])):
+        if arr[i][j] > brr[j]:
+            win_tmp += 1
+        elif arr[i][j] < brr[j]:
+            lost_tmp += 1
+        else:
+            continue
+    if win_tmp == lost_tmp:
+        default += 1
+    elif win_tmp > lost_tmp:
+        win += 1
+    else:
+        lost += 1
+print(win, lost, default)"
+5,C,Python3,55303010,2022-12-16 19:41:16,雷峰lfss,运行超时,"n = int(input())
+nums = list(map(int, input().split()))
+numsb = list(map(int, input().split()))
+res = [0, 0, 0]
+pai = []
+def pan(a,b):
+    a1,b1 = 0,0
+    for i in range(n):
+        if a[i] > b[i]:a1 += 1
+        elif a[i] < b[i]:b1 += 1
+    if a1 > b1:res[0] += 1
+    elif a1 < b1:res[1] += 1
+    else:res[2] += 1
+def back(lst, l):
+    if l == len(nums):
+        pan(lst,numsb)
+        return
+    for i in range(l, len(nums)):
+        lst.append(nums[i])
+        nums[l], nums[i] = nums[i], nums[l]
+        back(lst, l + 1)
+        lst.pop()
+        nums[l], nums[i] = nums[i], nums[l]
+back([], 0)
+for i in res:
+    print(i,end=' ')"
+6,C,Python3,55304267,2022-12-16 19:53:19,雷峰lfss,答案正确,"n = int(input())
+nums = list(map(int, input().split()))
+numsb = list(map(int, input().split()))
+from functools import cache
+@cache
+def back(c,b,d):
+    if c == n:
+        if d > 0:return (1,0,0)
+        elif d < 0:return (0,1,0)
+        else:return (0,0,1)
+    lin = [0,0,0]
+    for i in range(n):
+        if b & (1<<i) == 0:
+            if nums[c] > numsb[i]:
+                r1, r2, r3 = back(c + 1, b ^ (1 << i), d+1)
+            elif nums[c] < numsb[i]:
+                r1, r2, r3 = back(c + 1, b ^ (1 << i), d - 1)
+            else:
+                r1, r2, r3 = back(c + 1, b ^ (1 << i), d)
+            lin[0] += r1
+            lin[1] += r2
+            lin[2] += r3
+    return tuple(lin)
+res = back(0,0,0)
+for i in res:
+    print(i,end=' ')"
+7,C,Python3,55304310,2022-12-16 19:53:48,ccca,答案错误,"from sys import stdin, stdout
+import itertools
+# each entry of sieve contains a prime divisor
+n = int(input())
+a = []
+a = [int(x) for x in stdin.readline().split()] # 读取一行输入的方式;
+b = []
+b = [int(x) for x in stdin.readline().split()] # 读取一行输入的方式;
+pailie = list(itertools.permutations(a))
+idx = 0
+ans1 = 0
+ans2 = 0
+ans3 = 0
+for x in pailie:
+    y = b.copy()
+    sum1 = 0
+    sum2 = 0
+    for i in range(n):
+        if x[i] > y[i]:
+            sum1 += 1
+            pass
+        elif x[i] < y[i]:
+            sum2 += 1
+            pass
+        pass
+    if sum1 > sum2:
+        ans1 += 1
+        pass
+    elif sum1 == sum2:
+        ans2 += 1
+        pass
+    else :
+        ans3 += 1
+    pass
+print('{} {} {}'.format(ans1, ans2, ans3))
+"
+8,C,Python3,55304417,2022-12-16 19:54:58,ccca,运行超时,"from sys import stdin, stdout
+import itertools
+# each entry of sieve contains a prime divisor
+n = int(input())
+a = []
+a = [int(x) for x in stdin.readline().split()] # 读取一行输入的方式;
+b = []
+b = [int(x) for x in stdin.readline().split()] # 读取一行输入的方式;
+pailie = list(itertools.permutations(a))
+idx = 0
+ans1 = 0
+ans2 = 0
+ans3 = 0
+for x in pailie:
+    y = b.copy()
+    sum1 = 0
+    sum2 = 0
+    for i in range(n):
+        if x[i] > y[i]:
+            sum1 += 1
+            pass
+        elif x[i] < y[i]:
+            sum2 += 1
+            pass
+        pass
+    if sum1 > sum2:
+        ans1 += 1
+        pass
+    elif sum1 == sum2:
+        ans2 += 1
+        pass
+    else :
+        ans3 += 1
+    pass
+print('{} {} {}'.format(ans1, ans3, ans2))
+"
+9,C,Python3,55304534,2022-12-16 19:56:02,ccca,运行超时,"from sys import stdin, stdout
+import itertools
+# each entry of sieve contains a prime divisor
+n = int(input())
+a = []
+a = [int(x) for x in stdin.readline().split()] # 读取一行输入的方式;
+b = []
+b = [int(x) for x in stdin.readline().split()] # 读取一行输入的方式;
+pailie = list(itertools.permutations(a))
+idx = 0
+ans1 = 0
+ans2 = 0
+ans3 = 0
+for x in pailie:
+    y = b
+    sum1 = 0
+    sum2 = 0
+    for i in range(n):
+        if x[i] > y[i]:
+            sum1 += 1
+            pass
+        elif x[i] < y[i]:
+            sum2 += 1
+            pass
+        pass
+    if sum1 > sum2:
+        ans1 += 1
+        pass
+    elif sum1 == sum2:
+        ans2 += 1
+        pass
+    else :
+        ans3 += 1
+    pass
+print('{} {} {}'.format(ans1, ans3, ans2))
+"
+10,C,Python3,55305081,2022-12-16 20:01:28,Garett,答案错误,"n=int(input())
+a=list(map(int,input().split()))
+b=list(map(int,input().split()))
+vis=[False]*n
+ans=[0]*3
+
+def dfs(idx,buf):
+    global ans
+    if idx==n:
+        cnt=0
+        for i,v in enumerate(buf):
+            if a[i]>b[v]:
+                cnt+=1
+        if v*2>n:
+            ans[0]+=1
+        elif v*2==0:
+            ans[1]+=1
+        else:
+            ans[-1]+=1
+        return
+    for i in range(n):
+        if vis[i]:
+            continue
+        vis[i]=True
+        dfs(idx+1,buf+[i])
+        vis[i]=False
+dfs(0,[])
+for v in ans:
+    print(v,end=' ')
+                
+    "
+11,C,Python3,55305176,2022-12-16 20:02:26,Garett,答案错误,"n=int(input())
+a=list(map(int,input().split()))
+b=list(map(int,input().split()))
+vis=[False]*n
+ans=[0]*3
+
+def dfs(idx,buf):
+    global ans
+    if idx==n:
+        cnt=0
+        for i,v in enumerate(buf):
+            if a[i]>b[v]:
+                cnt+=1
+        if v*2>n:
+            ans[0]+=1
+        elif v*2==n:
+            ans[1]+=1
+        else:
+            ans[-1]+=1
+        return
+    for i in range(n):
+        if vis[i]:
+            continue
+        vis[i]=True
+        dfs(idx+1,buf+[i])
+        vis[i]=False
+dfs(0,[])
+for v in ans:
+    print(v,end=' ')
+                
+    "
+12,C,Python3,55305329,2022-12-16 20:04:20,Garett,答案错误,"n=int(input())
+a=list(map(int,input().split()))
+b=list(map(int,input().split()))
+vis=[False]*n
+ans=[0]*3
+
+def dfs(idx,buf):
+    global ans
+    if idx==n:
+        cnt1=0
+        cnt2=0
+        for i,v in enumerate(buf):
+            if a[i]>b[v]:
+                cnt1+=1
+            elif a[i]<b[i]:
+                cnt2+=1
+            
+        if cnt1>cnt2:
+            ans[0]+=1
+        elif cnt1==cnt2:
+            ans[1]+=1
+        else:
+            ans[-1]+=1
+        return
+    for i in range(n):
+        if vis[i]:
+            continue
+        vis[i]=True
+        dfs(idx+1,buf+[i])
+        vis[i]=False
+dfs(0,[])
+for v in ans:
+    print(v,end=' ')
+                
+    "
+13,C,Python3,55305358,2022-12-16 20:04:33,Paren7,答案正确,"import re
+import functools
+import random
+import sys
+import os
+import math
+from collections import Counter, defaultdict, deque
+from functools import lru_cache, reduce
+from itertools import accumulate, combinations, permutations
+from heapq import nsmallest, nlargest, heapify, heappop, heappush
+from io import BytesIO, IOBase
+from copy import deepcopy
+import threading
+import bisect
+
+BUFSIZE = 4096
+inf = float('inf')
+
+
+class FastIO(IOBase):
+    newlines = 0
+
+    def __init__(self, file):
+        self._fd = file.fileno()
+        self.buffer = BytesIO()
+        self.writable = ""x"" in file.mode or ""r"" not in file.mode
+        self.write = self.buffer.write if self.writable else None
+
+    def read(self):
+        while True:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            if not b:
+                break
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines = 0
+        return self.buffer.read()
+
+    def readline(self):
+        while self.newlines == 0:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            self.newlines = b.count(b""\n"") + (not b)
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines -= 1
+        return self.buffer.readline()
+
+    def flush(self):
+        if self.writable:
+            os.write(self._fd, self.buffer.getvalue())
+            self.buffer.truncate(0), self.buffer.seek(0)
+
+
+class IOWrapper(IOBase):
+    def __init__(self, file):
+        self.buffer = FastIO(file)
+        self.flush = self.buffer.flush
+        self.writable = self.buffer.writable
+        self.write = lambda s: self.buffer.write(s.encode(""ascii""))
+        self.read = lambda: self.buffer.read().decode(""ascii"")
+        self.readline = lambda: self.buffer.readline().decode(""ascii"")
+
+
+sys.stdin = IOWrapper(sys.stdin)
+sys.stdout = IOWrapper(sys.stdout)
+input = lambda: sys.stdin.readline().rstrip(""\r\n"")
+
+
+def I():
+    return input()
+
+
+def II():
+    return int(input())
+
+
+def MI():
+    return map(int, input().split())
+
+
+def LI():
+    return list(input().split())
+
+
+def LII():
+    return list(map(int, input().split()))
+
+
+def GMI():
+    return map(lambda x: int(x) - 1, input().split())
+
+
+def LGMI():
+    return list(map(lambda x: int(x) - 1, input().split()))
+
+
+from functools import cache
+
+
+@cache
+def dfs(ww, ll, pp):
+    if ww == n:
+        if pp > 0:
+            return (1, 0, 0)
+        elif pp == 0:
+            return (0, 0, 1)
+        else:
+            return (0, 1, 0)
+    tmp = [0, 0, 0]
+    for i in range(n):
+        if ll & (1 << i) == 0:
+            tpp = pp
+            if ateams[ww] > bteams[i]:
+                tpp += 1
+            elif ateams[ww] < bteams[i]:
+                tpp -= 1
+            w, l, p = dfs(ww + 1, ll ^ (1 << i), tpp)
+            tmp[0] += w
+            tmp[1] += l
+            tmp[2] += p
+    return tuple(tmp)
+
+
+n = II()
+ateams = LII()
+bteams = LII()
+
+res = dfs(0, 0, 0)
+print(' '.join(str(x) for x in res))
+"
+14,C,Python3,55305385,2022-12-16 20:04:54,Garett,答案错误,"n=int(input())
+a=list(map(int,input().split()))
+b=list(map(int,input().split()))
+vis=[False]*n
+ans=[0]*3
+
+def dfs(idx,buf):
+    global ans
+    if idx==n:
+        cnt1=0
+        cnt2=0
+        for i,v in enumerate(buf):
+            if a[i]>b[v]:
+                cnt1+=1
+            elif a[i]<b[i]:
+                cnt2+=1
+            
+        if cnt1>cnt2:
+            ans[0]+=1
+        elif cnt1==cnt2:
+            ans[-1]+=1
+        else:
+            ans[1]+=1
+        return
+    for i in range(n):
+        if vis[i]:
+            continue
+        vis[i]=True
+        dfs(idx+1,buf+[i])
+        vis[i]=False
+dfs(0,[])
+for v in ans:
+    print(v,end=' ')
+                
+    "
+15,C,Python3,55305494,2022-12-16 20:05:56,Garett,运行超时,"n=int(input())
+a=list(map(int,input().split()))
+b=list(map(int,input().split()))
+vis=[False]*n
+ans=[0]*3
+
+def dfs(idx,buf):
+    global ans
+    if idx==n:
+        cnt1=0
+        cnt2=0
+        for i,v in enumerate(buf):
+            if a[i]>b[v]:
+                cnt1+=1
+            elif a[i]<b[v]:
+                cnt2+=1
+            
+        if cnt1>cnt2:
+            ans[0]+=1
+        elif cnt1==cnt2:
+            ans[-1]+=1
+        else:
+            ans[1]+=1
+        return
+    for i in range(n):
+        if vis[i]:
+            continue
+        vis[i]=True
+        dfs(idx+1,buf+[i])
+        vis[i]=False
+dfs(0,[])
+for v in ans:
+    print(v,end=' ')
+                
+    "
+16,C,Python3,55305528,2022-12-16 20:06:17,zaizwk,运行超时,"class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        res = []
+        def backtrack(nums, tmp):
+            if not nums:
+                res.append(tmp)
+                return 
+            for i in range(len(nums)):
+                backtrack(nums[:i] + nums[i+1:], tmp + [nums[i]])
+        backtrack(nums, [])
+        return res
+    
+n = int(input())
+a = [int(x) for x in input().split()]
+b = [int(x) for x in input().split()]
+per = Solution()
+y = per.permute(a)
+w, l, v = 0, 0, 0
+for p in y:
+    c1, c2 = 0, 0
+    for i in range(n):
+        if p[i] > b[i]:
+            c1 += 1
+        elif p[i] < b[i]:
+            c2 += 1
+    if c1 > c2:
+        w += 1
+    elif c1 == c2:
+        v += 1
+    else:
+        l += 1
+print(f'{w} {l} {v}')"
+17,C,Python3,55305742,2022-12-16 20:08:30,相ཽ信ཽ光ཽ的ཽ少ཽ年ཽ,答案错误,"from itertools import permutations
+n = int(input())
+nums1 = list(map(int,input().split()))
+nums2 = list(map(int,input().split()))
+per = []
+for i in range(n):
+    per.append(i)
+wins, pings, loses = 0,0,0
+def solve(c):
+    global s,wins,pings, loses
+    win, ping, lose = 0,0,0
+    for i in range(n):
+        idx = c[i]
+        l,r = nums1[idx], nums2[i]
+        if l > r:
+            win += 1
+        elif l == r:
+            ping += 1
+        elif l < r:
+            lose += 1
+#     print(win, ping, lose)
+    if win > lose:
+        wins += 1
+    elif win == lose:
+        pings += 1
+    elif win < lose:
+        loses += 1
+    
+
+for p in permutations(per):
+    
+    solve(p)
+print(wins, pings, loses)"
+18,C,Python3,55305869,2022-12-16 20:10:00,相ཽ信ཽ光ཽ的ཽ少ཽ年ཽ,答案错误,"from itertools import permutations
+n = int(input())
+nums1 = list(map(int,input().split()))
+nums2 = list(map(int,input().split()))
+per = []
+for i in range(n):
+    per.append(i)
+wins, pings, loses = 0,0,0
+def solve(c):
+    global s,wins,pings, loses
+    score1, score2 = 0,0
+    for i in range(n):
+        idx = c[i]
+        l,r = nums1[idx], nums2[i]
+        if l > r:
+            score1 += 1
+        elif l < r:
+            score2 += 1
+#     print(win, ping, lose)
+    if score1 > score2:
+        wins += 1
+    elif score1 == score2:
+        pings += 1
+    elif score1 < score2:
+        loses += 1
+    
+
+for p in permutations(per):
+    solve(p)
+print(wins, pings, loses)"
+19,C,Python3,55306366,2022-12-16 20:15:43,相ཽ信ཽ光ཽ的ཽ少ཽ年ཽ,答案错误,"from itertools import permutations
+n = int(input())
+nums1 = list(map(int,input().split()))
+nums2 = list(map(int,input().split()))
+per = []
+for i in range(n):
+    per.append(i)
+wins, pings, loses = 0,0,0
+def solve(c):
+    global wins,pings, loses
+    score1, score2 = 0,0
+    for i in range(n):
+        l,r = nums1[c[i]], nums2[i]
+        if l > r:
+            score1 += 1
+        elif l < r:
+            score2 += 1
+#     print(win, ping, lose)
+    if score1 > score2:
+        wins += 1
+    elif score1 == score2:
+        pings += 1
+    elif score1 < score2:
+        loses += 1
+for p in list(permutations(per)):
+    solve(p)
+print(wins, pings, loses)"
+20,C,Python3,55306454,2022-12-16 20:16:43,相ཽ信ཽ光ཽ的ཽ少ཽ年ཽ,运行超时,"from itertools import permutations
+n = int(input())
+nums1 = list(map(int,input().split()))
+nums2 = list(map(int,input().split()))
+per = []
+for i in range(n):
+    per.append(i)
+wins, pings, loses = 0,0,0
+def solve(c):
+    global wins,pings, loses
+    score1, score2 = 0,0
+    for i in range(n):
+        l,r = nums1[c[i]], nums2[i]
+        if l > r:
+            score1 += 1
+        elif l < r:
+            score2 += 1
+#     print(win, ping, lose)
+    if score1 > score2:
+        wins += 1
+    elif score1 == score2:
+        pings += 1
+    elif score1 < score2:
+        loses += 1
+for p in permutations(per):
+    solve(p)
+print(wins, loses, pings)"
+21,C,Python3,55306546,2022-12-16 20:17:50,大虫航,答案错误,"n = int(input())
+num1 = list(map(int, input().split("" "")))
+num2 = list(map(int, input().split("" "")))
+
+# 开始循环匹配, 0,0,0,1
+# 那么就求0-n的组合数 0,1 1,0
+
+from itertools import permutations
+# [0,1]
+choice = list(permutations(range(n)))
+
+succ = 0
+same = 0
+failed = 0
+
+for line in choice:
+    sum_a = 0
+    sum_b = 0
+    for i in range(n):
+        if num1[i] > num2[line[i]]:
+            sum_a += 1
+        elif num1[i] < num2[line[i]]:
+            sum_b += 1
+    if sum_a == sum_b:
+        same += 1
+    elif sum_a > sum_b:
+        succ += 1
+    else:
+        failed += 1
+print(""%d %d %d"" % (succ, same, failed))
+
+
+
+"
+22,C,Python3,55307015,2022-12-16 20:24:44,大虫航,运行超时,"n = int(input())
+num1 = list(map(int, input().split("" "")))
+num2 = list(map(int, input().split("" "")))
+
+# 开始循环匹配, 0,0,0,1
+# 那么就求0-n的组合数 0,1 1,0
+
+# if n==1:
+#     if num1[0] == num2
+
+
+from itertools import permutations
+# [0,1]
+choice = list(permutations(range(n)))
+# print(choice)
+
+
+succ = 0
+same = 0
+failed = 0
+
+for line in choice:
+    sum_a = 0
+    sum_b = 0
+    for i in range(n):
+#         print(""compare"", num1[i], num2[line[i]])
+        if num1[i] > num2[line[i]]:
+            sum_a += 1
+        elif num1[i] < num2[line[i]]:
+            sum_b += 1
+#     print(""sum"", sum_a, sum_b)
+    if sum_a == sum_b:
+        same += 1
+    elif sum_a > sum_b:
+        succ += 1
+    else:
+        failed += 1
+print(""%d %d %d"" % (succ, failed, same ))
+
+
+
+"
+23,C,Python3,55307408,2022-12-16 20:30:03,retiredMxrush,答案错误,"from itertools import permutations
+n = int(input())
+a = list(map(int, input().split()))
+b = list(map(int, input().split()))
+win, draw, lose = 0, 0, 0
+for p in permutations(b):
+    cnt = 0
+    for i in range(n):
+        if a[i] > p[i]:
+            cnt += 1
+        elif a[i] < p[i]:
+            cnt -= 1
+    if cnt > 0:
+        win += 1
+    elif cnt == 0:
+        draw += 1
+    else:
+        lose += 1
+print(win, draw, lose)"
+24,C,Python3,55307538,2022-12-16 20:31:55,retiredMxrush,运行超时,"from itertools import permutations
+n = int(input())
+a = list(map(int, input().split()))
+b = list(map(int, input().split()))
+win, draw, lose = 0, 0, 0
+for p in permutations(b):
+    cnt = 0
+    for i in range(n):
+        if a[i] > p[i]:
+            cnt += 1
+        elif a[i] < p[i]:
+            cnt -= 1
+    if cnt > 0:
+        win += 1
+    elif cnt == 0:
+        draw += 1
+    else:
+        lose += 1
+print(win, lose, draw)"
+25,C,Python3,55307610,2022-12-16 20:32:51,枫絮凝语,答案错误,"from itertools import product
+n=int(input())
+DarknessCatcher=list(map(int,input().split()))
+yxlxszx=list(map(int,input().split()))
+t=yxlxszx.copy()
+l=0
+
+win=0
+false=0
+ping=0
+for _ in range(n):
+    f=0
+    i=list(zip(DarknessCatcher,yxlxszx))
+    for j in range(n):
+        if i[j][0]>i[j][1]:
+            f+=1
+        elif i[j][0]<i[j][1]:
+            f-=1
+    if f>0:
+        win+=1
+    elif f<0:
+        false+=1
+    else:
+        ping+=1
+    yxlxszx.append(yxlxszx.pop(0))
+print(win,false,ping)
+
+
+
+
+
+
+
+
+"
+26,C,Python3,55308878,2022-12-16 20:51:31,牛客656195162号,运行超时,"sum=[]
+m=()
+def sort_lst(lst,start,end):
+    if start==end:
+        global sum
+        global m
+        m=tuple(lst)
+        sum.append(m)
+    else:                  #列表会影响 我真的服了
+        for i in range(start,end+1):
+            lst[i],lst[start]=lst[start],lst[i]
+            sort_lst(lst,start+1,end)
+            lst[start],lst[i]=lst[i],lst[start]
+
+n=int(input())
+a=[int(x) for x in input().split()]
+b=[int(y) for y in input().split()]
+sort_lst(b,0,n-1)
+
+#怎么匹配
+win=0
+fail=0
+midow=0
+temp=0
+#遍历所有情况：
+for i in sum:
+    for j in range(n):
+        if a[j]==i[j]:
+            pass
+        elif a[j]>i[j]:
+            temp+=1
+        else:
+            temp-=1
+    if temp>0:
+        win+=1
+    elif temp==0:
+        midow+=1
+    else:
+        fail+=1
+    temp=0
+print(win,fail,midow)
+"
+27,C,Python3,55310733,2022-12-16 21:26:00,大虫航,运行超时,"n = int(input())
+num1 = list(map(int, input().split("" "")))
+num2 = list(map(int, input().split("" "")))
+
+# 开始循环匹配, 0,0,0,1
+# 那么就求0-n的组合数 0,1 1,0
+
+# if n==1:
+#     if num1[0] == num2
+
+
+from itertools import permutations
+# [0,1]
+# choice = list(permutations(range(n)))
+# print(choice)
+
+
+succ = 0
+same = 0
+failed = 0
+
+# for line in choice:
+for line in permutations(range(n)):
+    sum_a = 0
+    sum_b = 0
+    for i in range(n):
+#         print(""compare"", num1[i], num2[line[i]])
+        if num1[i] > num2[line[i]]:
+            sum_a += 1
+        elif num1[i] < num2[line[i]]:
+            sum_b += 1
+#     print(""sum"", sum_a, sum_b)
+    if sum_a == sum_b:
+        same += 1
+    elif sum_a > sum_b:
+        succ += 1
+    else:
+        failed += 1
+print(""%d %d %d"" % (succ, failed, same ))
+
+
+
+"
+28,C,Python3,55310904,2022-12-16 21:31:06,大虫航,运行超时,"n = int(input())
+nums1 = list(map(int, input().split("" "")))
+nums2 = list(map(int, input().split("" "")))
+
+# 开始循环匹配, 0,0,0,1
+# 那么就求0-n的组合数 0,1 1,0
+
+# if n==1:
+#     if num1[0] == num2
+
+
+from itertools import permutations
+# [0,1]
+# choice = list(permutations(range(n)))
+# print(choice)
+
+
+succ = 0
+same = 0
+failed = 0
+
+# # for line in choice:
+# for line in permutations(range(n)):
+#     sum_a = 0
+#     sum_b = 0
+#     for i in range(n):
+# #         print(""compare"", num1[i], num2[line[i]])
+#         if num1[i] > num2[line[i]]:
+#             sum_a += 1
+#         elif num1[i] < num2[line[i]]:
+#             sum_b += 1
+# #     print(""sum"", sum_a, sum_b)
+#     if sum_a == sum_b:
+#         same += 1
+#     elif sum_a > sum_b:
+#         succ += 1
+#     else:
+#         failed += 1
+# print(""%d %d %d"" % (succ, failed, same ))
+
+
+
+res = [0] * 3
+for x in permutations(nums2):
+    cnt1 = cnt2 = 0
+    for a, b in zip(nums1, x):
+        if a > b:
+            cnt1 += 1
+        if a < b:
+            cnt2 += 1
+    if cnt1 > cnt2: res[0] += 1
+    elif cnt1 < cnt2: res[1] += 1
+    else: res[2] += 1
+print(*res)
+
+"
+29,C,Python3,55310929,2022-12-16 21:32:09,大虫航,运行超时,"import re
+import functools
+import random
+import sys
+import os
+import math
+from collections import Counter, defaultdict, deque
+from functools import lru_cache, reduce
+from itertools import accumulate, combinations, permutations
+from heapq import nsmallest, nlargest, heapify, heappop, heappush
+from io import BytesIO, IOBase
+from copy import deepcopy
+import threading
+import bisect
+BUFSIZE = 4096
+inf = float('inf')
+ 
+class FastIO(IOBase):
+    newlines = 0
+ 
+    def __init__(self, file):
+        self._fd = file.fileno()
+        self.buffer = BytesIO()
+        self.writable = ""x"" in file.mode or ""r"" not in file.mode
+        self.write = self.buffer.write if self.writable else None
+ 
+    def read(self):
+        while True:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            if not b:
+                break
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines = 0
+        return self.buffer.read()
+ 
+    def readline(self):
+        while self.newlines == 0:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            self.newlines = b.count(b""\n"") + (not b)
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines -= 1
+        return self.buffer.readline()
+ 
+    def flush(self):
+        if self.writable:
+            os.write(self._fd, self.buffer.getvalue())
+            self.buffer.truncate(0), self.buffer.seek(0)
+ 
+class IOWrapper(IOBase):
+    def __init__(self, file):
+        self.buffer = FastIO(file)
+        self.flush = self.buffer.flush
+        self.writable = self.buffer.writable
+        self.write = lambda s: self.buffer.write(s.encode(""ascii""))
+        self.read = lambda: self.buffer.read().decode(""ascii"")
+        self.readline = lambda: self.buffer.readline().decode(""ascii"")
+ 
+sys.stdin = IOWrapper(sys.stdin)
+sys.stdout = IOWrapper(sys.stdout)
+input = lambda: sys.stdin.readline().rstrip(""\r\n"")
+ 
+def I():
+    return input()
+ 
+def II():
+    return int(input())
+ 
+def MII():
+    return map(int, input().split())
+ 
+def LI():
+    return list(input().split())
+ 
+def LII():
+    return list(map(int, input().split()))
+ 
+def GMI():
+    return map(lambda x: int(x) - 1, input().split())
+ 
+def LGMI():
+    return list(map(lambda x: int(x) - 1, input().split()))
+ 
+n = II()
+nums1 = LII()
+nums2 = LII()
+
+# n = int(input())
+# nums1 = list(map(int, input().split("" "")))
+# nums2 = list(map(int, input().split("" "")))
+
+# # 开始循环匹配, 0,0,0,1
+# # 那么就求0-n的组合数 0,1 1,0
+
+# # if n==1:
+# #     if num1[0] == num2
+
+
+# from itertools import permutations
+# # [0,1]
+# # choice = list(permutations(range(n)))
+# # print(choice)
+
+
+# succ = 0
+# same = 0
+# failed = 0
+
+# # for line in choice:
+# for line in permutations(range(n)):
+#     sum_a = 0
+#     sum_b = 0
+#     for i in range(n):
+# #         print(""compare"", num1[i], num2[line[i]])
+#         if num1[i] > num2[line[i]]:
+#             sum_a += 1
+#         elif num1[i] < num2[line[i]]:
+#             sum_b += 1
+# #     print(""sum"", sum_a, sum_b)
+#     if sum_a == sum_b:
+#         same += 1
+#     elif sum_a > sum_b:
+#         succ += 1
+#     else:
+#         failed += 1
+# print(""%d %d %d"" % (succ, failed, same ))
+
+
+
+res = [0] * 3
+for x in permutations(nums2):
+    cnt1 = cnt2 = 0
+    for a, b in zip(nums1, x):
+        if a > b:
+            cnt1 += 1
+        if a < b:
+            cnt2 += 1
+    if cnt1 > cnt2: res[0] += 1
+    elif cnt1 < cnt2: res[1] += 1
+    else: res[2] += 1
+print(*res)
+
+"
+30,C,Python3,55310953,2022-12-16 21:33:09,大虫航,运行超时,"# import re
+# import functools
+# import random
+# import sys
+# import os
+# import math
+# from collections import Counter, defaultdict, deque
+# from functools import lru_cache, reduce
+# from itertools import accumulate, combinations, permutations
+# from heapq import nsmallest, nlargest, heapify, heappop, heappush
+# from io import BytesIO, IOBase
+# from copy import deepcopy
+# import threading
+# import bisect
+# BUFSIZE = 4096
+# inf = float('inf')
+ 
+# class FastIO(IOBase):
+#     newlines = 0
+ 
+#     def __init__(self, file):
+#         self._fd = file.fileno()
+#         self.buffer = BytesIO()
+#         self.writable = ""x"" in file.mode or ""r"" not in file.mode
+#         self.write = self.buffer.write if self.writable else None
+ 
+#     def read(self):
+#         while True:
+#             b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+#             if not b:
+#                 break
+#             ptr = self.buffer.tell()
+#             self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+#         self.newlines = 0
+#         return self.buffer.read()
+ 
+#     def readline(self):
+#         while self.newlines == 0:
+#             b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+#             self.newlines = b.count(b""\n"") + (not b)
+#             ptr = self.buffer.tell()
+#             self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+#         self.newlines -= 1
+#         return self.buffer.readline()
+ 
+#     def flush(self):
+#         if self.writable:
+#             os.write(self._fd, self.buffer.getvalue())
+#             self.buffer.truncate(0), self.buffer.seek(0)
+ 
+# class IOWrapper(IOBase):
+#     def __init__(self, file):
+#         self.buffer = FastIO(file)
+#         self.flush = self.buffer.flush
+#         self.writable = self.buffer.writable
+#         self.write = lambda s: self.buffer.write(s.encode(""ascii""))
+#         self.read = lambda: self.buffer.read().decode(""ascii"")
+#         self.readline = lambda: self.buffer.readline().decode(""ascii"")
+ 
+# sys.stdin = IOWrapper(sys.stdin)
+# sys.stdout = IOWrapper(sys.stdout)
+# input = lambda: sys.stdin.readline().rstrip(""\r\n"")
+ 
+# def I():
+#     return input()
+ 
+# def II():
+#     return int(input())
+ 
+# def MII():
+#     return map(int, input().split())
+ 
+# def LI():
+#     return list(input().split())
+ 
+# def LII():
+#     return list(map(int, input().split()))
+ 
+# def GMI():
+#     return map(lambda x: int(x) - 1, input().split())
+ 
+# def LGMI():
+#     return list(map(lambda x: int(x) - 1, input().split()))
+ 
+# n = II()
+# nums1 = LII()
+# nums2 = LII()
+
+# # n = int(input())
+# # nums1 = list(map(int, input().split("" "")))
+# # nums2 = list(map(int, input().split("" "")))
+
+# # # 开始循环匹配, 0,0,0,1
+# # # 那么就求0-n的组合数 0,1 1,0
+
+# # # if n==1:
+# # #     if num1[0] == num2
+
+
+# # from itertools import permutations
+# # # [0,1]
+# # # choice = list(permutations(range(n)))
+# # # print(choice)
+
+
+# # succ = 0
+# # same = 0
+# # failed = 0
+
+# # # for line in choice:
+# # for line in permutations(range(n)):
+# #     sum_a = 0
+# #     sum_b = 0
+# #     for i in range(n):
+# # #         print(""compare"", num1[i], num2[line[i]])
+# #         if num1[i] > num2[line[i]]:
+# #             sum_a += 1
+# #         elif num1[i] < num2[line[i]]:
+# #             sum_b += 1
+# # #     print(""sum"", sum_a, sum_b)
+# #     if sum_a == sum_b:
+# #         same += 1
+# #     elif sum_a > sum_b:
+# #         succ += 1
+# #     else:
+# #         failed += 1
+# # print(""%d %d %d"" % (succ, failed, same ))
+
+
+
+# res = [0] * 3
+# for x in permutations(nums2):
+#     cnt1 = cnt2 = 0
+#     for a, b in zip(nums1, x):
+#         if a > b:
+#             cnt1 += 1
+#         if a < b:
+#             cnt2 += 1
+#     if cnt1 > cnt2: res[0] += 1
+#     elif cnt1 < cnt2: res[1] += 1
+#     else: res[2] += 1
+# print(*res)
+
+
+
+
+import re
+import functools
+import random
+import sys
+import os
+import math
+from collections import Counter, defaultdict, deque
+from functools import lru_cache, reduce
+from itertools import accumulate, combinations, permutations
+from heapq import nsmallest, nlargest, heapify, heappop, heappush
+from io import BytesIO, IOBase
+from copy import deepcopy
+import threading
+import bisect
+BUFSIZE = 4096
+inf = float('inf')
+
+class FastIO(IOBase):
+    newlines = 0
+
+    def __init__(self, file):
+        self._fd = file.fileno()
+        self.buffer = BytesIO()
+        self.writable = ""x"" in file.mode or ""r"" not in file.mode
+        self.write = self.buffer.write if self.writable else None
+
+    def read(self):
+        while True:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            if not b:
+                break
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines = 0
+        return self.buffer.read()
+
+    def readline(self):
+        while self.newlines == 0:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            self.newlines = b.count(b""\n"") + (not b)
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines -= 1
+        return self.buffer.readline()
+
+    def flush(self):
+        if self.writable:
+            os.write(self._fd, self.buffer.getvalue())
+            self.buffer.truncate(0), self.buffer.seek(0)
+
+class IOWrapper(IOBase):
+    def __init__(self, file):
+        self.buffer = FastIO(file)
+        self.flush = self.buffer.flush
+        self.writable = self.buffer.writable
+        self.write = lambda s: self.buffer.write(s.encode(""ascii""))
+        self.read = lambda: self.buffer.read().decode(""ascii"")
+        self.readline = lambda: self.buffer.readline().decode(""ascii"")
+
+sys.stdin = IOWrapper(sys.stdin)
+sys.stdout = IOWrapper(sys.stdout)
+input = lambda: sys.stdin.readline().rstrip(""\r\n"")
+
+def I():
+    return input()
+
+def II():
+    return int(input())
+
+def MII():
+    return map(int, input().split())
+
+def LI():
+    return list(input().split())
+
+def LII():
+    return list(map(int, input().split()))
+
+def GMI():
+    return map(lambda x: int(x) - 1, input().split())
+
+def LGMI():
+    return list(map(lambda x: int(x) - 1, input().split()))
+
+n = II()
+nums1 = LII()
+nums2 = LII()
+res = [0] * 3
+for x in permutations(nums2):
+    cnt1 = cnt2 = 0
+    for a, b in zip(nums1, x):
+        if a > b:
+            cnt1 += 1
+        if a < b:
+            cnt2 += 1
+    if cnt1 > cnt2: res[0] += 1
+    elif cnt1 < cnt2: res[1] += 1
+    else: res[2] += 1
+print(*res)
+"
+31,C,Python3,55312352,2022-12-16 22:44:20,大虫航,答案正确,"import re
+import functools
+import random
+import sys
+import os
+import math
+from collections import Counter, defaultdict, deque
+from functools import lru_cache, reduce
+from itertools import accumulate, combinations, permutations
+from heapq import nsmallest, nlargest, heapify, heappop, heappush
+from io import BytesIO, IOBase
+from copy import deepcopy
+import threading
+import bisect
+
+BUFSIZE = 4096
+inf = float('inf')
+
+
+class FastIO(IOBase):
+    newlines = 0
+
+    def __init__(self, file):
+        self._fd = file.fileno()
+        self.buffer = BytesIO()
+        self.writable = ""x"" in file.mode or ""r"" not in file.mode
+        self.write = self.buffer.write if self.writable else None
+
+    def read(self):
+        while True:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            if not b:
+                break
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines = 0
+        return self.buffer.read()
+
+    def readline(self):
+        while self.newlines == 0:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            self.newlines = b.count(b""\n"") + (not b)
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines -= 1
+        return self.buffer.readline()
+
+    def flush(self):
+        if self.writable:
+            os.write(self._fd, self.buffer.getvalue())
+            self.buffer.truncate(0), self.buffer.seek(0)
+
+
+class IOWrapper(IOBase):
+    def __init__(self, file):
+        self.buffer = FastIO(file)
+        self.flush = self.buffer.flush
+        self.writable = self.buffer.writable
+        self.write = lambda s: self.buffer.write(s.encode(""ascii""))
+        self.read = lambda: self.buffer.read().decode(""ascii"")
+        self.readline = lambda: self.buffer.readline().decode(""ascii"")
+
+
+sys.stdin = IOWrapper(sys.stdin)
+sys.stdout = IOWrapper(sys.stdout)
+input = lambda: sys.stdin.readline().rstrip(""\r\n"")
+
+
+def I():
+    return input()
+
+
+def II():
+    return int(input())
+
+
+def MI():
+    return map(int, input().split())
+
+
+def LI():
+    return list(input().split())
+
+
+def LII():
+    return list(map(int, input().split()))
+
+
+def GMI():
+    return map(lambda x: int(x) - 1, input().split())
+
+
+def LGMI():
+    return list(map(lambda x: int(x) - 1, input().split()))
+
+
+from functools import cache
+
+
+@cache
+def dfs(ww, ll, pp):
+    if ww == n:
+        if pp > 0:
+            return (1, 0, 0)
+        elif pp == 0:
+            return (0, 0, 1)
+        else:
+            return (0, 1, 0)
+    tmp = [0, 0, 0]
+    for i in range(n):
+        if ll & (1 << i) == 0:
+            tpp = pp
+            if ateams[ww] > bteams[i]:
+                tpp += 1
+            elif ateams[ww] < bteams[i]:
+                tpp -= 1
+            w, l, p = dfs(ww + 1, ll ^ (1 << i), tpp)
+            tmp[0] += w
+            tmp[1] += l
+            tmp[2] += p
+    return tuple(tmp)
+
+
+n = II()
+ateams = LII()
+bteams = LII()
+
+res = dfs(0, 0, 0)
+print(' '.join(str(x) for x in res))
+"
+32,C,Python3,55312357,2022-12-16 22:44:45,大虫航,运行超时,"import re
+import functools
+import random
+import sys
+import os
+import math
+from collections import Counter, defaultdict, deque
+from functools import lru_cache, reduce
+from itertools import accumulate, combinations, permutations
+from heapq import nsmallest, nlargest, heapify, heappop, heappush
+from io import BytesIO, IOBase
+from copy import deepcopy
+import threading
+import bisect
+
+BUFSIZE = 4096
+inf = float('inf')
+
+
+class FastIO(IOBase):
+    newlines = 0
+
+    def __init__(self, file):
+        self._fd = file.fileno()
+        self.buffer = BytesIO()
+        self.writable = ""x"" in file.mode or ""r"" not in file.mode
+        self.write = self.buffer.write if self.writable else None
+
+    def read(self):
+        while True:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            if not b:
+                break
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines = 0
+        return self.buffer.read()
+
+    def readline(self):
+        while self.newlines == 0:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            self.newlines = b.count(b""\n"") + (not b)
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines -= 1
+        return self.buffer.readline()
+
+    def flush(self):
+        if self.writable:
+            os.write(self._fd, self.buffer.getvalue())
+            self.buffer.truncate(0), self.buffer.seek(0)
+
+
+class IOWrapper(IOBase):
+    def __init__(self, file):
+        self.buffer = FastIO(file)
+        self.flush = self.buffer.flush
+        self.writable = self.buffer.writable
+        self.write = lambda s: self.buffer.write(s.encode(""ascii""))
+        self.read = lambda: self.buffer.read().decode(""ascii"")
+        self.readline = lambda: self.buffer.readline().decode(""ascii"")
+
+
+sys.stdin = IOWrapper(sys.stdin)
+sys.stdout = IOWrapper(sys.stdout)
+input = lambda: sys.stdin.readline().rstrip(""\r\n"")
+
+
+def I():
+    return input()
+
+
+def II():
+    return int(input())
+
+
+def MI():
+    return map(int, input().split())
+
+
+def LI():
+    return list(input().split())
+
+
+def LII():
+    return list(map(int, input().split()))
+
+
+def GMI():
+    return map(lambda x: int(x) - 1, input().split())
+
+
+def LGMI():
+    return list(map(lambda x: int(x) - 1, input().split()))
+
+
+from functools import cache
+
+
+
+def dfs(ww, ll, pp):
+    if ww == n:
+        if pp > 0:
+            return (1, 0, 0)
+        elif pp == 0:
+            return (0, 0, 1)
+        else:
+            return (0, 1, 0)
+    tmp = [0, 0, 0]
+    for i in range(n):
+        if ll & (1 << i) == 0:
+            tpp = pp
+            if ateams[ww] > bteams[i]:
+                tpp += 1
+            elif ateams[ww] < bteams[i]:
+                tpp -= 1
+            w, l, p = dfs(ww + 1, ll ^ (1 << i), tpp)
+            tmp[0] += w
+            tmp[1] += l
+            tmp[2] += p
+    return tuple(tmp)
+
+
+n = II()
+ateams = LII()
+bteams = LII()
+
+res = dfs(0, 0, 0)
+print(' '.join(str(x) for x in res))
+"
+33,C,Python3,55312745,2022-12-16 23:14:48,枫絮凝语,答案错误,"import itertools
+n=int(input())
+DarknessCatcher=list(map(int,input().split()))
+yxlxszx=list(map(int,input().split()))
+
+l=0
+
+win=0
+false=0
+ping=0
+s=[]
+rs = []
+for x in itertools.product(DarknessCatcher,yxlxszx):
+    s.append(list(x))
+def dfs(s,rs,n):
+    for i, j in itertools.combinations(s, 2):
+        x_set = set()
+        x_set.update(i)
+        x_set.update(j)
+        x_rs = []
+        if 2*n == len(x_set):
+            x_rs.append(i)
+            x_rs.append(j)
+            rs.extend(x_rs)
+    return rs
+
+res=dfs(s,rs,n)
+# print(res)
+f=0
+for i in range(len(res)):
+    if res[i][0]>res[i][1]:
+        f+=1
+    elif res[i][0]<res[i][1]:
+        f-=1
+    if (i+1)%n==0:
+        
+        if f>0:
+            win+=1
+        elif f<0:
+            false+=1
+        else:
+            ping+=1
+        f=0
+print(win,false,ping)
+    
+
+
+
+
+
+
+
+
+
+
+"
+34,C,Python3,55312751,2022-12-16 23:15:15,枫絮凝语,答案错误,"import itertools
+n=int(input())
+DarknessCatcher=list(map(int,input().split()))
+yxlxszx=list(map(int,input().split()))
+
+l=0
+
+win=0
+false=0
+ping=0
+s=[]
+rs = []
+for x in itertools.product(DarknessCatcher,yxlxszx):
+    s.append(list(x))
+def dfs(s,rs,n):
+    for i, j in itertools.combinations(s, 2):
+        x_set = set()
+        x_set.update(i)
+        x_set.update(j)
+        x_rs = []
+        if 2*n == len(x_set):
+            x_rs.append(i)
+            x_rs.append(j)
+            rs.extend(x_rs)
+    return rs
+
+res=dfs(s,rs,n)
+# print(res)
+f=0
+for i in range(len(res)):
+    if res[i][0]>res[i][1]:
+        f+=1
+    elif res[i][0]<res[i][1]:
+        f-=1
+    if (i+1)%n==0:
+        
+        if f>0:
+            win+=1
+        elif f<0:
+            false+=1
+        else:
+            ping+=1
+        f=0
+print(win,false,ping)
+    
+
+
+
+
+
+
+
+
+
+
+"
+35,C,Python3,55312783,2022-12-16 23:17:12,枫絮凝语,答案错误,"import itertools
+n=int(input())
+DarknessCatcher=list(map(int,input().split()))
+yxlxszx=list(map(int,input().split()))
+
+l=0
+
+win=0
+false=0
+ping=0
+s=[]
+rs = []
+for x in itertools.product(DarknessCatcher,yxlxszx):
+    s.append(list(x))
+def dfs(s,rs,n):
+    for i, j in itertools.combinations(s, 2):
+        x_set = set()
+        x_set.update(i)
+        x_set.update(j)
+        x_rs = []
+        if 4 == len(x_set):
+            x_rs.append(i)
+            x_rs.append(j)
+            rs.extend(x_rs)
+    return rs
+
+res=dfs(s,rs,n)
+print(res)
+f=0
+for i in range(len(res)):
+    if res[i][0]>res[i][1]:
+        f+=1
+    elif res[i][0]<res[i][1]:
+        f-=1
+    if (i+1)%n==0:
+        
+        if f>0:
+            win+=1
+        elif f<0:
+            false+=1
+        else:
+            ping+=1
+        f=0
+print(win,false,ping)
+    
+
+
+
+
+
+
+
+
+
+
+"
+36,C,Python3,55312932,2022-12-16 23:31:19,枫絮凝语,答案错误,"import itertools
+n=int(input())
+DarknessCatcher=list(map(int,input().split()))
+yxlxszx=list(map(int,input().split()))
+
+l=0
+
+win=0
+false=0
+ping=0
+s=[]
+rs = []
+x_set = set()
+for x in itertools.product(DarknessCatcher,yxlxszx):
+    s.append(list(x))
+print(s)
+def dfs(s,rs,n,x_set):
+    for i, j in itertools.combinations(s, 2):
+
+        x_set.update(i)
+        x_set.update(j)
+        x_rs = []
+        if 2*n == len(x_set):
+            x_rs.append(i)
+            x_rs.append(j)
+            rs.extend(x_rs)
+            x_set = set()
+    return rs
+
+res=dfs(s,rs,n,x_set)
+# print(res)
+f=0
+for i in range(len(res)):
+    if res[i][0]>res[i][1]:
+        f+=1
+    elif res[i][0]<res[i][1]:
+        f-=1
+    if (i+1)%n==0:
+        
+        if f>0:
+            win+=1
+        elif f<0:
+            false+=1
+        else:
+            ping+=1
+        f=0
+print(win,false,ping)
+    
+
+
+
+
+
+
+
+
+
+
+"
+37,C,Python3,55312935,2022-12-16 23:31:34,枫絮凝语,答案错误,"import itertools
+n=int(input())
+DarknessCatcher=list(map(int,input().split()))
+yxlxszx=list(map(int,input().split()))
+
+l=0
+
+win=0
+false=0
+ping=0
+s=[]
+rs = []
+x_set = set()
+for x in itertools.product(DarknessCatcher,yxlxszx):
+    s.append(list(x))
+# print(s)
+def dfs(s,rs,n,x_set):
+    for i, j in itertools.combinations(s, 2):
+
+        x_set.update(i)
+        x_set.update(j)
+        x_rs = []
+        if 2*n == len(x_set):
+            x_rs.append(i)
+            x_rs.append(j)
+            rs.extend(x_rs)
+            x_set = set()
+    return rs
+
+res=dfs(s,rs,n,x_set)
+# print(res)
+f=0
+for i in range(len(res)):
+    if res[i][0]>res[i][1]:
+        f+=1
+    elif res[i][0]<res[i][1]:
+        f-=1
+    if (i+1)%n==0:
+        
+        if f>0:
+            win+=1
+        elif f<0:
+            false+=1
+        else:
+            ping+=1
+        f=0
+print(win,false,ping)
+    
+
+
+
+
+
+
+
+
+
+
+"
+38,C,Python3,55313065,2022-12-16 23:48:37,C972937,运行超时,"import itertools
+# Press the green button in the gutter to run the script.
+def solve ():
+    n = int(input())
+    a = list(map(int, input().split()))
+    b = list(map(int, input().split()))
+    ans = [0] * 3
+    for x in itertools.permutations(a) :
+        s = 0
+        for i in range (0, n) :
+            if x[i] > b[i] :
+                s += 1
+            elif x[i] < b[i] :
+                s -= 1
+        if s > 0 :
+            ans[0] += 1
+        elif s == 0 :
+            ans[2] += 1
+        else :
+            ans[1] += 1
+
+    for i in range(0, 3):
+        print(ans[i], end=' ')
+if __name__ == '__main__':
+    solve()
+
+# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+"
+39,C,Python3,55313072,2022-12-16 23:49:11,C972937,运行超时,"from itertools import permutations
+# Press the green button in the gutter to run the script.
+def solve ():
+    n = int(input())
+    a = list(map(int, input().split()))
+    b = list(map(int, input().split()))
+    ans = [0] * 3
+    for x in permutations(a) :
+        s = 0
+        for i in range (0, n) :
+            if x[i] > b[i] :
+                s += 1
+            elif x[i] < b[i] :
+                s -= 1
+        if s > 0 :
+            ans[0] += 1
+        elif s == 0 :
+            ans[2] += 1
+        else :
+            ans[1] += 1
+
+    for i in range(0, 3):
+        print(ans[i], end=' ')
+if __name__ == '__main__':
+    solve()
+
+# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+"
+40,C,Python3,55313086,2022-12-16 23:51:10,C972937,运行超时,"from itertools import permutations
+# Press the green button in the gutter to run the script.
+
+n = int(input())
+a = list(map(int, input().split()))
+b = list(map(int, input().split()))
+ans = [0] * 3
+for x in permutations(a) :
+    s = 0
+    for i in range (0, n) :
+        if x[i] > b[i] :
+            s += 1
+        elif x[i] < b[i] :
+            s -= 1
+    if s > 0 :
+        ans[0] += 1
+    elif s == 0 :
+        ans[2] += 1
+    else :
+        ans[1] += 1
+
+for i in range(0, 3):
+    print(ans[i], end=' ')
+
+
+# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+"
+41,C,Python3,55327150,2022-12-17 17:27:56,枫絮凝语,答案正确,"n = int(input())
+nums = list(map(int, input().split()))
+numsb = list(map(int, input().split()))
+from functools import cache
+@cache
+def back(c,b,d):
+    if c == n:
+        if d > 0:return (1,0,0)
+        elif d < 0:return (0,1,0)
+        else:return (0,0,1)
+    lin = [0,0,0]
+    for i in range(n):
+        if b & (1<<i) == 0:
+            if nums[c] > numsb[i]:
+                r1, r2, r3 = back(c + 1, b ^ (1 << i), d+1)
+            elif nums[c] < numsb[i]:
+                r1, r2, r3 = back(c + 1, b ^ (1 << i), d - 1)
+            else:
+                r1, r2, r3 = back(c + 1, b ^ (1 << i), d)
+            lin[0] += r1
+            lin[1] += r2
+            lin[2] += r3
+    return tuple(lin)
+res = back(0,0,0)
+for i in res:
+    print(i,end=' ')
+
+
+
+
+
+
+
+
+
+"
+42,C,Python3,55327166,2022-12-17 17:28:43,枫絮凝语,运行超时,"n = int(input())
+nums = list(map(int, input().split()))
+numsb = list(map(int, input().split()))
+from functools import cache
+
+def back(c,b,d):
+    if c == n:
+        if d > 0:return (1,0,0)
+        elif d < 0:return (0,1,0)
+        else:return (0,0,1)
+    lin = [0,0,0]
+    for i in range(n):
+        if b & (1<<i) == 0:
+            if nums[c] > numsb[i]:
+                r1, r2, r3 = back(c + 1, b ^ (1 << i), d+1)
+            elif nums[c] < numsb[i]:
+                r1, r2, r3 = back(c + 1, b ^ (1 << i), d - 1)
+            else:
+                r1, r2, r3 = back(c + 1, b ^ (1 << i), d)
+            lin[0] += r1
+            lin[1] += r2
+            lin[2] += r3
+    return tuple(lin)
+res = back(0,0,0)
+for i in res:
+    print(i,end=' ')
+
+
+
+
+
+
+
+
+
+"
+43,C,Python3,55356566,2022-12-19 22:54:59,枫絮凝语,运行超时,"import itertools
+n = int(input())
+a = list(map(int, input().split()))
+b = list(map(int, input().split()))
+win=lose=ping=0
+for i in itertools.permutations(a):
+    f=0
+    for x,y in zip(i,b):
+        if x>y:
+            f+=1
+        elif x<y:
+            f-=1
+    if f>0:
+        win+=1
+    elif f<0:
+        lose+=1
+    else:
+        ping+=1
+print(win,lose,ping)
+    
+
+
+
+
+
+
+
+"
+44,C,Python3,55364896,2022-12-20 20:20:09,李迪锴,运行超时,"import itertools
+n=int(input())
+a=list(map(int,input().split()))
+b=list(map(int,input().split()))
+x=list(itertools.permutations(a,n))
+winner,loser,peace=0,0,0
+for t in x:
+    win,lose=0,0#每种排列输赢都是默认0开始
+    for i in range(len(t)):
+        if(t[i]>b[i]):
+            win+=1
+        elif t[i]<b[i]:
+            lose+=1
+    if(win>lose):
+        winner+=1
+    elif win<lose:
+        loser+=1
+    else:
+        peace+=1
+print(winner,loser,peace)
+"
+45,C,Python3,55437087,2022-12-28 18:44:04,牛客656195162号,答案错误,"sum=[]
+def sort_lst(lst,start,end):
+    if start>=end:
+        a=lst[:]
+        sum.append(a)
+    else:                  #列表会影响 我真的服了
+        for i in range(start,end+1):
+            lst[i],lst[start+1]=lst[start+1],lst[i]
+            sort_lst(lst,start+1,end)
+            lst[start+1],lst[i]=lst[i],lst[start+1]
+
+n=int(input())
+a=[int(x) for x in input().split()]
+b=[int(y) for y in input().split()]
+sort_lst(b,0,n-1)
+
+#怎么匹配
+win=0
+fail=0
+midow=0
+temp=0
+#遍历所有情况：
+for i in sum:
+    for j in range(n):
+        if a[j]==i[j]:
+            pass
+        elif a[j]>i[j]:
+            temp+=1
+        else:
+            temp-=1
+    if temp>0:
+        win+=1
+    elif temp==0:
+        midow+=1
+    else:
+        fail+=1
+    temp=0
+print(win,fail,midow)
+"
+46,C,Python3,55437100,2022-12-28 18:45:39,牛客656195162号,答案错误,"sum=[]
+def sort_lst(lst,start,end):
+    if start==end:
+        a=lst[:]
+        sum.append(a)
+    else:                  #列表会影响 我真的服了
+        for i in range(start,end+1):
+            lst[i],lst[start+1]=lst[start+1],lst[i]
+            sort_lst(lst,start+1,end)
+            lst[start+1],lst[i]=lst[i],lst[start+1]
+
+n=int(input())
+a=[int(x) for x in input().split()]
+b=[int(y) for y in input().split()]
+sort_lst(b,0,n-1)
+
+#怎么匹配
+win=0
+fail=0
+midow=0
+temp=0
+#遍历所有情况：
+for i in sum:
+    for j in range(n):
+        if a[j]==i[j]:
+            pass
+        elif a[j]>i[j]:
+            temp+=1
+        else:
+            temp-=1
+    if temp>0:
+        win+=1
+    elif temp==0:
+        midow+=1
+    else:
+        fail+=1
+    temp=0
+print(win,fail,midow)
+"
+47,C,Python3,55437103,2022-12-28 18:46:10,牛客656195162号,运行超时,"sum=[]
+def sort_lst(lst,start,end):
+    if start==end:
+        a=lst[:]
+        sum.append(a)
+    else:                  #列表会影响 我真的服了
+        for i in range(start,end+1):
+            lst[i],lst[start]=lst[start],lst[i]
+            sort_lst(lst,start+1,end)
+            lst[start],lst[i]=lst[i],lst[start]
+
+n=int(input())
+a=[int(x) for x in input().split()]
+b=[int(y) for y in input().split()]
+sort_lst(b,0,n-1)
+
+#怎么匹配
+win=0
+fail=0
+midow=0
+temp=0
+#遍历所有情况：
+for i in sum:
+    for j in range(n):
+        if a[j]==i[j]:
+            pass
+        elif a[j]>i[j]:
+            temp+=1
+        else:
+            temp-=1
+    if temp>0:
+        win+=1
+    elif temp==0:
+        midow+=1
+    else:
+        fail+=1
+    temp=0
+print(win,fail,midow)
+"
+48,C,Python3,60090024,2023-01-01 17:32:33,牛客656195162号,答案错误,"sum=[]
+n=int(input())
+a=[int(x) for x in input().split()]
+b=[int(y) for y in input().split()]
+ans=[0]*(len(b))
+vis=[0]*(len(b))    
+
+def dfs(dep):
+    if dep==len(b):
+        sum.append(ans[:])
+    else:#
+        for i in range(len(b)):      
+            if  vis[i] or not vis[i-1] and b[i]==b[i-1]: 
+                continue#用
+            vis[i]=1
+            ans[dep]=b[i] 
+            dfs(dep+1)
+            vis[i]=0
+
+dfs(0)
+
+#怎么匹配
+win=0
+fail=0
+midow=0
+temp=0
+#遍历所有情况：
+for i in sum:
+    for j in range(n):
+        if a[j]==i[j]:
+            pass
+        elif a[j]>i[j]:
+            temp+=1
+        else:
+            temp-=1
+    if temp>0:
+        win+=1
+    elif temp==0:
+        midow+=1
+    else:
+        fail+=1
+    temp=0
+print(win,fail,midow)
+"
+49,C,Python3,61116638,2023-03-06 21:07:33,heng-,运行超时,"import itertools
+
+n=int(input())
+a=list(map(int,input().split()))
+b=list(map(int,input().split()))
+permutation=[]
+for i in range(1,n+1):
+    permutation.append(i)
+allput=list(itertools.permutations(permutation))
+num1=num2=num3=0
+for i in allput:
+    idx=0
+    p1=p2=0
+    for j in i:
+        if a[j-1]>b[idx]:
+            p1+=1
+        elif a[j-1]<b[idx]:
+            p2+=1
+        idx += 1
+    if p1==p2:
+        num3+=1
+    elif p1<p2:
+        num2+=1
+    else :
+        num1+=1
+print(f""{num1} {num2} {num3}"")"

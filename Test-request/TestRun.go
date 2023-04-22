@@ -192,14 +192,79 @@ end.
 	`
 	TestRun(language, code, input, memory_limit, time_limit)
 
-	language = "Scala"
-	code = `object main {
-		def main(args: Array[String]): Unit = {
-		  println("你好")
-		}
-	  }
+	language = "Python"
+	code = `from time import time
+from heapq import *
+	
+maxn = int(6e5)
+	
+inf = float('inf')
+	
+# ans
+dis = [inf for _ in range(maxn)]
+vis = [False for _ in range(maxn)]
+	
+# data structures
+he = [-1 for _ in range(maxn)]
+ne = [-1 for _ in range(maxn)]
+w = [inf for _ in range(maxn)]
+to = [-1 for _ in range(maxn)]
+idx = 0
+	
+def add_edge(sou, des, z):
+	global idx
+	to[idx] = des
+	w[idx] = z
+	ne[idx] = he[sou]
+	he[sou] = idx
+	idx += 1
+	
+def dijkstra(sou):
+	dis[sou] = 0
+	q = []
+	
+	# {dis[y], y}
+	heappush(q, (dis[sou], sou))
+	
+	while len(q):
+		weight, now = heappop(q)
+		if vis[now]:
+			continue
+	
+		vis[now] = True
+	
+		i = he[now]
+		while i != -1:
+			y, z = to[i], w[i]
+			if dis[y] > weight + z:
+				dis[y] = weight + z
+				heappush(q, (dis[y], y))
+			i = ne[i]
+	
+	
+# inputs
+n, m = map(int, input().split())
+	
+# build graph
+while m:
+	m -= 1
+	x, y, z = map(int, input().split())
+	add_edge(x, y, z)
+	
+# excute
+dijkstra(1)
+	
+if dis[n] != inf:
+	print(dis[n])
+else:
+	print(-1)
+	
+print(int(time()))
 	`
-	TestRun(language, code, input, memory_limit, time_limit)
+	TestRun(language, code, `3 3
+		1 2 2
+		2 3 1
+		1 3 4`, memory_limit, time_limit)
 
 	language = "Swift"
 	code = `

@@ -1,0 +1,1877 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,B,Python3,60140276,2023-01-06 19:04:02,liupengsay,答案正确,"import copy
+import random
+import heapq
+import math
+import sys
+import bisect
+import datetime
+from functools import lru_cache
+from collections import deque
+from collections import Counter
+from collections import defaultdict
+from itertools import combinations
+from itertools import permutations
+from types import GeneratorType
+from functools import cmp_to_key
+inf = float(""inf"")
+sys.setrecursionlimit(10000000)
+
+
+class FastIO:
+    def __init__(self):
+        return
+
+    @staticmethod
+    def _read():
+        return sys.stdin.readline().strip()
+
+    def read_int(self):
+        return int(self._read())
+
+    def read_float(self):
+        return int(self._read())
+
+    def read_ints(self):
+        return map(int, self._read().split())
+
+    def read_floats(self):
+        return map(float, self._read().split())
+
+    def read_ints_minus_one(self):
+        return map(lambda x: int(x) - 1, self._read().split())
+
+    def read_list_ints(self):
+        return list(map(int, self._read().split()))
+
+    def read_list_floats(self):
+        return list(map(float, self._read().split()))
+
+    def read_list_ints_minus_one(self):
+        return list(map(lambda x: int(x) - 1, self._read().split()))
+
+    def read_str(self):
+        return self._read()
+
+    def read_list_strs(self):
+        return self._read().split()
+
+    def read_list_str(self):
+        return list(self._read())
+
+    @staticmethod
+    def st(x):
+        return sys.stdout.write(str(x) + '\n')
+
+    @staticmethod
+    def lst(x):
+        return sys.stdout.write("" "".join(str(w) for w in x) + '\n')
+
+    @staticmethod
+    def round_5(f):
+        res = int(f)
+        if f - res >= 0.5:
+            res += 1
+        return res
+
+    @staticmethod
+    def bootstrap(f, stack=[]):
+        def wrappedfunc(*args, **kwargs):
+            if stack:
+                return f(*args, **kwargs)
+            else:
+                to = f(*args, **kwargs)
+                while True:
+                    if isinstance(to, GeneratorType):
+                        stack.append(to)
+                        to = next(to)
+                    else:
+                        stack.pop()
+                        if not stack:
+                            break
+                        to = stack[-1].send(to)
+                return to
+        return wrappedfunc
+
+
+def main(ac=FastIO()):
+
+    n, m = ac.read_ints()
+    s = ac.read_str()
+    k = ac.read_str()
+    t  =""""
+    for w in s:
+        if w.islower():
+            t += w
+    if k in t:
+        ac.st(""YES"")
+    else:
+        ac.st(""NO"")
+    return
+
+
+main()
+"
+1,B,Python3,60140533,2023-01-06 19:05:13,5cm/s,答案正确,"n, m = map(int, input().split())
+s = input()
+k = input()
+
+t = ''
+for c in s:
+    if 'a' <= c <= 'z':
+        t += c
+
+if k in t:
+    print('YES')
+else:
+    print('NO')"
+2,B,Python3,60140929,2023-01-06 19:07:14,AvariceZhao,答案正确,"n,m=map(int,input().split())
+#print(n,m)
+s=input()
+k=input()
+ss=""""
+for i in s:
+    if i>='a' and i <='z':
+        ss+=i
+if(ss.find(k)!=-1):
+    print('YES')
+else:
+    print('NO')"
+3,B,Python3,60141021,2023-01-06 19:07:45,童庆,答案正确,"n,m = map(int,input().split())
+s = input()
+k = input()
+
+ss = """";
+for c in s:
+    if c.islower():
+        ss += c
+
+if k in ss:
+    print('YES')
+else:
+    print('NO')"
+4,B,Python3,60141089,2023-01-06 19:08:02,邹一鹏,答案正确,"n,m=input().split()
+s=input()
+k=input()
+op=''
+for i in range(int(n)):
+    if (s[i]>='a' and s[i]<='z'):
+        op+=s[i]
+x=op.count(k)
+if x>0:
+    print(""YES"")
+else:
+    print(""NO"")"
+5,B,Python3,60141103,2023-01-06 19:08:06,LittleSeaMonster,答案正确,"num = input()
+s = input()
+a = """"
+b = ""0123456789+-*|,.~!@#$%^&()[]{}';:?<>\/""
+for c in s:
+    if c in b:
+        continue
+    elif c == '""':
+        continue
+    else:
+        a += c
+t = input()
+if t in a:
+    print(""YES"")
+else:
+    print(""NO"")"
+6,B,Python3,60141143,2023-01-06 19:08:17,摆渡人和211,答案正确,"s = input().split()
+n = int(s[0])
+m = int(s[1])
+s = input()
+k = input()
+arr = []
+for i in range(0,n):
+#     print(s[i])
+    if ord(s[i])>=ord('a') and ord(s[i])<=ord('z'):
+        arr.append(s[i])
+s = ''.join(arr)
+# print(s)
+if k in s:
+    print(""YES"")
+else:
+    print(""NO"")"
+7,B,Python3,60141189,2023-01-06 19:08:33,牛客小白wpf,答案正确,"n,m=map(int,input().split())
+s=input()
+l=""""
+x=input()
+for i in s:
+    if i>='a' and i<='z':
+        l+=i
+if x in l:
+    print(""YES"")
+else:
+    print(""NO"")"
+8,B,Python3,60141298,2023-01-06 19:09:04,blossom_❀；,答案正确,"a = input()
+s = ''.join(list(filter(lambda x: x.isalpha(), input())))
+target = input()
+if target in s:
+    print(""YES"")
+else:
+    print(""NO"")"
+9,B,Python3,60141399,2023-01-06 19:09:36,书生alin,答案正确,"n, m = map(int, input().split())
+aa = ""0123456789+-*|,.~!@#$%^&()[]{}\'\"";:?<>\\/""
+string = input()
+s = input()
+string1 = """"
+for i in range(n):
+    if string[i] not in aa:
+        string1 += string[i]
+if s in string1:
+    print(""YES"")
+else:
+    print(""NO"")
+
+"
+10,B,Python3,60142764,2023-01-06 19:17:24,嚣张洛伦兹做功力,答案正确,"list_str = '0123456789+-*|,.~!@#$%^&()[]{}\'\"";:?<>\\/'
+
+n, m = map(int, input().split())
+s = input()
+k = input()
+
+ss = ''
+for i in s:
+    if i in list_str:
+        continue
+    else:
+        ss += i
+
+if k in ss:
+    print('YES')
+else:
+    print('NO')
+"
+11,B,Python3,60143370,2023-01-06 19:20:58,牛客972825279号,答案错误,"n,m=map(int,input().split())
+s=input()
+k=input()
+new_r=""""
+for i in s:
+    if i.isalpha():
+        new_r+=i
+sign=0
+l=0
+length=len(new_r)
+for i in range(m,length):
+    if new_r[l:i]==k:
+        sign=1
+        break
+    l+=1
+if sign:
+    print(""YES"")
+else:
+    print(""NO"")"
+12,B,Python3,60143399,2023-01-06 19:21:10,牛客972825279号,答案错误,"n,m=map(int,input().split())
+s=input()
+k=input()
+new_r=""""
+for i in s:
+    if i.isalpha():
+        new_r+=i
+sign=0
+l=0
+length=len(new_r)
+for i in range(m,length):
+    if new_r[l:i]==k:
+        sign=1
+        break
+    l+=1
+if sign:
+    print(""YES"")
+else:
+    print(""NO"")"
+13,B,Python3,60143706,2023-01-06 19:23:06,眼里_有光,答案正确,"'''
+
+
+'''
+
+#法一：
+def solve1():
+    import re
+    s1=input()
+    s2=input()
+    s3=input()
+    s2=re.findall('[a-zA-Z]+',s2)
+    str2=""""
+    for i in s2:
+        str2+=i
+    if(s3 in str2):
+        print(""YES"")
+    else:
+        print(""NO"")
+solve1()
+
+#法二：
+def solve2():
+    s1=input()
+    s2=input()
+    s3=input()
+    str2=""""
+    for i in s2:
+        if(i.isalpha()):
+            str2+=i
+    if(s3 in str2):
+        print(""YES"")
+    else:
+        print(""NO"")
+#solve2()"
+14,B,Python3,60143813,2023-01-06 19:23:40,Tang__Bin,答案正确,"input()
+s1=input()
+alpha=""qwertyuiopasdfghjklzxcvbnm""
+s2=""""
+for c in s1:
+    if c in alpha:
+        s2+=c
+sk=input()
+if sk in s2:
+    print(""YES"")
+else:
+    print(""NO"")"
+15,B,Python3,60144049,2023-01-06 19:24:38,牛客632869927号,答案正确,"n, m = map(int, input().split(' '))
+m_str = input()
+n_str = input()
+
+for i in """"""0123456789+-*|,.~!@#$%^&()[]{}'"";:?<>\/"""""":
+    m_str = m_str.replace(i,'')
+
+print(""YES"" if n_str in m_str else ""NO"")"
+16,B,Python3,60144282,2023-01-06 19:25:58,一半醒,运行超时,"import sys
+n,m= map(int,input().split())
+s = input()
+k = input()
+mp = '''0123456789+-*|,.~!@#$%^&()[]{}'"";:?<>\/'''
+mp = set(mp)
+l = 0
+kt = 0
+while l < n:
+    st = l
+    while st < n and kt < m:
+        if s[st] == k[kt]:
+            st+=1
+            kt+=1
+        elif s[st] in mp:
+            st+=1
+        else:
+            break
+    if kt == m:
+        print(""YES"")
+        sys.exit(0)
+        break
+    else:
+        l+=1
+        kt = 0
+print(""NO"")"
+17,B,Python3,60144383,2023-01-06 19:26:29,AIshuo,答案正确,"n,m=input().split()
+s=input()
+sss=""""
+k=input()
+ss=""0123456789+-*|,.~!@#$%^&()[]{}'\"";:?<>\/""
+for i in s:
+    if i not in ss:
+        sss+=i
+try:
+    sss.index(k)
+except Exception as e:
+    print(""NO"")
+else:
+    print(""YES"")"
+18,B,Python3,60144534,2023-01-06 19:27:15,尉大帅的同学,答案错误,"print(""NO"")"
+19,B,Python3,60144822,2023-01-06 19:28:54,牛客972825279号,答案错误,"n,m=map(int,input().split())
+s=input()
+k=input()
+new_r=""""
+for i in s:
+    if i.isalpha():
+        new_r+=i
+sign=0
+l=0
+length=len(new_r)
+for i in range(m,length):
+    if new_r[l:i]==k:
+        sign=1
+        break
+    l+=1
+if sign:
+    print(""YES"")
+else:
+    print(""NO"")
+"
+20,B,Python3,60144932,2023-01-06 19:29:37,一半醒,运行超时,"import sys
+from collections import Counter
+
+n,m= map(int,input().split())
+s = input()
+k = input()
+mp = '''0123456789+-*|,.~!@#$%^&()[]{}'"";:?<>\/'''
+mp = Counter(mp)
+l = 0
+kt = 0
+while l < n:
+    st = l
+    while st < n and kt < m:
+        if s[st] == k[kt]:
+            st+=1
+            kt+=1
+        elif mp[s[st]]>0:
+            st+=1
+        else:
+            break
+    if kt == m:
+        print(""YES"")
+        sys.exit(0)
+        break
+    else:
+        l+=1
+        kt = 0
+print(""NO"")"
+21,B,Python3,60145515,2023-01-06 19:33:10,lemu17,答案正确,"n, m = map(int, input().split())
+s = input()
+s = ''.join([c for c in s if c.isalpha()])
+t = input()
+print('YES' if t in s else 'NO')"
+22,B,Python3,60145547,2023-01-06 19:33:21,牛客972825279号,答案正确,"n,m=map(int,input().split())
+s=input()
+k=input()
+new_r=""""
+for i in s:
+    if i.isalpha():
+        new_r+=i
+sign=0
+l=0
+length=len(new_r)
+for i in range(m,length+1):
+    if new_r[l:i]==k:
+        sign=1
+        break
+    l+=1
+if sign:
+    print(""YES"")
+else:
+    print(""NO"")"
+23,B,Python3,60145935,2023-01-06 19:35:45,SDTBU_ZX,答案错误,"n,m = map(int,input().split())
+a = list(input())
+a1 = str(input())
+s = ""0123456789+-*|,.~!@#$%^&()[]{}'\"";:?<>\/""
+for i in range(len(s)):
+    if s[i] in a:
+        a.remove(s[i])
+if a1 in """".join(a):
+    print(""YES"")
+else:
+    print(""NO"")"
+24,B,Python3,60145987,2023-01-06 19:36:03,SDTBU_ZX,答案错误,"n,m = map(int,input().split())
+a = list(input())
+a1 = str(input())
+s = ""0123456789+-*|,.~!@#$%^&()[]{}'\"";:?<>\\/""
+for i in range(len(s)):
+    if s[i] in a:
+        a.remove(s[i])
+if a1 in """".join(a):
+    print(""YES"")
+else:
+    print(""NO"")"
+25,B,Python3,60146146,2023-01-06 19:37:00,jicheboy,答案正确,"n,m=map(int,input().split())
+s=input()
+k=input()
+ss=""""
+for i in range(n):
+    if ord(s[i])>=97 and ord(s[i])<=122:
+        ss+=s[i]
+ans=ss.find(k)
+if ans==-1:
+    print(""NO"")
+else:
+    print(""YES"")"
+26,B,Python3,60147669,2023-01-06 19:45:51,皓金,答案正确,"def is_substring(s, k):
+  s = ''.join([ch for ch in s if ch.isalpha()])
+  k = ''.join([ch for ch in k if ch.isalpha()])
+
+  return k in s
+
+
+n, m = map(int, input().split())
+s = input()
+k = input()
+
+
+if is_substring(s, k):
+  print(""YES"")
+else:
+  print(""NO"")
+"
+27,B,Python3,60148049,2023-01-06 19:48:19,尉大帅的同学,答案正确,"A=[]
+B=[]
+C=[]
+D=[]
+A=input().split()
+B=input().split()
+C=input().split()
+for i in B[0]:
+    if 'a'<=i<='z':
+     D.append(i)
+D=list(map(str,D))
+D=''.join(D)
+C=list(map(str,C))
+C=''.join(C)
+if C in D:
+    print(""YES"")
+else:
+    print(""NO"")
+"
+28,B,Python3,60148561,2023-01-06 19:51:22,SDTBU_ZX,答案错误,"n,m = map(int,input().split())
+a = list(input())
+a1 = str(input())
+s = ""0123456789+-*|,.~!@#$%^&()[]{}'\"";:?<>\\/""
+s = list(s)
+for i in range(len(s)):
+    if s[i] in a:
+        a.remove(s[i])
+if a1 in """".join(a):
+    print(""YES"")
+else:
+    print(""NO"")"
+29,B,Python3,60149476,2023-01-06 19:57:16,erty,答案正确,"n,m=map(int,input().split())
+s=input()
+k=input()
+s1=""""
+for c in s:
+    if 'a'<=c<='z':
+        s1=s1+c
+        
+if k in s1:
+    print(""YES"")
+else:
+    print(""NO"")"
+30,B,Python3,60149528,2023-01-06 19:57:35,杜迪安,答案正确,"import re
+n, m = map(int, input().split())
+s = input()
+k = input()
+s = """".join(re.findall(""[a-z]"", s))
+if (k in s):
+    print(""YES"")
+else:
+    print(""NO"")"
+31,B,Python3,60150362,2023-01-06 20:02:59,YQ045,答案正确,"s = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '-', '*', '|', ',', '.', '~', '!', '@', '#', '$', '%', '^', '&', '(', ')', '[', ']', '{', '}', ""\'"", '""', ';', ':', '?', '<', '>', '\\', '/']
+n, m = map(int, input().split())
+w = input()
+b = input()
+for i in w:
+    if i in s:
+        w = w.replace(i, '')
+if b in w:
+    print('YES')
+else:
+    print('NO')"
+32,B,Python3,60151031,2023-01-06 20:07:45,牛客260517492号,答案错误,"n,m=map(int,input().split())
+s=input()
+k=input()
+a=list(s)
+b=list(k)
+sum=0
+for i in a:
+    if i not in b:
+        sum+=1
+#if b is a:
+   # print(""YES"")
+#else:
+   # print(""NO"")
+if sum==len(b):
+    print(""YES"")
+else:
+    print(""NO"")"
+33,B,Python3,60151164,2023-01-06 20:08:46,若飘渺,答案错误,"nm=input().split()
+n=int(nm[0])
+m=int(nm[1])
+s=input()
+k=input()
+a=""0123456789+-*|,.~!@#$%^&()[]{}'""
+b='"";:?<>'
+c=a+b
+for i in c:
+    s=s.replace(i,'')
+if s.find(k)!=-1:
+    print('YES')
+else:
+    print('NO')"
+34,B,Python3,60151227,2023-01-06 20:09:11,若飘渺,答案正确,"nm=input().split()
+n=int(nm[0])
+m=int(nm[1])
+s=input()
+k=input()
+a=""0123456789+-*|,.~!@#$%^&()[]{}'""
+b='"";:?<>\/'
+c=a+b
+for i in c:
+    s=s.replace(i,'')
+if s.find(k)!=-1:
+    print('YES')
+else:
+    print('NO')"
+35,B,Python3,60151544,2023-01-06 20:11:34,jwang69,答案错误,"n, m = map(int, input().split())
+s = input()
+a = input()
+b = ''
+for i in s:
+    if i in [chr(x) for x in range(97, 122)]:
+        b += i
+if a in b:
+    print(""YES"")
+else:
+    print(""NO"")"
+36,B,Python3,60151596,2023-01-06 20:11:59,jwang69,答案正确,"n, m = map(int, input().split())
+s = input()
+a = input()
+b = ''
+for i in s:
+    if i in [chr(x) for x in range(97, 123)]:
+        b += i
+if a in b:
+    print(""YES"")
+else:
+    print(""NO"")"
+37,B,Python3,60152071,2023-01-06 20:15:44,牛客7509号,答案错误,"n,m=input().split( )
+n=int(n)
+m=int(m)
+s=input()
+k=input()
+w=r'0123456789+-*|,.~!@#$%^&()[]{}'"";:?<>\/""
+for i in s:
+    if i in w:
+        s=s.replace(i,'')
+if k in s:
+    print('YES')
+else:
+    print('NO')"
+38,B,Python3,60152277,2023-01-06 20:17:22,牛客653430191号,答案正确,"A=[]
+B=[]
+C=[]
+D=[]
+A=input().split()
+B=input().split()
+C=input().split()
+for i in B[0]:
+    if 'a'<=i<='z':
+     D.append(i)
+D=list(map(str,D))
+D=''.join(D)
+C=list(map(str,C))
+C=''.join(C)
+if C in D:
+    print(""YES"")
+else:
+    print(""NO"")"
+39,B,Python3,60152556,2023-01-06 20:19:31,牛客7509号,答案错误,"n,m=map(int,input().split( ))
+s=input()
+k=input()
+w=r'0123456789+-*|,.~!@#$%^&()[]{}'"";:?<>\/""
+for i in s:
+    if i in w:
+        s=s.replace(i,'')
+if k in s:
+    print('YES')
+else:
+    print('NO')"
+40,B,Python3,60153040,2023-01-06 20:23:53,牛客7509号,答案正确,"n,m=map(int,input().split( ))
+s=input()
+k=input()
+w=""0123456789+-*|,.~!@#$%^&()[]{}\'\"";:?<>\/""
+for i in s:
+    if i in w:
+        s=s.replace(i,'')
+if k in s:
+    print('YES')
+else:
+    print('NO')"
+41,B,Python3,60153319,2023-01-06 20:26:13,讨厌吃香菜的猴子希望奇迹发生,答案正确,"n,m=list(map(int,input().split("" "")))
+s=input()
+k=input()
+s1=""""
+for i in s:
+    if i not in(""0123456789+-*|,.~!@#$%^&()[]{}'\"";:?<>\\/""):
+        s1+=i
+
+if k in s1:
+    print(""YES"")
+else:
+    print(""NO"")
+    "
+42,B,Python3,60154909,2023-01-06 20:39:57,YQ045,答案正确,"s = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '-', '*', '|', ',', '.', '~', '!', '@', '#', '$', '%', '^', '&', '(', ')', '[', ']', '{', '}', ""\'"", '""', ';', ':', '?', '<', '>', '\\', '/']
+n, m = map(int, input().split())
+w = input()
+b = input()
+for i in w:
+    if i in s:
+        w = w.replace(i, '')
+if b in w:
+    print('YES')
+else:
+    print('NO')"
+43,B,Python3,60155597,2023-01-06 20:46:02,队友比赛时睡着了？！？！,答案正确,"a = input()
+b = input()
+c = input()
+
+b = [x for x in b if x.islower()]
+b = ''.join(b)
+if b.find(c) == -1:
+    print('NO')
+else:
+    print('YES')"
+44,B,Python3,60157253,2023-01-06 21:00:05,微&lt;&gt;,答案错误,"n,m = map(int, input().split())
+a = input()
+b = input()
+c = """"
+k = 0
+for i in range(n):
+    if a[i]>='a' and a[i]<='z':
+        c += a[i]
+w = c.find(b)
+if c == -1:
+    print(""NO"")
+else:
+    print(""YES"")"
+45,B,Python3,60157302,2023-01-06 21:00:25,微&lt;&gt;,答案错误,"n,m = map(int, input().split())
+a = input()
+b = input()
+c = """"
+k = 0
+for i in range(n):
+    if a[i]>='a' and a[i]<='z':
+        c += a[i]
+w = c.find(b)
+if c == -1:
+    print(""NO"")
+else:
+    print(""YES"")"
+46,B,Python3,60157435,2023-01-06 21:01:44,微&lt;&gt;,答案错误,"n,m = map(int, input().split())
+a = input()
+b = input()
+c = """"
+k = 0
+for i in range(n):
+    if a[i]>='a' and a[i]<='z':
+        c += a[i]
+print(c)
+w = c.find(b)
+if w == -1:
+    print(""NO"")
+else:
+    print(""YES"")"
+47,B,Python3,60157451,2023-01-06 21:01:52,微&lt;&gt;,答案正确,"n,m = map(int, input().split())
+a = input()
+b = input()
+c = """"
+k = 0
+for i in range(n):
+    if a[i]>='a' and a[i]<='z':
+        c += a[i]
+# print(c)
+w = c.find(b)
+if w == -1:
+    print(""NO"")
+else:
+    print(""YES"")"
+48,B,Python3,60157830,2023-01-06 21:07:11,微&lt;&gt;,执行出错,"#include<stdio.h>
+#include<stdlib.h>
+#include<string.h> 
+#include<math.h>
+#define max(a, b)  (a>b? a:b)
+#define min(a, b)  (a<b? a:b)
+#define INF 0x7fffffff
+
+
+int main()
+{
+	system(""color f5"");
+	
+	char a[5050];
+	char b[5050];
+	char c[5050];
+	int i, j;
+	int count = 0;
+	int n, m;scanf(""%d%d"", &n, &m);getchar();
+	gets(a);
+	gets(b);
+	if(n<m)
+	{
+		printf(""NO\n"");
+		return 0;
+	}
+	if(n==1 && m==1)
+	{
+		if(a[0] == b[0])
+		{
+			printf(""YES\n"");
+		}
+		else
+		{
+			printf(""NO\n"");
+		}
+		return 0;
+	}
+	int k = 0;
+	for(i=0;i<n;i++)
+	{
+		if(a[i]>='a' && a[i]<='z')
+		{
+			c[k++] = a[i];
+		}
+	}
+	int w;
+	for(i=0;i<k;i++)
+	{
+		j = 0;
+		w = i;
+		while(c[w] == b[j] && w<k && j<m)
+		{
+			w++;j++;
+		}
+		if(j == m)
+		{
+			count = m;break;
+		}
+	}
+	if(count == m)
+	{
+		printf(""YES\n"");
+	}
+	else
+	{
+		printf(""NO\n"");
+	}
+	return 0;
+}"
+49,B,Python3,60158984,2023-01-06 21:29:22,牛客7509号,答案正确,"n,m=map(int,input().split( ))
+s=input()
+k=input()
+w=""0123456789+-*|,.~!@#$%^&()[]{}\'\"";:?<>\/""
+for i in s:
+    if i in w:
+        s=s.replace(i,'')
+if k in s:
+    print('YES')
+else:
+    print('NO')"
+50,B,Python3,60159010,2023-01-06 21:30:01,qdljerry,答案正确,"input()
+a=input()
+b=input()
+s='0123456789+-*|,.~!@#$%^&()[]{}\'"";:?<>\\/'
+for i in s:
+    a=a.replace(i,'')
+
+print('YES' if a.count(b) else 'NO')"
+51,B,Python3,60159060,2023-01-06 21:31:10,牛客7509号,答案正确,"n,m=map(int,input().split( ))
+s=input()
+k=input()
+w=""0123456789+-*|,.~!@#$%^&()[]{}\'\"";:?<>\/""
+for i in s:
+    if i in w:
+        s=s.replace(i,'')
+if k in s:
+    print('YES')
+else:
+    print('NO')"
+52,B,Python3,60163982,2023-01-07 11:02:31,李迪锴,答案正确,"n,m=map(int,input().split())
+s=input()
+k=input()
+txt=('0123456789+-*|,.~!@#$%^&()[]{}\'"";:?<>\\/')
+for t in txt:
+    s=s.replace(t,'')
+if(s.find(k)!=-1):
+    print('YES')
+else:
+    print('NO')"
+53,B,Python3,60163992,2023-01-07 11:03:22,伊丽莎白-杰,执行出错,"n, m = map(int, input().split())
+s = input()
+k = input()
+oth = '0123456789+-*|,.~!@#$%^&()[]{}\'"";:?<>\/'
+letter = ''
+for l in s:
+    if l not in oth:
+        letter += l
+print('YES' if letter.index(k)!=-1 else 'NO')"
+54,B,Python3,60164015,2023-01-07 11:05:00,伊丽莎白-杰,答案正确,"n, m = map(int, input().split())
+s = input()
+k = input()
+oth = '0123456789+-*|,.~!@#$%^&()[]{}\'"";:?<>\/'
+letter = ''
+for l in s:
+    if l not in oth:
+        letter += l
+        
+
+print('YES' if letter.find(k)!=-1 else 'NO')"
+55,B,Python3,60164027,2023-01-07 11:05:43,伊丽莎白-杰,答案正确,"n, m = map(int, input().split())
+s = input()
+k = input()
+oth = '0123456789+-*|,.~!@#$%^&()[]{}\'"";:?<>\\/'
+letter = ''
+for l in s:
+    if l not in oth:
+        letter += l
+        
+
+print('YES' if letter.find(k)!=-1 else 'NO')"
+56,B,Python3,60165066,2023-01-07 12:32:43,大花鸡爪(❁´◡`❁),答案正确,"n, m = map(int,input().split())
+s = input()
+k = input()
+tmp = ""0123456789+-*|,.~!@#$%^&()[]{}'\"";:?<>\\/""
+ss = """"
+for i in s:
+    if i not in tmp:
+        ss += i
+if (k in ss):
+    print(""YES"")
+else:
+    print(""NO"")"
+57,B,Python3,60167115,2023-01-07 14:49:55,东方菜鸡,答案正确,"n, m = map(int, input().split())
+s = input()
+t = input()
+st = ''
+for i in range(n):
+    if s[i].islower():
+        st += s[i]
+print('YES' if t in st else 'NO')"
+58,B,Python3,60167312,2023-01-07 15:00:34,wyy666666,答案正确,"n, m = map(int, input().split())
+s = input()
+s = ''.join([c for c in s if c.isalpha()])
+t = input()
+print('YES' if t in s else 'NO')"
+59,B,Python3,60168438,2023-01-07 15:50:33,xxiu_,答案正确,"n,m=map(int,input().split())
+s=input()
+k=input()
+t=''
+for c in s:
+    if c>='a' and c<='z':
+        t=t+c
+if k in t:
+    print('YES')
+else:
+    print('NO')"
+60,B,Python3,60174067,2023-01-07 22:26:27,懒得改了,答案正确,"x,a,b=input(),input(),input()
+for x in ""0123456789+-*|,.~!@#$%^&()[]{}'\"";:?<>\\/"":
+    a,b=a.replace(x,''),b.replace(x,'')
+print(""YES"" if len(a.split(b))>1 else""NO"")"
+61,B,Python3,60175492,2023-01-08 09:44:10,zpclyn,答案正确,"n=input()
+s=input()
+k=input()
+for i in s:
+    if i<'a' or i>'z':
+        s=s.replace(i,'')
+if k in s:
+    print(""YES"",end='\n')
+else:
+    print(""NO"",end='\n')"
+62,B,Python3,60175686,2023-01-08 10:21:16,爱打牌的登子,答案正确,"n , m = list(map(int , input().split()))
+s = input()
+t = input()
+ss = """"
+for x in s:
+    if 'a' <= x and x <= 'z':
+        ss += x
+if t in ss:
+    print(""YES"")
+else:
+    print(""NO"")"
+63,B,Python3,60185052,2023-01-08 23:17:29,追太阳的黑子,答案正确,"n,m = list(map(int,input().split()))
+s = input()
+k = input()
+t = ''
+for c in s:
+    if c.isalpha():
+        t+=c
+# print(t)
+if k in t:
+    print('YES')
+else:
+    print('NO')"
+64,B,Python3,60191406,2023-01-09 19:31:21,LONGBAO5423,答案错误,"n, m = map(int, input().split())
+
+s = list(input())
+k = input()
+
+for i in '0123456789+-*|,.~!@#$%^&()[]{}\'"";:?<>\\/':
+    if i in s:
+        s.remove(i)
+
+s = ''.join(s)
+if k in s:
+    print(""YES"")
+else:
+    print(""NO"")
+"
+65,B,Python3,60191451,2023-01-09 19:34:08,LONGBAO5423,答案正确,"import copy
+
+n, m = map(int, input().split())
+
+s = list(input())
+k = input()
+
+t = copy.deepcopy(s)
+
+for i in t:
+    if i < 'a' or i > 'z':
+        s.remove(i)
+
+s = ''.join(s)
+
+if k in s:
+    print(""YES"")
+else:
+    print(""NO"")
+"
+66,B,Python3,60201666,2023-01-10 18:11:48,牛客481337953号,答案正确,"n=input()
+s,t="""".join(i for i in input() if 'a'<=i<='z'),input()
+print(""YES"" if t in s else ""NO"")"
+67,B,Python3,60201674,2023-01-10 18:12:39,牛客481337953号,答案正确,"n,s,t=input(),"""".join(i for i in input() if 'a'<=i<='z'),input()
+print(""YES"" if t in s else ""NO"")"
+68,B,Python3,60211679,2023-01-11 18:15:18,万伏小太阳,答案正确,"s='0123456789+-*|,.~!@#$%^&()[]{}\'\"";:?<>\\/'
+n,m=list(map(int,input().split()))
+pat=input()
+t=input()
+
+pp=''
+for c in pat:
+    if c not in s:
+        pp+=c
+if t in pp:
+    print(""YES"")
+else:
+    print(""NO"")
+        "
+69,B,Python3,60214314,2023-01-11 21:35:36,搞笑~,答案正确,"t = input()
+s = input()
+tt = input()
+temp = ''
+ss = ''''0123456789+-*|,.~!@#$%^&()[]{}'"";:?<>\/'''
+def ist(x):
+    if ss.count(x) :
+        return 0
+    else:
+        return 1
+for each in s:
+    if ist(each):
+        temp += each
+if temp.count(tt):
+    print('YES')
+else:
+    print('NO')"
+70,B,Python3,60216807,2023-01-12 10:10:32,牛客233537359号,答案错误,"n,m = map(int,input().split())
+s = input()
+k = input()
+s1 = ''
+for i in range(len(s)):
+    if ord('a') <= ord(s[i]) <= ord('z'):
+        s1 += s[i]
+
+fl = 0
+for i in range(len(s1)):
+    pl = 0
+    if s1[i] == k[pl]:
+        pos = i
+        while pl < m and pos < len(s1) and s1[pos] == k[pl]:
+            pos += 1
+            pl += 1
+            if pl == m-1:
+                fl = 1
+                break
+if fl:
+    print(""YES"")
+else:
+    print('NO')"
+71,B,Python3,60216828,2023-01-12 10:13:18,牛客233537359号,执行出错,"n,m = map(int,input().split())
+s = input()
+k = input()
+s1 = ''
+for i in range(len(s)):
+    if ord('a') <= ord(s[i]) <= ord('z'):
+        s1 += s[i]
+
+fl = 0
+for i in range(len(s1)):
+    pl = 0
+    if s1[i] == k[pl]:
+        pos = i
+        while pl < m and pos < len(s1) :
+            pos += 1
+            pl += 1
+            if s1[pos] != k[pl]:
+                break
+            if pl == m-1:
+                fl = 1
+                break
+if fl:
+    print(""YES"")
+else:
+    print('NO')"
+72,B,Python3,60216839,2023-01-12 10:15:04,牛客233537359号,答案错误,"n,m = map(int,input().split())
+s = input()
+k = input()
+s1 = ''
+for i in range(len(s)):
+    if ord('a') <= ord(s[i]) <= ord('z'):
+        s1 += s[i]
+
+fl = 0
+for i in range(len(s1)):
+    pl = 0
+    if s1[i] == k[pl]:
+        pos = i
+        while pl < m - 1 and pos < len(s1) - 1:
+            pos += 1
+            pl += 1
+            if s1[pos] != k[pl]:
+                break
+            if pl == m-1:
+                fl = 1
+                break
+if fl:
+    print(""YES"")
+else:
+    print('NO')"
+73,B,Python3,60216852,2023-01-12 10:17:33,牛客233537359号,答案正确,"n,m = map(int,input().split())
+s = input()
+k = input()
+s1 = ''
+for i in range(len(s)):
+    if ord('a') <= ord(s[i]) <= ord('z'):
+        s1 += s[i]
+if m == 1:
+    if k in s1:
+        print(""YES"")
+    else:
+        print('NO')
+else:
+    fl = 0
+    for i in range(len(s1)):
+        pl = 0
+        if s1[i] == k[pl]:
+            pos = i
+            while pl < m - 1 and pos < len(s1) - 1:
+                pos += 1
+                pl += 1
+                if s1[pos] != k[pl]:
+                    break
+                if pl == m-1:
+                    fl = 1
+                    break
+    if fl:
+        print(""YES"")
+    else:
+        print('NO')"
+74,B,Python3,60217002,2023-01-12 10:43:18,Lemmon_kk,答案正确,"n, m = map(int, input().split()) 
+s = input()
+t = input()
+f = '0123456789+-*|,.~!@#$%^&()[]{}\'"";:?<>\\/'
+
+for c in f:
+    s = s.replace(c, '')
+if t in s:
+    print(""YES"")
+else:
+    print(""NO"")"
+75,B,Python3,60217794,2023-01-12 12:14:23,牛客515280107号,答案正确,"n,m=map(int,input().split())
+s=input()
+k=input()
+s1='0123456789+-*|,.~!@#$%^&()[]{}\'\"";:?<>\/'
+s2=''
+for i in s:
+    if i not in s1:
+        s2+=i
+if k in s2:
+    print('YES')
+else:
+    print('NO')"
+76,B,Python3,60217800,2023-01-12 12:14:48,牛客515280107号,答案正确,"n,m=map(int,input().split())
+s=input()
+k=input()
+s1='0123456789+-*|,.~!@#$%^&()[]{}\'\"";:?<>\\/'
+s2=''
+for i in s:
+    if i not in s1:
+        s2+=i
+if k in s2:
+    print('YES')
+else:
+    print('NO')"
+77,B,Python3,60217889,2023-01-12 12:27:38,牛客515280107号,答案正确,"n,m=map(int,input().split())
+s=input()
+k=input()
+s1='0123456789+-*|,.~!@#$%^&()[]{}\'\"";:?<>\\/'
+for i in s:
+    if s1.count(i):
+        s=s.replace(i,'')
+if k in s:
+    print('YES')
+else:
+    print('NO')"
+78,B,Python3,60226248,2023-01-12 22:12:47,lby_commandBlock,答案错误,"input()
+a = list(input())
+b = input()
+# print(a)
+h = ''
+for i in a:
+    if i in 'qwertyuiopasdfghjklzxcvbnm':
+        h += i
+print(h)
+if b in h:
+    print('YES')
+else:
+    print('NO')"
+79,B,Python3,60226254,2023-01-12 22:13:04,lby_commandBlock,答案正确,"input()
+a = list(input())
+b = input()
+# print(a)
+h = ''
+for i in a:
+    if i in 'qwertyuiopasdfghjklzxcvbnm':
+        h += i
+# print(h)
+if b in h:
+    print('YES')
+else:
+    print('NO')"
+80,B,Python3,60230220,2023-01-13 13:16:55,小霸王菜花,答案正确,"n,m=map(int,input().split())
+s=input()
+k=input()
+str='0123456789+-*|,.~!@#$%^&()[]{}\'\"";:?<>\\/'
+ans=''
+for i in s:
+    if i not in str:
+        ans+=i
+if k in ans:
+    print('YES')
+else:
+    print('NO')
+        
+
+"
+81,B,Python3,60231143,2023-01-13 14:52:37,拒绝pua的coder很想五点下,执行出错,"n,m=map(int,input().split())
+s = input()
+k = input()
+
+temp = ''
+for c in s:
+    if 'a' <= c <= 'z':
+        temp += c
+ 
+if k in t:
+    print('YES')
+else:
+    print('NO')"
+82,B,Python3,60231148,2023-01-13 14:52:52,拒绝pua的coder很想五点下,答案正确,"n,m=map(int,input().split())
+s = input()
+k = input()
+
+temp = ''
+for c in s:
+    if 'a' <= c <= 'z':
+        temp += c
+ 
+if k in temp:
+    print('YES')
+else:
+    print('NO')"
+83,B,Python3,60497903,2023-01-18 20:33:43,鲁东大学-时宁,答案正确,"n = input()
+s = input()
+k = input()
+ans = ''
+for i in s:
+    if(i >= 'a' and i <= 'z'):
+        ans = ''.join([ans,i])
+if(k in ans):
+    print(""YES"")
+else:
+    print(""NO"")"
+84,B,Python3,60583785,2023-01-23 12:09:20,macheng,答案正确,"s=input()
+s=input()
+t=input()
+s1=[]
+for c in s:
+    if ord(c)<=ord(""z"") and ord(c)>=ord('a'):
+        s1.append(c)
+s1="""".join(s1)
+if s1.find(t)!=-1:
+    print(""YES"")
+else:
+    print(""NO"")"
+85,B,Python3,60588964,2023-01-24 15:07:53,牛客562050543号,答案错误,"n,m = [int(i) for i in input().split()]
+letter = input()
+k = input()
+g = 0
+for i in range(0,n):
+#     for j in range(0,m):
+    if letter[i] == k[g]:
+        if g == m -1:
+            break
+        g += 1
+if g == m-1:
+    print('YES')
+else:
+    print('NO')
+"
+86,B,Python3,60588987,2023-01-24 15:12:45,牛客562050543号,答案错误,"n,m = [int(i) for i in input().split()]
+letter = input()
+k = input()
+if m == 0:
+    print('NO')
+else:
+    g = 0
+    for i in range(0,n):
+        if letter[i] == k[g]:
+            if g == m -1:
+                break
+            g += 1
+    if g == m-1:
+        print('YES')
+    else:
+        print('NO')
+"
+87,B,Python3,60589007,2023-01-24 15:16:43,牛客562050543号,执行出错,"n,m = [int(i) for i in input().split()]
+letter = input()
+k = input()
+g = 0
+for i in range(0,n):
+    if letter[i] == k[g] and letter[i] NOT IN ['''0123456789+-*|,.~!@#$%^&()[]{}'"";:?<>\/''']:
+        if g == m -1:
+            break
+        g += 1
+if g == m-1:
+    print('YES')
+else:
+    print('NO')
+"
+88,B,Python3,60589095,2023-01-24 15:33:09,牛客562050543号,答案正确,"n,m = [int(i) for i in input().split()]
+letter = input()
+k = input()
+newstr = ''
+words = '0123456789+-*|,.~!@#$%^&()[]{};:?<>/' + '""' + ""'"" + ""\\""
+
+for i in range(0,n):
+    if letter[i] not in words:
+#         print(letter[i])
+        newstr += letter[i]
+
+# print(newstr)       
+if k in newstr:
+    print('YES')
+else:
+    print('NO')
+"
+89,B,Python3,60733802,2023-02-02 13:15:44,lianxuhanshu,执行出错,"n,m=map(int,input().split())
+s=input()
+p=input()
+
+ss=""""
+
+for i in s:
+    if i.islower():
+        ss+=i
+        
+i,j=None,None
+is_match=False
+for i in range(len(ss)):
+    for j in range(m):
+        if ss[j+i]!=p[j]:
+            break
+    if j==m-1:
+        is_match=True
+        break
+        
+if is_match:
+    print(""YES"")
+else :
+    print(""NO"")
+    
+"
+90,B,Python3,60733810,2023-02-02 13:16:40,lianxuhanshu,答案错误,"n,m=map(int,input().split())
+s=input()
+p=input()
+
+ss=""""
+
+for i in s:
+    if i.islower():
+        ss+=i
+        
+i,j=None,None
+is_match=False
+for i in range(len(ss)):
+    for j in range(m):
+        if j+i>=len(ss) or ss[j+i]!=p[j]:
+            break
+    if j==m-1:
+        is_match=True
+        break
+        
+if is_match:
+    print(""YES"")
+else :
+    print(""NO"")
+    
+"
+91,B,Python3,60734097,2023-02-02 13:43:26,lianxuhanshu,答案正确,"n,m=map(int,input().split())
+s=input()
+p=input()
+
+ss=""""
+
+for i in s:
+    if i.islower():
+        ss+=i
+        
+i,j=None,None
+is_match=False
+for i in range(len(ss)):
+    for j in range(m+1):
+        if j==m or j+i>=len(ss) or ss[j+i]!=p[j]:
+            break
+    if j==m:
+        is_match=True
+        break
+        
+if is_match:
+    print(""YES"")
+else :
+    print(""NO"")
+    
+"
+92,B,Python3,60736914,2023-02-02 17:03:06,我小心海也绝非善类,答案错误,"import random
+import sys
+import os
+import math
+from collections import Counter, defaultdict, deque
+from functools import lru_cache, reduce
+from itertools import accumulate, combinations, permutations
+from heapq import nsmallest, nlargest, heapify, heappop, heappush
+from io import BytesIO, IOBase
+from copy import deepcopy
+import threading
+import bisect
+
+# from sortedcontainers import SortedList
+BUFSIZE = 4096
+
+
+class FastIO(IOBase):
+    newlines = 0
+
+    def __init__(self, file):
+        self._fd = file.fileno()
+        self.buffer = BytesIO()
+        self.writable = ""x"" in file.mode or ""r"" not in file.mode
+        self.write = self.buffer.write if self.writable else None
+
+    def read(self):
+        while True:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            if not b:
+                break
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines = 0
+        return self.buffer.read()
+
+    def readline(self):
+        while self.newlines == 0:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            self.newlines = b.count(b""\n"") + (not b)
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines -= 1
+        return self.buffer.readline()
+
+    def flush(self):
+        if self.writable:
+            os.write(self._fd, self.buffer.getvalue())
+            self.buffer.truncate(0), self.buffer.seek(0)
+
+
+class IOWrapper(IOBase):
+    def __init__(self, file):
+        self.buffer = FastIO(file)
+        self.flush = self.buffer.flush
+        self.writable = self.buffer.writable
+        self.write = lambda s: self.buffer.write(s.encode(""ascii""))
+        self.read = lambda: self.buffer.read().decode(""ascii"")
+        self.readline = lambda: self.buffer.readline().decode(""ascii"")
+
+
+sys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)
+input = lambda: sys.stdin.readline().rstrip(""\r\n"")
+
+
+def I():
+    return input()
+
+
+def II():
+    return int(input())
+
+
+def MI():
+    return map(int, input().split())
+
+
+def LI():
+    return list(input().split())
+
+
+def LII():
+    return list(map(int, input().split()))
+
+
+def GMI():
+    return map(lambda x: int(x) - 1, input().split())
+
+
+def LGMI():
+    return list(map(lambda x: int(x) - 1, input().split()))
+
+
+def solve():
+    area = LII()
+    n, m = area[0], area[1]
+    s = input()
+    k = input()
+    start1 = 0
+    start2 = 0
+    begin = 0
+    while start1 < n:
+        if not s[start1].isalpha() or s[start1] != k[start2] and start2 == 0:
+            start1 += 1
+            begin += 1
+        elif s[start1] != k[start2] and start2 != 0:
+            start1 = begin
+            start2 = 0
+        elif s[start1] == k[start2] and start2 == 0:
+            begin = start1 + 1
+            start1 += 1
+            start2 += 1
+        elif s[start1] == k[start2]:
+            start1 += 1
+            start2 += 1
+            if start2 == m:
+                print(""YES"")
+                return 0
+    print(""NO"")
+    return 0
+            
+
+
+
+
+
+
+if __name__ == '__main__':
+    for _ in range(1):
+        solve()
+   "
+93,B,Python3,60737189,2023-02-02 17:18:18,我小心海也绝非善类,答案错误,"import random
+import sys
+import os
+import math
+from collections import Counter, defaultdict, deque
+from functools import lru_cache, reduce
+from itertools import accumulate, combinations, permutations
+from heapq import nsmallest, nlargest, heapify, heappop, heappush
+from io import BytesIO, IOBase
+from copy import deepcopy
+import threading
+import bisect
+
+# from sortedcontainers import SortedList
+BUFSIZE = 4096
+
+
+class FastIO(IOBase):
+    newlines = 0
+
+    def __init__(self, file):
+        self._fd = file.fileno()
+        self.buffer = BytesIO()
+        self.writable = ""x"" in file.mode or ""r"" not in file.mode
+        self.write = self.buffer.write if self.writable else None
+
+    def read(self):
+        while True:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            if not b:
+                break
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines = 0
+        return self.buffer.read()
+
+    def readline(self):
+        while self.newlines == 0:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            self.newlines = b.count(b""\n"") + (not b)
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines -= 1
+        return self.buffer.readline()
+
+    def flush(self):
+        if self.writable:
+            os.write(self._fd, self.buffer.getvalue())
+            self.buffer.truncate(0), self.buffer.seek(0)
+
+
+class IOWrapper(IOBase):
+    def __init__(self, file):
+        self.buffer = FastIO(file)
+        self.flush = self.buffer.flush
+        self.writable = self.buffer.writable
+        self.write = lambda s: self.buffer.write(s.encode(""ascii""))
+        self.read = lambda: self.buffer.read().decode(""ascii"")
+        self.readline = lambda: self.buffer.readline().decode(""ascii"")
+
+
+sys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)
+input = lambda: sys.stdin.readline().rstrip(""\r\n"")
+
+
+def I():
+    return input()
+
+
+def II():
+    return int(input())
+
+
+def MI():
+    return map(int, input().split())
+
+
+def LI():
+    return list(input().split())
+
+
+def LII():
+    return list(map(int, input().split()))
+
+
+def GMI():
+    return map(lambda x: int(x) - 1, input().split())
+
+
+def LGMI():
+    return list(map(lambda x: int(x) - 1, input().split()))
+
+
+def solve():
+    area = LII()
+    n, m = area[0], area[1]
+    if m > n:
+        print(""NO"")
+        return 0
+    s = input()
+    k = input()
+    start1 = 0
+    start2 = 0
+    begin = 0
+    while start1 < n:
+        if not s[start1].isalpha():
+            start1 += 1
+            begin += 1
+        elif s[start1] != k[start2] and start2 == 0:
+            start1 += 1
+            begin += 1
+        elif s[start1] != k[start2] and start2 != 0:
+            start1 = begin
+            start2 = 0
+        elif s[start1] == k[start2] and start2 == 0:
+            begin = start1 + 1
+            start1 += 1
+            start2 += 1
+        elif s[start1] == k[start2]:
+            start1 += 1
+            start2 += 1
+            if start2 == m:
+                print(""YES"")
+                return 0
+    print(""NO"")
+    return 0
+            
+
+
+
+
+
+
+if __name__ == '__main__':
+    for _ in range(1):
+        solve()
+   "
+94,B,Python3,60737190,2023-02-02 17:18:19,我小心海也绝非善类,答案错误,"import random
+import sys
+import os
+import math
+from collections import Counter, defaultdict, deque
+from functools import lru_cache, reduce
+from itertools import accumulate, combinations, permutations
+from heapq import nsmallest, nlargest, heapify, heappop, heappush
+from io import BytesIO, IOBase
+from copy import deepcopy
+import threading
+import bisect
+
+# from sortedcontainers import SortedList
+BUFSIZE = 4096
+
+
+class FastIO(IOBase):
+    newlines = 0
+
+    def __init__(self, file):
+        self._fd = file.fileno()
+        self.buffer = BytesIO()
+        self.writable = ""x"" in file.mode or ""r"" not in file.mode
+        self.write = self.buffer.write if self.writable else None
+
+    def read(self):
+        while True:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            if not b:
+                break
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines = 0
+        return self.buffer.read()
+
+    def readline(self):
+        while self.newlines == 0:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            self.newlines = b.count(b""\n"") + (not b)
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines -= 1
+        return self.buffer.readline()
+
+    def flush(self):
+        if self.writable:
+            os.write(self._fd, self.buffer.getvalue())
+            self.buffer.truncate(0), self.buffer.seek(0)
+
+
+class IOWrapper(IOBase):
+    def __init__(self, file):
+        self.buffer = FastIO(file)
+        self.flush = self.buffer.flush
+        self.writable = self.buffer.writable
+        self.write = lambda s: self.buffer.write(s.encode(""ascii""))
+        self.read = lambda: self.buffer.read().decode(""ascii"")
+        self.readline = lambda: self.buffer.readline().decode(""ascii"")
+
+
+sys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)
+input = lambda: sys.stdin.readline().rstrip(""\r\n"")
+
+
+def I():
+    return input()
+
+
+def II():
+    return int(input())
+
+
+def MI():
+    return map(int, input().split())
+
+
+def LI():
+    return list(input().split())
+
+
+def LII():
+    return list(map(int, input().split()))
+
+
+def GMI():
+    return map(lambda x: int(x) - 1, input().split())
+
+
+def LGMI():
+    return list(map(lambda x: int(x) - 1, input().split()))
+
+
+def solve():
+    area = LII()
+    n, m = area[0], area[1]
+    if m > n:
+        print(""NO"")
+        return 0
+    s = input()
+    k = input()
+    start1 = 0
+    start2 = 0
+    begin = 0
+    while start1 < n:
+        if not s[start1].isalpha():
+            start1 += 1
+            begin += 1
+        elif s[start1] != k[start2] and start2 == 0:
+            start1 += 1
+            begin += 1
+        elif s[start1] != k[start2] and start2 != 0:
+            start1 = begin
+            start2 = 0
+        elif s[start1] == k[start2] and start2 == 0:
+            begin = start1 + 1
+            start1 += 1
+            start2 += 1
+        elif s[start1] == k[start2]:
+            start1 += 1
+            start2 += 1
+            if start2 == m:
+                print(""YES"")
+                return 0
+    print(""NO"")
+    return 0
+            
+
+
+
+
+
+
+if __name__ == '__main__':
+    for _ in range(1):
+        solve()
+   "
+95,B,Python3,60829943,2023-02-07 19:32:41,summerEDward,答案错误,"n,m=map(int,input().split())
+s=input()
+k=input()
+c=''
+ss=0
+len_k=len(k)
+for i in range(len(s)):
+    if s[i].islower():
+        c+=s[i]
+#print(c)
+for i in range(len(c)-len_k):
+    if c[i:len_k+i]==k:
+        ss=1
+        break
+if ss==0:
+    print('NO')
+else:print('YES')"
+96,B,Python3,60829971,2023-02-07 19:37:23,summerEDward,答案正确,"n,m=map(int,input().split())
+s=input()
+k=input()
+c=''
+ss=0
+len_k=len(k)
+for i in range(len(s)):
+    if s[i].islower():
+        c+=s[i]
+#print(c)
+if k in c:print('YES')
+else:print('NO')"
+97,B,Python3,60930797,2023-02-20 18:45:06,梁嘉玮211080119,答案正确,"n, m = map(int, input().split())
+s, k = input(), input()
+s = ''.join(i for i in s if i.islower())
+print('YES' if k in s else 'NO')"

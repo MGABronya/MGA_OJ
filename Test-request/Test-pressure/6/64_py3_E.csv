@@ -1,0 +1,88 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,E,Python3,60026264,2022-12-31 15:26:17,可爱抱抱呀😥,运行超时,"n,m,le=map(int,input().split())
+#(a+k)*(b+k)==(a+b+k)*k,也就是ab==0，也就是说a==0或者b==0
+a=list(map(int,input().split()))
+ans=0
+for i in range(le+1,n):
+    if a[i]==0 or a[i-le-1]==0:
+        ans+=1
+for i in range(m):
+    pos,val=map(int,input().split())
+    pos-=1
+    w=a[pos]
+    if w==0 and val!=0:
+        if pos>=le+1 and a[pos-le-1]!=0:
+            ans-=1
+        if pos<=n-1-le-1 and a[pos+le+1]!=0:
+            ans-=1
+    elif w!=0 and val==0:
+        if pos>=le+1 and a[pos-le-1]!=0:
+            ans+=1
+        if pos<=n-1-le-1 and a[pos+le+1]!=0:
+            ans+=1
+    a[pos]=val
+    print(ans)"
+1,E,Python3,60205565,2023-01-10 23:34:56,bug调查员,运行超时,"N = 500010
+a = [0] * N
+ans = 0
+
+def pre():
+    global ans, le, a
+    for i in range(1, n - le):
+        j = i + le + 1
+        if a[i] == 0 or a[j] == 0:
+            ans += 1
+
+n, m, le = map(int, input().split())
+a[1:n+1] = list(map(int, input().split()))
+#先预处理(记录总贡献值)
+pre()
+#开始修改查询
+for i in range(0, m):
+    x, y = map(int, input().split())
+    if a[x] == 0 and y != 0:
+        if x-le-1 > 0 and a[x-le-1] != 0:
+            ans -= 1
+        if x+le+1<=n and a[x+le+1] != 0:
+            ans -= 1
+    if a[x] != 0 and y == 0:
+        if x-le-1 > 0 and a[x-le-1] != 0:
+            ans += 1
+        if x+le+1<=n and a[x+le+1] != 0:
+            ans += 1
+    a[x] = y
+    print(ans)
+    
+    "
+2,E,Python3,60205600,2023-01-10 23:39:07,bug调查员,运行超时,"N = 500010
+a = [0] * N
+ans = 0
+
+def pre():
+    global ans, le, a, n
+    for i in range(1, n - le):
+        j = i + le + 1
+        if a[i] == 0 or a[j] == 0:
+            ans += 1
+
+n, m, le = map(int, input().split())
+a[1:n+1] = list(map(int, input().split()))
+#先预处理(记录总贡献值)
+pre()
+#开始修改查询
+for i in range(0, m):
+    x, y = map(int, input().split())
+    if a[x] == 0 and y != 0:
+        if x-le-1 > 0 and a[x-le-1] != 0:
+            ans -= 1
+        if x+le+1<=n and a[x+le+1] != 0:
+            ans -= 1
+    if a[x] != 0 and y == 0:
+        if x-le-1 > 0 and a[x-le-1] != 0:
+            ans += 1
+        if x+le+1<=n and a[x+le+1] != 0:
+            ans += 1
+    a[x] = y
+    print(ans)
+    
+    "

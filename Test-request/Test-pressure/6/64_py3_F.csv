@@ -1,0 +1,316 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,F,Python3,60013306,2022-12-30 19:56:42,LittleSeaMonster,答案错误,"print(""Hello World"")"
+1,F,Python3,60023210,2022-12-31 13:00:31,翟晋平,执行出错,"n, m = map(int, input().split())
+g = [[0] * (1 + n) for _ in range(1 + 3)]
+mod = 998244353
+for _ in range(m):
+    a, b = map(int, input().split())
+    g[a][b] = 1
+    
+f = [[0] * (1 + n) for _ in range(4)]
+f[1][1] = 1
+
+for y in range(1, n):
+    for x in range(1, 4):
+        if g[x][y] == 1:
+            f[max(1, x - 1)][y + 1] = (f[x][y] + f[max(1, x - 1)][y + 1]) % mod
+            f[x][min(n, y + 2)] = (f[x][y] + f[x][min(n, y + 2)]) % mod
+            f[min(3, x + 1)][y + 1] = (f[x][y] + f[min(3, x + 1)][y + 1]) % mod
+        else:
+            f[x][y + 1] = (f[x][y] + f[x][y + 1]) % mod
+for i in range(1, 4):            
+    print(f[i][n])"
+2,F,Python3,60023221,2022-12-31 13:01:21,翟晋平,执行出错,"n, m = map(int, input().split())
+g = [[0] * (1 + n) for _ in range(4)]
+mod = 998244353
+for _ in range(m):
+    a, b = map(int, input().split())
+    g[a][b] = 1
+    
+f = [[0] * (1 + n) for _ in range(4)]
+f[1][1] = 1
+
+for y in range(1, n):
+    for x in range(1, 4):
+        if g[x][y] == 1:
+            f[max(1, x - 1)][y + 1] = (f[x][y] + f[max(1, x - 1)][y + 1]) % mod
+            f[x][min(n, y + 2)] = (f[x][y] + f[x][min(n, y + 2)]) % mod
+            f[min(3, x + 1)][y + 1] = (f[x][y] + f[min(3, x + 1)][y + 1]) % mod
+        else:
+            f[x][y + 1] = (f[x][y] + f[x][y + 1]) % mod
+for i in range(1, 4):            
+    print(f[i][n])"
+3,F,Python3,60138431,2023-01-06 17:14:32,liupengsay,运行超时,"import copy
+import random
+import heapq
+import math
+import sys
+import bisect
+import datetime
+from functools import lru_cache
+from collections import deque
+from collections import Counter
+from collections import defaultdict
+from itertools import combinations
+from itertools import permutations
+from types import GeneratorType
+from functools import cmp_to_key
+inf = float(""inf"")
+sys.setrecursionlimit(10000000)
+
+
+class FastIO:
+    def __init__(self):
+        return
+
+    @staticmethod
+    def _read():
+        return sys.stdin.readline().strip()
+
+    def read_int(self):
+        return int(self._read())
+
+    def read_float(self):
+        return int(self._read())
+
+    def read_ints(self):
+        return map(int, self._read().split())
+
+    def read_floats(self):
+        return map(float, self._read().split())
+
+    def read_ints_minus_one(self):
+        return map(lambda x: int(x) - 1, self._read().split())
+
+    def read_list_ints(self):
+        return list(map(int, self._read().split()))
+
+    def read_list_floats(self):
+        return list(map(float, self._read().split()))
+
+    def read_list_ints_minus_one(self):
+        return list(map(lambda x: int(x) - 1, self._read().split()))
+
+    def read_str(self):
+        return self._read()
+
+    def read_list_strs(self):
+        return self._read().split()
+
+    def read_list_str(self):
+        return list(self._read())
+
+    @staticmethod
+    def st(x):
+        return sys.stdout.write(str(x) + '\n')
+
+    @staticmethod
+    def lst(x):
+        return sys.stdout.write("" "".join(str(w) for w in x) + '\n')
+
+    @staticmethod
+    def round_5(f):
+        res = int(f)
+        if f - res >= 0.5:
+            res += 1
+        return res
+
+    @staticmethod
+    def bootstrap(f, stack=[]):
+        def wrappedfunc(*args, **kwargs):
+            if stack:
+                return f(*args, **kwargs)
+            else:
+                to = f(*args, **kwargs)
+                while True:
+                    if isinstance(to, GeneratorType):
+                        stack.append(to)
+                        to = next(to)
+                    else:
+                        stack.pop()
+                        if not stack:
+                            break
+                        to = stack[-1].send(to)
+                return to
+        return wrappedfunc
+
+
+def main(ac=FastIO()):
+    mod = 998244353
+    n, m = ac.read_ints()
+    obstacle = [[0] for _ in range(4)]
+    for _ in range(m):
+        x, y = ac.read_ints()
+        obstacle[x].append(y)
+    for i in range(4):
+        obstacle[i].sort()
+    @lru_cache(None)
+    def dfs(i, j):
+        cnt = [0, 0, 0]
+
+        if j > obstacle[i][-1]:
+            cnt[i - 1] = 1
+            return cnt
+
+        if j == obstacle[i][-1]:
+            cnt = [1, 1, 1]
+            return cnt
+
+        p = bisect.bisect_right(obstacle[i], j)
+        j = obstacle[i][p]
+
+        dct = set()
+        dct.add((1 if i - 1 <= 1 else i - 1, j + 1))
+        dct.add((3 if i + 1 >= 3 else i + 1, j + 1))
+        dct.add((i, j + 2 if j + 2 < n else n))
+
+        for a, b in dct:
+            nex = dfs(a, b)
+            for z in range(3):
+                cnt[z] += nex[z]
+                cnt[z] %= mod
+        return cnt
+
+    ans = dfs(1, 1)
+    for a in ans:
+        ac.st(a)
+    return
+
+
+main()
+
+"
+4,F,Python3,60138490,2023-01-06 17:17:25,liupengsay,运行超时,"import copy
+import random
+import heapq
+import math
+import sys
+import bisect
+import datetime
+from functools import lru_cache
+from collections import deque
+from collections import Counter
+from collections import defaultdict
+from itertools import combinations
+from itertools import permutations
+from types import GeneratorType
+from functools import cmp_to_key
+inf = float(""inf"")
+sys.setrecursionlimit(10000000)
+
+
+class FastIO:
+    def __init__(self):
+        return
+
+    @staticmethod
+    def _read():
+        return sys.stdin.readline().strip()
+
+    def read_int(self):
+        return int(self._read())
+
+    def read_float(self):
+        return int(self._read())
+
+    def read_ints(self):
+        return map(int, self._read().split())
+
+    def read_floats(self):
+        return map(float, self._read().split())
+
+    def read_ints_minus_one(self):
+        return map(lambda x: int(x) - 1, self._read().split())
+
+    def read_list_ints(self):
+        return list(map(int, self._read().split()))
+
+    def read_list_floats(self):
+        return list(map(float, self._read().split()))
+
+    def read_list_ints_minus_one(self):
+        return list(map(lambda x: int(x) - 1, self._read().split()))
+
+    def read_str(self):
+        return self._read()
+
+    def read_list_strs(self):
+        return self._read().split()
+
+    def read_list_str(self):
+        return list(self._read())
+
+    @staticmethod
+    def st(x):
+        return sys.stdout.write(str(x) + '\n')
+
+    @staticmethod
+    def lst(x):
+        return sys.stdout.write("" "".join(str(w) for w in x) + '\n')
+
+    @staticmethod
+    def round_5(f):
+        res = int(f)
+        if f - res >= 0.5:
+            res += 1
+        return res
+
+    @staticmethod
+    def bootstrap(f, stack=[]):
+        def wrappedfunc(*args, **kwargs):
+            if stack:
+                return f(*args, **kwargs)
+            else:
+                to = f(*args, **kwargs)
+                while True:
+                    if isinstance(to, GeneratorType):
+                        stack.append(to)
+                        to = next(to)
+                    else:
+                        stack.pop()
+                        if not stack:
+                            break
+                        to = stack[-1].send(to)
+                return to
+        return wrappedfunc
+
+
+def main(ac=FastIO()):
+    mod = 998244353
+    n, m = ac.read_ints()
+    obstacle = [[0] for _ in range(4)]
+    for _ in range(m):
+        x, y = ac.read_ints()
+        obstacle[x].append(y)
+    for i in range(4):
+        obstacle[i].sort()
+
+    @lru_cache(None)
+    def dfs(i, j, p):
+        cnt = [0, 0, 0]
+        if j > obstacle[i][-1]:
+            cnt[i - 1] = 1
+            return cnt
+
+        while p < len(obstacle[i]) and obstacle[i][p] <= j:
+            p += 1
+        j = obstacle[i][p]
+        dct = []
+        dct.append([1 if i - 1 <= 1 else i - 1, j + 1])
+        dct.append([3 if i + 1 >= 3 else i + 1, j + 1])
+        dct.append([i, j + 2 if j + 2 < n else n])
+
+        for a, b in dct:
+            nex = dfs(a, b, p)
+            for z in range(3):
+                cnt[z] += nex[z]
+                cnt[z] %= mod
+        return cnt
+
+    ans = dfs(1, 1, 0)
+    for a in ans:
+        ac.st(a)
+    return
+
+
+main()"

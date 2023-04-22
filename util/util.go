@@ -56,7 +56,6 @@ var LanguageMap map[string]Interface.CmdInterface = map[string]Interface.CmdInte
 	"Racket":     Handle.NewRacket(),
 	"Ruby":       Handle.NewRuby(),
 	"Rust":       Handle.NewRust(),
-	"Scala":      Handle.NewScala(),
 	"Swift":      Handle.NewSwift(),
 }
 

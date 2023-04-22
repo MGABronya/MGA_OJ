@@ -1,0 +1,4601 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,A,C,55298021,2022-12-16 19:02:52,YiLinG依零,答案错误,"#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include <time.h>
+//using namespace std;
+#define INT_MAX 0x7fffffff
+#define INT_MIN 0x80000000
+#define LL_MAX 0x7fffffffffffffff
+#define LL_MIN 0x8000000000000000
+typedef long long ll;
+typedef const void* pcv;
+typedef int* pint;
+int maxi (int a, int b) {
+	return a > b ? a : b;
+}
+ll maxl (ll a, ll b) {
+	return a > b ? a : b;
+}
+int mini (int a, int b) {
+	return a > b ? b : a;
+}
+int minl (ll a, ll b) {
+	return a > b ? b : a;
+}
+int gcdi(int a, int b) {
+	if (b == 0) return a;
+	return gcdi(b, a % b);
+}
+ll gcdl(ll a, ll b) {
+	if (b == 0) return a;
+	return gcdl(b, a % b);
+}
+int cmpi1(pcv o1, pcv o2) {
+	return *((pint)o1) - *((pint)o2);
+}
+int cmpi2(pcv o1, pcv o2) {
+	return *((pint)o2) - *((pint)o1);
+}
+void sorti(int* arr, int len, int isReverse) {
+	if (!isReverse)qsort(arr + 1, len, sizeof(int), cmpi1);
+	else qsort(arr + 1, len, sizeof(int), cmpi2);
+}
+
+int arr[30]; 
+int n;
+void solve() {
+	scanf(""%d"", &n);
+	for (int i = 0; i < n; i ++) {
+		scanf(""%d"", &arr[i]);
+	}
+	int _min = 0;
+	for (int i = 0; i < n; i ++) {
+		int ans = 0;
+		for (int j = i; j < n; j ++) {
+			ans |= arr[j];
+			_min = mini(_min, ans);
+		}
+	}
+	printf(""%d\n"", _min);
+}
+
+
+int main() {
+	int t;
+//	scanf(""%d"", &t);
+	t = 1;
+	while (t --) {
+		solve();
+	}
+	return 0;
+}"
+1,A,C,55298087,2022-12-16 19:03:16,TZD11111,答案正确,"#include<stdio.h>
+int main(){
+	int n,i,sum=0;
+	int a[1000000];
+	scanf(""%d"",&n);
+	for(i=0;i<n;i++){
+		scanf(""%d"",&a[i]);
+	}
+	sum=a[0];
+		for(i=1;i<n;i++){
+		sum=sum&a[i];
+	}
+	printf(""%d"",sum);
+	return 0;
+}"
+2,A,C(gcc 7.5.0),55298126,2022-12-16 19:03:31,锦麝,答案正确,"#include<stdio.h>
+
+int main(void)
+{
+	int n, i, t;
+	int a[25];
+	scanf(""%d"", &n);
+	for (i = 0; i < n; i++)
+	{
+		scanf(""%d"", &a[i]);
+	}
+	t = a[0];
+	for (i = 1; i < n; i++)
+	{
+		t = t & a[i];
+	}
+	printf(""%d"", t);
+	
+	return 0;
+}"
+3,A,C,55298167,2022-12-16 19:03:48,白日做梦daydream,答案正确,"#include<stdio.h>
+
+int main()
+{
+	int p[20] = { 0 };
+	int a;
+	scanf(""%d"", &a);
+	int i;
+	for (i = 0; i < a; i++)
+	{
+		scanf(""%d"", &p[i]);
+	}
+	int t = p[0];
+	for (i = 1; i < a; i++)
+	{
+		t = t & p[i];
+	}
+	printf(""%d"", t);
+	return 0;
+}"
+4,A,C(gcc 7.5.0),55298266,2022-12-16 19:04:29,12i,答案正确,"#include<stdio.h>
+int main()
+{
+    int a[30],n,i,s;
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+        scanf(""%d"",&a[i]);
+    s=a[0];
+    for(i=1;i<n;i++)
+        s=s&a[i];
+    printf(""%d"",s);
+}"
+5,A,C,55298279,2022-12-16 19:04:33,YiLinG依零,答案正确,"#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include <time.h>
+//using namespace std;
+#define INT_MAX 0x7fffffff
+#define INT_MIN 0x80000000
+#define LL_MAX 0x7fffffffffffffff
+#define LL_MIN 0x8000000000000000
+typedef long long ll;
+typedef const void* pcv;
+typedef int* pint;
+int maxi (int a, int b) {
+	return a > b ? a : b;
+}
+ll maxl (ll a, ll b) {
+	return a > b ? a : b;
+}
+int mini (int a, int b) {
+	return a > b ? b : a;
+}
+int minl (ll a, ll b) {
+	return a > b ? b : a;
+}
+int gcdi(int a, int b) {
+	if (b == 0) return a;
+	return gcdi(b, a % b);
+}
+ll gcdl(ll a, ll b) {
+	if (b == 0) return a;
+	return gcdl(b, a % b);
+}
+int cmpi1(pcv o1, pcv o2) {
+	return *((pint)o1) - *((pint)o2);
+}
+int cmpi2(pcv o1, pcv o2) {
+	return *((pint)o2) - *((pint)o1);
+}
+void sorti(int* arr, int len, int isReverse) {
+	if (!isReverse)qsort(arr + 1, len, sizeof(int), cmpi1);
+	else qsort(arr + 1, len, sizeof(int), cmpi2);
+}
+
+int arr[30]; 
+int n;
+void solve() {
+	scanf(""%d"", &n);
+	for (int i = 0; i < n; i ++) {
+		scanf(""%d"", &arr[i]);
+	}
+	int _min = arr[0];
+	for (int i = 0; i < n; i ++) {
+		int ans = arr[i];
+		for (int j = i; j < n; j ++) {
+			ans &= arr[j];
+			_min = mini(_min, ans);
+		}
+	}
+	printf(""%d\n"", _min);
+}
+
+
+int main() {
+	int t;
+//	scanf(""%d"", &t);
+	t = 1;
+	while (t --) {
+		solve();
+	}
+	return 0;
+}"
+6,A,C,55298419,2022-12-16 19:05:23,牛客656132171号,答案错误,"#include<stdio.h>
+typedef long long ll;
+ll arr[30];
+int main()
+{
+    ll n;
+    scanf(""%lld"",&n);
+    for(int i=0;i<n;i++) scanf(""%lld"",&arr[i]);
+    ll ans=0x3f3f3f;
+    for(int i=0;i<n;i++){
+        ll res=1;
+        for(int j=i;j<n;j++){
+            res&=arr[i];
+            if(ans>res) ans=res;
+        }
+    }  
+    printf(""%lld"",ans);
+    return 0;
+}"
+7,A,C,55298465,2022-12-16 19:05:43,bulis04_zqy,答案正确,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+    char a[1000000];
+    int n;
+    int m,t;
+    scanf(""%d"",&n);scanf(""%d"",&m);t=m,n--;
+    while(n--)
+    {
+        scanf(""%d"",&m);
+        t=t&m;
+    }
+    printf(""%d"",t);
+}"
+8,A,C,55298469,2022-12-16 19:05:44,bulis04_zqy,答案正确,"#include<stdio.h>
+#include<string.h>
+int main()
+{
+    char a[1000000];
+    int n;
+    int m,t;
+    scanf(""%d"",&n);scanf(""%d"",&m);t=m,n--;
+    while(n--)
+    {
+        scanf(""%d"",&m);
+        t=t&m;
+    }
+    printf(""%d"",t);
+}"
+9,A,C(gcc 7.5.0),55298481,2022-12-16 19:05:50,秀儿只爱琪琪,答案错误,"#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include <string.h>
+
+int main()
+{
+    long long arr[21]={0};
+    int n;
+    scanf(""%d"",&n);
+    for(int i=0;i<n;i++)
+    {
+        scanf(""%lld"",&arr[i]);
+    }
+    long long res=0;
+    for(int i=0;i<n;i++)
+    {
+        for(int j=i;j<n;j++)
+        {
+            int num=arr[i];
+            for(int x=i;x<=j;x++)
+            {
+                num=num&arr[x];
+            }
+            if(num<res)
+            {
+                res=num;
+            }
+        }
+    }
+    printf(""%lld"",res);
+    return 0;
+}"
+10,A,C,55298482,2022-12-16 19:05:50,YUYUYUa,答案错误,"#include<stdio.h>
+long long a[1000000];
+int main()
+{
+	int n;
+	scanf(""%d"",&n);
+	for(int i=1;i<=n;i++)
+	{
+		scanf(""%lld"",&a[i]);
+	}
+	printf(""0"");
+	return 0;
+}"
+11,A,C(gcc 7.5.0),55298484,2022-12-16 19:05:51,小飞棒来了~,答案错误,"#include<stdio.h>
+int main()
+{
+    int n;
+    scanf(""%d"",&n);
+    int a[n],flag=1;
+    for(int i=0;i<n;i++){
+        scanf(""%d"",&a[i]);
+    }
+    for(int i=1;i<n;i++){
+        if(a[i]!=a[i-1])
+            flag=0;
+    }
+    if(flag==0)
+        printf(""0"");
+    else
+        printf(""1"");
+    return 0;
+}"
+12,A,C,55298553,2022-12-16 19:06:18,软件2班杨锦林,答案正确,"#include""stdio.h""
+int main()
+{
+    int n,a[20];
+    scanf(""%d"",&n);
+    for(int i=0;i<n;i++)
+        scanf(""%d"",a+i);
+    for(int i=1;i<n;i++)
+        for(int j=0;j<i;j++)
+            a[i]&=a[j];
+    int min=a[0];
+    for(int i=1;i<n;i++)
+        if(a[i]<min)
+            min=a[i];
+    printf(""%d"",min);
+}"
+13,A,C(gcc 7.5.0),55298568,2022-12-16 19:06:25,牛客344675215号,答案正确,"#include<stdio.h>
+int main(){
+	int n;
+	scanf(""%d"",&n);
+	int i,a[100]={0};
+	for(i=0;i<n;i++){
+		scanf(""%d"",&a[i]);
+	}
+	int sum = a[0];
+	for(i=1;i<n;i++){
+		sum &= a[i];
+	}
+	printf(""%d"",sum);
+	return 0;
+}"
+14,A,C,55298576,2022-12-16 19:06:27,小菜鸡111111,答案正确,"#include<stdio.h>
+int main(){
+    int n;
+    scanf(""%d"",&n);
+    int a[n];
+    for(int i=0;i<n;i++) scanf(""%d"",&a[i]);
+    int m=a[0];
+    for(int i=1;i<n;i++){
+        m&=a[i];
+    }
+    printf(""%d"",m);
+}"
+15,A,C,55298605,2022-12-16 19:06:40,22016022103,答案错误,"#include <stdio.h>
+int main()
+{
+	int n, i, j;
+	scanf(""%d"", &n);
+	long a[n], min;
+	for(i=0;i<n;i++)
+		scanf(""%ld"", a+i);
+	min = a[0];
+	for(i=0;i<n;i++)
+	{
+		if(min  > a[i])
+			min = a[i];
+		for(j=i+1;j<n;j++)
+			if( a[i] != a[j] )
+			{
+				printf(""0"");
+				return 0;
+			}
+	}
+		
+	printf(""%ld"", min);
+	return 0;
+}"
+16,A,C,55298615,2022-12-16 19:06:43,求求offer_,答案正确,"#include <stdio.h>
+int main(){
+    int n;
+    scanf(""%d\n"",&n);
+    int a[n];
+    for(int i=0;i<n;i++){
+        scanf(""%d"",&a[i]);
+    }
+    int t=a[0];
+    for(int i=1;i<n;i++){
+        t=t&a[i];
+    }
+    printf(""%d"",t);
+}"
+17,A,C,55298645,2022-12-16 19:06:55,Na2CO3blue,答案错误,"#include <stdio.h>
+
+int main(void)
+{
+    int n, i;
+    scanf(""%d"", &n);
+    int num[n];
+    int ans = 1;
+
+    for (i = 0; i < n; i++) {
+        scanf(""%d"", num + i);
+
+        if (i) {
+            if (num[i] != num[i - 1])
+                ans = 0;
+        }
+    }
+    
+    printf(""%d"", ans);
+
+    return 0;
+}"
+18,A,C,55298728,2022-12-16 19:07:26,YUYUYUa,答案错误,"#include<stdio.h>
+long long a[1000000];
+int main()
+{
+	int n;
+	scanf(""%d"",&n);
+	long long sum=0;
+	for(int i=1;i<=n;i++)
+	{
+		scanf(""%lld"",&a[i]);
+		sum+=a[i];
+	}
+	if(sum%2==0)
+	{
+		printf(""0"");
+	}
+	else
+	{
+		printf(""1"");
+	}
+	return 0;
+}"
+19,A,C,55298748,2022-12-16 19:07:36,牛客656132171号,答案错误,"#include<stdio.h>
+#include<stdint.h>
+typedef long long ll;
+ll arr[30];
+int main()
+{
+    ll n;
+    scanf(""%lld"",&n);
+    for(int i=0;i<n;i++) scanf(""%lld"",&arr[i]);
+    ll ans=0x3f3f3f;
+    for(int i=0;i<n;i++){
+        ll res=1;
+        for(int k=i;k<n;k++){
+            for(int j=k;j<n;j++){
+                res&=arr[i];
+                if(ans>res) ans=res;
+            }
+        }
+    }  
+    printf(""%lld"",ans);
+    return 0;
+}"
+20,A,C,55298773,2022-12-16 19:07:46,daniu66,答案错误,"#include<stdio.h>
+int main()
+{
+    int n,flag=0;
+    scanf(""%d"",&n);
+    int a[n];
+    for(int i=0;i<n-1;i++)
+    {
+        if(a[i]!=a[i+1])
+            flag=1;
+    }
+    if(flag==0)
+        printf(""1"");
+    else 
+        printf(""0"");
+    return 0;
+}"
+21,A,C(gcc 7.5.0),55298805,2022-12-16 19:07:57,李lc,答案错误,"#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+    int i,j,k,b;
+    long long int a[21];
+    scanf(""%d"",&b);
+    for(i=0;i<b;i++)
+        scanf(""%lld"",&a[i]);
+    i=0;j=a[0];
+    for(k=0;k<b;k++)
+    {
+        if(a[k]<i)
+        {
+            i=k;
+        }
+    }
+    printf(""%d"",i);
+}
+"
+22,A,C,55298863,2022-12-16 19:08:21,圈圈.,答案错误,"#include<stdio.h>
+int a[25];
+int main()
+{
+    int n;
+    scanf(""%d"",&n);
+    int maxn=0;
+    for(int i=0;i<n;i++)
+    {
+        scanf(""%d"",&a[i]);
+        if(a[i]>maxn)
+        {
+            maxn=a[i];
+        }
+    }if(maxn==1)
+    {
+        printf(""1"");
+    }else 
+    {
+        printf(""0"");
+    }
+}"
+23,A,C(gcc 7.5.0),55298878,2022-12-16 19:08:28,秀儿只爱琪琪,答案错误,"#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include <string.h>
+
+int main()
+{
+    long long arr[21]={0};
+    int n;
+    scanf(""%d"",&n);
+    for(int i=0;i<n;i++)
+    {
+        scanf(""%lld"",&arr[i]);
+    }
+    long long res=arr[0]&arr[1];
+    for(int i=0;i<n;i++)
+    {
+        for(int j=i;j<n;j++)
+        {
+            int num=arr[i];
+            for(int x=i;x<=j;x++)
+            {
+                num=num&arr[x];
+            }
+            if(num<res)
+            {
+                res=num;
+            }
+        }
+    }
+    printf(""%lld"",res);
+    return 0;
+}
+"
+24,A,C,55298880,2022-12-16 19:08:30,牛客656132171号,答案错误,"#include<stdio.h>
+#include<stdint.h>
+typedef long long ll;
+ll arr[30];
+int main()
+{
+    ll n;
+    scanf(""%lld"",&n);
+    for(int i=0;i<n;i++) scanf(""%lld"",&arr[i]);
+    ll ans=10000000000000;
+    for(int i=0;i<n;i++){
+        ll res=1;
+        for(int k=i;k<n;k++){
+            for(int j=k;j<n;j++){
+                res&=arr[i];
+                if(ans>res) ans=res;
+            }
+        }
+    }  
+    printf(""%lld"",ans);
+    return 0;
+}"
+25,A,C(gcc 7.5.0),55298941,2022-12-16 19:08:55,已转码的奶酪很想潜水,运行超时,"#include<stdio.h>
+int main(){
+    int n,a[n];
+    scanf(""%d"",&n);
+    for(int i=0;i<n;i++) scanf(""%d"",&a[i]);
+    int res=a[0];
+    for(int i=1;i<n;i++){
+        res=res&a[i]<res?res:res&a[i];
+    }
+    printf(""%d"",res);
+    return 0;
+}"
+26,A,C,55298950,2022-12-16 19:08:59,牛客656132171号,答案错误,"#include<stdio.h>
+#include<stdint.h>
+typedef long long ll;
+ll arr[30];
+int main()
+{
+    ll n;
+    scanf(""%lld"",&n);
+    for(int i=0;i<n;i++) scanf(""%lld"",&arr[i]);
+    ll ans=10000000000000;
+    for(int i=0;i<n;i++){
+        for(int k=i;k<n;k++){
+            ll res=1;
+            for(int j=k;j<n;j++){
+                res&=arr[i];
+                if(ans>res) ans=res;
+            }
+        }
+    }  
+    printf(""%lld"",ans);
+    return 0;
+}"
+27,A,C(gcc 7.5.0),55298957,2022-12-16 19:09:00,y112233,答案错误,"#include<stdio.h>
+int main()
+{
+    int a[20];
+    int n,i,sum=0;
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+    {
+        scanf(""%d"",&a[i]);
+    }
+    for(i=0;i<n;i++)
+    {
+        sum=sum&a[i];
+    }
+    printf(""%d"",sum);
+}"
+28,A,C,55298965,2022-12-16 19:09:02,破网名,答案错误,"#include<stdio.h>
+int main()
+{
+    long long int a[30];
+    int n;
+    int i;
+    int count=0;
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+        scanf(""%lld"",&a[i]);
+    for(i=0;i<n;i++)
+        if(a[i]!=1)
+            count++;
+        if(count==0)
+            printf(""1"");
+    else 
+        printf(""0"");
+              
+    return 0;
+}"
+29,A,C,55299011,2022-12-16 19:09:23,22016022103,答案错误,"#include <stdio.h>
+int main()
+{
+	int n, i, j;
+	scanf(""%d"", &n);
+	long a[n], min;
+	for(i=0;i<n;i++)
+		scanf(""%ld"", a+i);
+				printf(""0"");
+	return 0;
+}"
+30,A,C,55299162,2022-12-16 19:10:23,品物皆是春,答案错误,"#include <stdio.h>
+int a[25];
+int main() {
+    int n,i,sum = 0,s = 0;
+    scanf (""%d"",&n);
+    for (i = 0;i<n;i++)
+        scanf (""%d"",&a[i]);
+    for (i = 0;i<n-2;i++) {
+        s = a[i]&a[i+1];
+       sum = s&a[i+2];
+    }
+    printf (""%d"",sum);
+    return 0;
+}"
+31,A,C,55299183,2022-12-16 19:10:29,圈圈.,答案错误,"#include<stdio.h>
+int a[25];
+int main()
+{
+    int n;
+    scanf(""%d"",&n);
+    for(int i=0;i<n;i++)
+    {
+        scanf(""%d"",&a[i]);  
+    }
+    
+        printf(""0"");
+    
+}"
+32,A,C(gcc 7.5.0),55299387,2022-12-16 19:12:10,李lc,答案错误,"#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+    int i,j,k,b;
+    long long int a[21];
+    scanf(""%d"",&b);
+    for(i=0;i<b;i++)
+        scanf(""%lld"",&a[i]);
+    i=0;j=a[0];
+    for(k=0;k<b;k++)
+    {
+        if(a[k]<j&&a[k]!=0)
+        {
+            i=k;
+        }
+    }
+    printf(""%d"",i);
+}
+"
+33,A,C,55299393,2022-12-16 19:12:11,牛客656132171号,答案错误,"#include<stdio.h>
+#include<stdint.h>
+typedef long long ll;
+ll arr[30];
+int n;
+ll ans=10000000000000;
+
+void dfs(int begin,int res)
+{
+    if(begin==n) return;
+    if(res&arr[begin]<ans) ans=res&arr[begin];
+    dfs(begin+1,res);
+    dfs(begin+1,res+arr[begin]);
+}
+
+int main()
+{
+    scanf(""%d"",&n);
+    for(int i=0;i<n;i++) scanf(""%lld"",&arr[i]);
+    dfs(0,0);
+//     for(int i=0;i<n;i++){
+//         for(int k=i;k<n;k++){
+//             ll res=1;
+//             for(int j=k;j<n;j++){
+//                 res&=arr[i];
+//                 if(ans>res) ans=res;
+//             }
+//         }
+//     }  
+    printf(""%lld"",ans);
+    return 0;
+}"
+34,A,C(gcc 7.5.0),55299398,2022-12-16 19:12:12,小飞棒来了~,答案错误,"#include<stdio.h>
+int main()
+{
+    int n;
+    scanf(""%d"",&n);
+    int a[n];
+    for(int i=0;i<n;i++){
+        scanf(""%d"",&a[i]);
+    }
+    int min=a[0]&a[1];
+    for(int i=2;i<n;i++){
+        if((a[i]&a[i-1])<min)
+            min=a[i]&a[i-1];
+    }
+        printf(""%d"",min);
+    return 0;
+}"
+35,A,C(gcc 7.5.0),55299399,2022-12-16 19:12:13,秀儿只爱琪琪,答案错误,"#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include <string.h>
+
+int main()
+{
+    long long arr[21]={0};
+    int n;
+    scanf(""%d"",&n);
+    for(int i=0;i<n;i++)
+    {
+        scanf(""%lld"",&arr[i]);
+    }
+    long long res=arr[0]&arr[1];
+    for(int i=0;i<n;i++)
+    {
+        for(int j=i+1;j<n;j++)
+        {
+            int num=arr[i];
+            for(int x=i;x<=j;x++)
+            {
+                num=num&arr[x];
+            }
+            if(num<res)
+            {
+                res=num;
+            }
+        }
+    }
+    printf(""%lld"",res);
+    return 0;
+}
+"
+36,A,C,55299458,2022-12-16 19:12:35,牛客656132171号,答案错误,"#include<stdio.h>
+#include<stdint.h>
+typedef long long ll;
+ll arr[30];
+int n;
+ll ans=10000000000000;
+
+void dfs(int begin,int res)
+{
+    if(begin==n) return;
+    if((res&arr[begin])<ans) ans=res&arr[begin];
+    dfs(begin+1,res);
+    dfs(begin+1,res+arr[begin]);
+}
+
+int main()
+{
+    scanf(""%d"",&n);
+    for(int i=0;i<n;i++) scanf(""%lld"",&arr[i]);
+    dfs(0,0);
+//     for(int i=0;i<n;i++){
+//         for(int k=i;k<n;k++){
+//             ll res=1;
+//             for(int j=k;j<n;j++){
+//                 res&=arr[i];
+//                 if(ans>res) ans=res;
+//             }
+//         }
+//     }  
+    printf(""%lld"",ans);
+    return 0;
+}"
+37,A,C(gcc 7.5.0),55299464,2022-12-16 19:12:38,李lc,答案错误,"#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+    int i,j,k,b;
+    long long int a[21];
+    scanf(""%d"",&b);
+    for(i=0;i<b;i++)
+        scanf(""%lld"",&a[i]);
+    i=0;j=a[0];
+    for(k=0;k<b;k++)
+    {
+        if(a[k]<j&&a[k]!=0)
+        {
+            i=k;
+            j=a[k];
+        }
+    }
+    printf(""%d"",i);
+}
+"
+38,A,C,55299474,2022-12-16 19:12:44,kindred_,答案错误,"#include <stdio.h>
+int main()
+{
+    int n,a[30];
+    scanf(""%d"",&n);
+    for(int i=0;i<n;i++)
+        scanf(""%d"",&a[i]);
+    int z;
+    z=a[0]&a[1];
+    for(int i=1;i<n;i++)
+    {
+        if((a[i]&a[i+1])<z)
+            z=a[i]&a[i+1];
+    }
+    printf(""%d"",z);
+    return 0;
+}"
+39,A,C(gcc 7.5.0),55299478,2022-12-16 19:12:46,小潘～,答案错误,"#include<stdio.h>
+int main()
+{
+    int i,j,n,a[20],b[1001],min=1000000000;
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+        scanf(""%d"",&a[i]);
+    for(i=0;i<n;i++)
+        for(j=i+1;j<n;j++)
+            b[i]=a[i]&a[j];
+    for(j=0;j<i;j++)
+        if(min>b[j])
+            min=b[j];
+    printf(""%d"",min);
+}"
+40,A,C(gcc 7.5.0),55299520,2022-12-16 19:13:01,已转码的奶酪很想潜水,答案错误,"#include<stdio.h>
+int main(){
+    long long n;
+    scanf(""%lld"",&n);
+    long long a[n];
+    for(int i=0;i<n;i++) scanf(""%lld"",&a[i]);
+    long long res=a[0];
+    for(int i=1;i<n;i++){
+        res=res&a[i]<res?res:res&a[i];
+    }
+    printf(""%lld"",res);
+    return 0;
+}"
+41,A,C,55299540,2022-12-16 19:13:08,2022116030,答案错误,"#include<stdio.h>
+int  main(){
+    int n,con=0;
+    scanf(""%d"",&n);
+    int a[n];
+    for(int i=0;i<n;i++)
+        scanf(""%d"",&a[i]);
+    for(int k=0;k<n-1;k++){
+        if(a[k]%2==0&&a[k+1]%2==0)
+            con=1;
+    }
+   
+    if(con==1)
+        printf(""1"");
+    else
+        printf(""0"");
+    return  0;
+        
+    
+    
+}"
+42,A,C,55299561,2022-12-16 19:13:15,22016022103,答案错误,"#include <stdio.h>
+int main()
+{
+	int n, i, j;
+	scanf(""%d"", &n);
+	long long a[n], min;
+	for(i=0;i<n;i++)
+		scanf(""%lld"", &a[i]);
+    printf(""0"");
+	return 0;
+}"
+43,A,C(gcc 7.5.0),55299668,2022-12-16 19:14:01,小潘～,答案错误,"#include<stdio.h>
+int main()
+{
+    int i,j,n,a[20],b[1001],min=1000000000;
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+        scanf(""%d"",&a[i]);
+    for(i=0;i<n;i++)
+        for(j=i+1;j<n;j++)
+            b[i]=a[i]&a[j];
+    for(j=0;j<i;j++)
+        if(min>b[j])
+            min=b[j];
+    printf(""%d"",min);
+}"
+44,A,C,55299685,2022-12-16 19:14:07,22016022103,答案错误,"#include <stdio.h>
+int main()
+{
+	int n, i, j;
+	scanf(""%d"", &n);
+	long long a[n], min;
+	for(i=0;i<n;i++)
+		scanf(""%lld"", &a[i]);
+    if(n % 2 == 0)
+        printf(""0"");
+    else
+        printf(""1"");
+	return 0;
+}"
+45,A,C(gcc 7.5.0),55299713,2022-12-16 19:14:19,LLLiuga,答案错误,"#include<stdio.h>
+int solve( int a[], int n );
+int main()
+{
+    int n, i;
+    scanf(""%d"", &n);
+    int a[n];
+    for ( i=0; i<n; i++) {
+        scanf(""%d"", &a[i]);
+    }
+    int Min;
+    Min = solve( a, n );
+    printf(""%d"", Min);
+    return 0;
+}
+int solve( int a[], int n )
+{
+    int i, j;
+    int Thissum, Minsum = 0;
+    for ( i=0; i<n; i++) {
+        Thissum = a[i];
+        for( j=i; j<n; j++) {
+            Thissum = Thissum & a[j];
+            if( Thissum < Minsum ) {
+                Minsum = Thissum;
+            }
+        }
+    }
+    return Minsum;
+}"
+46,A,C(gcc 7.5.0),55299746,2022-12-16 19:14:40,已转码的奶酪很想潜水,答案错误,"#include<stdio.h>
+int main(){
+    int n;
+    scanf(""%d"",&n);
+    long long a[n];
+    for(int i=0;i<n;i++) scanf(""%lld"",&a[i]);
+    long long res=a[0];
+    for(int i=1;i<n;i++){
+        res=res&a[i]<=res?res:res&a[i];
+    }
+    printf(""%lld"",res);
+    return 0;
+}"
+47,A,C(gcc 7.5.0),55299764,2022-12-16 19:14:49,BeginningoftheStory,答案错误,"#include <stdio.h>
+int main()
+{
+    int n,i;
+    int mark=1;
+    long long a[20];
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+    {
+        scanf(""%d"",&a[i]);
+        if(a[i]!=1)
+            mark=0;
+    }
+    printf(""%d"",mark);
+}"
+48,A,C,55299792,2022-12-16 19:14:58,圈圈.,答案错误,"#include<stdio.h>
+int a[25];
+int main()
+{
+    int n;
+    scanf(""%d"",&n);
+    int ans=0;
+    for(int i=0;i<n;i++)
+    {
+        scanf(""%d"",&a[i]);  
+        ans&=a[i];
+    }
+        printf(""%d"",ans);
+    
+}"
+49,A,C,55299821,2022-12-16 19:15:14,圈圈.,答案错误,"#include<stdio.h>
+int a[25];
+int main()
+{
+    int n;
+    scanf(""%d"",&n);
+    int ans=1;
+    for(int i=0;i<n;i++)
+    {
+        scanf(""%d"",&a[i]);  
+        ans&=a[i];
+    }
+        printf(""%d"",ans);
+    
+}"
+50,A,C,55299822,2022-12-16 19:15:15,牛客915095986号,答案错误,"#include<stdio.h>
+int main(){
+    int a,b[21]={},c;
+    scanf(""%d"",&a);
+    scanf(""%d"",&c);
+    for(int i=0;i<a-1;i++){
+        scanf(""%d"",&b[1]);
+        c=c&b[i];
+    }
+    printf(""%d"",c);
+    return 0;
+}"
+51,A,C,55299907,2022-12-16 19:15:51,牛客656132171号,答案错误,"#include<stdio.h>
+#include<stdint.h>
+typedef long long ll;
+ll arr[30];
+int n;
+ll ans=10000000000000;
+
+void dfs(int begin,int res)
+{
+    if(begin==n+1) return;
+    if((res&arr[begin])<ans) ans=res&arr[begin];
+    dfs(begin+1,res);
+    dfs(begin+1,res+arr[begin]);
+}
+
+int main()
+{
+    scanf(""%d"",&n);
+    for(int i=1;i<=n;i++) scanf(""%lld"",&arr[i]);
+    dfs(1,0);
+    dfs(1,arr[1]);
+//     for(int i=0;i<n;i++){
+//         for(int k=i;k<n;k++){
+//             ll res=1;
+//             for(int j=k;j<n;j++){
+//                 res&=arr[i];
+//                 if(ans>res) ans=res;
+//             }
+//         }
+//     }  
+    printf(""%lld"",ans);
+    return 0;
+}"
+52,A,C(gcc 7.5.0),55299928,2022-12-16 19:15:56,LLLiuga,答案错误,"#include<stdio.h>
+int solve( int a[], int n );
+int main()
+{
+    int n, i;
+    scanf(""%d"", &n);
+    int a[n];
+    for ( i=0; i<n; i++) {
+        scanf(""%d"", &a[i]);
+    }
+    int Min;
+    Min = solve( a, n );
+    printf(""%d"", Min);
+    return 0;
+}
+int solve( int a[], int n )
+{
+    int i, j;
+    int Thissum, Minsum = 1000;
+    for ( i=0; i<n; i++) {
+        Thissum = a[i];
+        for( j=i; j<n; j++) {
+            Thissum = Thissum & a[j];
+            if( Thissum < Minsum ) {
+                Minsum = Thissum;
+            }
+        }
+    }
+    return Minsum;
+}"
+53,A,C(gcc 7.5.0),55299961,2022-12-16 19:16:08,已转码的奶酪很想潜水,答案正确,"#include<stdio.h>
+int main(){
+    int n;
+    scanf(""%d"",&n);
+    long long a[n];
+    for(int i=0;i<n;i++) scanf(""%lld"",&a[i]);
+    long long res=a[0];
+    for(int i=1;i<n;i++){
+        long long k=res&a[i];
+        if(k<res) res=k;
+    }
+    printf(""%lld"",res);
+    return 0;
+}"
+54,A,C,55299977,2022-12-16 19:16:17,我想要两颗西柚o,答案错误,"#include <stdio.h>
+int main()
+{
+    int n,a[10086];
+    int b;
+    scanf(""%d"",&n);
+    for(int i=0;i<n;i++)
+    {
+        scanf(""%d"",&a[i]);
+    }
+    for(int i=0;i<n;i++)
+    {
+        if(a[i]!=0)
+        {
+            a[i]=0;
+        }
+    }
+    for(int i=0;i<n-1;i++)
+    {
+        if(a[i]==a[i+1]==1)
+        {
+            b=1;
+        }
+        else
+        {
+            b=0;
+        }
+    }
+    printf(""%d"",b);
+    return 0;
+}"
+55,A,C(gcc 7.5.0),55300097,2022-12-16 19:17:13,LLLiuga,答案错误,"#include<stdio.h>
+int solve( int a[], int n );
+int main()
+{
+    int n, i;
+    scanf(""%d"", &n);
+    int a[n];
+    for ( i=0; i<n; i++) {
+        scanf(""%d"", &a[i]);
+    }
+    int Min;
+    Min = solve( a, n );
+    printf(""%d"", Min);
+    return 0;
+}
+int solve( int a[], int n )
+{
+    int i, j;
+    int Thissum, Minsum = 1000;
+    for ( i=0; i<n; i++) {
+        Thissum = a[i];
+        for( j=i; j<n; j++) {
+            Thissum = Thissum & a[j];
+            if( Thissum < Minsum ) {
+                Minsum = Thissum;
+            }
+        }
+    }
+    return Minsum;
+}"
+56,A,C(gcc 7.5.0),55300254,2022-12-16 19:18:20,李lc,答案错误,"#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+    int i,j,k,b;
+    int a[21];
+    scanf(""%d"",&b);
+    for(i=0;i<b;i++)
+        scanf(""%d"",&a[i]);
+    i=0;j=a[0];
+    for(k=0;k<b;k++)
+    {
+        if(a[k]<j)
+        {
+            i=k;
+            j=a[k];
+        }
+    }
+    printf(""%d"",i);
+}
+"
+57,A,C,55300270,2022-12-16 19:18:27,牛客915095986号,答案错误,"#include<stdio.h>
+int main(){
+    int a;
+    long long int b[21]={},c;
+    scanf(""%d"",&a);
+    scanf(""%lld"",&c);
+    for(int i=1;i<a-1;i++){
+        scanf(""%lld"",&b[1]);
+        c=c&b[i];
+    }
+    printf(""%lld"",c);
+    return 0;
+}"
+58,A,C,55300328,2022-12-16 19:18:51,kindred_,答案错误,"#include <stdio.h>
+int main()
+{
+    int n,a[30];
+    scanf(""%d"",&n);
+    for(int i=0;i<n;i++)
+        scanf(""%d"",&a[i]);
+    int z;
+    z=a[0]&a[1];
+    for(int i=1;i<n-1;i++)
+    {
+        if((a[i]&a[i+1])<z)
+            z=a[i]&a[i+1];
+    }
+    printf(""%d"",z);
+    return 0;
+}"
+59,A,C,55300346,2022-12-16 19:18:59,圈圈.,答案正确,"#include<stdio.h>
+int a[25];
+int main()
+{
+    int n;
+    scanf(""%d"",&n);
+    for(int i=0;i<n;i++)
+    {
+        scanf(""%d"",&a[i]);  
+    }    
+    int ans=a[0];
+    if(n==1)
+    {
+        printf(""%d"",a[0]);
+    }
+    else 
+    {
+        for(int i=1;i<n;i++)
+        {
+            ans&=a[i];
+        }printf(""%d"",ans);
+    }
+
+        
+    
+}"
+60,A,C,55300530,2022-12-16 19:20:18,付龙桑,答案正确,"#include<stdio.h>
+
+int main(void){
+    int n ; 
+    scanf(""%d"",&n);
+    unsigned t ;
+    unsigned int ans = 0xffffffff; 
+    while(n){
+        scanf(""%d"",&t);
+        if( (ans&t) < ans) 
+            ans&= t ;
+        n--;
+    }
+    printf(""%d"", ans);
+    return 0 ;
+}"
+61,A,C(gcc 7.5.0),55300569,2022-12-16 19:20:35,李lc,答案错误,"#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+    int i,j,k,b;
+    int a[21];
+    scanf(""%d"",&b);
+    for(i=0;i<b;i++)
+        scanf(""%d"",&a[i]);
+    i=0;j=a[0];
+    for(k=0;k<b;k++)
+    {
+        if(a[k]<j)
+        {
+            i=k;
+            j=a[k];
+        }
+    }
+    printf(""%d"",a[k]);
+}
+"
+62,A,C(gcc 7.5.0),55300570,2022-12-16 19:20:36,LLLiuga,答案正确,"#include<stdio.h>
+int solve( int a[], int n );
+int main()
+{
+    int n, i;
+    scanf(""%d"", &n);
+    int a[n];
+    for ( i=0; i<n; i++) {
+        scanf(""%d"", &a[i]);
+    }
+    int Min;
+    Min = solve( a, n );
+    printf(""%d"", Min);
+    return 0;
+}
+int solve( int a[], int n )
+{
+    int i, j;
+    int Thissum, Minsum=a[0];
+    for ( i=0; i<n; i++) {
+        Thissum = a[i];
+        for( j=i; j<n; j++) {
+            if( Thissum < Minsum ) {
+                Minsum = Thissum;
+            }
+            Thissum = Thissum & a[j];
+            if( Thissum < Minsum ) {
+                Minsum = Thissum;
+            }
+        }
+    }
+    return Minsum;
+}"
+63,A,C,55300765,2022-12-16 19:22:13,22045134,答案错误,"#include<stdio.h>
+int main()
+{
+	int n,t=1;
+	int a[1005];
+	scanf(""%d"",&n);
+	for(int i=0;i<n;i++)
+	{
+	scanf(""%d"",&a[i]);
+	t=t&a[i];
+    }
+    printf(""%d"",t);
+    return 0;
+ } "
+64,A,C,55300828,2022-12-16 19:22:38,牛客656132171号,答案错误,"#include<stdio.h>
+#include<stdint.h>
+typedef long long ll;
+ll arr[30];
+int n;
+ll ans=10000000000000;
+
+void dfs(int begin,long res)
+{
+    if((res&arr[begin])<ans) ans=res&arr[begin];
+    if(begin==n+1) return;
+    dfs(begin+1,res);
+    dfs(begin+1,res+arr[begin]);
+}
+
+int main()
+{
+    scanf(""%d"",&n);
+    for(int i=1;i<=n;i++) scanf(""%lld"",&arr[i]);
+    dfs(3,arr[1]);
+    dfs(3,11111111111111111);
+//     for(int i=0;i<n;i++){
+//         for(int k=i;k<n;k++){
+//             ll res=1;
+//             for(int j=k;j<n;j++){
+//                 res&=arr[i];
+//                 if(ans>res) ans=res;
+//             }
+//         }
+//     }  
+    printf(""%lld"",ans);
+    return 0;
+}"
+65,A,C,55300831,2022-12-16 19:22:40,22045134,答案错误,"#include<stdio.h>
+int main()
+{
+	int n,t=1;
+	int a[10005];
+	scanf(""%d"",&n);
+	for(int i=0;i<n;i++)
+	{
+	scanf(""%d"",&a[i]);
+	t=t&a[i];
+    }
+    printf(""%d"",t);
+    return 0;
+ } "
+66,A,C(gcc 7.5.0),55300861,2022-12-16 19:22:56,小潘～,答案错误,"#include<stdio.h>
+#include<stdlib.h>
+int main()
+{
+    int i,j,n,a[20],b[1001],min=1000000000;
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+        scanf(""%d"",&a[i]);
+    for(i=0;i<n;i++)
+        for(j=i+1;j<n;j++)
+            b[i]=a[i]&a[j];
+    for(j=0;j<i;j++)
+        if(min>b[j])
+            min=b[j];
+    printf(""%d"",min);
+}"
+67,A,C,55300907,2022-12-16 19:23:17,羽卿,答案正确,"#include<stdio.h>
+int main()
+{
+    int n,a[20], b[20];
+    scanf(""%d"", &n);
+    for (int i = 0; i < n; i++)
+    {
+        scanf(""%d"", &a[i]);
+    }
+    b[0] = a[0];
+    for (int i = 1; i < n + 1; i++)
+    {
+        b[i] = b[i - 1] & a[i];
+    }
+    int min = b[0];
+    for (int i = 0; i < n; i++)
+    {
+        if (min > b[i])
+            min = b[i];
+    }
+    printf(""%d"", min);
+    return 0;
+}"
+68,A,C,55300913,2022-12-16 19:23:23,济南大学_刘峰旭,段错误,"#include <stdio.h>
+int main()
+{
+    long long int a[20],sum[20];
+    int n,i,j,t=0,min;
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+    {
+        scanf(""%d"",&a[i]);
+    }
+    for(i=0;i<n-1;i++)
+    {
+        for(j=i+1;j<n;j++)
+        {
+            sum[t++]=a[i]+a[j];
+        }
+    }
+    min=sum[0];
+    for(i=0;i<t;i++)
+    {
+        if(sum[i]%2==0)
+        {
+            printf(""0"");
+            return 0;
+        }
+        if(sum[i]<min)
+        {
+            min=sum[i];
+        }
+    }
+    printf(""%d"",min);
+    return 0;
+}"
+69,A,C,55300920,2022-12-16 19:23:27,22045134,答案错误,"#include<stdio.h>
+int main()
+{
+	int n,t=1;
+	int a[10005];
+	scanf(""%d"",&n);
+	for(int i=0;i<n;i++)
+	{
+	scanf(""%d"",&a[i]);
+	t=t&a[i];
+    }
+    printf(""%d"",t);
+    return 0;
+ } "
+70,A,C(gcc 7.5.0),55300942,2022-12-16 19:23:35,牛客892685711号,答案错误,"#include<stdio.h>
+int main()
+{
+    int n,i,j;
+    scanf(""%d"",&n);
+    int a[n],b[n];
+    for(i=0; i<n; i++)
+        scanf(""%d"",&a[i]);
+    for(i=0; i<n-1; i++){
+         b[i]=a[i]&a[i+1];
+        for(j=i+2;j<n; j++){
+          
+            b[i]=b[i]&a[j];
+        }
+    }
+    int index=0;
+    for(i=0;i<n-1;i++){
+        if(b[index]>b[i])
+            index=i;
+    }
+    printf(""%d"",b[index]);
+    return 0;
+}"
+71,A,C,55300967,2022-12-16 19:23:45,牛客656132171号,答案错误,"#include<stdio.h>
+#include<stdint.h>
+typedef long long ll;
+ll arr[30];
+int n;
+ll ans=10000000000000;
+
+void dfs(int begin,long res)
+{
+    if(res<ans) ans=res;
+    if(begin==n+1) return;
+    dfs(begin+1,res);
+    dfs(begin+1,res&arr[begin]);
+}
+
+int main()
+{
+    scanf(""%d"",&n);
+    for(int i=1;i<=n;i++) scanf(""%lld"",&arr[i]);
+    dfs(3,arr[1]);
+    dfs(3,11111111111111111);
+//     for(int i=0;i<n;i++){
+//         for(int k=i;k<n;k++){
+//             ll res=1;
+//             for(int j=k;j<n;j++){
+//                 res&=arr[i];
+//                 if(ans>res) ans=res;
+//             }
+//         }
+//     }  
+    printf(""%lld"",ans);
+    return 0;
+}"
+72,A,C,55300978,2022-12-16 19:23:52,济南大学_刘峰旭,答案错误,"#include <stdio.h>
+int main()
+{
+    long long int a[20],sum[200];
+    int n,i,j,t=0,min;
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+    {
+        scanf(""%d"",&a[i]);
+    }
+    for(i=0;i<n-1;i++)
+    {
+        for(j=i+1;j<n;j++)
+        {
+            sum[t++]=a[i]+a[j];
+        }
+    }
+    min=sum[0];
+    for(i=0;i<t;i++)
+    {
+        if(sum[i]%2==0)
+        {
+            printf(""0"");
+            return 0;
+        }
+        if(sum[i]<min)
+        {
+            min=sum[i];
+        }
+    }
+    printf(""%d"",min);
+    return 0;
+}"
+73,A,C,55301013,2022-12-16 19:24:07,Hirrogachi,答案错误,"#include <stdio.h>
+
+int main(){
+	int n;
+	scanf(""%d"",&n);
+	long long a[n];
+	for(int i=0;i<n;i++){
+		scanf(""%lld"",&a[i]);
+	}
+	int max=1;
+	for(int i=0;i<n;i++){
+		if(a[i]!=1){
+			max=0;
+			break;
+		}
+	}
+	printf(""%d"",max);
+	return 0;
+}"
+74,A,C,55301127,2022-12-16 19:24:57,牛客656132171号,答案错误,"#include<stdio.h>
+#include<stdint.h>
+typedef long long ll;
+ll arr[30];
+int n;
+ll ans=10000000000000;
+
+void dfs(int begin,long res)
+{
+    if(res<ans) ans=res;
+    if(begin==n+1) return;
+    dfs(begin+1,res);
+    dfs(begin+1,res&arr[begin]);
+}
+
+int main()
+{
+    scanf(""%d"",&n);
+    for(int i=1;i<=n;i++) scanf(""%lld"",&arr[i]);
+    dfs(2,arr[1]);
+    dfs(2,11111111111111111);
+//     for(int i=0;i<n;i++){
+//         for(int k=i;k<n;k++){
+//             ll res=1;
+//             for(int j=k;j<n;j++){
+//                 res&=arr[i];
+//                 if(ans>res) ans=res;
+//             }
+//         }
+//     }  
+    printf(""%lld"",ans);
+    return 0;
+}"
+75,A,C,55301233,2022-12-16 19:25:53,牛客915095986号,答案正确,"#include<stdio.h>
+int main(){
+    int a;
+    int b,c,z;
+    scanf(""%d"",&a);
+    scanf(""%d"",&c);
+    for(int i=0;i<a-1;i++){
+        scanf(""%d"",&b);
+        c=c&b;
+    }
+    printf(""%d"",c);
+    return 0;
+}"
+76,A,C(gcc 7.5.0),55301254,2022-12-16 19:26:03,小潘～,答案错误,"#include<stdio.h>
+#include<stdlib.h>
+int main()
+{
+    int i,j,n,a[20],b[1001],min=1000000000;
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+        scanf(""%d"",&a[i]);
+    for(i=0;i<n;i++)
+        for(j=i+1;j<n;j++)
+        {
+            b[i]=a[i]&a[j];
+            a[i]=b[i];
+        }
+    for(j=0;j<i;j++)
+        if(min>b[j])
+            min=b[j];
+    printf(""%d"",min);
+}"
+77,A,C,55301303,2022-12-16 19:26:27,牛客656132171号,答案错误,"#include<stdio.h>
+#include<stdint.h>
+typedef long long ll;
+ll arr[30];
+int n;
+ll ans=10000000000000;
+
+void dfs(int begin,long res)
+{
+    if(res!=11111111111111111&&res<ans) ans=res;
+    if(begin==n+1) return;
+    dfs(begin+1,res);
+    dfs(begin+1,res&arr[begin]);
+}
+
+int main()
+{
+    scanf(""%d"",&n);
+    for(int i=1;i<=n;i++) scanf(""%lld"",&arr[i]);
+    dfs(2,arr[1]);
+    dfs(2,11111111111111111);
+//     for(int i=0;i<n;i++){
+//         for(int k=i;k<n;k++){
+//             ll res=1;
+//             for(int j=k;j<n;j++){
+//                 res&=arr[i];
+//                 if(ans>res) ans=res;
+//             }
+//         }
+//     }  
+    printf(""%lld"",ans);
+    return 0;
+}"
+78,A,C(gcc 7.5.0),55301316,2022-12-16 19:26:34,啊??a,答案错误,"#include<stdio.h>
+int main()
+{
+    int n,i,j,a[25];
+    scanf(""%d"",&n);
+    for(i=0;i<=n-1;i++)
+        scanf(""%d"",&a[i]);
+    int min=0,x,y,z;
+    for(i=0;i<n-1;i++)
+    {
+        for(j=i+1;j<=n-1;j++)
+        {
+            if(j==i+1)
+                x=a[i]&a[j];
+            else
+            x=x&a[j];
+            if(min>=x)
+                min=x;
+        }
+    }
+    printf(""%d"",min);
+    return 0;
+}"
+79,A,C(gcc 7.5.0),55301328,2022-12-16 19:26:41,叶ihy,答案正确,"#include<stdio.h>
+int main()
+{
+    long long int m,n,i,a[21],z;
+    scanf(""%lld"",&n);
+    for(i=0;i<n;i++)
+     scanf(""%lld"",&a[i]);
+    for(i=0;i<n;i++)
+    {
+        if(i==0)
+            z=a[i];
+        else
+            z=z&a[i];
+    }
+    printf(""%lld"",z);
+    return 0;
+}"
+80,A,C(gcc 7.5.0),55301462,2022-12-16 19:27:47,啊??a,答案错误,"#include<stdio.h>
+int main()
+{
+    int n,i,j,a[25];
+    scanf(""%d"",&n);
+    for(i=0;i<=n-1;i++)
+        scanf(""%d"",&a[i]);
+    int min=1e18,x,y,z;
+    for(i=0;i<n-1;i++)
+    {
+        for(j=i+1;j<=n-1;j++)
+        {
+            if(j==i+1)
+                x=a[i]&a[j];
+            else
+            x=x&a[j];
+            if(min>=x)
+                min=x;
+        }
+    }
+    printf(""%d"",min);
+    return 0;
+}"
+81,A,C,55301481,2022-12-16 19:27:55,陌上素尘,答案错误,"#include <stdio.h>
+#include <math.h>
+
+int main(void)
+{
+    int n;
+    int min,temp;
+    do
+    {
+        scanf(""%d"",&n);
+    }while(!(n>=1&&n<=20));
+    
+    int a[n];
+    
+    for(int i=0;i<n;i++)
+    {
+        do
+        {
+            scanf(""%d"",&a[i]);
+        }while(!(a[i]>=1&&a[i]<=pow(10,9)));
+    }
+    
+    for(int i=0;i<n-1;i++)
+    {
+        if(a[i]==a[i+1]) temp=a[i];
+        else temp=0;
+        if(i==0) min=temp;
+        else if(min>temp) min=temp;
+    }
+    
+    printf(""%d"",min);
+    return 0;
+}"
+82,A,C(gcc 7.5.0),55301517,2022-12-16 19:28:10,秀儿只爱琪琪,答案正确,"#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include <string.h>
+
+int main()
+{
+    long long arr[21]={0};
+    int n;
+    scanf(""%d"",&n);
+    for(int i=0;i<n;i++)
+    {
+        scanf(""%lld"",&arr[i]);
+    }
+    long long res=arr[0]&arr[0];
+    for(int i=0;i<n;i++)
+    {
+        for(int j=i;j<n;j++)
+        {
+            int num=arr[i];
+            for(int x=i;x<=j;x++)
+            {
+                num=num&arr[x];
+            }
+            if(num<res)
+            {
+                res=num;
+            }
+        }
+    }
+    printf(""%lld"",res);
+    return 0;
+}
+"
+83,A,C,55301533,2022-12-16 19:28:16,22016022103,答案错误,"#include <stdio.h>
+int main()
+{
+	int n, i;
+	scanf(""%d"", &n);
+	long long a[n];
+	for(i=0;i<n;i++)
+		scanf(""%lld"", a+i);
+	for(i=0;i<n;i++)
+	{
+		if( a[i] % 2 ==0 )
+		{
+			printf(""0"");
+			return 0;
+		}
+	}
+	printf(""1"");
+	return 0;
+}"
+84,A,C(gcc 7.5.0),55301562,2022-12-16 19:28:30,啊??a,答案错误,"#include<stdio.h>
+int main()
+{
+    int n,i,j,a[25];
+    scanf(""%d"",&n);
+    for(i=0;i<=n-1;i++)
+        scanf(""%d"",&a[i]);
+    int min=1e18,x,y,z;
+    for(i=0;i<=n-1;i++)
+    {
+        for(j=i;j<=n-1;j++)
+        {
+            if(j==i+1)
+                x=a[i]&a[j];
+            else
+            x=x&a[j];
+            if(min>=x)
+                min=x;
+        }
+    }
+    printf(""%d"",min);
+    return 0;
+}"
+85,A,C(gcc 7.5.0),55301564,2022-12-16 19:28:30,小潘～,答案错误,"#include<stdio.h>
+#include<stdlib.h>
+int main()
+{
+    int i,j,n,a[20],b[1001],min=1000000000;
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+        scanf(""%d"",&a[i]);
+    for(i=0;i<n;i++)
+        for(j=i+1;j<n;j++)
+        {
+            b[i]=a[i]&a[j];
+            a[i+1]=b[i];
+        }
+    for(j=0;j<i;j++)
+        if(min>b[j])
+            min=b[j];
+    printf(""%d"",min);
+}"
+86,A,C(gcc 7.5.0),55301600,2022-12-16 19:28:48,小潘～,答案错误,"#include<stdio.h>
+#include<stdlib.h>
+int main()
+{
+    int i,j,n,a[20],b[1001],min=1000000000;
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+        scanf(""%d"",&a[i]);
+    for(i=0;i<n-1;i++)
+        for(j=i+1;j<n;j++)
+        {
+            b[i]=a[i]&a[j];
+            a[i+1]=b[i];
+        }
+    for(j=0;j<i;j++)
+        if(min>b[j])
+            min=b[j];
+    printf(""%d"",min);
+}"
+87,A,C,55301644,2022-12-16 19:29:09,PRTS,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c:2:11: error: expected ';' after top level declarator\nint main()\n          ^\n          ;\nmain.c:5:7: error: expected parameter declarator\nscanf(\""%d\"",&i);\n      ^\nmain.c:5:7: error: expected ')'\nmain.c:5:6: note: to match this '('\nscanf(\""%d\"",&i);\n     ^\nmain.c:5:1: warning: type specifier missing, defaults to 'int' [-Wimplicit-int]\nscanf(\""%d\"",&i);\n^\nmain.c:5:1: error: conflicting types for 'scanf'\n/usr/include/stdio.h:398:24: note: previous declaration is here\nextern int __REDIRECT (scanf, (const char *__restrict __format, ...),\n                       ^\nmain.c:6:1: error: expected identifier or '('\nfor(int j=0;j<i;j++){\n^\nmain.c:9:1: error: expected identifier or '('\nfor(int n;n<i;n++){\n^\n1 warning and 6 errors generated.""}
+
+#include<stdio.h>
+int main()
+int a[20]={0};
+int i,min=1000000000;
+scanf(""%d"",&i);
+for(int j=0;j<i;j++){
+    scanf(""%d"",&a[j]);
+}
+for(int n;n<i;n++){
+    for(int m=1;m<i;m++){
+        
+    }
+}"
+88,A,C,55301654,2022-12-16 19:29:14,22045134,答案错误,"#include<stdio.h>
+int main()
+{
+	int n,t=1;
+	int a[10005];
+	scanf(""%d"",&n);
+    if(n>20)
+        return 0;
+	for(int i=0;i<n;i++)
+	{
+	scanf(""%d"",&a[i]);
+	t=t&a[i];
+    }
+    printf(""%d"",t);
+    return 0;
+ } "
+89,A,C,55301661,2022-12-16 19:29:17,22045134,答案错误,"#include<stdio.h>
+int main()
+{
+	int n,t=1;
+	int a[10005];
+	scanf(""%d"",&n);
+    if(n>20)
+        return 0;
+	for(int i=0;i<n;i++)
+	{
+	scanf(""%d"",&a[i]);
+	t=t&a[i];
+    }
+    printf(""%d"",t);
+    return 0;
+ } "
+90,A,C(gcc 7.5.0),55301677,2022-12-16 19:29:25,啊??a,答案正确,"#include<stdio.h>
+int main()
+{
+    int n,i,j,a[25];
+    scanf(""%d"",&n);
+    for(i=0;i<=n-1;i++)
+        scanf(""%d"",&a[i]);
+    int min=1e18,x,y,z;
+    for(i=0;i<=n-1;i++)
+    {
+        for(j=i;j<=n-1;j++)
+        {
+            if(j==i)
+                x=a[i]&a[j];
+            else
+            x=x&a[j];
+            if(min>=x)
+                min=x;
+        }
+    }
+    printf(""%d\n"",min);
+    return 0;
+}"
+91,A,C(gcc 7.5.0),55301690,2022-12-16 19:29:36,啊??a,答案正确,"#include<stdio.h>
+int main()
+{
+    int n,i,j,a[25];
+    scanf(""%d"",&n);
+    for(i=0;i<=n-1;i++)
+        scanf(""%d"",&a[i]);
+    int min=1e18,x,y,z;
+    for(i=0;i<=n-1;i++)
+    {
+        for(j=i;j<=n-1;j++)
+        {
+            if(j==i)
+                x=a[i]&a[j];
+            else
+            x=x&a[j];
+            if(min>=x)
+                min=x;
+        }
+    }
+    printf(""%d\n"",min);
+    return 0;
+}"
+92,A,C,55301794,2022-12-16 19:30:25,kindred_,答案错误,"#include <stdio.h>
+int main()
+{
+    int n,a[30];
+    scanf(""%d"",&n);
+    for(int i=0;i<n;i++)
+        scanf(""%d"",&a[i]);
+    int z;
+    z=a[0]&a[1];
+    for(int i=1;i<n-1;i++)
+    {
+    	for(int j=i;j<n-1;j++)
+        {	if((a[i]&a[j+1])<z)
+           		z=a[i]&a[j+1];
+		}
+    }
+    printf(""%d"",z);
+    return 0;
+}"
+93,A,C,55301823,2022-12-16 19:30:40,牛客358386018号,答案错误,"#include<stdio.h>
+int main()
+{ int n,a[20],c=1;
+  scanf(""%d"",&n);
+  for(int i=0;i<n;i++)
+  scanf(""%d"",&a[i]);
+ for(int i=0;i<n;i++)
+ c=c&a[i];
+ printf(""%d"",c);
+ return 0;
+}"
+94,A,C,55301857,2022-12-16 19:31:03,牛客656132171号,答案错误,"#include<stdio.h>
+#include<stdint.h>
+typedef long long ll;
+ll arr[30];
+int n;
+ll ans=10000000000000;
+
+void dfs(int begin,long res)
+{
+    if(res!=11111111111111111&&res<ans) ans=res;
+    if(begin==n+1) return;
+    dfs(begin+1,res);
+    dfs(begin+1,res&arr[begin]);
+}
+
+int main()
+{
+    scanf(""%d"",&n);
+    for(int i=1;i<=n;i++) {
+        scanf(""%lld"",&arr[i]);
+        if(ans>arr[i]) ans=arr[i];
+    }
+    dfs(2,arr[1]);
+    dfs(2,11111111111111111);
+//     for(int i=0;i<n;i++){
+//         for(int k=i;k<n;k++){
+//             ll res=1;
+//             for(int j=k;j<n;j++){
+//                 res&=arr[i];
+//                 if(ans>res) ans=res;
+//             }
+//         }
+//     }  
+    printf(""%lld"",ans);
+    return 0;
+}"
+95,A,C(gcc 7.5.0),55301867,2022-12-16 19:31:10,李lc,答案错误,"#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+    int i,j,k,b;
+    long long int a[21];
+    scanf(""%d"",&b);
+    for(i=0;i<b;i++)
+        scanf(""%lld"",&a[i]);
+    i=0;j=a[0];
+    for(k=0;k<b;k++)
+    {
+        if(a[k]<j)
+        {
+            i=k;
+            j=a[k];
+        }
+    }
+    printf(""%d"",i);
+}
+"
+96,A,C,55301899,2022-12-16 19:31:31,Ianarua,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c:1:10: fatal error: 'Stdio.h' file not found\n#include <Stdio.h>\n         ^~~~~~~~~\n1 error generated.""}
+
+#include <Stdio.h>
+
+int main()
+{
+	int i,n,t;
+	int min=99999;
+	scanf(""%d"",&n);
+	int a[n];
+	for(i=1;i<=n;i++)
+	{
+		scanf(""%d"",&a[i]);
+	}
+	
+	for(i=1;i<n;i++)
+	{
+		t=a[i]&a[i+1];
+		if(t<min)
+		{
+			min=t;
+		}
+	}
+	printf(""%d"",min);
+}"
+97,A,C(gcc 7.5.0),55301941,2022-12-16 19:31:50,Ianarua,答案错误,"#include <stdio.h>
+
+int main()
+{
+	int i,n,t;
+	int min=99999;
+	scanf(""%d"",&n);
+	int a[n];
+	for(i=1;i<=n;i++)
+	{
+		scanf(""%d"",&a[i]);
+	}
+	
+	for(i=1;i<n;i++)
+	{
+		t=a[i]&a[i+1];
+		if(t<min)
+		{
+			min=t;
+		}
+	}
+	printf(""%d"",min);
+}"
+98,A,C,55302027,2022-12-16 19:32:29,kindred_,答案错误,"#include <stdio.h>
+int main()
+{
+    int n,a[30];
+    scanf(""%d"",&n);
+    for(int i=0;i<n;i++)
+        scanf(""%d"",&a[i]);
+    int z;
+    z=a[0]&a[1];
+    for(int i=0;i<n-1;i++)
+    {
+    	for(int j=i;j<n-1;j++)
+        {	if((a[i]&a[j+1])<z)
+           		z=a[i]&a[j+1];
+		}
+    }
+    printf(""%d"",z);
+    return 0;
+}"
+99,A,C(gcc 7.5.0),55302037,2022-12-16 19:32:37,李lc,答案错误,"#include <stdio.h>
+int main()
+{
+    int i,j,k,b;
+    long long int a[21];
+    scanf(""%d"",&b);
+    for(i=0;i<b;i++)
+        scanf(""%lld"",&a[i]);
+    i=0;j=a[0];
+    for(k=0;k<b;k++)
+    {
+        if(a[k]<j)
+        {
+            i=k;
+            j=a[k];
+        }
+    }
+    printf(""%d"",i);
+    return 0;
+}
+"
+100,A,C(gcc 7.5.0),55302077,2022-12-16 19:33:02,Ianarua,答案错误,"#include <stdio.h>
+
+int main()
+{
+	int i,n,t;
+	int min=999999999;
+	scanf(""%d"",&n);
+	int a[n];
+	for(i=1;i<=n;i++)
+	{
+		scanf(""%d"",&a[i]);
+	}
+	
+	for(i=1;i<n;i++)
+	{
+		t=a[i]&a[i+1];
+		if(t<min)
+		{
+			min=t;
+		}
+	}
+	printf(""%d"",min);
+}"
+101,A,C,55302096,2022-12-16 19:33:12,牛客358386018号,答案错误,"#include<stdio.h>
+int main()
+{ int n,a[20],c=1;
+  scanf(""%d"",&n);
+  for(int i=0;i<n;i++)
+  scanf(""%d "",&a[i]);
+ for(int i=0;i<n;i++)
+ c=c&a[i];
+ printf(""%d"",c);
+ return 0;
+}"
+102,A,C(gcc 7.5.0),55302105,2022-12-16 19:33:15,牛客892685711号,答案错误,"#include<stdio.h>
+int main()
+{
+    int n,i,j;
+    scanf(""%d"",&n);
+    int a[n],b[n];
+    for(i=0; i<n; i++)
+        scanf(""%d"",&a[i]);
+    for(i=0; i<n-1; i++){
+         b[i]=a[i]&a[i+1];
+        for(j=i+2;j<n; j++){
+          
+            b[i]=b[i]&a[j];
+        }
+    }
+    int index=0;
+    for(i=0;i<n-1;i++){
+        if(b[index]>b[i])
+            index=i;
+    }
+    printf(""%d"",b[index]);
+    return 0;
+}"
+103,A,C,55302149,2022-12-16 19:33:35,Yang某人,答案错误,"#include <stdio.h>
+int main()
+{
+	int n, a[20], i = 0, j = 0, count = 0;
+	scanf(""%d"", &n);
+	for (i = 0; i < n; i++)
+	{
+		scanf(""%d"", &a[i]);
+	}
+	for (i = 0; i < n; i++)
+	{
+		for (j = i + 1; j < n; j++)
+		{
+			if (a[i] == 1 && a[j] == 1)
+				count = 1;
+			else count = 0;
+		}
+	}
+	printf(""%d"", count);
+	return 0;
+}
+"
+104,A,C,55302151,2022-12-16 19:33:37,66啊呀,答案错误,"#include<stdio.h>
+int main()
+{
+    int i=0,j,n,a[21],t,k;
+    scanf(""%d"",&n);k=n;
+    while(k--)
+    {
+        scanf(""%d"",&a[i]);i++;
+    }
+    int min=a[0];
+    for(i=0;i<n;i++)
+    {
+        if(a[i]==0){printf(""0"");return 0;break;}
+        min=min>a[i]?a[i]:k;
+        k=a[i];
+        for(j=i+1;j<n;j++)
+        {
+            k=k&a[j];min=min<k?min:k;
+        }
+    }
+    printf(""%d"",min);
+    return 0;
+}"
+105,A,C,55302173,2022-12-16 19:33:46,牛客358386018号,答案错误,"#include<stdio.h>
+int main()
+{ int n,a[20],c=1;
+  scanf(""%d"",&n);
+  for(int i=0;i<n;i++)
+  {scanf(""%d "",&a[i]);
+ 
+ c=c&a[i];}
+ printf(""%d"",c);
+ return 0;
+}"
+106,A,C,55302293,2022-12-16 19:34:50,牛客358386018号,答案错误,"#include<stdio.h>
+int main()
+{ int n,a[21],c=1;
+  scanf(""%d"",&n);
+  for(int i=0;i<n;i++)
+  {scanf(""%d "",&a[i]);
+   c=c&a[i];}
+ printf(""%d"",c);
+ return 0;
+}"
+107,A,C,55302338,2022-12-16 19:35:17,牛客143794416号,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c:1:9: fatal error: 'bits/stdc++.h' file not found\n#include<bits/stdc++.h>\n        ^~~~~~~~~~~~~~~\n1 error generated.""}
+
+#include<bits/stdc++.h>
+using namespace std;
+int main()
+{int ans;
+	int n;
+	cin>>n;
+	int a[n];
+	for(int i=0;i<n;i++)
+	{cin>>a[i];
+	}
+
+for(int i=0;i<n;i++)
+{
+	ans=a[0];
+	ans=a[i]&ans;
+	
+	}
+	printf(""%d"",ans);	
+}"
+108,A,C,55302364,2022-12-16 19:35:32,牛客358386018号,答案错误,"#include<stdio.h>
+int main()
+{ int n,c=1;
+ long int a[21];
+  scanf(""%d"",&n);
+  for(int i=0;i<n;i++)
+  {scanf(""%ld "",&a[i]);
+   c=c&a[i];}
+ printf(""%d"",c);
+ return 0;
+}"
+109,A,C,55302371,2022-12-16 19:35:37,牛客143794416号,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c:1:9: fatal error: 'iostream' file not found\n#include<iostream>\n        ^~~~~~~~~~\n1 error generated.""}
+
+#include<iostream>
+using namespace std;
+int main()
+{int ans;
+	int n;
+	cin>>n;
+	int a[n];
+	for(int i=0;i<n;i++)
+	{cin>>a[i];
+	}
+
+for(int i=0;i<n;i++)
+{
+	ans=a[0];
+	ans=a[i]&ans;
+	
+	}
+	printf(""%d"",ans);	
+}"
+110,A,C,55302390,2022-12-16 19:35:44,jin001,答案错误,"#include <stdio.h>
+int main(int argc, char *argv[])
+{
+	int i,n,a,sum;
+	scanf(""%d"",&n);
+	for(i=1;i<=n;i++)
+	{
+		scanf(""%d"",&a);
+		sum=sum&a;
+	}
+	printf(""%d"",sum);
+	return 0;
+}"
+111,A,C,55302398,2022-12-16 19:35:50,66啊呀,答案正确,"#include<stdio.h>
+int main()
+{
+    int i=0,j,n,a[21],t,k;
+    scanf(""%d"",&n);k=n;
+    while(k--)
+    {
+        scanf(""%d"",&a[i]);i++;
+    }
+    int min=a[0];
+    for(i=0;i<n;i++)
+    {
+        if(a[i]==0){printf(""0"");return 0;break;}
+        min=min>a[i]?a[i]:min;
+        k=a[i];
+        for(j=i+1;j<n;j++)
+        {
+            k=k&a[j];min=min<k?min:k;
+        }
+    }
+    printf(""%d"",min);
+    return 0;
+}"
+112,A,C(gcc 7.5.0),55302439,2022-12-16 19:36:13,李lc,答案错误,"#include <stdio.h>
+int main()
+{
+    int i,j,k,b;
+    long long int a[21];
+    scanf(""%d"",&b);
+    for(i=0;i<b;i++)
+        scanf(""%lld"",&a[i]);
+    i=0;j=a[0];
+    for(k=0;k<b;k++)
+    {
+        if(a[k]*(k+1)<j)
+        {
+            i=k;
+            j=a[k]*(k+1);
+        }
+    }
+    printf(""%d"",i);
+    return 0;
+}
+"
+113,A,C,55302470,2022-12-16 19:36:31,22045134,答案错误,"#include<stdio.h>
+int main()
+{
+	int n,t=1,min=0,d;
+	int a[1005];
+	scanf(""%d"",&n);
+	for(int i=0;i<n;i++)
+	{
+	scanf(""%d"",&a[i]);
+	t=t&a[i];
+	d=a[0];
+	if(t<d)
+	{min=t;}
+	d=t;
+    }
+    printf(""%d"",d);
+    return 0;
+ } "
+114,A,C,55302500,2022-12-16 19:36:46,牛客358386018号,答案错误,"#include<stdio.h>
+int main()
+{ int n,c=1;
+ long int a[21];
+  scanf(""%d"",&n);
+  for(int i=0;i<n;i++)
+  {scanf(""%ld "",&a[i]);
+   c=c&a[i];}
+ printf(""%d"",c);
+ return 0;
+}"
+115,A,C,55302517,2022-12-16 19:36:54,计科2204胡金博,答案错误,"#include <stdio.h>
+int main()
+{
+    int n,i;
+    scanf(""%d"",&n);
+    long long int a[n];
+    for (i=0;i<n;i++)
+    {
+        scanf(""%lld"",&a[i]);
+    }
+    int x=a[0]&a[1];
+    for (i=2;i<n;i++)
+    {
+        x=x&a[i];
+    }
+    printf(""%d"",x);
+    return 0;
+}
+"
+116,A,C,55302573,2022-12-16 19:37:20,计科2204胡金博,答案错误,"#include <stdio.h>
+int main()
+{
+    long long int n,i;
+    scanf(""%lld"",&n);
+    long long int a[n];
+    for (i=0;i<n;i++)
+    {
+        scanf(""%lld"",&a[i]);
+    }
+    int x=a[0]&a[1];
+    for (i=2;i<n;i++)
+    {
+        x=x&a[i];
+    }
+    printf(""%d"",x);
+    return 0;
+}
+"
+117,A,C,55302577,2022-12-16 19:37:22,kindred_,答案错误,"#include <stdio.h>
+int main()
+{
+    int n;
+    long long a[30];
+    scanf(""%d"",&n);
+    for(int i=0;i<n;i++)
+        scanf(""%ld"",&a[i]);
+    int z;
+    z=a[0]&a[1];
+    for(int i=0;i<n-1;i++)
+    {
+    	for(int j=i;j<n-1;j++)
+        {	if((a[i]&a[j+1])<z)
+           		z=a[i]&a[j+1];
+		}
+    }
+    printf(""%d"",z);
+    return 0;
+}"
+118,A,C,55302588,2022-12-16 19:37:27,亚洲第一废人,答案错误,"#include<stdio.h>
+int main()
+{
+	int a[30];
+    int n;
+    scanf(""%d"",&n);
+    for(int i=0;i<n;i++)
+    {
+        scanf(""%d"",&a[i]);
+    }
+    int z=0;
+    int min=999;
+    for(int i=1;i<n;i++)
+    {
+        z=a[i]&a[i-1];
+        if(min>z)min=z;
+        if(z==0)break;
+    }
+    printf(""%d"",min);
+	return 0;
+}"
+119,A,C(gcc 7.5.0),55302596,2022-12-16 19:37:34,Ianarua,答案错误,"#include <stdio.h>
+
+int main()
+{
+	int i,n,t;
+	int min=999999999;
+	scanf(""%d"",&n);
+	int a[n];
+	for(i=1;i<=n;i++)
+	{
+		scanf(""%d"",&a[i]);
+	}
+	
+	for(i=1;i<n;i++)
+	{
+		t=a[i]&a[i+1];
+		if(t<min)
+		{
+			min=t;
+		}
+	}
+	
+	for(i=n;i<1;i--)
+	{
+		t=a[i]&a[i-1];
+		if(t<min)
+		{
+			min=t;
+		}
+	}
+	printf(""%d"",min);
+}"
+120,A,C,55302621,2022-12-16 19:37:47,计科2204胡金博,段错误,"#include <stdio.h>
+int main()
+{
+    long long int n,i;
+    scanf(""%lld"",&n);
+    long long int a[1000000000];
+    for (i=0;i<n;i++)
+    {
+        scanf(""%lld"",&a[i]);
+    }
+    int x=a[0]&a[1];
+    for (i=2;i<n;i++)
+    {
+        x=x&a[i];
+    }
+    printf(""%d"",x);
+    return 0;
+}
+"
+121,A,C,55302674,2022-12-16 19:38:18,计科2204胡金博,答案错误,"#include <stdio.h>
+long long int a[20];
+int main()
+{
+    long long int n,i;
+    scanf(""%lld"",&n);
+    for (i=0;i<n;i++)
+    {
+        scanf(""%lld"",&a[i]);
+    }
+    int x=a[0]&a[1];
+    for (i=2;i<n;i++)
+    {
+        x=x&a[i];
+    }
+    printf(""%d"",x);
+    return 0;
+}
+"
+122,A,C,55302703,2022-12-16 19:38:29,亚洲第一废人,答案错误,"#include<stdio.h>
+int main()
+{
+	int a[30];
+    int n;
+    scanf(""%d"",&n);
+    for(int i=0;i<n;i++)
+    {
+        scanf(""%d"",&a[i]);
+    }
+    int z=0;
+    int min=999;
+    for(int i=1;i<n;i++)
+    {
+        if(a[i!=0])
+        {
+        z=a[i]&a[i-1];
+        if(min>z)min=z;
+        if(z==0)break;
+        }
+    }
+    printf(""%d"",min);
+	return 0;
+}"
+123,A,C,55302756,2022-12-16 19:38:54,Na2CO3blue,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c:13:40: error: expression is not assignable\n        i ? min = (min & num[i]) : min = num[i];\n        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^\n1 error generated.""}
+
+#include <stdio.h>
+
+int main(void)
+{
+    int n, i, j;
+    int len;
+    scanf(""%d"", &n);
+    int num[n];
+    int min, temp;
+
+    for (i = 0; i < n; i++) {
+        scanf(""%d"", num + i);
+        i ? min = (min & num[i]) : min = num[i];
+    }
+
+    for (len = n - 2; len >= 1; len-- ) {
+        for (i = 0; i < n - len; i++) {
+            temp = num[i];
+            for (j = 1; j <= len; j++)
+                temp = temp & num[i + j];
+            if (temp < min)
+                min = temp;
+        }
+    }
+
+    printf(""%d"", min);
+
+    return 0;
+}"
+124,A,C,55302847,2022-12-16 19:39:53,计科2204胡金博,答案正确,"#include <stdio.h>
+long long int a[20];
+int main()
+{
+    long long int n,i;
+    scanf(""%lld"",&n);
+    for (i=0;i<n;i++)
+    {
+        scanf(""%lld"",&a[i]);
+    }
+    if (n==1)
+    {
+        printf(""%d"",a[0]);
+    }
+    else
+    {
+    int x=a[0]&a[1];
+    for (i=2;i<n;i++)
+    {
+        x=x&a[i];
+    }
+    printf(""%d"",x);
+    }
+    return 0;
+}
+"
+125,A,C,55302863,2022-12-16 19:39:59,jin001,答案错误,"#include <stdio.h>
+int main(int argc, char *argv[])
+{
+	int i,n,sum;
+	scanf(""%d"",&n);
+	int a[n];
+	for(i=1;i<=n;i++)
+	{
+		scanf(""%d"",&a[i]);
+	}
+	for(i=1;i<=n;i++)
+	{
+		sum&=a[i];
+	}
+	printf(""%d"",sum);
+	return 0;
+}"
+126,A,C,55302927,2022-12-16 19:40:35,Na2CO3blue,答案正确,"#include <stdio.h>
+
+int main(void)
+{
+    int n, i, j;
+    int len;
+    scanf(""%d"", &n);
+    int num[n];
+    int min, temp;
+
+    for (i = 0; i < n; i++) {
+        scanf(""%d"", num + i);
+        if (i)
+            min = min & num[i];
+        else
+            min = num[i];
+    }
+
+    for (len = n - 2; len >= 1; len-- ) {
+        for (i = 0; i < n - len; i++) {
+            temp = num[i];
+            for (j = 1; j <= len; j++)
+                temp = temp & num[i + j];
+            if (temp < min)
+                min = temp;
+        }
+    }
+
+    printf(""%d"", min);
+
+    return 0;
+}"
+127,A,C(gcc 7.5.0),55302997,2022-12-16 19:41:07,风的零,答案错误,"#include<stdio.h>
+int n,i,j,a[100005],b[100005],c[10005][10005],cnt=0,t;
+int main()
+{
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+       scanf(""%d"",&a[i]);
+    b[0]=a[0];
+    for(i=1;i<n;i++)
+    {
+        b[i]=b[i]&&a[i];
+    }
+    for(i=0;i<n;i++)
+    {
+        cnt=-1;
+        if(b[i]>cnt)
+            cnt=b[i];
+    }
+    printf(""%d"",cnt);
+    return 0;
+}"
+128,A,C(gcc 7.5.0),55303018,2022-12-16 19:41:19,风的零,答案错误,"#include<stdio.h>
+int n,i,j,a[100005],b[100005],c[10005][10005],cnt=0,t;
+int main()
+{
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+       scanf(""%d"",&a[i]);
+    b[0]=a[0];
+    for(i=1;i<n;i++)
+    {
+        b[i]=b[i]&a[i];
+    }
+    for(i=0;i<n;i++)
+    {
+        cnt=-1;
+        if(b[i]>cnt)
+            cnt=b[i];
+    }
+    printf(""%d"",cnt);
+    return 0;
+}"
+129,A,C(gcc 7.5.0),55303040,2022-12-16 19:41:32,风的零,答案错误,"#include<stdio.h>
+int n,i,j,a[100005],b[100005],c[10005][10005],cnt=0,t;
+int main()
+{
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+       scanf(""%d"",&a[i]);
+    b[0]=a[0];
+    for(i=1;i<n;i++)
+    {
+        b[i]=b[i]&a[i];
+    }
+    for(i=0;i<n;i++)
+    {
+        cnt=-1;
+        if(b[i]>cnt)
+            cnt=b[i];
+    }
+    printf(""%d"",cnt);
+    return 0;
+}"
+130,A,C(gcc 7.5.0),55303171,2022-12-16 19:42:55,风的零,答案错误,"#include<stdio.h>
+int n,i,j,a[100005],b[100005],c[10005][10005],cnt=1,t;
+int main()
+{
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+       scanf(""%d"",&a[i]);
+    b[0]=a[0];
+    for(i=1;i<n;i++)
+    {
+        b[i]=b[i]&a[i];
+    }
+    for(i=0;i<n;i++)
+    {
+        cnt=b[0];
+        if(b[i]<cnt)
+            cnt=b[i];
+    }
+    printf(""%d"",cnt);
+    return 0;
+}"
+131,A,C,55303195,2022-12-16 19:43:08,Hirrogachi,答案错误,"#include <stdio.h>
+
+int main(){
+	int n;
+	scanf(""%d"",&n);
+	long long a[n];
+	for(int i=0;i<n;i++){
+		scanf(""%lld"",&a[i]);
+	}
+	int max=0,sum=1;
+	for(int i=0;i<n;i++){
+		sum=sum&a[i];
+		if(sum<max){
+			max=sum;
+		}
+	}
+	printf(""%d"",max);
+	return 0;
+}"
+132,A,C,55303202,2022-12-16 19:43:11,亚洲第一废人,答案错误,"#include<stdio.h>
+int main()
+{
+	int a[30];
+    int n;
+    scanf(""%d"",&n);
+    for(int i=0;i<n;i++)
+    {
+        scanf(""%d"",&a[i]);
+    }
+    int z=0;
+    int min=999;
+    for(int i=1;i<n;i++)
+    {
+        if(a[i]!=0)
+        {
+        z=a[i]&a[i-1];
+        if(min>z)min=z;
+        if(z==0)break;
+        }
+    }
+    printf(""%d"",min);
+	return 0;
+}
+
+// #include<stdio.h>
+// int main()
+// {
+    
+    
+//     printf(""%d"",1&1&1&1&1&1);
+    
+    
+    
+//     return 0;
+// }"
+133,A,C(gcc 7.5.0),55303222,2022-12-16 19:43:23,害怕一个人的柯基开挂了,运行错误,"#include<stdio.h>
+int main()
+{
+     int n;
+     scanf(""%d"",&n);
+     long long int a[n];
+     int i,j;
+     for(i=0;i<n;i++)
+     {
+          scanf(""%lld"",&a[i]);
+     }
+     int m=n*(n-1)/2;
+     long long int b[m],t;
+     int x=0;
+     for(i=0;i<n-1;i++)
+     {
+          for(j=1;j<n;j++)
+          {
+               b[x++]=(a[i]&a[j]);
+          }
+     }
+     for(i=0;i<m-1;i++)
+     {
+          for(j=0;j<m-1-i;j++)
+          {
+               if(b[j]>b[j+1])
+               {
+                    t=b[j];
+                    b[j]=b[j+1];
+                    b[j+1]=t;
+               }
+          }
+     }
+     printf(""%lld"",b[0]);
+     return 0;
+}"
+134,A,C,55303242,2022-12-16 19:43:37,Hirrogachi,答案错误,"#include <stdio.h>
+
+int main(){
+	int n;
+	scanf(""%d"",&n);
+	long long a[n];
+	for(int i=0;i<n;i++){
+		scanf(""%lld"",&a[i]);
+	}
+	int max=1,sum=1;
+	for(int i=0;i<n;i++){
+		sum=sum&a[i];
+		if(sum<max){
+			max=sum;
+		}
+	}
+	printf(""%d"",max);
+	return 0;
+}"
+135,A,C(gcc 7.5.0),55303282,2022-12-16 19:43:53,风的零,答案错误,"#include<stdio.h>
+int n,i,j,a[100005],b[100005],c[10005][10005],cnt=1,t;
+int main()
+{
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+       scanf(""%d"",&a[i]);
+    b[0]=a[0];
+    for(i=1;i<n;i++)
+    {
+        b[i]=b[i]&a[i];
+    }
+    cnt=b[0];
+    for(i=0;i<n;i++)
+    {
+        
+        if(b[i]>=0)
+        {
+            if(b[i]<=cnt)
+            cnt=b[i];
+        }
+    }
+    printf(""%d"",cnt);
+    return 0;
+}"
+136,A,C(gcc 7.5.0),55303396,2022-12-16 19:45:03,风的零,答案错误,"#include<stdio.h>
+int n,i,j,a[100005],b[100005],c[10005][10005],cnt=0,t;
+int main()
+{
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+       scanf(""%d"",&a[i]);
+    b[0]=a[0];
+    for(i=1;i<n;i++)
+    {
+        b[i]=b[i]&a[i];
+    }
+    for(i=0;i<n;i++)
+    {
+        
+        if(b[i]>=0)
+        {
+            if(b[i]<=cnt)
+            cnt=b[i];
+        }
+    }
+    printf(""%d"",cnt);
+    return 0;
+}"
+137,A,C(gcc 7.5.0),55303445,2022-12-16 19:45:32,Ianarua,答案错误,"#include <stdio.h>
+
+int main()
+{
+	int i,n,t;
+	int min=999999999;
+	scanf(""%d"",&n);
+	int a[n];
+	for(i=0;i<n;i++)
+	{
+		scanf(""%d"",&a[i]);
+	}
+	
+	for(i=0;i<n-1;i++)
+	{
+		t=a[i]&a[i+1];
+		if(t<min)
+		{
+			min=t;
+		}
+	}
+
+	printf(""%d"",min);
+}"
+138,A,C,55303613,2022-12-16 19:47:05,品物皆是春,答案错误,"#include <stdio.h>
+int a[25];
+int main() {
+    int n,i,sum = 0,s = 0;
+    scanf (""%d"",&n);
+    for (i = 0;i<n;i++)
+        scanf (""%d"",&a[i]);
+    for (i = 0;i<n-2;i++) {
+        s = a[i]&a[i+1];
+       sum = s&a[i+2];
+    }
+    printf (""%d"",sum);
+    return 0;
+}"
+139,A,C(gcc 7.5.0),55303619,2022-12-16 19:47:09,不知1,答案错误,"#include<stdio.h>
+#define N 20
+int main()
+{
+    int n,a[N];
+    scanf(""%d"",&n);
+    for(int i=0;i<n;i++)
+    {
+        scanf(""%d"",&a[i]);
+    }
+    int d=0;
+    for(int i=0;i<n;i++)
+    {
+        if(a[i]<a[d])
+        {
+            d=i;
+        }
+    }
+    printf(""%d"",d);
+}"
+140,A,C(gcc 7.5.0),55303650,2022-12-16 19:47:32,Ianarua,答案错误,"#include <stdio.h>
+
+int main()
+{
+	int i,n,t;
+	int min=999999999;
+	scanf(""%d"",&n);
+	int a[n];
+	for(i=0;i<n;i++)
+	{
+		scanf(""%d"",&a[i]);
+	}
+	if(n==1)
+	{
+		printf(""0"");
+		return 0;
+	}
+	for(i=0;i<n-1;i++)
+	{
+		t=a[i]&a[i+1];
+		if(t<min)
+		{
+			min=t;
+		}
+	}
+
+	printf(""%d"",min);
+}"
+141,A,C,55303749,2022-12-16 19:48:27,不知1,答案错误,"#include<stdio.h>
+#define N 20
+int main()
+{
+    int n,a[N];
+    scanf(""%d"",&n);
+    for(int i=0;i<n;i++)
+    {
+        scanf(""%d"",&a[i]);
+    }
+    int d=0;
+    for(int i=0;i<n;i++)
+    {
+        if(a[i]<a[d])
+        {
+            d=i;
+        }
+    }
+    printf(""%d"",d);
+}"
+142,A,C(gcc 7.5.0),55303859,2022-12-16 19:49:25,风的零,答案错误,"#include<stdio.h>
+int n,i,j,a[100005],b[100005],c[10005][10005],cnt=0,t=0;
+int main()
+{
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+       scanf(""%d"",&a[i]);
+    b[0]=a[0];
+    for(i=0;i<n;i++)
+    {
+        for(j=i+1;j<n;j++)
+        {
+            if((a[i]==a[j])&&(a[i]>0&&a[j]>0))
+                b[cnt++]++;
+        }
+    }
+    for(i=0;i<n;i++)
+    {
+        
+        if(b[i]>=0)
+        {
+            if(b[i]<=t)
+            t=b[i];
+        }
+    }
+    printf(""%d"",t);
+    return 0;
+}"
+143,A,C,55303912,2022-12-16 19:49:48,PRTS,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c:2:11: error: expected ';' after top level declarator\nint main()\n          ^\n          ;\nmain.c:5:7: error: expected parameter declarator\nscanf(\""%d\"",&i);\n      ^\nmain.c:5:7: error: expected ')'\nmain.c:5:6: note: to match this '('\nscanf(\""%d\"",&i);\n     ^\nmain.c:5:1: warning: type specifier missing, defaults to 'int' [-Wimplicit-int]\nscanf(\""%d\"",&i);\n^\nmain.c:5:1: error: conflicting types for 'scanf'\n/usr/include/stdio.h:398:24: note: previous declaration is here\nextern int __REDIRECT (scanf, (const char *__restrict __format, ...),\n                       ^\nmain.c:6:1: error: expected identifier or '('\nfor(int j=0;j<i;j++){\n^\nmain.c:9:1: error: expected identifier or '('\nfor(int n;n<i;n++){\n^\n1 warning and 6 errors generated.""}
+
+#include<stdio.h>
+int main()
+int a[20]={0};
+int i,min=1000000000;
+scanf(""%d"",&i);
+for(int j=0;j<i;j++){
+    scanf(""%d"",&a[j]);
+}
+for(int n;n<i;n++){
+    for(int m=1;m<i;m++){
+        
+    }
+}"
+144,A,C,55303976,2022-12-16 19:50:30,不知1,答案错误,"#include<stdio.h>
+#define N 20
+int main()
+{
+    int n,a[N];
+    scanf(""%d"",&n);
+    for(int i=0;i<n;i++)
+    {
+        scanf(""%d"",&a[i]);
+    }
+    int d=0;
+    for(int i=0;i<n;i++)
+    {
+        if(a[i]<a[d])
+        {
+            d=i;
+        }
+    }
+    printf(""%d\n"",d);
+}"
+145,A,C,55303978,2022-12-16 19:50:30,姓杨名有钱,答案错误,"#include<stdio.h>
+int main(){
+    int n,i,a[20],t;
+    long long s=0;
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+    {scanf(""%d"",&a[i]);
+     s=s+a[i];
+    } 
+    t=s%2;
+    printf(""%d"",t);
+}"
+146,A,C(gcc 7.5.0),55304006,2022-12-16 19:50:48,Ianarua,答案错误,"#include <stdio.h>
+
+int main()
+{
+	int i,n,t;
+	int min=999999999;
+	scanf(""%d"",&n);
+	int a[n];
+	for(i=0;i<n;i++)
+	{
+		scanf(""%d"",&a[i]);
+	}
+	if(n==1)
+	{
+		printf(""1"");
+		return 0;
+	}
+	for(i=0;i<n-1;i++)
+	{
+		t=a[i]&a[i+1];
+		if(t<min)
+		{
+			min=t;
+		}
+	}
+
+	printf(""%d"",min);
+}"
+147,A,C,55304042,2022-12-16 19:51:12,22016022103,段错误,"#include <stdio.h>
+int main()
+{
+	int n, i, m = 1, s, j;
+	scanf(""%d"", &n);
+	long long a[n], min;
+	for(i=0;i<n;i++)
+		scanf(""%lld"", &a[i]);
+	for(i=1;i<=n-1;i++)
+	{
+		m *= i;
+	}
+	long long b[m];
+	for(i=0,s=0;i<n-1;i++)
+	{
+		for(j=i+1;j<n;j++, s++)
+			b[s] = a[i] & a[j];
+	}
+	min = b[0];
+	for(i=0;i<m;i++)
+	{
+		if( min > b[i] )
+			min = b[i];
+	}
+	printf(""%lld"", min);
+	return 0;
+}"
+148,A,C,55304060,2022-12-16 19:51:21,花果山齐天大圣孙悟空,答案错误,"#include<stdio.h>
+int main()
+{
+    int n;
+    scanf(""%d"",&n);
+    int i,m,z=1;
+    for(i=0;i<n;i++)
+    {
+        scanf(""%d"",&m);
+        z=z&m;
+    }
+    printf(""%d"",z);
+    return 0;
+}"
+149,A,C,55304093,2022-12-16 19:51:39,姓杨名有钱,答案正确,"#include<stdio.h>
+int main(){
+    int n,i,a[20],t;
+    long long s=0;
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+    {scanf(""%d"",&a[i]);
+     if(i==0) s=a[i];
+     else s=s&a[i];
+    } 
+  //  t=s%2;
+    printf(""%lld"",s);
+}"
+150,A,C(gcc 7.5.0),55304108,2022-12-16 19:51:45,Ianarua,答案错误,"#include <stdio.h>
+
+int main()
+{
+	int i,n,t;
+	int min=999999999;
+	scanf(""%d"",&n);
+	int a[n];
+	for(i=0;i<n;i++)
+	{
+		scanf(""%d"",&a[i]);
+	}
+	if(n==1)
+	{
+		printf(""%d"",a[0]);
+		return 0;
+	}
+	for(i=0;i<n-1;i++)
+	{
+		t=a[i]&a[i+1];
+		if(t<min)
+		{
+			min=t;
+		}
+	}
+
+	printf(""%d"",min);
+}"
+151,A,C(gcc 7.5.0),55304203,2022-12-16 19:52:42,不知1,答案错误,"#include<stdio.h>
+#define N 20
+int main()
+{
+    int n,a[N],d=0;
+    scanf(""%d"",&n);
+    for(int i=0;i<n;i++)
+    {
+        scanf(""%d"",&a[i]);
+        if(a[i]<a[d])
+        {
+            d=i;
+        }
+    }
+    printf(""%d"",d);
+}"
+152,A,C,55304281,2022-12-16 19:53:29,22016022103,段错误,"#include <stdio.h>
+int main()
+{
+	int n;
+	scanf(""%d"", &n);
+	long long a[n], min, m = 1, i, j, s;
+	for(i=0;i<n;i++)
+		scanf(""%lld"", &a[i]);
+	for(i=1;i<=n-1;i++)
+	{
+		m *= i;
+	}
+	long long b[m];
+	for(i=0,s=0;i<n-1;i++)
+	{
+		for(j=i+1;j<n;j++, s++)
+			b[s] = a[i] & a[j];
+	}
+	min = b[0];
+	for(i=0;i<m;i++)
+	{
+		if( min > b[i] )
+			min = b[i];
+	}
+	printf(""%lld"", min);
+	return 0;
+}"
+153,A,C(gcc 7.5.0),55304320,2022-12-16 19:53:51,风的零,答案错误,"#include<stdio.h>
+int n,i,j,a[100005],b[100005],c[10005][10005],cnt=0,t=0,min=9999;
+int main()
+{
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+       scanf(""%d"",&a[i]);
+    b[0]=a[0];
+    for(i=0;i<n;i++)
+    {
+        for(j=i+1;j<n;j++)
+        {
+            if((a[i]==a[j])&&(a[i]>0&&a[j]>0))
+                b[cnt++]=1;
+            else 
+                b[cnt++]=0;
+        }
+    }
+    for(i=0;i<cnt;i++)
+    {
+        if(b[i]>=0)
+        {
+            if(min>b[i])
+                min=b[i];
+        }
+    }
+    printf(""%d"",min);
+
+    return 0;
+}"
+154,A,C,55304379,2022-12-16 19:54:29,22016022103,答案错误,"#include <stdio.h>
+int main()
+{
+	int n;
+	scanf(""%d"", &n);
+	long long a[n], min, m = 1, i, j, s;
+	for(i=0;i<n;i++)
+		scanf(""%lld"", &a[i]);
+	/*for(i=1;i<=n-1;i++)
+	{
+		m *= i;
+	}*/
+	m = n - 1;
+	long long b[m];
+	for(i=0,s=0;i<1;i++)
+	{
+		for(j=i+1;j<n;j++, s++)
+			b[s] = a[i] & a[j];
+	}
+	min = b[0];
+	for(i=0;i<m;i++)
+	{
+		if( min > b[i] )
+			min = b[i];
+	}
+	printf(""%lld"", min);
+	return 0;
+}"
+155,A,C,55304396,2022-12-16 19:54:44,牛客285484454号,答案错误,"#include <stdio.h>
+int main()
+{
+    int n;
+    scanf(""%d"",&n);
+    int a[20];
+    for ( int i=0; i<n; i++ ) {
+        scanf(""%d"",&a[i]);
+    }
+    int x=0;
+    for ( int j=0; j<n; j++ ) {
+        if ( a[n-1] == 1 ) {
+            printf(""1"");
+            x=1;
+            break;
+        }
+        if ( a[j] == 1 ) {
+            continue;
+        }
+    }
+    if ( x==0 ) printf(""0"");
+    return 0;
+}"
+156,A,C,55304573,2022-12-16 19:56:30,wangym123,答案错误,"#include<stdio.h>
+int main()
+{
+    printf(""0"");
+    return 0;
+}"
+157,A,C,55304589,2022-12-16 19:56:42,牛客285484454号,答案错误,"#include <stdio.h>
+int main()
+{
+    int n;
+    scanf(""%d"",&n);
+    int a[20];
+    for ( int i=0; i<n; i++ ) {
+        scanf(""%d"",&a[i]);
+    }
+    int x=0;
+    for ( int j=0; j<n; j++ ) {
+        if ( a[j] == 1 ) {
+            continue;
+            x++;
+        }
+    }
+    if ( x==n ) printf(""1"");
+    else printf(""0"");
+    return 0;
+}"
+158,A,C,55304630,2022-12-16 19:57:00,牛客285484454号,答案错误,"#include <stdio.h>
+int main()
+{
+    int n;
+    scanf(""%d"",&n);
+    long a[20];
+    for ( int i=0; i<n; i++ ) {
+        scanf(""%ld"",&a[i]);
+    }
+    int x=0;
+    for ( int j=0; j<n; j++ ) {
+        if ( a[j] == 1 ) {
+            continue;
+            x++;
+        }
+    }
+    if ( x==n ) printf(""1"");
+    else printf(""0"");
+    return 0;
+}"
+159,A,C(gcc 7.5.0),55304764,2022-12-16 19:58:10,pizazz_,运行超时,"#include<stdio.h>
+int main()
+{
+    int n,a[21],i,d,b,x,y,s,w=0,c=1;
+    scanf(""%d"",&n);
+    for(i=1;i<=n;i++)
+    {
+        scanf(""%d"",&a[i]);
+    }
+    for(i=1;i++;i<=n-1)
+    {
+        d=a[i]/2;b=a[i+1]/2;
+        x=a[i]%2;y=a[i+1]%2;
+        if(d==1&&b==1)
+            s=1;
+        else s=0;
+        w=w+s*c;
+        c=c*10;
+        d=x;b=y;
+        
+    }
+    printf(""%d"",w);
+    return 0;
+}"
+160,A,C(gcc 7.5.0),55304805,2022-12-16 19:58:35,pizazz_,运行超时,"#include<stdio.h>
+int main()
+{
+    int n,a[21],i,d,b,x,y,s,w=0,c=1;
+    scanf(""%d"",&n);
+    for(i=1;i<=n;i++)
+    {
+        scanf(""%d"",&a[i]);
+    }
+    for(i=1;i++;i<=n-1)
+    {
+        d=a[i]/2;b=a[i+1]/2;
+        x=a[i]%2;y=a[i+1]%2;
+        if(d==1&&b==1)
+            s=1;
+        else s=0;
+        w=w+s*c;
+        c=c*10;
+        d=x;b=y;
+        
+    }
+    printf(""%d"",w);
+    return 0;
+}"
+161,A,C,55304861,2022-12-16 19:59:10,牛客285484454号,答案错误,"#include <stdio.h>
+int main()
+{
+    int n;
+    scanf(""%d"",&n);
+    long a[20];
+    for ( int i=0; i<n; i++ ) {
+        scanf(""%ld"",&a[i]);
+    }
+    int x=0;
+    for ( int j=0; j<n; j++ ) {
+        if ( a[j] == 1 ) {
+            x++;
+        }
+    }
+    if ( x==n ) printf(""1"");
+    else printf(""0"");
+    return 0;
+}"
+162,A,C(gcc 7.5.0),55304894,2022-12-16 19:59:36,pizazz_,答案错误,"#include<stdio.h>
+int main()
+{
+    int n,a[21],i,d,b,x,y,s,w=0,c=1;
+    scanf(""%d"",&n);
+    for(i=1;i<=n;i++)
+    {
+        scanf(""%d"",&a[i]);
+    }
+    for(i=1;i<=n-1;i++)
+    {
+        d=a[i]/2;b=a[i+1]/2;
+        x=a[i]%2;y=a[i+1]%2;
+        if(d==1&&b==1)
+            s=1;
+        else s=0;
+        w=w+s*c;
+        c=c*10;
+        d=x;b=y;
+        
+    }
+    printf(""%d"",w);
+    return 0;
+}"
+163,A,C,55304895,2022-12-16 19:59:37,牛客285484454号,答案错误,"#include <stdio.h>
+int main()
+{
+    int n;
+    scanf(""%d"",&n);
+    long a[20];
+    for ( int i=0; i<n; i++ ) {
+        scanf(""%ld"",&a[i]);
+    }
+    int x=0;
+    for ( int j=1; j<n; j++ ) {
+        if ( a[j] == a[j-1] ) {
+            x++;
+        }
+    }
+    if ( x==n-1 ) printf(""1"");
+    else printf(""0"");
+    return 0;
+}"
+164,A,C(gcc 7.5.0),55304922,2022-12-16 19:59:49,pizazz_,答案错误,"#include<stdio.h>
+int main()
+{
+    int n,a[21],i,d,b,x,y,s,w=0,c=1;
+    scanf(""%d"",&n);
+    for(i=1;i<=n;i++)
+    {
+        scanf(""%d"",&a[i]);
+    }
+    for(i=1;i<=n-1;i++)
+    {
+        d=a[i]/2;b=a[i+1]/2;
+        x=a[i]%2;y=a[i+1]%2;
+        if(d==1&&b==1)
+            s=1;
+        else s=0;
+        w=w+s*c;
+        c=c*10;
+        d=x;b=y;
+        
+    }
+    printf(""%d"",w);
+    return 0;
+}"
+165,A,C(gcc 7.5.0),55304975,2022-12-16 20:00:25,Ianarua,答案错误,"#include <stdio.h>
+
+int main()
+{
+	int i=0,n,t;
+	int min=999999999;
+	scanf(""%d"",&n);
+	int a[n];
+	for(i=0;i<n;i++)
+	{
+		scanf(""%d"",&a[i]);
+	}
+	
+	if(n==1)
+	{
+		printf(""%d"",a[i]);
+		return 0;
+	}
+	
+	t=a[i]&a[i+1];
+	min=t;
+	for(i=1;i<n;i++)
+	{
+		t=t&a[i];
+		if(t<min)
+		{
+			min=t;
+		}
+	}
+
+	printf(""%d"",min);
+	return 0;
+}"
+166,A,C,55305055,2022-12-16 20:01:08,牛客285484454号,答案错误,"#include <stdio.h>
+int main()
+{
+    int n;
+    scanf(""%d"",&n);
+    long a[20];
+    for ( int i=0; i<n; i++ ) {
+        scanf(""%ld"",&a[i]);
+    }
+    int x=0;
+    for ( int j=1; j<n; j++ ) {
+        if ( a[j] == a[j-1] ) {
+            x++;
+            if ( j !=1 || j != n-1 ) {
+                break;
+            }
+        }
+    }
+    if ( x==n-2 ) printf(""1"");
+    else printf(""0"");
+    return 0;
+}"
+167,A,C,55305145,2022-12-16 20:02:06,花果山齐天大圣孙悟空,答案错误,"#include<stdio.h>
+int main()
+{
+    int n;
+    int i,m,z=2047;
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+    { 
+    scanf(""%d"",&m);
+        z=z&m;
+    }
+    printf(""%d"",z);
+    return 0;
+}"
+168,A,C(gcc 7.5.0),55305158,2022-12-16 20:02:12,Ianarua,答案错误,"#include <stdio.h>
+
+int main()
+{
+	int i=0,n,t;
+	int min=999999999;
+	scanf(""%d"",&n);
+	int a[n];
+	for(i=0;i<n;i++)
+	{
+		scanf(""%d"",&a[i]);
+	}
+	
+	if(n==1)
+	{
+		printf(""%d"",a[i]);
+		return 0;
+	}
+	
+	if(n==2)
+	{
+		t=a[0]&a[1];
+		printf(""%d"",t);
+		return 0;
+	}
+	
+	t=a[i]&a[i+1];
+	min=t;
+	for(i=1;i<n;i++)
+	{
+		t=t&a[i];
+		if(t<min)
+		{
+			min=t;
+		}
+	}
+
+	printf(""%d"",min);
+	return 0;
+}"
+169,A,C(gcc 7.5.0),55305233,2022-12-16 20:03:06,Ianarua,答案错误,"#include <stdio.h>
+
+int main()
+{
+	int i=0,n,t;
+	int min=999999999;
+	scanf(""%d"",&n);
+	int a[n];
+	for(i=0;i<n;i++)
+	{
+		scanf(""%d"",&a[i]);
+	}
+	
+	if(n==1)
+	{
+		printf(""%d"",a[i]);
+		return 0;
+	}
+	
+	if(n==2)
+	{
+		t=a[0]&a[1];
+		printf(""%d"",t);
+		return 0;
+	}
+	
+	t=a[i]&a[i+1];
+	min=t;
+	for(i=2;i<n;i++)
+	{
+		t=t&a[i];
+		if(t<min)
+		{
+			min=t;
+		}
+	}
+
+	printf(""%d"",min);
+	return 0;
+}"
+170,A,C(gcc 7.5.0),55305342,2022-12-16 20:04:27,Ianarua,答案错误,"#include <stdio.h>
+
+int main()
+{
+	int i=0,n,t;
+	int min=999999999;
+	scanf(""%d"",&n);
+	int a[n];
+	for(i=0;i<n;i++)
+	{
+		scanf(""%d"",&a[i]);
+	}
+	
+	if(n==1)
+	{
+		printf(""%d"",a[0]);
+		return 0;
+	}
+	
+	if(n==2)
+	{
+		t=a[0]&a[1];
+		printf(""%d"",t);
+		return 0;
+	}
+	
+	t=a[i]&a[i+1];
+	min=t;
+	for(i=2;i<n;i++)
+	{
+		t=t&a[i];
+		if(t<min)
+		{
+			min=t;
+		}
+	}
+
+	printf(""%d"",min);
+	return 0;
+}"
+171,A,C(gcc 7.5.0),55305381,2022-12-16 20:04:52,pizazz_,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c: In function ‘main’:\nmain.c:5:37: error: conflicting types for ‘a’\n     int n,a[21],i,d,b,x,y,s,w=0,c=1,a,p;\n                                     ^\nmain.c:5:11: note: previous declaration of ‘a’ was here\n     int n,a[21],i,d,b,x,y,s,w=0,c=1,a,p;\n           ^\nmain.c:9:22: error: subscripted value is neither array nor pointer nor vector\n         scanf(\""%d\"",&a[i]);\n                      ^\nmain.c:13:12: error: subscripted value is neither array nor pointer nor vector\n         d=a[i]/2;b=a[i+1]/2;\n            ^\nmain.c:13:21: error: subscripted value is neither array nor pointer nor vector\n         d=a[i]/2;b=a[i+1]/2;\n                     ^\nmain.c:14:12: error: subscripted value is neither array nor pointer nor vector\n         x=a[i]%2;y=a[i+1]%2;\n            ^\nmain.c:14:21: error: subscripted value is neither array nor pointer nor vector\n         x=a[i]%2;y=a[i+1]%2;\n                     ^\nmain.c:21:13: error: ‘j’ undeclared (first use in this function)\n         for(j=0;w!=0;++j)\n             ^\nmain.c:21:13: note: each undeclared identifier is reported only once for each function it appears in\nmain.c:27:10: error: subscripted value is neither array nor pointer nor vector\n         a[i+1]=p;\n          ^\nmain.c:6:5: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n     scanf(\""%d\"",&n);\n     ^~~~~~~~~~~~~~""}
+
+#include<stdio.h>
+#include<math.h>
+int main()
+{
+    int n,a[21],i,d,b,x,y,s,w=0,c=1,a,p;
+    scanf(""%d"",&n);
+    for(i=1;i<=n;i++)
+    {
+        scanf(""%d"",&a[i]);
+    }
+    for(i=1;i<=n-1;i++)
+    {
+        d=a[i]/2;b=a[i+1]/2;
+        x=a[i]%2;y=a[i+1]%2;
+        if(d==1&&b==1)
+            s=1;
+        else s=0;
+        w=w+s*c;
+        c=c*10;
+        d=x;b=y;
+        for(j=0;w!=0;++j)
+	{
+		a=w%10;
+		p=(a)*(pow(2,j))+p;
+		w=w/10;
+	}
+        a[i+1]=p;
+    }
+    printf(""%d"",w);
+    return 0;
+}"
+172,A,C,55305452,2022-12-16 20:05:33,黑白呀z,答案错误,"#include<stdio.h>
+int main()
+{
+    int arr[20]={};
+    int n=0,i,flag=0;
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++) scanf(""%d"",&arr[i]);
+    for(i=0;i<n;i++) {arr[i]=arr[i]%2;}
+    for(i=0;i<n;i++) if(arr[i]==0) flag++;
+    if(flag!=0) printf(""0""); else printf(""1"");
+    return 0;
+}"
+173,A,C(gcc 7.5.0),55305500,2022-12-16 20:06:00,Ianarua,答案正确,"#include <stdio.h>
+
+int main()
+{
+	int i=0,n,t;
+	int min=999999999;
+	scanf(""%d"",&n);
+	int a[n];
+	for(i=0;i<n;i++)
+	{
+		scanf(""%d"",&a[i]);
+	}
+	
+	if(n==1)
+	{
+		printf(""%d"",a[0]);
+		return 0;
+	}
+	
+	if(n==2)
+	{
+		t=a[0]&a[1];
+		printf(""%d"",t);
+		return 0;
+	}
+	
+	t=a[0]&a[1];
+	min=t;
+	for(i=2;i<n;i++)
+	{
+		t=t&a[i];
+		if(t<min)
+		{
+			min=t;
+		}
+	}
+
+	printf(""%d"",min);
+	return 0;
+}"
+174,A,C(gcc 7.5.0),55305565,2022-12-16 20:06:39,pizazz_,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c: In function ‘main’:\nmain.c:6:5: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n     scanf(\""%d\"",&n);\n     ^~~~~~~~~~~~~~\nmain.c:9:9: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n         scanf(\""%d\"",&a[i]);\n         ^~~~~~~~~~~~~~~~~\n/tmp/cc51j86V.o: In function `main':\nmain.c:(.text.startup+0xfe): undefined reference to `pow'\ncollect2: error: ld returned 1 exit status""}
+
+#include<stdio.h>
+#include<math.h>
+int main()
+{
+    int n,a[21],i,j,d,b,x,y,s,w=0,c=1,e,p;
+    scanf(""%d"",&n);
+    for(i=1;i<=n;i++)
+    {
+        scanf(""%d"",&a[i]);
+    }
+    for(i=1;i<=n-1;i++)
+    {
+        d=a[i]/2;b=a[i+1]/2;
+        x=a[i]%2;y=a[i+1]%2;
+        if(d==1&&b==1)
+            s=1;
+        else s=0;
+        w=w+s*c;
+        c=c*10;
+        d=x;b=y;
+        for(j=0;w!=0;++j)
+	{
+		e=w%10;
+		p=(e)*(pow(2,j))+p;
+		w=w/10;
+	}
+        a[i+1]=p;
+    }
+    printf(""%d"",w);
+    return 0;
+}"
+175,A,C(gcc 7.5.0),55305585,2022-12-16 20:06:52,风的零,答案错误,"#include<stdio.h>
+int n,i,j,a[100005],b[100005],c[10005][10005],cnt=0,t=0,min=9999;
+int main()
+{
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+       scanf(""%d"",&a[i]);
+    b[0]=a[0];
+    for(i=0;i<n;i++)
+    {
+        for(j=i+1;j<n;j++)
+        {
+            if((a[i]==a[j])&&(a[i]>0&&a[j]>0))
+                b[cnt++]=1;
+            else 
+                b[cnt++]=0;
+        }
+    }
+    for(i=0;i<cnt;i++)
+    {
+        if(b[i]>=0)
+        {
+            if(min>b[i])
+                min=b[i];
+        }
+    }
+    printf(""%d"",min);
+
+    return 0;
+}"
+176,A,C,55306028,2022-12-16 20:11:51,花果山齐天大圣孙悟空,答案错误,"#include<stdio.h>
+int main()
+{
+    int n;
+    long long int i,m,sum=1073741824;
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+    { 
+    scanf(""%d"",&m);
+        sum=sum&m;
+    }
+    printf(""%d"",sum);
+    return 0;
+}"
+177,A,C,55306054,2022-12-16 20:12:12,花果山齐天大圣孙悟空,答案错误,"#include<stdio.h>
+int main()
+{
+    int n;
+    long long int i,m,sum=1073741824;
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+    { 
+    scanf(""%lld"",&m);
+        sum=sum&m;
+    }
+    printf(""%lld"",sum);
+    return 0;
+}"
+178,A,C,55306058,2022-12-16 20:12:16,是芒果鸭yyy,答案正确,"#include<stdio.h>
+int main()
+{
+	int n,i,ans,num;
+	scanf(""%d"",&n);
+	scanf(""%d"",&ans);
+	for(i=1;i<n;i++)
+	{
+		scanf(""%d"",&num);
+		ans=ans&num;
+	}
+	printf(""%d"",ans);
+	return 0;
+}"
+179,A,C(gcc 7.5.0),55306111,2022-12-16 20:12:49,BeginningoftheStory,答案错误,"#include <stdio.h>
+int main()
+{
+    int n,i;
+    int mark=1;
+    long long a[20];
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+    {
+        scanf(""%d"",&a[i]);
+        if((a[i]&1)!=1)
+            mark=0;
+    }
+    printf(""%d"",mark);
+}"
+180,A,C(gcc 7.5.0),55306155,2022-12-16 20:13:20,名字毫不响亮,编译错误,"{""SPECIAL_TM_FH_MEMO_JSON_TAG"":""SPECIAL_TM_FH_MEMO_JSON_TAG"",""stderr"":""main.c: In function ‘main’:\nmain.c:8:2: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n  scanf (\""%d\"",&n);\n  ^~~~~~~~~~~~~~~\nmain.c:12:3: warning: ignoring return value of ‘scanf’, declared with attribute warn_unused_result [-Wunused-result]\n   scanf (\""%d\"",&arr[i]);\n   ^~~~~~~~~~~~~~~~~~~~\n/tmp/ccK99GpW.o: In function `AllSubsets':\nmain.c:(.text+0x2e): undefined reference to `pow'\ncollect2: error: ld returned 1 exit status""}
+
+#include <stdio.h>
+#include <math.h>
+#include<stdlib.h>
+void AllSubsets(int *arr,int len);
+int main ()
+{
+	int n=0,i=0;
+	scanf (""%d"",&n);
+	int arr[n];
+	for (i=0;i<n;i++)
+	{
+		scanf (""%d"",&arr[i]);
+	}
+		int len=sizeof(arr)/sizeof(arr[0]);
+	AllSubsets(arr,len);
+}
+
+
+void AllSubsets(int *arr,int len)
+{
+	int i,j,k,l,min;
+	int num=pow (2,len);
+	int b[num];
+	for(i=0;i<num;i++)
+	{
+		l=j=i;
+		k=0;
+		while(j)
+		{
+			if(j&1)
+			{
+		
+				if (k==0) b[i]=arr[k];
+				else b[i]=b[i]&arr[k];
+				
+			}
+			j>>=1;
+			k++;
+		}
+	}
+	for(i=0;i<num;i++)
+	{
+		if(i==0) min=b[0];
+		if (min>b[i]) min=b[i];
+	}
+	printf(""%d"",min);
+}"
+181,A,C(gcc 7.5.0),55306174,2022-12-16 20:13:30,星辰LCY,答案错误,"#include<stdio.h>
+int main()
+{
+    int n,i,b=0,c=1;
+    scanf(""%d"",&n);
+    int a[n];
+    for(i=0;i<n;i++)
+    {
+        scanf(""%d"",&a[i]);
+    }
+    for(i=0;i<n;i++)
+    {
+        if(a[i]==1)
+        {
+            b=1;
+        }
+        else
+        {
+            b=0;
+        }
+    }
+    printf(""%d"",b);
+    
+    return 0;
+}"
+182,A,C,55306223,2022-12-16 20:13:59,.;l;l;l;l,答案错误,"#include<stdio.h>
+int dectobin(int n)
+{
+    int sum = 0;
+    int y, x = 1; 
+    while (n != 0)
+    {
+        y = n % 2;
+        sum += x * y;
+        x *= 10;
+        n /= 2;
+    }
+    return sum;
+}
+int main()
+{
+    int n,a[101];
+    scanf(""%d"",&n);
+    int d=dectobin(1000000000);
+    for(int i=1;i<=n;i++)
+    {
+        scanf(""%d"",&a[i]);
+    }
+    int t;
+     for(int i=1;i<=n;i++)
+    {
+        for(int l=1;l<=n-i;l++)
+        {
+            if(a[l]>a[l+1])
+            {
+                t=a[l];
+                a[l]=a[l+1];
+                a[l+1]=t;
+            }
+                
+        }
+    }
+    d=dectobin(a[1]);
+    for(int i=1;i<=n;i++)
+    {
+        for(int l=i;l<=n;l++)
+        {
+            if(a[i]!=a[l])
+            {
+                d=0;
+            }
+                
+        }
+    }
+      for(int i=n;i>=1;i--)
+    {
+        for(int l=i-1;l>=1;l--)
+        {
+            if(a[i]==a[l])
+            {
+                d=dectobin(a[i]);
+            }
+                
+        }
+    }
+    printf(""%d"",d);
+  
+    
+    
+}
+"
+183,A,C(gcc 7.5.0),55306263,2022-12-16 20:14:26,星辰LCY,答案错误,"#include<stdio.h>
+int main()
+{
+    int n,i,b=0,c=1;
+    scanf(""%d"",&n);
+    long long int a[n];
+    for(i=0;i<n;i++)
+    {
+        scanf(""%lld"",&a[i]);
+    }
+    for(i=0;i<n;i++)
+    {
+        if(a[i]==1)
+        {
+            b=1;
+        }
+        else
+        {
+            b=0;
+        }
+    }
+    printf(""%d"",b);
+    
+    return 0;
+}"
+184,A,C,55306282,2022-12-16 20:14:35,.;l;l;l;l,答案错误,"#include<stdio.h>
+int dectobin(int n)
+{
+    int sum = 0;
+    int y, x = 1; 
+    while (n != 0)
+    {
+        y = n % 2;
+        sum += x * y;
+        x *= 10;
+        n /= 2;
+    }
+    return sum;
+}
+int main()
+{
+    int n,a[101];
+    scanf(""%d"",&n);
+    int d=dectobin(1000000000);
+    for(int i=1;i<=n;i++)
+    {
+        scanf(""%d"",&a[i]);
+    }
+    int t;
+     for(int i=1;i<=n;i++)
+    {
+        for(int l=1;l<=n-i;l++)
+        {
+            if(a[l]>a[l+1])
+            {
+                t=a[l];
+                a[l]=a[l+1];
+                a[l+1]=t;
+            }
+                
+        }
+    }
+      for(int i=n;i>=1;i--)
+    {
+        for(int l=i-1;l>=1;l--)
+        {
+            if(a[i]==a[l])
+            {
+                d=dectobin(a[i]);
+            }
+                
+        }
+    }
+    for(int i=1;i<=n;i++)
+    {
+        for(int l=i;l<=n;l++)
+        {
+            if(a[i]!=a[l])
+            {
+                d=0;
+            }
+                
+        }
+    }
+    
+    printf(""%d"",d);
+  
+    
+    
+}
+"
+185,A,C,55306430,2022-12-16 20:16:24,.;l;l;l;l,答案错误,"#include<stdio.h>
+int dectobin(int n)
+{
+    int sum = 0;
+    int y, x = 1; 
+    while (n != 0)
+    {
+        y = n % 2;
+        sum += x * y;
+        x *= 10;
+        n /= 2;
+    }
+    return sum;
+}
+int main()
+{
+    int n,a[101];
+    scanf(""%d"",&n);
+    int d=dectobin(1000000000);
+    for(int i=1;i<=n;i++)
+    {
+        scanf(""%d"",&a[i]);
+    }
+    int t;
+     for(int i=1;i<=n;i++)
+    {
+        for(int l=1;l<=n-i;l++)
+        {
+            if(a[l]>a[l+1])
+            {
+                t=a[l];
+                a[l]=a[l+1];
+                a[l+1]=t;
+            }
+                
+        }
+    }
+      
+    d=dectobin(a[1]);
+
+    for(int i=1;i<=n;i++)
+    {
+        for(int l=i;l<=n;l++)
+        {
+            if(a[i]!=a[l])
+            {
+                d=0;
+            }
+                
+        }
+    }
+    
+    printf(""%d"",d);
+  
+    
+    
+}
+"
+186,A,C,55306644,2022-12-16 20:19:13,.;l;l;l;l,答案错误,"#include<stdio.h>
+int dectobin(int n)
+{
+    int sum = 0;
+    int y, x = 1; 
+    while (n != 0)
+    {
+        y = n % 2;
+        sum += x * y;
+        x *= 10;
+        n /= 2;
+    }
+    return sum;
+}
+int main()
+{
+    int n,a[101];
+    scanf(""%d"",&n);
+    int d=dectobin(1000000000);
+    for(int i=1;i<=n;i++)
+    {
+        scanf(""%d"",&a[i]);
+    }
+    int t;
+     for(int i=1;i<=n;i++)
+    {
+        for(int l=1;l<=n-i;l++)
+        {
+            if(a[l]>a[l+1])
+            {
+                t=a[l];
+                a[l]=a[l+1];
+                a[l+1]=t;
+            }
+                
+        }
+    }
+      
+    d=dectobin(a[1]);
+    if(n==1)
+    {
+        d=0;
+    }
+
+    for(int i=1;i<=n;i++)
+    {
+        for(int l=i;l<=n;l++)
+        {
+            if(a[i]!=a[l])
+            {
+                d=0;
+            }
+                
+        }
+    }
+    
+    printf(""%d"",d);
+  
+    
+    
+}
+"
+187,A,C,55306745,2022-12-16 20:20:48,破网名,答案错误,"#include<stdio.h>
+int main()
+{
+    int n;
+    long long int a[30],i;
+    long long int j[30],o[30];
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+        scanf(""%lld"",&a[i]);
+        long long int min=a[0],t1=0,t2=0,max,min1;
+    for(i=0;i<n;i++)
+    {
+        if(min>a[i])
+        min=a[i];
+        if(a[i]%2==0)
+            o[t1++]=a[i];
+        if(a[i]%2==1)
+            j[t2++]=a[i];
+    }
+    min1=o[0];
+    for(i=0;i<t1;i++)
+    {
+       if(min1>o[i])
+            min1=o[i];
+    }
+    max=j[0];
+    for(i=0;i<t2;i++)
+    {
+       if(max<j[i])
+            max=j[i];
+    }
+    if(max>min1)
+        printf(""0"");
+    else printf(""%lld"",min);
+    return 0;
+}
+"
+188,A,C(gcc 7.5.0),55306762,2022-12-16 20:21:05,BeginningoftheStory,答案错误,"#include <stdio.h>
+int main()
+{
+    int n,i,j;
+    int mark=1;
+    long long a[20];
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+        scanf(""%d"",&a[i]);
+    for(i=0;i<n;i++)
+    {
+        if((a[i]&1)==0)    mark=0;
+        for(j=0;j<n;j++)
+            if(i==j)    continue;
+            else    if((a[i]&a[j])==0)
+                        mark=0;
+    }
+    printf(""%d"",mark);
+}"
+189,A,C(gcc 7.5.0),55306899,2022-12-16 20:23:10,BeginningoftheStory,答案错误,"#include <stdio.h>
+int main()
+{
+    int n,i,j;
+    int mark=1;
+    long long a[20];
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+        scanf(""%d"",&a[i]);
+    for(i=0;i<n;i++)
+    {
+        if((a[i]&1)==0)    mark=0;
+        for(j=0;j<n;j++)
+            if(i==j)    continue;
+            else    if((a[i]&a[j])==0)
+                        {mark=0;break;}
+        if(mark==0)    break;
+    }
+    printf(""%d"",mark);
+}"
+190,A,C(gcc 7.5.0),55306963,2022-12-16 20:24:03,BeginningoftheStory,答案错误,"#include <stdio.h>
+int main()
+{
+    int n,i,j;
+    int mark=1;
+    long long a[20];
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+        scanf(""%d"",&a[i]);
+    for(i=0;i<n;i++)
+    {
+        if((a[i]&1)||(a[i]&0)==0)    mark=0;
+        for(j=0;j<n;j++)
+            if(i==j)    continue;
+            else    if((a[i]&a[j])==0)
+                        {mark=0;break;}
+        if(mark==0)    break;
+    }
+    printf(""%d"",mark);
+}"
+191,A,C(gcc 7.5.0),55307300,2022-12-16 20:28:44,BeginningoftheStory,答案错误,"#include <stdio.h>
+int main()
+{
+    int n,i,j;
+    int mark=1;
+    long long a[20];
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+        scanf(""%d"",&a[i]);
+    for(i=0;i<n;i++)
+    {
+        if((a[i]&1)==0)    mark=0;//a[i]&1的情况
+        for(j=0;j<n;j++)
+            if(i==j)    continue;//排除自身
+            else    if((a[i]&a[j])==0)
+                        {mark=0;break;}//任意两数的&为0都不行
+        if(mark==0)    break;
+    }
+    printf(""%d"",mark);
+}"
+192,A,C(gcc 7.5.0),55307386,2022-12-16 20:29:50,BeginningoftheStory,答案错误,"#include <stdio.h>
+int main()
+{
+    int n,i,j;
+    int mark=1;
+    long long a[20];
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+        scanf(""%lld"",&a[i]);
+    for(i=0;i<n;i++)
+    {
+        if((a[i]&1)==0)    mark=0;//a[i]&1的情况
+        for(j=0;j<n;j++)
+            if(i==j)    continue;//排除自身
+            else    if((a[i]&a[j])==0)
+                        {mark=0;break;}//任意两数的&为0都不行
+        if(mark==0)    break;
+    }
+    printf(""%d"",mark);
+}"
+193,A,C,55307568,2022-12-16 20:32:23,牛客656132171号,答案正确,"#include<stdio.h>
+#include<stdint.h>
+typedef long long ll;
+ll arr[30];
+int n;
+ll ans=10000000000000;
+
+void dfs(int begin,long res)
+{
+    if(res!=11111111111111111&&res<ans) {
+      //  printf(""%ld %ld\n"",res,ans);
+        ans=res;
+    }
+    if(begin==n+1) return;
+    dfs(begin+1,res);
+    dfs(begin+1,res&arr[begin]);
+}
+
+int main()
+{
+    scanf(""%d"",&n);
+    for(int i=1;i<=n;i++) {
+        scanf(""%lld"",&arr[i]);
+        if(ans>arr[i]) ans=arr[i];
+    }
+    for (int i = 1; i <= n; i++) {
+        dfs(i + 1, arr[i]);
+    }
+//     dfs(2,arr[1]);
+//     dfs(2,11111111111111111);
+//     for(int i=0;i<n;i++){
+//         for(int k=i;k<n;k++){
+//             ll res=1;
+//             for(int j=k;j<n;j++){
+//                 res&=arr[i];
+//                 if(ans>res) ans=res;
+//             }
+//         }
+//     }
+    printf(""%lld"",ans);
+    return 0;
+}"
+194,A,C(gcc 7.5.0),55307693,2022-12-16 20:34:07,BeginningoftheStory,答案错误,"#include <stdio.h>
+int main()
+{
+    int n,i,j;
+    int mark=1;
+    long long a[20];
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+        scanf(""%lld"",&a[i]);
+    for(i=0;i<n;i++)
+    {
+        if((a[i]&1)==0)    mark=0;//a[i]&1的情况
+        for(j=0;j<n;j++)
+            if(i==j)    continue;//排除自身
+            else    if((a[i]&a[j])==0)
+                        {mark=0;break;}//任意两数的&为0都不行
+        if(mark==0)    break;
+    }
+    printf(""%d"",mark);
+}"
+195,A,C,55307853,2022-12-16 20:36:09,豁达的哈士奇最喜欢夏天,答案错误,"#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+	long long* a;
+	long long b, c, d;
+
+	scanf(""%lld"", &b);
+	a = (long long*)malloc(sizeof(long long) * b);
+	for (int i = 0; i < b; i++)
+		scanf(""%lld"", &a[i]);
+	d = a[0];
+	for (int i = 1; i < b; i++)
+	{
+		c = d & a[i];
+		d = c;
+	}
+	printf(""%lld"", c);
+	free(a);
+	return 0;
+}"
+196,A,C,55308022,2022-12-16 20:38:41,monster01,答案错误,"#include <stdio.h>
+#include <stdlib.h>
+int main()
+{
+	int n,k,j,z;
+	scanf(""%d"",&n);
+	scanf(""%d"",&k);
+	int i;
+	for(i=0;i<n-1;i++){
+		scanf(""%d"",&j);
+		z=k&j;
+		if(!z){
+			break;
+		}
+	}
+	printf(""%d"",z);
+	return 0;
+}"
+197,A,C(gcc 7.5.0),55308029,2022-12-16 20:38:47,BeginningoftheStory,答案错误,"#include <stdio.h>
+int main()
+{
+    int n,i,j;
+    int mark=1;
+    long a[20];
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+        scanf(""%ld"",&a[i]);
+    for(i=0;i<n;i++)
+    {
+        if((a[i]&1)==0)    mark=0;//a[i]&1的情况
+        for(j=0;j<n;j++)
+            if(i==j)    continue;//排除自身
+            else    if((a[i]&a[j])==0)
+                        {mark=0;break;}//任意两数的&为0都不行
+        if(mark==0)    break;
+    }
+    printf(""%d"",mark);
+}"
+198,A,C(gcc 7.5.0),55308056,2022-12-16 20:39:09,BeginningoftheStory,答案错误,"#include <stdio.h>
+int main()
+{
+    int n,i,j;
+    int mark=1;
+    long long int a[20];
+    scanf(""%lld"",&n);
+    for(i=0;i<n;i++)
+        scanf(""%ld"",&a[i]);
+    for(i=0;i<n;i++)
+    {
+        if((a[i]&1)==0)    mark=0;//a[i]&1的情况
+        for(j=0;j<n;j++)
+            if(i==j)    continue;//排除自身
+            else    if((a[i]&a[j])==0)
+                        {mark=0;break;}//任意两数的&为0都不行
+        if(mark==0)    break;
+    }
+    printf(""%d"",mark);
+}"
+199,A,C(gcc 7.5.0),55308197,2022-12-16 20:41:20,BeginningoftheStory,答案错误,"#include <stdio.h>
+int main()
+{
+    int n,i,j;
+    int mark=1;
+    long long int a[20];
+    scanf(""%d"",&n);
+    for(i=0;i<n;i++)
+        scanf(""%lld"",&a[i]);
+    for(i=0;i<n;i++)
+    {
+        if((a[i]&1)==0)    mark=0;//a[i]&1的情况
+        for(j=i+1;j<n;j++)
+            if((a[i]&a[j])==0)
+                        {mark=0;break;}//任意两数的&为0都不行
+        if(mark==0)    break;
+    }
+    printf(""%d"",mark);
+    return 0;
+}"

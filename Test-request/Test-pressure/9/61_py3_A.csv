@@ -1,0 +1,1033 @@
+﻿,index,languageName,submissionId,submitTime,userName,statusMessage,code
+0,A,Python3,54822408,2022-11-18 19:02:28,牛客481337953号,答案正确,"n,v=map(int,input().split())
+s=list(map(int,input().split()))
+r=t=0
+for i in s:
+    if i+t<=v:
+        t+=i
+    else:
+        r+=1
+        t=i
+print(r+1)"
+1,A,Python3,54822513,2022-11-18 19:02:58,f_lesky,答案正确,"n, v = map(int, input().split())
+a = list(map(int, input().split()))
+w, e = 0, 0
+for i in a:
+    if w + i > v:
+        w = i
+        e += 1
+    else:
+        w += i 
+if w:
+    e += 1
+print(e)"
+2,A,Python3,54822662,2022-11-18 19:03:40,是她,答案错误,"n, m = map(int, input().split())
+cnt = 0
+s = 0
+a = list(map(int, input().split()))
+for i in range(n):
+    x = a[i]
+    if s + x >= m:
+        cnt += 1
+        s = 0
+    s += x
+print(cnt)"
+3,A,Python3,54822958,2022-11-18 19:04:56,Geospiza,执行出错,"//#pragma GCC optimize(3,""Ofast"",""inline"")
+#include <bits/stdc++.h>
+//#define ll int
+#define ft first
+#define sd second
+//#define endl '\n'
+#define pb push_back
+#define ll long long
+#define pll pair<ll,ll>
+#define no cout<<""NO""<<'\n'
+#define _no cout<<""no""<<'\n'
+#define lowbit(a) ((a)&-(a))
+#define yes cout<<""YES""<<'\n'
+#define _yes cout<<""yes""<<'\n'
+#define ull unsigned long long
+#define all(x) x.begin(),x.end()
+#define nps fixed<<setprecision(10)<<
+#define mem(a,k) memset(a,k,sizeof(a))
+#define debug(x) cout<<#x<<""=""<<x<<endl
+#define rep(i,a,b) for(ll i=(a);i<=(b);i++)
+#define per(i,a,b) for(ll i=(a);i>=(b);i--)
+const ll mod1=1e9+7;
+const ll mod2=998244353;
+const ll MODSB=993244853;
+const ll base=1610612741;
+const ll INF=0x3f3f3f3f3f;
+const ll inf=9223372036854775807;
+const ll Z=MODSB;
+const ll mod=Z;
+using namespace std;
+int ddir[2][2]={{0,1},{1,0}};
+int dir[4][2]={{1,0},{0,1},{-1,0},{0,-1}};
+int dir3[6][3]={{0,0,1},{0,0,-1},{0,1,0},{0,-1,0},{1,0,0},{-1,0,0}};
+struct custom_hash
+{
+    static ull splitmix64(ull x){x+=0x9e3779b97f4a7c15;x=(x^(x>>30))*0xbf58476d1ce4e5b9;x=(x^(x>>27))*0x94d049bb133111eb;return x^(x>>31);}
+    size_t operator()(ull x)const{static const ull FIXED_RANDOM = chrono::steady_clock::now().time_since_epoch().count();return splitmix64(x + FIXED_RANDOM);}
+    //unordered_map<ll,ll,custom_hash>mp;
+};
+struct mint
+{
+    ll x;
+    mint(ll y = 0){if(y < 0 || y >= mod) y = (y%mod+mod)%mod; x = y;}
+    mint(const mint &ope) {x = ope.x;}
+    mint operator-(){return mint(-x);}
+    mint operator+(const mint &ope){return mint(x) += ope;}
+    mint operator-(const mint &ope){return mint(x) -= ope;}
+    mint operator*(const mint &ope){return mint(x) *= ope;}
+    mint operator/(const mint &ope){return mint(x) /= ope;}
+    mint& operator+=(const mint &ope){x += ope.x; if(x >= mod) x -= mod; return *this;}
+    mint& operator-=(const mint &ope){x += mod - ope.x; if(x >= mod) x -= mod; return *this;}
+    mint& operator*=(const mint &ope){ll tmp = x; tmp *= ope.x, tmp %= mod; x = tmp; return *this;}
+    mint& operator/=(const mint &ope){ll n = mod-2; mint mul = ope;while(n){if(n & 1) *this *= mul; mul *= mul; n >>= 1;}return *this;}
+    mint inverse(){return mint(1) / *this;}
+    bool operator ==(const mint &ope){return x == ope.x;}
+    bool operator !=(const mint &ope){return x != ope.x;}
+    bool operator <(const mint &ope)const{return x < ope.x;}
+};
+mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
+ll gcd(ll a,ll b){return __gcd(a,b);}
+ll lcm(ll a,ll b){return a*b/__gcd(a,b);}
+ll rnd(ll l,ll r){ll ans=uniform_int_distribution<ll>(l,r)(rng);return ans;}
+ll qpow(ll a,ll b){ll res=1;while(b>0){if(b&1)res=res*a;a=a*a;b>>=1;}return res;}
+ll qpow(ll a,ll b,ll m){a%=m;ll res=1;while(b>0){if(b&1)res=res*a%m;a=a*a%m;b>>=1;}return res;}
+double psqrt(double x,double y,double xx,double yy){double res=((x-xx)*(x-xx)+(y-yy)*(y-yy));return res;}
+double ssqrt(double x,double y,double xx,double yy){double res=sqrt(psqrt(x,y,xx,yy));return res;}
+ll INV(ll x){return qpow(x,Z-2,Z);}
+void cominit(vector<mint>&fac,vector<mint>&inv){assert(fac.size()==inv.size());
+fac[0]=1;rep(i,1,(int)fac.size()-1)fac[i]=fac[i-1]*i;
+inv.back()=INV(fac.back().x);per(i,(int)inv.size()-2,0)inv[i]=inv[i+1]*(i+1);}
+ll t,n,m,k,tt,tp,res,cnt,ans;
+const ll N=1e6+5;
+ll a[N];
+int main()
+{
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr),cout.tie(nullptr);
+    //IO
+    cin>>n>>m;
+    rep(i,1,n)cin>>a[i];
+    rep(i,1,n)
+    {
+        if(res+a[i]>m)
+        {
+            res=0;
+            --i;
+            ++ans;
+        }
+        else res+=a[i];
+    }
+    if(res)ans++;
+    cout<<ans;
+}
+/*
+
+
+
+
+
+
+
+
+*/
+"
+4,A,Python3,54823187,2022-11-18 19:05:52,Garett,答案正确,"n,v=map(int,input().split())
+a=list(map(int,input().split()))
+idx=0
+ans=0
+while idx<n:
+    cur=0
+    while idx<n and cur+a[idx]<=v:
+        cur+=a[idx]
+        idx+=1
+    ans+=1
+print(ans)"
+5,A,Python3,54823220,2022-11-18 19:06:02,oval_m,答案错误,"n,a = map(int,input().split(' '))
+print(n)"
+6,A,Python3,54823531,2022-11-18 19:07:10,崔浩宇,答案正确,"s = input().split("" "")
+n = int(s[0])
+V = int(s[1])
+s = input().split("" "")
+Sum = 0
+count = 1
+for i in s:
+    if Sum + int(i) > V:
+        Sum = int(i)
+        count += 1
+    else:
+        Sum += int(i)
+print(count)
+        
+"
+7,A,Python3,54824502,2022-11-18 19:10:45,是她,答案错误,"n, m = map(int, input().split())
+cnt = 1
+s = 0
+a = list(map(int, input().split()))
+for i in range(n):
+    x = a[i]
+    if s + x == m:
+        cnt += 1
+        s = 0
+    elif s + x > m:
+        cnt += 1
+        s = x
+    else:
+        s += x
+print(cnt)"
+8,A,Python3,54824723,2022-11-18 19:11:27,牛客648350252号,答案错误,"n,V=map(int,input().split( ))
+m=list(map(int,input().split()))
+a=0
+b=0
+for i in m:
+    if a+i<V:
+        a=a+i
+    if a+i>=V:
+        a=0
+        b+=1
+print(b+1)
+        
+        "
+9,A,Python3,54825032,2022-11-18 19:12:19,w20b,答案错误,"n, m = map(int, input().split(' '))
+a = list(map(int, input().split(' ')))
+ans, s = 1, 0
+
+for i in range(n):
+    if s + a[i] > m:
+        ans += 1
+    else:
+        s += a[i]
+        
+print(ans)"
+10,A,Python3,54825145,2022-11-18 19:12:40,w20b,答案正确,"n, m = map(int, input().split(' '))
+a = list(map(int, input().split(' ')))
+ans, s = 1, 0
+
+for i in range(n):
+    if s + a[i] > m:
+        ans += 1
+        s = a[i]
+    else:
+        s += a[i]
+        
+print(ans)"
+11,A,Python3,54826131,2022-11-18 19:15:43,SoloDance,答案正确,"n, V = map(int, input().split())
+v = list(map(int, input().split()))
+ans = 1
+v0 = V
+for i in v:
+    if v0 - i >= 0:
+        v0 -= i
+    else:
+        v0 = V - i
+        ans += 1
+
+print(ans)"
+12,A,Python3,54826475,2022-11-18 19:16:48,牛客972825279号,答案正确,"n,v=map(int,input().split())
+i=0
+index=0
+value=list(map(int,input().split()))
+while i<n:
+    temp=v
+    while i<n and temp-value[i]>=0:
+        temp-=value[i]
+        i+=1
+    index+=1
+print(index)"
+13,A,Python3,54826853,2022-11-18 19:18:03,mo_shang,答案正确,"import math
+n , v = map(int,input().split())
+L = list(map(int,input().split()))
+ans,N = 0,0
+for i in range(n):
+    N += L[i]
+    if N>v:
+        N = L[i]
+        ans += 1
+print(ans+1)"
+14,A,Python3,54826970,2022-11-18 19:18:24,数据211高泽文,答案错误,"n,v=map(int,input().split())
+b=list(map(int,input().split()))
+s=0
+num=0
+for i in b:
+    if s+i<=v:
+        s+=i
+        k=1
+    else:
+        num+=1
+        s=0
+        if s+i<=v:
+            s+=i
+        else:
+            num+=1
+        k=2
+if k==2:
+    num+=1
+print(num)
+"
+15,A,Python3,54827841,2022-11-18 19:21:23,数据211高泽文,答案错误,"n,v=map(int,input().split())
+b=list(map(int,input().split()))
+s=0
+num=0
+for i in b:
+    if s+i<=v:
+        s+=i
+        k=1
+    else:
+        num+=1
+        s=0
+        if s+i<v:
+            s+=i
+        else:
+            num+=1
+        k=2
+if k==1:
+    num+=1
+print(num)
+"
+16,A,Python3,54827929,2022-11-18 19:21:39,牛客648350252号,答案错误,"n,V=map(int,input().split( ))
+m=list(map(int,input().split()))
+a=0
+b=1
+for i in m:
+    a=a+i
+    if a>V:
+        a=0
+        b=b+2
+    if a==V:
+        a=0
+        b=b+1
+    if a<V:
+        b=b
+print(b)
+        
+        "
+17,A,Python3,54828036,2022-11-18 19:22:01,qdljerry,答案正确,"n,V=map(int,input().split())
+l=list(map(int,input().split()))
+c=0
+pack=0
+
+while len(l)>0:
+    if pack+l[0]>V:
+        pack=0
+        c+=1
+    else:
+        pack+=l[0]
+        l.pop(0)
+print(c+1)"
+18,A,Python3,54828707,2022-11-18 19:24:14,来泡池子了的芭乐很想喝咖啡,答案错误,"n, V = map(int, input().split())
+arr = list(map(int, input().split()))
+stack = [arr[0]]
+i = 1
+res = 0
+while True:
+    s = sum(stack)
+    if s > V:
+        i -= 1
+        res += 1
+        stack = []
+    if s == V:
+        res += 1
+        stack = []
+    if i == n and s <= V:
+        res += 1
+        break
+    stack.append(arr[i])
+    i += 1
+print(res)
+"
+19,A,Python3,54828837,2022-11-18 19:24:37,数据211高泽文,答案正确,"n,v=map(int,input().split())
+b=list(map(int,input().split()))
+s=0
+num=0
+for i in b:
+    if s+i<=v:
+        s+=i
+        k=1
+    else:
+        num+=1
+        s=0
+        if s+i<v:
+            s+=i
+            k=1
+        else:
+            num+=1
+            k=2
+        
+if k==1:
+    num+=1
+print(num)
+
+"
+20,A,Python3,54829524,2022-11-18 19:27:08,牛客632869927号,答案错误,"
+
+n ,v = map(int,input().split(' '))
+goods = sum(list(map(int,input().split(' '))))
+
+print(goods // v + 1)"
+21,A,Python3,54829847,2022-11-18 19:28:21,牛客632869927号,答案错误,"
+
+n ,v = map(int,input().split(' '))
+goods = sum(list(map(int,input().split(' '))))
+
+val = goods // v
+
+print(val if val == goods / v else val + 1)"
+22,A,Python3,54830519,2022-11-18 19:30:40,菜菜！,答案错误,"n,V=input().split()
+V=int(V)
+V1=V
+v=input().split()
+The_Flash=0
+for i in v:  
+    if V>int(i):
+        V=V-int(i)
+    else:
+        The_Flash=The_Flash+1
+        V=V1-int(i)
+print(The_Flash)        "
+23,A,Python3,54831410,2022-11-18 19:33:52,牛客232837008号,答案错误,"def main():
+    n,v = map(int,input().split())
+    u = [int(i) for i in input().split()]
+    num = 0
+    max_v = 0
+    for i in range(n):
+        max_v += u[i]
+        if max_v == v:
+            num += 1
+            max_v = 0
+        if max_v < v and i == n-1:
+            num += 1
+            break
+        if max_v + u[i+1] > v:
+            num += 1
+            max_v = 0
+            continue
+    print(num)
+main()"
+24,A,Python3,54833042,2022-11-18 19:39:43,数学家是我理想,答案正确,"n, v = list(map(int, input().split()))
+arr = list(map(int, input().split()))
+
+res = 1
+cur = 0
+i = 0
+while i < len(arr):
+    cur += arr[i]
+    if cur > v:
+        cur = 0
+        i -= 1
+        res += 1
+    i += 1
+print(res)"
+25,A,Python3,54833965,2022-11-18 19:43:18,菜菜！,答案正确,"n,V=input().split()
+V=int(V)
+V1=V
+v=input().split()
+The_Flash=1
+for i in v:  
+    if V>=int(i):
+        V=V-int(i)
+    else:
+        The_Flash=The_Flash+1
+        V=V1-int(i)
+print(The_Flash)        "
+26,A,Python3,54836169,2022-11-18 19:52:00,牛客232837008号,执行出错,"def main():
+    n,v = map(int,input().split())
+    u = [int(i) for i in input().split()]
+    num = 0
+    max_v = 0
+    for i in range(n):
+        max_v += u[i]
+        if max_v == v:
+            num += 1
+            max_v = 0
+        elif i == n-1 and max_v < v:
+            num += 1
+            break
+        if max_v < v and max_v + u[i+1] > v:
+            num += 1
+            max_v = 0
+            continue
+    print(num)
+main()"
+27,A,Python3,54836786,2022-11-18 19:54:53,牛客232837008号,执行出错,"def main():
+    n,v = map(int,input().split())
+    u = [int(i) for i in input().split()]
+    num = 0
+    max_v = 0
+    for i in range(n):
+        max_v += u[i]
+        if max_v == v:
+            num += 1
+            max_v = 0
+        elif i == n-1 and max_v < v:
+            num += 1
+            break
+        if max_v < v and max_v + u[i+1] > v:
+            num += 1
+            max_v = 0
+            continue
+    print(num)
+main()"
+28,A,Python3,54836811,2022-11-18 19:54:58,穹木茗,答案正确,"n,m = map(int,input().split())
+a = list(map(int,input().split()))
+sum,cnt = 0,0
+for i in range(n):
+    if sum + a[i] > m:
+        sum = 0
+        cnt += 1
+    sum += a[i]
+print(cnt + 1)
+    "
+29,A,Python3,54838529,2022-11-18 20:02:39,-蒟蒻-,答案正确,"n, m = map(int, input().split())
+a = list(map(int, input().split()))
+
+cnt = 0
+Sum = 0
+for x in a:
+    if Sum + x <= m:
+        Sum += x
+    else: 
+        Sum = x
+        cnt += 1
+if Sum: cnt += 1
+print(cnt)"
+30,A,Python3,54839047,2022-11-18 20:05:14,牛客232837008号,答案错误,"def main():
+    n,v = map(int,input().split())
+    u = [int(i) for i in input().split()]
+    num = 0
+    sum_v = 0
+    for i in range(n):
+        sum_v += u[i]
+        if sum_v == v:
+            num += 1
+            sum_v = 0
+        elif sum_v > v:
+            num += 1
+            if u[i] == v:
+                num += 1
+                num_v = 0
+            num_v = u[i]
+        if i+1 == n and sum_v < v:
+            num += 1
+    print(num)
+            
+main()"
+31,A,Python3,54840906,2022-11-18 20:14:07,牛客232837008号,答案错误,"def main():
+    n,v = map(int,input().split())
+    u = [int(i) for i in input().split()]
+    num = 0
+    sum_v = 0
+    for i in range(n):
+        sum_v += u[i]
+        if sum_v == v:
+            num += 1
+            sum_v = 0
+        elif sum_v > v:
+            num += 1
+            sum_v = u[i]
+            if u[i] == v:
+                num += 1
+                num_v = 0
+        if i+1 == n and sum_v < v:
+            num += 1
+    print(num)
+            
+main()"
+32,A,Python3,54841496,2022-11-18 20:17:04,ONE_yy31319,答案正确,"import math
+n, v = map(int, input().split())
+
+li = list(map(int, input().split()))
+
+
+ans = 0
+
+cnt = 0
+for num in li:
+    if cnt + num <= v:
+        cnt += num
+    else:
+        cnt = num
+        ans += 1
+if cnt == 0:
+    print(ans)
+else:
+    print(ans + 1)"
+33,A,Python3,54841558,2022-11-18 20:17:22,牛客232837008号,答案错误,"def main():
+    n,v = map(int,input().split())
+    u = [int(i) for i in input().split()]
+    num = 0
+    sum_v = 0
+    for i in range(n):
+        sum_v += u[i]
+        if sum_v == v:
+            num += 1
+            sum_v = 0
+        elif sum_v > v:
+            num += 1
+            sum_v = u[i]
+            if u[i] == v:
+                num += 1
+                sum_v = 0
+        if i+1 == n and sum_v < v:
+            num += 1
+    print(num)
+            
+main()"
+34,A,Python3,54842648,2022-11-18 20:23:07,牛客232837008号,答案正确,"def main():
+    n,v = map(int,input().split())
+    u = [int(i) for i in input().split()]
+    num = 0
+    sum_v = 0
+    for i in range(n):
+        sum_v += u[i]
+        if sum_v == v:
+            num += 1
+            sum_v = 0
+            continue
+        elif sum_v > v:
+            num += 1
+            sum_v = u[i]
+            if u[i] == v:
+                num += 1
+                sum_v = 0
+        if i+1 == n and sum_v < v:
+            num += 1
+    print(num)
+            
+main()"
+35,A,Python3,54842661,2022-11-18 20:23:11,SakuyaQwQ,答案正确,"n,v=[int(_) for _ in input().split()]
+a=[int(_) for _ in input().split()]
+s=0
+res=1
+for i in range(n):
+    if s+a[i]<=v:
+        s+=a[i]
+    else:
+        s=a[i]
+        res+=1
+print(res)"
+36,A,Python3,54842842,2022-11-18 20:24:08,Mr.Rongrong,答案错误,"
+from math import ceil 
+def main():
+    n,v = map(int,input().split())
+    a = list(map(int,input().split()))
+    cnt = 0 
+    res = 0 
+    nw = 0
+    
+    if a[0] <= v: cnt = 1 
+    for i in range(n):
+        nw += a[i]
+        if nw == v: 
+            nw = 0 
+            cnt += 1 
+        elif nw > v:
+            cnt += 2
+            nw = 0 
+
+#     cnt += nw % v
+    print(cnt)
+    
+main()"
+37,A,Python3,54846463,2022-11-18 20:45:28,Mr.Rongrong,答案正确,"n, v = map(int, input().split())
+li = list(map(int, input().split()))
+ans,cnt = 0,0
+for num in li:
+
+    if cnt + num <= v:
+        cnt += num
+    else:
+        cnt = num
+        ans += 1
+if cnt == 0:
+    print(ans)
+else:
+    print(ans + 1)"
+38,A,Python3,54857159,2022-11-18 22:35:14,HiRadon,答案正确,"n, V = map(int, input().split(' '))
+l = list(map(int, input().split(' ')))
+ans = 0
+temp = 0
+for i in range(len(l)):
+    if l[i] > V:
+        print(ans)
+        break
+    if l[i]+temp > V:
+        ans += 1
+        temp = l[i]
+    else:
+        temp += l[i]
+if temp > 0:
+    ans += 1
+print(ans)"
+39,A,Python3,54869096,2022-11-19 14:26:23,zxcv0112358,答案错误,"n,V=map(int,input().split())
+cur=V
+ret=0
+a=list(map(int,input().split()))
+for i in range(n):
+    if(cur>=a[i]):
+        cur=cur-a[i]
+        if(cur==0):
+            cur=V
+            ret=ret+1
+    else:
+        cur=V
+        ret=ret+1   
+    
+print(ret)   "
+40,A,Python3,54869118,2022-11-19 14:26:52,zxcv0112358,答案错误,"n,V=map(int,input().split())
+cur=V
+ret=0
+a=list(map(int,input().split()))
+for i in range(n):
+    if(cur>=a[i]):
+        cur=cur-a[i]
+        if(cur==0):
+            cur=V
+            ret=ret+1
+    else:
+        cur=V
+        ret=ret+1  
+    if i==n-1:
+        ret=ret+1
+        cur=V
+    
+print(ret)   "
+41,A,Python3,54869134,2022-11-19 14:27:17,zxcv0112358,答案错误,"n,V=map(int,input().split())
+cur=V
+ret=0
+a=list(map(int,input().split()))
+for i in range(n):
+    if(cur>=a[i]):
+        cur=cur-a[i]
+        if(cur==0):
+            cur=V
+            ret=ret+1
+    else:
+        cur=V-a[i]
+        ret=ret+1  
+    if i==n-1:
+        ret=ret+1
+        cur=V
+    
+print(ret)   "
+42,A,Python3,54869135,2022-11-19 14:27:18,zxcv0112358,答案错误,"n,V=map(int,input().split())
+cur=V
+ret=0
+a=list(map(int,input().split()))
+for i in range(n):
+    if(cur>=a[i]):
+        cur=cur-a[i]
+        if(cur==0):
+            cur=V
+            ret=ret+1
+    else:
+        cur=V-a[i]
+        ret=ret+1  
+    if i==n-1:
+        ret=ret+1
+        cur=V
+    
+print(ret)   "
+43,A,Python3,54869257,2022-11-19 14:29:46,zxcv0112358,答案正确,"n,V=map(int,input().split())
+cur=V
+ret=0
+a=list(map(int,input().split()))
+i=0
+while True:
+    if i>=n:
+        ret=ret+1
+        break
+    if cur>=a[i]:
+        cur=cur-a[i]
+        ret=ret
+        i=i+1
+    else:
+        cur=V
+        ret=ret+1
+print(ret)        
+    "
+44,A,Python3,54874012,2022-11-19 15:56:44,200107140王德扬,答案正确,"
+def main():
+    s = input().split()
+    n = int(s[0])
+    V = int(s[1])
+    s = input().split()
+    li = [int(x) for x in s]
+
+    counts = 0
+    results = 0
+    index = 0
+    for i in li:
+        # print(counts,i,results,index)
+        if counts + i > V:
+            results += 1
+            counts = i
+        elif counts + i == V:
+            results += 1
+            counts = 0
+        elif counts + i < V:
+            counts += i
+        if index == n-1 and counts != 0:
+            results+=1
+        index+=1
+    print(results)
+
+
+
+if __name__ == '__main__':
+    main()"
+45,A,Python3,54891045,2022-11-19 23:46:36,jxnu20-软件开发4班-曾堃桂,答案错误,"n,v = map(int,input().split())
+ls = list(map(int,input().split()))
+cnt = 0
+length = len(ls)
+t=ls[0]
+for i in range(0,length):
+    if i+1<length and t+ls[i+1]>=v:
+        cnt+=1
+        if t+ls[i+1]==v:
+            t=0
+        else:
+            t=ls[i+1]
+    elif i==length-1:
+        cnt+=1
+    else:
+        t+=ls[i]
+print(cnt) "
+46,A,Python3,54910745,2022-11-20 18:39:54,牛客755828055号,答案正确,"n,v = map(int, input().split())
+n_list = list(map(int, input().split()))
+num = 0
+v0 = v
+for i in n_list:
+    if v>=i:
+        v = v-i
+    else:
+        num += 1
+        v = v0-i
+
+print(num+1)"
+47,A,Python3,54920936,2022-11-21 16:07:23,在写周报的潜伏者很爱唱歌,答案正确,"n,v=map(int,input().split())
+vn=list(map(int,input().split()))
+i=1
+m=v
+for c in vn:
+    if m<c:
+        m=v
+        i+=1
+    m-=c
+print(i)
+
+"
+48,A,Python3,54920941,2022-11-21 16:07:49,在写周报的潜伏者很爱唱歌,答案正确,"n,v=map(int,input().split())
+vn=list(map(int,input().split()))
+i=1
+m=v
+for c in vn:
+    if m<c:
+        m=v
+        i+=1
+    m-=c
+print(i)
+
+"
+49,A,Python3,54931078,2022-11-22 11:10:23,牛客956373253号,答案正确,"goods, capacity = input().split()
+goodsize = input().split()
+item = []
+for i in goodsize:
+    item.append(int(i))
+    
+
+def shop(g,c,gl):
+    res = 1
+    car = c
+    for i in range(g):
+        if gl[i]<=car:
+            car-=gl[i]
+        else:
+            res+=1
+            car = c - gl[i]
+    return res
+          
+print(shop(int(goods),int(capacity),item))"
+50,A,Python3,54951686,2022-11-23 19:28:41,风度翩翩的秋田犬很强大,答案正确,"n, m = map(int, input().split())
+arr = list(map(int, input().split()))
+ans, cur = 1, 0
+for i in arr:
+    if cur + i > m:
+        ans += 1
+        cur = i
+    else:
+        cur += i
+print(ans)"
+51,A,Python3,55026964,2022-11-27 20:41:25,爱打牌的登子,执行出错,"import queue
+ 
+t , c = list(map(int , input().split()))
+n , m = list(map(int , input().split()))
+mp = []
+s = []
+e = []
+for i in range(n):
+    mp.append(input())
+    for j in range(m):
+        if mp[i][j] == 'S':
+            s = [i,j]
+        elif mp[i][j] == 'T':
+            t = [i,j]
+            
+q = queue.Queue()
+print([*s , t , c])
+dx = [-1,-1,1,1]
+dy = [1,1,-1,-1]
+while len(q) != 0:
+    u = q.get()
+    ux = q[0]
+    uy = q[1]
+    for i in range(4):
+        nx = ux + dx[i]
+    
+    
+    
+#q.put([*s , t , c])
+
+
+            "
+52,A,Python3,55172614,2022-12-06 20:04:17,鲁东大学_付文豪,答案正确,"# Python 代码
+
+n, v = map(int, input().split())
+a = list(map(int, input().split()))
+cnt = 0
+t = 0
+
+for i in range(n):
+    t += a[i]
+    if t > v:
+        t = a[i]
+        cnt += 1
+
+if t != 0:
+    cnt += 1
+
+print(cnt)
+"
+53,A,Python3,60245498,2023-01-14 16:25:37,牛客233537359号,答案正确,"n,v = map(int,input().split())
+lst = [int(i)for i in input().split()]
+cnt = 1
+sm = 0
+for i in range(n):
+    if sm + lst[i] <= v:
+        sm += lst[i]
+    else:
+        sm = lst[i]
+        cnt += 1
+print(cnt)"
+54,A,Python3,60711849,2023-02-01 15:48:02,牛客660948461号,答案错误,"n,v =map(int,input().split())
+h=list(map(int,input().split()))
+sum=0
+for x in h:
+    sum=sum+x
+num=sum/v
+print(num)"
+55,A,Python3,60711917,2023-02-01 15:48:36,牛客660948461号,答案错误,"n,v =map(int,input().split())
+h=list(map(int,input().split()))
+sum=0
+for x in h:
+    sum=sum+x
+num=sum//v
+print(num)"
+56,A,Python3,60711979,2023-02-01 15:49:15,牛客660948461号,答案错误,"n,v =map(int,input().split())
+h=list(map(int,input().split()))
+sum=0
+for x in h:
+    sum=sum+x
+num=sum//v+1
+print(num)"
+57,A,Python3,60712018,2023-02-01 15:49:43,牛客660948461号,答案错误,"n,v =map(int,input().split())
+h=list(map(int,input().split()))
+sum=0
+for x in h:
+    sum=sum+x
+num=int(sum/v)
+print(num)"
+58,A,Python3,60712039,2023-02-01 15:49:57,牛客660948461号,答案错误,"n,v =map(int,input().split())
+h=list(map(int,input().split()))
+sum=0
+for x in h:
+    sum=sum+x
+num=int(sum/v)+1
+print(num)"
+59,A,Python3,60712385,2023-02-01 15:53:24,牛客660948461号,答案错误,"n,v =map(int,input().split())
+h=list(map(int,input().split()))
+sum=0
+for x in h:
+    sum=sum+x
+#num=int(sum/v)+1
+num = sum //v+1
+print(num)"
+60,A,Python3,60714276,2023-02-01 16:11:29,牛客660948461号,答案错误,"n,v =map(int,input().split())
+h=list(map(int,input().split()))
+sum=0
+num1 =0
+for x in h:
+    sum=sum+x
+#num=int(sum/v)+1
+    if sum <v:
+        num1=num1 +1
+    sum=0
+#num = sum //v+1
+print(num1)"
+61,A,Python3,60714327,2023-02-01 16:11:58,牛客660948461号,答案错误,"n,v =map(int,input().split())
+h=list(map(int,input().split()))
+sum=0
+num1 =0
+for x in h:
+    sum=sum+x
+#num=int(sum/v)+1
+    if sum >v:
+        num1=num1 +1
+    sum=0
+#num = sum //v+1
+print(num1)"
+62,A,Python3,60715383,2023-02-01 16:22:39,牛客660948461号,答案错误,"n,v =map(int,input().split())
+h=list(map(int,input().split()))
+sum=0
+num1 =1
+for x in h:
+    #sum=sum+x
+#num=int(sum/v)+1
+    if sum+x >v:
+        num1=num1 +1
+        sum=sum+x
+    else:
+        sum=x
+#num = sum //v+1
+print(num1)"
+63,A,Python3,60715483,2023-02-01 16:23:53,牛客660948461号,答案错误,"n,v =map(int,input().split())
+h=list(map(int,input().split()))
+sum=0
+num1 =1
+for x in h:
+    #sum=sum+x
+#num=int(sum/v)+1
+    if sum+x >v:
+        num1=num1 +1
+        sum=sum
+    else:
+        sum=sum+x
+#num = sum //v+1
+print(num1)"
+64,A,Python3,60715507,2023-02-01 16:24:07,牛客660948461号,答案正确,"n,v =map(int,input().split())
+h=list(map(int,input().split()))
+sum=0
+num1 =1
+for x in h:
+    #sum=sum+x
+#num=int(sum/v)+1
+    if sum+x >v:
+        num1=num1 +1
+        sum=x
+    else:
+        sum=sum+x
+#num = sum //v+1
+print(num1)"

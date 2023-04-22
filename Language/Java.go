@@ -30,6 +30,15 @@ func (j Java) Run(path string, ID string) *exec.Cmd {
 	return exec.Command("java", "-Dfile.encoding=utf-8", "-cp", path, ID)
 }
 
+// @title    Chmod
+// @description   获得权限
+// @auth      MGAronya（张健）       2022-9-16 12:15
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (j Java) Chmod(path string, ID string) *exec.Cmd {
+	return exec.Command("chmod", "755", path+ID+".class")
+}
+
 // @title    Suffix
 // @description   获得文件后缀
 // @auth      MGAronya（张健）       2022-9-16 12:15
