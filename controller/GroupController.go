@@ -9,32 +9,37 @@ import (
 	"MGA_OJ/common"
 	"MGA_OJ/model"
 	"MGA_OJ/response"
+	"MGA_OJ/util"
 	"MGA_OJ/vo"
 	"context"
 	"encoding/json"
 	"log"
+	"math/rand"
 	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v9"
 	uuid "github.com/satori/go.uuid"
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
 
 // IGroupController			定义了用户组类接口
 type IGroupController interface {
-	Interface.RestInterface      // 包含增删查改功能
-	Interface.ApplyInterface     // 包含请求相关功能
-	Interface.BlockInterface     // 包含黑名单相关功能
-	Interface.LikeInterface      // 包含点赞功能
-	Interface.CollectInterface   // 包含收藏功能
-	Interface.LabelInterface     // 包含标签功能
-	Interface.SearchInterface    // 包含搜索功能
-	Interface.HotInterface       // 包含热度功能
-	LeaderList(ctx *gin.Context) // 查询指定用户领导的用户组
-	MemberList(ctx *gin.Context) // 查询指定用户参加的用户组
-	UserList(ctx *gin.Context)   // 查询指定用户组的用户列表
+	Interface.RestInterface          // 包含增删查改功能
+	Interface.ApplyInterface         // 包含请求相关功能
+	Interface.BlockInterface         // 包含黑名单相关功能
+	Interface.LikeInterface          // 包含点赞功能
+	Interface.CollectInterface       // 包含收藏功能
+	Interface.LabelInterface         // 包含标签功能
+	Interface.SearchInterface        // 包含搜索功能
+	Interface.HotInterface           // 包含热度功能
+	CreateStandard(ctx *gin.Context) // 创建标准组
+	ShowStandard(ctx *gin.Context)   // 查看标准组信息
+	LeaderList(ctx *gin.Context)     // 查询指定用户领导的用户组
+	MemberList(ctx *gin.Context)     // 查询指定用户参加的用户组
+	UserList(ctx *gin.Context)       // 查询指定用户组的用户列表
 }
 
 // GroupController			定义了用户组工具类
@@ -101,6 +106,168 @@ func (g GroupController) Create(ctx *gin.Context) {
 
 	// TODO 成功
 	response.Success(ctx, nil, "创建成功")
+}
+
+// @title    CreateStandard
+// @description   创建标准组
+// @auth      MGAronya（张健）       2022-9-16 12:15
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (g GroupController) CreateStandard(ctx *gin.Context) {
+
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 查找对应组
+	id := ctx.Params.ByName("id")
+	num, _ := strconv.Atoi(ctx.Params.ByName("num"))
+
+	var group model.Group
+
+	// TODO 先看redis中是否存在
+	if ok, _ := g.Redis.HExists(ctx, "Group", id).Result(); ok {
+		cate, _ := g.Redis.HGet(ctx, "Group", id).Result()
+		if json.Unmarshal([]byte(cate), &group) == nil {
+			goto leap
+		} else {
+			// TODO 移除损坏数据
+			g.Redis.HDel(ctx, "Group", id)
+		}
+	}
+
+	// TODO 查看用户组是否在数据库中存在
+	if g.DB.Where("id = ?", id).First(&group).Error != nil {
+		response.Fail(ctx, nil, "用户组不存在")
+		return
+	}
+	{
+		// TODO 将用户组存入redis供下次使用
+		v, _ := json.Marshal(group)
+		g.Redis.HSet(ctx, "Group", id, v)
+	}
+leap:
+
+	// TODO 当用户权限大于4时，
+	if user.Level < 4 {
+		response.Fail(ctx, nil, "用户权限不足")
+		return
+	}
+
+	// TODO 用户不是该用户组组长
+	if group.LeaderId != user.ID {
+		response.Fail(ctx, nil, "用户权限不足")
+		return
+	}
+
+	// TODO 随机生成指定数量的user
+	for i := 0; i < num; i++ {
+		// TODO 创建用户
+		newName := "测试账号" + util.RandomString(8)
+		password := util.RandomString(6)
+		hasedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+		if err != nil {
+			response.Response(ctx, 201, 201, nil, "加密错误")
+			return
+		}
+		newUser := model.User{
+			Name:       newName,
+			Email:      newName,
+			Password:   string(hasedPassword),
+			Icon:       "MGA" + strconv.Itoa(rand.Intn(9)+1) + ".jpg",
+			Score:      1500,
+			LikeNum:    0,
+			UnLikeNum:  0,
+			CollectNum: 0,
+			VisitNum:   0,
+			Level:      0,
+		}
+		newUserStandard := model.UserStandard{
+			Email:    newName,
+			Password: password,
+			CID:      group.ID,
+		}
+		g.DB.Create(&newUser)
+		g.DB.Create(&newUserStandard)
+		// TODO 为指定竞赛报名
+		var userList model.UserList
+		userList.GroupId = group.ID
+		userList.UserId = newUser.ID
+		// TODO 插入数据
+		if err := g.DB.Create(&userList).Error; err != nil {
+			response.Fail(ctx, nil, "数据库存储错误")
+			return
+		}
+	}
+
+	// TODO 成功
+	response.Success(ctx, nil, "创建成功")
+}
+
+// @title    ShowStandard
+// @description   查看报名列表
+// @auth      MGAronya（张健）       2022-9-16 12:15
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (g GroupController) ShowStandard(ctx *gin.Context) {
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 查找对应用户组
+	id := ctx.Params.ByName("id")
+
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
+
+	var group model.Group
+
+	// TODO 先看redis中是否存在
+	if ok, _ := g.Redis.HExists(ctx, "Group", id).Result(); ok {
+		cate, _ := g.Redis.HGet(ctx, "Group", id).Result()
+		if json.Unmarshal([]byte(cate), &group) == nil {
+			goto leap
+		} else {
+			// TODO 移除损坏数据
+			g.Redis.HDel(ctx, "Group", id)
+		}
+	}
+
+	// TODO 查看用户组是否在数据库中存在
+	if g.DB.Where("id = ?", id).First(&group).Error != nil {
+		response.Fail(ctx, nil, "用户组不存在")
+		return
+	}
+	{
+		// TODO 将用户组存入redis供下次使用
+		v, _ := json.Marshal(group)
+		g.Redis.HSet(ctx, "Group", id, v)
+	}
+leap:
+
+	// TODO 当用户权限大于4时，
+	if user.Level < 4 {
+		response.Fail(ctx, nil, "用户权限不足")
+		return
+	}
+
+	// TODO 用户不是该用户组组长
+	if group.LeaderId != user.ID {
+		response.Fail(ctx, nil, "用户权限不足")
+		return
+	}
+
+	var userStandards []model.UserStandard
+
+	// TODO 查找所有分页中可见的条目
+	g.DB.Where("cid = ?", group.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&userStandards)
+
+	var total int64
+	g.DB.Where("cid = ?", group.ID).Model(model.UserStandard{}).Count(&total)
+
+	// TODO 返回数据
+	response.Success(ctx, gin.H{"userStandards": userStandards, "total": total}, "成功")
 }
 
 // @title    Update

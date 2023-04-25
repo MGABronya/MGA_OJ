@@ -1401,11 +1401,11 @@ func (p ProblemController) Search(ctx *gin.Context) {
 	var problems []model.Problem
 
 	// TODO 模糊匹配
-	p.DB.Where("match(title,discription,res_long,res_short) against(? in boolean mode)", text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problems)
+	p.DB.Where("match(title,description,res_long,res_short) against(? in boolean mode)", text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problems)
 
 	// TODO 查看查询总数
 	var total int64
-	p.DB.Where("match(title,discription,res_long,res_short) against(? in boolean mode)", text+"*").Model(model.Problem{}).Count(&total)
+	p.DB.Where("match(title,description,res_long,res_short) against(? in boolean mode)", text+"*").Model(model.Problem{}).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"problems": problems, "total": total}, "成功")
@@ -1487,11 +1487,11 @@ func (p ProblemController) SearchWithLabel(ctx *gin.Context) {
 	var problems []model.Problem
 
 	// TODO 模糊匹配
-	p.DB.Where("id in (?) and match(title,discription,res_long,res_short) against(? in boolean mode)", problemIds, text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problems)
+	p.DB.Where("id in (?) and match(title,description,res_long,res_short) against(? in boolean mode)", problemIds, text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problems)
 
 	// TODO 查看查询总数
 	var total int64
-	p.DB.Where("id in (?) and match(title,discription,res_long,res_short) against(? in boolean mode)", problemIds, text+"*").Model(model.Problem{}).Count(&total)
+	p.DB.Where("id in (?) and match(title,description,res_long,res_short) against(? in boolean mode)", problemIds, text+"*").Model(model.Problem{}).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"problems": problems, "total": total}, "成功")

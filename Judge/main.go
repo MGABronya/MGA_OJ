@@ -32,7 +32,7 @@ func main() {
 	consumer.NewJudge(rw)
 	common.InitRabbitmq()
 	RabbitMQ := common.GetRabbitMq()
-	log.Println("Consumer working...")
+	log.Println("Consumer examing...")
 	RabbitMQ.ConsumeSimple()
 }
 
@@ -42,10 +42,10 @@ func main() {
 // @param     void			没有入参
 // @return    void			没有回参
 func InitConfig() {
-	workDir, _ := os.Getwd()
+	examDir, _ := os.Getwd()
 	viper.SetConfigName("application")
 	viper.SetConfigType("yml")
-	viper.AddConfigPath(workDir + "/../config")
+	viper.AddConfigPath(examDir + "/../config")
 	err := viper.ReadInConfig()
 	// TODO 如果发生错误，终止程序
 	if err != nil {

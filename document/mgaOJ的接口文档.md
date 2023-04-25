@@ -228,6 +228,10 @@
 
   - **Chat**（群聊）
   - **User**（用户）
+  - **Exam**(课堂测试)
+    - **ProblemFile**(文件题目)
+    - **ProblemCloze**（填空题）
+    - **ProblemMCQs**（填空题）
 
 - **Message**（留言板）
 
@@ -247,6 +251,8 @@
 - **Rejudge**（重新判断）
 - **Notice**(通告)
 - **Passwd**(密码)
+
+
 
 ### 本地测试服务
 
@@ -1160,7 +1166,7 @@
 
     **方法类型：POST**
 
-    请求参数：竞赛的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token
+    请求参数：竞赛的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token，对于有密码即passwd_id不为空的比赛，需要在Body，raw格式给出json类型数据包含 password ,表示密码字符串。
 
     返回值：成功时，返回报名成功消息。
 
@@ -1296,7 +1302,7 @@
 
     **方法类型：POST**
 
-    请求参数：竞赛的uuid（在接口地址的competition_id处）, 小组的uuid（在接口地址的group_id处）。Authorization中的Bearer Token中提供注册、登录时给出的token
+    请求参数：竞赛的uuid（在接口地址的competition_id处）, 小组的uuid（在接口地址的group_id处）。Authorization中的Bearer Token中提供注册、登录时给出的token，，对于有密码即passwd_id不为空的比赛，需要在Body，raw格式给出json类型数据包含 password ,表示密码字符串。
 
     返回值：成功时，返回报名成功消息。
 
@@ -1420,7 +1426,7 @@
 
     **方法类型：POST**
 
-    请求参数：竞赛的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token
+    请求参数：竞赛的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token，，对于有密码即passwd_id不为空的比赛，需要在Body，raw格式给出json类型数据包含 password ,表示密码字符串。
 
     返回值：成功时，返回报名成功消息。
 
@@ -1470,7 +1476,7 @@
 
     **方法类型：POST**
 
-    请求参数：竞赛的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token
+    请求参数：竞赛的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token。，对于有密码即passwd_id不为空的比赛，需要在Body，raw格式给出json类型数据包含 password ,表示密码字符串。
 
     返回值：成功时，返回报名成功消息。
 
@@ -1616,7 +1622,7 @@
 
     返回值：成功时，返回competitionRanks，其为competitionRank数组，其中的member表示报名用户的id，score表示用户报名的时间。
 
-- 其它
+- **其它**
 
   - **接口地址：/enter/publish**
 
@@ -1627,6 +1633,199 @@
     请求参数：注意，该请求为websocket长连接。
 
     返回值：成功时，将持续实时返回enter，每个enter包含member和score，member表示发生变化的用户的id，score为其报名的时间，score为0时表示用户退出，score为-1时表示比赛开始。
+
+### 模型：CompetitionStandardGroup
+
+定义：标准小组比赛
+
+**基础路由：/competition/standard/group**
+
+实现的接口类型：
+
+- **EnterInterface**
+
+  - **接口地址：/enter/:id**(需要四级权限)
+
+    **功能：报名比赛**
+
+    **方法类型：POST**
+
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token，在Params处提供groupNum（表示生成多少用户组，默认值为20）和userNum（表示一组多少用户，默认值为3）
+
+    返回值：成功时，返回用户小组生成成功成功消息。
+
+  - **接口地址：/enter/condition/:id**
+
+    **功能：查看报名状态**
+
+    **方法类型：GET**
+
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token，在id处给出比赛的id。
+
+    返回值：成功时，返回比赛中所在组。
+
+  - **接口地址：/cancel/enter/:group_id/:competition_id**
+
+    **功能：取消报名**
+
+    **方法类型：DELETE**
+
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token，在group_id处给出需要取消报名的组的id，在competition_id处给出需要取消报名的比赛。
+
+    返回值：成功时，返回取消报名成功消息，否则返回失败原因。
+
+  - **接口地址：/enter/list/:id**(需要四级权限)
+
+    功能：**查看报名列表**
+
+    **方法类型：GET**
+
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。在接口地址中给出比赛的id（即:id部分） 。在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少个用户，默认值为20）。
+
+    返回值：成功时，返回userStandards，其为userStandard数组，每个元素包含email、password、cid，其中cid表示标准用户所在的比赛。
+
+
+### 模型：CompetitionStandardSingle
+
+定义：标准个人比赛
+
+**基础路由：/competition/standard/single**
+
+实现的接口类型：
+
+- **EnterInterface**
+
+  - **接口地址：/enter/:id**(需要四级权限)
+
+    **功能：报名比赛**
+
+    **方法类型：POST**
+
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token，在Params处提供userNum（表示多少用户，默认值为50）
+
+    返回值：成功时，返回用户生成成功消息。
+
+  - **接口地址：/enter/condition/:id**
+
+    **功能：查看报名状态**
+
+    **方法类型：GET**
+
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token，在id处给出比赛的id。
+
+    返回值：成功时，返回一个enter，为bool值表示是否参加了比赛。
+
+  - **接口地址：/cancel/enter/:id**
+
+    **功能：取消报名**
+
+    **方法类型：DELETE**
+
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token
+
+    返回值：成功时，返回取消报名成功消息，否则返回失败原因。
+
+  - **接口地址：/enter/list/:id**(需要四级权限)
+
+    功能：**查看报名列表**
+
+    **方法类型：GET**
+
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。在接口地址中给出比赛的id（即:id部分） 。在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少个用户，默认值为20）。
+
+    返回值：成功时，返回userStandards，其为userStandard数组，每个元素包含email、password、cid，其中cid表示标准用户所在的比赛。
+
+### 模型：Exam
+
+定义：测试
+
+**基础路由：/exam**
+
+实现的接口类型：
+
+- **RestInterface**
+
+  - **接口地址：/create/:id**
+
+    **功能：测试发布**
+
+    **方法类型：POST**
+
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。在id处给出所在组的id，在Body，raw格式给出json类型数据包含start_time、end_time、title、content、res_long(可选)、res_short（可选）、type，其中title表示文章标题，content表示文章内容，res_long表示长文本备用键值，res_short表示短文本备用键值，type表示测试的类型，仅可为IO以及IOI类型。
+
+    返回值：成功时返回创建成功相关信息
+
+  - **接口地址：/show/:id**
+
+    **功能：查看测试**
+
+    **方法类型：GET**
+
+    请求参数：测试的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token。
+
+    返回值：成功找到测试时，将会以json格式给出测试exam，exam中包含id,user_id,group_id,title,content,create_at,updated_at,res_short,res_long，type，start_time、end_time。如果失败则返回失败原因。
+
+  - **接口地址：/update/:id**
+
+    **功能：修改测试**
+
+    **方法类型：PUT**
+
+    请求参数：测试的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含title、content、res_long(可选)、res_short（可选）、type、start_time、end_time，其中title表示测试标题，content表示测试内容，res_long表示长文本备用键值，res_short表示短文本备用键值，type表示测试的类型，仅可为IO或者IOI类型。
+
+    返回值：成功更新测试时，给出更新成功消息。如果失败则返回失败原因。
+
+  - **接口地址：/delete/:id**
+
+    **功能：删除测试**
+
+    **方法类型：DELETE**
+
+    请求参数：测试的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token。
+
+    返回值：成功删除测试时，返回删除成功消息。如果失败则返回失败原因。
+
+  - **接口地址：/list/:id**
+
+    **功能：查看测试列表**
+
+    **方法类型：GET**
+
+    请求参数：在id处给出用户组id。在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少篇测试，默认值为20）。Authorization中的Bearer Token中提供注册、登录时给出的token。
+
+    返回值：成功时，以json格式返回一个数组exams和total，exams返回了相应列表的测试信息（按照创建时间排序，越新创建排序越前），total表示测试总量，如果失败则返回失败原因。
+
+- **其它**
+
+  - **接口地址：/score/show/:user_id/:exam_id**
+
+    **功能：查看用户分数**
+
+    **方法类型：GET**
+
+    请求参数：在user_id处给出要查看分数的用户id，在exam_id处查看要查看的测试id。Authorization中的Bearer Token中提供注册、登录时给出的token。
+
+    返回值：成功时，以json格式返回一个examScore，其包含了user_id、exam_id和score，其中score为uint类型表示用户得分。
+
+  - **接口地址：/score/update/:user_id/:exam_id**
+
+    **功能：修改用户分数**
+
+    **方法类型：PUT**
+
+    请求参数：在user_id处给出要查看分数的用户id，在exam_id处查看要查看的测试id。Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含score，表示要修改的分数。
+
+    返回值：成功时，返回成功消息，如果失败则返回失败原因。
+
+  - **接口地址：/score/list/:id**
+
+    **功能：查看分数列表**
+
+    **方法类型：PUT**
+
+    请求参数：在id处给出要查询的测试id，在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少篇文章，默认值为20）。Authorization中的Bearer Token中提供注册、登录时给出的token。
+
+    返回值：成功时，以json格式返回一个数组examScores和total，examScores返回了相应列表的分数信息（按照分数排序，分数越高排序越前），total表示分数总量，如果失败则返回失败原因。
 
 ### 模型：Friend
 
@@ -2115,6 +2314,26 @@
     请求参数：在接口地址中给出用户组的id（即:id部分） 。在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少个用户组，默认值为20）。
 
     返回值：成功时，以json格式返回一个数组groups和total，groups返回了相应列表的用户组信息（按照创建时间排序，越新创建排序越前），total表示用户组总量，如果失败则返回失败原因。
+    
+  - **接口地址：/standard/create/:id/:num**（需要四级权限）
+  
+    **功能：在用户组内生成num数量的标准用户用于标准测试**
+  
+    **方法类型：POST**
+  
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。在接口地址中给出用户组的id（即:id部分） 。在接口地址中给出需要生成用户的数量（即:num部分）。
+  
+    返回值：成功时，返回创建成功信息。
+  
+  - **接口地址：/standard/list/:id**（需要四级权限）
+  
+    **功能：标准用户组成员信息包含账号以及密码**
+  
+    **方法类型：GET**
+  
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。在接口地址中给出用户组的id（即:id部分） 。在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少个用户组，默认值为20）。
+  
+    返回值：成功时，返回userStandards，其为userStandard数组，每个元素包含email、password、cid，其中cid表示标准用户所在的组。
 
 ### 模型：Hack
 
@@ -2663,6 +2882,282 @@
     请求参数：  在接口地址中给出指定用户的id（即:id部分）  。
 
     返回值：成功时，以json格式返回一个数组posts和total，posts返回了相应列表的题解信息（按照创建时间排序，越新创建排序越前），total表示题解总量，如果失败则返回失败原因。
+
+### 模型：ProblemCloze
+
+定义：填空题
+
+**基础路由：/problem/Cloze**
+
+实现的接口类型：
+
+- **RestInterface**
+
+  - **接口地址：/create/:id**
+
+    **功能：题目发布**
+
+    **方法类型：POST**
+
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。在id处给出exam的id，在Body，raw格式给出json类型数据包含description 、res_long(可选)、res_short（可选）、 anwser、 score,其中description表示题目描述，res_long表示长文本备用键值，res_short表示短文本备用键值，anwser为string类型，表示答案，可以使用正则表达式匹配。
+
+    返回值：成功时返回创建成功相关信息，否则给出失败原因
+
+  - **接口地址：/show/:id**
+
+    **功能：题目查看**
+
+    **方法类型：GET**
+
+    请求参数：题目的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token。
+
+    返回值：成功找到题目时，将会以json格式给出题目problemCloze，problemCloze中包含id,user_id,create_at,updated_at、 description 、res_long(可选)、res_short（可选）、 anwser、 score、 exam_id 。如果失败则返回失败原因。
+
+  - **接口地址：/update/:id**
+
+    **功能：更新题目**
+
+    **方法类型：PUT**
+
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。在id处给出题目的uuid，在Body，raw格式给出json类型数据包含description 、res_long(可选)、res_short（可选）、 anwser、 score,其中description表示题目描述，res_long表示长文本备用键值，res_short表示短文本备用键值，anwser为string类型，表示答案，可以使用正则表达式匹配。
+
+    返回值：成功更新题目时，返回更新成功消息。如果失败则返回失败原因。
+
+  - **接口地址：/delete/:id**
+
+    **功能：删除题目**
+
+    **方法类型：DELETE**
+
+    请求参数：题目的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token。
+
+    返回值：成功删除题目时，删除成功消息。如果失败则返回失败原因。
+
+  - **接口地址：/list/:id**
+
+    **功能：查看题目列表**
+
+    **方法类型：GET**
+
+    请求参数：在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少篇题目，默认值为20）。exam的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token。
+
+    返回值：成功时，以json格式返回一个数组problemClozes和total，problemClozes返回了相应列表的题目信息（按照创建时间排序，越新创建排序越前），total表示题目总量，如果失败则返回失败原因。
+
+- **其它**
+
+  - **接口地址：/submit/:id**
+
+    **功能：提交答案**
+
+    **方法类型：POST**
+
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。填空题的uuid（在接口地址的id处）。在Body，raw格式给出json类型数据包含anwser表示提交的答案。
+
+    返回值：成功时，返回提交成功消息，如果失败则返回失败原因。
+
+  - **接口地址：/submit/show/:id**
+
+    **功能：查看提交**
+
+    **方法类型：GET**
+
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。提交的uuid（在接口地址的id处）。
+
+    返回值：成功时，以json格式返回一个problemClozeSubmit，其包含了user_id、problem_cloze_id、answer、score，如果失败则返回失败原因。
+
+  - **接口地址：/submit/list/:user_id/:problem_id**
+
+    **功能：查看提交列表**
+
+    **方法类型：GET**
+
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。要查看的用户的uuid（在接口地址的user_id处），要查看的题目的uuid（在接口地址的problem_id处），在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少篇题目，默认值为20）。
+
+    返回值：成功时，以json格式返回一个数组problemClozeSubmits和total，problemClozeSubmits返回了相应列表的提交信息（按照创建时间排序，越新创建排序越前），total表示提交总量，如果失败则返回失败原因。
+
+### 模型：ProblemMCQs
+
+定义：选择题
+
+**基础路由：/problem/MCQs**
+
+实现的接口类型：
+
+- **RestInterface**
+
+  - **接口地址：/create/:id**
+
+    **功能：题目发布**
+
+    **方法类型：POST**
+
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。在id处给出exam的id，在Body，raw格式给出json类型数据包含description 、res_long(可选)、res_short（可选）、 anwser、 score,其中description表示题目描述，res_long表示长文本备用键值，res_short表示短文本备用键值，anwser为string类型，表示答案，支持多选。
+
+    返回值：成功时返回创建成功相关信息，否则给出失败原因
+
+  - **接口地址：/show/:id**
+
+    **功能：题目查看**
+
+    **方法类型：GET**
+
+    请求参数：题目的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token。
+
+    返回值：成功找到题目时，将会以json格式给出题目problemMCQs，problemMCQs中包含id,user_id,create_at,updated_at、 description 、res_long(可选)、res_short（可选）、 anwser、 score、 exam_id 。如果失败则返回失败原因。
+
+  - **接口地址：/update/:id**
+
+    **功能：更新题目**
+
+    **方法类型：PUT**
+
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。在id处给出题目的uuid，在Body，raw格式给出json类型数据包含description 、res_long(可选)、res_short（可选）、 anwser、 score,其中description表示题目描述，res_long表示长文本备用键值，res_short表示短文本备用键值，anwser为string类型，表示答案，支持多选。
+
+    返回值：成功更新题目时，返回更新成功消息。如果失败则返回失败原因。
+
+  - **接口地址：/delete/:id**
+
+    **功能：删除题目**
+
+    **方法类型：DELETE**
+
+    请求参数：题目的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token。
+
+    返回值：成功删除题目时，删除成功消息。如果失败则返回失败原因。
+
+  - **接口地址：/list/:id**
+
+    **功能：查看题目列表**
+
+    **方法类型：GET**
+
+    请求参数：在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少篇题目，默认值为20）。exam的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token。
+
+    返回值：成功时，以json格式返回一个数组problemMCQss和total，problemMCQss返回了相应列表的题目信息（按照创建时间排序，越新创建排序越前），total表示题目总量，如果失败则返回失败原因。
+
+- **其它**
+
+  - **接口地址：/submit/:id**
+
+    **功能：提交答案**
+
+    **方法类型：POST**
+
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。选择题的uuid（在接口地址的id处）。在Body，raw格式给出json类型数据包含anwser表示提交的答案。
+
+    返回值：成功时，返回提交成功消息，如果失败则返回失败原因。
+
+  - **接口地址：/submit/show/:id**
+
+    **功能：查看提交**
+
+    **方法类型：GET**
+
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。提交的uuid（在接口地址的id处）。
+
+    返回值：成功时，以json格式返回一个problemMCQsSubmit，其包含了user_id、problem_mcqs_id、answer、score，如果失败则返回失败原因。
+
+  - **接口地址：/submit/list/:user_id/:problem_id**
+
+    **功能：查看提交列表**
+
+    **方法类型：GET**
+
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。要查看的用户的uuid（在接口地址的user_id处），要查看的题目的uuid（在接口地址的problem_id处），在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少篇题目，默认值为20）。
+
+    返回值：成功时，以json格式返回一个数组problemMCQsSubmits和total，problemMCQsSubmits返回了相应列表的提交信息（按照创建时间排序，越新创建排序越前），total表示提交总量，如果失败则返回失败原因。
+
+### 模型：ProblemFile
+
+定义：文件题
+
+**基础路由：/problem/Cloze**
+
+实现的接口类型：
+
+- **RestInterface**
+
+  - **接口地址：/create/:id**
+
+    **功能：题目发布**
+
+    **方法类型：POST**
+
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。在id处给出exam的id，在Body，raw格式给出json类型数据包含description 、res_long(可选)、res_short（可选）、 score,其中description表示题目描述，res_long表示长文本备用键值，res_short表示短文本备用键值。
+
+    返回值：成功时返回创建成功相关信息，否则给出失败原因
+
+  - **接口地址：/show/:id**
+
+    **功能：题目查看**
+
+    **方法类型：GET**
+
+    请求参数：题目的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token。
+
+    返回值：成功找到题目时，将会以json格式给出题目problemFile，problemFile中包含id,user_id,create_at,updated_at、 description 、res_long(可选)、res_short（可选）、 score、 exam_id 。如果失败则返回失败原因。
+
+  - **接口地址：/update/:id**
+
+    **功能：更新题目**
+
+    **方法类型：PUT**
+
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。在id处给出题目的uuid，在Body，raw格式给出json类型数据包含description 、res_long(可选)、res_short（可选）、 score,其中description表示题目描述，res_long表示长文本备用键值，res_short表示短文本备用键值。
+
+    返回值：成功更新题目时，返回更新成功消息。如果失败则返回失败原因。
+
+  - **接口地址：/delete/:id**
+
+    **功能：删除题目**
+
+    **方法类型：DELETE**
+
+    请求参数：题目的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token。
+
+    返回值：成功删除题目时，删除成功消息。如果失败则返回失败原因。
+
+  - **接口地址：/list/:id**
+
+    **功能：查看题目列表**
+
+    **方法类型：GET**
+
+    请求参数：在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少篇题目，默认值为20）。exam的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token。
+
+    返回值：成功时，以json格式返回一个数组problemFiles和total，problemFiles返回了相应列表的题目信息（按照创建时间排序，越新创建排序越前），total表示题目总量，如果失败则返回失败原因。
+
+- **其它**
+
+  - **接口地址：/submit/:id**
+
+    **功能：提交答案**
+
+    **方法类型：POST**
+
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。文件题的uuid（在接口地址的id处）。在Body，raw格式给出json类型数据包含anwser表示提交的答案。
+
+    返回值：成功时，返回提交成功消息，如果失败则返回失败原因。
+
+  - **接口地址：/submit/show/:id**
+
+    **功能：查看提交**
+
+    **方法类型：GET**
+
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。提交的uuid（在接口地址的id处）。
+
+    返回值：成功时，以json格式返回一个problemFileSubmit，其包含了user_id、problem_file_id、answer、score，如果失败则返回失败原因。
+
+  - **接口地址：/submit/list/:user_id/:problem_id**
+
+    **功能：查看提交列表**
+
+    **方法类型：GET**
+
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。要查看的用户的uuid（在接口地址的user_id处），要查看的题目的uuid（在接口地址的problem_id处），在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少篇题目，默认值为20）。
+
+    返回值：成功时，以json格式返回一个数组problemFileSubmits和total，problemFileSubmits返回了相应列表的提交信息（按照创建时间排序，越新创建排序越前），total表示提交总量，如果失败则返回失败原因。
 
 ### 模型：Problem
 

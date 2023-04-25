@@ -147,15 +147,7 @@ func (u UserController) Login(ctx *gin.Context) {
 	// TODO 获取参数
 	email := requestUser.Email
 	password := requestUser.Password
-	// TODO 数据验证
-	if !util.VerifyEmailFormat(email) {
-		response.Response(ctx, 201, 201, nil, "邮箱格式错误")
-		return
-	}
-	if len(password) < 6 {
-		response.Response(ctx, 201, 201, nil, "密码不能少于6位")
-		return
-	}
+
 	// TODO 判断邮箱是否存在
 	var user model.User
 

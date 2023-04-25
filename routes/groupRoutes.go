@@ -27,6 +27,12 @@ func GroupRoutes(r *gin.Engine) *gin.Engine {
 	// TODO 创建用户组
 	groupRoutes.POST("/create", middleware.AuthMiddleware(), groupController.Create)
 
+	// TODO 生成标准用户组
+	groupRoutes.POST("/standard/create/:id/:num", middleware.AuthMiddleware(), groupController.CreateStandard)
+
+	// TODO 标准用户组成员信息
+	groupRoutes.GET("/standard/list/:id", middleware.AuthMiddleware(), groupController.ShowStandard)
+
 	// TODO 查看用户组
 	groupRoutes.GET("/show/:id", groupController.Show)
 

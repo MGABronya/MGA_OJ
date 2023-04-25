@@ -30,6 +30,9 @@ func ProblemNewRoutes(r *gin.Engine) *gin.Engine {
 	// TODO 引用题目
 	problemNewRoutes.POST("/quote/:competition_id/:problem_id/:score", middleware.AuthMiddleware(), problemNewController.Quote)
 
+	// TODO 重现题目
+	problemNewRoutes.POST("/rematch/:competition_id/:problem_id", middleware.AuthMiddleware(), problemNewController.Rematch)
+
 	// TODO 查看题目
 	problemNewRoutes.GET("/show/:id", middleware.AuthMiddleware(), problemNewController.Show)
 

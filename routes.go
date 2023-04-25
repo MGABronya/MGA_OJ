@@ -105,5 +105,23 @@ func CollectRoute(r *gin.Engine) *gin.Engine {
 	// TODO 匹配比赛路由
 	r = routes.CompetitionMatchRoutes(r)
 
+	// TODO 标准赛制个人赛
+	r = routes.CompetitionStandardSingleRoutes(r)
+
+	// TODO 标准赛制团队赛
+	r = routes.CompetitionStandardGroupRoutes(r)
+
+	// TODO 选择题
+	r = routes.ProblemMCQsRoutes(r)
+
+	// TODO 填空题
+	r = routes.ProblemClozeRoutes(r)
+
+	// TODO 文件题
+	r = routes.ProblemFileRoutes(r)
+
+	// TODO 测试布置
+	r = routes.ExamRoutes(r)
+
 	return r
 }

@@ -29,6 +29,7 @@ type IProblemNewController interface {
 	Interface.RestInterface   // 包含了增删查改功能
 	TestNum(ctx *gin.Context) // 查看指定题目的用例数量
 	Quote(ctx *gin.Context)   // 引用题库
+	Rematch(ctx *gin.Context) // 重现赛内题目
 }
 
 // ProblemNewController			定义了比赛题目工具类
@@ -415,6 +416,219 @@ Case:
 		}
 		if i == len(cases)-1 {
 			cas.Score = uint(score)
+		}
+		// TODO 插入数据
+		if err := p.DB.Create(&cas).Error; err != nil {
+			response.Fail(ctx, nil, "题目用例上传出错，数据验证有误")
+			return
+		}
+	}
+
+	// TODO 成功
+	response.Success(ctx, nil, "创建成功")
+}
+
+// @title    Rematch
+// @description   重现赛内题
+// @auth      MGAronya（张健）       2022-9-16 12:15
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (p ProblemNewController) Rematch(ctx *gin.Context) {
+	// 获取path中的id
+	problem_id := ctx.Params.ByName("problem_id")
+	competition_id := ctx.Params.ByName("competition_id")
+	var problem model.ProblemNew
+	var competition model.Competition
+
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 先看redis中是否存在
+	if ok, _ := p.Redis.HExists(ctx, "ProblemNew", problem_id).Result(); ok {
+		cate, _ := p.Redis.HGet(ctx, "ProblemNew", problem_id).Result()
+		if json.Unmarshal([]byte(cate), &problem) == nil {
+			// TODO 跳过数据库搜寻problem过程
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			p.Redis.HDel(ctx, "ProblemNew", problem_id)
+		}
+	}
+
+	// TODO 查看题目是否在数据库中存在
+	if p.DB.Where("id = ?", problem_id).First(&problem).Error != nil {
+		response.Fail(ctx, nil, "题目不存在")
+		return
+	}
+	// TODO 将题目存入redis供下次使用
+	{
+		v, _ := json.Marshal(problem)
+		p.Redis.HSet(ctx, "ProblemNew", problem_id, v)
+	}
+
+leep:
+
+	// TODO 查看比赛是否存在
+	// TODO 先看redis中是否存在
+	if ok, _ := p.Redis.HExists(ctx, "Competition", problem.CompetitionId.String()).Result(); ok {
+		cate, _ := p.Redis.HGet(ctx, "Competition", problem.CompetitionId.String()).Result()
+		if json.Unmarshal([]byte(cate), &competition) == nil {
+			goto leap
+		} else {
+			// TODO 移除损坏数据
+			p.Redis.HDel(ctx, "Competition", problem.CompetitionId.String())
+		}
+	}
+
+	// TODO 查看比赛是否在数据库中存在
+	if p.DB.Where("id = ?", problem.CompetitionId.String()).First(&competition).Error != nil {
+		response.Fail(ctx, nil, "比赛不存在")
+		return
+	}
+	{
+		// TODO 将比赛存入redis供下次使用
+		v, _ := json.Marshal(competition)
+		p.Redis.HSet(ctx, "Competition", problem.CompetitionId.String(), v)
+	}
+leap:
+
+	// TODO 查看比赛是否在结束
+	if user.ID != competition.UserId && time.Now().Before(time.Time(competition.EndTime)) {
+		response.Success(ctx, nil, "权限不足，请等待比赛结束")
+		return
+	}
+
+	// TODO 查看比赛是否存在
+	// TODO 先看redis中是否存在
+	if ok, _ := p.Redis.HExists(ctx, "Competition", competition_id).Result(); ok {
+		cate, _ := p.Redis.HGet(ctx, "Competition", competition_id).Result()
+		if json.Unmarshal([]byte(cate), &competition) == nil {
+			goto levp
+		} else {
+			// TODO 移除损坏数据
+			p.Redis.HDel(ctx, "Competition", competition_id)
+		}
+	}
+
+	// TODO 查看比赛是否在数据库中存在
+	if p.DB.Where("id = ?", competition_id).First(&competition).Error != nil {
+		response.Fail(ctx, nil, "比赛不存在")
+		return
+	}
+	{
+		// TODO 将比赛存入redis供下次使用
+		v, _ := json.Marshal(competition)
+		p.Redis.HSet(ctx, "Competition", competition_id, v)
+	}
+levp:
+	// TODO 查看是否有权给比赛添加题目
+	if competition.UserId != user.ID {
+		if p.DB.Where("group_id = ? and user_id = ?", competition.GroupId, user.ID).First(&model.UserList{}).Error != nil {
+			response.Fail(ctx, nil, "无权为比赛添加题目")
+			return
+		}
+	}
+	// TODO 查看比赛是否已经结束
+	if time.Now().After(time.Time(competition.EndTime)) {
+		response.Fail(ctx, nil, "比赛已经结束")
+		return
+	}
+
+	var caseSamples []model.CaseSample
+	// TODO 先看redis中是否存在
+	if ok, _ := p.Redis.HExists(ctx, "CaseSample", problem_id).Result(); ok {
+		cate, _ := p.Redis.HGet(ctx, "CaseSample", problem_id).Result()
+		if json.Unmarshal([]byte(cate), &caseSamples) == nil {
+			// TODO 跳过数据库搜寻caseSample过程
+			goto letp
+		} else {
+			// TODO 移除损坏数据
+			p.Redis.HDel(ctx, "CaseSample", problem_id)
+		}
+	}
+	p.DB.Where("problem_id = ?", problem.ID).Find(&caseSamples)
+	// TODO 将题目存入redis供下次使用
+	{
+		v, _ := json.Marshal(caseSamples)
+		p.Redis.HSet(ctx, "CaseSample", problem_id, v)
+	}
+
+letp:
+	// TODO 从数据库中读出输入输出
+	var cases []model.Case
+
+	// TODO 查找用例
+	if ok, _ := p.Redis.HExists(ctx, "Case", problem_id).Result(); ok {
+		cate, _ := p.Redis.HGet(ctx, "Case", problem_id).Result()
+		if json.Unmarshal([]byte(cate), &cases) == nil {
+			// TODO 跳过数据库搜寻testInputs过程
+			goto Case
+		} else {
+			// TODO 移除损坏数据
+			p.Redis.HDel(ctx, "Case", problem_id)
+		}
+	}
+
+	// TODO 查看题目是否在数据库中存在
+	p.DB.Where("id = ?", problem_id).Find(&cases)
+	// TODO 将题目存入redis供下次使用
+	{
+		v, _ := json.Marshal(cases)
+		p.Redis.HSet(ctx, "Case", problem_id, v)
+	}
+Case:
+
+	// TODO 创建题目
+	problemNew := model.ProblemNew{
+		Title:         problem.Title,
+		TimeLimit:     problem.TimeLimit,
+		MemoryLimit:   problem.MemoryLimit,
+		Description:   problem.Description,
+		Reslong:       problem.Reslong,
+		Resshort:      problem.Resshort,
+		Input:         problem.Input,
+		Output:        problem.Output,
+		Hint:          problem.Hint,
+		Source:        problem.Source,
+		UserId:        problem.UserId,
+		SpecialJudge:  problem.SpecialJudge,
+		Standard:      problem.Standard,
+		InputCheck:    problem.InputCheck,
+		CompetitionId: competition.ID,
+	}
+
+	// TODO 插入数据
+	if err := p.DB.Create(&problemNew).Error; err != nil {
+		response.Fail(ctx, nil, "题目上传出错，数据验证有误")
+		return
+	}
+
+	// TODO 存储测试样例
+	for i := range caseSamples {
+		// TODO 尝试存入数据库
+		cas := model.CaseSample{
+			ProblemId: problemNew.ID,
+			Input:     caseSamples[i].Input,
+			Output:    caseSamples[i].Output,
+			Id:        uint(i + 1),
+		}
+		// TODO 插入数据
+		if err := p.DB.Create(&cas).Error; err != nil {
+			response.Fail(ctx, nil, "题目用例上传出错，数据验证有误")
+			return
+		}
+	}
+
+	// TODO 存储测试用例
+	for i := range cases {
+		// TODO 尝试存入数据库
+		cas := model.Case{
+			ProblemId: problemNew.ID,
+			Input:     cases[i].Input,
+			Output:    cases[i].Output,
+			Score:     0,
+			Id:        uint(i + 1),
 		}
 		// TODO 插入数据
 		if err := p.DB.Create(&cas).Error; err != nil {

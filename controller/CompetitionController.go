@@ -424,7 +424,21 @@ func (c CompetitionController) Update(ctx *gin.Context) {
 	c.DB.Where("id = ?", id).Updates(competitionUpdate)
 
 	// TODO 更新定时器
-	util.TimerMap[competition.ID].Reset(time.Time(competition.StartTime).Sub(time.Now()))
+	util.TimerMap[competition.ID].Reset(time.Until(time.Time(competitionUpdate.StartTime)))
+
+	// TODO 找到那些参赛组并修改endtime
+	if competition.Type == "Group" || competition.Type == "Match" {
+		var competitionRanks []model.CompetitionRank
+
+		// TODO 查找所有分页中可见的条目
+		c.DB.Where("competition_id = ?", competition.ID).Find(&competitionRanks)
+
+		// TODO 查找那些组并更新他们
+		for i := range competitionRanks {
+			c.DB.Model(model.Group{}).Where("id = ?", competitionRanks[i].MemberId).Update("competition_at", competitionUpdate.EndTime)
+			c.Redis.HDel(ctx, "Group", competitionRanks[i].MemberId.String())
+		}
+	}
 
 	// TODO 移除损坏数据
 	c.Redis.HDel(ctx, "Competition", id)
@@ -1264,21 +1278,21 @@ func NewCompetitionController() ICompetitionController {
 // @return   void
 func StartTimer(ctx *gin.Context, redis *redis.Client, db *gorm.DB, competition model.Competition) {
 
-	util.TimerMap[competition.ID] = time.NewTimer(time.Time(competition.StartTime).Sub(time.Now()))
+	util.TimerMap[competition.ID] = time.NewTimer(time.Until(time.Time(competition.StartTime)))
 	// TODO 等待比赛开始
 	<-util.TimerMap[competition.ID].C
 	// TODO 比赛初始事项
 	InitCompetition[competition.Type](ctx, redis, db, competition)
 
 	// TODO 创建比赛结束定时器
-	util.TimerMap[competition.ID] = time.NewTimer(time.Time(competition.EndTime).Sub(time.Now()))
+	util.TimerMap[competition.ID] = time.NewTimer(time.Until(time.Time(competition.EndTime)))
 
 	// TODO 等待比赛结束
 	<-util.TimerMap[competition.ID].C
 
 	// TODO 等待hack时间结束
 	if competition.HackTime.After(competition.EndTime) {
-		util.TimerMap[competition.ID] = time.NewTimer(time.Time(competition.HackTime).Sub(time.Now()))
+		util.TimerMap[competition.ID] = time.NewTimer(time.Until(time.Time(competition.HackTime)))
 		<-util.TimerMap[competition.ID].C
 	}
 

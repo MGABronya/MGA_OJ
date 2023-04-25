@@ -18,7 +18,7 @@ type Problem struct {
 	TimeLimit    uint      `json:"time_limit" gorm:"type:uint;not null"`                                  // 时间限制
 	MemoryLimit  uint      `json:"memory_limit" gorm:"type:uint;not null"`                                // 内存限制
 	Title        string    `json:"title" gorm:"type:char(50);not null;index:search_idx,class:FULLTEXT"`   // 标题
-	Description  string    `json:"discription" gorm:"type:text;not null;index:search_idx,class:FULLTEXT"` // 内容
+	Description  string    `json:"description" gorm:"type:text;not null;index:search_idx,class:FULLTEXT"` // 内容
 	Reslong      string    `json:"res_long" gorm:"type:text;index:search_idx,class:FULLTEXT"`             // 备用长文本
 	Resshort     string    `json:"res_short" gorm:"type:text;index:search_idx,class:FULLTEXT"`            // 备用短文本
 	Input        string    `json:"input" gorm:"type:text;not null"`                                       // 输入格式
