@@ -9,7 +9,7 @@ import uuid "github.com/satori/go.uuid"
 // CaseCondition			定义提交记录中的样例
 type CaseCondition struct {
 	RecordId uuid.UUID `json:"record_id" gorm:"type:char(36);index:idx_recordId;not null"` // 提交记录外键
-	ID       uint      `json:"id" gorm:"type:uint;not null"`                               // 表示第几个测试
+	CID      uint      `json:"cid" gorm:"type:uint;not null"`                              // 表示第几个测试
 	Time     uint      `json:"time" gorm:"type:uint;not null"`                             // 表示测试使用时间
 	Memory   uint      `json:"memory" gorm:"type:uint;not null"`                           // 表示测试使用空间
 }

@@ -1360,7 +1360,7 @@ func CompetitionProblemSubmit(ctx *gin.Context, redis *redis.Client, db *gorm.DB
 				ProblemId: problem.ID,
 				Input:     caseSamples[i].Input,
 				Output:    caseSamples[i].Output,
-				Id:        uint(i + 1),
+				CID:       uint(i + 1),
 			}
 			// TODO 插入数据
 			db.Create(&cas)
@@ -1397,7 +1397,7 @@ func CompetitionProblemSubmit(ctx *gin.Context, redis *redis.Client, db *gorm.DB
 				ProblemId: problem.ID,
 				Input:     cases[i].Input,
 				Output:    cases[i].Output,
-				Id:        uint(i + 1),
+				CID:       uint(i + 1),
 			}
 			db.Create(&cas)
 		}

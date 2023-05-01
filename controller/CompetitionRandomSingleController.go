@@ -328,7 +328,7 @@ func CompetitionRandomSingleGo() {
 					ProblemId: problemNew.ID,
 					Input:     caseSamples[i].Input,
 					Output:    caseSamples[i].Output,
-					Id:        uint(i + 1),
+					CID:       uint(i + 1),
 				}
 				// TODO 插入数据
 				db.Create(&cas)
@@ -342,7 +342,7 @@ func CompetitionRandomSingleGo() {
 					Input:     cases[i].Input,
 					Output:    cases[i].Output,
 					Score:     0,
-					Id:        uint(i + 1),
+					CID:       uint(i + 1),
 				}
 				if i == len(cases)-1 {
 					cas.Score = 5

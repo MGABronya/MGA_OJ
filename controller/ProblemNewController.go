@@ -168,7 +168,7 @@ leap:
 
 	// TODO 查看特判程序是否通过
 	var program model.Program
-	if p.DB.Where("id = ?", requestProblem.SpecialJudge).First(&program).Error != nil {
+	if p.DB.Where("id = ?", requestProblem.SpecialJudge).First(&program).Error == nil {
 		for i := range requestProblem.TestInput {
 			if condition, output := TQ.JudgeRun(program.Language, program.Code, requestProblem.TestInput[i]+"\n"+requestProblem.TestOutput[i], requestProblem.MemoryLimit*2, requestProblem.TimeLimit*2); condition != "ok" || output != "ok" {
 				response.Fail(ctx, nil, "特判程序未通过")
@@ -178,7 +178,7 @@ leap:
 	}
 
 	// TODO 查看标准程序是否通过
-	if p.DB.Where("id = ?", requestProblem.Standard).First(&program).Error != nil {
+	if p.DB.Where("id = ?", requestProblem.Standard).First(&program).Error == nil {
 		for i := range requestProblem.TestInput {
 			if condition, output := TQ.JudgeRun(program.Language, program.Code, requestProblem.TestInput[i], requestProblem.MemoryLimit*2, requestProblem.TimeLimit*2); condition != "ok" || output != requestProblem.TestOutput[i] {
 				response.Fail(ctx, nil, "标准程序未通过")
@@ -188,7 +188,7 @@ leap:
 	}
 
 	// TODO 查看输入检查程序是否通过
-	if p.DB.Where("id = ?", requestProblem.InputCheck).First(&program).Error != nil {
+	if p.DB.Where("id = ?", requestProblem.InputCheck).First(&program).Error == nil {
 		for i := range requestProblem.TestInput {
 			if condition, output := TQ.JudgeRun(program.Language, program.Code, requestProblem.TestInput[i], requestProblem.MemoryLimit*2, requestProblem.TimeLimit*2); condition != "ok" || output != "ok" {
 				response.Fail(ctx, nil, "输入检查程序未通过")
@@ -210,7 +210,7 @@ leap:
 			ProblemId: problem.ID,
 			Input:     requestProblem.SampleInput[i],
 			Output:    requestProblem.SampleOutput[i],
-			Id:        uint(i + 1),
+			CID:       uint(i + 1),
 		}
 		// TODO 插入数据
 		if err := p.DB.Create(&cas).Error; err != nil {
@@ -227,7 +227,7 @@ leap:
 			Input:     requestProblem.TestInput[i],
 			Output:    requestProblem.TestOutput[i],
 			Score:     requestProblem.Scores[i],
-			Id:        uint(i + 1),
+			CID:       uint(i + 1),
 		}
 		// TODO 插入数据
 		if err := p.DB.Create(&cas).Error; err != nil {
@@ -395,7 +395,7 @@ Case:
 			ProblemId: problemNew.ID,
 			Input:     caseSamples[i].Input,
 			Output:    caseSamples[i].Output,
-			Id:        uint(i + 1),
+			CID:       uint(i + 1),
 		}
 		// TODO 插入数据
 		if err := p.DB.Create(&cas).Error; err != nil {
@@ -412,7 +412,7 @@ Case:
 			Input:     cases[i].Input,
 			Output:    cases[i].Output,
 			Score:     0,
-			Id:        uint(i + 1),
+			CID:       uint(i + 1),
 		}
 		if i == len(cases)-1 {
 			cas.Score = uint(score)
@@ -611,7 +611,7 @@ Case:
 			ProblemId: problemNew.ID,
 			Input:     caseSamples[i].Input,
 			Output:    caseSamples[i].Output,
-			Id:        uint(i + 1),
+			CID:       uint(i + 1),
 		}
 		// TODO 插入数据
 		if err := p.DB.Create(&cas).Error; err != nil {
@@ -628,7 +628,7 @@ Case:
 			Input:     cases[i].Input,
 			Output:    cases[i].Output,
 			Score:     0,
-			Id:        uint(i + 1),
+			CID:       uint(i + 1),
 		}
 		// TODO 插入数据
 		if err := p.DB.Create(&cas).Error; err != nil {
@@ -735,7 +735,7 @@ func (p ProblemNewController) Update(ctx *gin.Context) {
 
 	// TODO 查看特判程序是否通过
 	var program model.Program
-	if p.DB.Where("id = ?", requestProblem.SpecialJudge).First(&program).Error != nil {
+	if p.DB.Where("id = ?", requestProblem.SpecialJudge).First(&program).Error == nil {
 		for i := range requestProblem.TestInput {
 			if condition, output := TQ.JudgeRun(program.Language, program.Code, requestProblem.TestInput[i]+"\n"+requestProblem.TestOutput[i], requestProblem.MemoryLimit*2, requestProblem.TimeLimit*2); condition != "ok" || output != "ok" {
 				response.Fail(ctx, nil, "特判程序未通过")
@@ -745,7 +745,7 @@ func (p ProblemNewController) Update(ctx *gin.Context) {
 	}
 
 	// TODO 查看标准程序是否通过
-	if p.DB.Where("id = ?", requestProblem.Standard).First(&program).Error != nil {
+	if p.DB.Where("id = ?", requestProblem.Standard).First(&program).Error == nil {
 		for i := range requestProblem.TestInput {
 			if condition, output := TQ.JudgeRun(program.Language, program.Code, requestProblem.TestInput[i], requestProblem.MemoryLimit*2, requestProblem.TimeLimit*2); condition != "ok" || output != requestProblem.TestOutput[i] {
 				response.Fail(ctx, nil, "标准程序未通过")
@@ -755,7 +755,7 @@ func (p ProblemNewController) Update(ctx *gin.Context) {
 	}
 
 	// TODO 查看输入检查程序是否通过
-	if p.DB.Where("id = ?", requestProblem.InputCheck).First(&program).Error != nil {
+	if p.DB.Where("id = ?", requestProblem.InputCheck).First(&program).Error == nil {
 		for i := range requestProblem.TestInput {
 			if condition, output := TQ.JudgeRun(program.Language, program.Code, requestProblem.TestInput[i], requestProblem.MemoryLimit*2, requestProblem.TimeLimit*2); condition != "ok" || output != "ok" {
 				response.Fail(ctx, nil, "输入检查程序未通过")
@@ -797,7 +797,7 @@ func (p ProblemNewController) Update(ctx *gin.Context) {
 				ProblemId: problem.ID,
 				Input:     requestProblem.SampleInput[i],
 				Output:    requestProblem.SampleOutput[i],
-				Id:        uint(i + 1),
+				CID:       uint(i + 1),
 			}
 			// TODO 插入数据
 			if err := p.DB.Create(&cas).Error; err != nil {
@@ -819,7 +819,7 @@ func (p ProblemNewController) Update(ctx *gin.Context) {
 				ProblemId: problem.ID,
 				Input:     requestProblem.TestInput[i],
 				Output:    requestProblem.TestOutput[i],
-				Id:        uint(i + 1),
+				CID:       uint(i + 1),
 				Score:     requestProblem.Scores[i],
 			}
 			// TODO 插入数据

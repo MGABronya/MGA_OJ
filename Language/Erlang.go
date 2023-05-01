@@ -72,7 +72,7 @@ func (e Erlang) MemoryMultiplier() uint {
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (e Erlang) RunUpTime() uint {
-	return 2000
+	return 3000
 }
 
 // @title    Name
