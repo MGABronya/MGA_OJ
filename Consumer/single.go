@@ -197,7 +197,7 @@ leap:
 		}
 
 		// TODO 查看题目是否在数据库中存在
-		if s.DB.Where("id = ?", id).Find(&cases).Error != nil {
+		if s.DB.Where("problem_id = ?", id).Find(&cases).Error != nil {
 			record.Condition = "Input Doesn't Exist"
 			return
 		}

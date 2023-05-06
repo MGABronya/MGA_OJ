@@ -882,7 +882,7 @@
 
     **方法类型：POST**
 
-    请求参数：表单的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含 start_time 、 end_time、type、title、content、res_long（可选）、res_short（可选）、hack_time、hack_score（可选）、hack_num（可选）、group_id（可选）、less_num（可选）、up_num（可选），其中type仅可为"Single"，"Group"，"Match","OI"，表示为单人赛、组队赛、匹配赛和OI赛制，hack_time表示黑客时间，其应该在end_time之后，如果该比赛不需要黑客机制，你可以将hack时间设置在end_time之前。hack_score表示黑客成功后的奖励分数，hack_num表示最多可以获得分数的黑客次数，group_id表示比赛管理组的id，less_num表示为组队比赛时的小组人数上限，up_num表示小组人数下限。
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含 start_time 、 end_time、type、title、content、res_long（可选）、res_short（可选）、hack_time、hack_score（可选）、hack_num（可选）、group_id（可选）、less_num（可选）、up_num（可选），其中type仅可为"Single"，"Group"，"Match","OI"，表示为单人赛、组队赛、匹配赛和OI赛制，hack_time表示黑客时间，其应该在end_time之后，如果该比赛不需要黑客机制，你可以将hack时间设置在end_time之前。hack_score表示黑客成功后的奖励分数，hack_num表示最多可以获得分数的黑客次数，group_id表示比赛管理组的id，less_num表示为组队比赛时的小组人数上限，up_num表示小组人数下限。
 
     返回值：成功时返回创建成功相关信息和比赛信息competition，否则给出失败原因
 

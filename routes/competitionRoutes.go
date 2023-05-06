@@ -25,7 +25,7 @@ func CompetitionRoutes(r *gin.Engine) *gin.Engine {
 	competitionController := controller.NewCompetitionController()
 
 	// TODO 创建竞赛
-	competitionRoutes.POST("/create/:id", middleware.AuthMiddleware(), competitionController.Create)
+	competitionRoutes.POST("/create", middleware.AuthMiddleware(), competitionController.Create)
 
 	// TODO 查看竞赛
 	competitionRoutes.GET("/show/:id", competitionController.Show)
