@@ -20,8 +20,8 @@ type Competition struct {
 	EndTime   Time      `json:"end_time" gorm:"type:timestamp;not null"`                             // 终止时间
 	Title     string    `json:"title" gorm:"type:char(50);not null;index:search_idx,class:FULLTEXT"` // 标题
 	Content   string    `json:"content" gorm:"type:text;not null;index:search_idx,class:FULLTEXT"`   // 内容
-	Reslong   string    `json:"res_long" gorm:"type:text;index:search_idx,class:FULLTEXT"`           // 备用长文本
-	Resshort  string    `json:"res_short" gorm:"type:text;index:search_idx,class:FULLTEXT"`          // 备用短文本
+	ResLong   string    `json:"res_long" gorm:"type:text;index:search_idx,class:FULLTEXT"`           // 备用长文本
+	ResShort  string    `json:"res_short" gorm:"type:text;index:search_idx,class:FULLTEXT"`          // 备用短文本
 	PasswdId  uuid.UUID `json:"passwd_id" gorm:"type:char(36)"`                                      // 密码id
 	HackTime  Time      `json:"hack_time" gorm:"type:timestamp"`                                     // hack时间
 	HackScore uint      `json:"hack_score" gorm:"type:uint"`                                         // hack分数

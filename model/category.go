@@ -16,8 +16,8 @@ type Category struct {
 	UpdatedAt Time      `json:"updated_at" gorm:"type:timestamp"`      // 更新日期
 	Name      string    `json:"name" gorm:"type:varchar(64);not null"` // 分类名称
 	Content   string    `json:"content" gorm:"type:text;not null"`     // 分类描述内容
-	Reslong   string    `json:"res_long" gorm:"type:text"`             // 备用长文本
-	Resshort  string    `json:"res_short" gorm:"type:text"`            // 备用短文本
+	ResLong   string    `json:"res_long" gorm:"type:text"`             // 备用长文本
+	ResShort  string    `json:"res_short" gorm:"type:text"`            // 备用短文本
 }
 
 // @title    BeforeCreate

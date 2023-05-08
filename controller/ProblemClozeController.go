@@ -117,8 +117,8 @@ levp:
 	// TODO 创建填空题
 	ProblemCloze := model.ProblemCloze{
 		Description: requestProblemCloze.Description,
-		Reslong:     requestProblemCloze.Reslong,
-		Resshort:    requestProblemCloze.Resshort,
+		ResLong:     requestProblemCloze.ResLong,
+		ResShort:    requestProblemCloze.ResShort,
 		Answer:      requestProblemCloze.Answer,
 		Score:       requestProblemCloze.Score,
 		UserId:      user.ID,
@@ -222,8 +222,8 @@ levp:
 	// TODO 新建填空题
 	ProblemClozeUpdate := model.ProblemCloze{
 		Description: requestProblemCloze.Description,
-		Reslong:     requestProblemCloze.Reslong,
-		Resshort:    requestProblemCloze.Resshort,
+		ResLong:     requestProblemCloze.ResLong,
+		ResShort:    requestProblemCloze.ResShort,
 		Answer:      requestProblemCloze.Answer,
 		Score:       requestProblemCloze.Score,
 	}

@@ -48,5 +48,8 @@ func ProblemNewRoutes(r *gin.Engine) *gin.Engine {
 	// TODO 查看题目列表
 	problemNewRoutes.GET("/list/:id", problemNewController.PageList)
 
+	// TODO 将题目连同提交放入题库
+	problemNewRoutes.POST("/submit/:id", middleware.AuthMiddleware(), problemNewController.Submit)
+
 	return r
 }

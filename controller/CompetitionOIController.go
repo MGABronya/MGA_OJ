@@ -10,6 +10,7 @@ import (
 	"MGA_OJ/model"
 	"MGA_OJ/response"
 	"MGA_OJ/vo"
+	"context"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -747,7 +748,7 @@ leep:
 	var total int64
 
 	// TODO 查找所有分页中可见的条目
-	c.DB.Where("record_id = ?", record.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&cases)
+	c.DB.Where("record_id = ?", record.ID).Order("id asc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&cases)
 
 	c.DB.Where("record_id = ?", record.ID).Model(model.CaseCondition{}).Count(&total)
 
@@ -793,7 +794,7 @@ func NewCompetitionOIController() ICompetitionOIController {
 	return CompetitionOIController{DB: db, Redis: redis, UpGrader: upGrader, RabbitMq: rabbitmq}
 }
 
-func initOICompetition(ctx *gin.Context, redis *redis.Client, db *gorm.DB, competition model.Competition) {
+func initOICompetition(ctx context.Context, redis *redis.Client, db *gorm.DB, competition model.Competition) {
 	if competition.Type != "Single" {
 		log.Println("single competition's type is error!")
 	} else {
@@ -801,7 +802,7 @@ func initOICompetition(ctx *gin.Context, redis *redis.Client, db *gorm.DB, compe
 	}
 }
 
-func finishOICompetition(ctx *gin.Context, redis *redis.Client, db *gorm.DB, competition model.Competition) {
+func finishOICompetition(ctx context.Context, redis *redis.Client, db *gorm.DB, competition model.Competition) {
 	if competition.Type != "Single" {
 		log.Println("single competition's type is error!")
 	} else {
@@ -818,7 +819,7 @@ func finishOICompetition(ctx *gin.Context, redis *redis.Client, db *gorm.DB, com
 		}
 		v, _ := json.Marshal(recordRabbit)
 		if err := RabbitMq.PublishSimple(string(v)); err != nil {
-			response.Fail(ctx, nil, "消息队列出错")
+			log.Println(err)
 			return
 		}
 		// TODO 发布订阅用于提交列表
@@ -829,6 +830,5 @@ func finishOICompetition(ctx *gin.Context, redis *redis.Client, db *gorm.DB, com
 		v, _ = json.Marshal(recordList)
 		redis.Publish(ctx, "RecordCompetitionChan", v)
 	}
-	CompetitionProblemSubmit(ctx, redis, db, competition)
 	CompetitionFinish(ctx, redis, db, competition)
 }

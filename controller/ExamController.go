@@ -97,7 +97,7 @@ levp:
 		return
 	}
 	if time.Now().After(time.Time(requestExam.StartTime)) {
-		response.Fail(ctx, nil, "起始时间大于了当前时间")
+		response.Fail(ctx, nil, "当前时间大于了起始时间")
 		return
 	}
 	if time.Time(requestExam.EndTime).After(time.Now().Add(30 * 24 * time.Hour)) {
@@ -114,8 +114,8 @@ levp:
 	exam := model.Exam{
 		Title:     requestExam.Title,
 		Content:   requestExam.Content,
-		Reslong:   requestExam.Reslong,
-		Resshort:  requestExam.Resshort,
+		ResLong:   requestExam.ResLong,
+		ResShort:  requestExam.ResShort,
 		GroupId:   group.ID,
 		UserId:    user.ID,
 		StartTime: requestExam.StartTime,
@@ -208,7 +208,7 @@ levp:
 		return
 	}
 	if time.Now().After(time.Time(requestExam.StartTime)) {
-		response.Fail(ctx, nil, "起始时间大于了当前时间")
+		response.Fail(ctx, nil, "当前时间大于了起始时间")
 		return
 	}
 	if time.Time(requestExam.EndTime).After(time.Now().Add(30 * 24 * time.Hour)) {
@@ -220,8 +220,8 @@ levp:
 	examUpdate := model.Exam{
 		Title:     requestExam.Title,
 		Content:   requestExam.Content,
-		Reslong:   requestExam.Reslong,
-		Resshort:  requestExam.Resshort,
+		ResLong:   requestExam.ResLong,
+		ResShort:  requestExam.ResShort,
 		StartTime: requestExam.StartTime,
 		EndTime:   requestExam.EndTime,
 		Type:      requestExam.Type,

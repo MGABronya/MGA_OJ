@@ -33,6 +33,8 @@ func main() {
 	// TODO 定时任务
 	go timer.TimedTask("The hot data is being updated...", timer.HotStatics, 0, 0, 0)
 	go timer.TimedTask("Form ranking calculation...", timer.SetRank, 4, 0, 0)
+	// TODO 比赛计时器
+	go timer.CompetitionStart()
 	// TODO 及时单人匹配比赛
 	go controller.CompetitionRandomSingleGo()
 	// TODO 及时小组匹配比赛

@@ -17,8 +17,8 @@ type Thread struct {
 	UserId    uuid.UUID `json:"user_id" gorm:"type:char(36);index:idx_userId;not null"` // 用户外键
 	PostId    uuid.UUID `json:"post_id" gorm:"type:char(36);index:idx_postId;not null"` // 题解外键
 	Content   string    `json:"content" gorm:"type:text;not null"`                      // 内容
-	Reslong   string    `json:"res_long" gorm:"type:text"`                              // 备用长文本
-	Resshort  string    `json:"res_short" gorm:"type:text"`                             // 备用短文本
+	ResLong   string    `json:"res_long" gorm:"type:text"`                              // 备用长文本
+	ResShort  string    `json:"res_short" gorm:"type:text"`                             // 备用短文本
 }
 
 // @title    BeforeCreate

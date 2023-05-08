@@ -93,8 +93,8 @@ leep:
 		ProblemId: problem.ID,
 		Title:     requestPost.Title,
 		Content:   requestPost.Content,
-		Reslong:   requestPost.Reslong,
-		Resshort:  requestPost.Resshort,
+		ResLong:   requestPost.ResLong,
+		ResShort:  requestPost.ResShort,
 	}
 
 	// TODO 插入数据
@@ -146,8 +146,8 @@ func (p PostController) Update(ctx *gin.Context) {
 	postUpdate := model.Post{
 		Title:    requestPost.Title,
 		Content:  requestPost.Content,
-		Reslong:  requestPost.Reslong,
-		Resshort: requestPost.Resshort,
+		ResLong:  requestPost.ResLong,
+		ResShort: requestPost.ResShort,
 	}
 
 	// TODO 更新题解内容

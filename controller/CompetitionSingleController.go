@@ -12,6 +12,7 @@ import (
 	"MGA_OJ/response"
 	"MGA_OJ/util"
 	"MGA_OJ/vo"
+	"context"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -770,7 +771,7 @@ leep:
 	var total int64
 
 	// TODO 查找所有分页中可见的条目
-	c.DB.Where("record_id = ?", record.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&cases)
+	c.DB.Where("record_id = ?", record.ID).Order("id asc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&cases)
 
 	c.DB.Where("record_id = ?", record.ID).Model(model.CaseCondition{}).Count(&total)
 
@@ -1245,7 +1246,7 @@ func NewCompetitionSingleController() ICompetitionSingleController {
 	return CompetitionSingleController{DB: db, Redis: redis, UpGrader: upGrader, RabbitMq: rabbitmq}
 }
 
-func initSingleCompetition(ctx *gin.Context, redis *redis.Client, db *gorm.DB, competition model.Competition) {
+func initSingleCompetition(ctx context.Context, redis *redis.Client, db *gorm.DB, competition model.Competition) {
 	if competition.Type != "Single" {
 		log.Println("single competition's type is error!")
 	} else {
@@ -1253,12 +1254,11 @@ func initSingleCompetition(ctx *gin.Context, redis *redis.Client, db *gorm.DB, c
 	}
 }
 
-func finishSingleCompetition(ctx *gin.Context, redis *redis.Client, db *gorm.DB, competition model.Competition) {
+func finishSingleCompetition(ctx context.Context, redis *redis.Client, db *gorm.DB, competition model.Competition) {
 	if competition.Type != "Single" {
 		log.Println("single competition's type is error!")
 	} else {
 		log.Println("single competition finish!", competition)
 	}
-	CompetitionProblemSubmit(ctx, redis, db, competition)
 	CompetitionFinish(ctx, redis, db, competition)
 }

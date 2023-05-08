@@ -63,8 +63,8 @@ func (a ArticleController) Create(ctx *gin.Context) {
 	article := model.Article{
 		Title:      requestArticle.Title,
 		Content:    requestArticle.Content,
-		Reslong:    requestArticle.Reslong,
-		Resshort:   requestArticle.Resshort,
+		ResLong:    requestArticle.ResLong,
+		ResShort:   requestArticle.ResShort,
 		UserId:     user.ID,
 		CategoryId: requestArticle.CategoryId,
 	}
@@ -119,8 +119,8 @@ func (a ArticleController) Update(ctx *gin.Context) {
 	articleUpdate := model.Article{
 		Title:      requestArticle.Title,
 		Content:    requestArticle.Content,
-		Reslong:    requestArticle.Reslong,
-		Resshort:   requestArticle.Resshort,
+		ResLong:    requestArticle.ResLong,
+		ResShort:   requestArticle.ResShort,
 		CategoryId: requestArticle.CategoryId,
 	}
 

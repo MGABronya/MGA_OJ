@@ -116,8 +116,8 @@ levp:
 	// TODO 创建文件题
 	ProblemFile := model.ProblemFile{
 		Description: requestProblemFile.Description,
-		Reslong:     requestProblemFile.Reslong,
-		Resshort:    requestProblemFile.Resshort,
+		ResLong:     requestProblemFile.ResLong,
+		ResShort:    requestProblemFile.ResShort,
 		Score:       requestProblemFile.Score,
 		UserId:      user.ID,
 		ExamId:      exam.ID,
@@ -220,8 +220,8 @@ levp:
 	// TODO 新建文件题
 	ProblemFileUpdate := model.ProblemFile{
 		Description: requestProblemFile.Description,
-		Reslong:     requestProblemFile.Reslong,
-		Resshort:    requestProblemFile.Resshort,
+		ResLong:     requestProblemFile.ResLong,
+		ResShort:    requestProblemFile.ResShort,
 		Score:       requestProblemFile.Score,
 	}
 

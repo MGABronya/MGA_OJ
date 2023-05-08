@@ -84,8 +84,8 @@ leep:
 		UserId:    user.ID,
 		CommentId: comment.ID,
 		Content:   requestReply.Content,
-		Reslong:   requestReply.Reslong,
-		Resshort:  requestReply.Resshort,
+		ResLong:   requestReply.ResLong,
+		ResShort:  requestReply.ResShort,
 	}
 
 	// TODO 插入数据
@@ -137,8 +137,8 @@ func (r ReplyController) Update(ctx *gin.Context) {
 
 	replyUpdate := model.Reply{
 		Content:  requestReply.Content,
-		Reslong:  requestReply.Reslong,
-		Resshort: requestReply.Resshort,
+		ResLong:  requestReply.ResLong,
+		ResShort: requestReply.ResShort,
 	}
 
 	// TODO 更新讨论的回复内容

@@ -118,8 +118,8 @@ levp:
 	// TODO 创建选择题
 	ProblemMCQs := model.ProblemMCQs{
 		Description: requestProblemMCQs.Description,
-		Reslong:     requestProblemMCQs.Reslong,
-		Resshort:    requestProblemMCQs.Resshort,
+		ResLong:     requestProblemMCQs.ResLong,
+		ResShort:    requestProblemMCQs.ResShort,
 		Answer:      requestProblemMCQs.Answer,
 		Score:       requestProblemMCQs.Score,
 		UserId:      user.ID,
@@ -223,8 +223,8 @@ levp:
 	// TODO 新建选择题
 	ProblemMCQsUpdate := model.ProblemMCQs{
 		Description: requestProblemMCQs.Description,
-		Reslong:     requestProblemMCQs.Reslong,
-		Resshort:    requestProblemMCQs.Resshort,
+		ResLong:     requestProblemMCQs.ResLong,
+		ResShort:    requestProblemMCQs.ResShort,
 		Answer:      requestProblemMCQs.Answer,
 		Score:       requestProblemMCQs.Score,
 	}

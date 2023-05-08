@@ -93,8 +93,8 @@ leap:
 	// TODO 创建留言
 	letter := model.Letter{
 		Content:  requestLetter.Content,
-		Reslong:  requestLetter.Reslong,
-		Resshort: requestLetter.Resshort,
+		ResLong:  requestLetter.ResLong,
+		ResShort: requestLetter.ResShort,
 		UserId:   userb.ID,
 		Author:   user.ID,
 		ID:       uuid.NewV4(),

@@ -16,8 +16,8 @@ type ProblemRequest struct {
 	MemoryLimit   uint      `json:"memory_limit"`  // 内存限制
 	MemoryUnits   string    `json:"memory_unit"`   // 内存单位
 	Description   string    `json:"description"`   // 内容描述
-	Reslong       string    `json:"res_long"`      // 备用长文本
-	Resshort      string    `json:"res_short"`     // 备用短文本
+	ResLong       string    `json:"res_long"`      // 备用长文本
+	ResShort      string    `json:"res_short"`     // 备用短文本
 	Input         string    `json:"input"`         // 输入格式
 	Output        string    `json:"output"`        // 输出格式
 	SampleInput   []string  `json:"sample_input"`  // 输入样例

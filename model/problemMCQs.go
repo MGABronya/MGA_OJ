@@ -17,8 +17,8 @@ type ProblemMCQs struct {
 	UserId      uuid.UUID `json:"user_id" gorm:"type:char(36);index:idx_userId;not null"`                // 用户外键
 	ExamId      uuid.UUID `json:"exam_id" gorm:"type:char(36);index:idx_weId;not null"`                  // 测试外键
 	Description string    `json:"description" gorm:"type:text;not null;index:search_idx,class:FULLTEXT"` // 内容
-	Reslong     string    `json:"res_long" gorm:"type:text;index:search_idx,class:FULLTEXT"`             // 备用长文本
-	Resshort    string    `json:"res_short" gorm:"type:text;index:search_idx,class:FULLTEXT"`            // 备用短文本
+	ResLong     string    `json:"res_long" gorm:"type:text;index:search_idx,class:FULLTEXT"`             // 备用长文本
+	ResShort    string    `json:"res_short" gorm:"type:text;index:search_idx,class:FULLTEXT"`            // 备用短文本
 	Answer      string    `json:"answer" gorm:"type:text;"`                                              // 该题答案
 	Score       uint      `json:"score" gorm:"type:uint;"`                                               // 该题分数
 }

@@ -85,8 +85,8 @@ leep:
 		UserId:    user.ID,
 		ArticleId: article.ID,
 		Content:   requestRemark.Content,
-		Reslong:   requestRemark.Reslong,
-		Resshort:  requestRemark.Resshort,
+		ResLong:   requestRemark.ResLong,
+		ResShort:  requestRemark.ResShort,
 	}
 
 	// TODO 插入数据
@@ -138,8 +138,8 @@ func (r RemarkController) Update(ctx *gin.Context) {
 
 	remarkUpdate := model.Remark{
 		Content:  requestRemark.Content,
-		Reslong:  requestRemark.Reslong,
-		Resshort: requestRemark.Resshort,
+		ResLong:  requestRemark.ResLong,
+		ResShort: requestRemark.ResShort,
 	}
 
 	// TODO 更新文章的回复内容

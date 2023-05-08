@@ -105,8 +105,8 @@ leep:
 		CompetitionId: competition.ID,
 		Title:         notic.Title,
 		Content:       notic.Content,
-		Reslong:       notic.Reslong,
-		Resshort:      notic.Resshort,
+		ResLong:       notic.ResLong,
+		ResShort:      notic.ResShort,
 	}
 	n.DB.Save(&notice)
 	// TODO 将notic打包

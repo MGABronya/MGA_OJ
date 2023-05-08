@@ -82,8 +82,8 @@ func (f FriendController) Apply(ctx *gin.Context) {
 		UserId:    user.ID,
 		FriendId:  friend.ID,
 		Content:   requestFriendApply.Content,
-		Reslong:   requestFriendApply.Reslong,
-		Resshort:  requestFriendApply.Resshort,
+		ResLong:   requestFriendApply.ResLong,
+		ResShort:  requestFriendApply.ResShort,
 		Condition: true,
 	}
 

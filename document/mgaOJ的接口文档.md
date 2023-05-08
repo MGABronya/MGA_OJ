@@ -508,7 +508,7 @@
 
     **方法类型：GET**
 
-    请求参数： 在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少篇文章，默认值为20）。在Body，raw格式给出json类型数据包含一个labels，其为字符串数组表示要搜索的标签。
+    请求参数： 在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少篇文章，默认值为20），labels数组，labels表示搜索包含的标签。
 
     返回值：返回articles和total，total表示搜索到的文章总量。articles为article的数组
 
@@ -518,7 +518,7 @@
 
     **方法类型：GET**
 
-    请求参数： 在接口地址中给出需要搜索的字符串（即:text部分） 。在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少篇文章，默认值为20）。在Body，raw格式给出json类型数据包含一个labels，其为字符串数组表示要搜索的标签。
+    请求参数： 在接口地址中给出需要搜索的字符串（即:text部分） 。在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少篇文章，默认值为20），labels数组，labels表示搜索包含的标签。
 
     返回值：返回articles和total，total表示搜索到的文章总量。articles为article的数组
 
@@ -998,7 +998,7 @@
 
     **方法类型：GET**
 
-    请求参数： 在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少个比赛，默认值为20）。在Body，raw格式给出json类型数据包含一个labels，其为字符串数组表示要搜索的标签。
+    请求参数： 在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少个比赛，默认值为20），labels数组，labels表示搜索包含的标签。
 
     返回值：返回competitions和total，total表示搜索到的比赛总量。competitions为competition的数组
 
@@ -1008,7 +1008,7 @@
 
     **方法类型：GET**
 
-    请求参数： 在接口地址中给出需要搜索的字符串（即:text部分） 。在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少比赛，默认值为20）。在Body，raw格式给出json类型数据包含一个labels，其为字符串数组表示要搜索的标签。
+    请求参数： 在接口地址中给出需要搜索的字符串（即:text部分） 。在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少比赛，默认值为20），labels数组，labels表示搜索包含的标签。
 
     返回值：返回competitions和total，total表示搜索到的比赛总量。competitions为competition的数组
 
@@ -1476,7 +1476,7 @@
 
     **方法类型：POST**
 
-    请求参数：竞赛的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token。，对于有密码即passwd_id不为空的比赛，需要在Body，raw格式给出json类型数据包含 password ,表示密码字符串。
+    请求参数：竞赛的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token，对于有密码即passwd_id不为空的比赛，需要在Body，raw格式给出json类型数据包含 password ,表示密码字符串。
 
     返回值：成功时，返回报名成功消息。
 
@@ -2257,7 +2257,7 @@
 
     **方法类型：GET**
 
-    请求参数： 在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少个用户组，默认值为20）。在Body，raw格式给出json类型数据包含一个labels，其为字符串数组表示要搜索的标签。
+    请求参数： 在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少个用户组，默认值为20），labels数组，labels表示搜索包含的标签。
 
     返回值：返回groups和total，total表示搜索到的用户组总量。groups为group的数组
 
@@ -2267,7 +2267,7 @@
 
     **方法类型：GET**
 
-    请求参数： 在接口地址中给出需要搜索的字符串（即:text部分） 。在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少用户组，默认值为20）。在Body，raw格式给出json类型数据包含一个labels，其为字符串数组表示要搜索的标签。
+    请求参数： 在接口地址中给出需要搜索的字符串（即:text部分） 。在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少用户组，默认值为20），labels数组，labels表示搜索包含的标签。
 
     返回值：返回groups和total，total表示搜索到的用户组总量。groups为group的数组
 
@@ -2813,7 +2813,7 @@
 
     **方法类型：GET**
 
-    请求参数： 在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少篇题解，默认值为20）。在Body，raw格式给出json类型数据包含一个labels，其为字符串数组表示要搜索的标签。
+    请求参数： 在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少篇题解，默认值为20），labels数组，labels表示搜索包含的标签。
 
     返回值：返回posts和total，total表示搜索到的题解总量。posts为post的数组
 
@@ -2823,7 +2823,7 @@
 
     **方法类型：GET**
 
-    请求参数： 在接口地址中给出需要搜索的字符串（即:text部分） 。在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少篇文章，默认值为20）。在Body，raw格式给出json类型数据包含一个labels，其为字符串数组表示要搜索的标签。
+    请求参数： 在接口地址中给出需要搜索的字符串（即:text部分） 。在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少篇文章，默认值为20），labels数组，labels表示搜索包含的标签。
 
     返回值：返回posts和total，total表示搜索到的题解总量。posts为post的数组
 
@@ -3399,9 +3399,9 @@
 
 - **SearchInterface**
 
-  - **接口地址：/search/:id/:text**
+  - **接口地址：/search/:text**
 
-    **功能：按文本搜索题解**
+    **功能：按文本搜索题目**
 
     **方法类型：GET**
 
@@ -3409,23 +3409,23 @@
 
     返回值：返回problems和total，total表示搜索到的题目总量。problems为problem的数组
 
-  - **接口地址：/search/label/:id**
+  - **接口地址：/search/label**
 
     **功能：按标签搜索题目**
 
     **方法类型：GET**
 
-    请求参数： 在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少篇题目，默认值为20）。在Body，raw格式给出json类型数据包含一个labels，其为字符串数组表示要搜索的标签。
+    请求参数： 在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少篇题目，默认值为20），labels数组，labels表示搜索包含的标签。
 
     返回值：返回problems和total，total表示搜索到的题目总量。problems为problem的数组
 
-  - **接口地址：/search/with/label/:id/:text**
+  - **接口地址：/search/with/label/:text**
 
     **功能：按文本和标签交集搜索题目**
 
     **方法类型：GET**
 
-    请求参数： 在接口地址中给出需要搜索的字符串（即:text部分） 。在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少篇题目，默认值为20）。在Body，raw格式给出json类型数据包含一个labels，其为字符串数组表示要搜索的标签。
+    请求参数： 在接口地址中给出需要搜索的字符串（即:text部分） 。在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少篇题目，默认值为20），labels数组，labels表示搜索包含的标签。
 
     返回值：返回problems和total，total表示搜索到的题目总量。problems为problem的数组
 
@@ -3511,7 +3511,7 @@
 
     请求参数：题目的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token。
 
-    返回值：成功找到题目时，将会以json格式给出题目problem，problem中包含id,user_id,create_at,updated_at,title、 description 、res_long(可选)、res_short（可选）、 time_limit 、 time_unit 、 memory_limit 、 memory_unit 、 input 、 output 、 sample_input 、 sample_output 、 test_input 、 test_output 、hint、 competition_id 、 source 、 special_judge、standard、input_check 。如果失败则返回失败原因。
+    返回值：成功找到题目时，将会以json格式给出题目problem，problem中包含id,user_id,create_at,updated_at,title、 description 、res_long(可选)、res_short（可选）、 time_limit 、 time_unit 、 memory_limit 、 memory_unit 、 input 、 output 、 sample_input 、 sample_output 、 test_input 、 test_output 、hint、 competition_id 、 source 、 special_judge、standard、input_check、score 。如果失败则返回失败原因。
 
   - **接口地址：/update/:id**（需要二级权限）
 
@@ -3561,7 +3561,7 @@
 
     **方法类型：POST**
 
-    请求参数：  在接口地址中给出指定题目的id（即:id部分）  、比赛id（:competition_id）、分数（:score）。
+    请求参数：  在接口地址中给出指定题目的id（即:id部分）  、比赛id（:competition_id）、分数（:score）。Authorization中的Bearer Token中提供注册、登录时给出的token。
 
     返回值：成功时，将为指定比赛添加指定题目，并设置该题目的分数，如果失败则返回失败原因。
     
@@ -3571,9 +3571,19 @@
   
     **方法类型：POST**
   
-    请求参数：  在接口地址中给出指定题目的id（即:id部分）  、比赛id（:competition_id）。
+    请求参数：  在接口地址中给出指定题目的id（即:problem_id部分）  、比赛id（:competition_id）。Authorization中的Bearer Token中提供注册、登录时给出的token。
   
     返回值：成功时，将为指定比赛添加指定题目，如果失败则返回失败原因。
+    
+  - **接口地址：/submit/:id**（需要二级权限）
+  
+    **功能：提交题目**
+  
+    **方法类型：POST**
+  
+    请求参数：  在接口地址中给出指定题目的id（即:id部分）。Authorization中的Bearer Token中提供注册、登录时给出的token。
+  
+    返回值：成功时，将为指定赛内题目提交至题库，如果失败则返回失败原因。
 
 ### 模型：Program
 
@@ -3683,7 +3693,7 @@
 
     请求参数：在接口地址中给出指定提交的id（即:id部分）  。
 
-    返回值：成功时，以json格式返回一个cases，cases为case数组，每个case含有record_id表示为哪一个提交的测试通过情况，id表示为第几个测试，time表示测试使用时间，memory表示测试使用空间，如果失败则返回失败原因。
+    返回值：成功时，以json格式返回一个cases，cases为case数组，每个case含有record_id表示为哪一个提交的测试通过情况，id表示为第几个测试，time表示测试使用时间，memory表示测试使用空间，input表示用例的输入，如果失败则返回失败原因。
 
   - **接口地址：/case/:id**
 
@@ -4357,7 +4367,7 @@
 
     **方法类型：GET**
 
-    请求参数： 在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少个表单，默认值为20）。在Body，raw格式给出json类型数据包含一个labels，其为字符串数组表示要搜索的标签。
+    请求参数： 在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少个表单，默认值为20），labels数组，labels表示搜索包含的标签。
 
     返回值：返回sets和total，total表示搜索到的表单总量。sets为set的数组
 
@@ -4367,7 +4377,7 @@
 
     **方法类型：GET**
 
-    请求参数： 在接口地址中给出需要搜索的字符串（即:text部分） 。在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少表单，默认值为20）。在Body，raw格式给出json类型数据包含一个labels，其为字符串数组表示要搜索的标签。
+    请求参数： 在接口地址中给出需要搜索的字符串（即:text部分） 。在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少表单，默认值为20），labels数组，labels表示搜索包含的标签。
 
     返回值：返回sets和total，total表示搜索到的表单总量。sets为set的数组
 
@@ -4855,7 +4865,7 @@
 
     **方法类型：GET**
 
-    请求参数： 在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少篇主题，默认值为20）。在Body，raw格式给出json类型数据包含一个labels，其为字符串数组表示要搜索的标签。
+    请求参数： 在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少篇主题，默认值为20），labels数组，labels表示搜索包含的标签。
 
     返回值：返回topics和total，total表示搜索到的主题总量。topics为topic的数组
 
@@ -4865,7 +4875,7 @@
 
     **方法类型：GET**
 
-    请求参数： 在接口地址中给出需要搜索的字符串（即:text部分） 。在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少篇主题，默认值为20）。在Body，raw格式给出json类型数据包含一个labels，其为字符串数组表示要搜索的标签。
+    请求参数： 在接口地址中给出需要搜索的字符串（即:text部分） 。在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少篇主题，默认值为20），labels数组，labels表示搜索包含的标签。
 
     返回值：返回topics和total，total表示搜索到的主题总量。topics为topic的数组
 
@@ -4961,7 +4971,7 @@
 
     **方法类型：GET**
 
-    请求参数： 在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少用户，默认值为20）。在Body，raw格式给出json类型数据包含一个labels，其为字符串数组表示要搜索的标签。
+    请求参数： 在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少用户，默认值为20），labels数组，labels表示搜索包含的标签。
 
     返回值：返回users和total，total表示搜索到的用户总量。users为user的数组，每个user含有name（名称）、email（邮箱地址）、blog（博客地址）、sex（bool类型，性别）、icon（头像的url）、level（权限等级）、score（竞赛分数）、like_num（不算今日的点赞数量）、unlike_num（不算今日的点踩数量）、collect_num（不算今日的收藏数量）、visit_num（不算今日的游览数量）
 
@@ -4971,7 +4981,7 @@
 
     **方法类型：GET**
 
-    请求参数： 在接口地址中给出需要搜索的字符串（即:text部分） 。在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少用户，默认值为20）。在Body，raw格式给出json类型数据包含一个labels，其为字符串数组表示要搜索的标签。
+    请求参数： 在接口地址中给出需要搜索的字符串（即:text部分） 。在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少用户，默认值为20），labels数组，labels表示搜索包含的标签。
 
     返回值：返回users和total，total表示搜索到的用户总量。users为user的数组，每个user含有name（名称）、email（邮箱地址）、blog（博客地址）、sex（bool类型，性别）、icon（头像的url）、level（权限等级）、score（竞赛分数）、like_num（不算今日的点赞数量）、unlike_num（不算今日的点踩数量）、collect_num（不算今日的收藏数量）、visit_num（不算今日的游览数量）
 

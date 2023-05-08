@@ -19,13 +19,14 @@ type ProblemNew struct {
 	MemoryLimit   uint      `json:"memory_limit" gorm:"type:uint;not null"`                                // 内存限制
 	Title         string    `json:"title" gorm:"type:char(50);not null;index:search_idx,class:FULLTEXT"`   // 标题
 	Description   string    `json:"description" gorm:"type:text;not null;index:search_idx,class:FULLTEXT"` // 内容
-	Reslong       string    `json:"res_long" gorm:"type:text;index:search_idx,class:FULLTEXT"`             // 备用长文本
-	Resshort      string    `json:"res_short" gorm:"type:text;index:search_idx,class:FULLTEXT"`            // 备用短文本
+	ResLong       string    `json:"res_long" gorm:"type:text;index:search_idx,class:FULLTEXT"`             // 备用长文本
+	ResShort      string    `json:"res_short" gorm:"type:text;index:search_idx,class:FULLTEXT"`            // 备用短文本
 	Input         string    `json:"input" gorm:"type:text;not null"`                                       // 输入格式
 	Output        string    `json:"output" gorm:"type:text;not null"`                                      // 输出格式
 	SampleInput   string    `json:"sample_input" gorm:"type:text;not null"`                                // 输入样例
 	SampleOutput  string    `json:"sample_output" gorm:"type:text;not null"`                               // 输出样例
 	Hint          string    `json:"hint" gorm:"type:text"`                                                 // 提示
+	Score         uint      `json:"score" gorm:"type:uint"`                                                // 题目总分值
 	Source        string    `json:"source" gorm:"type:varchar(64)"`                                        // 来源
 	SpecialJudge  uuid.UUID `json:"special_judge_id" gorm:"type:char(36);"`                                // 特判外键
 	Standard      uuid.UUID `json:"standard_id" gorm:"type:char(36);"`                                     // 标准程序外键

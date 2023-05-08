@@ -86,8 +86,8 @@ leep:
 		UserId:    user.ID,
 		ProblemId: problem.ID,
 		Content:   requestComment.Content,
-		Reslong:   requestComment.Reslong,
-		Resshort:  requestComment.Resshort,
+		ResLong:   requestComment.ResLong,
+		ResShort:  requestComment.ResShort,
 	}
 
 	// TODO 插入数据

@@ -12,7 +12,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"io"
 	"log"
 	"math"
 	"os"
@@ -173,7 +172,7 @@ feep:
 	Case:
 
 		fileId := cmdI.Name()
-		fp, err := os.Create("user-code/" + fileId + "." + cmdI.Suffix())
+		fp, err := os.Create("./user-code/" + fileId + "." + cmdI.Suffix())
 		// TODO 文件错误
 		if err != nil {
 			// TODO 创建文件失败的原因有：
@@ -205,7 +204,7 @@ feep:
 		write.Flush()
 
 		// TODO 编译
-		cmd := cmdI.Compile("user-code/", fileId)
+		cmd := cmdI.Compile("./user-code/", fileId)
 
 		// TODO 系统错误
 		if err := cmd.Start(); err != nil {
@@ -237,7 +236,7 @@ feep:
 		}
 
 		// TODO 获取权限
-		cmd = cmdI.Chmod("./user-code/", id)
+		cmd = cmdI.Chmod("./user-code/", fileId)
 
 		// TODO 权限错误
 		if err := cmd.Start(); err != nil {
@@ -281,19 +280,11 @@ feep:
 			runtime.ReadMemStats(&bm)
 
 			// TODO 通过沙箱运行可执行文件
-			cmd = exec.Command("./seccomp")
+			cmd = exec.Command("./seccomp", "-language", record.Language, "-input", cases[i].Input+"\n")
 			var out, stderr bytes.Buffer
 			cmd.Stderr = &stderr
 			cmd.Stdout = &out
-			stdinPipe, err := cmd.StdinPipe()
-			// TODO 系统错误
-			if err != nil {
-				record.Condition = "System Error 3"
-				return
-			}
-			io.WriteString(stdinPipe, cases[i].Input+"\n")
-			// TODO 关闭管道制造EOF信息
-			stdinPipe.Close()
+
 			now := time.Now().UnixMilli()
 			// TODO 系统错误
 			if err := cmd.Start(); err != nil {
@@ -330,6 +321,7 @@ feep:
 				RecordId: record.ID,
 				Time:     uint(math.Max(float64(end-now-int64(cmdI.RunUpTime())), 0)),
 				Memory:   uint(em.Alloc/1024 - bm.Alloc/1024),
+				Input:    cases[i].Input,
 			}
 			// TODO 超时
 			if cas.Time > problem.TimeLimit*cmdI.TimeMultiplier() {

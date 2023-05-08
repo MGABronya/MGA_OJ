@@ -86,8 +86,8 @@ leep:
 		UserId:   user.ID,
 		PostId:   post.ID,
 		Content:  requestThread.Content,
-		Reslong:  requestThread.Reslong,
-		Resshort: requestThread.Resshort,
+		ResLong:  requestThread.ResLong,
+		ResShort: requestThread.ResShort,
 	}
 
 	// TODO 插入数据
@@ -139,8 +139,8 @@ func (t ThreadController) Update(ctx *gin.Context) {
 
 	threadUpdate := model.Thread{
 		Content:  requestThread.Content,
-		Reslong:  requestThread.Reslong,
-		Resshort: requestThread.Resshort,
+		ResLong:  requestThread.ResLong,
+		ResShort: requestThread.ResShort,
 	}
 
 	// TODO 更新题解的回复内容

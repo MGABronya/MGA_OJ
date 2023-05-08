@@ -49,9 +49,11 @@ type CompetitionController struct {
 	RabbitMq *common.RabbitMQ    // 一个消息队列的指针
 }
 
-var InitCompetition = map[string]func(ctx *gin.Context, redis *redis.Client, db *gorm.DB, competition model.Competition){}
+var CompetitionChan chan model.Competition = make(chan model.Competition)
 
-var FinishCompetition = map[string]func(ctx *gin.Context, redis *redis.Client, db *gorm.DB, competition model.Competition){}
+var InitCompetition = map[string]func(ctx context.Context, redis *redis.Client, db *gorm.DB, competition model.Competition){}
+
+var FinishCompetition = map[string]func(ctx context.Context, redis *redis.Client, db *gorm.DB, competition model.Competition){}
 
 // @title    CreatePasswd
 // @description   为某个比赛创建密码
@@ -219,19 +221,12 @@ func (c CompetitionController) Create(ctx *gin.Context) {
 	tuser, _ := ctx.Get("user")
 	user := tuser.(model.User)
 
-	// TODO 取出用户权限
-	if user.Level < 2 {
-		response.Fail(ctx, nil, "用户权限不足")
-		return
-	}
-
 	// TODO 验证起始时间与终止时间是否合法
 	if competitionRequest.StartTime.After(competitionRequest.EndTime) {
-		response.Fail(ctx, nil, "起始时间大于了终止时间")
 		return
 	}
 	if time.Now().After(time.Time(competitionRequest.StartTime)) {
-		response.Fail(ctx, nil, "起始时间大于了当前时间")
+		response.Fail(ctx, nil, "当前时间大于了起始时间")
 		return
 	}
 	if time.Time(competitionRequest.EndTime).After(time.Now().Add(30 * 24 * time.Hour)) {
@@ -263,7 +258,7 @@ func (c CompetitionController) Create(ctx *gin.Context) {
 
 		// TODO 查看用户组是否在数据库中存在
 		if c.DB.Where("id = ?", competitionRequest.GroupId.String()).First(&group).Error != nil {
-			response.Fail(ctx, nil, "用户组不存在")
+			response.Fail(ctx, gin.H{"competition": competitionRequest}, "用户组不存在")
 			return
 		}
 		{
@@ -273,13 +268,13 @@ func (c CompetitionController) Create(ctx *gin.Context) {
 		}
 	leep:
 		if user.ID != group.LeaderId {
-			response.Fail(ctx, nil, "不是用户组组长")
+			response.Fail(ctx, gin.H{"competition": competitionRequest}, "不是用户组组长")
 			return
 		}
 	}
 
 	if competitionRequest.LessNum > competitionRequest.UpNum {
-		response.Fail(ctx, nil, "人数限制有误")
+		response.Fail(ctx, gin.H{"competition": competitionRequest}, "人数限制有误")
 		return
 	}
 
@@ -290,8 +285,8 @@ func (c CompetitionController) Create(ctx *gin.Context) {
 		EndTime:   competitionRequest.EndTime,
 		Title:     competitionRequest.Title,
 		Content:   competitionRequest.Content,
-		Reslong:   competitionRequest.Reslong,
-		Resshort:  competitionRequest.Resshort,
+		ResLong:   competitionRequest.ResLong,
+		ResShort:  competitionRequest.ResShort,
 		HackTime:  competitionRequest.HackTime,
 		HackScore: competitionRequest.HackScore,
 		HackNum:   competitionRequest.HackNum,
@@ -303,15 +298,16 @@ func (c CompetitionController) Create(ctx *gin.Context) {
 
 	// TODO 插入数据
 	if err := c.DB.Create(&competition).Error; err != nil {
-		response.Fail(ctx, nil, "比赛上传出错，数据库存储错误")
+		response.Fail(ctx, gin.H{"competition": competition}, "比赛上传出错，数据库存储错误")
 		return
 	}
+
+	// TODO 加入比赛计时器
+	CompetitionChan <- competition
 
 	// TODO 成功
 	response.Success(ctx, gin.H{"competition": competition}, "创建成功")
 
-	// TODO 等待直至比赛结束
-	StartTimer(ctx, c.Redis, c.DB, competition)
 }
 
 // @title    Update
@@ -338,7 +334,7 @@ func (c CompetitionController) Update(ctx *gin.Context) {
 		return
 	}
 	if time.Now().After(time.Time(competitionRequest.StartTime)) {
-		response.Fail(ctx, nil, "起始时间大于了当前时间")
+		response.Fail(ctx, nil, "当前时间大于了起始时间")
 		return
 	}
 	if time.Time(competitionRequest.EndTime).After(time.Now().Add(30 * 24 * time.Hour)) {
@@ -410,8 +406,8 @@ func (c CompetitionController) Update(ctx *gin.Context) {
 		EndTime:   competitionRequest.EndTime,
 		Title:     competitionRequest.Title,
 		Content:   competitionRequest.Content,
-		Reslong:   competitionRequest.Reslong,
-		Resshort:  competitionRequest.Resshort,
+		ResLong:   competitionRequest.ResLong,
+		ResShort:  competitionRequest.ResShort,
 		HackTime:  competitionRequest.HackTime,
 		HackScore: competitionRequest.HackScore,
 		HackNum:   competitionRequest.HackNum,
@@ -1269,154 +1265,6 @@ func NewCompetitionController() ICompetitionController {
 	db.AutoMigrate(model.RecordCompetition{})
 	db.AutoMigrate(model.Passwd{})
 	return CompetitionController{DB: db, Redis: redis, UpGrader: upGrader, RabbitMq: rabbitmq}
-}
-
-// @title    StartTimer
-// @description   建立一个比赛开始定时器
-// @auth      MGAronya（张健）       2022-9-16 12:23
-// @param    competitionId uuid.UUID	比赛id
-// @return   void
-func StartTimer(ctx *gin.Context, redis *redis.Client, db *gorm.DB, competition model.Competition) {
-
-	util.TimerMap[competition.ID] = time.NewTimer(time.Until(time.Time(competition.StartTime)))
-	// TODO 等待比赛开始
-	<-util.TimerMap[competition.ID].C
-	// TODO 比赛初始事项
-	InitCompetition[competition.Type](ctx, redis, db, competition)
-
-	// TODO 创建比赛结束定时器
-	util.TimerMap[competition.ID] = time.NewTimer(time.Until(time.Time(competition.EndTime)))
-
-	// TODO 等待比赛结束
-	<-util.TimerMap[competition.ID].C
-
-	// TODO 等待hack时间结束
-	if competition.HackTime.After(competition.EndTime) {
-		util.TimerMap[competition.ID] = time.NewTimer(time.Until(time.Time(competition.HackTime)))
-		<-util.TimerMap[competition.ID].C
-	}
-
-	FinishCompetition[competition.Type](ctx, redis, db, competition)
-}
-
-// @title    CompetitionProblemSubmit
-// @description   将自定义的题目，连同提交记录一起提交到题库
-// @auth      MGAronya（张健）       2022-9-16 12:23
-// @param    competition 		对应比赛
-// @return   void
-func CompetitionProblemSubmit(ctx *gin.Context, redis *redis.Client, db *gorm.DB, competition model.Competition) {
-	var problemNews []model.ProblemNew
-
-	db.Where("competition_id = ?", competition.ID).Find(&problemNews)
-
-	for i := range problemNews {
-		// TODO 创建题目
-		problem := model.Problem{
-			Title:        problemNews[i].Title,
-			TimeLimit:    problemNews[i].TimeLimit,
-			MemoryLimit:  problemNews[i].MemoryLimit,
-			Description:  problemNews[i].Description,
-			Reslong:      problemNews[i].Reslong,
-			Resshort:     problemNews[i].Resshort,
-			Input:        problemNews[i].Input,
-			Output:       problemNews[i].Output,
-			Hint:         problemNews[i].Hint,
-			Source:       problemNews[i].Source,
-			UserId:       competition.UserId,
-			SpecialJudge: problemNews[i].SpecialJudge,
-		}
-
-		// TODO 插入数据
-		if err := db.Create(&problem).Error; err != nil {
-			continue
-		}
-
-		var caseSamples []model.CaseSample
-		// TODO 先看redis中是否存在
-		if ok, _ := redis.HExists(ctx, "CaseSample", problemNews[i].ID.String()).Result(); ok {
-			cate, _ := redis.HGet(ctx, "CaseSample", problemNews[i].ID.String()).Result()
-			if json.Unmarshal([]byte(cate), &caseSamples) == nil {
-				// TODO 跳过数据库搜寻caseSample过程
-				goto levp
-			} else {
-				// TODO 移除损坏数据
-				redis.HDel(ctx, "CaseSample", problemNews[i].ID.String())
-			}
-		}
-		db.Where("problem_id = ?", problem.ID).Find(&caseSamples)
-
-		// TODO 将题目存入redis供下次使用
-		{
-			v, _ := json.Marshal(caseSamples)
-			redis.HSet(ctx, "CaseSample", problemNews[i].ID.String(), v)
-		}
-
-	levp:
-
-		// TODO 存储测试样例
-		for i := range caseSamples {
-			// TODO 尝试存入数据库
-			cas := model.CaseSample{
-				ProblemId: problem.ID,
-				Input:     caseSamples[i].Input,
-				Output:    caseSamples[i].Output,
-				CID:       uint(i + 1),
-			}
-			// TODO 插入数据
-			db.Create(&cas)
-		}
-
-		// TODO 查找用例
-		var cases []model.Case
-		if ok, _ := redis.HExists(ctx, "Case", problemNews[i].ID.String()).Result(); ok {
-			cate, _ := redis.HGet(ctx, "Case", problemNews[i].ID.String()).Result()
-			if json.Unmarshal([]byte(cate), &cases) == nil {
-				// TODO 跳过数据库搜寻testInputs过程
-				goto Case
-			} else {
-				// TODO 移除损坏数据
-				redis.HDel(ctx, "Case", problemNews[i].ID.String())
-			}
-		}
-
-		// TODO 查看题目是否在数据库中存在
-		if db.Where("id = ?", problemNews[i].ID.String()).Find(&cases).Error != nil {
-			continue
-		}
-		// TODO 将题目存入redis供下次使用
-		{
-			v, _ := json.Marshal(cases)
-			redis.HSet(ctx, "Case", problemNews[i].ID.String(), v)
-		}
-	Case:
-
-		// TODO 存储测试用例
-		for i := range cases {
-			// TODO 尝试存入数据库
-			cas := model.Case{
-				ProblemId: problem.ID,
-				Input:     cases[i].Input,
-				Output:    cases[i].Output,
-				CID:       uint(i + 1),
-			}
-			db.Create(&cas)
-		}
-		var recordSingles []model.RecordCompetition
-		db.Where("problem_id = ?", problemNews[i].ID).Find(&recordSingles)
-		for i := range recordSingles {
-			record := model.Record{
-				UserId:    recordSingles[i].UserId,
-				ProblemId: problem.ID,
-				Code:      recordSingles[i].Code,
-				Language:  recordSingles[i].Language,
-				Condition: recordSingles[i].Condition,
-				Pass:      recordSingles[i].Pass,
-				HackId:    recordSingles[i].HackId,
-				CreatedAt: recordSingles[i].CreatedAt,
-			}
-			db.Create(&record)
-		}
-	}
 }
 
 // @title    CompetitionFinish

@@ -30,6 +30,7 @@ type IProblemNewController interface {
 	TestNum(ctx *gin.Context) // 查看指定题目的用例数量
 	Quote(ctx *gin.Context)   // 引用题库
 	Rematch(ctx *gin.Context) // 重现赛内题目
+	Submit(ctx *gin.Context)  // 将比赛题目提交至题库
 }
 
 // ProblemNewController			定义了比赛题目工具类
@@ -135,8 +136,8 @@ leap:
 		TimeLimit:     requestProblem.TimeLimit,
 		MemoryLimit:   requestProblem.MemoryLimit,
 		Description:   requestProblem.Description,
-		Reslong:       requestProblem.Reslong,
-		Resshort:      requestProblem.Resshort,
+		ResLong:       requestProblem.ResLong,
+		ResShort:      requestProblem.ResShort,
 		Input:         requestProblem.Input,
 		Output:        requestProblem.Output,
 		Hint:          requestProblem.Hint,
@@ -146,6 +147,12 @@ leap:
 		Standard:      requestProblem.Standard,
 		InputCheck:    requestProblem.InputCheck,
 		CompetitionId: requestProblem.CompetitionId,
+		Score:         0,
+	}
+
+	// TODO 计算总分值
+	for i := range requestProblem.Scores {
+		problem.Score += requestProblem.Scores[i]
 	}
 
 	// TODO 如果样例输入数量与样例输出数量不对等
@@ -369,8 +376,8 @@ Case:
 		TimeLimit:     problem.TimeLimit,
 		MemoryLimit:   problem.MemoryLimit,
 		Description:   problem.Description,
-		Reslong:       problem.Reslong,
-		Resshort:      problem.Resshort,
+		ResLong:       problem.ResLong,
+		ResShort:      problem.ResShort,
 		Input:         problem.Input,
 		Output:        problem.Output,
 		Hint:          problem.Hint,
@@ -380,6 +387,7 @@ Case:
 		Standard:      problem.Standard,
 		InputCheck:    problem.InputCheck,
 		CompetitionId: competition.ID,
+		Score:         uint(score),
 	}
 
 	// TODO 插入数据
@@ -585,8 +593,8 @@ Case:
 		TimeLimit:     problem.TimeLimit,
 		MemoryLimit:   problem.MemoryLimit,
 		Description:   problem.Description,
-		Reslong:       problem.Reslong,
-		Resshort:      problem.Resshort,
+		ResLong:       problem.ResLong,
+		ResShort:      problem.ResShort,
 		Input:         problem.Input,
 		Output:        problem.Output,
 		Hint:          problem.Hint,
@@ -596,6 +604,7 @@ Case:
 		Standard:      problem.Standard,
 		InputCheck:    problem.InputCheck,
 		CompetitionId: competition.ID,
+		Score:         problem.Score,
 	}
 
 	// TODO 插入数据
@@ -639,6 +648,148 @@ Case:
 
 	// TODO 成功
 	response.Success(ctx, nil, "创建成功")
+}
+
+// @title    Submit
+// @description   将比赛题目提交到题库
+// @auth      MGAronya（张健）       2022-9-16 12:15
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (p ProblemNewController) Submit(ctx *gin.Context) {
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 查看用户是否有权限上传题目
+	if user.Level < 2 {
+		response.Fail(ctx, nil, "用户权限不足")
+		return
+	}
+
+	// TODO 查找对应题目
+	id := ctx.Params.ByName("id")
+
+	var problemNew model.ProblemNew
+
+	if p.DB.Where("id = ?", id).First(&problemNew) != nil {
+		response.Fail(ctx, nil, "题目不存在")
+		return
+	}
+
+	// TODO 查看是否是用户作者
+	if user.ID != problemNew.UserId {
+		response.Fail(ctx, nil, "不是题目作者，无法提交题目")
+		return
+	}
+
+	// TODO 创建题目
+	problem := model.Problem{
+		Title:        problemNew.Title,
+		TimeLimit:    problemNew.TimeLimit,
+		MemoryLimit:  problemNew.MemoryLimit,
+		Description:  problemNew.Description,
+		ResLong:      problemNew.ResLong,
+		ResShort:     problemNew.ResShort,
+		Input:        problemNew.Input,
+		Output:       problemNew.Output,
+		Hint:         problemNew.Hint,
+		Source:       problemNew.Source,
+		UserId:       problemNew.UserId,
+		SpecialJudge: problemNew.SpecialJudge,
+	}
+
+	// TODO 插入数据
+	if err := p.DB.Create(&problem).Error; err != nil {
+		response.Fail(ctx, nil, "题目创建失败")
+		return
+	}
+
+	var caseSamples []model.CaseSample
+	// TODO 先看redis中是否存在
+	if ok, _ := p.Redis.HExists(ctx, "CaseSample", problemNew.ID.String()).Result(); ok {
+		cate, _ := p.Redis.HGet(ctx, "CaseSample", problemNew.ID.String()).Result()
+		if json.Unmarshal([]byte(cate), &caseSamples) == nil {
+			// TODO 跳过数据库搜寻caseSample过程
+			goto levp
+		} else {
+			// TODO 移除损坏数据
+			p.Redis.HDel(ctx, "CaseSample", problemNew.ID.String())
+		}
+	}
+	p.DB.Where("problem_id = ?", problem.ID).Find(&caseSamples)
+
+	// TODO 将题目存入redis供下次使用
+	{
+		v, _ := json.Marshal(caseSamples)
+		p.Redis.HSet(ctx, "CaseSample", problemNew.ID.String(), v)
+	}
+
+levp:
+
+	// TODO 存储测试样例
+	for i := range caseSamples {
+		// TODO 尝试存入数据库
+		cas := model.CaseSample{
+			ProblemId: problem.ID,
+			Input:     caseSamples[i].Input,
+			Output:    caseSamples[i].Output,
+			CID:       uint(i + 1),
+		}
+		// TODO 插入数据
+		p.DB.Create(&cas)
+	}
+
+	// TODO 查找用例
+	var cases []model.Case
+	if ok, _ := p.Redis.HExists(ctx, "Case", problemNew.ID.String()).Result(); ok {
+		cate, _ := p.Redis.HGet(ctx, "Case", problemNew.ID.String()).Result()
+		if json.Unmarshal([]byte(cate), &cases) == nil {
+			// TODO 跳过数据库搜寻testInputs过程
+			goto Case
+		} else {
+			// TODO 移除损坏数据
+			p.Redis.HDel(ctx, "Case", problemNew.ID.String())
+		}
+	}
+
+	// TODO 查看题目是否在数据库中存在
+	if p.DB.Where("id = ?", problemNew.ID.String()).Find(&cases).Error != nil {
+		response.Fail(ctx, nil, "用例不存在")
+		return
+	}
+	// TODO 将题目存入redis供下次使用
+	{
+		v, _ := json.Marshal(cases)
+		p.Redis.HSet(ctx, "Case", problemNew.ID.String(), v)
+	}
+Case:
+
+	// TODO 存储测试用例
+	for i := range cases {
+		// TODO 尝试存入数据库
+		cas := model.Case{
+			ProblemId: problem.ID,
+			Input:     cases[i].Input,
+			Output:    cases[i].Output,
+			CID:       uint(i + 1),
+		}
+		p.DB.Create(&cas)
+	}
+	var recordSingles []model.RecordCompetition
+	p.DB.Where("problem_id = ?", problemNew.ID).Find(&recordSingles)
+	for i := range recordSingles {
+		record := model.Record{
+			UserId:    recordSingles[i].UserId,
+			ProblemId: problem.ID,
+			Code:      recordSingles[i].Code,
+			Language:  recordSingles[i].Language,
+			Condition: recordSingles[i].Condition,
+			Pass:      recordSingles[i].Pass,
+			HackId:    recordSingles[i].HackId,
+			CreatedAt: recordSingles[i].CreatedAt,
+		}
+		p.DB.Create(&record)
+	}
 }
 
 // @title    Update
@@ -770,8 +921,8 @@ func (p ProblemNewController) Update(ctx *gin.Context) {
 		MemoryLimit:   requestProblem.MemoryLimit,
 		Title:         requestProblem.Title,
 		Description:   requestProblem.Description,
-		Reslong:       requestProblem.Reslong,
-		Resshort:      requestProblem.Resshort,
+		ResLong:       requestProblem.ResLong,
+		ResShort:      requestProblem.ResShort,
 		Input:         requestProblem.Input,
 		Output:        requestProblem.Output,
 		Hint:          requestProblem.Hint,
@@ -780,7 +931,13 @@ func (p ProblemNewController) Update(ctx *gin.Context) {
 		Standard:      requestProblem.Standard,
 		InputCheck:    requestProblem.InputCheck,
 		CompetitionId: requestProblem.CompetitionId,
+		Score:         0,
 	})
+
+	// TODO 计算总分值
+	for i := range requestProblem.Scores {
+		problem.Score += requestProblem.Scores[i]
+	}
 
 	// TODO 移除损坏数据
 	p.Redis.HDel(ctx, "ProblemNew", id)

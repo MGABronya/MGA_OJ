@@ -15,8 +15,8 @@ type Letter struct {
 	UserId    uuid.UUID `json:"user_id" gorm:"type:char(36);index:idx_userId;not null"` // 所属用户外键
 	Author    uuid.UUID `json:"author_id" gorm:"type:char(36);not null"`                // 作者用户外键
 	Content   string    `json:"content" gorm:"type:text;not null"`                      // 私信的内容
-	Reslong   string    `json:"res_long" gorm:"type:text"`                              // 备用长文本
-	Resshort  string    `json:"res_short" gorm:"type:text"`                             // 备用短文本
+	ResLong   string    `json:"res_long" gorm:"type:text"`                              // 备用长文本
+	ResShort  string    `json:"res_short" gorm:"type:text"`                             // 备用短文本
 	Read      bool      `json:"read" gorm:"type:boolean"`                               // 是否已读
 }
 

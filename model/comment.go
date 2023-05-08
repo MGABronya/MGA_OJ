@@ -11,14 +11,14 @@ import (
 
 // Comment			定义讨论
 type Comment struct {
-	ID        uuid.UUID `json:"id" gorm:"type:char(36);primary_key"`                               // id
-	CreatedAt Time      `json:"created_at" gorm:"type:timestamp"`                                  // 创建日期
-	UpdatedAt Time      `json:"updated_at" gorm:"type:timestamp"`                                  // 更新日期
-	UserId    uuid.UUID `json:"user_id" gorm:"type:char(36);index:idx_userId;not null"`            // 用户外键
-	ProblemId uuid.UUID `json:"problem_id" gorm:"type:char(36);index:idx_problemId;not null"`      // 题目外键
-	Content   string    `json:"content" gorm:"type:text;not null;"` // 文章的内容
-	Reslong   string    `json:"res_long" gorm:"type:text;"`         // 备用长文本
-	Resshort  string    `json:"res_short" gorm:"type:text;"`        // 备用短文本
+	ID        uuid.UUID `json:"id" gorm:"type:char(36);primary_key"`                          // id
+	CreatedAt Time      `json:"created_at" gorm:"type:timestamp"`                             // 创建日期
+	UpdatedAt Time      `json:"updated_at" gorm:"type:timestamp"`                             // 更新日期
+	UserId    uuid.UUID `json:"user_id" gorm:"type:char(36);index:idx_userId;not null"`       // 用户外键
+	ProblemId uuid.UUID `json:"problem_id" gorm:"type:char(36);index:idx_problemId;not null"` // 题目外键
+	Content   string    `json:"content" gorm:"type:text;not null;"`                           // 文章的内容
+	ResLong   string    `json:"res_long" gorm:"type:text;"`                                   // 备用长文本
+	ResShort  string    `json:"res_short" gorm:"type:text;"`                                  // 备用短文本
 }
 
 // @title    BeforeCreate

@@ -63,8 +63,8 @@ func (t TopicController) Create(ctx *gin.Context) {
 	topic := model.Topic{
 		Title:    requestTopic.Title,
 		Content:  requestTopic.Content,
-		Reslong:  requestTopic.Reslong,
-		Resshort: requestTopic.Resshort,
+		ResLong:  requestTopic.ResLong,
+		ResShort: requestTopic.ResShort,
 		UserId:   user.ID,
 	}
 
@@ -156,8 +156,8 @@ func (t TopicController) Update(ctx *gin.Context) {
 	topic = model.Topic{
 		Title:    requestTopic.Title,
 		Content:  requestTopic.Content,
-		Reslong:  requestTopic.Reslong,
-		Resshort: requestTopic.Resshort,
+		ResLong:  requestTopic.ResLong,
+		ResShort: requestTopic.ResShort,
 		UserId:   user.ID,
 	}
 

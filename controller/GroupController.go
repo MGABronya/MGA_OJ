@@ -70,8 +70,8 @@ func (g GroupController) Create(ctx *gin.Context) {
 	group := model.Group{
 		Title:    requestGroup.Title,
 		Content:  requestGroup.Content,
-		Reslong:  requestGroup.Reslong,
-		Resshort: requestGroup.Resshort,
+		ResLong:  requestGroup.ResLong,
+		ResShort: requestGroup.ResShort,
 		LeaderId: user.ID,
 		Auto:     requestGroup.Auto,
 	}
@@ -308,8 +308,8 @@ func (g GroupController) Update(ctx *gin.Context) {
 	g.DB.Model(&group).Updates(model.Group{
 		Title:    requestGroup.Title,
 		Content:  requestGroup.Content,
-		Reslong:  requestGroup.Reslong,
-		Resshort: requestGroup.Resshort,
+		ResLong:  requestGroup.ResLong,
+		ResShort: requestGroup.ResShort,
 	})
 	// TODO 单独更新auto
 	g.DB.Model(&group).Update("auto", requestGroup.Auto)
@@ -1123,8 +1123,8 @@ leep:
 		GroupId:   group.ID,
 		Condition: true,
 		Content:   requestGroupApply.Content,
-		Reslong:   requestGroupApply.Reslong,
-		Resshort:  requestGroupApply.Resshort,
+		ResLong:   requestGroupApply.ResLong,
+		ResShort:  requestGroupApply.ResShort,
 	}
 
 	// TODO 插入数据

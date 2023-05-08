@@ -70,8 +70,8 @@ func (s SetController) Create(ctx *gin.Context) {
 	set := model.Set{
 		Title:      requestSet.Title,
 		Content:    requestSet.Content,
-		Reslong:    requestSet.Reslong,
-		Resshort:   requestSet.Resshort,
+		ResLong:    requestSet.ResLong,
+		ResShort:   requestSet.ResShort,
 		UserId:     user.ID,
 		AutoUpdate: requestSet.AutoUpdate,
 		AutoPass:   requestSet.AutoPass,
@@ -222,8 +222,8 @@ func (s SetController) Update(ctx *gin.Context) {
 	set = model.Set{
 		Title:      requestSet.Title,
 		Content:    requestSet.Content,
-		Reslong:    requestSet.Reslong,
-		Resshort:   requestSet.Resshort,
+		ResLong:    requestSet.ResLong,
+		ResShort:   requestSet.ResShort,
 		AutoUpdate: requestSet.AutoUpdate,
 		AutoPass:   requestSet.AutoPass,
 		PassNum:    requestSet.PassNum,
@@ -1351,8 +1351,8 @@ leap:
 		GroupId:   group.ID,
 		Condition: true,
 		Content:   requestSetApply.Content,
-		Reslong:   requestSetApply.Reslong,
-		Resshort:  requestSetApply.Resshort,
+		ResLong:   requestSetApply.ResLong,
+		ResShort:  requestSetApply.ResShort,
 	}
 
 	// TODO 插入数据

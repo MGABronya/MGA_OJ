@@ -9,6 +9,7 @@ import (
 	"MGA_OJ/common"
 	"MGA_OJ/model"
 	"MGA_OJ/response"
+	"context"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -329,7 +330,7 @@ func NewCompetitionMatchController() ICompetitionMatchController {
 	return CompetitionMatchController{DB: db, Redis: redis, UpGrader: upGrader, RabbitMq: rabbitmq}
 }
 
-func initMatchCompetition(ctx *gin.Context, redis *redis.Client, db *gorm.DB, competition model.Competition) {
+func initMatchCompetition(ctx context.Context, redis *redis.Client, db *gorm.DB, competition model.Competition) {
 	members, _ := redis.ZRange(ctx, "CompetitionR"+competition.ID.String(), 0, -1).Result()
 	var users []model.User
 	for i := range members {
@@ -412,12 +413,11 @@ func initMatchCompetition(ctx *gin.Context, redis *redis.Client, db *gorm.DB, co
 	}
 }
 
-func finishMatchCompetition(ctx *gin.Context, redis *redis.Client, db *gorm.DB, competition model.Competition) {
+func finishMatchCompetition(ctx context.Context, redis *redis.Client, db *gorm.DB, competition model.Competition) {
 	if competition.Type != "Match" {
 		log.Println("match competition's type is error!")
 	} else {
 		log.Println("match competition finish!", competition)
 	}
-	CompetitionProblemSubmit(ctx, redis, db, competition)
 	CompetitionFinish(ctx, redis, db, competition)
 }

@@ -90,8 +90,8 @@ leep:
 	// TODO 创建群聊信息
 	chat := model.Chat{
 		Content:  requestChat.Content,
-		Reslong:  requestChat.Reslong,
-		Resshort: requestChat.Resshort,
+		ResLong:  requestChat.ResLong,
+		ResShort: requestChat.ResShort,
 		GroupId:  group.ID,
 		Author:   user.ID,
 		ID:       uuid.NewV4(),
