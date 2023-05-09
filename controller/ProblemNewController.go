@@ -155,20 +155,8 @@ leap:
 		problem.Score += requestProblem.Scores[i]
 	}
 
-	// TODO 如果样例输入数量与样例输出数量不对等
-	if len(requestProblem.SampleInput) != len(requestProblem.SampleOutput) {
-		response.Fail(ctx, nil, "题目的样例输入数量或输出数量有误")
-		return
-	}
-
-	// TODO 如果用例输入数量与输出数量不对等
-	if len(requestProblem.TestOutput) != len(requestProblem.TestInput) {
-		response.Fail(ctx, nil, "题目的用例输入数量或输出数量有误")
-		return
-	}
-
 	// TODO 分数数量与输入数量不对等
-	if len(requestProblem.Scores) != len(requestProblem.TestInput) {
+	if len(requestProblem.Scores) != len(requestProblem.TestCase) {
 		response.Fail(ctx, nil, "题目的分数数量与输入数量不对等")
 		return
 	}
@@ -176,8 +164,8 @@ leap:
 	// TODO 查看特判程序是否通过
 	var program model.Program
 	if p.DB.Where("id = ?", requestProblem.SpecialJudge).First(&program).Error == nil {
-		for i := range requestProblem.TestInput {
-			if condition, output := TQ.JudgeRun(program.Language, program.Code, requestProblem.TestInput[i]+"\n"+requestProblem.TestOutput[i], requestProblem.MemoryLimit*2, requestProblem.TimeLimit*2); condition != "ok" || output != "ok" {
+		for i := range requestProblem.TestCase {
+			if condition, output := TQ.JudgeRun(program.Language, program.Code, requestProblem.TestCase[i].Input+"\n"+requestProblem.TestCase[i].Output, requestProblem.MemoryLimit*2, requestProblem.TimeLimit*2); condition != "ok" || output != "ok" {
 				response.Fail(ctx, nil, "特判程序未通过")
 				return
 			}
@@ -186,8 +174,8 @@ leap:
 
 	// TODO 查看标准程序是否通过
 	if p.DB.Where("id = ?", requestProblem.Standard).First(&program).Error == nil {
-		for i := range requestProblem.TestInput {
-			if condition, output := TQ.JudgeRun(program.Language, program.Code, requestProblem.TestInput[i], requestProblem.MemoryLimit*2, requestProblem.TimeLimit*2); condition != "ok" || output != requestProblem.TestOutput[i] {
+		for i := range requestProblem.TestCase {
+			if condition, output := TQ.JudgeRun(program.Language, program.Code, requestProblem.TestCase[i].Input, requestProblem.MemoryLimit*2, requestProblem.TimeLimit*2); condition != "ok" || output != requestProblem.TestCase[i].Output {
 				response.Fail(ctx, nil, "标准程序未通过")
 				return
 			}
@@ -196,8 +184,8 @@ leap:
 
 	// TODO 查看输入检查程序是否通过
 	if p.DB.Where("id = ?", requestProblem.InputCheck).First(&program).Error == nil {
-		for i := range requestProblem.TestInput {
-			if condition, output := TQ.JudgeRun(program.Language, program.Code, requestProblem.TestInput[i], requestProblem.MemoryLimit*2, requestProblem.TimeLimit*2); condition != "ok" || output != "ok" {
+		for i := range requestProblem.TestCase {
+			if condition, output := TQ.JudgeRun(program.Language, program.Code, requestProblem.TestCase[i].Input, requestProblem.MemoryLimit*2, requestProblem.TimeLimit*2); condition != "ok" || output != "ok" {
 				response.Fail(ctx, nil, "输入检查程序未通过")
 				return
 			}
@@ -211,12 +199,12 @@ leap:
 	}
 
 	// TODO 存储测试样例
-	for i := range requestProblem.SampleInput {
+	for i := range requestProblem.SampleCase {
 		// TODO 尝试存入数据库
 		cas := model.CaseSample{
 			ProblemId: problem.ID,
-			Input:     requestProblem.SampleInput[i],
-			Output:    requestProblem.SampleOutput[i],
+			Input:     requestProblem.SampleCase[i].Input,
+			Output:    requestProblem.SampleCase[i].Output,
 			CID:       uint(i + 1),
 		}
 		// TODO 插入数据
@@ -227,12 +215,12 @@ leap:
 	}
 
 	// TODO 存储测试用例
-	for i := range requestProblem.TestInput {
+	for i := range requestProblem.TestCase {
 		// TODO 尝试存入数据库
 		cas := model.Case{
 			ProblemId: problem.ID,
-			Input:     requestProblem.TestInput[i],
-			Output:    requestProblem.TestOutput[i],
+			Input:     requestProblem.TestCase[i].Input,
+			Output:    requestProblem.TestCase[i].Output,
 			Score:     requestProblem.Scores[i],
 			CID:       uint(i + 1),
 		}
@@ -866,20 +854,8 @@ func (p ProblemNewController) Update(ctx *gin.Context) {
 		return
 	}
 
-	// TODO 如果样例输入数量与样例输出数量不对等
-	if len(requestProblem.SampleInput) != len(requestProblem.SampleOutput) {
-		response.Fail(ctx, nil, "题目的样例输入数量或输出数量有误")
-		return
-	}
-
-	// TODO 如果输入数量与输出数量不对等
-	if len(requestProblem.TestOutput) != len(requestProblem.TestInput) {
-		response.Fail(ctx, nil, "题目的输入数量或输出数量有误")
-		return
-	}
-
 	// TODO 分数数量与输入数量不对等
-	if len(requestProblem.Scores) != len(requestProblem.TestInput) {
+	if len(requestProblem.Scores) != len(requestProblem.TestCase) {
 		response.Fail(ctx, nil, "题目的分数数量与输入数量不对等")
 		return
 	}
@@ -887,8 +863,8 @@ func (p ProblemNewController) Update(ctx *gin.Context) {
 	// TODO 查看特判程序是否通过
 	var program model.Program
 	if p.DB.Where("id = ?", requestProblem.SpecialJudge).First(&program).Error == nil {
-		for i := range requestProblem.TestInput {
-			if condition, output := TQ.JudgeRun(program.Language, program.Code, requestProblem.TestInput[i]+"\n"+requestProblem.TestOutput[i], requestProblem.MemoryLimit*2, requestProblem.TimeLimit*2); condition != "ok" || output != "ok" {
+		for i := range requestProblem.TestCase {
+			if condition, output := TQ.JudgeRun(program.Language, program.Code, requestProblem.TestCase[i].Input+"\n"+requestProblem.TestCase[i].Output, requestProblem.MemoryLimit*2, requestProblem.TimeLimit*2); condition != "ok" || output != "ok" {
 				response.Fail(ctx, nil, "特判程序未通过")
 				return
 			}
@@ -897,8 +873,8 @@ func (p ProblemNewController) Update(ctx *gin.Context) {
 
 	// TODO 查看标准程序是否通过
 	if p.DB.Where("id = ?", requestProblem.Standard).First(&program).Error == nil {
-		for i := range requestProblem.TestInput {
-			if condition, output := TQ.JudgeRun(program.Language, program.Code, requestProblem.TestInput[i], requestProblem.MemoryLimit*2, requestProblem.TimeLimit*2); condition != "ok" || output != requestProblem.TestOutput[i] {
+		for i := range requestProblem.TestCase {
+			if condition, output := TQ.JudgeRun(program.Language, program.Code, requestProblem.TestCase[i].Input, requestProblem.MemoryLimit*2, requestProblem.TimeLimit*2); condition != "ok" || output != requestProblem.TestCase[i].Output {
 				response.Fail(ctx, nil, "标准程序未通过")
 				return
 			}
@@ -907,8 +883,8 @@ func (p ProblemNewController) Update(ctx *gin.Context) {
 
 	// TODO 查看输入检查程序是否通过
 	if p.DB.Where("id = ?", requestProblem.InputCheck).First(&program).Error == nil {
-		for i := range requestProblem.TestInput {
-			if condition, output := TQ.JudgeRun(program.Language, program.Code, requestProblem.TestInput[i], requestProblem.MemoryLimit*2, requestProblem.TimeLimit*2); condition != "ok" || output != "ok" {
+		for i := range requestProblem.TestCase {
+			if condition, output := TQ.JudgeRun(program.Language, program.Code, requestProblem.TestCase[i].Input, requestProblem.MemoryLimit*2, requestProblem.TimeLimit*2); condition != "ok" || output != "ok" {
 				response.Fail(ctx, nil, "输入检查程序未通过")
 				return
 			}
@@ -943,17 +919,17 @@ func (p ProblemNewController) Update(ctx *gin.Context) {
 	p.Redis.HDel(ctx, "ProblemNew", id)
 
 	// TODO 查看输入样例是否变化
-	if len(requestProblem.SampleInput) != 0 {
+	if len(requestProblem.SampleCase) != 0 {
 		p.Redis.HDel(ctx, "SampleCase", id)
 		// TODO 清空原有的测试输入
 		p.DB.Where("problem_id = ?", id).Delete(&model.CaseSample{})
 		// TODO 存储测试输入
-		for i := range requestProblem.SampleInput {
+		for i := range requestProblem.SampleCase {
 			// TODO 尝试存入数据库
 			cas := model.CaseSample{
 				ProblemId: problem.ID,
-				Input:     requestProblem.SampleInput[i],
-				Output:    requestProblem.SampleOutput[i],
+				Input:     requestProblem.SampleCase[i].Input,
+				Output:    requestProblem.SampleCase[i].Output,
 				CID:       uint(i + 1),
 			}
 			// TODO 插入数据
@@ -965,17 +941,17 @@ func (p ProblemNewController) Update(ctx *gin.Context) {
 	}
 
 	// TODO 查看输入测试是否变化
-	if len(requestProblem.TestInput) != 0 {
+	if len(requestProblem.TestCase) != 0 {
 		p.Redis.HDel(ctx, "Case", id)
 		// TODO 清空原有的测试输入
 		p.DB.Where("problem_id = ?", id).Delete(&model.Case{})
 		// TODO 存储测试输入
-		for i := range requestProblem.TestInput {
+		for i := range requestProblem.TestCase {
 			// TODO 尝试存入数据库
 			cas := model.Case{
 				ProblemId: problem.ID,
-				Input:     requestProblem.TestInput[i],
-				Output:    requestProblem.TestOutput[i],
+				Input:     requestProblem.TestCase[i].Input,
+				Output:    requestProblem.TestCase[i].Output,
 				CID:       uint(i + 1),
 				Score:     requestProblem.Scores[i],
 			}
@@ -1228,7 +1204,7 @@ func (p ProblemNewController) PageList(ctx *gin.Context) {
 	p.DB.Where("competition_id = ?", id).Order("created_at asc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problems)
 
 	var total int64
-	p.DB.Model(model.ProblemNew{}).Count(&total)
+	p.DB.Where("competition_id = ?", id).Model(model.ProblemNew{}).Count(&total)
 
 	var problemIds []uuid.UUID
 

@@ -23,8 +23,6 @@ type ProblemNew struct {
 	ResShort      string    `json:"res_short" gorm:"type:text;index:search_idx,class:FULLTEXT"`            // 备用短文本
 	Input         string    `json:"input" gorm:"type:text;not null"`                                       // 输入格式
 	Output        string    `json:"output" gorm:"type:text;not null"`                                      // 输出格式
-	SampleInput   string    `json:"sample_input" gorm:"type:text;not null"`                                // 输入样例
-	SampleOutput  string    `json:"sample_output" gorm:"type:text;not null"`                               // 输出样例
 	Hint          string    `json:"hint" gorm:"type:text"`                                                 // 提示
 	Score         uint      `json:"score" gorm:"type:uint"`                                                // 题目总分值
 	Source        string    `json:"source" gorm:"type:varchar(64)"`                                        // 来源

@@ -20,10 +20,8 @@ type ProblemRequest struct {
 	ResShort      string    `json:"res_short"`     // 备用短文本
 	Input         string    `json:"input"`         // 输入格式
 	Output        string    `json:"output"`        // 输出格式
-	SampleInput   []string  `json:"sample_input"`  // 输入样例
-	SampleOutput  []string  `json:"sample_output"` // 输出样例
-	TestInput     []string  `json:"test_input"`    // 输入测试
-	TestOutput    []string  `json:"test_output"`   // 输出测试
+	SampleCase    []Case    `json:"sample_case"`   // 样例
+	TestCase      []Case    `json:"test_case"`     // 用例
 	Hint          string    `json:"hint"`          // 提示
 	Source        string    `json:"source"`        // 来源
 	SpecialJudge  uuid.UUID `json:"special_judge"` // 特判

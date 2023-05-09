@@ -310,7 +310,7 @@ leep:
 	var total int64
 
 	// TODO 查找所有分页中可见的条目
-	r.DB.Where("record_id = ?", record.ID).Order("id asc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&cases)
+	r.DB.Where("record_id = ?", record.ID).Order("c_id desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&cases)
 
 	r.DB.Where("record_id = ?", record.ID).Model(model.CaseCondition{}).Count(&total)
 
@@ -328,7 +328,7 @@ func (r RecordController) Case(ctx *gin.Context) {
 	var cas model.CaseCondition
 
 	// TODO 查找所有分页中可见的条目
-	if r.DB.Where("id = ?", id).First(&cas).Error != nil {
+	if r.DB.Where("c_id = ?", id).First(&cas).Error != nil {
 		response.Fail(ctx, nil, "测试不存在")
 		return
 	}

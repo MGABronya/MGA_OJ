@@ -10,7 +10,7 @@ import uuid "github.com/satori/go.uuid"
 type Case struct {
 	CID       uint      `json:"cid" gorm:"type:uint;not null"`                                // 用例Id
 	ProblemId uuid.UUID `json:"problem_id" gorm:"type:char(36);index:idx_problemId;not null"` // 题目外键
-	Input     string    `json:"input" gorm:"type:text;not null"`                              // 输入
+	Input     string    `json:"input" gorm:"type:text;"`                                      // 输入
 	Output    string    `json:"output" gorm:"type:text;"`                                     // 输出
 	Score     uint      `json:"score" gorm:"type:uint;"`                                      // 输入分数
 }

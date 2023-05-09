@@ -1064,7 +1064,6 @@ leep:
 	end_time := ctx.DefaultQuery("end_time", "")
 	language := ctx.DefaultQuery("language", "")
 	condition := ctx.DefaultQuery("condition", "")
-	t := ctx.DefaultQuery("time", "0")
 
 	db := common.GetDB()
 
@@ -1103,23 +1102,10 @@ leep:
 	// TODO 查找记录组
 	db.Find(&records)
 
-	// TODO 获取rejudge的启动时间
-	next, err := time.ParseDuration(t)
-	if err != nil {
-		response.Fail(ctx, nil, "时间格式有误")
-		return
-	}
-	if next > 48*time.Hour {
-		response.Fail(ctx, nil, "定时不可超过48小时")
-		return
-	}
-	timer := time.NewTimer(next)
-	response.Success(ctx, nil, "定时成功")
-	// TODO 等待
-	<-timer.C
-
 	// TODO 加入消息队列
 	for _, record := range records {
+		// TODO 删除该提交相关状态
+		c.DB.Where("record_id = ?", record).Delete(&model.CaseCondition{})
 		{
 			// TODO 将提交存入redis供判题机使用
 			v, _ := json.Marshal(record)
@@ -1136,6 +1122,8 @@ leep:
 			log.Println("消息队列出错", err)
 		}
 	}
+	// TODO 返回数据
+	response.Success(ctx, nil, "成功")
 }
 
 // @title    CompetitionDataDelete

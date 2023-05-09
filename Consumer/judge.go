@@ -275,7 +275,23 @@ feep:
 			j.Redis.HSet(j.ctx, "Record", fmt.Sprint(record.ID), v)
 		}
 
+		// TODO 最终将所有用例填入cases
+		caseConditions := make([]model.CaseCondition, 0)
+
+		defer func() {
+			for i := range caseConditions {
+				j.DB.Create(caseConditions[i])
+			}
+		}()
+
 		for i := 0; i < len(cases); i++ {
+			// TODO 将用例添加至最终数组
+			cas := model.CaseCondition{
+				RecordId: record.ID,
+				Input:    cases[i].Input,
+				CID:      uint(i + 1),
+			}
+			caseConditions = append(caseConditions, cas)
 			var bm runtime.MemStats
 			runtime.ReadMemStats(&bm)
 
@@ -317,20 +333,17 @@ feep:
 			end := time.Now().UnixMilli()
 			var em runtime.MemStats
 			runtime.ReadMemStats(&em)
-			cas := model.CaseCondition{
-				RecordId: record.ID,
-				Time:     uint(math.Max(float64(end-now-int64(cmdI.RunUpTime())), 0)),
-				Memory:   uint(em.Alloc/1024 - bm.Alloc/1024),
-				Input:    cases[i].Input,
-			}
+			// TODO 更新用例通过情况
+			caseConditions[i].Time = uint(math.Max(float64(end-now-int64(cmdI.RunUpTime())), 0))
+			caseConditions[i].Memory = uint(em.Alloc/1024 - bm.Alloc/1024)
 			// TODO 超时
-			if cas.Time > problem.TimeLimit*cmdI.TimeMultiplier() {
+			if caseConditions[i].Time > problem.TimeLimit*cmdI.TimeMultiplier() {
 				record.Condition = "Time Limit Exceeded"
 				flag = false
 				goto final
 			}
 			// TODO 超出内存限制
-			if cas.Memory > problem.MemoryLimit*cmdI.MemoryMultiplier() {
+			if caseConditions[i].Memory > problem.MemoryLimit*cmdI.MemoryMultiplier() {
 				record.Condition = "Memory Limit Exceeded"
 				flag = false
 				goto final
@@ -380,12 +393,6 @@ feep:
 		pass:
 			// TODO 通过数量+1
 			record.Pass++
-
-			// TODO 数据库插入数据错误
-			if j.DB.Create(&cas).Error != nil {
-				record.Condition = "System error 5"
-				return
-			}
 		}
 	final:
 		// TODO 如果提交通过

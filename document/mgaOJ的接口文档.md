@@ -3175,7 +3175,7 @@
 
     **方法类型：POST**
 
-    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含title、 description 、res_long(可选)、res_short（可选）、 time_limit 、 time_unit 、 memory_limit 、 memory_unit 、 input 、 output 、 sample_input 、 sample_output 、 test_input 、 test_output 、hint、 source 、 special_judge 、standard、input_check,其中title表示题目标题，description表示题目描述，res_long表示长文本备用键值，res_short表示短文本备用键值，time_limit 为uint类型，表示时间限制，time_uint表示时间单位，可为"s"或"ms"，memory_limit为uint类型，表示空间限制， memory_uint表示空间单位，可为"mb"或"kb"或"gb"，input表示输入格式，output表示输出格式、sample_input 表示输入示例、sample_output 表示输出示例，test_input 为string数组，表示测试时的每组输入，test_output 为输出数组，表示测试时的每组输出，hint表示提示，source 表示来源，special_judge 表示特判程序的uid，如果不为空则表示该题为特判题目。standard表示标准程序的uid、input_check表示输入检测程序的uid，如果均不为空表示此题可以黑客。
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含title、 description 、res_long(可选)、res_short（可选）、 time_limit 、 time_unit 、 memory_limit 、 memory_unit 、 input 、 output 、 sample_case 、 test_case 、hint、 source 、 special_judge 、standard、input_check,其中title表示题目标题，description表示题目描述，res_long表示长文本备用键值，res_short表示短文本备用键值，time_limit 为uint类型，表示时间限制，time_uint表示时间单位，可为"s"或"ms"，memory_limit为uint类型，表示空间限制， memory_uint表示空间单位，可为"mb"或"kb"或"gb"，input表示输入格式，output表示输出格式、sample_case表示输入输出示例数组，每个元素包含input和output，均为string类型、test_case输入输出用例数组，每个元素包含input和output，均为string类型，hint表示提示，source 表示来源，special_judge 表示特判程序的uid，如果不为空则表示该题为特判题目。standard表示标准程序的uid、input_check表示输入检测程序的uid，如果均不为空表示此题可以黑客。
 
     返回值：成功时返回创建成功相关信息和题目信息problem，否则给出失败原因
 
@@ -3195,7 +3195,7 @@
 
     **方法类型：PUT**
 
-    请求参数：题目的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含title、 description 、res_long(可选)、res_short（可选）、 time_limit 、 time_unit 、 memory_limit 、 memory_unit 、 input 、 output 、 sample_input 、 sample_output 、 test_input 、 test_output 、hint、 source 、 special_judge、standard、input_check,其中title表示题目标题，description表示题目描述，res_long表示长文本备用键值，res_short表示短文本备用键值，time_limit 为uint类型，表示时间限制，time_uint表示时间单位，可为"s"或"ms"，memory_limit为uint类型，表示空间限制， memory_uint表示空间单位，可为"mb"或"kb"或"gb"，input表示输入格式，output表示输出格式、sample_input 表示输入示例、sample_output 表示输出示例，test_input 为string数组，表示测试时的每组输入，test_output 为输出数组，表示测试时的每组输出，hint表示提示，不为空时表示为某个比赛的题目，source 表示来源，special_judge 表示特判的uid，如果不为空则表示该题为特判题目。standard表示标准程序的uid、input_check表示输入检测程序的uid，如果均不为空表示此题可以黑客。
+    请求参数：题目的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含title、 description 、res_long(可选)、res_short（可选）、 time_limit 、 time_unit 、 memory_limit 、 memory_unit 、 input 、 output 、 sample_case 、 test_case 、hint、 source 、 special_judge、standard、input_check,其中title表示题目标题，description表示题目描述，res_long表示长文本备用键值，res_short表示短文本备用键值，time_limit 为uint类型，表示时间限制，time_uint表示时间单位，可为"s"或"ms"，memory_limit为uint类型，表示空间限制， memory_uint表示空间单位，可为"mb"或"kb"或"gb"，input表示输入格式，output表示输出格式、sample_case表示输入输出示例数组，每个元素包含input和output，均为string类型、test_case输入输出用例数组，每个元素包含input和output，均为string类型，hint表示提示，不为空时表示为某个比赛的题目，source 表示来源，special_judge 表示特判的uid，如果不为空则表示该题为特判题目。standard表示标准程序的uid、input_check表示输入检测程序的uid，如果均不为空表示此题可以黑客。
 
     返回值：成功更新题目时，返回更新成功消息。如果失败则返回失败原因。
 
@@ -3499,7 +3499,7 @@
 
     **方法类型：POST**
 
-    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含title、 description 、res_long(可选)、res_short（可选）、 time_limit 、 time_unit 、 memory_limit 、 memory_unit 、 input 、 output 、 sample_input 、 sample_output 、 test_input 、 test_output 、hint、 sources、 special_judge 、standard、input_check、competition_id、score,其中title表示题目标题，description表示题目描述，res_long表示长文本备用键值，res_short表示短文本备用键值，time_limit 为uint类型，表示时间限制，time_uint表示时间单位，可为"s"或"ms"，memory_limit为uint类型，表示空间限制， memory_uint表示空间单位，可为"mb"或"kb"或"gb"，input表示输入格式，output表示输出格式、sample_input 表示输入示例、sample_output 表示输出示例，test_input 为string数组，表示测试时的每组输入，test_output 为输出数组，表示测试时的每组输出，scores为uint数组，表示测试时的每组测试的分数。hint表示提示，source 表示来源，special_judge 表示特判程序的uid，如果不为空则表示该题为特判题目。standard表示标准程序的uid、input_check表示输入检测程序的uid，如果均不为空表示此题可以黑客。
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含title、 description 、res_long(可选)、res_short（可选）、 time_limit 、 time_unit 、 memory_limit 、 memory_unit 、 input 、 output 、sample_case 、 test_case、hint、 sources、 special_judge 、standard、input_check、competition_id、score,其中title表示题目标题，description表示题目描述，res_long表示长文本备用键值，res_short表示短文本备用键值，time_limit 为uint类型，表示时间限制，time_uint表示时间单位，可为"s"或"ms"，memory_limit为uint类型，表示空间限制， memory_uint表示空间单位，可为"mb"或"kb"或"gb"，input表示输入格式，output表示输出格式、sample_case表示输入输出示例数组，每个元素包含input和output，均为string类型、test_case输入输出用例数组，每个元素包含input和output，均为string类型，scores为uint数组，表示测试时的每组测试的分数。hint表示提示，source 表示来源，special_judge 表示特判程序的uid，如果不为空则表示该题为特判题目。standard表示标准程序的uid、input_check表示输入检测程序的uid，如果均不为空表示此题可以黑客。
 
     返回值：成功时返回创建成功相关信息和题目信息problem，否则给出失败原因
 
@@ -3519,7 +3519,7 @@
 
     **方法类型：PUT**
 
-    请求参数：题目的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含title、 description 、res_long(可选)、res_short（可选）、 time_limit 、 time_unit 、 memory_limit 、 memory_unit 、 input 、 output 、 sample_input 、 sample_output 、 test_input 、 test_output 、scores、hint、 competition_id 、 source 、 special_judge、standard、input_check,其中title表示题目标题，description表示题目描述，res_long表示长文本备用键值，res_short表示短文本备用键值，time_limit 为uint类型，表示时间限制，time_uint表示时间单位，可为"s"或"ms"，memory_limit为uint类型，表示空间限制， memory_uint表示空间单位，可为"mb"或"kb"或"gb"，input表示输入格式，output表示输出格式、sample_input 表示输入示例、sample_output 表示输出示例，test_input 为string数组，表示测试时的每组输入，test_output 为输出数组，表示测试时的每组输出，scores为uint数组，表示测试时的每组测试的分数。hint表示提示，competition_id表示比赛的uid，不为空时表示为某个比赛的题目，source 表示来源，special_judge 表示特判的uid，如果不为空则表示该题为特判题目。standard表示标准程序的uid、input_check表示输入检测程序的uid，如果均不为空表示此题可以黑客。
+    请求参数：题目的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含title、 description 、res_long(可选)、res_short（可选）、 time_limit 、 time_unit 、 memory_limit 、 memory_unit 、 input 、 output 、 sample_case 、 test_case 、scores、hint、 competition_id 、 source 、 special_judge、standard、input_check,其中title表示题目标题，description表示题目描述，res_long表示长文本备用键值，res_short表示短文本备用键值，time_limit 为uint类型，表示时间限制，time_uint表示时间单位，可为"s"或"ms"，memory_limit为uint类型，表示空间限制， memory_uint表示空间单位，可为"mb"或"kb"或"gb"，input表示输入格式，output表示输出格式、sample_case表示输入输出示例数组，每个元素包含input和output，均为string类型、test_case输入输出用例数组，每个元素包含input和output，均为string类型，scores为uint数组，表示测试时的每组测试的分数。hint表示提示，competition_id表示比赛的uid，不为空时表示为某个比赛的题目，source 表示来源，special_judge 表示特判的uid，如果不为空则表示该题为特判题目。standard表示标准程序的uid、input_check表示输入检测程序的uid，如果均不为空表示此题可以黑客。
 
     返回值：成功更新题目时，返回更新成功消息。如果失败则返回失败原因。
 
