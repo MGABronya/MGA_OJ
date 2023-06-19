@@ -64,7 +64,7 @@ func (c CompetitionStandardGroupController) Enter(ctx *gin.Context) {
 	}
 
 	// TODO 查看比赛是否在数据库中存在
-	if c.DB.Where("id = ?", id).First(&competition) != nil {
+	if c.DB.Where("id = (?)", id).First(&competition).Error != nil {
 		response.Fail(ctx, nil, "比赛不存在")
 		return
 	}
@@ -217,7 +217,7 @@ func (c CompetitionStandardGroupController) EnterCondition(ctx *gin.Context) {
 	}
 
 	// TODO 查看比赛是否在数据库中存在
-	if c.DB.Where("id = ?", competition_id).First(&competition) != nil {
+	if c.DB.Where("id = (?)", competition_id).First(&competition).Error != nil {
 		response.Fail(ctx, nil, "比赛不存在")
 		return
 	}
@@ -247,14 +247,14 @@ leap:
 		}
 
 		// TODO 查看用户组是否在数据库中存在
-		c.DB.Where("id = ?", groups[i]).First(&group)
+		c.DB.Where("id = (?)", groups[i]).First(&group)
 		{
 			// TODO 将用户组存入redis供下次使用
 			v, _ := json.Marshal(group)
 			c.Redis.HSet(ctx, "Group", groups[i], v)
 		}
 	leep:
-		if c.DB.Where("group_id = ? and user_id = ?", group.ID, user.ID).First(&model.UserList{}).Error == nil {
+		if c.DB.Where("group_id = (?) and user_id = (?)", group.ID, user.ID).First(&model.UserList{}).Error == nil {
 			response.Success(ctx, gin.H{"group": group}, "已报名")
 			return
 		}
@@ -295,7 +295,7 @@ func (c CompetitionStandardGroupController) CancelEnter(ctx *gin.Context) {
 	}
 
 	// TODO 查看比赛是否在数据库中存在
-	if c.DB.Where("id = ?", competition_id).First(&competition) != nil {
+	if c.DB.Where("id = (?)", competition_id).First(&competition).Error != nil {
 		response.Fail(ctx, nil, "比赛不存在")
 		return
 	}
@@ -334,7 +334,7 @@ leap:
 	}
 
 	// TODO 查看用户组是否在数据库中存在
-	if c.DB.Where("id = ?", group_id).First(&group).Error != nil {
+	if c.DB.Where("id = (?)", group_id).First(&group).Error != nil {
 		response.Fail(ctx, nil, "用户组不存在")
 		return
 	}
@@ -352,7 +352,7 @@ leep:
 	var competitionRank model.CompetitionRank
 
 	// TODO 查看是否已经报名
-	if c.DB.Where("member_id = ? and competition_id = ?", group.ID, competition.ID).First(&competitionRank).Error != nil {
+	if c.DB.Where("member_id = (?) and competition_id = (?)", group.ID, competition.ID).First(&competitionRank).Error != nil {
 		response.Fail(ctx, nil, "未报名")
 		return
 	}
@@ -398,7 +398,7 @@ func (c CompetitionStandardGroupController) EnterPage(ctx *gin.Context) {
 	}
 
 	// TODO 查看比赛是否在数据库中存在
-	if c.DB.Where("id = ?", id).First(&competition) != nil {
+	if c.DB.Where("id = (?)", id).First(&competition).Error != nil {
 		response.Fail(ctx, nil, "比赛不存在")
 		return
 	}
@@ -418,10 +418,10 @@ leap:
 	var userStandards []model.UserStandard
 
 	// TODO 查找所有分页中可见的条目
-	c.DB.Where("cid = ?", competition.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&userStandards)
+	c.DB.Where("cid = (?)", competition.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&userStandards)
 
 	var total int64
-	c.DB.Where("cid = ?", competition.ID).Model(model.UserStandard{}).Count(&total)
+	c.DB.Where("cid = (?)", competition.ID).Model(model.UserStandard{}).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"userStandards": userStandards, "total": total}, "成功")

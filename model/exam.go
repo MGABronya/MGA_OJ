@@ -42,7 +42,7 @@ func (exam *Exam) BeforeCreate(scope *gorm.DB) error {
 // @return   err error		   返回一个错误信息
 func (e *Exam) BeforDelete(tx *gorm.DB) (err error) {
 
-	tx = tx.Where("exam_id = ?", e.ID)
+	tx = tx.Where("exam_id = (?)", e.ID)
 
 	// TODO 删除选择题
 	tx.Delete(&ProblemMCQs{})

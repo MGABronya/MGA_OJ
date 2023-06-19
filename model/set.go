@@ -41,7 +41,7 @@ func (set *Set) BeforeCreate(scope *gorm.DB) error {
 // @param    tx *gorm.DB       接收一个数据库指针
 // @return   err error		   返回一个错误信息
 func (s *Set) BeforDelete(tx *gorm.DB) (err error) {
-	tx = tx.Where("set_id = ?", s.ID)
+	tx = tx.Where("set_id = (?)", s.ID)
 
 	// TODO 删除表单收藏
 	tx.Delete(&SetCollect{})

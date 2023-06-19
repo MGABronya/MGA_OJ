@@ -28,7 +28,7 @@ func CompetitionGroupRoutes(r *gin.Engine) *gin.Engine {
 	competitionGroupRoutes.POST("/enter/:competition_id/:group_id", middleware.AuthMiddleware(), competitionGroupController.Enter)
 
 	// TODO 查看报名状态
-	competitionGroupRoutes.GET("/enter/condition/:id", competitionGroupController.EnterCondition)
+	competitionGroupRoutes.GET("/enter/condition/:id", middleware.AuthMiddleware(), competitionGroupController.EnterCondition)
 
 	// TODO 取消报名
 	competitionGroupRoutes.DELETE("/cancel/enter/:competition_id/:group_id", middleware.AuthMiddleware(), competitionGroupController.CancelEnter)

@@ -72,7 +72,7 @@ func (p ProblemNewController) Create(ctx *gin.Context) {
 	}
 
 	// TODO 查看比赛是否在数据库中存在
-	if p.DB.Where("id = ?", requestProblem.CompetitionId.String()).First(&competition).Error != nil {
+	if p.DB.Where("id = (?)", requestProblem.CompetitionId.String()).First(&competition).Error != nil {
 		response.Fail(ctx, nil, "比赛不存在")
 		return
 	}
@@ -90,7 +90,7 @@ leap:
 	}
 	// TODO 查看是否有权给比赛添加题目
 	if competition.UserId != user.ID {
-		if p.DB.Where("group_id = ? and user_id = ?", competition.GroupId, user.ID).First(&model.UserList{}).Error != nil {
+		if p.DB.Where("group_id = (?) and user_id = (?)", competition.GroupId, user.ID).First(&model.UserList{}).Error != nil {
 			response.Fail(ctx, nil, "无权为比赛添加题目")
 			return
 		}
@@ -163,7 +163,7 @@ leap:
 
 	// TODO 查看特判程序是否通过
 	var program model.Program
-	if p.DB.Where("id = ?", requestProblem.SpecialJudge).First(&program).Error == nil {
+	if p.DB.Where("id = (?)", requestProblem.SpecialJudge).First(&program).Error == nil {
 		for i := range requestProblem.TestCase {
 			if condition, output := TQ.JudgeRun(program.Language, program.Code, requestProblem.TestCase[i].Input+"\n"+requestProblem.TestCase[i].Output, requestProblem.MemoryLimit*2, requestProblem.TimeLimit*2); condition != "ok" || output != "ok" {
 				response.Fail(ctx, nil, "特判程序未通过")
@@ -173,7 +173,7 @@ leap:
 	}
 
 	// TODO 查看标准程序是否通过
-	if p.DB.Where("id = ?", requestProblem.Standard).First(&program).Error == nil {
+	if p.DB.Where("id = (?)", requestProblem.Standard).First(&program).Error == nil {
 		for i := range requestProblem.TestCase {
 			if condition, output := TQ.JudgeRun(program.Language, program.Code, requestProblem.TestCase[i].Input, requestProblem.MemoryLimit*2, requestProblem.TimeLimit*2); condition != "ok" || output != requestProblem.TestCase[i].Output {
 				response.Fail(ctx, nil, "标准程序未通过")
@@ -183,7 +183,7 @@ leap:
 	}
 
 	// TODO 查看输入检查程序是否通过
-	if p.DB.Where("id = ?", requestProblem.InputCheck).First(&program).Error == nil {
+	if p.DB.Where("id = (?)", requestProblem.InputCheck).First(&program).Error == nil {
 		for i := range requestProblem.TestCase {
 			if condition, output := TQ.JudgeRun(program.Language, program.Code, requestProblem.TestCase[i].Input, requestProblem.MemoryLimit*2, requestProblem.TimeLimit*2); condition != "ok" || output != "ok" {
 				response.Fail(ctx, nil, "输入检查程序未通过")
@@ -232,7 +232,7 @@ leap:
 	}
 
 	// TODO 成功
-	response.Success(ctx, nil, "创建成功")
+	response.Success(ctx, gin.H{"problemNew": problem}, "创建成功")
 }
 
 // @title    Quote
@@ -267,7 +267,7 @@ func (p ProblemNewController) Quote(ctx *gin.Context) {
 	}
 
 	// TODO 查看比赛是否在数据库中存在
-	if p.DB.Where("id = ?", competition_id).First(&competition).Error != nil {
+	if p.DB.Where("id = (?)", competition_id).First(&competition).Error != nil {
 		response.Fail(ctx, nil, "比赛不存在")
 		return
 	}
@@ -279,7 +279,7 @@ func (p ProblemNewController) Quote(ctx *gin.Context) {
 levp:
 	// TODO 查看是否有权给比赛添加题目
 	if competition.UserId != user.ID {
-		if p.DB.Where("group_id = ? and user_id = ?", competition.GroupId, user.ID).First(&model.UserList{}).Error != nil {
+		if p.DB.Where("group_id = (?) and user_id = (?)", competition.GroupId, user.ID).First(&model.UserList{}).Error != nil {
 			response.Fail(ctx, nil, "无权为比赛添加题目")
 			return
 		}
@@ -303,7 +303,7 @@ levp:
 	}
 
 	// TODO 查看题目是否在数据库中存在
-	if p.DB.Where("id = ?", problem_id).First(&problem).Error != nil {
+	if p.DB.Where("id = (?)", problem_id).First(&problem).Error != nil {
 		response.Fail(ctx, nil, "题目不存在")
 		return
 	}
@@ -326,7 +326,7 @@ leep:
 			p.Redis.HDel(ctx, "CaseSample", problem_id)
 		}
 	}
-	p.DB.Where("problem_id = ?", problem.ID).Find(&caseSamples)
+	p.DB.Where("problem_id = (?)", problem.ID).Find(&caseSamples)
 	// TODO 将题目存入redis供下次使用
 	{
 		v, _ := json.Marshal(caseSamples)
@@ -350,7 +350,7 @@ leap:
 	}
 
 	// TODO 查看题目是否在数据库中存在
-	p.DB.Where("id = ?", problem_id).Find(&cases)
+	p.DB.Where("id = (?)", problem_id).Find(&cases)
 	// TODO 将题目存入redis供下次使用
 	{
 		v, _ := json.Marshal(cases)
@@ -453,7 +453,7 @@ func (p ProblemNewController) Rematch(ctx *gin.Context) {
 	}
 
 	// TODO 查看题目是否在数据库中存在
-	if p.DB.Where("id = ?", problem_id).First(&problem).Error != nil {
+	if p.DB.Where("id = (?)", problem_id).First(&problem).Error != nil {
 		response.Fail(ctx, nil, "题目不存在")
 		return
 	}
@@ -478,7 +478,7 @@ leep:
 	}
 
 	// TODO 查看比赛是否在数据库中存在
-	if p.DB.Where("id = ?", problem.CompetitionId.String()).First(&competition).Error != nil {
+	if p.DB.Where("id = (?)", problem.CompetitionId.String()).First(&competition).Error != nil {
 		response.Fail(ctx, nil, "比赛不存在")
 		return
 	}
@@ -508,7 +508,7 @@ leap:
 	}
 
 	// TODO 查看比赛是否在数据库中存在
-	if p.DB.Where("id = ?", competition_id).First(&competition).Error != nil {
+	if p.DB.Where("id = (?)", competition_id).First(&competition).Error != nil {
 		response.Fail(ctx, nil, "比赛不存在")
 		return
 	}
@@ -520,7 +520,7 @@ leap:
 levp:
 	// TODO 查看是否有权给比赛添加题目
 	if competition.UserId != user.ID {
-		if p.DB.Where("group_id = ? and user_id = ?", competition.GroupId, user.ID).First(&model.UserList{}).Error != nil {
+		if p.DB.Where("group_id = (?) and user_id = (?)", competition.GroupId, user.ID).First(&model.UserList{}).Error != nil {
 			response.Fail(ctx, nil, "无权为比赛添加题目")
 			return
 		}
@@ -543,7 +543,7 @@ levp:
 			p.Redis.HDel(ctx, "CaseSample", problem_id)
 		}
 	}
-	p.DB.Where("problem_id = ?", problem.ID).Find(&caseSamples)
+	p.DB.Where("problem_id = (?)", problem.ID).Find(&caseSamples)
 	// TODO 将题目存入redis供下次使用
 	{
 		v, _ := json.Marshal(caseSamples)
@@ -567,7 +567,7 @@ letp:
 	}
 
 	// TODO 查看题目是否在数据库中存在
-	p.DB.Where("id = ?", problem_id).Find(&cases)
+	p.DB.Where("id = (?)", problem_id).Find(&cases)
 	// TODO 将题目存入redis供下次使用
 	{
 		v, _ := json.Marshal(cases)
@@ -659,7 +659,7 @@ func (p ProblemNewController) Submit(ctx *gin.Context) {
 
 	var problemNew model.ProblemNew
 
-	if p.DB.Where("id = ?", id).First(&problemNew) != nil {
+	if p.DB.Where("id = (?)", id).First(&problemNew).Error != nil {
 		response.Fail(ctx, nil, "题目不存在")
 		return
 	}
@@ -704,7 +704,7 @@ func (p ProblemNewController) Submit(ctx *gin.Context) {
 			p.Redis.HDel(ctx, "CaseSample", problemNew.ID.String())
 		}
 	}
-	p.DB.Where("problem_id = ?", problem.ID).Find(&caseSamples)
+	p.DB.Where("problem_id = (?)", problem.ID).Find(&caseSamples)
 
 	// TODO 将题目存入redis供下次使用
 	{
@@ -741,7 +741,7 @@ levp:
 	}
 
 	// TODO 查看题目是否在数据库中存在
-	if p.DB.Where("id = ?", problemNew.ID.String()).Find(&cases).Error != nil {
+	if p.DB.Where("id = (?)", problemNew.ID.String()).Find(&cases).Error != nil {
 		response.Fail(ctx, nil, "用例不存在")
 		return
 	}
@@ -764,7 +764,7 @@ Case:
 		p.DB.Create(&cas)
 	}
 	var recordSingles []model.RecordCompetition
-	p.DB.Where("problem_id = ?", problemNew.ID).Find(&recordSingles)
+	p.DB.Where("problem_id = (?)", problemNew.ID).Find(&recordSingles)
 	for i := range recordSingles {
 		record := model.Record{
 			UserId:    recordSingles[i].UserId,
@@ -809,7 +809,7 @@ func (p ProblemNewController) Update(ctx *gin.Context) {
 
 	var problem model.ProblemNew
 
-	if p.DB.Where("id = ?", id).First(&problem) != nil {
+	if p.DB.Where("id = (?)", id).First(&problem).Error != nil {
 		response.Fail(ctx, nil, "题目不存在")
 		return
 	}
@@ -862,7 +862,7 @@ func (p ProblemNewController) Update(ctx *gin.Context) {
 
 	// TODO 查看特判程序是否通过
 	var program model.Program
-	if p.DB.Where("id = ?", requestProblem.SpecialJudge).First(&program).Error == nil {
+	if p.DB.Where("id = (?)", requestProblem.SpecialJudge).First(&program).Error == nil {
 		for i := range requestProblem.TestCase {
 			if condition, output := TQ.JudgeRun(program.Language, program.Code, requestProblem.TestCase[i].Input+"\n"+requestProblem.TestCase[i].Output, requestProblem.MemoryLimit*2, requestProblem.TimeLimit*2); condition != "ok" || output != "ok" {
 				response.Fail(ctx, nil, "特判程序未通过")
@@ -872,7 +872,7 @@ func (p ProblemNewController) Update(ctx *gin.Context) {
 	}
 
 	// TODO 查看标准程序是否通过
-	if p.DB.Where("id = ?", requestProblem.Standard).First(&program).Error == nil {
+	if p.DB.Where("id = (?)", requestProblem.Standard).First(&program).Error == nil {
 		for i := range requestProblem.TestCase {
 			if condition, output := TQ.JudgeRun(program.Language, program.Code, requestProblem.TestCase[i].Input, requestProblem.MemoryLimit*2, requestProblem.TimeLimit*2); condition != "ok" || output != requestProblem.TestCase[i].Output {
 				response.Fail(ctx, nil, "标准程序未通过")
@@ -882,7 +882,7 @@ func (p ProblemNewController) Update(ctx *gin.Context) {
 	}
 
 	// TODO 查看输入检查程序是否通过
-	if p.DB.Where("id = ?", requestProblem.InputCheck).First(&program).Error == nil {
+	if p.DB.Where("id = (?)", requestProblem.InputCheck).First(&program).Error == nil {
 		for i := range requestProblem.TestCase {
 			if condition, output := TQ.JudgeRun(program.Language, program.Code, requestProblem.TestCase[i].Input, requestProblem.MemoryLimit*2, requestProblem.TimeLimit*2); condition != "ok" || output != "ok" {
 				response.Fail(ctx, nil, "输入检查程序未通过")
@@ -892,7 +892,7 @@ func (p ProblemNewController) Update(ctx *gin.Context) {
 	}
 
 	// TODO 更新题目内容
-	p.DB.Where("id = ?", id).Updates(model.ProblemNew{
+	p.DB.Where("id = (?)", id).Updates(model.ProblemNew{
 		TimeLimit:     requestProblem.TimeLimit,
 		MemoryLimit:   requestProblem.MemoryLimit,
 		Title:         requestProblem.Title,
@@ -922,7 +922,7 @@ func (p ProblemNewController) Update(ctx *gin.Context) {
 	if len(requestProblem.SampleCase) != 0 {
 		p.Redis.HDel(ctx, "SampleCase", id)
 		// TODO 清空原有的测试输入
-		p.DB.Where("problem_id = ?", id).Delete(&model.CaseSample{})
+		p.DB.Where("problem_id = (?)", id).Delete(&model.CaseSample{})
 		// TODO 存储测试输入
 		for i := range requestProblem.SampleCase {
 			// TODO 尝试存入数据库
@@ -944,7 +944,7 @@ func (p ProblemNewController) Update(ctx *gin.Context) {
 	if len(requestProblem.TestCase) != 0 {
 		p.Redis.HDel(ctx, "Case", id)
 		// TODO 清空原有的测试输入
-		p.DB.Where("problem_id = ?", id).Delete(&model.Case{})
+		p.DB.Where("problem_id = (?)", id).Delete(&model.Case{})
 		// TODO 存储测试输入
 		for i := range requestProblem.TestCase {
 			// TODO 尝试存入数据库
@@ -994,7 +994,7 @@ func (p ProblemNewController) Show(ctx *gin.Context) {
 	}
 
 	// TODO 查看题目是否在数据库中存在
-	if p.DB.Where("id = ?", id).First(&problem).Error != nil {
+	if p.DB.Where("id = (?)", id).First(&problem).Error != nil {
 		response.Fail(ctx, nil, "题目不存在")
 		return
 	}
@@ -1021,7 +1021,7 @@ leep:
 	}
 
 	// TODO 查看比赛是否在数据库中存在
-	if p.DB.Where("id = ?", problem.CompetitionId.String()).First(&competition).Error != nil {
+	if p.DB.Where("id = (?)", problem.CompetitionId.String()).First(&competition).Error != nil {
 		response.Fail(ctx, nil, "比赛不存在")
 		return
 	}
@@ -1039,7 +1039,7 @@ leap:
 		// TODO 查看是否已经报名
 		// TODO 先看redis中是否存在
 		if _, err := p.Redis.ZScore(ctx, "CompetitionR"+id, user.ID.String()).Result(); err != nil {
-			if p.DB.Where("member_id = ? and competition_id = ?", user.ID, competition.ID).First(&competitionRank).Error != nil {
+			if p.DB.Where("member_id = (?) and competition_id = (?)", user.ID, competition.ID).First(&competitionRank).Error != nil {
 				if user.Level < 2 {
 					response.Success(ctx, nil, "未报名")
 					return
@@ -1063,7 +1063,7 @@ leap:
 			p.Redis.HDel(ctx, "CaseSample", id)
 		}
 	}
-	p.DB.Where("problem_id = ?", problem.ID).Find(&caseSamples)
+	p.DB.Where("problem_id = (?)", problem.ID).Find(&caseSamples)
 
 	// TODO 将题目存入redis供下次使用
 	{
@@ -1098,7 +1098,7 @@ func (p ProblemNewController) TestNum(ctx *gin.Context) {
 	}
 
 	// TODO 查看题目是否在数据库中存在
-	if p.DB.Where("id = ?", id).First(&problem).Error != nil {
+	if p.DB.Where("id = (?)", id).First(&problem).Error != nil {
 		response.Fail(ctx, nil, "题目不存在")
 		return
 	}
@@ -1111,7 +1111,7 @@ func (p ProblemNewController) TestNum(ctx *gin.Context) {
 leep:
 
 	var total int64
-	p.DB.Where("problem_id = ?", id).Model(&model.Case{}).Count(&total)
+	p.DB.Where("problem_id = (?)", id).Model(&model.Case{}).Count(&total)
 
 	response.Success(ctx, gin.H{"total": total}, "成功")
 }
@@ -1128,7 +1128,7 @@ func (p ProblemNewController) Delete(ctx *gin.Context) {
 	var problem model.ProblemNew
 
 	// TODO 查看题目是否存在
-	if p.DB.Where("id = ?", id).First(&problem).Error != nil {
+	if p.DB.Where("id = (?)", id).First(&problem).Error != nil {
 		response.Fail(ctx, nil, "题目不存在")
 		return
 	}
@@ -1154,7 +1154,7 @@ func (p ProblemNewController) Delete(ctx *gin.Context) {
 	}
 
 	// TODO 查看比赛是否在数据库中存在
-	if p.DB.Where("id = ?", problem.CompetitionId.String()).First(&competition).Error != nil {
+	if p.DB.Where("id = (?)", problem.CompetitionId.String()).First(&competition).Error != nil {
 		response.Fail(ctx, nil, "比赛不存在")
 		return
 	}
@@ -1201,10 +1201,10 @@ func (p ProblemNewController) PageList(ctx *gin.Context) {
 	var problems []model.ProblemNew
 
 	// TODO 查找所有分页中可见的条目
-	p.DB.Where("competition_id = ?", id).Order("created_at asc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problems)
+	p.DB.Where("competition_id = (?)", id).Order("created_at asc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problems)
 
 	var total int64
-	p.DB.Where("competition_id = ?", id).Model(model.ProblemNew{}).Count(&total)
+	p.DB.Where("competition_id = (?)", id).Model(model.ProblemNew{}).Count(&total)
 
 	var problemIds []uuid.UUID
 

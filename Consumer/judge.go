@@ -60,7 +60,7 @@ func (j Judge) Handel(msg string) {
 	}
 
 	// TODO 未能找到提交记录
-	if j.DB.Where("id = ?", msg).First(&record).Error != nil {
+	if j.DB.Where("id = (?)", msg).First(&record).Error != nil {
 		log.Printf("%s Record Disappear!!\n", msg)
 		return
 	}
@@ -135,7 +135,7 @@ feep:
 		}
 
 		// TODO 查看题目是否在数据库中存在
-		if j.DB.Where("id = ?", id).First(&problem).Error != nil {
+		if j.DB.Where("id = (?)", id).First(&problem).Error != nil {
 			record.Condition = "Problem Doesn't Exist"
 			return
 		}
@@ -160,7 +160,7 @@ feep:
 		}
 
 		// TODO 查看题目是否在数据库中存在
-		if j.DB.Where("problem_id = ?", id).Find(&cases).Error != nil {
+		if j.DB.Where("problem_id = (?)", id).Find(&cases).Error != nil {
 			record.Condition = "Input Doesn't Exist"
 			return
 		}
@@ -224,7 +224,7 @@ feep:
 		// TODO 编译超时
 		case <-after:
 			cmd.Process.Kill()
-			record.Condition = "Compile timeout"
+			record.Condition = "Compile Time Out"
 			return
 		case err = <-done:
 		}
@@ -253,7 +253,7 @@ feep:
 		// TODO 权限超时
 		case <-after:
 			cmd.Process.Kill()
-			record.Condition = "Compile timeout"
+			record.Condition = "Compile Time Out"
 			return
 		case err = <-done:
 		}
@@ -365,7 +365,7 @@ feep:
 			}
 
 			// TODO 查看程序是否在数据库中存在
-			if j.DB.Where("id = ?", problem.SpecialJudge.String()).First(&specalJudge).Error != nil {
+			if j.DB.Where("id = (?)", problem.SpecialJudge.String()).First(&specalJudge).Error != nil {
 				goto outPut
 			}
 			// TODO 将题目存入redis供下次使用

@@ -68,7 +68,7 @@ func AuthMiddleware() gin.HandlerFunc {
 		}
 
 		// TODO 查看用户是否在数据库中存在
-		if DB.Where("id = ?", id).First(&user).Error != nil {
+		if DB.Where("id = (?)", id).First(&user).Error != nil {
 			ctx.JSON(201, gin.H{
 				"code": 201,
 				"msg":  "用户不存在，权限不足",

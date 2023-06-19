@@ -96,16 +96,13 @@ func (c CompetitionRandomGroupController) EnterPublish(ctx *gin.Context) {
 	defer ws.Close()
 	// TODO 监听消息
 	for msg := range ch {
-		// TODO 读取ws中的数据
-		_, _, err := ws.ReadMessage()
-		// TODO 断开连接
-		if err != nil {
-			break
-		}
 		var enter redis.Z
 		json.Unmarshal([]byte(msg.Payload), &enter)
 		// TODO 写入ws数据
-		ws.WriteJSON(enter)
+		if err := ws.WriteJSON(enter); err != nil {
+			break
+		}
+
 	}
 }
 
@@ -257,7 +254,7 @@ func CompetitionRandomGroupGo() {
 			}
 
 			// TODO 查看用户是否在数据库中存在
-			db.Where("id = ?", tusers[i]).First(&user)
+			db.Where("id = (?)", tusers[i]).First(&user)
 			{
 				// TODO 将用户存入redis供下次使用
 				v, _ := json.Marshal(user)
@@ -339,7 +336,7 @@ func CompetitionRandomGroupGo() {
 					redi.HDel(ctx, "CaseSample", problems[i].ID.String())
 				}
 			}
-			db.Where("problem_id = ?", problems[i].ID).Find(&caseSamples)
+			db.Where("problem_id = (?)", problems[i].ID).Find(&caseSamples)
 			// TODO 将题目存入redis供下次使用
 			{
 				v, _ := json.Marshal(caseSamples)
@@ -363,7 +360,7 @@ func CompetitionRandomGroupGo() {
 			}
 
 			// TODO 查看题目是否在数据库中存在
-			db.Where("id = ?", problems[i]).Find(&cases)
+			db.Where("id = (?)", problems[i]).Find(&cases)
 			// TODO 将题目存入redis供下次使用
 			{
 				v, _ := json.Marshal(cases)

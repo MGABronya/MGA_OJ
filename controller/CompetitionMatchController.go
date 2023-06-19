@@ -66,7 +66,7 @@ func (c CompetitionMatchController) Enter(ctx *gin.Context) {
 	}
 
 	// TODO 查看比赛是否在数据库中存在
-	if c.DB.Where("id = ?", id).First(&competition) != nil {
+	if c.DB.Where("id = (?)", id).First(&competition).Error != nil {
 		response.Fail(ctx, nil, "比赛不存在")
 		return
 	}
@@ -91,7 +91,7 @@ leap:
 		response.Fail(ctx, nil, "已报名")
 		return
 	}
-	if c.DB.Where("member_id = ? and competition_id = ?", user.ID, competition.ID).First(&competitionRank).Error == nil {
+	if c.DB.Where("member_id = (?) and competition_id = (?)", user.ID, competition.ID).First(&competitionRank).Error == nil {
 		response.Fail(ctx, nil, "已报名")
 		// TODO 加入redis
 		c.Redis.ZAdd(ctx, "CompetitionR"+id, redis.Z{Member: user.ID.String(), Score: 0})
@@ -100,7 +100,7 @@ leap:
 
 	// TODO 查看比赛是否需要密码
 	var passwd model.Passwd
-	if c.DB.Where("id = ?", competition.PasswdId).First(&passwd).Error == nil {
+	if c.DB.Where("id = (?)", competition.PasswdId).First(&passwd).Error == nil {
 		var pass model.Passwd
 		// TODO 数据验证
 		if err := ctx.ShouldBind(&pass); err != nil {
@@ -157,7 +157,7 @@ func (c CompetitionMatchController) EnterCondition(ctx *gin.Context) {
 	}
 
 	// TODO 查看比赛是否在数据库中存在
-	if c.DB.Where("id = ?", id).First(&competition) != nil {
+	if c.DB.Where("id = (?)", id).First(&competition).Error != nil {
 		response.Fail(ctx, nil, "比赛不存在")
 		return
 	}
@@ -182,7 +182,7 @@ leap:
 		response.Success(ctx, gin.H{"enter": true}, "已报名")
 		return
 	}
-	if c.DB.Where("member_id = ? and competition_id = ?", user.ID, competition.ID).First(&competitionRank).Error == nil {
+	if c.DB.Where("member_id = (?) and competition_id = (?)", user.ID, competition.ID).First(&competitionRank).Error == nil {
 		response.Success(ctx, gin.H{"enter": true}, "已报名")
 		{
 			// TODO 加入redis
@@ -223,7 +223,7 @@ func (c CompetitionMatchController) CancelEnter(ctx *gin.Context) {
 	}
 
 	// TODO 查看比赛是否在数据库中存在
-	if c.DB.Where("id = ?", id).First(&competition) != nil {
+	if c.DB.Where("id = (?)", id).First(&competition).Error != nil {
 		response.Fail(ctx, nil, "比赛不存在")
 		return
 	}
@@ -248,7 +248,7 @@ leap:
 	var competitionRank model.CompetitionRank
 
 	// TODO 查看是否已经报名
-	if c.DB.Where("member_id = ? and competition_id = ?", user.ID, competition.ID).First(&competitionRank).Error != nil {
+	if c.DB.Where("member_id = (?) and competition_id = (?)", user.ID, competition.ID).First(&competitionRank).Error != nil {
 		response.Fail(ctx, nil, "未报名")
 		return
 	}
@@ -287,7 +287,7 @@ func (c CompetitionMatchController) EnterPage(ctx *gin.Context) {
 	}
 
 	// TODO 查看比赛是否在数据库中存在
-	if c.DB.Where("id = ?", id).First(&competition) != nil {
+	if c.DB.Where("id = (?)", id).First(&competition).Error != nil {
 		response.Fail(ctx, nil, "比赛不存在")
 		return
 	}
@@ -302,10 +302,10 @@ leap:
 	var competitionRanks []model.CompetitionRank
 
 	// TODO 查找所有分页中可见的条目
-	c.DB.Where("competition_id = ?", competition.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&competitionRanks)
+	c.DB.Where("competition_id = (?)", competition.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&competitionRanks)
 
 	var total int64
-	c.DB.Where("competition_id = ?", competition.ID).Model(model.CompetitionRank{}).Count(&total)
+	c.DB.Where("competition_id = (?)", competition.ID).Model(model.CompetitionRank{}).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"competitionRanks": competitionRanks, "total": total}, "成功")
@@ -348,7 +348,7 @@ func initMatchCompetition(ctx context.Context, redis *redis.Client, db *gorm.DB,
 		}
 
 		// TODO 查看用户是否在数据库中存在
-		if db.Where("id = ?", members[i]).First(&user).Error != nil {
+		if db.Where("id = (?)", members[i]).First(&user).Error != nil {
 			continue
 		}
 		{

@@ -19,7 +19,7 @@ type CompetitionRank struct {
 	MemberId      uuid.UUID     `json:"member_id" gorm:"type:char(36);index:idx_memberId;not null"`           // 成员外键
 	CompetitionId uuid.UUID     `json:"competition_id" gorm:"type:char(36);index:idx_competitionId;not null"` // 竞赛外键
 	Score         uint          `json:"score" gorm:"type:uint;not null"`                                      // 获得分数
-	Penalties     time.Duration `json:"penalties" gorm:"type:timestamp;not null"`                             // 罚时
+	Penalties     time.Duration `json:"penalties" gorm:"type:int;not null"`                                   // 罚时
 }
 
 // @title    BeforeCreate

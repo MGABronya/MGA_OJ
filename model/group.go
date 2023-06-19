@@ -39,7 +39,7 @@ func (group *Group) BeforeCreate(scope *gorm.DB) error {
 // @param    tx *gorm.DB       接收一个数据库指针
 // @return   err error		   返回一个错误信息
 func (g *Group) BeforDelete(tx *gorm.DB) (err error) {
-	tx = tx.Where("group_id = ?", g.ID)
+	tx = tx.Where("group_id = (?)", g.ID)
 
 	// TODO 删除用户列表
 	tx.Delete(&UserList{})

@@ -71,7 +71,7 @@ func (p PostController) Create(ctx *gin.Context) {
 	}
 
 	// TODO 查看题目是否在数据库中存在
-	if p.DB.Where("id = ?", id).First(&problem).Error != nil {
+	if p.DB.Where("id = (?)", id).First(&problem).Error != nil {
 		response.Fail(ctx, nil, "题目不存在")
 		return
 	}
@@ -132,7 +132,7 @@ func (p PostController) Update(ctx *gin.Context) {
 
 	var post model.Post
 
-	if p.DB.Where("id = ?", id).First(&post) != nil {
+	if p.DB.Where("id = (?)", id).First(&post).Error != nil {
 		response.Fail(ctx, nil, "题解不存在")
 		return
 	}
@@ -151,7 +151,7 @@ func (p PostController) Update(ctx *gin.Context) {
 	}
 
 	// TODO 更新题解内容
-	p.DB.Where("id = ?", id).Updates(postUpdate)
+	p.DB.Where("id = (?)", id).Updates(postUpdate)
 
 	// TODO 移除损坏数据
 	p.Redis.HDel(ctx, "Post", id)
@@ -183,7 +183,7 @@ func (p PostController) Show(ctx *gin.Context) {
 	}
 
 	// TODO 查看题解是否在数据库中存在
-	if p.DB.Where("id = ?", id).First(&post).Error != nil {
+	if p.DB.Where("id = (?)", id).First(&post).Error != nil {
 		response.Fail(ctx, nil, "题解不存在")
 		return
 	}
@@ -207,7 +207,7 @@ func (p PostController) Delete(ctx *gin.Context) {
 	var post model.Post
 
 	// TODO 查看题解是否存在
-	if p.DB.Where("id = ?", id).First(&post).Error != nil {
+	if p.DB.Where("id = (?)", id).First(&post).Error != nil {
 		response.Fail(ctx, nil, "题解不存在")
 		return
 	}
@@ -226,15 +226,15 @@ func (p PostController) Delete(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞的数量
-	p.DB.Where("post_id = ? and like = true", id).Model(model.PostLike{}).Count(&total)
+	p.DB.Where("post_id = (?) and like = true", id).Model(model.PostLike{}).Count(&total)
 	p.Redis.ZIncrBy(ctx, "UserLike", -float64(total), post.UserId.String())
 
 	// TODO 查看点踩的数量
-	p.DB.Where("post_id = ? and like = false", id).Model(model.PostLike{}).Count(&total)
+	p.DB.Where("post_id = (?) and like = false", id).Model(model.PostLike{}).Count(&total)
 	p.Redis.ZIncrBy(ctx, "UserUnLike", -float64(total), post.UserId.String())
 
 	// TODO 查看收藏的数量
-	p.DB.Where("post_id = ?", id).Model(model.PostCollect{}).Count(&total)
+	p.DB.Where("post_id = (?)", id).Model(model.PostCollect{}).Count(&total)
 	p.Redis.ZIncrBy(ctx, "UserCollect", -float64(total), post.UserId.String())
 
 	// TODO 获取阅读人数
@@ -271,10 +271,10 @@ func (p PostController) PageList(ctx *gin.Context) {
 	var posts []model.Post
 
 	// TODO 查找所有分页中可见的条目
-	p.DB.Where("problem_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&posts)
+	p.DB.Where("problem_id = (?)", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&posts)
 
 	var total int64
-	p.DB.Where("problem_id = ?", id).Model(model.Post{}).Count(&total)
+	p.DB.Where("problem_id = (?)", id).Model(model.Post{}).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"posts": posts, "total": total}, "成功")
@@ -297,10 +297,10 @@ func (p PostController) UserList(ctx *gin.Context) {
 	var posts []model.Post
 
 	// TODO 查找所有分页中可见的条目
-	p.DB.Where("user_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&posts)
+	p.DB.Where("user_id = (?)", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&posts)
 
 	var total int64
-	p.DB.Where("user_id = ?", id).Model(model.Post{}).Count(&total)
+	p.DB.Where("user_id = (?)", id).Model(model.Post{}).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"posts": posts, "total": total}, "成功")
@@ -363,7 +363,7 @@ func (p PostController) Like(ctx *gin.Context) {
 	}
 
 	// TODO 查看题解是否在数据库中存在
-	if p.DB.Where("id = ?", id).First(&post).Error != nil {
+	if p.DB.Where("id = (?)", id).First(&post).Error != nil {
 		response.Fail(ctx, nil, "题解不存在")
 		return
 	}
@@ -380,7 +380,7 @@ leep:
 
 	var postLike model.PostLike
 	// TODO 如果没有点赞或者点踩
-	if p.DB.Where("user_id = ? and post_id = ?", user.ID, id).First(&postLike).Error != nil {
+	if p.DB.Where("user_id = (?) and post_id = (?)", user.ID, id).First(&postLike).Error != nil {
 		// TODO 插入数据
 		postLike = model.PostLike{
 			PostId: post.ID,
@@ -400,7 +400,7 @@ leep:
 			p.Redis.ZIncrBy(ctx, "PostHot"+post.ProblemId.String(), 10.0, post.ID.String())
 			p.Redis.ZIncrBy(ctx, "UserUnLike", -1, post.UserId.String())
 		}
-		p.DB.Where("user_id = ? and post_id = ?", user.ID, id).Model(&model.PostLike{}).Update("like", like)
+		p.DB.Where("user_id = (?) and post_id = (?)", user.ID, id).Model(&model.PostLike{}).Update("like", like)
 	}
 	if like {
 		p.Redis.ZIncrBy(ctx, "PostHot"+post.ProblemId.String(), 10.0, post.ID.String())
@@ -440,7 +440,7 @@ func (p PostController) CancelLike(ctx *gin.Context) {
 	}
 
 	// TODO 查看题解是否在数据库中存在
-	if p.DB.Where("id = ?", id).First(&post).Error != nil {
+	if p.DB.Where("id = (?)", id).First(&post).Error != nil {
 		response.Fail(ctx, nil, "题解不存在")
 		return
 	}
@@ -453,7 +453,7 @@ leep:
 
 	// TODO 查看是否已经点赞或者点踩
 	var postLike model.PostLike
-	if p.DB.Where("user_id = ? and post_id = ?", user.ID, id).First(&postLike).Error != nil {
+	if p.DB.Where("user_id = (?) and post_id = (?)", user.ID, id).First(&postLike).Error != nil {
 		response.Fail(ctx, nil, "未点赞或点踩")
 		return
 	}
@@ -468,7 +468,7 @@ leep:
 	}
 
 	// TODO 取消点赞或者点踩
-	p.DB.Where("user_id = ? and post_id = ?", user.ID, id).Delete(&model.PostLike{})
+	p.DB.Where("user_id = (?) and post_id = (?)", user.ID, id).Delete(&model.PostLike{})
 
 	response.Success(ctx, nil, "取消成功")
 }
@@ -488,7 +488,7 @@ func (p PostController) LikeNumber(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	p.DB.Where("post_id = ? and like = ?", id, like).Model(model.PostLike{}).Count(&total)
+	p.DB.Where("post_id = (?) and like = (?)", id, like).Model(model.PostLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"total": total}, "查看成功")
 }
@@ -515,8 +515,8 @@ func (p PostController) LikeList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	p.DB.Where("post_id = ? and like = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&postLikes)
-	p.DB.Where("post_id = ? and like = ?", id, like).Model(model.PostLike{}).Count(&total)
+	p.DB.Where("post_id = (?) and like = (?)", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&postLikes)
+	p.DB.Where("post_id = (?) and like = (?)", id, like).Model(model.PostLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"postLikes": postLikes, "total": total}, "查看成功")
 }
@@ -537,7 +537,7 @@ func (p PostController) LikeShow(ctx *gin.Context) {
 	var postLike model.PostLike
 
 	// TODO 查看点赞状态
-	if p.DB.Where("user_id = ? and post_id = ?", user.ID, id).First(&postLike).Error != nil {
+	if p.DB.Where("user_id = (?) and post_id = (?)", user.ID, id).First(&postLike).Error != nil {
 		response.Success(ctx, gin.H{"like": 0}, "暂无状态")
 		return
 	}
@@ -573,9 +573,9 @@ func (p PostController) Likes(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	p.DB.Where("user_id = ? and like = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&postLikes)
+	p.DB.Where("user_id = (?) and like = (?)", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&postLikes)
 
-	p.DB.Where("user_id = ? and like = ?", id, like).Model(model.PostLike{}).Count(&total)
+	p.DB.Where("user_id = (?) and like = (?)", id, like).Model(model.PostLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"postLikes": postLikes, "total": total}, "查看成功")
 }
@@ -604,7 +604,7 @@ func (p PostController) Collect(ctx *gin.Context) {
 	}
 
 	// TODO 查看题解是否在数据库中存在
-	if p.DB.Where("id = ?", id).First(&post).Error != nil {
+	if p.DB.Where("id = (?)", id).First(&post).Error != nil {
 		response.Fail(ctx, nil, "题解不存在")
 		return
 	}
@@ -620,7 +620,7 @@ leep:
 	user := tuser.(model.User)
 
 	// TODO 如果没有收藏
-	if p.DB.Where("user_id = ? and post_id = ?", user.ID, post.ID).First(&model.PostCollect{}).Error != nil {
+	if p.DB.Where("user_id = (?) and post_id = (?)", user.ID, post.ID).First(&model.PostCollect{}).Error != nil {
 		postCollect := model.PostCollect{
 			PostId: post.ID,
 			UserId: user.ID,
@@ -670,7 +670,7 @@ func (p PostController) CancelCollect(ctx *gin.Context) {
 	}
 
 	// TODO 查看题解是否在数据库中存在
-	if p.DB.Where("id = ?", id).First(&post).Error != nil {
+	if p.DB.Where("id = (?)", id).First(&post).Error != nil {
 		response.Fail(ctx, nil, "题解不存在")
 		return
 	}
@@ -682,10 +682,10 @@ func (p PostController) CancelCollect(ctx *gin.Context) {
 leep:
 
 	// TODO 如果没有收藏
-	if p.DB.Where("user_id = ? and post_id = ?", user.ID, id).First(&model.PostCollect{}).Error != nil {
+	if p.DB.Where("user_id = (?) and post_id = (?)", user.ID, id).First(&model.PostCollect{}).Error != nil {
 		response.Fail(ctx, nil, "未收藏")
 	} else {
-		p.DB.Where("user_id = ? and post_id = ?", user.ID, id).Delete(&model.PostCollect{})
+		p.DB.Where("user_id = (?) and post_id = (?)", user.ID, id).Delete(&model.PostCollect{})
 		// TODO 热度处理
 		p.Redis.ZIncrBy(ctx, "PostHot"+post.ProblemId.String(), -50.0, post.ID.String())
 		// TODO 删除存储入库
@@ -708,7 +708,7 @@ func (p PostController) CollectShow(ctx *gin.Context) {
 	user := tuser.(model.User)
 
 	// TODO 如果没有收藏
-	if p.DB.Where("user_id = ? and post_id = ?", user.ID, id).First(&model.PostCollect{}).Error != nil {
+	if p.DB.Where("user_id = (?) and post_id = (?)", user.ID, id).First(&model.PostCollect{}).Error != nil {
 		response.Success(ctx, gin.H{"collect": false}, "未收藏")
 		return
 	} else {
@@ -736,9 +736,9 @@ func (p PostController) CollectList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看收藏的数量
-	p.DB.Where("post_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&postCollects)
+	p.DB.Where("post_id = (?)", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&postCollects)
 
-	p.DB.Where("post_id = ?", id).Model(model.PostCollect{}).Count(&total)
+	p.DB.Where("post_id = (?)", id).Model(model.PostCollect{}).Count(&total)
 
 	response.Success(ctx, gin.H{"postCollects": postCollects, "total": total}, "查看成功")
 }
@@ -755,7 +755,7 @@ func (p PostController) CollectNumber(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看收藏的数量
-	p.DB.Where("post_id = ?", id).Model(model.PostCollect{}).Count(&total)
+	p.DB.Where("post_id = (?)", id).Model(model.PostCollect{}).Count(&total)
 
 	response.Success(ctx, gin.H{"total": total}, "查看成功")
 }
@@ -780,9 +780,9 @@ func (p PostController) Collects(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看收藏的数量
-	p.DB.Where("user_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&postCollects)
+	p.DB.Where("user_id = (?)", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&postCollects)
 
-	p.DB.Where("user_id = ?", id).Model(model.PostCollect{}).Count(&total)
+	p.DB.Where("user_id = (?)", id).Model(model.PostCollect{}).Count(&total)
 
 	response.Success(ctx, gin.H{"postCollects": postCollects, "total": total}, "查看成功")
 }
@@ -811,7 +811,7 @@ func (p PostController) Visit(ctx *gin.Context) {
 	}
 
 	// TODO 查看题解是否在数据库中存在
-	if p.DB.Where("id = ?", id).First(&post).Error != nil {
+	if p.DB.Where("id = (?)", id).First(&post).Error != nil {
 		response.Fail(ctx, nil, "题解不存在")
 		return
 	}
@@ -889,9 +889,9 @@ func (p PostController) VisitList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看收藏的数量
-	p.DB.Where("post_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&postVisits)
+	p.DB.Where("post_id = (?)", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&postVisits)
 
-	p.DB.Where("post_id = ?", id).Model(model.PostVisit{}).Count(&total)
+	p.DB.Where("post_id = (?)", id).Model(model.PostVisit{}).Count(&total)
 
 	response.Success(ctx, gin.H{"postVisits": postVisits, "total": total}, "查看成功")
 }
@@ -915,9 +915,9 @@ func (p PostController) Visits(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看收藏的数量
-	p.DB.Where("user_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&postVisits)
+	p.DB.Where("user_id = (?)", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&postVisits)
 
-	p.DB.Where("user_id = ?", id).Model(model.PostVisit{}).Count(&total)
+	p.DB.Where("user_id = (?)", id).Model(model.PostVisit{}).Count(&total)
 
 	response.Success(ctx, gin.H{"postVisits": postVisits, "total": total}, "查看成功")
 }
@@ -953,7 +953,7 @@ func (p PostController) LabelCreate(ctx *gin.Context) {
 	}
 
 	// TODO 查看题解是否在数据库中存在
-	if p.DB.Where("id = ?", id).First(&post).Error != nil {
+	if p.DB.Where("id = (?)", id).First(&post).Error != nil {
 		response.Fail(ctx, nil, "题解不存在")
 		return
 	}
@@ -1020,7 +1020,7 @@ func (p PostController) LabelDelete(ctx *gin.Context) {
 	}
 
 	// TODO 查看题解是否在数据库中存在
-	if p.DB.Where("id = ?", id).First(&post).Error != nil {
+	if p.DB.Where("id = (?)", id).First(&post).Error != nil {
 		response.Fail(ctx, nil, "题解不存在")
 		return
 	}
@@ -1038,12 +1038,12 @@ leep:
 	}
 
 	// TODO 删除题解标签
-	if p.DB.Where("id = ?", label).First(&model.PostLabel{}).Error != nil {
+	if p.DB.Where("id = (?)", label).First(&model.PostLabel{}).Error != nil {
 		response.Fail(ctx, nil, "标签不存在")
 		return
 	}
 
-	p.DB.Where("id = ?", label).Delete(&model.PostLabel{})
+	p.DB.Where("id = (?)", label).Delete(&model.PostLabel{})
 
 	// TODO 解码失败，删除字段
 	p.Redis.HDel(ctx, "PostLabel", id)
@@ -1075,7 +1075,7 @@ func (p PostController) LabelShow(ctx *gin.Context) {
 	}
 
 	// TODO 在数据库中查找
-	p.DB.Where("post_id = ?", id).Find(&postLabels)
+	p.DB.Where("post_id = (?)", id).Find(&postLabels)
 	{
 		// TODO 将题解标签存入redis供下次使用
 		v, _ := json.Marshal(postLabels)
@@ -1107,11 +1107,11 @@ func (p PostController) Search(ctx *gin.Context) {
 	var posts []model.Post
 
 	// TODO 模糊匹配
-	p.DB.Where("problem_id = ? and match(title,content,res_long,res_short) against(? in boolean mode)", id, text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&posts)
+	p.DB.Where("problem_id = (?) and match(title,content,res_long,res_short) against((?) in boolean mode)", id, text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&posts)
 
 	// TODO 查看查询总数
 	var total int64
-	p.DB.Where("problem_id = ? and match(title,content,res_long,res_short) against(? in boolean mode)", id, text+"*").Model(model.Post{}).Count(&total)
+	p.DB.Where("problem_id = (?) and match(title,content,res_long,res_short) against((?) in boolean mode)", id, text+"*").Model(model.Post{}).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"posts": posts, "total": total}, "成功")
@@ -1146,16 +1146,16 @@ func (p PostController) SearchLabel(ctx *gin.Context) {
 	}
 
 	// TODO 进行标签匹配
-	p.DB.Distinct("post_id").Where("label in (?)", requestLabels.Labels).Model(model.PostLabel{}).Find(&postIds)
+	p.DB.Distinct("post_id").Where("label in ((?))", requestLabels.Labels).Model(model.PostLabel{}).Find(&postIds)
 
 	// TODO 查找对应题解
 	var posts []model.Post
 
-	p.DB.Where("problem_id = ? and id in (?)", id, postIds).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&posts)
+	p.DB.Where("problem_id = (?) and id in ((?))", id, postIds).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&posts)
 
 	// TODO 查看查询总数
 	var total int64
-	p.DB.Where("problem_id = ? and id in (?)", id, postIds).Model(model.Post{}).Count(&total)
+	p.DB.Where("problem_id = (?) and id in ((?))", id, postIds).Model(model.Post{}).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"posts": posts, "total": total}, "成功")
@@ -1193,17 +1193,17 @@ func (p PostController) SearchWithLabel(ctx *gin.Context) {
 	}
 
 	// TODO 进行标签匹配
-	p.DB.Distinct("post_id").Where("label in (?)", requestLabels.Labels).Model(model.PostLabel{}).Find(&postIds)
+	p.DB.Distinct("post_id").Where("label in ((?))", requestLabels.Labels).Model(model.PostLabel{}).Find(&postIds)
 
 	// TODO 查找对应题解
 	var posts []model.Post
 
 	// TODO 模糊匹配
-	p.DB.Where("problem_id = ? and id in (?) and match(title,content,res_long,res_short) against(? in boolean mode)", id, postIds, text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&posts)
+	p.DB.Where("problem_id = (?) and id in ((?)) and match(title,content,res_long,res_short) against((?) in boolean mode)", id, postIds, text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&posts)
 
 	// TODO 查看查询总数
 	var total int64
-	p.DB.Where("problem_id = ? and id in (?) and match(title,content,res_long,res_short) against(? in boolean mode)", id, postIds, text+"*").Model(model.Post{}).Count(&total)
+	p.DB.Where("problem_id = (?) and id in ((?)) and match(title,content,res_long,res_short) against((?) in boolean mode)", id, postIds, text+"*").Model(model.Post{}).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"posts": posts, "total": total}, "成功")

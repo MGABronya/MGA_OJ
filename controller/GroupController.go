@@ -105,7 +105,7 @@ func (g GroupController) Create(ctx *gin.Context) {
 	g.Redis.ZAdd(ctx, "GroupHot", redis.Z{Member: group.ID.String(), Score: 300 + float64(time.Now().Unix()/86400)})
 
 	// TODO 成功
-	response.Success(ctx, nil, "创建成功")
+	response.Success(ctx, gin.H{"group": group}, "创建成功")
 }
 
 // @title    CreateStandard
@@ -137,7 +137,7 @@ func (g GroupController) CreateStandard(ctx *gin.Context) {
 	}
 
 	// TODO 查看用户组是否在数据库中存在
-	if g.DB.Where("id = ?", id).First(&group).Error != nil {
+	if g.DB.Where("id = (?)", id).First(&group).Error != nil {
 		response.Fail(ctx, nil, "用户组不存在")
 		return
 	}
@@ -235,7 +235,7 @@ func (g GroupController) ShowStandard(ctx *gin.Context) {
 	}
 
 	// TODO 查看用户组是否在数据库中存在
-	if g.DB.Where("id = ?", id).First(&group).Error != nil {
+	if g.DB.Where("id = (?)", id).First(&group).Error != nil {
 		response.Fail(ctx, nil, "用户组不存在")
 		return
 	}
@@ -261,10 +261,10 @@ leap:
 	var userStandards []model.UserStandard
 
 	// TODO 查找所有分页中可见的条目
-	g.DB.Where("cid = ?", group.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&userStandards)
+	g.DB.Where("cid = (?)", group.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&userStandards)
 
 	var total int64
-	g.DB.Where("cid = ?", group.ID).Model(model.UserStandard{}).Count(&total)
+	g.DB.Where("cid = (?)", group.ID).Model(model.UserStandard{}).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"userStandards": userStandards, "total": total}, "成功")
@@ -293,7 +293,7 @@ func (g GroupController) Update(ctx *gin.Context) {
 
 	var group model.Group
 
-	if g.DB.Where("id = ?", id).First(&group) != nil {
+	if g.DB.Where("id = (?)", id).First(&group).Error != nil {
 		response.Fail(ctx, nil, "用户组不存在")
 		return
 	}
@@ -326,7 +326,7 @@ func (g GroupController) Update(ctx *gin.Context) {
 			return
 		}
 
-		g.DB.Where("group_id = ?", id).Delete(&model.UserList{})
+		g.DB.Where("group_id = (?)", id).Delete(&model.UserList{})
 		// TODO 插入相关用户
 		for _, v := range requestGroup.Users {
 			if ok, err := CanAddUser(v, group.ID); !ok || err != nil {
@@ -371,7 +371,7 @@ func (g GroupController) Show(ctx *gin.Context) {
 	}
 
 	// TODO 查看用户组是否在数据库中存在
-	if g.DB.Where("id = ?", id).First(&group).Error != nil {
+	if g.DB.Where("id = (?)", id).First(&group).Error != nil {
 		response.Fail(ctx, nil, "用户组不存在")
 		return
 	}
@@ -395,7 +395,7 @@ func (g GroupController) Delete(ctx *gin.Context) {
 	var group model.Group
 
 	// TODO 查看用户组是否存在
-	if g.DB.Where("id = ?", id).First(&group).Error != nil {
+	if g.DB.Where("id = (?)", id).First(&group).Error != nil {
 		response.Fail(ctx, nil, "用户组不存在")
 		return
 	}
@@ -419,15 +419,15 @@ func (g GroupController) Delete(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞的数量
-	g.DB.Where("group_id = ? and like = true", id).Model(model.GroupLike{}).Count(&total)
+	g.DB.Where("group_id = (?) and like = true", id).Model(model.GroupLike{}).Count(&total)
 	g.Redis.ZIncrBy(ctx, "UserLike", -float64(total), group.LeaderId.String())
 
 	// TODO 查看点踩的数量
-	g.DB.Where("group_id = ? and like = false", id).Model(model.GroupLike{}).Count(&total)
+	g.DB.Where("group_id = (?) and like = false", id).Model(model.GroupLike{}).Count(&total)
 	g.Redis.ZIncrBy(ctx, "UserUnLike", -float64(total), group.LeaderId.String())
 
 	// TODO 查看收藏的数量
-	g.DB.Where("group_id = ?", id).Model(model.GroupCollect{}).Count(&total)
+	g.DB.Where("group_id = (?)", id).Model(model.GroupCollect{}).Count(&total)
 	g.Redis.ZIncrBy(ctx, "UserCollect", -float64(total), group.LeaderId.String())
 
 	// TODO 删除用户组
@@ -482,10 +482,10 @@ func (g GroupController) LeaderList(ctx *gin.Context) {
 	var groups []model.Group
 
 	// TODO 查找所有分页中可见的条目
-	g.DB.Where("leader_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groups)
+	g.DB.Where("leader_id = (?)", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groups)
 
 	var total int64
-	g.DB.Where("leader_id = ?", id).Model(model.Group{}).Count(&total)
+	g.DB.Where("leader_id = (?)", id).Model(model.Group{}).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"groups": groups, "total": total}, "成功")
@@ -509,10 +509,10 @@ func (g GroupController) MemberList(ctx *gin.Context) {
 	var userList []model.UserList
 
 	// TODO 查找所有分页中可见的条目
-	g.DB.Where("user_id = ?", id).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&userList)
+	g.DB.Where("user_id = (?)", id).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&userList)
 
 	var total int64
-	g.DB.Where("user_id = ?", id).Model(model.UserList{}).Count(&total)
+	g.DB.Where("user_id = (?)", id).Model(model.UserList{}).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"userList": userList, "total": total}, "成功")
@@ -536,10 +536,10 @@ func (g GroupController) UserList(ctx *gin.Context) {
 	var userList []model.UserList
 
 	// TODO 查找所有分页中可见的条目
-	g.DB.Where("group_id = ?", id).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&userList)
+	g.DB.Where("group_id = (?)", id).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&userList)
 
 	var total int64
-	g.DB.Where("group_id = ?", id).Model(model.UserList{}).Count(&total)
+	g.DB.Where("group_id = (?)", id).Model(model.UserList{}).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"userList": userList, "total": total}, "成功")
@@ -599,7 +599,7 @@ func (g GroupController) Like(ctx *gin.Context) {
 	}
 
 	// TODO 查看用户组是否在数据库中存在
-	if g.DB.Where("id = ?", id).First(&group).Error != nil {
+	if g.DB.Where("id = (?)", id).First(&group).Error != nil {
 		response.Fail(ctx, nil, "用户组不存在")
 		return
 	}
@@ -615,7 +615,7 @@ leep:
 
 	var groupLike model.GroupLike
 	// TODO 如果没有点赞或者点踩
-	if g.DB.Where("user_id = ? and group_id = ?", user.ID, id).First(&groupLike).Error != nil {
+	if g.DB.Where("user_id = (?) and group_id = (?)", user.ID, id).First(&groupLike).Error != nil {
 		// TODO 插入数据
 		groupLike = model.GroupLike{
 			GroupId: group.ID,
@@ -635,7 +635,7 @@ leep:
 			g.Redis.ZIncrBy(ctx, "GroupHot", 10.0, group.ID.String())
 			g.Redis.ZIncrBy(ctx, "UserUnLike", -1, group.LeaderId.String())
 		}
-		g.DB.Where("user_id = ? and group_id = ?", user.ID, id).Model(&model.GroupLike{}).Update("like", like)
+		g.DB.Where("user_id = (?) and group_id = (?)", user.ID, id).Model(&model.GroupLike{}).Update("like", like)
 	}
 	if like {
 		g.Redis.ZIncrBy(ctx, "GroupHot", 10.0, group.ID.String())
@@ -675,7 +675,7 @@ func (g GroupController) CancelLike(ctx *gin.Context) {
 	}
 
 	// TODO 查看用户组是否在数据库中存在
-	if g.DB.Where("id = ?", id).First(&group).Error != nil {
+	if g.DB.Where("id = (?)", id).First(&group).Error != nil {
 		response.Fail(ctx, nil, "用户组不存在")
 		return
 	}
@@ -688,7 +688,7 @@ leep:
 
 	// TODO 查看是否已经点赞或者点踩
 	var groupLike model.GroupLike
-	if g.DB.Where("user_id = ? and group_id = ?", user.ID, id).First(&groupLike).Error != nil {
+	if g.DB.Where("user_id = (?) and group_id = (?)", user.ID, id).First(&groupLike).Error != nil {
 		response.Fail(ctx, nil, "未点赞或点踩")
 		return
 	}
@@ -703,7 +703,7 @@ leep:
 	}
 
 	// TODO 取消点赞或者点踩
-	g.DB.Where("user_id = ? and group_id = ?", user.ID, id).Delete(&model.GroupLike{})
+	g.DB.Where("user_id = (?) and group_id = (?)", user.ID, id).Delete(&model.GroupLike{})
 
 	response.Success(ctx, nil, "取消成功")
 }
@@ -723,7 +723,7 @@ func (g GroupController) LikeNumber(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	g.DB.Where("group_id = ? and like = ?", id, like).Model(model.GroupLike{}).Count(&total)
+	g.DB.Where("group_id = (?) and like = (?)", id, like).Model(model.GroupLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"total": total}, "查看成功")
 }
@@ -750,9 +750,9 @@ func (g GroupController) LikeList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	g.DB.Where("group_id = ? and like = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groupLikes)
+	g.DB.Where("group_id = (?) and like = (?)", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groupLikes)
 
-	g.DB.Where("group_id = ? and like = ?", id, like).Model(model.GroupLike{}).Count(&total)
+	g.DB.Where("group_id = (?) and like = (?)", id, like).Model(model.GroupLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"groupLikes": groupLikes, "total": total}, "查看成功")
 }
@@ -773,7 +773,7 @@ func (g GroupController) LikeShow(ctx *gin.Context) {
 	var groupLike model.GroupLike
 
 	// TODO 查看点赞状态
-	if g.DB.Where("user_id = ? and group_id = ?", user.ID, id).First(&groupLike).Error != nil {
+	if g.DB.Where("user_id = (?) and group_id = (?)", user.ID, id).First(&groupLike).Error != nil {
 		response.Success(ctx, gin.H{"like": 0}, "暂无状态")
 		return
 	}
@@ -809,9 +809,9 @@ func (g GroupController) Likes(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	g.DB.Where("user_id = ? and like = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groupLikes)
+	g.DB.Where("user_id = (?) and like = (?)", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groupLikes)
 
-	g.DB.Where("user_id = ? and like = ?", id, like).Model(model.GroupLike{}).Count(&total)
+	g.DB.Where("user_id = (?) and like = (?)", id, like).Model(model.GroupLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"groupLikes": groupLikes, "total": total}, "查看成功")
 }
@@ -840,7 +840,7 @@ func (g GroupController) Collect(ctx *gin.Context) {
 	}
 
 	// TODO 查看用户组是否在数据库中存在
-	if g.DB.Where("id = ?", id).First(&group).Error != nil {
+	if g.DB.Where("id = (?)", id).First(&group).Error != nil {
 		response.Fail(ctx, nil, "用户组不存在")
 		return
 	}
@@ -856,7 +856,7 @@ leep:
 	user := tuser.(model.User)
 
 	// TODO 如果没有收藏
-	if g.DB.Where("user_id = ? and group_id = ?", user.ID, group.ID).First(&model.GroupCollect{}).Error != nil {
+	if g.DB.Where("user_id = (?) and group_id = (?)", user.ID, group.ID).First(&model.GroupCollect{}).Error != nil {
 		groupCollect := model.GroupCollect{
 			GroupId: group.ID,
 			UserId:  user.ID,
@@ -904,7 +904,7 @@ func (g GroupController) CancelCollect(ctx *gin.Context) {
 	}
 
 	// TODO 查看用户组是否在数据库中存在
-	if g.DB.Where("id = ?", id).First(&group).Error != nil {
+	if g.DB.Where("id = (?)", id).First(&group).Error != nil {
 		response.Fail(ctx, nil, "用户组不存在")
 		return
 	}
@@ -920,10 +920,10 @@ leep:
 	user := tuser.(model.User)
 
 	// TODO 如果没有收藏
-	if g.DB.Where("user_id = ? and group_id = ?", user.ID, id).First(&model.GroupCollect{}).Error != nil {
+	if g.DB.Where("user_id = (?) and group_id = (?)", user.ID, id).First(&model.GroupCollect{}).Error != nil {
 		response.Fail(ctx, nil, "未收藏")
 	} else {
-		g.DB.Where("user_id = ? and group_id = ?", user.ID, id).Delete(&model.GroupCollect{})
+		g.DB.Where("user_id = (?) and group_id = (?)", user.ID, id).Delete(&model.GroupCollect{})
 		// TODO 热度计算
 		g.Redis.ZIncrBy(ctx, "GroupHot", -50.0, id)
 		// TODO 删除存储入库
@@ -946,7 +946,7 @@ func (g GroupController) CollectShow(ctx *gin.Context) {
 	user := tuser.(model.User)
 
 	// TODO 如果没有收藏
-	if g.DB.Where("user_id = ? and group_id = ?", user.ID, id).First(&model.GroupCollect{}).Error != nil {
+	if g.DB.Where("user_id = (?) and group_id = (?)", user.ID, id).First(&model.GroupCollect{}).Error != nil {
 		response.Success(ctx, gin.H{"collect": false}, "未收藏")
 		return
 	} else {
@@ -974,9 +974,9 @@ func (g GroupController) CollectList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看收藏的数量
-	g.DB.Where("group_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groupCollects)
+	g.DB.Where("group_id = (?)", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groupCollects)
 
-	g.DB.Where("group_id = ?", id).Model(model.GroupCollect{}).Count(&total)
+	g.DB.Where("group_id = (?)", id).Model(model.GroupCollect{}).Count(&total)
 
 	response.Success(ctx, gin.H{"groupCollects": groupCollects, "total": total}, "查看成功")
 }
@@ -993,7 +993,7 @@ func (g GroupController) CollectNumber(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看收藏的数量
-	g.DB.Where("group_id = ?", id).Model(model.GroupCollect{}).Count(&total)
+	g.DB.Where("group_id = (?)", id).Model(model.GroupCollect{}).Count(&total)
 
 	response.Success(ctx, gin.H{"total": total}, "查看成功")
 }
@@ -1018,9 +1018,9 @@ func (g GroupController) Collects(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看收藏的数量
-	g.DB.Where("user_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groupCollects)
+	g.DB.Where("user_id = (?)", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groupCollects)
 
-	g.DB.Where("user_id = ?", id).Model(model.GroupCollect{}).Count(&total)
+	g.DB.Where("user_id = (?)", id).Model(model.GroupCollect{}).Count(&total)
 
 	response.Success(ctx, gin.H{"groupCollects": groupCollects, "total": total}, "查看成功")
 }
@@ -1056,7 +1056,7 @@ func (g GroupController) Apply(ctx *gin.Context) {
 	}
 
 	// TODO 查看用户组是否在数据库中存在
-	if g.DB.Where("id = ?", id).First(&group).Error != nil {
+	if g.DB.Where("id = (?)", id).First(&group).Error != nil {
 		response.Fail(ctx, nil, "用户组不存在")
 		return
 	}
@@ -1072,13 +1072,13 @@ leep:
 	user := tuser.(model.User)
 
 	// TODO 查看用户是否已经加入用户组
-	if g.DB.Where("user_id = ? and group_id = ?", user.ID, group.ID).First(&model.UserList{}).Error == nil {
+	if g.DB.Where("user_id = (?) and group_id = (?)", user.ID, group.ID).First(&model.UserList{}).Error == nil {
 		response.Fail(ctx, nil, "已加入用户组")
 		return
 	}
 
 	// TODO 查看用户是否被拉黑
-	if g.DB.Where("user_id = ? and group_id = ?", user.ID, group.ID).First(&model.GroupBlock{}).Error != nil {
+	if g.DB.Where("user_id = (?) and group_id = (?)", user.ID, group.ID).First(&model.GroupBlock{}).Error != nil {
 		response.Fail(ctx, nil, "用户已被拉黑")
 		return
 	}
@@ -1112,7 +1112,7 @@ leep:
 	var groupApply model.GroupApply
 
 	// TODO 查看用户是否已经发送过申请
-	if g.DB.Where("user_id = ? and group_id = ?", user.ID, group.ID).First(&groupApply).Error == nil && groupApply.Condition {
+	if g.DB.Where("user_id = (?) and group_id = (?)", user.ID, group.ID).First(&groupApply).Error == nil && groupApply.Condition {
 		response.Fail(ctx, nil, "已发送过申请")
 		return
 	}
@@ -1150,7 +1150,7 @@ func (g GroupController) Consent(ctx *gin.Context) {
 	var groupApply model.GroupApply
 
 	// TODO 查看申请是否存在
-	if g.DB.Where("id = ?", id).First(&groupApply).Error != nil {
+	if g.DB.Where("id = (?)", id).First(&groupApply).Error != nil {
 		response.Fail(ctx, nil, "申请不存在")
 		return
 	}
@@ -1166,7 +1166,7 @@ func (g GroupController) Consent(ctx *gin.Context) {
 	}
 
 	// TODO 查看用户是否已经加入用户组
-	if g.DB.Where("user_id = ? and group_id = ?", groupApply.UserId, groupApply.GroupId).First(&model.UserList{}).Error == nil {
+	if g.DB.Where("user_id = (?) and group_id = (?)", groupApply.UserId, groupApply.GroupId).First(&model.UserList{}).Error == nil {
 		response.Fail(ctx, nil, "已加入用户组")
 		return
 	}
@@ -1185,7 +1185,7 @@ func (g GroupController) Consent(ctx *gin.Context) {
 	}
 
 	// TODO 查看用户组是否在数据库中存在
-	if g.DB.Where("id = ?", groupApply.GroupId.String()).First(&group).Error != nil {
+	if g.DB.Where("id = (?)", groupApply.GroupId.String()).First(&group).Error != nil {
 		response.Fail(ctx, nil, "用户组不存在")
 		return
 	}
@@ -1247,7 +1247,7 @@ func (g GroupController) Refuse(ctx *gin.Context) {
 	var groupApply model.GroupApply
 
 	// TODO 查看申请是否存在
-	if g.DB.Where("id = ?", id).First(&groupApply).Error != nil {
+	if g.DB.Where("id = (?)", id).First(&groupApply).Error != nil {
 		response.Fail(ctx, nil, "申请不存在")
 		return
 	}
@@ -1257,7 +1257,7 @@ func (g GroupController) Refuse(ctx *gin.Context) {
 	user := tuser.(model.User)
 
 	// TODO 查看当前用户是否为用户组组长
-	if g.DB.Where("id = ? and leader_id = ?", groupApply.GroupId, user.ID).First(&model.Group{}).Error != nil {
+	if g.DB.Where("id = (?) and leader_id = (?)", groupApply.GroupId, user.ID).First(&model.Group{}).Error != nil {
 		response.Fail(ctx, nil, "非用户组组长，无法操作")
 		return
 	}
@@ -1295,7 +1295,7 @@ func (g GroupController) Block(ctx *gin.Context) {
 	}
 
 	// TODO 查看用户是否在数据库中存在
-	if g.DB.Where("id = ?", user_id).First(&usera).Error != nil {
+	if g.DB.Where("id = (?)", user_id).First(&usera).Error != nil {
 		response.Fail(ctx, nil, "用户不存在")
 		return
 	}
@@ -1322,7 +1322,7 @@ leap:
 	}
 
 	// TODO 查看用户组是否在数据库中存在
-	if g.DB.Where("id = ?", group_id).First(&group).Error != nil {
+	if g.DB.Where("id = (?)", group_id).First(&group).Error != nil {
 		response.Fail(ctx, nil, "用户组不存在")
 		return
 	}
@@ -1343,7 +1343,7 @@ leep:
 	}
 
 	// TODO 查看当前用户是否已经拉黑
-	if g.DB.Where("user_id = ? and group_id = ?", user_id, group_id).First(&model.GroupBlock{}).Error == nil {
+	if g.DB.Where("user_id = (?) and group_id = (?)", user_id, group_id).First(&model.GroupBlock{}).Error == nil {
 		response.Fail(ctx, nil, "用户已拉黑")
 		return
 	}
@@ -1391,7 +1391,7 @@ func (g GroupController) RemoveBlack(ctx *gin.Context) {
 	}
 
 	// TODO 查看用户组是否在数据库中存在
-	if g.DB.Where("id = ?", group_id).First(&group).Error != nil {
+	if g.DB.Where("id = (?)", group_id).First(&group).Error != nil {
 		response.Fail(ctx, nil, "用户组不存在")
 		return
 	}
@@ -1415,7 +1415,7 @@ leep:
 	var groupBlock model.GroupBlock
 
 	// TODO 查看当前用户是否已经拉黑
-	if g.DB.Where("user_id = ? and group_id = ?", user_id, group_id).First(&groupBlock).Error != nil {
+	if g.DB.Where("user_id = (?) and group_id = (?)", user_id, group_id).First(&groupBlock).Error != nil {
 		response.Fail(ctx, nil, "用户未被拉黑")
 	}
 
@@ -1455,7 +1455,7 @@ func (g GroupController) BlackList(ctx *gin.Context) {
 	}
 
 	// TODO 查看用户组是否在数据库中存在
-	if g.DB.Where("id = ?", id).First(&group).Error != nil {
+	if g.DB.Where("id = (?)", id).First(&group).Error != nil {
 		response.Fail(ctx, nil, "用户组不存在")
 		return
 	}
@@ -1482,9 +1482,9 @@ leep:
 	var total int64
 
 	// TODO 查看黑名单
-	g.DB.Where("group_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groupBlocks)
+	g.DB.Where("group_id = (?)", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groupBlocks)
 
-	g.DB.Where("group_id = ?", id).Model(model.GroupBlock{}).Count(&total)
+	g.DB.Where("group_id = (?)", id).Model(model.GroupBlock{}).Count(&total)
 
 	response.Success(ctx, gin.H{"groupBlocks": groupBlocks, "total": total}, "查看成功")
 }
@@ -1510,9 +1510,9 @@ func (g GroupController) ApplyingList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看申请的数量
-	g.DB.Where("user_id = ?", user.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groupApplys)
+	g.DB.Where("user_id = (?)", user.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groupApplys)
 
-	g.DB.Where("user_id = ?", user.ID).Model(model.GroupApply{}).Count(&total)
+	g.DB.Where("user_id = (?)", user.ID).Model(model.GroupApply{}).Count(&total)
 
 	response.Success(ctx, gin.H{"groupApplys": groupApplys, "total": total}, "查看成功")
 }
@@ -1545,7 +1545,7 @@ func (g GroupController) AppliedList(ctx *gin.Context) {
 	}
 
 	// TODO 查看用户组是否在数据库中存在
-	if g.DB.Where("id = ?", id).First(&group).Error != nil {
+	if g.DB.Where("id = (?)", id).First(&group).Error != nil {
 		response.Fail(ctx, nil, "用户组不存在")
 		return
 	}
@@ -1572,9 +1572,9 @@ leep:
 	var total int64
 
 	// TODO 查看申请的数量
-	g.DB.Where("group_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groupApplys)
+	g.DB.Where("group_id = (?)", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groupApplys)
 
-	g.DB.Where("group_id = ?", id).Model(model.GroupApply{}).Count(&total)
+	g.DB.Where("group_id = (?)", id).Model(model.GroupApply{}).Count(&total)
 
 	response.Success(ctx, gin.H{"groupApplys": groupApplys, "total": total}, "查看成功")
 }
@@ -1594,13 +1594,13 @@ func (g GroupController) Quit(ctx *gin.Context) {
 	user := tuser.(model.User)
 
 	// TODO 查看用户是否已经加入用户组
-	if g.DB.Where("user_id = ? and group_id = ?", user.ID, id).First(&model.UserList{}).Error != nil {
+	if g.DB.Where("user_id = (?) and group_id = (?)", user.ID, id).First(&model.UserList{}).Error != nil {
 		response.Fail(ctx, nil, "未加入用户组")
 		return
 	}
 
 	// TODO 在用户中删除用户
-	g.DB.Where("user_id = ? and group_id = ?", user.ID, id).Delete(&model.UserList{})
+	g.DB.Where("user_id = (?) and group_id = (?)", user.ID, id).Delete(&model.UserList{})
 
 	// TODO 成功
 	response.Success(ctx, nil, "退出成功")
@@ -1637,7 +1637,7 @@ func (g GroupController) LabelCreate(ctx *gin.Context) {
 	}
 
 	// TODO 查看用户组是否在数据库中存在
-	if g.DB.Where("id = ?", id).First(&group).Error != nil {
+	if g.DB.Where("id = (?)", id).First(&group).Error != nil {
 		response.Fail(ctx, nil, "用户组不存在")
 		return
 	}
@@ -1704,7 +1704,7 @@ func (g GroupController) LabelDelete(ctx *gin.Context) {
 	}
 
 	// TODO 查看用户组是否在数据库中存在
-	if g.DB.Where("id = ?", id).First(&group).Error != nil {
+	if g.DB.Where("id = (?)", id).First(&group).Error != nil {
 		response.Fail(ctx, nil, "用户组不存在")
 		return
 	}
@@ -1722,12 +1722,12 @@ leep:
 	}
 
 	// TODO 删除用户组标签
-	if g.DB.Where("id = ?", label).First(&model.GroupLabel{}).Error != nil {
+	if g.DB.Where("id = (?)", label).First(&model.GroupLabel{}).Error != nil {
 		response.Fail(ctx, nil, "标签不存在")
 		return
 	}
 
-	g.DB.Where("id = ?", label).Delete(&model.GroupLabel{})
+	g.DB.Where("id = (?)", label).Delete(&model.GroupLabel{})
 
 	// TODO 解码失败，删除字段
 	g.Redis.HDel(ctx, "GroupLabel", id)
@@ -1759,7 +1759,7 @@ func (g GroupController) LabelShow(ctx *gin.Context) {
 	}
 
 	// TODO 在数据库中查找
-	g.DB.Where("group_id = ?", id).Find(&groupLabels)
+	g.DB.Where("group_id = (?)", id).Find(&groupLabels)
 	{
 		// TODO 将用户组标签存入redis供下次使用
 		v, _ := json.Marshal(groupLabels)
@@ -1788,11 +1788,11 @@ func (g GroupController) Search(ctx *gin.Context) {
 	var groups []model.Group
 
 	// TODO 模糊匹配
-	g.DB.Where("match(title,content,res_long,res_short) against(? in boolean mode)", text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groups)
+	g.DB.Where("match(title,content,res_long,res_short) against((?) in boolean mode)", text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groups)
 
 	// TODO 查看查询总数
 	var total int64
-	g.DB.Where("match(title,content,res_long,res_short) against(? in boolean mode)", text+"*").Model(model.Group{}).Count(&total)
+	g.DB.Where("match(title,content,res_long,res_short) against((?) in boolean mode)", text+"*").Model(model.Group{}).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"groups": groups, "total": total}, "成功")
@@ -1824,16 +1824,16 @@ func (g GroupController) SearchLabel(ctx *gin.Context) {
 	}
 
 	// TODO 进行标签匹配
-	g.DB.Distinct("group_id").Where("label in (?)", requestLabels.Labels).Model(model.GroupLabel{}).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groupIds)
+	g.DB.Distinct("group_id").Where("label in ((?))", requestLabels.Labels).Model(model.GroupLabel{}).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groupIds)
 
 	// TODO 查看查询总数
 	var total int64
-	g.DB.Distinct("group_id").Where("label in (?)", requestLabels.Labels).Model(model.GroupLabel{}).Count(&total)
+	g.DB.Distinct("group_id").Where("label in ((?))", requestLabels.Labels).Model(model.GroupLabel{}).Count(&total)
 
 	// TODO 查找对应用户组
 	var groups []model.Group
 
-	g.DB.Where("id in (?)", groupIds).Find(&groups)
+	g.DB.Where("id in ((?))", groupIds).Find(&groups)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"groups": groups, "total": total}, "成功")
@@ -1868,17 +1868,17 @@ func (g GroupController) SearchWithLabel(ctx *gin.Context) {
 	}
 
 	// TODO 进行标签匹配
-	g.DB.Distinct("group_id").Where("label in (?)", requestLabels.Labels).Model(model.GroupLabel{}).Find(&groupIds)
+	g.DB.Distinct("group_id").Where("label in ((?))", requestLabels.Labels).Model(model.GroupLabel{}).Find(&groupIds)
 
 	// TODO 查找对应用户组
 	var groups []model.Group
 
 	// TODO 模糊匹配
-	g.DB.Where("id in (?) and match(title,content,res_long,res_short) against(? in boolean mode)", groupIds, text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groups)
+	g.DB.Where("id in ((?)) and match(title,content,res_long,res_short) against((?) in boolean mode)", groupIds, text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groups)
 
 	// TODO 查看查询总数
 	var total int64
-	g.DB.Where("id in (?) and match(title,content,res_long,res_short) against(? in boolean mode)", groupIds, text+"*").Model(model.Group{}).Count(&total)
+	g.DB.Where("id in ((?)) and match(title,content,res_long,res_short) against((?) in boolean mode)", groupIds, text+"*").Model(model.Group{}).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"groups": groups, "total": total}, "成功")
@@ -1915,22 +1915,22 @@ func CanAddUser(user_id uuid.UUID, group_id uuid.UUID) (bool, error) {
 
 	// TODO 获取该组参加的表单列表
 	var groupLists []model.GroupList
-	db.Where("group_id = ?", group_id).Find(&groupLists)
+	db.Where("group_id = (?)", group_id).Find(&groupLists)
 
 	for _, groupList := range groupLists {
 		set_id := groupList.SetId
 		// TODO 获取该表单下的所有组
 		var groupLists []model.GroupList
-		db.Where("set_id = ?", set_id).Find(&groupLists)
+		db.Where("set_id = (?)", set_id).Find(&groupLists)
 		// TODO 获取该表单
 		var set model.Set
-		if err := db.Where("id = ?", set_id).First(&set).Error; err != nil {
+		if err := db.Where("id = (?)", set_id).First(&set).Error; err != nil {
 			return false, err
 		}
 		// TODO 该表单对组员有合法的人数限制
 		if set.PassNum != 0 {
 			var total int64
-			db.Where("group_id = ?", group_id).Model(&model.UserList{}).Count(&total)
+			db.Where("group_id = (?)", group_id).Model(&model.UserList{}).Count(&total)
 			if total >= int64(set.PassNum) {
 				return false, nil
 			}
@@ -1953,7 +1953,7 @@ func CanAddUser(user_id uuid.UUID, group_id uuid.UUID) (bool, error) {
 				}
 
 				// TODO 查看用户组是否在数据库中存在
-				db.Where("group_id = ?", group.GroupId.String()).Find(&userLists)
+				db.Where("group_id = (?)", group.GroupId.String()).Find(&userLists)
 				{
 					// TODO 将用户组存入redis供下次使用
 					v, _ := json.Marshal(userLists)

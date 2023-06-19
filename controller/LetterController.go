@@ -73,7 +73,7 @@ func (l LetterController) Send(ctx *gin.Context) {
 	}
 
 	// TODO 查看用户是否在数据库中存在
-	if l.DB.Where("id = ?", id).First(&userb).Error != nil {
+	if l.DB.Where("id = (?)", id).First(&userb).Error != nil {
 		response.Fail(ctx, nil, "用户不存在")
 		return
 	}
@@ -85,7 +85,7 @@ func (l LetterController) Send(ctx *gin.Context) {
 leap:
 
 	// TODO 查看当前用户是否已经拉黑
-	if l.DB.Where("usera_id = ? and userb_id = ?", id, user.ID).First(&model.LetterBlock{}).Error == nil {
+	if l.DB.Where("usera_id = (?) and userb_id = (?)", id, user.ID).First(&model.LetterBlock{}).Error == nil {
 		response.Fail(ctx, nil, "已被拉黑")
 		return
 	}
@@ -180,7 +180,7 @@ func (l LetterController) ChatList(ctx *gin.Context) {
 	}
 
 	// TODO 查看用户是否在数据库中存在
-	if l.DB.Where("id = ?", id).First(&userb).Error != nil {
+	if l.DB.Where("id = (?)", id).First(&userb).Error != nil {
 		response.Fail(ctx, nil, "用户不存在")
 		return
 	}
@@ -233,7 +233,7 @@ func (l LetterController) RemoveLink(ctx *gin.Context) {
 	}
 
 	// TODO 查看用户是否在数据库中存在
-	if l.DB.Where("id = ?", id).First(&userb).Error != nil {
+	if l.DB.Where("id = (?)", id).First(&userb).Error != nil {
 		response.Fail(ctx, nil, "用户不存在")
 		return
 	}
@@ -278,7 +278,7 @@ func (l LetterController) Receive(ctx *gin.Context) {
 	}
 
 	// TODO 查看用户是否在数据库中存在
-	if l.DB.Where("id = ?", id).First(&userb).Error != nil {
+	if l.DB.Where("id = (?)", id).First(&userb).Error != nil {
 		response.Fail(ctx, nil, "用户不存在")
 		return
 	}
@@ -303,17 +303,13 @@ leap:
 	defer ws.Close()
 	// TODO 监听消息
 	for msg := range ch {
-		// TODO 读取ws中的数据
-		_, _, err := ws.ReadMessage()
-		// TODO 断开连接
-		if err != nil {
-			break
-		}
 		var letter model.Letter
 		v, _ := l.Redis.HGet(ctx, "Letters", msg.Payload).Result()
 		json.Unmarshal([]byte(v), &letter)
 		// TODO 写入ws数据
-		ws.WriteJSON(letter)
+		if err := ws.WriteJSON(letter); err != nil {
+			break
+		}
 	}
 }
 
@@ -342,17 +338,13 @@ func (l LetterController) ReceiveLink(ctx *gin.Context) {
 	defer ws.Close()
 	// TODO 监听消息
 	for msg := range ch {
-		// TODO 读取ws中的数据
-		_, _, err := ws.ReadMessage()
-		// TODO 断开连接
-		if err != nil {
-			break
-		}
 		var letter model.Letter
 		v, _ := l.Redis.HGet(ctx, "Letters", msg.Payload).Result()
 		json.Unmarshal([]byte(v), &letter)
 		// TODO 写入ws数据
-		ws.WriteJSON(letter)
+		if err := ws.WriteJSON(letter); err != nil {
+			break
+		}
 	}
 }
 
@@ -420,7 +412,7 @@ func (l LetterController) Block(ctx *gin.Context) {
 	}
 
 	// TODO 查看用户是否在数据库中存在
-	if l.DB.Where("id = ?", id).First(&userb).Error != nil {
+	if l.DB.Where("id = (?)", id).First(&userb).Error != nil {
 		response.Fail(ctx, nil, "用户不存在")
 		return
 	}
@@ -432,7 +424,7 @@ func (l LetterController) Block(ctx *gin.Context) {
 leap:
 
 	// TODO 查看当前用户是否已经拉黑
-	if l.DB.Where("usera_id = ? and userb_id = ?", user.ID, id).First(&model.LetterBlock{}).Error == nil {
+	if l.DB.Where("usera_id = (?) and userb_id = (?)", user.ID, id).First(&model.LetterBlock{}).Error == nil {
 		response.Fail(ctx, nil, "用户已拉黑")
 		return
 	}
@@ -480,7 +472,7 @@ func (l LetterController) RemoveBlack(ctx *gin.Context) {
 	}
 
 	// TODO 查看用户是否在数据库中存在
-	if l.DB.Where("id = ?", id).First(&userb).Error != nil {
+	if l.DB.Where("id = (?)", id).First(&userb).Error != nil {
 		response.Fail(ctx, nil, "用户不存在")
 		return
 	}
@@ -493,7 +485,7 @@ leap:
 	var letterBlock model.LetterBlock
 
 	// TODO 查看当前用户是否已经拉黑
-	if l.DB.Where("usera_id = ? and userb_id = ?", user.ID, id).First(&letterBlock).Error != nil {
+	if l.DB.Where("usera_id = (?) and userb_id = (?)", user.ID, id).First(&letterBlock).Error != nil {
 		response.Fail(ctx, nil, "用户未被拉黑")
 		return
 	}
@@ -526,9 +518,9 @@ func (l LetterController) BlackList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看黑名单
-	l.DB.Where("usera_id = ?", user.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&letterBlocks)
+	l.DB.Where("usera_id = (?)", user.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&letterBlocks)
 
-	l.DB.Where("usera_id = ?", user.ID).Model(model.LetterBlock{}).Count(&total)
+	l.DB.Where("usera_id = (?)", user.ID).Model(model.LetterBlock{}).Count(&total)
 
 	response.Success(ctx, gin.H{"letterBlocks": letterBlocks, "total": total}, "查看成功")
 }

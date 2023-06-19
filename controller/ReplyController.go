@@ -65,7 +65,7 @@ func (r ReplyController) Create(ctx *gin.Context) {
 	}
 
 	// TODO 查看讨论是否在数据库中存在
-	if r.DB.Where("id = ?", id).First(&comment).Error != nil {
+	if r.DB.Where("id = (?)", id).First(&comment).Error != nil {
 		response.Fail(ctx, nil, "讨论不存在")
 		return
 	}
@@ -124,7 +124,7 @@ func (r ReplyController) Update(ctx *gin.Context) {
 
 	var reply model.Reply
 
-	if r.DB.Where("id = ?", id).First(&reply) != nil {
+	if r.DB.Where("id = (?)", id).First(&reply).Error != nil {
 		response.Fail(ctx, nil, "讨论的回复不存在")
 		return
 	}
@@ -142,7 +142,7 @@ func (r ReplyController) Update(ctx *gin.Context) {
 	}
 
 	// TODO 更新讨论的回复内容
-	r.DB.Where("id = ?", id).Updates(replyUpdate)
+	r.DB.Where("id = (?)", id).Updates(replyUpdate)
 
 	// TODO 移除损坏数据
 	r.Redis.HDel(ctx, "Reply", id)
@@ -174,7 +174,7 @@ func (r ReplyController) Show(ctx *gin.Context) {
 	}
 
 	// TODO 查看讨论的回复是否在数据库中存在
-	if r.DB.Where("id = ?", id).First(&reply).Error != nil {
+	if r.DB.Where("id = (?)", id).First(&reply).Error != nil {
 		response.Fail(ctx, nil, "讨论的回复不存在")
 		return
 	}
@@ -198,7 +198,7 @@ func (r ReplyController) Delete(ctx *gin.Context) {
 	var reply model.Reply
 
 	// TODO 查看讨论的回复是否存在
-	if r.DB.Where("id = ?", id).First(&reply).Error != nil {
+	if r.DB.Where("id = (?)", id).First(&reply).Error != nil {
 		response.Fail(ctx, nil, "讨论的回复不存在")
 		return
 	}
@@ -217,11 +217,11 @@ func (r ReplyController) Delete(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞的数量
-	r.DB.Where("reply_id = ? and like = true", id).Model(model.ReplyLike{}).Count(&total)
+	r.DB.Where("reply_id = (?) and like = true", id).Model(model.ReplyLike{}).Count(&total)
 	r.Redis.ZIncrBy(ctx, "UserLike", -float64(total), reply.UserId.String())
 
 	// TODO 查看点踩的数量
-	r.DB.Where("reply_id = ? and like = false", id).Model(model.ReplyLike{}).Count(&total)
+	r.DB.Where("reply_id = (?) and like = false", id).Model(model.ReplyLike{}).Count(&total)
 	r.Redis.ZIncrBy(ctx, "UserUnLike", -float64(total), reply.UserId.String())
 
 	// TODO 删除讨论的回复
@@ -253,10 +253,10 @@ func (r ReplyController) PageList(ctx *gin.Context) {
 	var replys []model.Reply
 
 	// TODO 查找所有分页中可见的条目
-	r.DB.Where("comment_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&replys)
+	r.DB.Where("comment_id = (?)", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&replys)
 
 	var total int64
-	r.DB.Where("comment_id = ?", id).Model(model.Reply{}).Count(&total)
+	r.DB.Where("comment_id = (?)", id).Model(model.Reply{}).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"replys": replys, "total": total}, "成功")
@@ -279,10 +279,10 @@ func (r ReplyController) UserList(ctx *gin.Context) {
 	var replys []model.Reply
 
 	// TODO 查找所有分页中可见的条目
-	r.DB.Where("user_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&replys)
+	r.DB.Where("user_id = (?)", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&replys)
 
 	var total int64
-	r.DB.Where("user_id = ?", id).Model(model.Reply{}).Count(&total)
+	r.DB.Where("user_id = (?)", id).Model(model.Reply{}).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"replys": replys, "total": total}, "成功")
@@ -345,7 +345,7 @@ func (r ReplyController) Like(ctx *gin.Context) {
 	}
 
 	// TODO 查看讨论的回复是否在数据库中存在
-	if r.DB.Where("id = ?", id).First(&reply).Error != nil {
+	if r.DB.Where("id = (?)", id).First(&reply).Error != nil {
 		response.Fail(ctx, nil, "讨论的回复不存在")
 		return
 	}
@@ -361,7 +361,7 @@ leep:
 
 	var replyLike model.ReplyLike
 	// TODO 如果没有点赞或者点踩
-	if r.DB.Where("user_id = ? and reply_id = ?", user.ID, id).First(&replyLike).Error != nil {
+	if r.DB.Where("user_id = (?) and reply_id = (?)", user.ID, id).First(&replyLike).Error != nil {
 		// TODO 插入数据
 		replyLike = model.ReplyLike{
 			ReplyId: reply.ID,
@@ -381,7 +381,7 @@ leep:
 			r.Redis.ZIncrBy(ctx, "ReplyHot"+reply.CommentId.String(), 10.0, reply.ID.String())
 			r.Redis.ZIncrBy(ctx, "UserUnLike", -1, reply.UserId.String())
 		}
-		r.DB.Where("user_id = ? and reply_id = ?", user.ID, id).Model(&model.ReplyLike{}).Update("like", like)
+		r.DB.Where("user_id = (?) and reply_id = (?)", user.ID, id).Model(&model.ReplyLike{}).Update("like", like)
 	}
 	// TODO 热度计算
 	if like {
@@ -423,7 +423,7 @@ func (r ReplyController) CancelLike(ctx *gin.Context) {
 	}
 
 	// TODO 查看讨论的回复是否在数据库中存在
-	if r.DB.Where("id = ?", id).First(&reply).Error != nil {
+	if r.DB.Where("id = (?)", id).First(&reply).Error != nil {
 		response.Fail(ctx, nil, "讨论的回复不存在")
 		return
 	}
@@ -436,7 +436,7 @@ leep:
 
 	// TODO 查看是否已经点赞或者点踩
 	var replyLike model.ReplyLike
-	if r.DB.Where("user_id = ? and reply_id = ?", user.ID, id).First(&replyLike).Error != nil {
+	if r.DB.Where("user_id = (?) and reply_id = (?)", user.ID, id).First(&replyLike).Error != nil {
 		response.Fail(ctx, nil, "未点赞或点踩")
 		return
 	}
@@ -451,7 +451,7 @@ leep:
 	}
 
 	// TODO 取消点赞或者点踩
-	r.DB.Where("user_id = ? and reply_id = ?", user.ID, id).Delete(&model.ReplyLike{})
+	r.DB.Where("user_id = (?) and reply_id = (?)", user.ID, id).Delete(&model.ReplyLike{})
 
 	response.Success(ctx, nil, "取消成功")
 }
@@ -471,7 +471,7 @@ func (r ReplyController) LikeNumber(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	r.DB.Where("reply_id = ? and like = ?", id, like).Model(model.ReplyLike{}).Count(&total)
+	r.DB.Where("reply_id = (?) and like = (?)", id, like).Model(model.ReplyLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"total": total}, "查看成功")
 }
@@ -498,9 +498,9 @@ func (r ReplyController) LikeList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	r.DB.Where("reply_id = ? and like = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&replyLikes)
+	r.DB.Where("reply_id = (?) and like = (?)", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&replyLikes)
 
-	r.DB.Where("reply_id = ? and like = ?", id, like).Model(model.ReplyLike{}).Count(&total)
+	r.DB.Where("reply_id = (?) and like = (?)", id, like).Model(model.ReplyLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"replyLikes": replyLikes, "total": total}, "查看成功")
 }
@@ -521,7 +521,7 @@ func (r ReplyController) LikeShow(ctx *gin.Context) {
 	var replyLike model.ReplyLike
 
 	// TODO 查看点赞状态
-	if r.DB.Where("user_id = ? and reply_id = ?", user.ID, id).First(&replyLike).Error != nil {
+	if r.DB.Where("user_id = (?) and reply_id = (?)", user.ID, id).First(&replyLike).Error != nil {
 		response.Success(ctx, gin.H{"like": 0}, "暂无状态")
 		return
 	}
@@ -557,9 +557,9 @@ func (r ReplyController) Likes(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	r.DB.Where("user_id = ? and like = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&replyLikes)
+	r.DB.Where("user_id = (?) and like = (?)", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&replyLikes)
 
-	r.DB.Where("user_id = ? and like = ?", id, like).Model(model.ReplyLike{}).Count(&total)
+	r.DB.Where("user_id = (?) and like = (?)", id, like).Model(model.ReplyLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"replyLikes": replyLikes, "total": total}, "查看成功")
 }

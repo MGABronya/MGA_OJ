@@ -62,7 +62,7 @@ func (c CompetitionStandardSingleController) Enter(ctx *gin.Context) {
 	}
 
 	// TODO 查看比赛是否在数据库中存在
-	if c.DB.Where("id = ?", id).First(&competition) != nil {
+	if c.DB.Where("id = (?)", id).First(&competition).Error != nil {
 		response.Fail(ctx, nil, "比赛不存在")
 		return
 	}
@@ -164,7 +164,7 @@ func (c CompetitionStandardSingleController) EnterCondition(ctx *gin.Context) {
 	}
 
 	// TODO 查看比赛是否在数据库中存在
-	if c.DB.Where("id = ?", id).First(&competition) != nil {
+	if c.DB.Where("id = (?)", id).First(&competition).Error != nil {
 		response.Fail(ctx, nil, "比赛不存在")
 		return
 	}
@@ -188,7 +188,7 @@ leap:
 		response.Success(ctx, gin.H{"enter": true}, "已报名")
 		return
 	}
-	if c.DB.Where("member_id = ? and competition_id = ?", user.ID, competition.ID).First(&competitionRank).Error == nil {
+	if c.DB.Where("member_id = (?) and competition_id = (?)", user.ID, competition.ID).First(&competitionRank).Error == nil {
 		response.Success(ctx, gin.H{"enter": true}, "已报名")
 		{
 			// TODO 加入redis
@@ -229,7 +229,7 @@ func (c CompetitionStandardSingleController) CancelEnter(ctx *gin.Context) {
 	}
 
 	// TODO 查看比赛是否在数据库中存在
-	if c.DB.Where("id = ?", id).First(&competition) != nil {
+	if c.DB.Where("id = (?)", id).First(&competition).Error != nil {
 		response.Fail(ctx, nil, "比赛不存在")
 		return
 	}
@@ -254,7 +254,7 @@ leap:
 	var competitionRank model.CompetitionRank
 
 	// TODO 查看是否已经报名
-	if c.DB.Where("member_id = ? and competition_id = ?", user.ID, competition.ID).First(&competitionRank).Error != nil {
+	if c.DB.Where("member_id = (?) and competition_id = (?)", user.ID, competition.ID).First(&competitionRank).Error != nil {
 		response.Fail(ctx, nil, "未报名")
 		return
 	}
@@ -296,7 +296,7 @@ func (c CompetitionStandardSingleController) EnterPage(ctx *gin.Context) {
 	}
 
 	// TODO 查看比赛是否在数据库中存在
-	if c.DB.Where("id = ?", id).First(&competition) != nil {
+	if c.DB.Where("id = (?)", id).First(&competition).Error != nil {
 		response.Fail(ctx, nil, "比赛不存在")
 		return
 	}
@@ -316,10 +316,10 @@ leap:
 	var userStandards []model.UserStandard
 
 	// TODO 查找所有分页中可见的条目
-	c.DB.Where("cid = ?", competition.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&userStandards)
+	c.DB.Where("cid = (?)", competition.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&userStandards)
 
 	var total int64
-	c.DB.Where("cid = ?", competition.ID).Model(model.UserStandard{}).Count(&total)
+	c.DB.Where("cid = (?)", competition.ID).Model(model.UserStandard{}).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"userStandards": userStandards, "total": total}, "成功")

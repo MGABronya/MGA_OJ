@@ -52,7 +52,7 @@ func (m MessageController) Create(ctx *gin.Context) {
 	var userb model.User
 
 	// TODO 查看用户是否存在
-	if m.DB.Where("id = ?", id).First(&userb).Error != nil {
+	if m.DB.Where("id = (?)", id).First(&userb).Error != nil {
 		response.Fail(ctx, nil, "指定用户不存在")
 		return
 	}
@@ -71,7 +71,7 @@ func (m MessageController) Create(ctx *gin.Context) {
 	}
 
 	// TODO 成功
-	response.Success(ctx, nil, "创建成功")
+	response.Success(ctx, gin.H{"message": message}, "创建成功")
 }
 
 // @title    Delete
@@ -86,7 +86,7 @@ func (m MessageController) Delete(ctx *gin.Context) {
 	var message model.Message
 
 	// TODO 查看留言是否存在
-	if m.DB.Where("id = ?", id).First(&message).Error != nil {
+	if m.DB.Where("id = (?)", id).First(&message).Error != nil {
 		response.Fail(ctx, nil, "留言不存在")
 		return
 	}
@@ -124,10 +124,10 @@ func (m MessageController) PageList(ctx *gin.Context) {
 	var messages []model.Message
 
 	// TODO 查找所有分页中可见的条目
-	m.DB.Where("user_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&messages)
+	m.DB.Where("user_id = (?)", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&messages)
 
 	var total int64
-	m.DB.Where("user_id = ?", id).Model(model.Article{}).Count(&total)
+	m.DB.Where("user_id = (?)", id).Model(model.Article{}).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"messages": messages, "total": total}, "成功")

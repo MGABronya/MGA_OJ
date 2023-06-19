@@ -83,7 +83,7 @@ func (c CompetitionController) CreatePasswd(ctx *gin.Context) {
 	}
 
 	// TODO 查看比赛是否在数据库中存在
-	if c.DB.Where("id = ?", id).First(&competition) != nil {
+	if c.DB.Where("id = (?)", id).First(&competition).Error != nil {
 		response.Fail(ctx, nil, "比赛不存在")
 		return
 	}
@@ -131,7 +131,7 @@ leap:
 		return
 	}
 
-	c.DB.Where("id = ?", competition.PasswdId).Delete(&model.Passwd{})
+	c.DB.Where("id = (?)", competition.PasswdId).Delete(&model.Passwd{})
 
 	// TODO 存储新密码
 	competition.PasswdId = passwd.ID
@@ -171,7 +171,7 @@ func (c CompetitionController) DeletePasswd(ctx *gin.Context) {
 	}
 
 	// TODO 查看比赛是否在数据库中存在
-	if c.DB.Where("id = ?", id).First(&competition) != nil {
+	if c.DB.Where("id = (?)", id).First(&competition).Error != nil {
 		response.Fail(ctx, nil, "比赛不存在")
 		return
 	}
@@ -195,7 +195,7 @@ leap:
 		return
 	}
 
-	c.DB.Where("id = ?", competition.PasswdId).Delete(&model.Passwd{})
+	c.DB.Where("id = (?)", competition.PasswdId).Delete(&model.Passwd{})
 
 	// TODO 返回数据
 	response.Success(ctx, nil, "成功")
@@ -257,7 +257,7 @@ func (c CompetitionController) Create(ctx *gin.Context) {
 		}
 
 		// TODO 查看用户组是否在数据库中存在
-		if c.DB.Where("id = ?", competitionRequest.GroupId.String()).First(&group).Error != nil {
+		if c.DB.Where("id = (?)", competitionRequest.GroupId.String()).First(&group).Error != nil {
 			response.Fail(ctx, gin.H{"competition": competitionRequest}, "用户组不存在")
 			return
 		}
@@ -298,7 +298,7 @@ func (c CompetitionController) Create(ctx *gin.Context) {
 
 	// TODO 插入数据
 	if err := c.DB.Create(&competition).Error; err != nil {
-		response.Fail(ctx, gin.H{"competition": competition}, "比赛上传出错，数据库存储错误")
+		response.Fail(ctx, nil, "比赛上传出错，数据库存储错误")
 		return
 	}
 
@@ -350,7 +350,7 @@ func (c CompetitionController) Update(ctx *gin.Context) {
 	id := ctx.Params.ByName("id")
 
 	var competition model.Competition
-	if c.DB.Where("id = ?", id).First(&competition) != nil {
+	if c.DB.Where("id = (?)", id).First(&competition).Error != nil {
 		response.Fail(ctx, nil, "比赛不存在")
 		return
 	}
@@ -381,7 +381,7 @@ func (c CompetitionController) Update(ctx *gin.Context) {
 		}
 
 		// TODO 查看用户组是否在数据库中存在
-		if c.DB.Where("id = ?", competitionRequest.GroupId.String()).First(&group).Error != nil {
+		if c.DB.Where("id = (?)", competitionRequest.GroupId.String()).First(&group).Error != nil {
 			response.Fail(ctx, nil, "用户组不存在")
 			return
 		}
@@ -417,7 +417,7 @@ func (c CompetitionController) Update(ctx *gin.Context) {
 	}
 
 	// TODO 更新比赛内容
-	c.DB.Where("id = ?", id).Updates(competitionUpdate)
+	c.DB.Where("id = (?)", id).Updates(competitionUpdate)
 
 	// TODO 更新定时器
 	util.TimerMap[competition.ID].Reset(time.Until(time.Time(competitionUpdate.StartTime)))
@@ -427,11 +427,11 @@ func (c CompetitionController) Update(ctx *gin.Context) {
 		var competitionRanks []model.CompetitionRank
 
 		// TODO 查找所有分页中可见的条目
-		c.DB.Where("competition_id = ?", competition.ID).Find(&competitionRanks)
+		c.DB.Where("competition_id = (?)", competition.ID).Find(&competitionRanks)
 
 		// TODO 查找那些组并更新他们
 		for i := range competitionRanks {
-			c.DB.Model(model.Group{}).Where("id = ?", competitionRanks[i].MemberId).Update("competition_at", competitionUpdate.EndTime)
+			c.DB.Model(model.Group{}).Where("id = (?)", competitionRanks[i].MemberId).Update("competition_at", competitionUpdate.EndTime)
 			c.Redis.HDel(ctx, "Group", competitionRanks[i].MemberId.String())
 		}
 	}
@@ -466,7 +466,7 @@ func (c CompetitionController) Show(ctx *gin.Context) {
 	}
 
 	// TODO 查看比赛是否在数据库中存在
-	if c.DB.Where("id = ?", id).First(&competition).Error != nil {
+	if c.DB.Where("id = (?)", id).First(&competition).Error != nil {
 		response.Fail(ctx, nil, "比赛不存在")
 		return
 	}
@@ -500,7 +500,7 @@ func (c CompetitionController) Delete(ctx *gin.Context) {
 	}
 
 	// TODO 查看比赛是否存在
-	if c.DB.Where("id = ?", id).First(&competition).Error != nil {
+	if c.DB.Where("id = (?)", id).First(&competition).Error != nil {
 		response.Fail(ctx, nil, "比赛不存在")
 		return
 	}
@@ -584,7 +584,7 @@ func (c CompetitionController) LabelCreate(ctx *gin.Context) {
 	}
 
 	// TODO 查看比赛是否在数据库中存在
-	if c.DB.Where("id = ?", id).First(&competition).Error != nil {
+	if c.DB.Where("id = (?)", id).First(&competition).Error != nil {
 		response.Fail(ctx, nil, "比赛不存在")
 		return
 	}
@@ -651,7 +651,7 @@ func (c CompetitionController) LabelDelete(ctx *gin.Context) {
 	}
 
 	// TODO 查看比赛是否在数据库中存在
-	if c.DB.Where("id = ?", id).First(&competition).Error != nil {
+	if c.DB.Where("id = (?)", id).First(&competition).Error != nil {
 		response.Fail(ctx, nil, "比赛不存在")
 		return
 	}
@@ -669,12 +669,12 @@ leep:
 	}
 
 	// TODO 删除比赛标签
-	if c.DB.Where("id = ?", label).First(&model.CompetitionLabel{}).Error != nil {
+	if c.DB.Where("id = (?)", label).First(&model.CompetitionLabel{}).Error != nil {
 		response.Fail(ctx, nil, "标签不存在")
 		return
 	}
 
-	c.DB.Where("id = ?", label).Delete(&model.CompetitionLabel{})
+	c.DB.Where("id = (?)", label).Delete(&model.CompetitionLabel{})
 
 	// TODO 解码失败，删除字段
 	c.Redis.HDel(ctx, "CompetitionLabel", id)
@@ -706,7 +706,7 @@ func (c CompetitionController) LabelShow(ctx *gin.Context) {
 	}
 
 	// TODO 在数据库中查找
-	c.DB.Where("competition_id = ?", id).Find(&competitionLabels)
+	c.DB.Where("competition_id = (?)", id).Find(&competitionLabels)
 	{
 		// TODO 将题目标签存入redis供下次使用
 		v, _ := json.Marshal(competitionLabels)
@@ -735,11 +735,11 @@ func (c CompetitionController) Search(ctx *gin.Context) {
 	var competitions []model.Competition
 
 	// TODO 模糊匹配
-	c.DB.Where("match(title,content,res_long,res_short) against(? in boolean mode)", text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&competitions)
+	c.DB.Where("match(title,content,res_long,res_short) against((?) in boolean mode)", text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&competitions)
 
 	// TODO 查看查询总数
 	var total int64
-	c.DB.Where("match(title,content,res_long,res_short) against(? in boolean mode)", text+"*").Model(model.Competition{}).Count(&total)
+	c.DB.Where("match(title,content,res_long,res_short) against((?) in boolean mode)", text+"*").Model(model.Competition{}).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"competitions": competitions, "total": total}, "成功")
@@ -771,16 +771,16 @@ func (c CompetitionController) SearchLabel(ctx *gin.Context) {
 	}
 
 	// TODO 进行标签匹配
-	c.DB.Distinct("competition_id").Where("label in (?)", requestLabels.Labels).Model(model.CompetitionLabel{}).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&competitionIds)
+	c.DB.Distinct("competition_id").Where("label in ((?))", requestLabels.Labels).Model(model.CompetitionLabel{}).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&competitionIds)
 
 	// TODO 查看查询总数
 	var total int64
-	c.DB.Distinct("competition_id").Where("label in (?)", requestLabels.Labels).Model(model.CompetitionLabel{}).Count(&total)
+	c.DB.Distinct("competition_id").Where("label in ((?))", requestLabels.Labels).Model(model.CompetitionLabel{}).Count(&total)
 
 	// TODO 查找对应表单
 	var competitions []model.Competition
 
-	c.DB.Where("id in (?)", competitionIds).Find(&competitions)
+	c.DB.Where("id in ((?))", competitionIds).Find(&competitions)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"competitions": competitions, "total": total}, "成功")
@@ -815,17 +815,17 @@ func (c CompetitionController) SearchWithLabel(ctx *gin.Context) {
 	}
 
 	// TODO 进行标签匹配
-	c.DB.Distinct("competition_id").Where("label in (?)", requestLabels.Labels).Model(model.CompetitionLabel{}).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&competitionIds)
+	c.DB.Distinct("competition_id").Where("label in ((?))", requestLabels.Labels).Model(model.CompetitionLabel{}).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&competitionIds)
 
 	// TODO 查找对应表单
 	var competitions []model.Competition
 
 	// TODO 模糊匹配
-	c.DB.Where("id in (?) and match(title,content,res_long,res_short) against(? in boolean mode)", competitionIds, text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&competitions)
+	c.DB.Where("id in ((?)) and match(title,content,res_long,res_short) against((?) in boolean mode)", competitionIds, text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&competitions)
 
 	// TODO 查看查询总数
 	var total int64
-	c.DB.Where("id in (?) and match(title,content,res_long,res_short) against(? in boolean mode)", competitionIds, text+"*").Model(model.Competition{}).Count(&total)
+	c.DB.Where("id in ((?)) and match(title,content,res_long,res_short) against((?) in boolean mode)", competitionIds, text+"*").Model(model.Competition{}).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"competitions": competitions, "total": total}, "成功")
@@ -851,18 +851,18 @@ func (c CompetitionController) RankList(ctx *gin.Context) {
 		// TODO 尝试从数据库中找出相关数据
 		var members []model.CompetitionRank
 		var total int64
-		c.DB.Where("competition_id = ?", id).Order("score desc penalties asc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&members)
+		c.DB.Where("competition_id = (?)", id).Order("score desc penalties asc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&members)
 		// TODO 返回数据
 		response.Success(ctx, gin.H{"members": members, "total": total}, "成功")
 		return
 	} else {
 		// TODO 将redis中的数据取出
 		total, _ := c.Redis.ZCard(ctx, "CompetitionR"+id).Result()
-		members := make([]model.CompetitionRank, pageSize)
+		members := make([]model.CompetitionRank, len(mems))
 
 		for i := range mems {
 			members[i].CompetitionId = uuid.FromStringOrNil(id)
-			members[i].MemberId = mems[i].Member.(uuid.UUID)
+			members[i].MemberId, _ = uuid.FromString(mems[i].Member.(string))
 			members[i].Score = uint(math.Ceil(mems[i].Score))
 			members[i].Penalties = time.Duration((float64(members[i].Score) - mems[i].Score) * 10000000000)
 		}
@@ -891,7 +891,7 @@ func (c CompetitionController) RankMember(ctx *gin.Context) {
 
 	if err != nil {
 		// 从数据库中取出
-		c.DB.Table("competition_ranks").Select("RANK() OVER(partition by competition_id order by score desc penalties asc)").Where("competition_id = ? and member_id = ?", competition_id, member_id).Scan(&rank)
+		c.DB.Table("competition_ranks").Select("RANK() OVER(partition by competition_id order by score desc penalties asc)").Where("competition_id = (?) and member_id = (?)", competition_id, member_id).Scan(&rank)
 	}
 
 	// TODO 返回数据
@@ -922,7 +922,7 @@ func (c CompetitionController) RollingList(ctx *gin.Context) {
 	}
 
 	// TODO 查看比赛是否在数据库中存在
-	if c.DB.Where("id = ?", id).First(&competition).Error != nil {
+	if c.DB.Where("id = (?)", id).First(&competition).Error != nil {
 		response.Fail(ctx, nil, "比赛不存在")
 		return
 	}
@@ -962,16 +962,13 @@ leep:
 	defer ws.Close()
 	// TODO 监听消息
 	for msg := range ch {
-		// TODO 读取ws中的数据
-		_, _, err := ws.ReadMessage()
-		// TODO 断开连接
-		if err != nil {
-			break
-		}
 		var rk vo.RankList
 		json.Unmarshal([]byte(msg.Payload), &rk)
 		// TODO 写入ws数据
-		ws.WriteJSON(rk)
+		// TODO 断开连接
+		if err := ws.WriteJSON(rk); err != nil {
+			break
+		}
 	}
 }
 
@@ -993,7 +990,7 @@ func (c CompetitionController) MemberShow(ctx *gin.Context) {
 
 	if err != nil {
 		// TODO 去数据库中找
-		c.DB.Where("competition_id = ? and member_id = ?", competition_id, member_id).Find(&competitionMembers)
+		c.DB.Where("competition_id = (?) and member_id = (?)", competition_id, member_id).Find(&competitionMembers)
 		// TODO 返回数据
 		response.Success(ctx, gin.H{"competitionMembers": competitionMembers}, "成功")
 	} else {
@@ -1030,7 +1027,7 @@ func (c CompetitionController) Rejudge(ctx *gin.Context) {
 	}
 
 	// TODO 查看比赛是否在数据库中存在
-	if c.DB.Where("id = ?", id).First(&competition).Error != nil {
+	if c.DB.Where("id = (?)", id).First(&competition).Error != nil {
 		response.Fail(ctx, nil, "比赛不存在")
 		return
 	}
@@ -1071,32 +1068,32 @@ leep:
 
 	// TODO 搜索对应问题
 	if problem_id != "" {
-		db = db.Where("problem_id = ?", problem_id)
+		db = db.Where("`problem_id` = (?)", problem_id)
 	}
 
 	// TODO 搜索对应用户
 	if user_id != "" {
-		db = db.Where("user_id = ?", user_id)
+		db = db.Where("`user_id` = (?)", user_id)
 	}
 
 	// TODO 搜索对应起始时间
 	if start_time != "" {
-		db = db.Where("created_at >= ?", start_time)
+		db = db.Where("`created_at` >= (?)", start_time)
 	}
 
 	// TODO 搜索对应截至时间
 	if end_time != "" {
-		db = db.Where("created_at <= ?", end_time)
+		db = db.Where("`created_at` <= (?)", end_time)
 	}
 
 	// TODO 搜索对应语言
 	if language != "" {
-		db = db.Where("language = ?", language)
+		db = db.Where("`language` = (?)", language)
 	}
 
 	// TODO 搜索对应状态
 	if condition != "" {
-		db = db.Where("condition = ?", condition)
+		db = db.Where("`condition` = (?)", condition)
 	}
 
 	// TODO 查找记录组
@@ -1105,7 +1102,7 @@ leep:
 	// TODO 加入消息队列
 	for _, record := range records {
 		// TODO 删除该提交相关状态
-		c.DB.Where("record_id = ?", record).Delete(&model.CaseCondition{})
+		c.DB.Where("record_id = (?)", record).Delete(&model.CaseCondition{})
 		{
 			// TODO 将提交存入redis供判题机使用
 			v, _ := json.Marshal(record)
@@ -1152,7 +1149,7 @@ func (c CompetitionController) CompetitionDataDelete(ctx *gin.Context) {
 	}
 
 	// TODO 查看比赛是否在数据库中存在
-	if c.DB.Where("id = ?", id).First(&competition).Error != nil {
+	if c.DB.Where("id = (?)", id).First(&competition).Error != nil {
 		response.Fail(ctx, nil, "比赛不存在")
 		return
 	}
@@ -1183,11 +1180,11 @@ leep:
 
 	db := common.GetDB()
 
-	db = db.Where("competition_id = ?", id)
+	db = db.Where("competition_id = (?)", id)
 
 	// TODO 搜索对应用户
 	if member_id != "" {
-		db = db.Where("member_id = ?", member_id)
+		db = db.Where("member_id = (?)", member_id)
 	}
 
 	// TODO 清空db中的比赛排行
@@ -1202,7 +1199,7 @@ leep:
 	db.Find(hackNums)
 
 	for i := range hackNums {
-		c.DB.Where("competition_id = ? and member_id = ?", hackNums[i].CompetitionId, hackNums[i].MemberId).Update("score", hackNums[i].Score)
+		c.DB.Where("competition_id = (?) and member_id = (?)", hackNums[i].CompetitionId, hackNums[i].MemberId).Update("score", hackNums[i].Score)
 	}
 
 	// TODO 删除比赛中的通过情况
@@ -1218,7 +1215,7 @@ leep:
 	// TODO 回滚分数
 	for _, userScoreChange := range userScoreChanges {
 		var user model.User
-		if c.DB.Where("id = ?", userScoreChange.UserId).First(&user).Error != nil {
+		if c.DB.Where("id = (?)", userScoreChange.UserId).First(&user).Error != nil {
 			continue
 		}
 		user.Score -= userScoreChange.ScoreChange
@@ -1279,7 +1276,7 @@ func CompetitionFinish(ctx context.Context, redis *redis.Client, db *gorm.DB, co
 			Score:     uint(math.Ceil(competitionRankrs[i].Score)),
 			Penalties: time.Duration((float64(uint(math.Ceil(competitionRankrs[i].Score))) - competitionRankrs[i].Score) * 10000000000),
 		}
-		db.Where("member_id = ?", competitionRankrs[i].Member).Updates(competitionRank)
+		db.Where("member_id = (?)", competitionRankrs[i].Member).Updates(competitionRank)
 	}
 
 }

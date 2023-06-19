@@ -119,7 +119,14 @@ func (r *RabbitMQ) ConsumeSimple() {
 		log.Println("consumer:", d.Body)
 		// TODO 进行消费
 		var recordRabbit vo.RecordRabbit
-		json.Unmarshal(d.Body, &recordRabbit)
+		if err := json.Unmarshal(d.Body, &recordRabbit); err != nil {
+			log.Println("Error Json Unmarshal:", err)
+			continue
+		}
+		if _, ok := Interface.ComsumerMap[recordRabbit.Type]; !ok {
+			log.Println("Error Record Type:", recordRabbit.Type)
+			continue
+		}
 		Interface.ComsumerMap[recordRabbit.Type].Handel(recordRabbit.RecordId.String())
 	}
 }

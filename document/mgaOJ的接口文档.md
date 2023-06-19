@@ -206,9 +206,8 @@
 **User**（用户）
 
 - **Article**（文章）
-
-  - **Remark**（文章的回复）
-
+- **Remark**（文章的回复）
+  
 - **Letter**（私信）
 
 - **Problem**（题目）
@@ -440,7 +439,7 @@
 
   - **接口地址：/collects/:id**
 
-    **功能：查看用户收藏夹**
+    **功能：查看用户文章收藏夹**
 
     **方法类型：GET**
 
@@ -482,7 +481,7 @@
 
   - **接口地址：/visits/:id**
 
-    **功能：游览历史**
+    **功能：文章游览历史**
 
     **方法类型：GET**
 
@@ -1104,7 +1103,7 @@
 
     请求参数：  Authorization中的Bearer Token中提供注册、登录时给出的token。 在接口地址中给出指定提交的id（即:id部分）  。
 
-    返回值：成功时，以json格式返回一个record，record包含language、code、problem_id、 created_at 、updated_at、 user_id 、condition、pass、hack_id、competition_id，其中condition表示提交状态，提交状态包含Waiting（等待）、Input Doesn't Exist（输入在数据库中不存在）、Output Doesn't Exist（输入在数据库中不存在）、System Error 1（服务器问题：创建文件失败）、System Error 2（服务器问题：编译指令执行失败）、Compile timeout（编译超时）、Compile Error（编译错误）、System Error 3（服务器问题：消息管道创建失败）、System Error 4（服务器问题：运行指令执行失败）、Time Limit Exceeded（超出时间限制）、Runtime Error（运行时错误）、Memory Limit Exceeded（超出空间限制）、Wrong Answer（错误答案）、System error 5（服务器问题：数据库插入数据失败）、Accepted（提交通过）、Language Error（语言错误）,pass表示用例通过数量，hack_id表示该提交被hack的id,competition_id表示比赛id。如果失败则返回失败原因.
+    返回值：成功时，以json格式返回一个record，record包含language、code、problem_id、 created_at 、updated_at、 user_id 、condition、pass、hack_id、competition_id，其中condition表示提交状态，提交状态包含Waiting（等待）、Input Doesn't Exist（输入在数据库中不存在）、Output Doesn't Exist（输入在数据库中不存在）、System Error 1（服务器问题：创建文件失败）、System Error 2（服务器问题：编译指令执行失败）、Compile Time Out（编译超时）、Compile Error（编译错误）、System Error 3（服务器问题：消息管道创建失败）、System Error 4（服务器问题：运行指令执行失败）、Time Limit Exceeded（超出时间限制）、Runtime Error（运行时错误）、Memory Limit Exceeded（超出空间限制）、Wrong Answer（错误答案）、System error 5（服务器问题：数据库插入数据失败）、Accepted（提交通过）、Language Error（语言错误）,pass表示用例通过数量，hack_id表示该提交被hack的id,competition_id表示比赛id。如果失败则返回失败原因.
 
   - **接口地址：/search/list/:id**
 
@@ -1240,7 +1239,7 @@
 
     请求参数：  Authorization中的Bearer Token中提供注册、登录时给出的token。 在接口地址中给出指定提交的id（即:id部分）  。
 
-    返回值：成功时，以json格式返回一个record，record包含language、code、problem_id、 created_at 、updated_at、 user_id 、condition、pass、hack_id、competition_id，其中condition表示提交状态，提交状态包含Waiting（等待）、Input Doesn't Exist（输入在数据库中不存在）、Output Doesn't Exist（输入在数据库中不存在）、System Error 1（服务器问题：创建文件失败）、System Error 2（服务器问题：编译指令执行失败）、Compile timeout（编译超时）、Compile Error（编译错误）、System Error 3（服务器问题：消息管道创建失败）、System Error 4（服务器问题：运行指令执行失败）、Time Limit Exceeded（超出时间限制）、Runtime Error（运行时错误）、Memory Limit Exceeded（超出空间限制）、Wrong Answer（错误答案）、System error 5（服务器问题：数据库插入数据失败）、Accepted（提交通过）、Language Error（语言错误）,pass表示用例通过数量，hack_id表示该提交被hack的id,competition_id表示比赛id。如果失败则返回失败原因.
+    返回值：成功时，以json格式返回一个record，record包含language、code、problem_id、 created_at 、updated_at、 user_id 、condition、pass、hack_id、competition_id，其中condition表示提交状态，提交状态包含Waiting（等待）、Input Doesn't Exist（输入在数据库中不存在）、Output Doesn't Exist（输入在数据库中不存在）、System Error 1（服务器问题：创建文件失败）、System Error 2（服务器问题：编译指令执行失败）、Compile Time Out（编译超时）、Compile Error（编译错误）、System Error 3（服务器问题：消息管道创建失败）、System Error 4（服务器问题：运行指令执行失败）、Time Limit Exceeded（超出时间限制）、Runtime Error（运行时错误）、Memory Limit Exceeded（超出空间限制）、Wrong Answer（错误答案）、System error 5（服务器问题：数据库插入数据失败）、Accepted（提交通过）、Language Error（语言错误）,pass表示用例通过数量，hack_id表示该提交被hack的id,competition_id表示比赛id。如果失败则返回失败原因.
 
   - **接口地址：/search/list/:id**
 
@@ -1376,7 +1375,7 @@
 
     请求参数：  Authorization中的Bearer Token中提供注册、登录时给出的token。 在接口地址中给出指定提交的id（即:id部分）  。
 
-    返回值：成功时，以json格式返回一个record，record包含language、code、problem_id、 created_at 、updated_at、 user_id 、condition、pass、hack_id、competition_id，其中condition表示提交状态，提交状态包含Waiting（等待）、Input Doesn't Exist（输入在数据库中不存在）、Output Doesn't Exist（输入在数据库中不存在）、System Error 1（服务器问题：创建文件失败）、System Error 2（服务器问题：编译指令执行失败）、Compile timeout（编译超时）、Compile Error（编译错误）、System Error 3（服务器问题：消息管道创建失败）、System Error 4（服务器问题：运行指令执行失败）、Time Limit Exceeded（超出时间限制）、Runtime Error（运行时错误）、Memory Limit Exceeded（超出空间限制）、Wrong Answer（错误答案）、System error 5（服务器问题：数据库插入数据失败）、Accepted（提交通过）、Language Error（语言错误）,pass表示用例通过数量，hack_id表示该提交被hack的id,competition_id表示比赛id。如果失败则返回失败原因.
+    返回值：成功时，以json格式返回一个record，record包含language、code、problem_id、 created_at 、updated_at、 user_id 、condition、pass、hack_id、competition_id，其中condition表示提交状态，提交状态包含Waiting（等待）、Input Doesn't Exist（输入在数据库中不存在）、Output Doesn't Exist（输入在数据库中不存在）、System Error 1（服务器问题：创建文件失败）、System Error 2（服务器问题：编译指令执行失败）、Compile Time Out（编译超时）、Compile Error（编译错误）、System Error 3（服务器问题：消息管道创建失败）、System Error 4（服务器问题：运行指令执行失败）、Time Limit Exceeded（超出时间限制）、Runtime Error（运行时错误）、Memory Limit Exceeded（超出空间限制）、Wrong Answer（错误答案）、System error 5（服务器问题：数据库插入数据失败）、Accepted（提交通过）、Language Error（语言错误）,pass表示用例通过数量，hack_id表示该提交被hack的id,competition_id表示比赛id。如果失败则返回失败原因.
 
   - **接口地址：/search/list/:id**
 
@@ -3389,7 +3388,7 @@
 
   - **接口地址：/hot/rank**
 
-    **功能：获取表单热度排行**
+    **功能：获取题目热度排行**
 
     **方法类型：GET**
 
@@ -3673,7 +3672,7 @@
 
     请求参数：  Authorization中的Bearer Token中提供注册、登录时给出的token。 在接口地址中给出指定提交的id（即:id部分）  。
 
-    返回值：成功时，以json格式返回一个record，record包含language、code、problem_id、 created_at 、updated_at、 user_id 、condition、pass、hack_id，其中condition表示提交状态，提交状态包含Waiting（等待）、Input Doesn't Exist（输入在数据库中不存在）、Output Doesn't Exist（输入在数据库中不存在）、System Error 1（服务器问题：创建文件失败）、System Error 2（服务器问题：编译指令执行失败）、Compile timeout（编译超时）、Compile Error（编译错误）、System Error 3（服务器问题：消息管道创建失败）、System Error 4（服务器问题：运行指令执行失败）、Time Limit Exceeded（超出时间限制）、Runtime Error（运行时错误）、Memory Limit Exceeded（超出空间限制）、Wrong Answer（错误答案）、System error 5（服务器问题：数据库插入数据失败）、Accepted（提交通过）、Language Error（语言错误）,pass表示用例通过数量，hack_id表示该提交被hack的id。如果失败则返回失败原因.
+    返回值：成功时，以json格式返回一个record，record包含language、code、problem_id、 created_at 、updated_at、 user_id 、condition、pass、hack_id，其中condition表示提交状态，提交状态包含Waiting（等待）、Input Doesn't Exist（输入在数据库中不存在）、Output Doesn't Exist（输入在数据库中不存在）、System Error 1（服务器问题：创建文件失败）、System Error 2（服务器问题：编译指令执行失败）、Compile Time Out（编译超时）、Compile Error（编译错误）、System Error 3（服务器问题：消息管道创建失败）、System Error 4（服务器问题：运行指令执行失败）、Time Limit Exceeded（超出时间限制）、Runtime Error（运行时错误）、Memory Limit Exceeded（超出空间限制）、Wrong Answer（错误答案）、System error 5（服务器问题：数据库插入数据失败）、Accepted（提交通过）、Language Error（语言错误）,pass表示用例通过数量，hack_id表示该提交被hack的id。如果失败则返回失败原因.
 
   - **接口地址：/list**
 
@@ -4677,7 +4676,7 @@
 
     **方法类型：GET**
 
-    请求参数：在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少篇文章，默认值为20）。
+    请求参数：在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少篇主题，默认值为20）。
 
     返回值：成功时，以json格式返回一个数组topics和total，topics返回了相应列表的主题信息（按照创建时间排序，越新创建排序越前），total表示主题总量，如果失败则返回失败原因。
 
@@ -4787,7 +4786,7 @@
 
   - **接口地址：/collect/number/:id**
 
-    **功能：查看文章被收藏数量**
+    **功能：查看主题被收藏数量**
 
     **方法类型：GET**
 
@@ -4977,7 +4976,7 @@
 
   - **接口地址：/search/with/label/:text**
 
-    **功能：按文本和标签交集搜索文章**
+    **功能：按文本和标签交集搜索用户**
 
     **方法类型：GET**
 
@@ -5199,7 +5198,7 @@
 
     返回值：返回users和total,total表示总量，users为数组，每个元素还有member和score，member为用户的uid，score为游览数量。
     
-  - **接口地址：/hot/rank/list"**
+  - **接口地址：/hot/rank/list**
   
     **功能：查看用户热度排行**
   
@@ -5209,7 +5208,7 @@
   
     返回值：返回users和total,total表示总量，users为user数组。
   
-  - **接口地址：/hot/rank/:id"**
+  - **接口地址：/hot/rank/:id**
   
     **功能：查看用户热度排名**
   
@@ -5219,7 +5218,7 @@
   
     返回值：返回rank为排名。
   
-  - **接口地址：/score/rank/list"**
+  - **接口地址：/score/rank/list**
   
     **功能：查看用户竞赛分排行**
   
@@ -5229,7 +5228,7 @@
   
     返回值：返回users和total,total表示总量，users为user数组。
   
-  - **接口地址：/score/rank/list"**
+  - **接口地址：/score/rank/list**
   
     **功能：查看用户竞赛分排名**
   

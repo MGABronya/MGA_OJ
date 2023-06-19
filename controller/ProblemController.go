@@ -103,7 +103,7 @@ func (p ProblemController) Create(ctx *gin.Context) {
 
 	// TODO 查看特判程序是否通过
 	var program model.Program
-	if p.DB.Where("id = ?", requestProblem.SpecialJudge).First(&program).Error == nil {
+	if p.DB.Where("id = (?)", requestProblem.SpecialJudge).First(&program).Error == nil {
 		for i := range requestProblem.TestCase {
 			if condition, output := TQ.JudgeRun(program.Language, program.Code, requestProblem.TestCase[i].Input+"\n"+requestProblem.TestCase[i].Output, requestProblem.MemoryLimit*2, requestProblem.TimeLimit*2); condition != "ok" || output != "ok" {
 				response.Fail(ctx, nil, "特判程序未通过")
@@ -113,7 +113,7 @@ func (p ProblemController) Create(ctx *gin.Context) {
 	}
 
 	// TODO 查看标准程序是否通过
-	if p.DB.Where("id = ?", requestProblem.Standard).First(&program).Error == nil {
+	if p.DB.Where("id = (?)", requestProblem.Standard).First(&program).Error == nil {
 		for i := range requestProblem.TestCase {
 			if condition, output := TQ.JudgeRun(program.Language, program.Code, requestProblem.TestCase[i].Input, requestProblem.MemoryLimit*2, requestProblem.TimeLimit*2); condition != "ok" || output != requestProblem.TestCase[i].Output {
 				response.Fail(ctx, nil, "标准程序未通过")
@@ -123,7 +123,7 @@ func (p ProblemController) Create(ctx *gin.Context) {
 	}
 
 	// TODO 查看输入检查程序是否通过
-	if p.DB.Where("id = ?", requestProblem.InputCheck).First(&program).Error == nil {
+	if p.DB.Where("id = (?)", requestProblem.InputCheck).First(&program).Error == nil {
 		for i := range requestProblem.TestCase {
 			if condition, output := TQ.JudgeRun(program.Language, program.Code, requestProblem.TestCase[i].Input, requestProblem.MemoryLimit*2, requestProblem.TimeLimit*2); condition != "ok" || output != "ok" {
 				response.Fail(ctx, nil, "输入检查程序未通过")
@@ -189,7 +189,7 @@ func (p ProblemController) Create(ctx *gin.Context) {
 	}
 
 	// TODO 成功
-	response.Success(ctx, nil, "创建成功")
+	response.Success(ctx, gin.H{"problem": problem}, "创建成功")
 }
 
 // @title    Update
@@ -221,7 +221,7 @@ func (p ProblemController) Update(ctx *gin.Context) {
 
 	var problem model.Problem
 
-	if p.DB.Where("id = ?", id).First(&problem) != nil {
+	if p.DB.Where("id = (?)", id).First(&problem).Error != nil {
 		response.Fail(ctx, nil, "题目不存在")
 		return
 	}
@@ -268,7 +268,7 @@ func (p ProblemController) Update(ctx *gin.Context) {
 
 	// TODO 查看特判程序是否通过
 	var program model.Program
-	if p.DB.Where("id = ?", requestProblem.SpecialJudge).First(&program).Error == nil {
+	if p.DB.Where("id = (?)", requestProblem.SpecialJudge).First(&program).Error == nil {
 		for i := range requestProblem.TestCase {
 			if condition, output := TQ.JudgeRun(program.Language, program.Code, requestProblem.TestCase[i].Input+"\n"+requestProblem.TestCase[i].Output, requestProblem.MemoryLimit*2, requestProblem.TimeLimit*2); condition != "ok" || output != "ok" {
 				response.Fail(ctx, nil, "特判程序未通过")
@@ -278,7 +278,7 @@ func (p ProblemController) Update(ctx *gin.Context) {
 	}
 
 	// TODO 查看标准程序是否通过
-	if p.DB.Where("id = ?", requestProblem.Standard).First(&program).Error == nil {
+	if p.DB.Where("id = (?)", requestProblem.Standard).First(&program).Error == nil {
 		for i := range requestProblem.TestCase {
 			if condition, output := TQ.JudgeRun(program.Language, program.Code, requestProblem.TestCase[i].Input, requestProblem.MemoryLimit*2, requestProblem.TimeLimit*2); condition != "ok" || output != requestProblem.TestCase[i].Output {
 				response.Fail(ctx, nil, "标准程序未通过")
@@ -288,7 +288,7 @@ func (p ProblemController) Update(ctx *gin.Context) {
 	}
 
 	// TODO 查看输入检查程序是否通过
-	if p.DB.Where("id = ?", requestProblem.InputCheck).First(&program).Error == nil {
+	if p.DB.Where("id = (?)", requestProblem.InputCheck).First(&program).Error == nil {
 		for i := range requestProblem.TestCase {
 			if condition, output := TQ.JudgeRun(program.Language, program.Code, requestProblem.TestCase[i].Input, requestProblem.MemoryLimit*2, requestProblem.TimeLimit*2); condition != "ok" || output != "ok" {
 				response.Fail(ctx, nil, "输入检查程序未通过")
@@ -298,7 +298,7 @@ func (p ProblemController) Update(ctx *gin.Context) {
 	}
 
 	// TODO 更新题目内容
-	p.DB.Where("id = ?", id).Updates(model.Problem{
+	p.DB.Where("id = (?)", id).Updates(model.Problem{
 		TimeLimit:    requestProblem.TimeLimit,
 		MemoryLimit:  requestProblem.MemoryLimit,
 		Title:        requestProblem.Title,
@@ -321,7 +321,7 @@ func (p ProblemController) Update(ctx *gin.Context) {
 	if len(requestProblem.SampleCase) != 0 {
 		p.Redis.HDel(ctx, "SampleCase", id)
 		// TODO 清空原有的测试输入
-		p.DB.Where("problem_id = ?", id).Delete(&model.CaseSample{})
+		p.DB.Where("problem_id = (?)", id).Delete(&model.CaseSample{})
 		// TODO 存储测试输入
 		for i := range requestProblem.SampleCase {
 			// TODO 尝试存入数据库
@@ -343,7 +343,7 @@ func (p ProblemController) Update(ctx *gin.Context) {
 	if len(requestProblem.TestCase) != 0 {
 		p.Redis.HDel(ctx, "Case", id)
 		// TODO 清空原有的测试输入
-		p.DB.Where("problem_id = ?", id).Delete(&model.Case{})
+		p.DB.Where("problem_id = (?)", id).Delete(&model.Case{})
 		// TODO 存储测试输入
 		for i := range requestProblem.TestCase {
 			// TODO 尝试存入数据库
@@ -388,7 +388,7 @@ func (p ProblemController) Show(ctx *gin.Context) {
 	}
 
 	// TODO 查看题目是否在数据库中存在
-	if p.DB.Where("id = ?", id).First(&problem).Error != nil {
+	if p.DB.Where("id = (?)", id).First(&problem).Error != nil {
 		response.Fail(ctx, nil, "题目不存在")
 		return
 	}
@@ -411,7 +411,7 @@ leep:
 			p.Redis.HDel(ctx, "CaseSample", id)
 		}
 	}
-	p.DB.Where("problem_id = ?", problem.ID).Find(&caseSamples)
+	p.DB.Where("problem_id = (?)", problem.ID).Find(&caseSamples)
 	// TODO 将题目存入redis供下次使用
 	{
 		v, _ := json.Marshal(caseSamples)
@@ -446,7 +446,7 @@ func (p ProblemController) TestNum(ctx *gin.Context) {
 	}
 
 	// TODO 查看题目是否在数据库中存在
-	if p.DB.Where("id = ?", id).First(&problem).Error != nil {
+	if p.DB.Where("id = (?)", id).First(&problem).Error != nil {
 		response.Fail(ctx, nil, "题目不存在")
 		return
 	}
@@ -459,7 +459,7 @@ func (p ProblemController) TestNum(ctx *gin.Context) {
 leep:
 
 	var total int64
-	p.DB.Where("problem_id = ?", id).Model(&model.Case{}).Count(&total)
+	p.DB.Where("problem_id = (?)", id).Model(&model.Case{}).Count(&total)
 
 	response.Success(ctx, gin.H{"total": total}, "成功")
 }
@@ -476,7 +476,7 @@ func (p ProblemController) Delete(ctx *gin.Context) {
 	var problem model.Problem
 
 	// TODO 查看题目是否存在
-	if p.DB.Where("id = ?", id).First(&problem).Error != nil {
+	if p.DB.Where("id = (?)", id).First(&problem).Error != nil {
 		response.Fail(ctx, nil, "题目不存在")
 		return
 	}
@@ -495,15 +495,15 @@ func (p ProblemController) Delete(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞的数量
-	p.DB.Where("problem_id = ? and like = true", id).Model(model.ProblemLike{}).Count(&total)
+	p.DB.Where("problem_id = (?) and like = true", id).Model(model.ProblemLike{}).Count(&total)
 	p.Redis.ZIncrBy(ctx, "UserLike", -float64(total), problem.UserId.String())
 
 	// TODO 查看点踩的数量
-	p.DB.Where("problem_id = ? and like = false", id).Model(model.ProblemLike{}).Count(&total)
+	p.DB.Where("problem_id = (?) and like = false", id).Model(model.ProblemLike{}).Count(&total)
 	p.Redis.ZIncrBy(ctx, "UserUnLike", -float64(total), problem.UserId.String())
 
 	// TODO 查看收藏的数量
-	p.DB.Where("problem_id = ?", id).Model(model.ProblemCollect{}).Count(&total)
+	p.DB.Where("problem_id = (?)", id).Model(model.ProblemCollect{}).Count(&total)
 	p.Redis.ZIncrBy(ctx, "UserCollect", -float64(total), problem.UserId.String())
 
 	// TODO 获取阅读人数
@@ -564,10 +564,10 @@ func (p ProblemController) UserList(ctx *gin.Context) {
 	var problems []model.Problem
 
 	// TODO 查找所有分页中可见的条目
-	p.DB.Where("user_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problems)
+	p.DB.Where("user_id = (?)", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problems)
 
 	var total int64
-	p.DB.Where("user_id = ?", id).Model(model.Problem{}).Count(&total)
+	p.DB.Where("user_id = (?)", id).Model(model.Problem{}).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"problems": problems, "total": total}, "成功")
@@ -625,7 +625,7 @@ func (p ProblemController) Like(ctx *gin.Context) {
 	}
 
 	// TODO 查看题目是否在数据库中存在
-	if p.DB.Where("id = ?", id).First(&problem).Error != nil {
+	if p.DB.Where("id = (?)", id).First(&problem).Error != nil {
 		response.Fail(ctx, nil, "题目不存在")
 		return
 	}
@@ -643,7 +643,7 @@ leep:
 
 	var problemLike model.ProblemLike
 	// TODO 如果没有点赞或者点踩
-	if p.DB.Where("user_id = ? and problem_id = ?", user.ID, id).First(&problemLike).Error != nil {
+	if p.DB.Where("user_id = (?) and problem_id = (?)", user.ID, id).First(&problemLike).Error != nil {
 		// TODO 插入数据
 		problemLike = model.ProblemLike{
 			ProblemId: problem.ID,
@@ -663,7 +663,7 @@ leep:
 			p.Redis.ZIncrBy(ctx, "ProblemHot", 10.0, problem.ID.String())
 			p.Redis.ZIncrBy(ctx, "UserUnLike", -1, problem.UserId.String())
 		}
-		p.DB.Where("user_id = ? and problem_id = ?", user.ID, id).Model(&model.ProblemLike{}).Update("like", like)
+		p.DB.Where("user_id = (?) and problem_id = (?)", user.ID, id).Model(&model.ProblemLike{}).Update("like", like)
 	}
 	if like {
 		p.Redis.ZIncrBy(ctx, "ProblemHot", 10.0, problem.ID.String())
@@ -705,7 +705,7 @@ func (p ProblemController) CancelLike(ctx *gin.Context) {
 	}
 
 	// TODO 查看题目是否在数据库中存在
-	if p.DB.Where("id = ?", id).First(&problem).Error != nil {
+	if p.DB.Where("id = (?)", id).First(&problem).Error != nil {
 		response.Fail(ctx, nil, "题目不存在")
 		return
 	}
@@ -719,7 +719,7 @@ leep:
 
 	// TODO 查看是否已经点赞或者点踩
 	var problemLike model.ProblemLike
-	if p.DB.Where("user_id = ? and problem_id = ?", user.ID, id).First(&problemLike).Error != nil {
+	if p.DB.Where("user_id = (?) and problem_id = (?)", user.ID, id).First(&problemLike).Error != nil {
 		response.Fail(ctx, nil, "未点赞或点踩")
 		return
 	}
@@ -734,7 +734,7 @@ leep:
 	}
 
 	// TODO 取消点赞或者点踩
-	p.DB.Where("user_id = ? and problem_id = ?", user.ID, id).Delete(&model.ProblemLike{})
+	p.DB.Where("user_id = (?) and problem_id = (?)", user.ID, id).Delete(&model.ProblemLike{})
 
 	response.Success(ctx, nil, "取消成功")
 }
@@ -754,7 +754,7 @@ func (p ProblemController) LikeNumber(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	p.DB.Where("problem_id = ? and like = ?", id, like).Model(model.ProblemLike{}).Count(&total)
+	p.DB.Where("problem_id = (?) and like = (?)", id, like).Model(model.ProblemLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"total": total}, "查看成功")
 }
@@ -781,9 +781,9 @@ func (p ProblemController) LikeList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	p.DB.Where("problem_id = ? and like = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemLikes)
+	p.DB.Where("problem_id = (?) and like = (?)", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemLikes)
 
-	p.DB.Where("problem_id = ? and like = ?", id, like).Model(model.ProblemLike{}).Count(&total)
+	p.DB.Where("problem_id = (?) and like = (?)", id, like).Model(model.ProblemLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"problemLikes": problemLikes, "total": total}, "查看成功")
 }
@@ -804,7 +804,7 @@ func (p ProblemController) LikeShow(ctx *gin.Context) {
 	var problemLike model.ProblemLike
 
 	// TODO 查看点赞状态
-	if p.DB.Where("user_id = ? and problem_id = ?", user.ID, id).First(&problemLike).Error != nil {
+	if p.DB.Where("user_id = (?) and problem_id = (?)", user.ID, id).First(&problemLike).Error != nil {
 		response.Success(ctx, gin.H{"like": 0}, "暂无状态")
 		return
 	}
@@ -840,9 +840,9 @@ func (p ProblemController) Likes(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	p.DB.Where("user_id = ? and like = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemLikes)
+	p.DB.Where("user_id = (?) and like = (?)", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemLikes)
 
-	p.DB.Where("user_id = ? and like = ?", id, like).Model(model.ProblemLike{}).Count(&total)
+	p.DB.Where("user_id = (?) and like = (?)", id, like).Model(model.ProblemLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"problemLikes": problemLikes, "total": total}, "查看成功")
 }
@@ -872,7 +872,7 @@ func (p ProblemController) Collect(ctx *gin.Context) {
 	}
 
 	// TODO 查看题目是否在数据库中存在
-	if p.DB.Where("id = ?", id).First(&problem).Error != nil {
+	if p.DB.Where("id = (?)", id).First(&problem).Error != nil {
 		response.Fail(ctx, nil, "题目不存在")
 		return
 	}
@@ -889,7 +889,7 @@ leep:
 	user := tuser.(model.User)
 
 	// TODO 如果没有收藏
-	if p.DB.Where("user_id = ? and problem_id = ?", user.ID, problem.ID).First(&model.ProblemCollect{}).Error != nil {
+	if p.DB.Where("user_id = (?) and problem_id = (?)", user.ID, problem.ID).First(&model.ProblemCollect{}).Error != nil {
 		problemCollect := model.ProblemCollect{
 			ProblemId: problem.ID,
 			UserId:    user.ID,
@@ -941,7 +941,7 @@ func (p ProblemController) CancelCollect(ctx *gin.Context) {
 	}
 
 	// TODO 查看题目是否在数据库中存在
-	if p.DB.Where("id = ?", id).First(&problem).Error != nil {
+	if p.DB.Where("id = (?)", id).First(&problem).Error != nil {
 		response.Fail(ctx, nil, "题目不存在")
 		return
 	}
@@ -954,10 +954,10 @@ func (p ProblemController) CancelCollect(ctx *gin.Context) {
 leep:
 
 	// TODO 如果没有收藏
-	if p.DB.Where("user_id = ? and problem_id = ?", user.ID, id).First(&model.ProblemCollect{}).Error != nil {
+	if p.DB.Where("user_id = (?) and problem_id = (?)", user.ID, id).First(&model.ProblemCollect{}).Error != nil {
 		response.Fail(ctx, nil, "未收藏")
 	} else {
-		p.DB.Where("user_id = ? and problem_id = ?", user.ID, id).Delete(&model.ProblemCollect{})
+		p.DB.Where("user_id = (?) and problem_id = (?)", user.ID, id).Delete(&model.ProblemCollect{})
 		// TODO 存储入库
 		p.Redis.ZIncrBy(ctx, "UserCollect", -1, problem.UserId.String())
 		p.Redis.ZIncrBy(ctx, "ProblemHot", -50.0, problem.ID.String())
@@ -979,7 +979,7 @@ func (p ProblemController) CollectShow(ctx *gin.Context) {
 	user := tuser.(model.User)
 
 	// TODO 如果没有收藏
-	if p.DB.Where("user_id = ? and problem_id = ?", user.ID, id).First(&model.ProblemCollect{}).Error != nil {
+	if p.DB.Where("user_id = (?) and problem_id = (?)", user.ID, id).First(&model.ProblemCollect{}).Error != nil {
 		response.Success(ctx, gin.H{"collect": false}, "未收藏")
 		return
 	} else {
@@ -1007,9 +1007,9 @@ func (p ProblemController) CollectList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看收藏的数量
-	p.DB.Where("problem_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemCollects)
+	p.DB.Where("problem_id = (?)", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemCollects)
 
-	p.DB.Where("problem_id = ?", id).Model(model.ProblemCollect{}).Count(&total)
+	p.DB.Where("problem_id = (?)", id).Model(model.ProblemCollect{}).Count(&total)
 
 	response.Success(ctx, gin.H{"problemCollects": problemCollects, "total": total}, "查看成功")
 }
@@ -1026,7 +1026,7 @@ func (p ProblemController) CollectNumber(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看收藏的数量
-	p.DB.Where("problem_id = ?", id).Model(model.ProblemCollect{}).Count(&total)
+	p.DB.Where("problem_id = (?)", id).Model(model.ProblemCollect{}).Count(&total)
 
 	response.Success(ctx, gin.H{"total": total}, "查看成功")
 }
@@ -1050,9 +1050,9 @@ func (p ProblemController) Collects(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看收藏的数量
-	p.DB.Where("user_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemCollects)
+	p.DB.Where("user_id = (?)", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemCollects)
 
-	p.DB.Where("user_id = ?", id).Model(model.ProblemCollect{}).Count(&total)
+	p.DB.Where("user_id = (?)", id).Model(model.ProblemCollect{}).Count(&total)
 
 	response.Success(ctx, gin.H{"problemCollects": problemCollects, "total": total}, "查看成功")
 }
@@ -1082,7 +1082,7 @@ func (p ProblemController) Visit(ctx *gin.Context) {
 	}
 
 	// TODO 查看题目是否在数据库中存在
-	if p.DB.Where("id = ?", id).First(&problem).Error != nil {
+	if p.DB.Where("id = (?)", id).First(&problem).Error != nil {
 		response.Fail(ctx, nil, "题目不存在")
 		return
 	}
@@ -1161,9 +1161,9 @@ func (p ProblemController) VisitList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看收藏的数量
-	p.DB.Where("problem_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemVisits)
+	p.DB.Where("problem_id = (?)", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemVisits)
 
-	p.DB.Where("problem_id = ?", id).Model(model.ProblemVisit{}).Count(&total)
+	p.DB.Where("problem_id = (?)", id).Model(model.ProblemVisit{}).Count(&total)
 
 	response.Success(ctx, gin.H{"problemVisits": problemVisits, "total": total}, "查看成功")
 }
@@ -1188,9 +1188,9 @@ func (p ProblemController) Visits(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看收藏的数量
-	p.DB.Where("user_id = ?", user.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemVisits)
+	p.DB.Where("user_id = (?)", user.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemVisits)
 
-	p.DB.Where("user_id = ?", user.ID).Model(model.ProblemVisit{}).Count(&total)
+	p.DB.Where("user_id = (?)", user.ID).Model(model.ProblemVisit{}).Count(&total)
 
 	response.Success(ctx, gin.H{"problemVisits": problemVisits, "total": total}, "查看成功")
 }
@@ -1226,7 +1226,7 @@ func (p ProblemController) LabelCreate(ctx *gin.Context) {
 	}
 
 	// TODO 查看题目是否在数据库中存在
-	if p.DB.Where("id = ?", id).First(&problem).Error != nil {
+	if p.DB.Where("id = (?)", id).First(&problem).Error != nil {
 		response.Fail(ctx, nil, "题目不存在")
 		return
 	}
@@ -1293,7 +1293,7 @@ func (p ProblemController) LabelDelete(ctx *gin.Context) {
 	}
 
 	// TODO 查看题目是否在数据库中存在
-	if p.DB.Where("id = ?", id).First(&problem).Error != nil {
+	if p.DB.Where("id = (?)", id).First(&problem).Error != nil {
 		response.Fail(ctx, nil, "题目不存在")
 		return
 	}
@@ -1311,12 +1311,12 @@ leep:
 	}
 
 	// TODO 删除题目标签
-	if p.DB.Where("id = ?", label).First(&model.ProblemLabel{}).Error != nil {
+	if p.DB.Where("id = (?)", label).First(&model.ProblemLabel{}).Error != nil {
 		response.Fail(ctx, nil, "标签不存在")
 		return
 	}
 
-	p.DB.Where("id = ?", label).Delete(&model.ProblemLabel{})
+	p.DB.Where("id = (?)", label).Delete(&model.ProblemLabel{})
 
 	// TODO 解码失败，删除字段
 	p.Redis.HDel(ctx, "ProblemLabel", id)
@@ -1348,7 +1348,7 @@ func (p ProblemController) LabelShow(ctx *gin.Context) {
 	}
 
 	// TODO 在数据库中查找
-	p.DB.Where("problem_id = ?", id).Find(&problemLabels)
+	p.DB.Where("problem_id = (?)", id).Find(&problemLabels)
 	{
 		// TODO 将题目标签存入redis供下次使用
 		v, _ := json.Marshal(problemLabels)
@@ -1377,11 +1377,11 @@ func (p ProblemController) Search(ctx *gin.Context) {
 	var problems []model.Problem
 
 	// TODO 模糊匹配
-	p.DB.Where("match(title,description,res_long,res_short) against(? in boolean mode)", text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problems)
+	p.DB.Where("match(title,description,res_long,res_short) against((?) in boolean mode)", text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problems)
 
 	// TODO 查看查询总数
 	var total int64
-	p.DB.Where("match(title,description,res_long,res_short) against(? in boolean mode)", text+"*").Model(model.Problem{}).Count(&total)
+	p.DB.Where("match(title,description,res_long,res_short) against((?) in boolean mode)", text+"*").Model(model.Problem{}).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"problems": problems, "total": total}, "成功")
@@ -1413,16 +1413,16 @@ func (p ProblemController) SearchLabel(ctx *gin.Context) {
 	}
 
 	// TODO 进行标签匹配
-	p.DB.Distinct("problem_id").Where("label in (?)", requestLabels.Labels).Model(model.ProblemLabel{}).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemIds)
+	p.DB.Distinct("problem_id").Where("label in ((?))", requestLabels.Labels).Model(model.ProblemLabel{}).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemIds)
 
 	// TODO 查看查询总数
 	var total int64
-	p.DB.Distinct("problem_id").Where("label in (?)", requestLabels.Labels).Model(model.ProblemLabel{}).Count(&total)
+	p.DB.Distinct("problem_id").Where("label in ((?))", requestLabels.Labels).Model(model.ProblemLabel{}).Count(&total)
 
 	// TODO 查找对应题目
 	var problems []model.Problem
 
-	p.DB.Where("id in (?)", problemIds).Find(&problems)
+	p.DB.Where("id in ((?))", problemIds).Find(&problems)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"problems": problems, "total": total}, "成功")
@@ -1457,17 +1457,17 @@ func (p ProblemController) SearchWithLabel(ctx *gin.Context) {
 	}
 
 	// TODO 进行标签匹配
-	p.DB.Distinct("problem_id").Where("label in (?)", requestLabels.Labels).Model(model.ProblemLabel{}).Find(&problemIds)
+	p.DB.Distinct("problem_id").Where("label in ((?))", requestLabels.Labels).Model(model.ProblemLabel{}).Find(&problemIds)
 
 	// TODO 查找对应题目
 	var problems []model.Problem
 
 	// TODO 模糊匹配
-	p.DB.Where("id in (?) and match(title,description,res_long,res_short) against(? in boolean mode)", problemIds, text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problems)
+	p.DB.Where("id in ((?)) and match(title,description,res_long,res_short) against((?) in boolean mode)", problemIds, text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problems)
 
 	// TODO 查看查询总数
 	var total int64
-	p.DB.Where("id in (?) and match(title,description,res_long,res_short) against(? in boolean mode)", problemIds, text+"*").Model(model.Problem{}).Count(&total)
+	p.DB.Where("id in ((?)) and match(title,description,res_long,res_short) against((?) in boolean mode)", problemIds, text+"*").Model(model.Problem{}).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"problems": problems, "total": total}, "成功")

@@ -36,7 +36,7 @@ func (category *Category) BeforeCreate(scope *gorm.DB) error {
 // @param    tx *gorm.DB       接收一个数据库指针
 // @return   err error		   返回一个错误信息
 func (c *Category) BeforDelete(tx *gorm.DB) (err error) {
-	tx = tx.Where("category_id = ?", c.ID)
+	tx = tx.Where("category_id = (?)", c.ID)
 
 	// TODO 删除相关文章
 	tx.Delete(&Article{})

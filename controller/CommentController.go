@@ -66,7 +66,7 @@ func (c CommentController) Create(ctx *gin.Context) {
 	}
 
 	// TODO 查看题目是否在数据库中存在
-	if c.DB.Where("id = ?", id).First(&problem).Error != nil {
+	if c.DB.Where("id = (?)", id).First(&problem).Error != nil {
 		response.Fail(ctx, nil, "题目不存在")
 		return
 	}
@@ -125,7 +125,7 @@ func (c CommentController) Update(ctx *gin.Context) {
 
 	var comment model.Comment
 
-	if c.DB.Where("id = ?", id).First(&comment) != nil {
+	if c.DB.Where("id = (?)", id).First(&comment).Error != nil {
 		response.Fail(ctx, nil, "讨论不存在")
 		return
 	}
@@ -137,7 +137,7 @@ func (c CommentController) Update(ctx *gin.Context) {
 	}
 
 	// TODO 更新讨论内容
-	c.DB.Where("id = ?", id).Updates(requestComment)
+	c.DB.Where("id = (?)", id).Updates(requestComment)
 
 	// TODO 移除损坏数据
 	c.Redis.HDel(ctx, "Comment", id)
@@ -169,7 +169,7 @@ func (c CommentController) Show(ctx *gin.Context) {
 	}
 
 	// TODO 查看讨论是否在数据库中存在
-	if c.DB.Where("id = ?", id).First(&comment).Error != nil {
+	if c.DB.Where("id = (?)", id).First(&comment).Error != nil {
 		response.Fail(ctx, nil, "讨论不存在")
 		return
 	}
@@ -193,7 +193,7 @@ func (c CommentController) Delete(ctx *gin.Context) {
 	var comment model.Comment
 
 	// TODO 查看讨论是否存在
-	if c.DB.Where("id = ?", id).First(&comment).Error != nil {
+	if c.DB.Where("id = (?)", id).First(&comment).Error != nil {
 		response.Fail(ctx, nil, "讨论不存在")
 		return
 	}
@@ -212,11 +212,11 @@ func (c CommentController) Delete(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞的数量
-	c.DB.Where("comment_id = ? and like = true", id).Model(model.CommentLike{}).Count(&total)
+	c.DB.Where("comment_id = (?) and like = true", id).Model(model.CommentLike{}).Count(&total)
 	c.Redis.ZIncrBy(ctx, "UserLike", -float64(total), comment.UserId.String())
 
 	// TODO 查看点踩的数量
-	c.DB.Where("comment_id = ? and like = false", id).Model(model.CommentLike{}).Count(&total)
+	c.DB.Where("comment_id = (?) and like = false", id).Model(model.CommentLike{}).Count(&total)
 	c.Redis.ZIncrBy(ctx, "UserUnLike", -float64(total), comment.UserId.String())
 
 	// TODO 删除讨论
@@ -248,10 +248,10 @@ func (c CommentController) PageList(ctx *gin.Context) {
 	var comments []model.Comment
 
 	// TODO 查找所有分页中可见的条目
-	c.DB.Where("problem_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&comments)
+	c.DB.Where("problem_id = (?)", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&comments)
 
 	var total int64
-	c.DB.Where("problem_id = ?", id).Model(model.Comment{}).Count(&total)
+	c.DB.Where("problem_id = (?)", id).Model(model.Comment{}).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"comments": comments, "total": total}, "成功")
@@ -304,10 +304,10 @@ func (c CommentController) UserList(ctx *gin.Context) {
 	var comments []model.Comment
 
 	// TODO 查找所有分页中可见的条目
-	c.DB.Where("user_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&comments)
+	c.DB.Where("user_id = (?)", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&comments)
 
 	var total int64
-	c.DB.Where("user_id = ?", id).Model(model.Comment{}).Count(&total)
+	c.DB.Where("user_id = (?)", id).Model(model.Comment{}).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"comments": comments, "total": total}, "成功")
@@ -339,7 +339,7 @@ func (c CommentController) Like(ctx *gin.Context) {
 	}
 
 	// TODO 查看讨论是否在数据库中存在
-	if c.DB.Where("id = ?", id).First(&comment).Error != nil {
+	if c.DB.Where("id = (?)", id).First(&comment).Error != nil {
 		response.Fail(ctx, nil, "讨论不存在")
 		return
 	}
@@ -356,7 +356,7 @@ leep:
 
 	var commentLike model.CommentLike
 	// TODO 如果没有点赞或者点踩
-	if c.DB.Where("user_id = ? and comment_id = ?", user.ID, id).First(&commentLike).Error != nil {
+	if c.DB.Where("user_id = (?) and comment_id = (?)", user.ID, id).First(&commentLike).Error != nil {
 		// TODO 插入数据
 		commentLike := model.CommentLike{
 			CommentId: comment.ID,
@@ -376,7 +376,7 @@ leep:
 			c.Redis.ZIncrBy(ctx, "CommentHot"+comment.ProblemId.String(), 10.0, comment.ID.String())
 			c.Redis.ZIncrBy(ctx, "UserUnLike", -1, comment.UserId.String())
 		}
-		c.DB.Where("user_id = ? and comment_id = ?", user.ID, id).Model(&model.CommentLike{}).Update("like", like)
+		c.DB.Where("user_id = (?) and comment_id = (?)", user.ID, id).Model(&model.CommentLike{}).Update("like", like)
 	}
 
 	// TODO 热度计算
@@ -418,7 +418,7 @@ func (c CommentController) CancelLike(ctx *gin.Context) {
 	}
 
 	// TODO 查看讨论是否在数据库中存在
-	if c.DB.Where("id = ?", id).First(&comment).Error != nil {
+	if c.DB.Where("id = (?)", id).First(&comment).Error != nil {
 		response.Fail(ctx, nil, "讨论不存在")
 		return
 	}
@@ -431,7 +431,7 @@ leep:
 
 	// TODO 查看是否已经点赞或者点踩
 	var commentLike model.CommentLike
-	if c.DB.Where("user_id = ? and comment_id = ?", user.ID, id).First(&commentLike).Error != nil {
+	if c.DB.Where("user_id = (?) and comment_id = (?)", user.ID, id).First(&commentLike).Error != nil {
 		response.Fail(ctx, nil, "未点赞或点踩")
 		return
 	}
@@ -446,7 +446,7 @@ leep:
 	}
 
 	// TODO 取消点赞或者点踩
-	c.DB.Where("user_id = ? and comment_id = ?", user.ID, id).Delete(&model.CommentLike{})
+	c.DB.Where("user_id = (?) and comment_id = (?)", user.ID, id).Delete(&model.CommentLike{})
 	response.Success(ctx, nil, "取消成功")
 }
 
@@ -465,7 +465,7 @@ func (c CommentController) LikeNumber(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	c.DB.Where("comment_id = ? and like = ?", id, like).Model(model.CommentLike{}).Count(&total)
+	c.DB.Where("comment_id = (?) and like = (?)", id, like).Model(model.CommentLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"total": total}, "查看成功")
 }
@@ -492,9 +492,9 @@ func (c CommentController) LikeList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	c.DB.Where("comment_id = ? and like = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&commentLikes)
+	c.DB.Where("comment_id = (?) and like = (?)", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&commentLikes)
 
-	c.DB.Where("comment_id = ? and like = ?", id, like).Model(model.CommentLike{}).Count(&total)
+	c.DB.Where("comment_id = (?) and like = (?)", id, like).Model(model.CommentLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"commentLikes": commentLikes, "total": total}, "查看成功")
 }
@@ -515,7 +515,7 @@ func (c CommentController) LikeShow(ctx *gin.Context) {
 	var commentLike model.CommentLike
 
 	// TODO 查看点赞状态
-	if c.DB.Where("user_id = ? and comment_id = ?", user.ID, id).First(&commentLike).Error != nil {
+	if c.DB.Where("user_id = (?) and comment_id = (?)", user.ID, id).First(&commentLike).Error != nil {
 		response.Success(ctx, gin.H{"like": 0}, "暂无状态")
 		return
 	}
@@ -551,9 +551,9 @@ func (c CommentController) Likes(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	c.DB.Where("user_id = ? and like = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&commentLikes)
+	c.DB.Where("user_id = (?) and like = (?)", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&commentLikes)
 
-	c.DB.Where("user_id = ? and like = ?", id, like).Model(model.CommentLike{}).Count(&total)
+	c.DB.Where("user_id = (?) and like = (?)", id, like).Model(model.CommentLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"commentLikes": commentLikes, "total": total}, "查看成功")
 }

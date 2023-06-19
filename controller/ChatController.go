@@ -70,7 +70,7 @@ func (c ChatController) Send(ctx *gin.Context) {
 	}
 
 	// TODO 查看用户组是否在数据库中存在
-	if c.DB.Where("id = ?", id).First(&group).Error != nil {
+	if c.DB.Where("id = (?)", id).First(&group).Error != nil {
 		response.Fail(ctx, nil, "用户组不存在")
 		return
 	}
@@ -82,7 +82,7 @@ func (c ChatController) Send(ctx *gin.Context) {
 leep:
 
 	// TODO 查看是否在用户组中
-	if c.DB.Where("group_id = ? and user_id = ?", group.ID, user.ID).First(&model.UserList{}).Error != nil {
+	if c.DB.Where("group_id = (?) and user_id = (?)", group.ID, user.ID).First(&model.UserList{}).Error != nil {
 		response.Fail(ctx, nil, "不在用户组")
 		return
 	}
@@ -121,7 +121,7 @@ leep:
 	}
 
 	// TODO 查看用户组是否在数据库中存在
-	c.DB.Where("group_id = ?", group.ID).Find(&userLists)
+	c.DB.Where("group_id = (?)", group.ID).Find(&userLists)
 	{
 		// TODO 将用户组存入redis供下次使用
 		v, _ := json.Marshal(userLists)
@@ -201,7 +201,7 @@ func (c ChatController) ChatList(ctx *gin.Context) {
 	}
 
 	// TODO 查看用户组是否在数据库中存在
-	if c.DB.Where("id = ?", id).First(&group).Error != nil {
+	if c.DB.Where("id = (?)", id).First(&group).Error != nil {
 		response.Fail(ctx, nil, "用户组不存在")
 		return
 	}
@@ -213,7 +213,7 @@ func (c ChatController) ChatList(ctx *gin.Context) {
 leep:
 
 	// TODO 查看是否在用户组中
-	if c.DB.Where("group_id = ? and user_id = ?", group.ID, user.ID).First(&model.UserList{}).Error != nil {
+	if c.DB.Where("group_id = (?) and user_id = (?)", group.ID, user.ID).First(&model.UserList{}).Error != nil {
 		response.Fail(ctx, nil, "不在用户组")
 		return
 	}
@@ -261,7 +261,7 @@ func (c ChatController) RemoveLink(ctx *gin.Context) {
 	}
 
 	// TODO 查看用户组是否在数据库中存在
-	if c.DB.Where("id = ?", id).First(&group).Error != nil {
+	if c.DB.Where("id = (?)", id).First(&group).Error != nil {
 		response.Fail(ctx, nil, "用户组不存在")
 		return
 	}
@@ -308,7 +308,7 @@ func (c ChatController) Receive(ctx *gin.Context) {
 	}
 
 	// TODO 查看用户组是否在数据库中存在
-	if c.DB.Where("id = ?", id).First(&group).Error != nil {
+	if c.DB.Where("id = (?)", id).First(&group).Error != nil {
 		response.Fail(ctx, nil, "用户组不存在")
 		return
 	}
@@ -320,7 +320,7 @@ func (c ChatController) Receive(ctx *gin.Context) {
 leep:
 
 	// TODO 查看是否在用户组中
-	if c.DB.Where("group_id = ? and user_id = ?", group.ID, user.ID).First(&model.UserList{}).Error != nil {
+	if c.DB.Where("group_id = (?) and user_id = (?)", group.ID, user.ID).First(&model.UserList{}).Error != nil {
 		response.Fail(ctx, nil, "不在用户组")
 		return
 	}
@@ -339,16 +339,13 @@ leep:
 	defer ws.Close()
 	// TODO 监听消息
 	for msg := range ch {
-		// TODO 读取ws中的数据
-		_, _, err := ws.ReadMessage()
-		// TODO 断开连接
-		if err != nil {
-			break
-		}
 		var chat model.Chat
 		json.Unmarshal([]byte(msg.Payload), &chat)
 		// TODO 写入ws数据
-		ws.WriteJSON(chat)
+		// TODO 断开连接
+		if err := ws.WriteJSON(chat); err != nil {
+			break
+		}
 	}
 
 }
@@ -378,16 +375,12 @@ func (c ChatController) ReceiveLink(ctx *gin.Context) {
 	defer ws.Close()
 	// TODO 监听消息
 	for msg := range ch {
-		// TODO 读取ws中的数据
-		_, _, err := ws.ReadMessage()
-		// TODO 断开连接
-		if err != nil {
-			break
-		}
 		var chat model.Chat
 		json.Unmarshal([]byte(msg.Payload), &chat)
-		// TODO 写入ws数据
-		ws.WriteJSON(chat)
+		// TODO 断开连接
+		if err := ws.WriteJSON(chat); err != nil {
+			break
+		}
 	}
 
 }

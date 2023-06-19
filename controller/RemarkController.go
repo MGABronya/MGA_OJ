@@ -65,7 +65,7 @@ func (r RemarkController) Create(ctx *gin.Context) {
 	}
 
 	// TODO 查看文章是否在数据库中存在
-	if r.DB.Where("id = ?", id).First(&article).Error != nil {
+	if r.DB.Where("id = (?)", id).First(&article).Error != nil {
 		response.Fail(ctx, nil, "文章不存在")
 		return
 	}
@@ -125,7 +125,7 @@ func (r RemarkController) Update(ctx *gin.Context) {
 
 	var remark model.Remark
 
-	if r.DB.Where("id = ?", id).First(&remark) != nil {
+	if r.DB.Where("id = (?)", id).First(&remark).Error != nil {
 		response.Fail(ctx, nil, "文章的回复不存在")
 		return
 	}
@@ -143,7 +143,7 @@ func (r RemarkController) Update(ctx *gin.Context) {
 	}
 
 	// TODO 更新文章的回复内容
-	r.DB.Where("id = ?", id).Updates(remarkUpdate)
+	r.DB.Where("id = (?)", id).Updates(remarkUpdate)
 
 	// TODO 移除损坏数据
 	r.Redis.HDel(ctx, "Remark", id)
@@ -175,7 +175,7 @@ func (r RemarkController) Show(ctx *gin.Context) {
 	}
 
 	// TODO 查看文章的回复是否在数据库中存在
-	if r.DB.Where("id = ?", id).First(&remark).Error != nil {
+	if r.DB.Where("id = (?)", id).First(&remark).Error != nil {
 		response.Fail(ctx, nil, "文章的回复不存在")
 		return
 	}
@@ -199,7 +199,7 @@ func (r RemarkController) Delete(ctx *gin.Context) {
 	var remark model.Remark
 
 	// TODO 查看文章的回复是否存在
-	if r.DB.Where("id = ?", id).First(&remark).Error != nil {
+	if r.DB.Where("id = (?)", id).First(&remark).Error != nil {
 		response.Fail(ctx, nil, "文章的回复不存在")
 		return
 	}
@@ -218,11 +218,11 @@ func (r RemarkController) Delete(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞的数量
-	r.DB.Where("remark_id = ? and like = true", id).Model(model.RemarkLike{}).Count(&total)
+	r.DB.Where("remark_id = (?) and like = true", id).Model(model.RemarkLike{}).Count(&total)
 	r.Redis.ZIncrBy(ctx, "UserLike", -float64(total), remark.UserId.String())
 
 	// TODO 查看点踩的数量
-	r.DB.Where("remark_id = ? and like = false", id).Model(model.RemarkLike{}).Count(&total)
+	r.DB.Where("remark_id = (?) and like = false", id).Model(model.RemarkLike{}).Count(&total)
 	r.Redis.ZIncrBy(ctx, "UserUnLike", -float64(total), remark.UserId.String())
 
 	// TODO 删除文章的回复
@@ -254,10 +254,10 @@ func (r RemarkController) PageList(ctx *gin.Context) {
 	var remarks []model.Remark
 
 	// TODO 查找所有分页中可见的条目
-	r.DB.Where("article_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&remarks)
+	r.DB.Where("article_id = (?)", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&remarks)
 
 	var total int64
-	r.DB.Where("article_id = ?", id).Model(model.Remark{}).Count(&total)
+	r.DB.Where("article_id = (?)", id).Model(model.Remark{}).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"remarks": remarks, "total": total}, "成功")
@@ -280,10 +280,10 @@ func (r RemarkController) UserList(ctx *gin.Context) {
 	var remarks []model.Remark
 
 	// TODO 查找所有分页中可见的条目
-	r.DB.Where("user_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&remarks)
+	r.DB.Where("user_id = (?)", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&remarks)
 
 	var total int64
-	r.DB.Where("user_id = ?", id).Model(model.Remark{}).Count(&total)
+	r.DB.Where("user_id = (?)", id).Model(model.Remark{}).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"remarks": remarks, "total": total}, "成功")
@@ -345,7 +345,7 @@ func (r RemarkController) Like(ctx *gin.Context) {
 	}
 
 	// TODO 查看文章的回复是否在数据库中存在
-	if r.DB.Where("id = ?", id).First(&remark).Error != nil {
+	if r.DB.Where("id = (?)", id).First(&remark).Error != nil {
 		response.Fail(ctx, nil, "文章的回复不存在")
 		return
 	}
@@ -361,7 +361,7 @@ leep:
 
 	var remarkLike model.RemarkLike
 	// TODO 如果没有点赞或者点踩
-	if r.DB.Where("user_id = ? and remark_id = ?", user.ID, id).First(&remarkLike).Error != nil {
+	if r.DB.Where("user_id = (?) and remark_id = (?)", user.ID, id).First(&remarkLike).Error != nil {
 		// TODO 插入数据
 		remarkLike = model.RemarkLike{
 			RemarkId: remark.ID,
@@ -381,7 +381,7 @@ leep:
 			r.Redis.ZIncrBy(ctx, "RemarkHot"+remark.ArticleId.String(), 10.0, remark.ID.String())
 			r.Redis.ZIncrBy(ctx, "UserUnLike", -1, remark.UserId.String())
 		}
-		r.DB.Where("user_id = ? and remark_id = ?", user.ID, id).Model(&model.RemarkLike{}).Update("like", like)
+		r.DB.Where("user_id = (?) and remark_id = (?)", user.ID, id).Model(&model.RemarkLike{}).Update("like", like)
 	}
 
 	// TODO 热度计算
@@ -423,7 +423,7 @@ func (r RemarkController) CancelLike(ctx *gin.Context) {
 	}
 
 	// TODO 查看文章的回复是否在数据库中存在
-	if r.DB.Where("id = ?", id).First(&remark).Error != nil {
+	if r.DB.Where("id = (?)", id).First(&remark).Error != nil {
 		response.Fail(ctx, nil, "文章的回复不存在")
 		return
 	}
@@ -436,7 +436,7 @@ leep:
 
 	// TODO 查看是否已经点赞或者点踩
 	var remarkLike model.RemarkLike
-	if r.DB.Where("user_id = ? and remark_id = ?", user.ID, id).First(&remarkLike).Error != nil {
+	if r.DB.Where("user_id = (?) and remark_id = (?)", user.ID, id).First(&remarkLike).Error != nil {
 		response.Fail(ctx, nil, "未点赞或点踩")
 		return
 	}
@@ -451,7 +451,7 @@ leep:
 	}
 
 	// TODO 取消点赞或者点踩
-	r.DB.Where("user_id = ? and remark_id = ?", user.ID, id).Delete(&model.RemarkLike{})
+	r.DB.Where("user_id = (?) and remark_id = (?)", user.ID, id).Delete(&model.RemarkLike{})
 
 	response.Success(ctx, nil, "取消成功")
 }
@@ -471,7 +471,7 @@ func (r RemarkController) LikeNumber(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	r.DB.Where("remark_id = ? and like = ?", id, like).Model(model.RemarkLike{}).Count(&total)
+	r.DB.Where("remark_id = (?) and like = (?)", id, like).Model(model.RemarkLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"total": total}, "查看成功")
 }
@@ -498,9 +498,9 @@ func (r RemarkController) LikeList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	r.DB.Where("remark_id = ? and like = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&remarkLikes)
+	r.DB.Where("remark_id = (?) and like = (?)", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&remarkLikes)
 
-	r.DB.Where("remark_id = ? and like = ?", id, like).Model(model.RemarkLike{}).Count(&total)
+	r.DB.Where("remark_id = (?) and like = (?)", id, like).Model(model.RemarkLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"remarkLikes": remarkLikes, "total": total}, "查看成功")
 }
@@ -521,7 +521,7 @@ func (r RemarkController) LikeShow(ctx *gin.Context) {
 	var remarkLike model.RemarkLike
 
 	// TODO 查看点赞状态
-	if r.DB.Where("user_id = ? and remark_id = ?", user.ID, id).First(&remarkLike).Error != nil {
+	if r.DB.Where("user_id = (?) and remark_id = (?)", user.ID, id).First(&remarkLike).Error != nil {
 		response.Success(ctx, gin.H{"like": 0}, "暂无状态")
 		return
 	}
@@ -557,9 +557,9 @@ func (r RemarkController) Likes(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	r.DB.Where("user_id = ? and like = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&remarkLikes)
+	r.DB.Where("user_id = (?) and like = (?)", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&remarkLikes)
 
-	r.DB.Where("user_id = ? and like = ?", id, like).Model(model.RemarkLike{}).Count(&total)
+	r.DB.Where("user_id = (?) and like = (?)", id, like).Model(model.RemarkLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"remarkLikes": remarkLikes, "total": total}, "查看成功")
 }

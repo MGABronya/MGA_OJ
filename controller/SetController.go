@@ -104,7 +104,7 @@ func (s SetController) Create(ctx *gin.Context) {
 			}
 
 			// TODO 查看用户组是否在数据库中存在
-			if s.DB.Where("id = ?", id).First(&group).Error != nil {
+			if s.DB.Where("id = (?)", id).First(&group).Error != nil {
 				response.Fail(ctx, nil, "用户组不存在")
 				return
 			}
@@ -151,7 +151,7 @@ func (s SetController) Create(ctx *gin.Context) {
 		}
 
 		// TODO 查看主题是否在数据库中存在
-		if s.DB.Where("id = ?", id).First(&topic).Error != nil {
+		if s.DB.Where("id = (?)", id).First(&topic).Error != nil {
 			response.Fail(ctx, nil, "主题不存在")
 			return
 		}
@@ -181,7 +181,7 @@ func (s SetController) Create(ctx *gin.Context) {
 	s.Redis.ZAdd(ctx, "SetHot", redis.Z{Member: set.ID.String(), Score: 100 + float64(time.Now().Unix()/86400)})
 
 	// TODO 成功
-	response.Success(ctx, nil, "创建成功")
+	response.Success(ctx, gin.H{"set": set}, "创建成功")
 }
 
 // @title    Update
@@ -207,7 +207,7 @@ func (s SetController) Update(ctx *gin.Context) {
 
 	var set model.Set
 
-	if s.DB.Where("id = ?", id).First(&set) != nil {
+	if s.DB.Where("id = (?)", id).First(&set) != nil {
 		response.Fail(ctx, nil, "表单不存在")
 		return
 	}
@@ -232,13 +232,13 @@ func (s SetController) Update(ctx *gin.Context) {
 	}
 
 	// TODO 更新表单内容
-	s.DB.Where("id = ?", id).Updates(set)
+	s.DB.Where("id = (?)", id).Updates(set)
 
 	// TODO 移除损坏数据
 	s.Redis.HDel(ctx, "Set", id)
 
 	if len(requestSet.Groups) != 0 {
-		s.DB.Where("set_id = ?", id).Delete(&model.GroupList{})
+		s.DB.Where("set_id = (?)", id).Delete(&model.GroupList{})
 		// TODO 插入相关用户组
 		for _, v := range requestSet.Groups {
 
@@ -257,7 +257,7 @@ func (s SetController) Update(ctx *gin.Context) {
 			}
 
 			// TODO 查看用户组是否在数据库中存在
-			if s.DB.Where("id = ?", id).First(&group).Error != nil {
+			if s.DB.Where("id = (?)", id).First(&group).Error != nil {
 				response.Fail(ctx, nil, "用户组不存在")
 				return
 			}
@@ -289,7 +289,7 @@ func (s SetController) Update(ctx *gin.Context) {
 	}
 
 	if len(requestSet.Topics) != 0 {
-		s.DB.Where("set_id = ?", id).Delete(&model.TopicList{})
+		s.DB.Where("set_id = (?)", id).Delete(&model.TopicList{})
 		// TODO 插入相关主题
 		var topic model.Topic
 		for _, v := range requestSet.Topics {
@@ -305,7 +305,7 @@ func (s SetController) Update(ctx *gin.Context) {
 			}
 
 			// TODO 查看主题是否在数据库中存在
-			if s.DB.Where("id = ?", id).First(&topic).Error != nil {
+			if s.DB.Where("id = (?)", id).First(&topic).Error != nil {
 				response.Fail(ctx, nil, "主题不存在")
 				return
 			}
@@ -359,7 +359,7 @@ func (s SetController) Show(ctx *gin.Context) {
 	}
 
 	// TODO 查看表单是否在数据库中存在
-	if s.DB.Where("id = ?", id).First(&set).Error != nil {
+	if s.DB.Where("id = (?)", id).First(&set).Error != nil {
 		response.Fail(ctx, nil, "表单不存在")
 		return
 	}
@@ -384,7 +384,7 @@ func (s SetController) Delete(ctx *gin.Context) {
 	var set model.Set
 
 	// TODO 查看表单是否存在
-	if s.DB.Where("id = ?", id).First(&set).Error != nil {
+	if s.DB.Where("id = (?)", id).First(&set).Error != nil {
 		response.Fail(ctx, nil, "表单不存在")
 		return
 	}
@@ -403,15 +403,15 @@ func (s SetController) Delete(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞的数量
-	s.DB.Where("set_id = ? and like = true", id).Model(model.SetLike{}).Count(&total)
+	s.DB.Where("set_id = (?) and like = true", id).Model(model.SetLike{}).Count(&total)
 	s.Redis.ZIncrBy(ctx, "UserLike", -float64(total), set.UserId.String())
 
 	// TODO 查看点踩的数量
-	s.DB.Where("set_id = ? and like = false", id).Model(model.SetLike{}).Count(&total)
+	s.DB.Where("set_id = (?) and like = false", id).Model(model.SetLike{}).Count(&total)
 	s.Redis.ZIncrBy(ctx, "UserUnLike", -float64(total), set.UserId.String())
 
 	// TODO 查看收藏的数量
-	s.DB.Where("set_id = ?", id).Model(model.SetCollect{}).Count(&total)
+	s.DB.Where("set_id = (?)", id).Model(model.SetCollect{}).Count(&total)
 	s.Redis.ZIncrBy(ctx, "UserCollect", -float64(total), set.UserId.String())
 
 	// TODO 获取阅读人数
@@ -472,10 +472,10 @@ func (s SetController) UserList(ctx *gin.Context) {
 	var sets []model.Set
 
 	// TODO 查找所有分页中可见的条目
-	s.DB.Where("user_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&sets)
+	s.DB.Where("user_id = (?)", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&sets)
 
 	var total int64
-	s.DB.Model(model.Set{}).Where("user_id = ?", id).Count(&total)
+	s.DB.Model(model.Set{}).Where("user_id = (?)", id).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"sets": sets, "total": total}, "成功")
@@ -499,10 +499,10 @@ func (s SetController) TopicList(ctx *gin.Context) {
 	var topicLists []model.TopicList
 
 	// TODO 查找所有分页中可见的条目
-	s.DB.Where("set_id = ?", id).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&topicLists)
+	s.DB.Where("set_id = (?)", id).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&topicLists)
 
 	var total int64
-	s.DB.Model(model.Set{}).Where("user_id = ?", id).Count(&total)
+	s.DB.Model(model.Set{}).Where("user_id = (?)", id).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"topicLists": topicLists, "total": total}, "成功")
@@ -526,10 +526,10 @@ func (s SetController) GroupList(ctx *gin.Context) {
 	var groupLists []model.GroupList
 
 	// TODO 查找所有分页中可见的条目
-	s.DB.Where("set_id = ?", id).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groupLists)
+	s.DB.Where("set_id = (?)", id).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groupLists)
 
 	var total int64
-	s.DB.Model(model.Set{}).Where("user_id = ?", id).Count(&total)
+	s.DB.Model(model.Set{}).Where("user_id = (?)", id).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"groupLists": groupLists, "total": total}, "成功")
@@ -589,7 +589,7 @@ func (s SetController) Like(ctx *gin.Context) {
 		}
 	}
 	// TODO 查看表单是否在数据库中存在
-	if s.DB.Where("id = ?", id).First(&set).Error != nil {
+	if s.DB.Where("id = (?)", id).First(&set).Error != nil {
 		response.Fail(ctx, nil, "表单不存在")
 		return
 	}
@@ -605,7 +605,7 @@ leep:
 
 	var setLike model.SetLike
 	// TODO 如果没有点赞或者点踩
-	if s.DB.Where("user_id = ? and set_id = ?", user.ID, id).First(&setLike).Error != nil {
+	if s.DB.Where("user_id = (?) and set_id = (?)", user.ID, id).First(&setLike).Error != nil {
 		// TODO 插入数据
 		setLike = model.SetLike{
 			SetId:  set.ID,
@@ -625,7 +625,7 @@ leep:
 			s.Redis.ZIncrBy(ctx, "SetHot", 10.0, set.ID.String())
 			s.Redis.ZIncrBy(ctx, "UserUnLike", -1, set.UserId.String())
 		}
-		s.DB.Where("user_id = ? and set_id = ?", user.ID, id).Model(&model.SetLike{}).Update("like", like)
+		s.DB.Where("user_id = (?) and set_id = (?)", user.ID, id).Model(&model.SetLike{}).Update("like", like)
 	}
 
 	// TODO 热度计算
@@ -667,7 +667,7 @@ func (s SetController) CancelLike(ctx *gin.Context) {
 		}
 	}
 	// TODO 查看表单是否在数据库中存在
-	if s.DB.Where("id = ?", id).First(&set).Error != nil {
+	if s.DB.Where("id = (?)", id).First(&set).Error != nil {
 		response.Fail(ctx, nil, "表单不存在")
 		return
 	}
@@ -680,7 +680,7 @@ leep:
 
 	// TODO 查看是否已经点赞或者点踩
 	var setLike model.SetLike
-	if s.DB.Where("user_id = ? and set_id = ?", user.ID, id).First(&setLike).Error != nil {
+	if s.DB.Where("user_id = (?) and set_id = (?)", user.ID, id).First(&setLike).Error != nil {
 		response.Fail(ctx, nil, "未点赞或点踩")
 		return
 	}
@@ -695,7 +695,7 @@ leep:
 	}
 
 	// TODO 取消点赞或者点踩
-	s.DB.Where("user_id = ? and set_id = ?", user.ID, id).Delete(&model.SetLike{})
+	s.DB.Where("user_id = (?) and set_id = (?)", user.ID, id).Delete(&model.SetLike{})
 
 	response.Success(ctx, nil, "取消成功")
 }
@@ -715,7 +715,7 @@ func (s SetController) LikeNumber(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	s.DB.Where("set_id = ? and like = ?", id, like).Model(model.SetLike{}).Count(&total)
+	s.DB.Where("set_id = (?) and like = (?)", id, like).Model(model.SetLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"total": total}, "查看成功")
 }
@@ -742,9 +742,9 @@ func (s SetController) LikeList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	s.DB.Where("set_id = ? and like = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setLikes)
+	s.DB.Where("set_id = (?) and like = (?)", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setLikes)
 
-	s.DB.Where("set_id = ? and like = ?", id, like).Model(model.SetLike{}).Count(&total)
+	s.DB.Where("set_id = (?) and like = (?)", id, like).Model(model.SetLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"setLikes": setLikes, "total": total}, "查看成功")
 }
@@ -765,7 +765,7 @@ func (s SetController) LikeShow(ctx *gin.Context) {
 	var setLike model.SetLike
 
 	// TODO 查看点赞状态
-	if s.DB.Where("user_id = ? and set_id = ?", user.ID, id).First(&setLike).Error != nil {
+	if s.DB.Where("user_id = (?) and set_id = (?)", user.ID, id).First(&setLike).Error != nil {
 		response.Success(ctx, gin.H{"like": 0}, "暂无状态")
 		return
 	}
@@ -801,9 +801,9 @@ func (s SetController) Likes(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	s.DB.Where("user_id = ? and like = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setLikes)
+	s.DB.Where("user_id = (?) and like = (?)", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setLikes)
 
-	s.DB.Where("user_id = ? and like = ?", id, like).Model(model.SetLike{}).Count(&total)
+	s.DB.Where("user_id = (?) and like = (?)", id, like).Model(model.SetLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"setLikes": setLikes, "total": total}, "查看成功")
 }
@@ -831,7 +831,7 @@ func (s SetController) Collect(ctx *gin.Context) {
 		}
 	}
 	// TODO 查看表单是否在数据库中存在
-	if s.DB.Where("id = ?", id).First(&set).Error != nil {
+	if s.DB.Where("id = (?)", id).First(&set).Error != nil {
 		response.Fail(ctx, nil, "表单不存在")
 		return
 	}
@@ -847,7 +847,7 @@ leep:
 	user := tuser.(model.User)
 
 	// TODO 如果没有收藏
-	if s.DB.Where("user_id = ? and set_id = ?", user.ID, set.ID).First(&model.SetCollect{}).Error != nil {
+	if s.DB.Where("user_id = (?) and set_id = (?)", user.ID, set.ID).First(&model.SetCollect{}).Error != nil {
 		setCollect := model.SetCollect{
 			SetId:  set.ID,
 			UserId: user.ID,
@@ -898,7 +898,7 @@ func (s SetController) CancelCollect(ctx *gin.Context) {
 		}
 	}
 	// TODO 查看表单是否在数据库中存在
-	if s.DB.Where("id = ?", id).First(&set).Error != nil {
+	if s.DB.Where("id = (?)", id).First(&set).Error != nil {
 		response.Fail(ctx, nil, "表单不存在")
 		return
 	}
@@ -910,10 +910,10 @@ func (s SetController) CancelCollect(ctx *gin.Context) {
 leep:
 
 	// TODO 如果没有收藏
-	if s.DB.Where("user_id = ? and set_id = ?", user.ID, id).First(&model.SetCollect{}).Error != nil {
+	if s.DB.Where("user_id = (?) and set_id = (?)", user.ID, id).First(&model.SetCollect{}).Error != nil {
 		response.Fail(ctx, nil, "未收藏")
 	} else {
-		s.DB.Where("user_id = ? and set_id = ?", user.ID, id).Delete(&model.SetCollect{})
+		s.DB.Where("user_id = (?) and set_id = (?)", user.ID, id).Delete(&model.SetCollect{})
 		response.Success(ctx, nil, "取消收藏成功")
 		// TODO 热度计算
 		s.Redis.ZIncrBy(ctx, "SetHot", -50.0, id)
@@ -937,7 +937,7 @@ func (s SetController) CollectShow(ctx *gin.Context) {
 	user := tuser.(model.User)
 
 	// TODO 如果没有收藏
-	if s.DB.Where("user_id = ? and set_id = ?", user.ID, id).First(&model.SetCollect{}).Error != nil {
+	if s.DB.Where("user_id = (?) and set_id = (?)", user.ID, id).First(&model.SetCollect{}).Error != nil {
 		response.Success(ctx, gin.H{"collect": false}, "未收藏")
 		return
 	} else {
@@ -965,9 +965,9 @@ func (s SetController) CollectList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看收藏的数量
-	s.DB.Where("set_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setCollects)
+	s.DB.Where("set_id = (?)", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setCollects)
 
-	s.DB.Where("set_id = ?", id).Model(model.SetCollect{}).Count(&total)
+	s.DB.Where("set_id = (?)", id).Model(model.SetCollect{}).Count(&total)
 
 	response.Success(ctx, gin.H{"setCollects": setCollects, "total": total}, "查看成功")
 }
@@ -984,7 +984,7 @@ func (s SetController) CollectNumber(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看收藏的数量
-	s.DB.Where("set_id = ?", id).Model(model.SetCollect{}).Count(&total)
+	s.DB.Where("set_id = (?)", id).Model(model.SetCollect{}).Count(&total)
 
 	response.Success(ctx, gin.H{"total": total}, "查看成功")
 }
@@ -1008,7 +1008,7 @@ func (s SetController) Collects(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看收藏的数量
-	s.DB.Where("user_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setCollects).Count(&total)
+	s.DB.Where("user_id = (?)", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setCollects).Count(&total)
 
 	response.Success(ctx, gin.H{"setCollects": setCollects, "total": total}, "查看成功")
 }
@@ -1036,7 +1036,7 @@ func (s SetController) Visit(ctx *gin.Context) {
 		}
 	}
 	// TODO 查看表单是否在数据库中存在
-	if s.DB.Where("id = ?", id).First(&set).Error != nil {
+	if s.DB.Where("id = (?)", id).First(&set).Error != nil {
 		response.Fail(ctx, nil, "表单不存在")
 		return
 	}
@@ -1114,9 +1114,9 @@ func (s SetController) VisitList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看游览的列表
-	s.DB.Where("set_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setVisits)
+	s.DB.Where("set_id = (?)", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setVisits)
 
-	s.DB.Where("set_id = ?", id).Model(model.SetVisit{}).Count(&total)
+	s.DB.Where("set_id = (?)", id).Model(model.SetVisit{}).Count(&total)
 
 	response.Success(ctx, gin.H{"setVisits": setVisits, "total": total}, "查看成功")
 }
@@ -1141,9 +1141,9 @@ func (s SetController) Visits(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看游览的数量
-	s.DB.Where("user_id = ?", user.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setVisits)
+	s.DB.Where("user_id = (?)", user.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setVisits)
 
-	s.DB.Where("user_id = ?", user.ID).Model(model.SetVisit{}).Count(&total)
+	s.DB.Where("user_id = (?)", user.ID).Model(model.SetVisit{}).Count(&total)
 
 	response.Success(ctx, gin.H{"setVisits": setVisits, "total": total}, "查看成功")
 }
@@ -1168,9 +1168,9 @@ func (s SetController) RankList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看排行
-	s.DB.Where("set_id = ?", id).Order("pass desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setRanks)
+	s.DB.Where("set_id = (?)", id).Order("pass desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setRanks)
 
-	s.DB.Where("set_id = ?", id).Model(model.SetRank{}).Count(&total)
+	s.DB.Where("set_id = (?)", id).Model(model.SetRank{}).Count(&total)
 
 	response.Success(ctx, gin.H{"setRanks": setRanks, "total": total}, "查看成功")
 }
@@ -1203,7 +1203,7 @@ func (s SetController) RankUpdate(ctx *gin.Context) {
 		}
 	}
 	// TODO 查看表单是否在数据库中存在
-	if s.DB.Where("id = ?", id).First(&set).Error != nil {
+	if s.DB.Where("id = (?)", id).First(&set).Error != nil {
 		response.Fail(ctx, nil, "表单不存在")
 		return
 	}
@@ -1259,7 +1259,7 @@ func (s SetController) Apply(ctx *gin.Context) {
 		}
 	}
 	// TODO 查看表单是否在数据库中存在
-	if s.DB.Where("id = ?", id).First(&set).Error != nil {
+	if s.DB.Where("id = (?)", id).First(&set).Error != nil {
 		response.Fail(ctx, nil, "表单不存在")
 		return
 	}
@@ -1284,7 +1284,7 @@ leep:
 	}
 
 	// TODO 查看用户组是否在数据库中存在
-	if s.DB.Where("id = ?", id).First(&group).Error != nil {
+	if s.DB.Where("id = (?)", id).First(&group).Error != nil {
 		response.Fail(ctx, nil, "用户组不存在")
 		return
 	}
@@ -1306,13 +1306,13 @@ leap:
 	}
 
 	// TODO 查看用户组是否已经加入表单
-	if s.DB.Where("set_id = ? and group_id = ?", set.ID, group.ID).First(&model.GroupList{}).Error == nil {
+	if s.DB.Where("set_id = (?) and group_id = (?)", set.ID, group.ID).First(&model.GroupList{}).Error == nil {
 		response.Fail(ctx, nil, "已加入表单")
 		return
 	}
 
 	// TODO 查看用户组是否被拉黑
-	if s.DB.Where("set_id = ? and group_id = ?", set.ID, group.ID).First(&model.SetBlock{}).Error != nil {
+	if s.DB.Where("set_id = (?) and group_id = (?)", set.ID, group.ID).First(&model.SetBlock{}).Error != nil {
 		response.Fail(ctx, nil, "用户组已被拉黑")
 		return
 	}
@@ -1340,7 +1340,7 @@ leap:
 	var setApply model.SetApply
 
 	// TODO 查看用户组是否已经发送过申请
-	if s.DB.Where("set_id = ? and group_id = ?", set.ID, group.ID).First(&setApply).Error == nil && setApply.Condition {
+	if s.DB.Where("set_id = (?) and group_id = (?)", set.ID, group.ID).First(&setApply).Error == nil && setApply.Condition {
 		response.Fail(ctx, nil, "已发送过申请")
 		return
 	}
@@ -1378,7 +1378,7 @@ func (s SetController) Consent(ctx *gin.Context) {
 	var setApply model.SetApply
 
 	// TODO 查看申请是否存在
-	if s.DB.Where("id = ?", id).First(&setApply).Error != nil {
+	if s.DB.Where("id = (?)", id).First(&setApply).Error != nil {
 		response.Fail(ctx, nil, "申请不存在")
 		return
 	}
@@ -1394,13 +1394,13 @@ func (s SetController) Consent(ctx *gin.Context) {
 	}
 
 	// TODO 查看用户组是否已经加入表单
-	if s.DB.Where("set_id = ? and group_id = ?", setApply.SetId, setApply.GroupId).First(&model.GroupList{}).Error == nil {
+	if s.DB.Where("set_id = (?) and group_id = (?)", setApply.SetId, setApply.GroupId).First(&model.GroupList{}).Error == nil {
 		response.Fail(ctx, nil, "已加入表单")
 		return
 	}
 
 	// TODO 查看当前用户是否为表单创建者
-	if s.DB.Where("id = ? and user_id = ?", setApply.SetId, user.ID).First(&model.Set{}).Error != nil {
+	if s.DB.Where("id = (?) and user_id = (?)", setApply.SetId, user.ID).First(&model.Set{}).Error != nil {
 		response.Fail(ctx, nil, "非表单创建者，无法操作")
 		return
 	}
@@ -1436,7 +1436,7 @@ func (s SetController) Refuse(ctx *gin.Context) {
 	var setApply model.SetApply
 
 	// TODO 查看申请是否存在
-	if s.DB.Where("id = ?", id).First(&setApply).Error != nil {
+	if s.DB.Where("id = (?)", id).First(&setApply).Error != nil {
 		response.Fail(ctx, nil, "申请不存在")
 		return
 	}
@@ -1446,7 +1446,7 @@ func (s SetController) Refuse(ctx *gin.Context) {
 	user := tuser.(model.User)
 
 	// TODO 查看当前用户是否为表单创建者
-	if s.DB.Where("id = ? and set_id = ?", setApply.SetId, user.ID).First(&model.Set{}).Error != nil {
+	if s.DB.Where("id = (?) and set_id = (?)", setApply.SetId, user.ID).First(&model.Set{}).Error != nil {
 		response.Fail(ctx, nil, "非表单创建者，无法操作")
 		return
 	}
@@ -1485,7 +1485,7 @@ func (s SetController) Block(ctx *gin.Context) {
 	}
 
 	// TODO 查看用户组是否在数据库中存在
-	if s.DB.Where("id = ?", id).First(&group).Error != nil {
+	if s.DB.Where("id = (?)", id).First(&group).Error != nil {
 		response.Fail(ctx, nil, "用户组不存在")
 		return
 	}
@@ -1514,7 +1514,7 @@ leap:
 		}
 	}
 	// TODO 查看表单是否在数据库中存在
-	if s.DB.Where("id = ?", id).First(&set).Error != nil {
+	if s.DB.Where("id = (?)", id).First(&set).Error != nil {
 		response.Fail(ctx, nil, "表单不存在")
 		return
 	}
@@ -1536,7 +1536,7 @@ leep:
 	}
 
 	// TODO 查看当前用户组是否已经拉黑
-	if s.DB.Where("set_id = ? and group_id = ?", set_id, group_id).First(&model.SetBlock{}).Error == nil {
+	if s.DB.Where("set_id = (?) and group_id = (?)", set_id, group_id).First(&model.SetBlock{}).Error == nil {
 		response.Fail(ctx, nil, "用户已拉黑")
 		return
 	}
@@ -1580,7 +1580,7 @@ func (s SetController) RemoveBlack(ctx *gin.Context) {
 		}
 	}
 	// TODO 查看表单是否在数据库中存在
-	if s.DB.Where("id = ?", id).First(&set).Error != nil {
+	if s.DB.Where("id = (?)", id).First(&set).Error != nil {
 		response.Fail(ctx, nil, "表单不存在")
 		return
 	}
@@ -1609,7 +1609,7 @@ leep:
 	}
 
 	// TODO 查看用户组是否在数据库中存在
-	if s.DB.Where("id = ?", id).First(&group).Error != nil {
+	if s.DB.Where("id = (?)", id).First(&group).Error != nil {
 		response.Fail(ctx, nil, "用户组不存在")
 		return
 	}
@@ -1633,7 +1633,7 @@ leap:
 	var setBlock model.SetBlock
 
 	// TODO 查看当前用户组是否已经拉黑
-	if s.DB.Where("set_id = ? and group_id = ?", set_id, group_id).First(&setBlock).Error != nil {
+	if s.DB.Where("set_id = (?) and group_id = (?)", set_id, group_id).First(&setBlock).Error != nil {
 		response.Fail(ctx, nil, "用户组未被拉黑")
 	}
 
@@ -1671,7 +1671,7 @@ func (s SetController) BlackList(ctx *gin.Context) {
 		}
 	}
 	// TODO 查看表单是否在数据库中存在
-	if s.DB.Where("id = ?", id).First(&set).Error != nil {
+	if s.DB.Where("id = (?)", id).First(&set).Error != nil {
 		response.Fail(ctx, nil, "表单不存在")
 		return
 	}
@@ -1698,9 +1698,9 @@ leep:
 	var total int64
 
 	// TODO 查看黑名单
-	s.DB.Where("set_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setBlocks)
+	s.DB.Where("set_id = (?)", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setBlocks)
 
-	s.DB.Where("set_id = ?", id).Model(model.SetBlock{}).Count(&total)
+	s.DB.Where("set_id = (?)", id).Model(model.SetBlock{}).Count(&total)
 
 	response.Success(ctx, gin.H{"setBlocks": setBlocks, "total": total}, "查看成功")
 }
@@ -1733,7 +1733,7 @@ func (s SetController) ApplyingList(ctx *gin.Context) {
 	}
 
 	// TODO 查看用户组是否在数据库中存在
-	if s.DB.Where("id = ?", id).First(&group).Error != nil {
+	if s.DB.Where("id = (?)", id).First(&group).Error != nil {
 		response.Fail(ctx, nil, "用户组不存在")
 		return
 	}
@@ -1760,9 +1760,9 @@ leap:
 	var total int64
 
 	// TODO 查看申请的数量
-	s.DB.Where("group_id = ?", group.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setApplys)
+	s.DB.Where("group_id = (?)", group.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setApplys)
 
-	s.DB.Where("group_id = ?", group.ID).Model(model.SetApply{}).Count(&total)
+	s.DB.Where("group_id = (?)", group.ID).Model(model.SetApply{}).Count(&total)
 
 	response.Success(ctx, gin.H{"groupApplys": setApplys, "total": total}, "查看成功")
 }
@@ -1794,7 +1794,7 @@ func (s SetController) AppliedList(ctx *gin.Context) {
 		}
 	}
 	// TODO 查看表单是否在数据库中存在
-	if s.DB.Where("id = ?", id).First(&set).Error != nil {
+	if s.DB.Where("id = (?)", id).First(&set).Error != nil {
 		response.Fail(ctx, nil, "表单不存在")
 		return
 	}
@@ -1821,9 +1821,9 @@ leep:
 	var total int64
 
 	// TODO 查看申请的数量
-	s.DB.Where("set_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setApplys)
+	s.DB.Where("set_id = (?)", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setApplys)
 
-	s.DB.Where("set_id = ?", id).Model(model.SetApply{}).Count(&total)
+	s.DB.Where("set_id = (?)", id).Model(model.SetApply{}).Count(&total)
 
 	response.Success(ctx, gin.H{"setApplys": setApplys, "total": total}, "查看成功")
 }
@@ -1852,7 +1852,7 @@ func (s SetController) Quit(ctx *gin.Context) {
 		}
 	}
 	// TODO 查看表单是否在数据库中存在
-	if s.DB.Where("id = ?", id).First(&set).Error != nil {
+	if s.DB.Where("id = (?)", id).First(&set).Error != nil {
 		response.Fail(ctx, nil, "表单不存在")
 		return
 	}
@@ -1881,7 +1881,7 @@ leep:
 	}
 
 	// TODO 查看用户组是否在数据库中存在
-	if s.DB.Where("id = ?", id).First(&group).Error != nil {
+	if s.DB.Where("id = (?)", id).First(&group).Error != nil {
 		response.Fail(ctx, nil, "用户组不存在")
 		return
 	}
@@ -1903,13 +1903,13 @@ leap:
 	}
 
 	// TODO 查看用户组是否已经加入表单
-	if s.DB.Where("set_id = ? and group_id = ?", set.ID, group.ID).First(&model.GroupList{}).Error != nil {
+	if s.DB.Where("set_id = (?) and group_id = (?)", set.ID, group.ID).First(&model.GroupList{}).Error != nil {
 		response.Fail(ctx, nil, "未加入表单")
 		return
 	}
 
 	// TODO 在表单中删除用户组
-	s.DB.Where("set_id = ? and group_id = ?", set.ID, group.ID).Delete(&model.GroupList{})
+	s.DB.Where("set_id = (?) and group_id = (?)", set.ID, group.ID).Delete(&model.GroupList{})
 
 	// TODO 成功
 	response.Success(ctx, nil, "退出成功")
@@ -1946,7 +1946,7 @@ func (s SetController) LabelCreate(ctx *gin.Context) {
 	}
 
 	// TODO 查看表单是否在数据库中存在
-	if s.DB.Where("id = ?", id).First(&set).Error != nil {
+	if s.DB.Where("id = (?)", id).First(&set).Error != nil {
 		response.Fail(ctx, nil, "表单不存在")
 		return
 	}
@@ -2013,7 +2013,7 @@ func (s SetController) LabelDelete(ctx *gin.Context) {
 	}
 
 	// TODO 查看表单是否在数据库中存在
-	if s.DB.Where("id = ?", id).First(&set).Error != nil {
+	if s.DB.Where("id = (?)", id).First(&set).Error != nil {
 		response.Fail(ctx, nil, "表单不存在")
 		return
 	}
@@ -2031,12 +2031,12 @@ leep:
 	}
 
 	// TODO 删除表单标签
-	if s.DB.Where("id = ?", label).First(&model.SetLabel{}).Error != nil {
+	if s.DB.Where("id = (?)", label).First(&model.SetLabel{}).Error != nil {
 		response.Fail(ctx, nil, "标签不存在")
 		return
 	}
 
-	s.DB.Where("id = ?", label).Delete(&model.SetLabel{})
+	s.DB.Where("id = (?)", label).Delete(&model.SetLabel{})
 
 	// TODO 解码失败，删除字段
 	s.Redis.HDel(ctx, "SetLabel", id)
@@ -2068,7 +2068,7 @@ func (s SetController) LabelShow(ctx *gin.Context) {
 	}
 
 	// TODO 在数据库中查找
-	s.DB.Where("set_id = ?", id).Find(&setLabels)
+	s.DB.Where("set_id = (?)", id).Find(&setLabels)
 	{
 		// TODO 将题目标签存入redis供下次使用
 		v, _ := json.Marshal(setLabels)
@@ -2097,11 +2097,11 @@ func (s SetController) Search(ctx *gin.Context) {
 	var sets []model.Set
 
 	// TODO 模糊匹配
-	s.DB.Where("match(title,content,res_long,res_short) against(? in boolean mode)", text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&sets)
+	s.DB.Where("match(title,content,res_long,res_short) against((?) in boolean mode)", text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&sets)
 
 	// TODO 查看查询总数
 	var total int64
-	s.DB.Where("match(title,content,res_long,res_short) against(? in boolean mode)", text+"*").Model(model.Set{}).Count(&total)
+	s.DB.Where("match(title,content,res_long,res_short) against((?) in boolean mode)", text+"*").Model(model.Set{}).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"sets": sets, "total": total}, "成功")
@@ -2133,16 +2133,16 @@ func (s SetController) SearchLabel(ctx *gin.Context) {
 	}
 
 	// TODO 进行标签匹配
-	s.DB.Distinct("set_id").Where("label in (?)", requestLabels.Labels).Model(model.SetLabel{}).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setIds)
+	s.DB.Distinct("set_id").Where("label in ((?))", requestLabels.Labels).Model(model.SetLabel{}).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setIds)
 
 	// TODO 查看查询总数
 	var total int64
-	s.DB.Distinct("set_id").Where("label in (?)", requestLabels.Labels).Model(model.SetLabel{}).Count(&total)
+	s.DB.Distinct("set_id").Where("label in ((?))", requestLabels.Labels).Model(model.SetLabel{}).Count(&total)
 
 	// TODO 查找对应表单
 	var sets []model.Set
 
-	s.DB.Where("id in (?)", setIds).Find(&sets)
+	s.DB.Where("id in ((?))", setIds).Find(&sets)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"sets": sets, "total": total}, "成功")
@@ -2177,17 +2177,17 @@ func (s SetController) SearchWithLabel(ctx *gin.Context) {
 	}
 
 	// TODO 进行标签匹配
-	s.DB.Distinct("set_id").Where("label in (?)", requestLabels.Labels).Model(model.SetLabel{}).Find(&setIds)
+	s.DB.Distinct("set_id").Where("label in ((?))", requestLabels.Labels).Model(model.SetLabel{}).Find(&setIds)
 
 	// TODO 查找对应表单
 	var sets []model.Set
 
 	// TODO 模糊匹配
-	s.DB.Where("id in (?) and match(title,content,res_long,res_short) against(? in boolean mode)", setIds, text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&sets)
+	s.DB.Where("id in ((?)) and match(title,content,res_long,res_short) against((?) in boolean mode)", setIds, text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&sets)
 
 	// TODO 查看查询总数
 	var total int64
-	s.DB.Where("id in (?) and match(title,content,res_long,res_short) against(? in boolean mode)", setIds, text+"*").Model(model.Set{}).Count(&total)
+	s.DB.Where("id in ((?)) and match(title,content,res_long,res_short) against((?) in boolean mode)", setIds, text+"*").Model(model.Set{}).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"sets": sets, "total": total}, "成功")
@@ -2208,13 +2208,13 @@ func (s SetController) UserGroup(ctx *gin.Context) {
 
 	// TODO 获取指定表单下的组
 	var groupLists []model.GroupList
-	s.DB.Where("set_id = ?", set_id).Find(&groupLists)
+	s.DB.Where("set_id = (?)", set_id).Find(&groupLists)
 
 	groups := make([]uuid.UUID, 0)
 
 	// TODO 检查这些组下是否包含了指定用户
 	for _, groupList := range groupLists {
-		if s.DB.Where("user_id = ? and group_id = ?", user_id, groupList.GroupId).First(&model.UserList{}).Error == nil {
+		if s.DB.Where("user_id = (?) and group_id = (?)", user_id, groupList.GroupId).First(&model.UserList{}).Error == nil {
 			groups = append(groups, groupList.GroupId)
 		}
 	}
@@ -2255,12 +2255,12 @@ func UpdateRank(set_id uuid.UUID) error {
 	ctx := context.Background()
 	var err error
 	// TODO 删掉原先的排行
-	db.Where("set_id = ?", set_id).Delete(&model.SetRank{})
+	db.Where("set_id = (?)", set_id).Delete(&model.SetRank{})
 	// TODO 重新建立排行
 	userPass := make(map[uuid.UUID]uint, 0)
 	// TODO 插入所有成员
 	var groupLists []model.GroupList
-	db.Where("set_id = ?", set_id).Find(&groupLists)
+	db.Where("set_id = (?)", set_id).Find(&groupLists)
 	for _, group := range groupLists {
 		var userLists []model.UserList
 		// TODO 查看用户组是否存在
@@ -2276,7 +2276,7 @@ func UpdateRank(set_id uuid.UUID) error {
 		}
 
 		// TODO 查看用户组是否在数据库中存在
-		db.Where("group_id = ?", group.GroupId.String()).Find(&userLists)
+		db.Where("group_id = (?)", group.GroupId.String()).Find(&userLists)
 		{
 			// TODO 将用户组存入redis供下次使用
 			v, _ := json.Marshal(userLists)
@@ -2289,13 +2289,13 @@ func UpdateRank(set_id uuid.UUID) error {
 	}
 	// 搜索所有成员的通过表单内题目数量
 	var topicLists []model.TopicList
-	db.Where("set_id = ?", set_id).Find(&topicLists)
+	db.Where("set_id = (?)", set_id).Find(&topicLists)
 	for _, topic := range topicLists {
 		var problemLists []model.ProblemList
-		db.Where("topic_id = ?", topic.TopicId).Find(&problemLists)
+		db.Where("topic_id = (?)", topic.TopicId).Find(&problemLists)
 		for _, problem := range problemLists {
 			for user := range userPass {
-				if db.Where("user_id = ? and problem_id = ? and condition = Accepted", user, problem.ProblemId).First(&model.Record{}).Error == nil {
+				if db.Where("user_id = (?) and problem_id = (?) and condition = Accepted", user, problem.ProblemId).First(&model.Record{}).Error == nil {
 					userPass[user]++
 				}
 			}
@@ -2324,7 +2324,7 @@ func CanAddGroup(set_id uuid.UUID, group_id uuid.UUID, PassNum uint, PassRe bool
 	db := common.GetDB()
 
 	var userLists []model.UserList
-	db.Where("group_id = ?", group_id).Find(&userLists)
+	db.Where("group_id = (?)", group_id).Find(&userLists)
 
 	// TODO 如果组员数量大于限制
 	if int(PassNum) < len(userLists) {
@@ -2337,14 +2337,14 @@ func CanAddGroup(set_id uuid.UUID, group_id uuid.UUID, PassNum uint, PassRe bool
 	}
 
 	var groupLists []model.GroupList
-	db.Where("set_id = ?", set_id).Find(&groupLists)
+	db.Where("set_id = (?)", set_id).Find(&groupLists)
 
 	userMap := make(map[uuid.UUID]bool, 0)
 
 	// TODO 将表单内的所有用户填入map
 	for _, group := range groupLists {
 		var userLists []model.UserList
-		db.Where("group_id = ?", group.GroupId).Find(&userLists)
+		db.Where("group_id = (?)", group.GroupId).Find(&userLists)
 		for _, userList := range userLists {
 			userMap[userList.UserId] = true
 		}

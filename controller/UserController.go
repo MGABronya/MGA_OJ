@@ -151,7 +151,7 @@ func (u UserController) Login(ctx *gin.Context) {
 	// TODO 判断邮箱是否存在
 	var user model.User
 
-	u.DB.Where("email = ?", email).First(&user)
+	u.DB.Where("email = (?)", email).First(&user)
 	if user.ID == (uuid.UUID{}) {
 		response.Response(ctx, 201, 201, nil, "用户不存在")
 		return
@@ -299,7 +299,7 @@ func (u UserController) Show(ctx *gin.Context) {
 	}
 
 	// TODO 查看用户是否在数据库中存在
-	if u.DB.Where("id = ?", id).First(&user).Error != nil {
+	if u.DB.Where("id = (?)", id).First(&user).Error != nil {
 		response.Fail(ctx, nil, "用户不存在")
 		return
 	}
@@ -353,7 +353,7 @@ func (u UserController) Update(ctx *gin.Context) {
 	user.Icon = requestUser.Icon
 
 	// TODO 更新信息
-	u.DB.Where("id = ?", user.ID).Updates(model.User{
+	u.DB.Where("id = (?)", user.ID).Updates(model.User{
 		Address: requestUser.Address,
 		Blog:    requestUser.Blog,
 		Name:    requestUser.Name,
@@ -407,7 +407,7 @@ func (u UserController) UpdateLevel(ctx *gin.Context) {
 	}
 
 	// TODO 查看用户是否在数据库中存在
-	if u.DB.Where("id = ?", id).First(&userb).Error != nil {
+	if u.DB.Where("id = (?)", id).First(&userb).Error != nil {
 		response.Fail(ctx, nil, "用户不存在")
 		return
 	}
@@ -443,7 +443,7 @@ func (u UserController) AcceptNum(ctx *gin.Context) {
 
 	// TODO 获取对应用户
 	var num int64
-	u.DB.Table("records").Select("count(distinct problem_id)").Where("condition = Accepted and user_id = ?", id).First(&num)
+	u.DB.Table("records").Select("count(distinct problem_id)").Where("condition = Accepted and user_id = (?)", id).First(&num)
 
 	response.Success(ctx, gin.H{"num": num}, "查看ac题目数量成功")
 }
@@ -484,7 +484,7 @@ func (u UserController) AcceptRank(ctx *gin.Context) {
 
 	// TODO 获取对应用户
 	var rank int64
-	u.DB.Table("records").Select("rank() over(partition by condition order by count(distinct problem_id) desc)").Where("condition = Accepted and user_id = ?", id).Group("user_id").First(&rank)
+	u.DB.Table("records").Select("rank() over(partition by condition order by count(distinct problem_id) desc)").Where("condition = Accepted and user_id = (?)", id).Group("user_id").First(&rank)
 
 	response.Success(ctx, gin.H{"rank": rank}, "查看用户ac题目的数量排行成功")
 }
@@ -529,7 +529,7 @@ func (u UserController) ScoreRank(ctx *gin.Context) {
 	// TODO 获取对应用户
 	var rank int64
 
-	u.DB.Table("users").Select("rank() over(partition by id order by score desc)").Where("id = ?", id).Group("id").First(&rank)
+	u.DB.Table("users").Select("rank() over(partition by id order by score desc)").Where("id = (?)", id).Group("id").First(&rank)
 
 	response.Success(ctx, gin.H{"rank": rank}, "查看用户竞赛分数排行成功")
 }
@@ -574,7 +574,7 @@ func (u UserController) HotRank(ctx *gin.Context) {
 	// TODO 获取对应用户
 	var rank int64
 
-	u.DB.Table("users").Select("rank() over(partition by id order by (like_num + collect_num - unlike_num) desc)").Where("id = ?", id).Group("id").First(&rank)
+	u.DB.Table("users").Select("rank() over(partition by id order by (like_num + collect_num - unlike_num) desc)").Where("id = (?)", id).Group("id").First(&rank)
 
 	response.Success(ctx, gin.H{"rank": rank}, "查看用户竞赛分数排行成功")
 }
@@ -632,7 +632,7 @@ func (u UserController) LabelDelete(ctx *gin.Context) {
 
 	// TODO 查看是否可以删除标签
 	var userLabel model.UserLabel
-	if u.DB.Where("id = ?", label).First(&userLabel).Error != nil {
+	if u.DB.Where("id = (?)", label).First(&userLabel).Error != nil {
 		response.Fail(ctx, nil, "标签不存在")
 		return
 	}
@@ -644,7 +644,7 @@ func (u UserController) LabelDelete(ctx *gin.Context) {
 
 	// TODO 删除用户标签
 
-	u.DB.Where("id = ?", label).Delete(&model.UserLabel{})
+	u.DB.Where("id = (?)", label).Delete(&model.UserLabel{})
 
 	// TODO 解码失败，删除字段
 	u.Redis.HDel(ctx, "UserLabel", id)
@@ -676,7 +676,7 @@ func (u UserController) LabelShow(ctx *gin.Context) {
 	}
 
 	// TODO 在数据库中查找
-	u.DB.Where("user_id = ?", id).Find(&userLabels)
+	u.DB.Where("user_id = (?)", id).Find(&userLabels)
 	{
 		// TODO 将用户标签存入redis供下次使用
 		v, _ := json.Marshal(userLabels)
@@ -705,11 +705,11 @@ func (u UserController) Search(ctx *gin.Context) {
 	var users []model.User
 
 	// TODO 模糊匹配
-	u.DB.Where("match(name) against(? in boolean mode)", text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&users)
+	u.DB.Where("match(name) against((?) in boolean mode)", text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&users)
 
 	// TODO 查看查询总数
 	var total int64
-	u.DB.Where("match(name) against(? in boolean mode)", text+"*").Model(model.User{}).Count(&total)
+	u.DB.Where("match(name) against((?) in boolean mode)", text+"*").Model(model.User{}).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"users": users, "total": total}, "成功")
@@ -741,16 +741,16 @@ func (u UserController) SearchLabel(ctx *gin.Context) {
 	}
 
 	// TODO 进行标签匹配
-	u.DB.Distinct("user_id").Where("label in (?)", requestLabels.Labels).Model(model.UserLabel{}).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&userIds)
+	u.DB.Distinct("user_id").Where("label in ((?))", requestLabels.Labels).Model(model.UserLabel{}).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&userIds)
 
 	// TODO 查看查询总数
 	var total int64
-	u.DB.Distinct("user_id").Where("label in (?)", requestLabels.Labels).Model(model.UserLabel{}).Count(&total)
+	u.DB.Distinct("user_id").Where("label in ((?))", requestLabels.Labels).Model(model.UserLabel{}).Count(&total)
 
 	// TODO 查找对应用户
 	var users []model.User
 
-	u.DB.Where("id in (?)", userIds).Find(&users)
+	u.DB.Where("id in ((?))", userIds).Find(&users)
 
 	var dtoUsers []vo.UserDto
 
@@ -791,17 +791,17 @@ func (u UserController) SearchWithLabel(ctx *gin.Context) {
 	}
 
 	// TODO 进行标签匹配
-	u.DB.Distinct("user_id").Where("label in (?)", requestLabels.Labels).Model(model.UserLabel{}).Find(&userIds)
+	u.DB.Distinct("user_id").Where("label in ((?))", requestLabels.Labels).Model(model.UserLabel{}).Find(&userIds)
 
 	// TODO 查找对应用户
 	var users []model.User
 
 	// TODO 模糊匹配
-	u.DB.Where("id in (?) and match(name) against(? in boolean mode)", userIds, text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&users)
+	u.DB.Where("id in ((?)) and match(name) against((?) in boolean mode)", userIds, text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&users)
 
 	// TODO 查看查询总数
 	var total int64
-	u.DB.Where("id in (?) and match(name) against(? in boolean mode)", userIds, text+"*").Model(model.User{}).Count(&total)
+	u.DB.Where("id in ((?)) and match(name) against((?) in boolean mode)", userIds, text+"*").Model(model.User{}).Count(&total)
 
 	var dtoUsers []vo.UserDto
 
@@ -830,11 +830,11 @@ func (u UserController) ScoreChange(ctx *gin.Context) {
 	// TODO 查找对应用户分数变化
 	var userScoreChanges []model.UserScoreChange
 
-	u.DB.Where("user_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&userScoreChanges)
+	u.DB.Where("user_id = (?)", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&userScoreChanges)
 
 	// TODO 查看查询总数
 	var total int64
-	u.DB.Where("user_id = ?", id).Model(model.UserScoreChange{}).Count(&total)
+	u.DB.Where("user_id = (?)", id).Model(model.UserScoreChange{}).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"userScoreChanges": userScoreChanges, "total": total}, "成功")

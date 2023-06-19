@@ -72,7 +72,7 @@ func (r RecordController) Submit(ctx *gin.Context) {
 	}
 
 	// TODO 查看题目是否在数据库中存在
-	if r.DB.Where("id = ?", requestRecord.ProblemId).First(&problem).Error != nil {
+	if r.DB.Where("id = (?)", requestRecord.ProblemId).First(&problem).Error != nil {
 		response.Fail(ctx, nil, "题目不存在")
 		return
 	}
@@ -152,7 +152,7 @@ func (r RecordController) ShowRecord(ctx *gin.Context) {
 	}
 
 	// TODO 查看提交是否在数据库中存在
-	if r.DB.Where("id = ?", id).First(&record).Error != nil {
+	if r.DB.Where("id = (?)", id).First(&record).Error != nil {
 		response.Fail(ctx, nil, "提交不存在")
 		return
 	}
@@ -192,31 +192,31 @@ func (r RecordController) SearchList(ctx *gin.Context) {
 
 	// TODO 根据参数设置where条件
 	if Language != "" {
-		db = db.Where("Language = ?", Language)
+		db = db.Where("`language` = (?)", Language)
 	}
 	if UserId != "" {
-		db = db.Where("user_id = ?", UserId)
+		db = db.Where("`user_id` = (?)", UserId)
 	}
 	if ProblemId != "" {
-		db = db.Where("problem_id = ?", ProblemId)
+		db = db.Where("`problem_id` = (?)", ProblemId)
 	}
 	if StartTime != "" {
-		db = db.Where("created_at >= ?", StartTime)
+		db = db.Where("`created_at` >= (?)", StartTime)
 	}
 	if EndTime != "" {
-		db = db.Where("created_at <= ?", EndTime)
+		db = db.Where("`created_at` <= (?)", EndTime)
 	}
 	if Condition != "" {
-		db = db.Where("condition = ?", Condition)
+		db = db.Where("`condition` = (?)", Condition)
 	}
 	if PassLow != "" {
-		db = db.Where("pass >= ?", PassLow)
+		db = db.Where("`pass` >= (?)", PassLow)
 	}
 	if PassTop != "" {
-		db = db.Where("pass <= ?", PassTop)
+		db = db.Where("`pass` <= (?)", PassTop)
 	}
 	if Hack != "" {
-		db = db.Where("hack_id != ?", uuid.UUID{})
+		db = db.Where("`hack_id` != (?)", uuid.UUID{})
 	}
 
 	// TODO 分页
@@ -254,16 +254,12 @@ func (r RecordController) PublishPageList(ctx *gin.Context) {
 	defer ws.Close()
 	// TODO 监听消息
 	for msg := range ch {
-		// TODO 读取ws中的数据
-		_, _, err := ws.ReadMessage()
-		// TODO 断开连接
-		if err != nil {
-			break
-		}
 		var recordList vo.RecordList
 		json.Unmarshal([]byte(msg.Payload), &recordList)
 		// TODO 写入ws数据
-		ws.WriteJSON(recordList)
+		if err := ws.WriteJSON(recordList); err != nil {
+			break
+		}
 	}
 }
 
@@ -290,7 +286,7 @@ func (r RecordController) CaseList(ctx *gin.Context) {
 	}
 
 	// TODO 查看提交是否在数据库中存在
-	if r.DB.Where("id = ?", id).First(&record).Error != nil {
+	if r.DB.Where("id = (?)", id).First(&record).Error != nil {
 		response.Fail(ctx, nil, "提交不存在")
 		return
 	}
@@ -310,9 +306,9 @@ leep:
 	var total int64
 
 	// TODO 查找所有分页中可见的条目
-	r.DB.Where("record_id = ?", record.ID).Order("c_id desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&cases)
+	r.DB.Where("record_id = (?)", record.ID).Order("c_id desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&cases)
 
-	r.DB.Where("record_id = ?", record.ID).Model(model.CaseCondition{}).Count(&total)
+	r.DB.Where("record_id = (?)", record.ID).Model(model.CaseCondition{}).Count(&total)
 
 	response.Success(ctx, gin.H{"cases": cases}, "成功")
 }
@@ -328,7 +324,7 @@ func (r RecordController) Case(ctx *gin.Context) {
 	var cas model.CaseCondition
 
 	// TODO 查找所有分页中可见的条目
-	if r.DB.Where("c_id = ?", id).First(&cas).Error != nil {
+	if r.DB.Where("c_id = (?)", id).First(&cas).Error != nil {
 		response.Fail(ctx, nil, "测试不存在")
 		return
 	}
@@ -372,7 +368,7 @@ func (r RecordController) Hack(ctx *gin.Context) {
 	}
 
 	// TODO 查看提交是否在数据库中存在
-	if r.DB.Where("id = ?", id).First(&record).Error != nil {
+	if r.DB.Where("id = (?)", id).First(&record).Error != nil {
 		response.Fail(ctx, nil, "提交不存在")
 		return
 	}
@@ -408,7 +404,7 @@ leep:
 	}
 
 	// TODO 查看题目是否在数据库中存在
-	if r.DB.Where("id = ?", record.ProblemId.String()).First(&problem).Error != nil {
+	if r.DB.Where("id = (?)", record.ProblemId.String()).First(&problem).Error != nil {
 		response.Fail(ctx, nil, "题目不存在")
 		return
 	}
@@ -435,7 +431,7 @@ leap:
 	}
 
 	// TODO 查看程序是否在数据库中存在
-	if r.DB.Where("id = ?", problem.InputCheck.String()).First(&inputCheckProgram).Error != nil {
+	if r.DB.Where("id = (?)", problem.InputCheck.String()).First(&inputCheckProgram).Error != nil {
 		response.Fail(ctx, nil, "输入检查程序不存在")
 		return
 	}
@@ -466,7 +462,7 @@ inputCheck:
 	}
 
 	// TODO 查看程序是否在数据库中存在
-	if r.DB.Where("id = ?", problem.Standard.String()).First(&standardProgram).Error != nil {
+	if r.DB.Where("id = (?)", problem.Standard.String()).First(&standardProgram).Error != nil {
 		response.Fail(ctx, nil, "标准程序不存在")
 		return
 	}
@@ -503,7 +499,7 @@ special:
 		}
 
 		// TODO 查看程序是否在数据库中存在
-		if r.DB.Where("id = ?", problem.SpecialJudge.String()).First(&specialJudgeProgram).Error != nil {
+		if r.DB.Where("id = (?)", problem.SpecialJudge.String()).First(&specialJudgeProgram).Error != nil {
 			if recordoutput != hackoutput {
 				goto success
 			}

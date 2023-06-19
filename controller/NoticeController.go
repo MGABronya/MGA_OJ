@@ -66,7 +66,7 @@ func (n NoticeController) Create(ctx *gin.Context) {
 	}
 
 	// TODO 查看比赛是否在数据库中存在
-	if n.DB.Where("id = ?", id).First(&competition).Error != nil {
+	if n.DB.Where("id = (?)", id).First(&competition).Error != nil {
 		response.Fail(ctx, nil, "比赛不存在")
 		return
 	}
@@ -85,7 +85,7 @@ leep:
 
 	// TODO 查看是否有权给比赛添加题目
 	if competition.UserId != user.ID {
-		if n.DB.Where("group_id = ? and user_id = ?", competition.GroupId, user.ID).First(&model.UserList{}).Error != nil {
+		if n.DB.Where("group_id = (?) and user_id = (?)", competition.GroupId, user.ID).First(&model.UserList{}).Error != nil {
 			response.Fail(ctx, nil, "无权为比赛添加公告")
 			return
 		}
@@ -143,7 +143,7 @@ func (n NoticeController) Publish(ctx *gin.Context) {
 	}
 
 	// TODO 查看比赛是否在数据库中存在
-	if n.DB.Where("id = ?", id).First(&competition).Error != nil {
+	if n.DB.Where("id = (?)", id).First(&competition).Error != nil {
 		response.Fail(ctx, nil, "比赛不存在")
 		return
 	}
@@ -174,16 +174,12 @@ leep:
 	defer ws.Close()
 	// TODO 监听消息
 	for msg := range ch {
-		// TODO 读取ws中的数据
-		_, _, err := ws.ReadMessage()
-		// TODO 断开连接
-		if err != nil {
-			break
-		}
 		var notice model.Notice
 		json.Unmarshal([]byte(msg.Payload), &notice)
 		// TODO 写入ws数据
-		ws.WriteJSON(notice)
+		if err := ws.WriteJSON(notice); err != nil {
+			break
+		}
 	}
 }
 
@@ -213,7 +209,7 @@ func (n NoticeController) Show(ctx *gin.Context) {
 	}
 
 	// TODO 查看公告是否在数据库中存在
-	if n.DB.Where("id = ?", id).First(&notice).Error != nil {
+	if n.DB.Where("id = (?)", id).First(&notice).Error != nil {
 		response.Fail(ctx, nil, "公告不存在")
 		return
 	}
@@ -243,10 +239,10 @@ func (n NoticeController) PageList(ctx *gin.Context) {
 
 	var notices []model.Notice
 
-	n.DB.Where("competition_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&notices)
+	n.DB.Where("competition_id = (?)", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&notices)
 	var total int64
 
-	n.DB.Where("competition_id = ?", id).Model(model.Notice{}).Count(&total)
+	n.DB.Where("competition_id = (?)", id).Model(model.Notice{}).Count(&total)
 
 	response.Success(ctx, gin.H{"notices": notices, "total": total}, "成功")
 }

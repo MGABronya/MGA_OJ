@@ -37,7 +37,7 @@ func (thread *Thread) BeforeCreate(scope *gorm.DB) error {
 // @param    tx *gorm.DB       接收一个数据库指针
 // @return   err error		   返回一个错误信息
 func (t *Thread) BeforDelete(tx *gorm.DB) (err error) {
-	tx = tx.Where("thread_id = ?", t.ID)
+	tx = tx.Where("thread_id = (?)", t.ID)
 
 	// TODO 删除回复点赞
 	tx.Delete(&ThreadLike{})

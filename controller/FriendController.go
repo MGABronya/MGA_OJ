@@ -48,7 +48,7 @@ func (f FriendController) Apply(ctx *gin.Context) {
 	var friend model.User
 
 	// TODO 查看好友是否存在
-	if f.DB.Where("id = ?", id).First(&friend).Error != nil {
+	if f.DB.Where("id = (?)", id).First(&friend).Error != nil {
 		response.Fail(ctx, nil, "指定用户不存在")
 		return
 	}
@@ -58,7 +58,7 @@ func (f FriendController) Apply(ctx *gin.Context) {
 	user := tuser.(model.User)
 
 	// TODO 查看用户是否已经加入好友
-	if f.DB.Where("user_id = ? and friend_id = ?", user.ID, friend.ID).First(&model.Friend{}).Error == nil || f.DB.Where("user_id = ? and friend_id = ?", friend.ID, user.ID).First(&model.Friend{}).Error == nil {
+	if f.DB.Where("user_id = (?) and friend_id = (?)", user.ID, friend.ID).First(&model.Friend{}).Error == nil || f.DB.Where("user_id = (?) and friend_id = (?)", friend.ID, user.ID).First(&model.Friend{}).Error == nil {
 		response.Fail(ctx, nil, "已加入好友")
 		return
 	}
@@ -66,13 +66,13 @@ func (f FriendController) Apply(ctx *gin.Context) {
 	var friendApply model.FriendApply
 
 	// TODO 查看是否重复申请
-	if f.DB.Where("user_id = ? and friend_id = ?", user.ID, friend.ID).First(&friendApply).Error == nil && friendApply.Condition {
+	if f.DB.Where("user_id = (?) and friend_id = (?)", user.ID, friend.ID).First(&friendApply).Error == nil && friendApply.Condition {
 		response.Fail(ctx, nil, "已发送过申请")
 		return
 	}
 
 	// TODO 查看是否被拉黑
-	if f.DB.Where("user_id = ? and owner_id = ?", user.ID, friend.ID).First(&model.FriendBlock{}).Error == nil {
+	if f.DB.Where("user_id = (?) and owner_id = (?)", user.ID, friend.ID).First(&model.FriendBlock{}).Error == nil {
 		response.Fail(ctx, nil, "已被拉黑")
 		return
 	}
@@ -110,7 +110,7 @@ func (f FriendController) Consent(ctx *gin.Context) {
 	var friendApply model.FriendApply
 
 	// TODO 查看申请是否存在
-	if f.DB.Where("id = ?", id).First(&friendApply).Error != nil {
+	if f.DB.Where("id = (?)", id).First(&friendApply).Error != nil {
 		response.Fail(ctx, nil, "申请不存在")
 		return
 	}
@@ -120,7 +120,7 @@ func (f FriendController) Consent(ctx *gin.Context) {
 	user := tuser.(model.User)
 
 	// TODO 查看用户是否已经加入好友
-	if f.DB.Where("user_id = ? and friend_id = ?", friendApply.UserId, friendApply.FriendId).First(&model.Friend{}).Error == nil || f.DB.Where("user_id = ? and friend_id = ?", friendApply.FriendId, friendApply.UserId).First(&model.Friend{}).Error == nil {
+	if f.DB.Where("user_id = (?) and friend_id = (?)", friendApply.UserId, friendApply.FriendId).First(&model.Friend{}).Error == nil || f.DB.Where("user_id = (?) and friend_id = (?)", friendApply.FriendId, friendApply.UserId).First(&model.Friend{}).Error == nil {
 		response.Fail(ctx, nil, "已加入好友")
 		return
 	}
@@ -170,9 +170,9 @@ func (f FriendController) ApplyingList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看申请的数量
-	f.DB.Where("user_id = ?", user.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&friendApplys)
+	f.DB.Where("user_id = (?)", user.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&friendApplys)
 
-	f.DB.Where("user_id = ?", user.ID).Model(model.FriendApply{}).Count(&total)
+	f.DB.Where("user_id = (?)", user.ID).Model(model.FriendApply{}).Count(&total)
 
 	response.Success(ctx, gin.H{"friendApplys": friendApplys, "total": total}, "查看成功")
 }
@@ -198,9 +198,9 @@ func (f FriendController) AppliedList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看申请的数量
-	f.DB.Where("friend_id = ?", user.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&friendApplys)
+	f.DB.Where("friend_id = (?)", user.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&friendApplys)
 
-	f.DB.Where("friend_id = ?", user.ID).Model(model.FriendApply{}).Count(&total)
+	f.DB.Where("friend_id = (?)", user.ID).Model(model.FriendApply{}).Count(&total)
 
 	response.Success(ctx, gin.H{"friendApplys": friendApplys, "total": total}, "查看成功")
 }
@@ -220,14 +220,14 @@ func (f FriendController) Quit(ctx *gin.Context) {
 	user := tuser.(model.User)
 
 	// TODO 查看用户是否已经加入好友
-	if f.DB.Where("user_id = ? and friend_id = ?", user.ID, id).First(&model.Friend{}).Error != nil && f.DB.Where("user_id = ? and friend_id = ?", id, user.ID).First(&model.Friend{}).Error != nil {
+	if f.DB.Where("user_id = (?) and friend_id = (?)", user.ID, id).First(&model.Friend{}).Error != nil && f.DB.Where("user_id = (?) and friend_id = (?)", id, user.ID).First(&model.Friend{}).Error != nil {
 		response.Fail(ctx, nil, "未成为好友")
 		return
 	}
 
 	// TODO 在用户中删除用户
-	f.DB.Where("user_id = ? and friend_id = ?", user.ID, id).Delete(&model.Friend{})
-	f.DB.Where("user_id = ? and friend_id = ?", id, user.ID).Delete(&model.Friend{})
+	f.DB.Where("user_id = (?) and friend_id = (?)", user.ID, id).Delete(&model.Friend{})
+	f.DB.Where("user_id = (?) and friend_id = (?)", id, user.ID).Delete(&model.Friend{})
 
 	// TODO 成功
 	response.Success(ctx, nil, "删除成功")
@@ -246,7 +246,7 @@ func (f FriendController) Refuse(ctx *gin.Context) {
 	var friendApply model.FriendApply
 
 	// TODO 查看申请是否存在
-	if f.DB.Where("id = ?", id).First(&friendApply).Error != nil {
+	if f.DB.Where("id = (?)", id).First(&friendApply).Error != nil {
 		response.Fail(ctx, nil, "申请不存在")
 		return
 	}
@@ -283,7 +283,7 @@ func (f FriendController) Block(ctx *gin.Context) {
 	var user model.User
 
 	// TODO 查看用户是否存在
-	if f.DB.Where("id = ?", user_id).First(&user).Error != nil {
+	if f.DB.Where("id = (?)", user_id).First(&user).Error != nil {
 		response.Fail(ctx, nil, "用户不存在")
 		return
 	}
@@ -293,7 +293,7 @@ func (f FriendController) Block(ctx *gin.Context) {
 	owner := tuser.(model.User)
 
 	// TODO 查看当前用户是否已经拉黑
-	if f.DB.Where("owner = ? and user_id = ?", owner.ID, user.ID).First(&model.FriendBlock{}).Error == nil {
+	if f.DB.Where("owner = (?) and user_id = (?)", owner.ID, user.ID).First(&model.FriendBlock{}).Error == nil {
 		response.Fail(ctx, nil, "用户已拉黑")
 	}
 
@@ -325,7 +325,7 @@ func (f FriendController) RemoveBlack(ctx *gin.Context) {
 	var user model.User
 
 	// TODO 查看用户是否存在
-	if f.DB.Where("id = ?", id).First(&user).Error != nil {
+	if f.DB.Where("id = (?)", id).First(&user).Error != nil {
 		response.Fail(ctx, nil, "用户不存在")
 		return
 	}
@@ -337,7 +337,7 @@ func (f FriendController) RemoveBlack(ctx *gin.Context) {
 	var friendBlock model.FriendBlock
 
 	// TODO 查看当前用户是否已经拉黑
-	if f.DB.Where("user_id = ? and owner_id = ?", user.ID, owner.ID).First(&friendBlock).Error != nil {
+	if f.DB.Where("user_id = (?) and owner_id = (?)", user.ID, owner.ID).First(&friendBlock).Error != nil {
 		response.Fail(ctx, nil, "用户未被拉黑")
 	}
 
@@ -369,9 +369,9 @@ func (f FriendController) BlackList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看黑名单
-	f.DB.Where("owner_id = ?", user.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&friendBlocks)
+	f.DB.Where("owner_id = (?)", user.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&friendBlocks)
 
-	f.DB.Where("owner_id = ?", user.ID).Model(model.FriendBlock{}).Count(&total)
+	f.DB.Where("owner_id = (?)", user.ID).Model(model.FriendBlock{}).Count(&total)
 
 	response.Success(ctx, gin.H{"friendBlocks": friendBlocks, "total": total}, "查看成功")
 }

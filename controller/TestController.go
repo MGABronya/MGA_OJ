@@ -151,7 +151,7 @@ func Test(requestTest vo.TestRequest) (output string, condition string, memory u
 	// TODO 编译超时
 	case <-after:
 		cmd.Process.Kill()
-		condition = "Compile timeout"
+		condition = "Compile Time Out"
 		return
 	case err = <-done:
 	}
@@ -180,7 +180,7 @@ func Test(requestTest vo.TestRequest) (output string, condition string, memory u
 	// TODO 权限超时
 	case <-after:
 		cmd.Process.Kill()
-		condition = "Compile timeout"
+		condition = "Compile Time Out"
 		return
 	case err = <-done:
 	}

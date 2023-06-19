@@ -74,7 +74,7 @@ func (p ProblemMCQsController) Create(ctx *gin.Context) {
 	}
 
 	// TODO 查看测试是否在数据库中存在
-	if p.DB.Where("id = ?", id).First(&exam).Error != nil {
+	if p.DB.Where("id = (?)", id).First(&exam).Error != nil {
 		response.Fail(ctx, nil, "测试不存在")
 		return
 	}
@@ -99,7 +99,7 @@ levp:
 	}
 
 	// TODO 查看测试是否在数据库中存在
-	if p.DB.Where("id = ?", exam.GroupId).First(&group).Error != nil {
+	if p.DB.Where("id = (?)", exam.GroupId).First(&group).Error != nil {
 		response.Fail(ctx, nil, "测试不存在")
 		return
 	}
@@ -133,7 +133,7 @@ levp:
 	}
 
 	// TODO 成功
-	response.Success(ctx, nil, "创建成功")
+	response.Success(ctx, gin.H{"problemMCQs": ProblemMCQs}, "创建成功")
 }
 
 // @title    Update
@@ -159,7 +159,7 @@ func (p ProblemMCQsController) Update(ctx *gin.Context) {
 
 	var problemMCQs model.ProblemMCQs
 
-	if p.DB.Where("id = ?", id).First(&problemMCQs) != nil {
+	if p.DB.Where("id = (?)", id).First(&problemMCQs).Error != nil {
 		response.Fail(ctx, nil, "选择题不存在")
 		return
 	}
@@ -178,7 +178,7 @@ func (p ProblemMCQsController) Update(ctx *gin.Context) {
 	}
 
 	// TODO 查看用户组是否在数据库中存在
-	if p.DB.Where("id = ?", problemMCQs.ExamId).First(&exam).Error != nil {
+	if p.DB.Where("id = (?)", problemMCQs.ExamId).First(&exam).Error != nil {
 		response.Fail(ctx, nil, "用户组不存在")
 		return
 	}
@@ -203,7 +203,7 @@ leap:
 	}
 
 	// TODO 查看用户组是否在数据库中存在
-	if p.DB.Where("id = ?", exam.GroupId).First(&group).Error != nil {
+	if p.DB.Where("id = (?)", exam.GroupId).First(&group).Error != nil {
 		response.Fail(ctx, nil, "用户组不存在")
 		return
 	}
@@ -230,7 +230,7 @@ levp:
 	}
 
 	// TODO 更新选择题内容
-	p.DB.Model(model.ProblemMCQs{}).Where("id = ?", id).Updates(ProblemMCQsUpdate)
+	p.DB.Model(model.ProblemMCQs{}).Where("id = (?)", id).Updates(ProblemMCQsUpdate)
 
 	// TODO 解码失败，删除字段
 	p.Redis.HDel(ctx, "ProblemMCQs", id)
@@ -265,7 +265,7 @@ func (p ProblemMCQsController) Show(ctx *gin.Context) {
 	}
 
 	// TODO 查看选择题是否在数据库中存在
-	if p.DB.Where("id = ?", id).First(&problemMCQs).Error != nil {
+	if p.DB.Where("id = (?)", id).First(&problemMCQs).Error != nil {
 		response.Fail(ctx, nil, "选择题不存在")
 		return
 	}
@@ -289,7 +289,7 @@ leap:
 	}
 
 	// TODO 查看选择题是否在数据库中存在
-	if p.DB.Where("id = ?", problemMCQs.ExamId).First(&exam).Error != nil {
+	if p.DB.Where("id = (?)", problemMCQs.ExamId).First(&exam).Error != nil {
 		response.Fail(ctx, nil, "测试不存在")
 		return
 	}
@@ -313,7 +313,7 @@ levp:
 	}
 
 	// TODO 查看用户组是否在数据库中存在
-	if p.DB.Where("id = ?", exam.GroupId).First(&group).Error != nil {
+	if p.DB.Where("id = (?)", exam.GroupId).First(&group).Error != nil {
 		response.Fail(ctx, nil, "小组不存在")
 		return
 	}
@@ -324,7 +324,7 @@ levp:
 	}
 letp:
 	// TODO 查看用户是否在指定用户组
-	if p.DB.Where("user_id = ? and group_id = ?", user.ID, exam.GroupId).First(&model.UserList{}).Error != nil {
+	if p.DB.Where("user_id = (?) and group_id = (?)", user.ID, exam.GroupId).First(&model.UserList{}).Error != nil {
 		response.Fail(ctx, nil, "不在指定用户组")
 		return
 	}
@@ -357,7 +357,7 @@ func (p ProblemMCQsController) Delete(ctx *gin.Context) {
 	var problemMCQs model.ProblemMCQs
 
 	// TODO 查看选择题是否存在
-	if p.DB.Where("id = ?", id).First(&problemMCQs).Error != nil {
+	if p.DB.Where("id = (?)", id).First(&problemMCQs).Error != nil {
 		response.Fail(ctx, nil, "选择题不存在")
 		return
 	}
@@ -376,7 +376,7 @@ func (p ProblemMCQsController) Delete(ctx *gin.Context) {
 	}
 
 	// TODO 查看测试是否在数据库中存在
-	if p.DB.Where("id = ?", problemMCQs.ExamId).First(&exam).Error != nil {
+	if p.DB.Where("id = (?)", problemMCQs.ExamId).First(&exam).Error != nil {
 		response.Fail(ctx, nil, "测试不存在")
 		return
 	}
@@ -400,7 +400,7 @@ levp:
 	}
 
 	// TODO 查看选择题是否在数据库中存在
-	if p.DB.Where("id = ?", exam.GroupId).First(&group).Error != nil {
+	if p.DB.Where("id = (?)", exam.GroupId).First(&group).Error != nil {
 		response.Fail(ctx, nil, "小组不存在")
 		return
 	}
@@ -452,7 +452,7 @@ func (p ProblemMCQsController) PageList(ctx *gin.Context) {
 	}
 
 	// TODO 查看选择题是否在数据库中存在
-	if p.DB.Where("id = ?", id).First(&exam).Error != nil {
+	if p.DB.Where("id = (?)", id).First(&exam).Error != nil {
 		response.Fail(ctx, nil, "测试不存在")
 		return
 	}
@@ -476,7 +476,7 @@ levp:
 	}
 
 	// TODO 查看选择题是否在数据库中存在
-	if p.DB.Where("id = ?", exam.GroupId).First(&group).Error != nil {
+	if p.DB.Where("id = (?)", exam.GroupId).First(&group).Error != nil {
 		response.Fail(ctx, nil, "小组不存在")
 		return
 	}
@@ -487,7 +487,7 @@ levp:
 	}
 letp:
 	// TODO 查看用户是否在指定用户组
-	if p.DB.Where("user_id = ? and group_id = ?", user.ID, exam.GroupId).First(&model.UserList{}).Error != nil {
+	if p.DB.Where("user_id = (?) and group_id = (?)", user.ID, exam.GroupId).First(&model.UserList{}).Error != nil {
 		response.Fail(ctx, nil, "不在指定用户组")
 		return
 	}
@@ -501,10 +501,10 @@ letp:
 	var problemMCQss []model.ProblemMCQs
 
 	// TODO 查找所有分页中可见的条目
-	p.DB.Where("exam_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemMCQss)
+	p.DB.Where("exam_id = (?)", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemMCQss)
 
 	var total int64
-	p.DB.Where("exam_id = ?", id).Model(model.ProblemMCQs{}).Count(&total)
+	p.DB.Where("exam_id = (?)", id).Model(model.ProblemMCQs{}).Count(&total)
 
 	// TODO 查看用户是否是组长
 	if group.LeaderId != user.ID {
@@ -550,7 +550,7 @@ func (p ProblemMCQsController) Submit(ctx *gin.Context) {
 	}
 
 	// TODO 查看选择题是否在数据库中存在
-	if p.DB.Where("id = ?", id).First(&problemMCQs).Error != nil {
+	if p.DB.Where("id = (?)", id).First(&problemMCQs).Error != nil {
 		response.Fail(ctx, nil, "选择题不存在")
 		return
 	}
@@ -574,7 +574,7 @@ leap:
 	}
 
 	// TODO 查看选择题是否在数据库中存在
-	if p.DB.Where("id = ?", problemMCQs.ExamId).First(&exam).Error != nil {
+	if p.DB.Where("id = (?)", problemMCQs.ExamId).First(&exam).Error != nil {
 		response.Fail(ctx, nil, "测试不存在")
 		return
 	}
@@ -603,7 +603,7 @@ levp:
 	}
 
 	// TODO 查看用户组是否在数据库中存在
-	if p.DB.Where("id = ?", exam.GroupId).First(&group).Error != nil {
+	if p.DB.Where("id = (?)", exam.GroupId).First(&group).Error != nil {
 		response.Fail(ctx, nil, "小组不存在")
 		return
 	}
@@ -614,7 +614,7 @@ levp:
 	}
 letp:
 	// TODO 查看用户是否在指定用户组
-	if p.DB.Where("user_id = ? and group_id = ?", user.ID, exam.GroupId).First(&model.UserList{}).Error != nil {
+	if p.DB.Where("user_id = (?) and group_id = (?)", user.ID, exam.GroupId).First(&model.UserList{}).Error != nil {
 		response.Fail(ctx, nil, "不在指定用户组")
 		return
 	}
@@ -626,15 +626,15 @@ letp:
 	}
 
 	// TODO 查看先前是否由提交，如为第一次提交，记录分数
-	if p.DB.Where("user_id = ? and problem_mcqs_id = ?").First(&model.ProblemMCQsSubmit{}).Error != nil {
+	if p.DB.Where("user_id = (?) and problem_mcqs_id = (?)").First(&model.ProblemMCQsSubmit{}).Error != nil {
 		var examScore model.ExamScore
-		if p.DB.Where("user_id = ? and exam_id = ?", user.ID, exam.ID).First(&examScore).Error != nil {
+		if p.DB.Where("user_id = (?) and exam_id = (?)", user.ID, exam.ID).First(&examScore).Error != nil {
 			examScore.UserId = user.ID
 			examScore.ExamId = exam.ID
 			examScore.Score += score
 			p.DB.Create(&examScore)
 		} else {
-			p.DB.Model(model.ExamScore{}).Where("user_id = ? and exam_id = ?", user.ID, exam.ID).Update("score", examScore.Score+score)
+			p.DB.Model(model.ExamScore{}).Where("user_id = (?) and exam_id = (?)", user.ID, exam.ID).Update("score", examScore.Score+score)
 		}
 	} else if exam.Type == "IO" {
 		response.Fail(ctx, nil, "已经提交，不可修改")
@@ -671,7 +671,7 @@ func (p ProblemMCQsController) ShowSubmit(ctx *gin.Context) {
 
 	var problemMCQsSubmit model.ProblemMCQsSubmit
 
-	if p.DB.Where("id = ?", id).First(&problemMCQsSubmit).Error != nil {
+	if p.DB.Where("id = (?)", id).First(&problemMCQsSubmit).Error != nil {
 		response.Fail(ctx, nil, "提交不存在")
 		return
 	}
@@ -691,7 +691,7 @@ func (p ProblemMCQsController) ShowSubmit(ctx *gin.Context) {
 	}
 
 	// TODO 查看选择题是否在数据库中存在
-	if p.DB.Where("id = ?", problemMCQsSubmit.ProblemMCQsId).First(&problemMCQs).Error != nil {
+	if p.DB.Where("id = (?)", problemMCQsSubmit.ProblemMCQsId).First(&problemMCQs).Error != nil {
 		response.Fail(ctx, nil, "选择题不存在")
 		return
 	}
@@ -715,7 +715,7 @@ leap:
 	}
 
 	// TODO 查看选择题是否在数据库中存在
-	if p.DB.Where("id = ?", problemMCQs.ExamId).First(&exam).Error != nil {
+	if p.DB.Where("id = (?)", problemMCQs.ExamId).First(&exam).Error != nil {
 		response.Fail(ctx, nil, "测试不存在")
 		return
 	}
@@ -739,7 +739,7 @@ levp:
 	}
 
 	// TODO 查看用户组是否在数据库中存在
-	if p.DB.Where("id = ?", exam.GroupId).First(&group).Error != nil {
+	if p.DB.Where("id = (?)", exam.GroupId).First(&group).Error != nil {
 		response.Fail(ctx, nil, "小组不存在")
 		return
 	}
@@ -793,7 +793,7 @@ func (p ProblemMCQsController) SubmitList(ctx *gin.Context) {
 	}
 
 	// TODO 查看选择题是否在数据库中存在
-	if p.DB.Where("id = ?", problem_id).First(&problemMCQs).Error != nil {
+	if p.DB.Where("id = (?)", problem_id).First(&problemMCQs).Error != nil {
 		response.Fail(ctx, nil, "选择题不存在")
 		return
 	}
@@ -817,7 +817,7 @@ leap:
 	}
 
 	// TODO 查看选择题是否在数据库中存在
-	if p.DB.Where("id = ?", problemMCQs.ExamId).First(&exam).Error != nil {
+	if p.DB.Where("id = (?)", problemMCQs.ExamId).First(&exam).Error != nil {
 		response.Fail(ctx, nil, "测试不存在")
 		return
 	}
@@ -841,7 +841,7 @@ levp:
 	}
 
 	// TODO 查看用户组是否在数据库中存在
-	if p.DB.Where("id = ?", exam.GroupId).First(&group).Error != nil {
+	if p.DB.Where("id = (?)", exam.GroupId).First(&group).Error != nil {
 		response.Fail(ctx, nil, "小组不存在")
 		return
 	}
@@ -858,10 +858,10 @@ letp:
 		return
 	}
 	var problemMCQsSubmits []model.ProblemMCQsSubmit
-	p.DB.Where("problem_mcqs_id = ? and user_id = ?", problemMCQs.ID, user_id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemMCQs)
+	p.DB.Where("problem_mcqs_id = (?) and user_id = (?)", problemMCQs.ID, user_id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemMCQs)
 
 	var total int64
-	p.DB.Where("problem_mcqs_id = ? and user_id = ?", problemMCQs.ID, user_id).Model(model.ProblemMCQsSubmit{}).Count(&total)
+	p.DB.Where("problem_mcqs_id = (?) and user_id = (?)", problemMCQs.ID, user_id).Model(model.ProblemMCQsSubmit{}).Count(&total)
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"problemMCQsSubmits": problemMCQsSubmits, "total": total}, "成功")
 }

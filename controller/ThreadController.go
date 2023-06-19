@@ -66,7 +66,7 @@ func (t ThreadController) Create(ctx *gin.Context) {
 	}
 
 	// TODO 查看题解是否在数据库中存在
-	if t.DB.Where("id = ?", id).First(&post).Error != nil {
+	if t.DB.Where("id = (?)", id).First(&post).Error != nil {
 		response.Fail(ctx, nil, "题解不存在")
 		return
 	}
@@ -126,7 +126,7 @@ func (t ThreadController) Update(ctx *gin.Context) {
 
 	var Thread model.Thread
 
-	if t.DB.Where("id = ?", id).First(&Thread) != nil {
+	if t.DB.Where("id = (?)", id).First(&Thread).Error != nil {
 		response.Fail(ctx, nil, "题解的回复不存在")
 		return
 	}
@@ -144,7 +144,7 @@ func (t ThreadController) Update(ctx *gin.Context) {
 	}
 
 	// TODO 更新题解的回复内容
-	t.DB.Where("id = ?", id).Updates(threadUpdate)
+	t.DB.Where("id = (?)", id).Updates(threadUpdate)
 
 	// TODO 移除损坏数据
 	t.Redis.HDel(ctx, "Thread", id)
@@ -176,7 +176,7 @@ func (t ThreadController) Show(ctx *gin.Context) {
 	}
 
 	// TODO 查看题解的回复是否在数据库中存在
-	if t.DB.Where("id = ?", id).First(&thread).Error != nil {
+	if t.DB.Where("id = (?)", id).First(&thread).Error != nil {
 		response.Fail(ctx, nil, "题解的回复不存在")
 		return
 	}
@@ -200,7 +200,7 @@ func (t ThreadController) Delete(ctx *gin.Context) {
 	var thread model.Thread
 
 	// TODO 查看题解的回复是否存在
-	if t.DB.Where("id = ?", id).First(&thread).Error != nil {
+	if t.DB.Where("id = (?)", id).First(&thread).Error != nil {
 		response.Fail(ctx, nil, "题解的回复不存在")
 		return
 	}
@@ -219,11 +219,11 @@ func (t ThreadController) Delete(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞的数量
-	t.DB.Where("thread_id = ? and like = true", id).Model(model.ThreadLike{}).Count(&total)
+	t.DB.Where("thread_id = (?) and like = true", id).Model(model.ThreadLike{}).Count(&total)
 	t.Redis.ZIncrBy(ctx, "UserLike", -float64(total), thread.UserId.String())
 
 	// TODO 查看点踩的数量
-	t.DB.Where("thread_id = ? and like = false", id).Model(model.ThreadLike{}).Count(&total)
+	t.DB.Where("thread_id = (?) and like = false", id).Model(model.ThreadLike{}).Count(&total)
 	t.Redis.ZIncrBy(ctx, "UserUnLike", -float64(total), thread.UserId.String())
 
 	// TODO 删除题解的回复
@@ -255,10 +255,10 @@ func (t ThreadController) PageList(ctx *gin.Context) {
 	var threads []model.Thread
 
 	// TODO 查找所有分页中可见的条目
-	t.DB.Where("post_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&threads)
+	t.DB.Where("post_id = (?)", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&threads)
 
 	var total int64
-	t.DB.Where("post_id = ?", id).Model(model.Thread{}).Count(&total)
+	t.DB.Where("post_id = (?)", id).Model(model.Thread{}).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"threads": threads, "total": total}, "成功")
@@ -281,10 +281,10 @@ func (t ThreadController) UserList(ctx *gin.Context) {
 	var threads []model.Thread
 
 	// TODO 查找所有分页中可见的条目
-	t.DB.Where("user_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&threads)
+	t.DB.Where("user_id = (?)", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&threads)
 
 	var total int64
-	t.DB.Where("user_id = ?", id).Model(model.Thread{}).Count(&total)
+	t.DB.Where("user_id = (?)", id).Model(model.Thread{}).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"threads": threads, "total": total}, "成功")
@@ -346,7 +346,7 @@ func (t ThreadController) Like(ctx *gin.Context) {
 	}
 
 	// TODO 查看题解的回复是否在数据库中存在
-	if t.DB.Where("id = ?", id).First(&thread).Error != nil {
+	if t.DB.Where("id = (?)", id).First(&thread).Error != nil {
 		response.Fail(ctx, nil, "题解的回复不存在")
 		return
 	}
@@ -363,7 +363,7 @@ leep:
 
 	var threadLike model.ThreadLike
 	// TODO 如果没有点赞或者点踩
-	if t.DB.Where("user_id = ? and thread_id = ?", user.ID, id).First(&threadLike).Error != nil {
+	if t.DB.Where("user_id = (?) and thread_id = (?)", user.ID, id).First(&threadLike).Error != nil {
 		// TODO 插入数据
 		threadLike = model.ThreadLike{
 			ThreadId: thread.ID,
@@ -383,7 +383,7 @@ leep:
 			t.Redis.ZIncrBy(ctx, "ThreadHot"+thread.PostId.String(), 10.0, thread.ID.String())
 			t.Redis.ZIncrBy(ctx, "UserUnLike", -1, thread.UserId.String())
 		}
-		t.DB.Where("user_id = ? and thread_id = ?", user.ID, id).Model(&model.ThreadLike{}).Update("like", like)
+		t.DB.Where("user_id = (?) and thread_id = (?)", user.ID, id).Model(&model.ThreadLike{}).Update("like", like)
 	}
 
 	// TODO 热度计算
@@ -425,7 +425,7 @@ func (t ThreadController) CancelLike(ctx *gin.Context) {
 	}
 
 	// TODO 查看题解的回复是否在数据库中存在
-	if t.DB.Where("id = ?", id).First(&thread).Error != nil {
+	if t.DB.Where("id = (?)", id).First(&thread).Error != nil {
 		response.Fail(ctx, nil, "题解的回复不存在")
 		return
 	}
@@ -437,7 +437,7 @@ func (t ThreadController) CancelLike(ctx *gin.Context) {
 leep:
 	// TODO 查看是否已经点赞或者点踩
 	var threadLike model.ThreadLike
-	if t.DB.Where("user_id = ? and thread_id = ?", user.ID, id).First(&threadLike).Error != nil {
+	if t.DB.Where("user_id = (?) and thread_id = (?)", user.ID, id).First(&threadLike).Error != nil {
 		response.Fail(ctx, nil, "未点赞或点踩")
 		return
 	}
@@ -452,7 +452,7 @@ leep:
 	}
 
 	// TODO 取消点赞或者点踩
-	t.DB.Where("user_id = ? and thread_id = ?", user.ID, id).Delete(&model.ThreadLike{})
+	t.DB.Where("user_id = (?) and thread_id = (?)", user.ID, id).Delete(&model.ThreadLike{})
 
 	response.Success(ctx, nil, "取消成功")
 }
@@ -472,7 +472,7 @@ func (t ThreadController) LikeNumber(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	t.DB.Where("thread_id = ? and like = ?", id, like).Model(model.ThreadLike{}).Count(&total)
+	t.DB.Where("thread_id = (?) and like = (?)", id, like).Model(model.ThreadLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"total": total}, "查看成功")
 }
@@ -499,9 +499,9 @@ func (t ThreadController) LikeList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	t.DB.Where("thread_id = ? and like = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&threadLikes)
+	t.DB.Where("thread_id = (?) and like = (?)", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&threadLikes)
 
-	t.DB.Where("thread_id = ? and like = ?", id, like).Model(model.ThreadLike{}).Count(&total)
+	t.DB.Where("thread_id = (?) and like = (?)", id, like).Model(model.ThreadLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"threadLikes": threadLikes, "total": total}, "查看成功")
 }
@@ -522,7 +522,7 @@ func (t ThreadController) LikeShow(ctx *gin.Context) {
 	var threadLike model.ThreadLike
 
 	// TODO 查看点赞状态
-	if t.DB.Where("user_id = ? and thread_id = ?", user.ID, id).First(&threadLike).Error != nil {
+	if t.DB.Where("user_id = (?) and thread_id = (?)", user.ID, id).First(&threadLike).Error != nil {
 		response.Success(ctx, gin.H{"like": 0}, "暂无状态")
 		return
 	}
@@ -558,9 +558,9 @@ func (t ThreadController) Likes(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	t.DB.Where("user_id = ? and like = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&threadLikes)
+	t.DB.Where("user_id = (?) and like = (?)", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&threadLikes)
 
-	t.DB.Where("user_id = ? and like = ?", id, like).Model(model.ThreadLike{}).Count(&total)
+	t.DB.Where("user_id = (?) and like = (?)", id, like).Model(model.ThreadLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"threadLikes": threadLikes, "total": total}, "查看成功")
 }

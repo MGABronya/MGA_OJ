@@ -94,16 +94,13 @@ func (c CompetitionRandomSingleController) EnterPublish(ctx *gin.Context) {
 	defer ws.Close()
 	// TODO 监听消息
 	for msg := range ch {
-		// TODO 读取ws中的数据
-		_, _, err := ws.ReadMessage()
-		// TODO 断开连接
-		if err != nil {
-			break
-		}
 		var enter redis.Z
 		json.Unmarshal([]byte(msg.Payload), &enter)
 		// TODO 写入ws数据
-		ws.WriteJSON(enter)
+		// TODO 断开连接
+		if err := ws.WriteJSON(enter); err != nil {
+			break
+		}
 	}
 }
 
@@ -152,6 +149,9 @@ func (c CompetitionRandomSingleController) CancelEnter(ctx *gin.Context) {
 	// TODO 查看当前比赛人数是否可以直接开始比赛
 	cks, _ := c.Redis.ZRangeWithScores(ctx, "CompetitionRSingle", 0, 0).Result()
 	total, _ := c.Redis.ZCard(ctx, "CompetitionRSingle").Result()
+	if len(cks) == 0 {
+		return
+	}
 	if CanStartSingleCompetition(total, cks[0].Score) {
 		competitionSingleStart.Reset(0)
 	} else {
@@ -269,7 +269,7 @@ func CompetitionRandomSingleGo() {
 					redi.HDel(ctx, "CaseSample", problems[i].ID.String())
 				}
 			}
-			db.Where("problem_id = ?", problems[i].ID).Find(&caseSamples)
+			db.Where("problem_id = (?)", problems[i].ID).Find(&caseSamples)
 			// TODO 将题目存入redis供下次使用
 			{
 				v, _ := json.Marshal(caseSamples)
@@ -293,7 +293,7 @@ func CompetitionRandomSingleGo() {
 			}
 
 			// TODO 查看题目是否在数据库中存在
-			db.Where("id = ?", problems[i]).Find(&cases)
+			db.Where("id = (?)", problems[i]).Find(&cases)
 			// TODO 将题目存入redis供下次使用
 			{
 				v, _ := json.Marshal(cases)

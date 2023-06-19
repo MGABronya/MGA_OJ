@@ -22,7 +22,7 @@ func LikeStatics() {
 
 	for i := range members {
 		var user model.User
-		if db.Where("id = ?", members[i].Member).First(&user).Error != nil {
+		if db.Where("id = (?)", members[i].Member).First(&user).Error != nil {
 			continue
 		}
 		user.LikeNum += int(members[i].Score)
@@ -40,7 +40,7 @@ func UnLikeStatics() {
 
 	for i := range members {
 		var user model.User
-		if db.Where("id = ?", members[i].Member).First(&user).Error != nil {
+		if db.Where("id = (?)", members[i].Member).First(&user).Error != nil {
 			continue
 		}
 		user.UnLikeNum += int(members[i].Score)
@@ -58,7 +58,7 @@ func CollectStatics() {
 
 	for i := range members {
 		var user model.User
-		if db.Where("id = ?", members[i].Member).First(&user).Error != nil {
+		if db.Where("id = (?)", members[i].Member).First(&user).Error != nil {
 			continue
 		}
 		user.CollectNum += int(members[i].Score)
@@ -76,7 +76,7 @@ func VisitStatics() {
 
 	for i := range members {
 		var user model.User
-		if db.Where("id = ?", members[i].Member).First(&user).Error != nil {
+		if db.Where("id = (?)", members[i].Member).First(&user).Error != nil {
 			continue
 		}
 		user.VisitNum += int(members[i].Score)

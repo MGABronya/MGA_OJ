@@ -44,11 +44,12 @@ type Single struct {
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (s Single) Handel(msg string) {
+	log.Println("Single work for record")
 	// TODO 单核处理，上锁
 	s.rw.Lock()
 	// TODO 确保资源归还
 	defer s.rw.Unlock()
-	var record model.Record
+	var record model.RecordCompetition
 	// TODO 先看redis中是否存在
 	if ok, _ := s.Redis.HExists(s.ctx, "RecordCompetition", msg).Result(); ok {
 		cate, _ := s.Redis.HGet(s.ctx, "RecordCompetition", msg).Result()
@@ -59,9 +60,8 @@ func (s Single) Handel(msg string) {
 			goto feep
 		}
 	}
-
 	// TODO 未能找到提交记录
-	if s.DB.Where("id = ?", msg).First(&record).Error != nil {
+	if s.DB.Where("id = (?)", msg).First(&record).Error != nil {
 		log.Printf("%s Record Disappear!!\n", msg)
 		return
 	}
@@ -80,9 +80,8 @@ feep:
 			s.Redis.HDel(s.ctx, "ProblemNew", id)
 		}
 	}
-
 	// TODO 查看题目是否在数据库中存在
-	if s.DB.Where("id = ?", id).First(&problem).Error != nil {
+	if s.DB.Where("id = (?)", id).First(&problem).Error != nil {
 		record.Condition = "Problem Doesn't Exist"
 		// TODO 将record存入redis
 		v, _ := json.Marshal(record)
@@ -96,7 +95,6 @@ feep:
 		v, _ := json.Marshal(problem)
 		s.Redis.HSet(s.ctx, "Problem", id, v)
 	}
-
 leep:
 	var competition model.Competition
 	// TODO 先看redis中是否存在
@@ -110,9 +108,8 @@ leep:
 			s.Redis.HDel(s.ctx, "Competition", problem.CompetitionId.String())
 		}
 	}
-
 	// TODO 查看比赛是否在数据库中存在
-	if s.DB.Where("id = ?", problem.CompetitionId.String()).First(&competition) != nil {
+	if s.DB.Where("id = (?)", problem.CompetitionId.String()).First(&competition).Error != nil {
 		record.Condition = "Competition Doesn't Exist"
 		// TODO 将record存入redis
 		v, _ := json.Marshal(record)
@@ -126,7 +123,6 @@ leep:
 		v, _ := json.Marshal(competition)
 		s.Redis.HSet(s.ctx, "Competition", problem.CompetitionId.String(), v)
 	}
-
 leap:
 	// TODO 发布订阅用于提交列表
 	recordList := vo.RecordList{
@@ -142,6 +138,7 @@ leap:
 		s.Redis.HSet(s.ctx, "RecordCompetition", fmt.Sprint(record.ID), v)
 		// TODO 将record存入mysql
 		s.DB.Save(&record)
+		log.Println("Record Save", record)
 		os.RemoveAll("./user-code")
 		os.MkdirAll("./user-code", 0751)
 		cmd1 := exec.Command("pgrep", "-u", "mgaoj")
@@ -162,7 +159,6 @@ leap:
 			return
 		}
 	}()
-
 	// TODO 一些准备工作
 	{
 		record.Condition = "Preparing"
@@ -196,7 +192,7 @@ leap:
 		}
 
 		// TODO 查看题目是否在数据库中存在
-		if s.DB.Where("problem_id = ?", id).Find(&cases).Error != nil {
+		if s.DB.Where("problem_id = (?)", id).Find(&cases).Error != nil {
 			record.Condition = "Input Doesn't Exist"
 			return
 		}
@@ -260,7 +256,7 @@ leap:
 		// TODO 编译超时
 		case <-after:
 			cmd.Process.Kill()
-			record.Condition = "Compile timeout"
+			record.Condition = "Compile Time Out"
 			return
 		case err = <-done:
 		}
@@ -272,7 +268,7 @@ leap:
 		}
 
 		// TODO 获取权限
-		cmd = cmdI.Chmod("./user-code/", id)
+		cmd = cmdI.Chmod("./user-code/", fileId)
 
 		// TODO 权限错误
 		if err := cmd.Start(); err != nil {
@@ -289,7 +285,7 @@ leap:
 		// TODO 权限超时
 		case <-after:
 			cmd.Process.Kill()
-			record.Condition = "Compile timeout"
+			record.Condition = "Compile Time Out"
 			return
 		case err = <-done:
 		}
@@ -402,7 +398,7 @@ leap:
 			}
 
 			// TODO 查看程序是否在数据库中存在
-			if s.DB.Where("id = ?", problem.SpecialJudge.String()).First(&specalJudge).Error != nil {
+			if s.DB.Where("id = (?)", problem.SpecialJudge.String()).First(&specalJudge).Error != nil {
 				goto outPut
 			}
 			// TODO 将题目存入redis供下次使用

@@ -74,7 +74,7 @@ func (e ExamController) Create(ctx *gin.Context) {
 	}
 
 	// TODO 查看用户组是否在数据库中存在
-	if e.DB.Where("id = ?", id).First(&group).Error != nil {
+	if e.DB.Where("id = (?)", id).First(&group).Error != nil {
 		response.Fail(ctx, nil, "用户组不存在")
 		return
 	}
@@ -130,7 +130,7 @@ levp:
 	}
 
 	// TODO 成功
-	response.Success(ctx, nil, "创建成功")
+	response.Success(ctx, gin.H{"exam": exam}, "创建成功")
 
 	// TODO 等待直至比赛结束
 	ExamTimer(ctx, e.Redis, e.DB, exam)
@@ -159,7 +159,7 @@ func (e ExamController) Update(ctx *gin.Context) {
 
 	var exam model.Exam
 
-	if e.DB.Where("id = ?", id).First(&exam) != nil {
+	if e.DB.Where("id = (?)", id).First(&exam).Error != nil {
 		response.Fail(ctx, nil, "测试不存在")
 		return
 	}
@@ -180,7 +180,7 @@ func (e ExamController) Update(ctx *gin.Context) {
 	}
 
 	// TODO 查看用户组是否在数据库中存在
-	if e.DB.Where("id = ?", exam.GroupId).First(&group).Error != nil {
+	if e.DB.Where("id = (?)", exam.GroupId).First(&group).Error != nil {
 		response.Fail(ctx, nil, "用户组不存在")
 		return
 	}
@@ -228,7 +228,7 @@ levp:
 	}
 
 	// TODO 更新测试内容
-	e.DB.Model(model.Exam{}).Where("id = ?", id).Updates(examUpdate)
+	e.DB.Model(model.Exam{}).Where("id = (?)", id).Updates(examUpdate)
 
 	// TODO 更新定时器
 	util.TimerMap[exam.ID].Reset(time.Until(time.Time(examUpdate.StartTime)))
@@ -266,7 +266,7 @@ func (e ExamController) Show(ctx *gin.Context) {
 	}
 
 	// TODO 查看测试是否在数据库中存在
-	if e.DB.Where("id = ?", id).First(&exam).Error != nil {
+	if e.DB.Where("id = (?)", id).First(&exam).Error != nil {
 		response.Fail(ctx, nil, "测试不存在")
 		return
 	}
@@ -277,7 +277,7 @@ func (e ExamController) Show(ctx *gin.Context) {
 	}
 leap:
 	// TODO 查看用户是否在指定用户组
-	if e.DB.Where("user_id = ? and group_id = ?", user.ID, exam.GroupId).First(&model.UserList{}).Error != nil {
+	if e.DB.Where("user_id = (?) and group_id = (?)", user.ID, exam.GroupId).First(&model.UserList{}).Error != nil {
 		response.Fail(ctx, nil, "不在指定用户组")
 		return
 	}
@@ -297,7 +297,7 @@ func (e ExamController) Delete(ctx *gin.Context) {
 	var exam model.Exam
 
 	// TODO 查看测试是否存在
-	if e.DB.Where("id = ?", id).First(&exam).Error != nil {
+	if e.DB.Where("id = (?)", id).First(&exam).Error != nil {
 		response.Fail(ctx, nil, "测试不存在")
 		return
 	}
@@ -323,7 +323,7 @@ func (e ExamController) Delete(ctx *gin.Context) {
 	}
 
 	// TODO 查看用户组是否在数据库中存在
-	if e.DB.Where("id = ?", exam.GroupId).First(&group).Error != nil {
+	if e.DB.Where("id = (?)", exam.GroupId).First(&group).Error != nil {
 		response.Fail(ctx, nil, "用户组不存在")
 		return
 	}
@@ -380,7 +380,7 @@ func (e ExamController) PageList(ctx *gin.Context) {
 	}
 
 	// TODO 查看用户组是否在数据库中存在
-	if e.DB.Where("id = ?", id).First(&group).Error != nil {
+	if e.DB.Where("id = (?)", id).First(&group).Error != nil {
 		response.Fail(ctx, nil, "用户组不存在")
 		return
 	}
@@ -392,7 +392,7 @@ func (e ExamController) PageList(ctx *gin.Context) {
 levp:
 
 	// TODO 查看是否是用户组中
-	if e.DB.Where("user_id = ? and group_id = ?", user.ID, group.ID).First(&model.UserList{}).Error != nil {
+	if e.DB.Where("user_id = (?) and group_id = (?)", user.ID, group.ID).First(&model.UserList{}).Error != nil {
 		response.Fail(ctx, nil, "不在指定用户组中")
 		return
 	}
@@ -401,10 +401,10 @@ levp:
 	var exams []model.Exam
 
 	// TODO 查找所有分页中可见的条目
-	e.DB.Where("group_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&exams)
+	e.DB.Where("group_id = (?)", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&exams)
 
 	var total int64
-	e.DB.Where("group_id = ?", id).Model(model.Exam{}).Count(&total)
+	e.DB.Where("group_id = (?)", id).Model(model.Exam{}).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"exams": exams, "total": total}, "成功")
@@ -439,7 +439,7 @@ func (e ExamController) ScoreShow(ctx *gin.Context) {
 	}
 
 	// TODO 查看测试是否在数据库中存在
-	if e.DB.Where("id = ?", exam_id).First(&exam).Error != nil {
+	if e.DB.Where("id = (?)", exam_id).First(&exam).Error != nil {
 		response.Fail(ctx, nil, "测试不存在")
 		return
 	}
@@ -466,7 +466,7 @@ leap:
 	}
 
 	// TODO 查看用户组是否在数据库中存在
-	if e.DB.Where("id = ?", exam.GroupId.String()).First(&group).Error != nil {
+	if e.DB.Where("id = (?)", exam.GroupId.String()).First(&group).Error != nil {
 		response.Fail(ctx, nil, "用户组不存在")
 		return
 	}
@@ -478,14 +478,14 @@ leap:
 levp:
 
 	// TODO 查看是否是用户组中
-	if e.DB.Where("user_id = ? and group_id = ?", user.ID, group.ID).First(&model.UserList{}).Error != nil {
+	if e.DB.Where("user_id = (?) and group_id = (?)", user.ID, group.ID).First(&model.UserList{}).Error != nil {
 		response.Fail(ctx, nil, "不在指定用户组中")
 		return
 	}
 
 	// TODO 查看分数
 	var examScore model.ExamScore
-	e.DB.Where("user_id = ? and exam_id = ?", user_id, exam_id).First(&examScore)
+	e.DB.Where("user_id = (?) and exam_id = (?)", user_id, exam_id).First(&examScore)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"examScore": examScore}, "成功")
@@ -528,7 +528,7 @@ func (e ExamController) ScoreUpdate(ctx *gin.Context) {
 	}
 
 	// TODO 查看测试是否在数据库中存在
-	if e.DB.Where("id = ?", exam_id).First(&exam).Error != nil {
+	if e.DB.Where("id = (?)", exam_id).First(&exam).Error != nil {
 		response.Fail(ctx, nil, "测试不存在")
 		return
 	}
@@ -555,7 +555,7 @@ leap:
 	}
 
 	// TODO 查看用户组是否在数据库中存在
-	if e.DB.Where("id = ?", exam.GroupId.String()).First(&group).Error != nil {
+	if e.DB.Where("id = (?)", exam.GroupId.String()).First(&group).Error != nil {
 		response.Fail(ctx, nil, "用户组不存在")
 		return
 	}
@@ -572,7 +572,7 @@ levp:
 		return
 	}
 
-	e.DB.Model(model.ExamScore{}).Where("user_id = ? and exam_id = ?", user_id, exam_id).Update("score", requestScore.Score)
+	e.DB.Model(model.ExamScore{}).Where("user_id = (?) and exam_id = (?)", user_id, exam_id).Update("score", requestScore.Score)
 
 	// TODO 返回数据
 	response.Success(ctx, nil, "成功")
@@ -618,7 +618,7 @@ func (e ExamController) ScoreList(ctx *gin.Context) {
 	}
 
 	// TODO 查看测试是否在数据库中存在
-	if e.DB.Where("id = ?", id).First(&exam).Error != nil {
+	if e.DB.Where("id = (?)", id).First(&exam).Error != nil {
 		response.Fail(ctx, nil, "测试不存在")
 		return
 	}
@@ -645,7 +645,7 @@ leap:
 	}
 
 	// TODO 查看用户组是否在数据库中存在
-	if e.DB.Where("id = ?", exam.GroupId.String()).First(&group).Error != nil {
+	if e.DB.Where("id = (?)", exam.GroupId.String()).First(&group).Error != nil {
 		response.Fail(ctx, nil, "用户组不存在")
 		return
 	}
@@ -657,7 +657,7 @@ leap:
 levp:
 
 	// TODO 查看是否是用户组中
-	if e.DB.Where("user_id = ? and group_id = ?", user.ID, group.ID).First(&model.UserList{}).Error != nil {
+	if e.DB.Where("user_id = (?) and group_id = (?)", user.ID, group.ID).First(&model.UserList{}).Error != nil {
 		response.Fail(ctx, nil, "不在指定用户组中")
 		return
 	}
@@ -666,10 +666,10 @@ levp:
 	var examScores []model.ExamScore
 
 	// TODO 查找所有分页中可见的条目
-	e.DB.Where("exam_id = ?", id).Order("score desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&examScores)
+	e.DB.Where("exam_id = (?)", id).Order("score desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&examScores)
 
 	var total int64
-	e.DB.Where("exam_id = ?", id).Model(model.ExamScore{}).Count(&total)
+	e.DB.Where("exam_id = (?)", id).Model(model.ExamScore{}).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"examScores": examScores, "total": total}, "成功")
@@ -708,10 +708,10 @@ func ExamTimer(ctx *gin.Context, redis *redis.Client, db *gorm.DB, exam model.Ex
 
 	// TODO 分数初步统计
 	var problemClozes []model.ProblemCloze
-	db.Where("exam_id = ?", exam.ID).Find(&problemClozes)
+	db.Where("exam_id = (?)", exam.ID).Find(&problemClozes)
 
 	var problemMCQss []model.ProblemMCQs
-	db.Where("exam_id = ?", exam.ID).Find(&problemMCQss)
+	db.Where("exam_id = (?)", exam.ID).Find(&problemMCQss)
 
 	// TODO 使用map记录每个用户的分数
 	userMap := make(map[uuid.UUID]uint)
@@ -719,7 +719,7 @@ func ExamTimer(ctx *gin.Context, redis *redis.Client, db *gorm.DB, exam model.Ex
 	// TODO 计算分数
 	for i := range problemClozes {
 		var problemClozeSubmits []model.ProblemClozeSubmit
-		db.Where("problem_cloze_id = ?", problemClozes[i].ID).Find(&problemClozeSubmits)
+		db.Where("problem_cloze_id = (?)", problemClozes[i].ID).Find(&problemClozeSubmits)
 		for j := range problemClozeSubmits {
 			if ProblemClozeJudge(problemClozes[i].Answer, problemClozeSubmits[j].Answer) {
 				userMap[problemClozeSubmits[j].UserId] += problemClozes[i].Score
@@ -728,7 +728,7 @@ func ExamTimer(ctx *gin.Context, redis *redis.Client, db *gorm.DB, exam model.Ex
 	}
 	for i := range problemMCQss {
 		var problemMCQsSubmits []model.ProblemMCQsSubmit
-		db.Where("problem_mcqs_id = ?", problemMCQss[i].ID).Find(&problemMCQsSubmits)
+		db.Where("problem_mcqs_id = (?)", problemMCQss[i].ID).Find(&problemMCQsSubmits)
 		for j := range problemMCQsSubmits {
 			if ProblemMCQsJudge(problemMCQss[i].Answer, problemMCQsSubmits[j].Answer) {
 				userMap[problemMCQsSubmits[j].UserId] += problemMCQss[i].Score

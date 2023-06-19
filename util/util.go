@@ -310,7 +310,7 @@ func VerifyIconFormat(Icon string) bool {
 // @return   void
 func IsEmailExist(db *gorm.DB, email string) bool {
 	var user model.User
-	db.Where("email = ?", email).First(&user)
+	db.Where("email = (?)", email).First(&user)
 	return user.ID != uuid.UUID{}
 }
 
@@ -321,7 +321,7 @@ func IsEmailExist(db *gorm.DB, email string) bool {
 // @return   void
 func IsNameExist(db *gorm.DB, name string) bool {
 	var user model.User
-	db.Where("name = ?", name).First(&user)
+	db.Where("name = (?)", name).First(&user)
 	return user.ID != uuid.UUID{}
 }
 
@@ -348,7 +348,7 @@ func SendEmailValidate(em []string) (string, error) {
 	content := fmt.Sprintf(mod, em[0], t, vCode)
 	e.Text = []byte(content)
 	// TODO 设置服务器相关的配置
-	err := e.Send("smtp.qq.com:25", smtp.PlainAuth("", "2829214609@qq.com", "rmdtxokuuqyrdgii", "smtp.qq.com"))
+	err := e.Send("smtp.qq.com:25", smtp.PlainAuth("", "2829214609@qq.com", "qzinvmfkpsmvdgig", "smtp.qq.com"))
 	return vCode, err
 }
 
@@ -382,7 +382,7 @@ func SendEmailPass(em []string) string {
 	}
 
 	// TODO 更新密码
-	err = db.Model(&model.User{}).Where("email = ?", em[0]).Updates(model.User{
+	err = db.Model(&model.User{}).Where("email = (?)", em[0]).Updates(model.User{
 		Password: string(hasedPassword),
 	}).Error
 
@@ -394,7 +394,7 @@ func SendEmailPass(em []string) string {
 	content := fmt.Sprintf(mod, em[0], t, password)
 	e.Text = []byte(content)
 	// TODO 设置服务器相关的配置
-	err = e.Send("smtp.qq.com:25", smtp.PlainAuth("", "2829214609@qq.com", "rmdtxokuuqyrdgii", "smtp.qq.com"))
+	err = e.Send("smtp.qq.com:25", smtp.PlainAuth("", "2829214609@qq.com", "qzinvmfkpsmvdgig", "smtp.qq.com"))
 
 	if err != nil {
 		return "邮件发送失败"

@@ -91,13 +91,13 @@ func (c CategoryController) Update(ctx *gin.Context) {
 	// TODO 查找对应分类
 	id := ctx.Params.ByName("id")
 
-	if c.DB.Where("id = ?", id).First(&category) != nil {
+	if c.DB.Where("id = (?)", id).First(&category).Error != nil {
 		response.Fail(ctx, nil, "分类不存在")
 		return
 	}
 
 	// TODO 更新分类内容
-	c.DB.Where("id = ?", id).Updates(category)
+	c.DB.Where("id = (?)", id).Updates(category)
 
 	// TODO 移除损坏数据
 	c.Redis.HDel(ctx, "Category", id)
@@ -129,7 +129,7 @@ func (c CategoryController) Show(ctx *gin.Context) {
 	}
 
 	// TODO 查看分类是否在数据库中存在
-	if c.DB.Where("id = ?", id).First(&category).Error != nil {
+	if c.DB.Where("id = (?)", id).First(&category).Error != nil {
 		response.Fail(ctx, nil, "分类不存在")
 		return
 	}
@@ -153,7 +153,7 @@ func (c CategoryController) Delete(ctx *gin.Context) {
 	var category model.Category
 
 	// TODO 查看分类是否存在
-	if c.DB.Where("id = ?", id).First(&category).Error != nil {
+	if c.DB.Where("id = (?)", id).First(&category).Error != nil {
 		response.Fail(ctx, nil, "分类不存在")
 		return
 	}

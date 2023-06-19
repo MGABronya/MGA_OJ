@@ -38,7 +38,7 @@ func (post *Post) BeforeCreate(scope *gorm.DB) error {
 // @param    tx *gorm.DB       接收一个数据库指针
 // @return   err error		   返回一个错误信息
 func (p *Post) BeforDelete(tx *gorm.DB) (err error) {
-	tx = tx.Where("post_id = ?", p.ID)
+	tx = tx.Where("post_id = (?)", p.ID)
 
 	// TODO 删除题解收藏
 	tx.Delete(&PostCollect{})

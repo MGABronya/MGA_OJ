@@ -99,7 +99,7 @@ func (p ProgramController) Update(ctx *gin.Context) {
 
 	var program model.Program
 
-	if p.DB.Where("id = ?", id).First(&program) != nil {
+	if p.DB.Where("id = (?)", id).First(&program).Error != nil {
 		response.Fail(ctx, nil, "程序不存在")
 		return
 	}
@@ -158,7 +158,7 @@ func (p ProgramController) Show(ctx *gin.Context) {
 	}
 
 	// TODO 查看程序是否在数据库中存在
-	if p.DB.Where("id = ?", id).First(&program).Error != nil {
+	if p.DB.Where("id = (?)", id).First(&program).Error != nil {
 		response.Fail(ctx, nil, "程序不存在")
 		return
 	}
@@ -202,7 +202,7 @@ func (p ProgramController) Delete(ctx *gin.Context) {
 
 	var program model.Program
 
-	if p.DB.Where("id = ?", id).First(&program) != nil {
+	if p.DB.Where("id = (?)", id).First(&program).Error != nil {
 		response.Fail(ctx, nil, "程序不存在")
 		return
 	}
@@ -248,9 +248,9 @@ func (p ProgramController) PageList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查找所有分页中可见的条目
-	p.DB.Where("user_id = ?", user.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&programs)
+	p.DB.Where("user_id = (?)", user.ID).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&programs)
 
-	p.DB.Where("user_id = ?", user.ID).Model(model.Program{}).Count(&total)
+	p.DB.Where("user_id = (?)", user.ID).Model(model.Program{}).Count(&total)
 
 	// TODO 成功
 	response.Success(ctx, gin.H{"programs": programs}, "查看成功")

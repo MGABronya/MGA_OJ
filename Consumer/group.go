@@ -48,7 +48,7 @@ func (g Group) Handel(msg string) {
 	g.rw.Lock()
 	// TODO 确保资源归还
 	defer g.rw.Unlock()
-	var record model.Record
+	var record model.RecordCompetition
 	// TODO 先看redis中是否存在
 	if ok, _ := g.Redis.HExists(g.ctx, "RecordCompetition", msg).Result(); ok {
 		cate, _ := g.Redis.HGet(g.ctx, "RecordCompetition", msg).Result()
@@ -61,7 +61,7 @@ func (g Group) Handel(msg string) {
 	}
 
 	// TODO 未能找到提交记录
-	if g.DB.Where("id = ?", msg).First(&record).Error != nil {
+	if g.DB.Where("id = (?)", msg).First(&record).Error != nil {
 		log.Printf("%s Record Disappear!!\n", msg)
 		return
 	}
@@ -82,7 +82,7 @@ feep:
 	}
 
 	// TODO 查看题目是否在数据库中存在
-	if g.DB.Where("id = ?", id).First(&problem).Error != nil {
+	if g.DB.Where("id = (?)", id).First(&problem).Error != nil {
 		record.Condition = "Problem Doesn't Exist"
 		// TODO 将record存入redis
 		v, _ := json.Marshal(record)
@@ -112,7 +112,7 @@ leep:
 	}
 
 	// TODO 查看比赛是否在数据库中存在
-	if g.DB.Where("id = ?", problem.CompetitionId.String()).First(&competition) != nil {
+	if g.DB.Where("id = (?)", problem.CompetitionId.String()).First(&competition).Error != nil {
 		record.Condition = "Competition Doesn't Exist"
 		// TODO 将record存入redis
 		v, _ := json.Marshal(record)
@@ -197,7 +197,7 @@ leap:
 		}
 
 		// TODO 查看题目是否在数据库中存在
-		if g.DB.Where("problem_id = ?", id).Find(&cases).Error != nil {
+		if g.DB.Where("problem_id = (?)", id).Find(&cases).Error != nil {
 			record.Condition = "Input Doesn't Exist"
 			return
 		}
@@ -261,7 +261,7 @@ leap:
 		// TODO 编译超时
 		case <-after:
 			cmd.Process.Kill()
-			record.Condition = "Compile timeout"
+			record.Condition = "Compile Time Out"
 			return
 		case err = <-done:
 		}
@@ -290,7 +290,7 @@ leap:
 		// TODO 权限超时
 		case <-after:
 			cmd.Process.Kill()
-			record.Condition = "Compile timeout"
+			record.Condition = "Compile Time Out"
 			return
 		case err = <-done:
 		}
@@ -402,7 +402,7 @@ leap:
 			}
 
 			// TODO 查看程序是否在数据库中存在
-			if g.DB.Where("id = ?", problem.SpecialJudge.String()).First(&specalJudge).Error != nil {
+			if g.DB.Where("id = (?)", problem.SpecialJudge.String()).First(&specalJudge).Error != nil {
 				goto outPut
 			}
 			// TODO 将题目存入redis供下次使用
@@ -461,14 +461,14 @@ leap:
 				}
 
 				// TODO 查看用户组是否在数据库中存在
-				g.DB.Where("id = ?", groups[i]).First(&group)
+				g.DB.Where("id = (?)", groups[i]).First(&group)
 				{
 					// TODO 将用户组存入redis供下次使用
 					v, _ := json.Marshal(group)
 					g.Redis.HSet(g.ctx, "Group", groups[i], v)
 				}
 			levp:
-				if g.DB.Where("group_id = ? and user_id = ?", group.ID, record.UserId).First(&model.UserList{}).Error == nil {
+				if g.DB.Where("group_id = (?) and user_id = (?)", group.ID, record.UserId).First(&model.UserList{}).Error == nil {
 					break
 				}
 			}

@@ -48,9 +48,9 @@ func (competition *Competition) BeforeCreate(scope *gorm.DB) error {
 // @return   err error		   返回一个错误信息
 func (c *Competition) BeforDelete(tx *gorm.DB) (err error) {
 	// TODO 删除密码
-	tx.Where("id = ?", c.PasswdId).Delete(&Passwd{})
+	tx.Where("id = (?)", c.PasswdId).Delete(&Passwd{})
 
-	tx = tx.Where("competition_id = ?", c.ID)
+	tx = tx.Where("competition_id = (?)", c.ID)
 
 	// TODO 删除比赛成员
 	tx.Delete(&CompetitionMember{})

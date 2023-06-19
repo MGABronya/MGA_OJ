@@ -39,7 +39,7 @@ func (problemCloze *ProblemCloze) BeforeCreate(scope *gorm.DB) error {
 // @param    tx *gorm.DB       接收一个数据库指针
 // @return   err error		   返回一个错误信息
 func (p *ProblemCloze) BeforDelete(tx *gorm.DB) (err error) {
-	tx = tx.Where("problem_cloze_id = ?", p.ID)
+	tx = tx.Where("problem_cloze_id = (?)", p.ID)
 
 	// TODO 删除题目以及送
 	tx.Delete(&ProblemClozeSubmit{})

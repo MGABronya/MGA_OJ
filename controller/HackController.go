@@ -52,7 +52,7 @@ func (h HackController) ShowNum(ctx *gin.Context) {
 	}
 
 	// TODO 查看hack是否在数据库中存在
-	if h.DB.Where("competition_id = ? and member_id = ?", competition_id, member_id).First(&hack).Error != nil {
+	if h.DB.Where("competition_id = (?) and member_id = (?)", competition_id, member_id).First(&hack).Error != nil {
 		response.Fail(ctx, nil, "hackNum不存在")
 		return
 	}
@@ -88,7 +88,7 @@ func (h HackController) Show(ctx *gin.Context) {
 	}
 
 	// TODO 查看hack是否在数据库中存在
-	if h.DB.Where("id = ?", id).First(&hack).Error != nil {
+	if h.DB.Where("id = (?)", id).First(&hack).Error != nil {
 		response.Fail(ctx, nil, "hack不存在")
 		return
 	}

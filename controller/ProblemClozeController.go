@@ -73,7 +73,7 @@ func (p ProblemClozeController) Create(ctx *gin.Context) {
 	}
 
 	// TODO 查看测试是否在数据库中存在
-	if p.DB.Where("id = ?", id).First(&exam).Error != nil {
+	if p.DB.Where("id = (?)", id).First(&exam).Error != nil {
 		response.Fail(ctx, nil, "测试不存在")
 		return
 	}
@@ -98,7 +98,7 @@ levp:
 	}
 
 	// TODO 查看测试是否在数据库中存在
-	if p.DB.Where("id = ?", exam.GroupId).First(&group).Error != nil {
+	if p.DB.Where("id = (?)", exam.GroupId).First(&group).Error != nil {
 		response.Fail(ctx, nil, "测试不存在")
 		return
 	}
@@ -132,7 +132,7 @@ levp:
 	}
 
 	// TODO 成功
-	response.Success(ctx, nil, "创建成功")
+	response.Success(ctx, gin.H{"problemCloze": ProblemCloze}, "创建成功")
 }
 
 // @title    Update
@@ -158,7 +158,7 @@ func (p ProblemClozeController) Update(ctx *gin.Context) {
 
 	var problemCloze model.ProblemCloze
 
-	if p.DB.Where("id = ?", id).First(&problemCloze) != nil {
+	if p.DB.Where("id = (?)", id).First(&problemCloze).Error != nil {
 		response.Fail(ctx, nil, "填空题不存在")
 		return
 	}
@@ -177,7 +177,7 @@ func (p ProblemClozeController) Update(ctx *gin.Context) {
 	}
 
 	// TODO 查看用户组是否在数据库中存在
-	if p.DB.Where("id = ?", problemCloze.ExamId).First(&exam).Error != nil {
+	if p.DB.Where("id = (?)", problemCloze.ExamId).First(&exam).Error != nil {
 		response.Fail(ctx, nil, "用户组不存在")
 		return
 	}
@@ -202,7 +202,7 @@ leap:
 	}
 
 	// TODO 查看用户组是否在数据库中存在
-	if p.DB.Where("id = ?", exam.GroupId).First(&group).Error != nil {
+	if p.DB.Where("id = (?)", exam.GroupId).First(&group).Error != nil {
 		response.Fail(ctx, nil, "用户组不存在")
 		return
 	}
@@ -229,7 +229,7 @@ levp:
 	}
 
 	// TODO 更新填空题内容
-	p.DB.Model(model.ProblemCloze{}).Where("id = ?", id).Updates(ProblemClozeUpdate)
+	p.DB.Model(model.ProblemCloze{}).Where("id = (?)", id).Updates(ProblemClozeUpdate)
 
 	// TODO 解码失败，删除字段
 	p.Redis.HDel(ctx, "ProblemCloze", id)
@@ -264,7 +264,7 @@ func (p ProblemClozeController) Show(ctx *gin.Context) {
 	}
 
 	// TODO 查看填空题是否在数据库中存在
-	if p.DB.Where("id = ?", id).First(&problemCloze).Error != nil {
+	if p.DB.Where("id = (?)", id).First(&problemCloze).Error != nil {
 		response.Fail(ctx, nil, "填空题不存在")
 		return
 	}
@@ -288,7 +288,7 @@ leap:
 	}
 
 	// TODO 查看填空题是否在数据库中存在
-	if p.DB.Where("id = ?", problemCloze.ExamId).First(&exam).Error != nil {
+	if p.DB.Where("id = (?)", problemCloze.ExamId).First(&exam).Error != nil {
 		response.Fail(ctx, nil, "测试不存在")
 		return
 	}
@@ -312,7 +312,7 @@ levp:
 	}
 
 	// TODO 查看用户组是否在数据库中存在
-	if p.DB.Where("id = ?", exam.GroupId).First(&group).Error != nil {
+	if p.DB.Where("id = (?)", exam.GroupId).First(&group).Error != nil {
 		response.Fail(ctx, nil, "小组不存在")
 		return
 	}
@@ -323,7 +323,7 @@ levp:
 	}
 letp:
 	// TODO 查看用户是否在指定用户组
-	if p.DB.Where("user_id = ? and group_id = ?", user.ID, exam.GroupId).First(&model.UserList{}).Error != nil {
+	if p.DB.Where("user_id = (?) and group_id = (?)", user.ID, exam.GroupId).First(&model.UserList{}).Error != nil {
 		response.Fail(ctx, nil, "不在指定用户组")
 		return
 	}
@@ -357,7 +357,7 @@ func (p ProblemClozeController) Delete(ctx *gin.Context) {
 	var problemCloze model.ProblemCloze
 
 	// TODO 查看填空题是否存在
-	if p.DB.Where("id = ?", id).First(&problemCloze).Error != nil {
+	if p.DB.Where("id = (?)", id).First(&problemCloze).Error != nil {
 		response.Fail(ctx, nil, "填空题不存在")
 		return
 	}
@@ -376,7 +376,7 @@ func (p ProblemClozeController) Delete(ctx *gin.Context) {
 	}
 
 	// TODO 查看测试是否在数据库中存在
-	if p.DB.Where("id = ?", problemCloze.ExamId).First(&exam).Error != nil {
+	if p.DB.Where("id = (?)", problemCloze.ExamId).First(&exam).Error != nil {
 		response.Fail(ctx, nil, "测试不存在")
 		return
 	}
@@ -400,7 +400,7 @@ levp:
 	}
 
 	// TODO 查看填空题是否在数据库中存在
-	if p.DB.Where("id = ?", exam.GroupId).First(&group).Error != nil {
+	if p.DB.Where("id = (?)", exam.GroupId).First(&group).Error != nil {
 		response.Fail(ctx, nil, "小组不存在")
 		return
 	}
@@ -452,7 +452,7 @@ func (p ProblemClozeController) PageList(ctx *gin.Context) {
 	}
 
 	// TODO 查看填空题是否在数据库中存在
-	if p.DB.Where("id = ?", id).First(&exam).Error != nil {
+	if p.DB.Where("id = (?)", id).First(&exam).Error != nil {
 		response.Fail(ctx, nil, "测试不存在")
 		return
 	}
@@ -476,7 +476,7 @@ levp:
 	}
 
 	// TODO 查看填空题是否在数据库中存在
-	if p.DB.Where("id = ?", exam.GroupId).First(&group).Error != nil {
+	if p.DB.Where("id = (?)", exam.GroupId).First(&group).Error != nil {
 		response.Fail(ctx, nil, "小组不存在")
 		return
 	}
@@ -487,7 +487,7 @@ levp:
 	}
 letp:
 	// TODO 查看用户是否在指定用户组
-	if p.DB.Where("user_id = ? and group_id = ?", user.ID, exam.GroupId).First(&model.UserList{}).Error != nil {
+	if p.DB.Where("user_id = (?) and group_id = (?)", user.ID, exam.GroupId).First(&model.UserList{}).Error != nil {
 		response.Fail(ctx, nil, "不在指定用户组")
 		return
 	}
@@ -501,10 +501,10 @@ letp:
 	var problemClozes []model.ProblemCloze
 
 	// TODO 查找所有分页中可见的条目
-	p.DB.Where("exam_id = ?", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemClozes)
+	p.DB.Where("exam_id = (?)", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemClozes)
 
 	var total int64
-	p.DB.Where("exam_id = ?", id).Model(model.ProblemCloze{}).Count(&total)
+	p.DB.Where("exam_id = (?)", id).Model(model.ProblemCloze{}).Count(&total)
 
 	// TODO 查看用户是否是组长
 	if group.LeaderId != user.ID {
@@ -550,7 +550,7 @@ func (p ProblemClozeController) Submit(ctx *gin.Context) {
 	}
 
 	// TODO 查看填空题是否在数据库中存在
-	if p.DB.Where("id = ?", id).First(&problemCloze).Error != nil {
+	if p.DB.Where("id = (?)", id).First(&problemCloze).Error != nil {
 		response.Fail(ctx, nil, "填空题不存在")
 		return
 	}
@@ -574,7 +574,7 @@ leap:
 	}
 
 	// TODO 查看填空题是否在数据库中存在
-	if p.DB.Where("id = ?", problemCloze.ExamId).First(&exam).Error != nil {
+	if p.DB.Where("id = (?)", problemCloze.ExamId).First(&exam).Error != nil {
 		response.Fail(ctx, nil, "测试不存在")
 		return
 	}
@@ -603,7 +603,7 @@ levp:
 	}
 
 	// TODO 查看用户组是否在数据库中存在
-	if p.DB.Where("id = ?", exam.GroupId).First(&group).Error != nil {
+	if p.DB.Where("id = (?)", exam.GroupId).First(&group).Error != nil {
 		response.Fail(ctx, nil, "小组不存在")
 		return
 	}
@@ -614,7 +614,7 @@ levp:
 	}
 letp:
 	// TODO 查看用户是否在指定用户组
-	if p.DB.Where("user_id = ? and group_id = ?", user.ID, exam.GroupId).First(&model.UserList{}).Error != nil {
+	if p.DB.Where("user_id = (?) and group_id = (?)", user.ID, exam.GroupId).First(&model.UserList{}).Error != nil {
 		response.Fail(ctx, nil, "不在指定用户组")
 		return
 	}
@@ -626,15 +626,15 @@ letp:
 	}
 
 	// TODO 查看先前是否由提交，如为第一次提交，记录分数
-	if p.DB.Where("user_id = ? and problem_cloze_id = ?").First(&model.ProblemClozeSubmit{}).Error != nil {
+	if p.DB.Where("user_id = (?) and problem_cloze_id = (?)").First(&model.ProblemClozeSubmit{}).Error != nil {
 		var examScore model.ExamScore
-		if p.DB.Where("user_id = ? and exam_id = ?", user.ID, exam.ID).First(&examScore).Error != nil {
+		if p.DB.Where("user_id = (?) and exam_id = (?)", user.ID, exam.ID).First(&examScore).Error != nil {
 			examScore.UserId = user.ID
 			examScore.ExamId = exam.ID
 			examScore.Score += score
 			p.DB.Create(&examScore)
 		} else {
-			p.DB.Model(model.ExamScore{}).Where("user_id = ? and exam_id = ?", user.ID, exam.ID).Update("score", examScore.Score+score)
+			p.DB.Model(model.ExamScore{}).Where("user_id = (?) and exam_id = (?)", user.ID, exam.ID).Update("score", examScore.Score+score)
 		}
 	} else if exam.Type == "IO" {
 		response.Fail(ctx, nil, "已经提交，不可修改")
@@ -671,7 +671,7 @@ func (p ProblemClozeController) ShowSubmit(ctx *gin.Context) {
 
 	var problemClozeSubmit model.ProblemClozeSubmit
 
-	if p.DB.Where("id = ?", id).First(&problemClozeSubmit).Error != nil {
+	if p.DB.Where("id = (?)", id).First(&problemClozeSubmit).Error != nil {
 		response.Fail(ctx, nil, "提交不存在")
 		return
 	}
@@ -691,7 +691,7 @@ func (p ProblemClozeController) ShowSubmit(ctx *gin.Context) {
 	}
 
 	// TODO 查看填空题是否在数据库中存在
-	if p.DB.Where("id = ?", problemClozeSubmit.ProblemClozeId).First(&problemCloze).Error != nil {
+	if p.DB.Where("id = (?)", problemClozeSubmit.ProblemClozeId).First(&problemCloze).Error != nil {
 		response.Fail(ctx, nil, "填空题不存在")
 		return
 	}
@@ -715,7 +715,7 @@ leap:
 	}
 
 	// TODO 查看填空题是否在数据库中存在
-	if p.DB.Where("id = ?", problemCloze.ExamId).First(&exam).Error != nil {
+	if p.DB.Where("id = (?)", problemCloze.ExamId).First(&exam).Error != nil {
 		response.Fail(ctx, nil, "测试不存在")
 		return
 	}
@@ -739,7 +739,7 @@ levp:
 	}
 
 	// TODO 查看用户组是否在数据库中存在
-	if p.DB.Where("id = ?", exam.GroupId).First(&group).Error != nil {
+	if p.DB.Where("id = (?)", exam.GroupId).First(&group).Error != nil {
 		response.Fail(ctx, nil, "小组不存在")
 		return
 	}
@@ -793,7 +793,7 @@ func (p ProblemClozeController) SubmitList(ctx *gin.Context) {
 	}
 
 	// TODO 查看填空题是否在数据库中存在
-	if p.DB.Where("id = ?", problem_id).First(&problemCloze).Error != nil {
+	if p.DB.Where("id = (?)", problem_id).First(&problemCloze).Error != nil {
 		response.Fail(ctx, nil, "填空题不存在")
 		return
 	}
@@ -817,7 +817,7 @@ leap:
 	}
 
 	// TODO 查看填空题是否在数据库中存在
-	if p.DB.Where("id = ?", problemCloze.ExamId).First(&exam).Error != nil {
+	if p.DB.Where("id = (?)", problemCloze.ExamId).First(&exam).Error != nil {
 		response.Fail(ctx, nil, "测试不存在")
 		return
 	}
@@ -841,7 +841,7 @@ levp:
 	}
 
 	// TODO 查看用户组是否在数据库中存在
-	if p.DB.Where("id = ?", exam.GroupId).First(&group).Error != nil {
+	if p.DB.Where("id = (?)", exam.GroupId).First(&group).Error != nil {
 		response.Fail(ctx, nil, "小组不存在")
 		return
 	}
@@ -858,10 +858,10 @@ letp:
 		return
 	}
 	var problemClozeSubmits []model.ProblemClozeSubmit
-	p.DB.Where("problem_cloze_id = ? and user_id = ?", problemCloze.ID, user_id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemCloze)
+	p.DB.Where("problem_cloze_id = (?) and user_id = (?)", problemCloze.ID, user_id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemCloze)
 
 	var total int64
-	p.DB.Where("problem_cloze_id = ? and user_id = ?", problemCloze.ID, user_id).Model(model.ProblemClozeSubmit{}).Count(&total)
+	p.DB.Where("problem_cloze_id = (?) and user_id = (?)", problemCloze.ID, user_id).Model(model.ProblemClozeSubmit{}).Count(&total)
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"problemClozeSubmits": problemClozeSubmits, "total": total}, "成功")
 }
