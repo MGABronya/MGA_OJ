@@ -49,7 +49,7 @@ func ProblemRoutes(r *gin.Engine) *gin.Engine {
 	problemRoutes.POST("/like/:id", middleware.AuthMiddleware(), problemController.Like)
 
 	// TODO 取消点赞、点踩状态
-	problemRoutes.DELETE("/cancle/like/:id", middleware.AuthMiddleware(), problemController.CancelLike)
+	problemRoutes.DELETE("/cancel/like/:id", middleware.AuthMiddleware(), problemController.CancelLike)
 
 	// TODO 查看点赞、点踩数量
 	problemRoutes.GET("/like/number/:id", problemController.LikeNumber)

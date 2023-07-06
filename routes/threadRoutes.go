@@ -46,7 +46,7 @@ func ThreadRoutes(r *gin.Engine) *gin.Engine {
 	threadRoutes.POST("/like/:id", middleware.AuthMiddleware(), threadController.Like)
 
 	// TODO 取消点赞、点踩状态
-	threadRoutes.DELETE("/cancle/like/:id", middleware.AuthMiddleware(), threadController.CancelLike)
+	threadRoutes.DELETE("/cancel/like/:id", middleware.AuthMiddleware(), threadController.CancelLike)
 
 	// TODO 查看点赞、点踩数量
 	threadRoutes.GET("/like/number/:id", threadController.LikeNumber)

@@ -46,7 +46,7 @@ func RemarkRoutes(r *gin.Engine) *gin.Engine {
 	remarkRoutes.POST("/like/:id", middleware.AuthMiddleware(), remarkController.Like)
 
 	// TODO 取消点赞、点踩状态
-	remarkRoutes.DELETE("/cancle/like/:id", middleware.AuthMiddleware(), remarkController.CancelLike)
+	remarkRoutes.DELETE("/cancel/like/:id", middleware.AuthMiddleware(), remarkController.CancelLike)
 
 	// TODO 查看点赞、点踩数量
 	remarkRoutes.GET("/like/number/:id", remarkController.LikeNumber)

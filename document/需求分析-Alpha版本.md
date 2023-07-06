@@ -342,7 +342,7 @@
 - /group/remove/black/:group/:user 移除某用户的黑名单
 - /group/black/list/:id 查看黑名单
 - /group/like/:id 点赞或点踩
-- /group/cancle/like/:id 取消点赞或点踩
+- /group/cancel/like/:id 取消点赞或点踩
 - /group/like/number/:id 查看点赞点踩数量
 - /group/like/list/:id 查看点赞、点踩列表
 - /group/like/show/:id 查看用户当前点赞状态
@@ -382,7 +382,7 @@
 - /article/delete/:id 删除文章
 - /article/list 查看文章列表
 - /article/like/:id 点赞或点踩文章
-- /article/cancle/like/:id 取消点赞或点踩文章
+- /article/cancel/like/:id 取消点赞或点踩文章
 - /article/like/number/:id 查看点赞点踩数量
 - /article/like/list/:id 查看点赞、点踩列表
 - /article/like/show/:id 查看用户当前点赞状态
@@ -421,7 +421,7 @@
 - /comment/delete/:id 删除讨论
 - /comment/list/:id 查看讨论列表
 - /comment/like/:id 点赞、点踩讨论
-- /comment/cancle/like/:id 取消点赞、点踩状态
+- /comment/cancel/like/:id 取消点赞、点踩状态
 - /comment/like/number/:id 查看点赞点踩数量
 - /comment/like/list/:id 查看点赞、点踩列表
 - /comment/like/show/:id 查看用户当前点赞状态
@@ -439,7 +439,7 @@
 - /post/delete/:id 删除题解
 - /post/list/:id 查看题解列表
 - /post/like/:id 点赞或点踩题解
-- /post/cancle/like/:id 取消点赞或点踩题解
+- /post/cancel/like/:id 取消点赞或点踩题解
 - /post/like/number/:id 查看点赞点踩数量
 - /post/like/list/:id 查看点赞、点踩列表
 - /post/like/show/:id 查看用户当前点赞状态
@@ -471,7 +471,7 @@
 - /remark/delete/:id 删除回复
 - /remark/list/:id 查看回复列表
 - /remark/like/:id 点赞或点踩回复
-- /remark/cancle/like/:id 取消点赞或点踩回复
+- /remark/cancel/like/:id 取消点赞或点踩回复
 - /remark/like/number/:id 查看点赞点踩数量
 - /remark/like/list/:id 查看点赞、点踩列表
 - /remark/like/show/:id 查看用户当前点赞状态
@@ -489,7 +489,7 @@
 - /reply/delete/:id 删除回复
 - /reply/list/:id 查看回复列表
 - /reply/like/:id 点赞或点踩回复
-- /reply/cancle/like/:id 取消点赞或点踩回复
+- /reply/cancel/like/:id 取消点赞或点踩回复
 - /reply/like/number/:id 查看点赞点踩数量
 - /reply/like/list/:id 查看点赞、点踩列表
 - /reply/like/show/:id 查看用户当前点赞状态
@@ -507,7 +507,7 @@
 - /thread/delete/:id 删除回复
 - /thread/list/:id 查看回复列表
 - /thread/like/:id 点赞或点踩回复
-- /thread/cancle/like/:id 取消点赞或点踩回复
+- /thread/cancel/like/:id 取消点赞或点踩回复
 - /thread/like/number/:id 查看点赞点踩数量
 - /thread/like/list/:id 查看点赞、点踩列表
 - /thread/like/show/:id 查看用户当前点赞状态
@@ -539,7 +539,7 @@
 - /problem/delete/:id 删除题目
 - /problem/list 查看题目列表
 - /problem/like/:id 点赞或点踩题目
-- /problem/cancle/like/:id 取消点赞或点踩题目
+- /problem/cancel/like/:id 取消点赞或点踩题目
 - /problem/like/number/:id 查看点赞点踩数量
 - /problem/like/list/:id 查看点赞、点踩列表
 - /problem/like/show/:id 查看用户当前点赞状态
@@ -595,7 +595,7 @@
 - /topic/delete/:id 删除主题
 - /topic/list 查看主题列表
 - /topic/like/:id 点赞、点踩主题
-- /topic/cancle/like/:id 取消点赞、点踩状态
+- /topic/cancel/like/:id 取消点赞、点踩状态
 - /topic/like/number/:id 查看点赞点踩数量
 - /topic/like/list/:id 查看点赞、点踩列表
 - /topic/like/show/:id 查看用户当前点赞状态
@@ -637,7 +637,7 @@
 - /set/remove/black/:set/:group 移除某用户组的黑名单
 - /set/black/list/:id 查看黑名单
 - /set/like/:id 点赞或点踩
-- /set/cancle/like/:id 取消点赞或点踩
+- /set/cancel/like/:id 取消点赞或点踩
 - /set/like/number/:id 查看点赞点踩数量
 - /set/like/list/:id 查看点赞、点踩列表
 - /set/like/show/:id 查看用户当前点赞状态
