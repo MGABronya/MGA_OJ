@@ -12,21 +12,25 @@ import (
 
 // user			定义用户
 type UserRequest struct {
-	Name     string `json:"name"`     // 用户名称
-	Email    string `json:"email"`    // 邮箱
-	Password string `json:"password"` // 密码
-	Verify   string `json:"verify"`   // 验证码
+	Name     string `json:"name"`      // 用户名称
+	Email    string `json:"email"`     // 邮箱
+	Password string `json:"password"`  // 密码
+	Verify   string `json:"verify"`    // 验证码
+	ResLong  string `json:"res_long"`  // 备用长文本
+	ResShort string `json:"res_short"` // 备用短文本
 }
 
 // user 		定义用户更新信息
 type UserUpdate struct {
-	Name    string `json:"name"`    // 用户名称
-	Email   string `json:"email"`   // 邮箱
-	Blog    string `json:"blog"`    // 博客地址
-	Sex     bool   `json:"sex"`     // 性别
-	Address string `json:"address"` // 地址
-	Verify  string `json:"verify"`  // 验证码
-	Icon    string `json:"icon"`    // 头像
+	Name     string `json:"name"`      // 用户名称
+	Email    string `json:"email"`     // 邮箱
+	Blog     string `json:"blog"`      // 博客地址
+	Sex      bool   `json:"sex"`       // 性别
+	Address  string `json:"address"`   // 地址
+	Verify   string `json:"verify"`    // 验证码
+	Icon     string `json:"icon"`      // 头像
+	ResLong  string `json:"res_long"`  // 备用长文本
+	ResShort string `json:"res_short"` // 备用短文本
 }
 
 // UserDto			定义了用户的基本信息
@@ -44,6 +48,8 @@ type UserDto struct {
 	UnLikeNum  int       `json:"unlike_num"`  // 收到点踩数量
 	CollectNum int       `json:"collect_num"` // 收到收藏数量
 	VisitNum   int       `json:"visit_num"`   // 被游览数量
+	ResLong    string    `json:"res_long"`    // 备用长文本
+	ResShort   string    `json:"res_short"`   // 备用短文本
 }
 
 // @title    ToUserDto
@@ -66,5 +72,7 @@ func ToUserDto(user model.User) UserDto {
 		UnLikeNum:  user.UnLikeNum,
 		CollectNum: user.CollectNum,
 		VisitNum:   user.VisitNum,
+		ResLong:    user.ResLong,
+		ResShort:   user.ResShort,
 	}
 }

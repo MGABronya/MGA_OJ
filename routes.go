@@ -123,5 +123,14 @@ func CollectRoute(r *gin.Engine) *gin.Engine {
 	// TODO 测试布置
 	r = routes.ExamRoutes(r)
 
+	// TODO 公告栏
+	r = routes.NoticeBoardRoutes(r)
+
+	// TODO 实名
+	r = routes.RealNameRoutes(r)
+
+	// TODO 徽章
+	r = routes.BadgeRoutes(r)
+
 	return r
 }

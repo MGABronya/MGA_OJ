@@ -9,18 +9,23 @@ import (
 	Handle "MGA_OJ/Language"
 	"MGA_OJ/common"
 	"MGA_OJ/model"
+	"encoding/csv"
 	"fmt"
 	"log"
 	"math"
 	"math/rand"
 	"net/smtp"
 	"os"
+	"path"
 	"regexp"
 	"time"
+	"unicode"
 
+	"github.com/extrame/xls"
 	"github.com/gin-gonic/gin"
 	"github.com/jordan-wright/email"
 	uuid "github.com/satori/go.uuid"
+	"github.com/tealeg/xlsx"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
@@ -448,4 +453,232 @@ func StringMerge(a string, b string) string {
 	} else {
 		return b + a
 	}
+}
+
+// @title    Read
+// @description   读取文件内容
+// @auth      MGAronya（张健）             2022-9-16 10:29
+// @param     file_path string		文件位置
+// @return    res [][]string, err error		res为读出的内容，err为可能出现的错误
+func Read(file_path string) (res [][]string, err error) {
+
+	extName := path.Ext(file_path)
+
+	if extName == ".csv" {
+		return ReadCsv(file_path)
+	} else if extName == ".xls" {
+		return ReadXls(file_path)
+	} else if extName == ".xlsx" {
+		return ReadXlsx(file_path)
+	}
+	return nil, nil
+}
+
+// @title    ReadCsv
+// @description   读取Csv文件内容
+// @auth      MGAronya（张健）             2022-9-16 10:29
+// @param     file_path string		文件位置
+// @return    res [][]string, err error		res为读出的内容，err为可能出现的错误
+func ReadCsv(file_path string) (res [][]string, err error) {
+	file, err := os.Open(file_path)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+	// TODO 初始化csv-reader
+	reader := csv.NewReader(file)
+	// TODO 设置返回记录中每行数据期望的字段数，-1 表示返回所有字段
+	reader.FieldsPerRecord = -1
+	// TODO 允许懒引号（忘记遇到哪个问题才加的这行）
+	reader.LazyQuotes = true
+	// TODO 返回csv中的所有内容
+	records, read_err := reader.ReadAll()
+	if read_err != nil {
+		return nil, read_err
+	}
+	return records, nil
+}
+
+// @title    ReadXls
+// @description   读取Xls文件内容
+// @auth      MGAronya（张健）             2022-9-16 10:29
+// @param     file_path string		文件位置
+// @return    res [][]string, err error		res为读出的内容，err为可能出现的错误
+func ReadXls(file_path string) (res [][]string, err error) {
+	if xlFile, err := xls.Open(file_path, "utf-8"); err == nil {
+		fmt.Println(xlFile.Author)
+		// TODO 第一个sheet
+		sheet := xlFile.GetSheet(0)
+		if sheet.MaxRow != 0 {
+			temp := make([][]string, sheet.MaxRow)
+			for i := 0; i < int(sheet.MaxRow); i++ {
+				row := sheet.Row(i)
+				data := make([]string, 0)
+				if row.LastCol() > 0 {
+					for j := 0; j < row.LastCol(); j++ {
+						col := row.Col(j)
+						data = append(data, col)
+					}
+					temp[i] = data
+				}
+			}
+			res = append(res, temp...)
+		}
+	} else {
+		return nil, err
+	}
+	return res, nil
+}
+
+// @title    ReadXlsx
+// @description   读取Xlsx文件内容
+// @auth      MGAronya（张健）             2022-9-16 10:29
+// @param     file_path string		文件位置
+// @return    res [][]string, err error		res为读出的内容，err为可能出现的错误
+func ReadXlsx(file_path string) (res [][]string, err error) {
+	if xlFile, err := xlsx.OpenFile(file_path); err == nil {
+		for index, sheet := range xlFile.Sheets {
+			// TODO 第一个sheet
+			if index == 0 {
+				temp := make([][]string, len(sheet.Rows))
+				for k, row := range sheet.Rows {
+					var data []string
+					for _, cell := range row.Cells {
+						data = append(data, cell.Value)
+					}
+					temp[k] = data
+				}
+				res = append(res, temp...)
+			}
+		}
+	} else {
+		return nil, err
+	}
+	return res, nil
+}
+
+// @title    RemoveWhiteSpace
+// @description  函数接收一个字符串，返回一个去掉空白字符的新字符串
+// @auth      MGAronya（张健）             2022-9-16 10:29
+// @param     str string		目标字符
+// @return    string		去掉空白字符的新字符串
+func RemoveWhiteSpace(str string) string {
+	// TODO 创建一个空字符串res用于存储处理后的结果
+	var res string
+	// TODO 遍历传入的字符串中的每个字符
+	for _, char := range str {
+		// TODO 如果当前字符不是空格、制表符、回车或换行符等空白字符
+		if !unicode.IsSpace(char) {
+			// TODO 将该字符加入到结果字符串中
+			res += string(char)
+		}
+	}
+	// TODO 返回处理后的结果字符串
+	return res
+}
+
+// behaviors	    定义了用户行为映射表
+var behaviors map[string]func(string) float64 = map[string]func(string) float64{
+	"aaa": a,
+	"bbb": b,
+}
+
+func a(string) float64 {
+	return 1
+}
+
+func b(string) float64 {
+	return 2
+}
+
+// @title    checkExpression
+// @description  函数接收一个不带括号的表达式，查看表达式是否正确
+// @auth      MGAronya（张健）             2022-9-16 10:29
+// @param     expr []byte		简单表达式
+// @return    bool, string		表示表达式是否正确，并给出错误原因
+func checkExpression(expr []byte) (bool, string) {
+	println(string(expr))
+	cp := 0
+	// TODO 定义一个栈用于匹配括号
+	for i := 0; i < len(expr); i++ {
+		if expr[i] >= 'a' && expr[i] <= 'z' {
+			if (cp & 1) == 1 {
+				return false, "变量位置错误"
+			}
+			j := i
+			for i+1 < len(expr) && expr[i+1] >= 'a' && expr[i+1] <= 'z' {
+				i++
+			}
+			if _, ok := behaviors[string(expr[j:i+1])]; !ok {
+				return false, "变量" + string(expr[j:i+1]) + "未定义"
+			}
+		} else if expr[i] == '#' {
+			if (cp & 1) == 1 {
+				return false, "变量位置错误"
+			}
+			for i+1 < len(expr) && expr[i+1] == '#' {
+				i++
+			}
+		} else if expr[i] != '+' && expr[i] != '-' && expr[i] != '*' && expr[i] != '/' {
+			if (cp & 1) == 0 {
+				return false, "计算符位置错误"
+			}
+			// TODO 非法字符
+			return false, "非法字符"
+		}
+		cp++
+	}
+	if (cp & 1) == 1 {
+		return true, ""
+	}
+	return false, "计算符或变量缺失"
+}
+
+// @title    checkExpression
+// @description  函数接收一个表达式，查看表达式是否正确
+// @auth      MGAronya（张健）             2022-9-16 10:29
+// @param     expr []byte		表达式
+// @return    bool, string		表示表达式是否正确，并给出错误原因
+func CheckExpression(expr []byte) (bool, string) {
+	// TODO 定义一个栈用于匹配括号
+	stack := make([]byte, 0)
+	// TODO 记录需要替换的子串
+	// TODO 记录当前最外层括号的起始位置和长度
+	start := -1
+
+	for i, ch := range expr {
+		if ch == '(' {
+			// TODO 左括号直接入栈
+			if len(stack) == 0 {
+				start = i
+			}
+			stack = append(stack, ch)
+		} else if ch == ')' {
+			// TODO 右括号需要和栈顶的左括号匹配
+			if len(stack) > 0 && stack[len(stack)-1] == '(' {
+				stack = stack[:len(stack)-1]
+				if len(stack) == 0 {
+					if ok, err := CheckExpression(expr[start+1 : i]); !ok {
+						return false, err
+					}
+					// TODO 将最外层括号替换为#
+					for j := start; j < i+1; j++ {
+						expr[j] = '#'
+					}
+				}
+			} else {
+				return false, "右括号不匹配"
+			}
+		}
+	}
+
+	if len(stack) > 0 {
+		return false, "右括号不匹配"
+	}
+
+	if ok, err := checkExpression(expr); !ok {
+		return false, err
+	}
+
+	return true, ""
 }

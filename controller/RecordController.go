@@ -263,6 +263,39 @@ func (r RecordController) PublishPageList(ctx *gin.Context) {
 	}
 }
 
+// @title    Publish
+// @description  订阅提交
+// @auth      MGAronya（张健）       2022-9-16 12:19
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (r RecordController) Publish(ctx *gin.Context) {
+
+	// TODO 获取path中的id
+	id := ctx.Params.ByName("id")
+
+	// TODO 订阅消息
+	pubSub := r.Redis.Subscribe(ctx, "RecordChan"+id)
+	defer pubSub.Close()
+	// TODO 获得消息管道
+	ch := pubSub.Channel()
+
+	// TODO 升级get请求为webSocket协议
+	ws, err := r.UpGrader.Upgrade(ctx.Writer, ctx.Request, nil)
+	if err != nil {
+		return
+	}
+	defer ws.Close()
+	// TODO 监听消息
+	for msg := range ch {
+		var recordCase vo.RecordCase
+		json.Unmarshal([]byte(msg.Payload), &recordCase)
+		// TODO 写入ws数据
+		if err := ws.WriteJSON(recordCase); err != nil {
+			break
+		}
+	}
+}
+
 // @title    CaseList
 // @description   查看一篇提交的测试通过情况
 // @auth      MGAronya（张健）       2022-9-16 12:19
@@ -272,6 +305,10 @@ func (r RecordController) CaseList(ctx *gin.Context) {
 	// TODO 获取path中的id
 	id := ctx.Params.ByName("id")
 	var record model.Record
+
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
 
 	// TODO 先看redis中是否存在
 	if ok, _ := r.Redis.HExists(ctx, "Record", id).Result(); ok {
@@ -296,6 +333,10 @@ func (r RecordController) CaseList(ctx *gin.Context) {
 		r.Redis.HSet(ctx, "Record", id, v)
 	}
 leep:
+	if user.ID != record.UserId {
+		response.Fail(ctx, nil, "非提交者无法查看")
+		return
+	}
 	// TODO 获取分页参数
 	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
 	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))

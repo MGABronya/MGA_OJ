@@ -715,7 +715,7 @@ func (s SetController) LikeNumber(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	s.DB.Where("set_id = (?) and like = (?)", id, like).Model(model.SetLike{}).Count(&total)
+	s.DB.Where("set_id = (?) and like = ?", id, like).Model(model.SetLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"total": total}, "查看成功")
 }
@@ -742,9 +742,9 @@ func (s SetController) LikeList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	s.DB.Where("set_id = (?) and like = (?)", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setLikes)
+	s.DB.Where("set_id = (?) and like = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setLikes)
 
-	s.DB.Where("set_id = (?) and like = (?)", id, like).Model(model.SetLike{}).Count(&total)
+	s.DB.Where("set_id = (?) and like = ?", id, like).Model(model.SetLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"setLikes": setLikes, "total": total}, "查看成功")
 }
@@ -801,9 +801,9 @@ func (s SetController) Likes(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	s.DB.Where("user_id = (?) and like = (?)", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setLikes)
+	s.DB.Where("user_id = (?) and like = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setLikes)
 
-	s.DB.Where("user_id = (?) and like = (?)", id, like).Model(model.SetLike{}).Count(&total)
+	s.DB.Where("user_id = (?) and like = ?", id, like).Model(model.SetLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"setLikes": setLikes, "total": total}, "查看成功")
 }
@@ -1181,9 +1181,6 @@ func (s SetController) RankList(ctx *gin.Context) {
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (s SetController) RankUpdate(ctx *gin.Context) {
-	// TODO 获取登录用户
-	tuser, _ := ctx.Get("user")
-	user := tuser.(model.User)
 
 	// TODO 获取id
 	id := ctx.Params.ByName("id")
@@ -1213,11 +1210,6 @@ func (s SetController) RankUpdate(ctx *gin.Context) {
 		s.Redis.HSet(ctx, "Set", id, v)
 	}
 leep:
-	// TODO 查看是否为创建者
-	if set.UserId != user.ID {
-		response.Fail(ctx, nil, "不是表单创建者")
-		return
-	}
 
 	// TODO 尝试更新
 	if UpdateRank(set.ID) != nil {

@@ -419,6 +419,12 @@ leap:
 		outPut:
 			// TODO 正常判断
 			if out.String() != cases[i].Output {
+				// TODO 去除格式后查看是否正确
+				if util.RemoveWhiteSpace(out.String()) == util.RemoveWhiteSpace(cases[i].Output) {
+					record.Condition = " Presentation Error"
+					flag = false
+					goto final
+				}
 				record.Condition = "Wrong Answer"
 				flag = false
 				goto final

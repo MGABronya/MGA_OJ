@@ -266,7 +266,7 @@ feep:
 
 		// TODO 开始运行工作
 		{
-			record.Condition = "Runing"
+			record.Condition = "Running"
 			// TODO 将recordlist打包
 			v, _ := json.Marshal(recordList)
 			j.Redis.Publish(j.ctx, "RecordChan", v)
@@ -386,6 +386,12 @@ feep:
 		outPut:
 			// TODO 正常判断
 			if out.String() != cases[i].Output {
+				// TODO 去除格式后查看是否正确
+				if util.RemoveWhiteSpace(out.String()) == util.RemoveWhiteSpace(cases[i].Output) {
+					record.Condition = "Presentation Error"
+					flag = false
+					goto final
+				}
 				record.Condition = "Wrong Answer"
 				flag = false
 				goto final
@@ -393,6 +399,13 @@ feep:
 		pass:
 			// TODO 通过数量+1
 			record.Pass++
+			// TODO 长连接返回实时通过用例情况
+			recordCase := vo.RecordCase{
+				CaseId: cases[i].CID,
+			}
+			// TODO 将recordlist打包
+			v, _ := json.Marshal(recordCase)
+			j.Redis.Publish(j.ctx, "RecordChan"+id, v)
 		}
 	final:
 		// TODO 如果提交通过

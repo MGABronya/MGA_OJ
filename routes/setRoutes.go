@@ -43,7 +43,7 @@ func SetRoutes(r *gin.Engine) *gin.Engine {
 	setRoutes.GET("/rank/list/:id", setController.RankList)
 
 	// TODO 更新表单排行
-	setRoutes.PUT("/rank/update/:id", middleware.AuthMiddleware(), setController.RankUpdate)
+	setRoutes.PUT("/rank/update/:id", setController.RankUpdate)
 
 	// TODO 查看某一用户的表单列表
 	setRoutes.GET("/user/list/:id", setController.UserList)

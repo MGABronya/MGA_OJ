@@ -148,6 +148,7 @@
 - CaseList                   某次提交的具体测试通过情况
 - Case                         某个测试的具体情况
 - PublishPageList      订阅提交列表
+- Publish                     订阅某个提交
 
 ### RejudgeInterface
 
@@ -207,9 +208,8 @@
 
 - **Article**（文章）
 - **Remark**（文章的回复）
-  
+- **RealName**（实名）
 - **Letter**（私信）
-
 - **Problem**（题目）
 
   - **Program**（特殊判断、输入检测、标准程序）
@@ -220,9 +220,7 @@
   - **Record**（代码提交）
     - **Hack**(黑客记录)
     - **rejudge**（重判）
-
 - **Friend**（好友）
-
 - **Group**（用户组）
 
   - **Chat**（群聊）
@@ -231,13 +229,14 @@
     - **ProblemFile**(文件题目)
     - **ProblemCloze**（填空题）
     - **ProblemMCQs**（填空题）
-
 - **Message**（留言板）
 
 **Category**（分类）
 
 - **Article**（文章）
   - **Remark**（文章的回复）
+
+**NoticeBoard**（公告栏）
 
 **Competition**（竞赛）
 
@@ -2520,7 +2519,7 @@
 
 ### 模型：Notice
 
-定义：公告
+定义：赛内公告
 
 **基础路由：/notice**
 
@@ -2557,6 +2556,66 @@
     请求参数：指定公告的uuid（在接口地址的id处）。
 
     返回值：成功时返回创建成功相关信息和公告信息notice，否则给出失败原因
+
+  - **接口地址：/list/:id**
+
+    **功能：查看公告列表**
+
+    **方法类型：GET**
+
+    请求参数：指定比赛的uuid（在接口地址的id处）。在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少篇文章，默认值为20）。
+
+    返回值：成功时返回创建成功相关信息和notices，notices为notice数组，否则给出失败原因
+
+### 模型：NoticeBoard
+
+定义：公告栏
+
+**基础路由：/notice/board**
+
+实现的接口类型：
+
+- **RestInterface**
+
+  - **接口地址：/create**
+
+    **功能：公告发布**
+
+    **方法类型：POST**
+
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含title、content、res_long(可选)、res_short（可选）、其中title表示公告标题，content表示公告内容，res_long表示长文本备用键值，res_short表示短文本备用键值。
+
+    返回值：成功时返回创建成功相关信息，否则给出失败原因
+
+  - **接口地址：/show/:id**
+
+    **功能：查看公告**
+
+    **方法类型：GET**
+
+    请求参数：指定公告的uuid（在接口地址的id处）。
+
+    返回值：成功时返回创建成功相关信息和公告信息notice，否则给出失败原因
+
+  - **接口地址：/update/:id**
+
+    **功能：更新公告**
+
+    **方法类型：PUT**
+
+    请求参数：公告的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含title、content、res_long(可选)、res_short（可选）、其中title表示标题，content表示内容，res_long表示长文本备用键值，res_short表示短文本备用键值。
+
+    返回值：成功更新公告时，返回更新成功消息。如果失败则返回失败原因。
+
+  - **接口地址：/delete/:id**
+
+    **功能：删除公告**
+
+    **方法类型：DELETE**
+
+    请求参数：公告的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token。
+
+    返回值：成功删除公告时，删除成功消息。如果失败则返回失败原因。
 
   - **接口地址：/list/:id**
 
@@ -3644,6 +3703,80 @@
 
     返回值：成功时，以json格式返回符合programs和total，如果失败则返回失败原因。
 
+### 模型：RealName
+
+定义：实名
+
+**基础路由：/real/name**
+
+实现的接口类型：
+
+- **RecordInterface**
+
+  - **接口地址：/create**
+
+    **功能：创建实名**
+
+    **方法类型：POST**
+
+    请求参数：  Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含name、student_id,其中name表示姓名，student_id表示学号。
+
+    返回值：成功时，返回成功消息，如果失败则返回失败原因。
+
+  - **接口地址：/show/:id**
+
+    **功能：查看id指定实名**
+
+    **方法类型：GET**
+
+    请求参数：  在接口地址中给出指定程序的id（即:id部分）  。
+
+    返回值：成功时，以json格式返回一个realName，realName包含name、student_id、major、grade、 created_at 、updated_at，分别表示名字、学号、年级、专业、创建时间、更新时间。如果失败则返回失败原因。
+
+  - **接口地址：/update**
+
+    **功能：修改实名**
+
+    **方法类型：PUT**
+
+    请求参数：  Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含name、student_id,其中name表示姓名，student_id表示学号。
+
+    返回值：成功时，返回更新成功，如果失败则返回失败原因。
+
+  - **接口地址：/delete**
+
+    **功能：解除实名**
+
+    **方法类型：DELETE**
+
+    请求参数：  Authorization中的Bearer Token中提供注册、登录时给出的token。
+
+    返回值：成功时，返回删除成功信息，如果失败则返回失败原因。
+
+  - **接口地址：/list**
+
+    **功能：查看实名列表**
+
+    **方法类型：GET**
+
+    请求参数：  在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少篇提交，默认值为20）。Authorization中的Bearer Token中提供注册、登录时给出的token。
+
+    返回值：成功时，以json格式返回realNames和total，如果失败则返回失败原因。
+
+- **其它**
+
+  - **接口地址：/upload**
+
+    **功能：上传实名表单**
+
+    **方法类型：PUT**
+
+    请求参数： Authorization中的Bearer Token中提供注册、登录时给出的token。在Body部分，form-data格式，接收file（文件类型），先仅支持.xls,.xlsx,.csv文件，大小不超过10M。位置[0,0]必须为字符串"StudentId"，位置[0,1]必须为字符串"Name"，位置[0,2]必须为字符串"College"，位置[0,3]必须为字符串"Grade",位置[0,4]必须为字符串"Major"。那之后，接下来的对应列为学生学号、姓名、学院、年级、专业。
+
+    返回值：返回上传成功信息
+
+    返回值：成功时，返回成功信息，否则返回失败原因。
+
 ### 模型：Record
 
 定义：代码提交
@@ -3672,7 +3805,7 @@
 
     请求参数：  Authorization中的Bearer Token中提供注册、登录时给出的token。 在接口地址中给出指定提交的id（即:id部分）  。
 
-    返回值：成功时，以json格式返回一个record，record包含language、code、problem_id、 created_at 、updated_at、 user_id 、condition、pass、hack_id，其中condition表示提交状态，提交状态包含Waiting（等待）、Input Doesn't Exist（输入在数据库中不存在）、Output Doesn't Exist（输入在数据库中不存在）、System Error 1（服务器问题：创建文件失败）、System Error 2（服务器问题：编译指令执行失败）、Compile Time Out（编译超时）、Compile Error（编译错误）、System Error 3（服务器问题：消息管道创建失败）、System Error 4（服务器问题：运行指令执行失败）、Time Limit Exceeded（超出时间限制）、Runtime Error（运行时错误）、Memory Limit Exceeded（超出空间限制）、Wrong Answer（错误答案）、System error 5（服务器问题：数据库插入数据失败）、Accepted（提交通过）、Language Error（语言错误）,pass表示用例通过数量，hack_id表示该提交被hack的id。如果失败则返回失败原因.
+    返回值：成功时，以json格式返回一个record，record包含language、code、problem_id、 created_at 、updated_at、 user_id 、condition、pass、hack_id，其中condition表示提交状态，提交状态包含Waiting（等待）、Running（正在运行）、Input Doesn't Exist（输入在数据库中不存在）、Output Doesn't Exist（输入在数据库中不存在）、System Error 1（服务器问题：创建文件失败）、System Error 2（服务器问题：编译指令执行失败）、Compile Time Out（编译超时）、Compile Error（编译错误）、System Error 3（服务器问题：消息管道创建失败）、System Error 4（服务器问题：运行指令执行失败）、Time Limit Exceeded（超出时间限制）、Runtime Error（运行时错误）、Memory Limit Exceeded（超出空间限制）、Wrong Answer（错误答案）、System error 5（服务器问题：数据库插入数据失败）、Accepted（提交通过）、Language Error（语言错误）、Presentation Error（答案格式出错）,pass表示用例通过数量，hack_id表示该提交被hack的id。如果失败则返回失败原因.
 
   - **接口地址：/list**
 
@@ -3712,7 +3845,17 @@
   
     请求参数： 注意，该请求为websocket长连接。
   
-    返回值：成功时，将持续实时返回recordList，每个recordList包含record_id表示发生变化的record的id，如果失败则返回失败原因。
+    返回值：成功时，将持续实时返回recordCase，每个recordCase包含case_Id表示发生通过的的用例的id，如果失败则返回失败原因。
+    
+  - **接口地址：/publish/:id**
+  
+    **功能：订阅某个提交**
+  
+    **方法类型：GET**
+  
+    请求参数： 注意，该请求为websocket长连接，在id处给出提交的uid。
+  
+    返回值：成功时，将持续实时返回recordCase，每个recordCase包含case_id表示发生通过的case的id，如果失败则返回失败原因。
   
 - **HackInterface**
 
@@ -5076,7 +5219,7 @@
 
     请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。 
 
-    返回值：返回用户的一些个人信息，格式为json包含name（用户名称）、email（邮箱）、blog（博客地址）、sex（bool类型，性别）、address（地址）、icon（头像）、level(权限等级)、score(竞赛分数)、like_num(收到点赞数量)、unlike_num（收到点踩数量）、collect_num（收到收藏数量）、visit_num（被游览数量）
+    返回值：返回用户的一些个人信息，格式为json包含name（用户名称）、email（邮箱）、blog（博客地址）、sex（bool类型，性别）、address（地址）、icon（头像）、level(权限等级)、score(竞赛分数)、like_num(收到点赞数量)、unlike_num（收到点踩数量）、collect_num（收到收藏数量）、visit_num（被游览数量）、res_long（备用长文本）、res_short（备用短文本）
 
   - **接口地址：/show/:id**
 
@@ -5086,7 +5229,7 @@
 
     请求参数：  在接口地址中给出指定用户的id（即:id部分）  。
 
-    返回值：返回用户的一些个人信息，格式为json包含name（用户名称）、email（邮箱）、blog（博客地址）、sex（bool类型，性别）、address（地址）、icon（头像）、level(权限等级)、score(竞赛分数)、like_num(收到点赞数量)、unlike_num（收到点踩数量）、collect_num（收到收藏数量）、visit_num（被游览数量）
+    返回值：返回用户的一些个人信息，格式为json包含name（用户名称）、email（邮箱）、blog（博客地址）、sex（bool类型，性别）、address（地址）、icon（头像）、level(权限等级)、score(竞赛分数)、like_num(收到点赞数量)、unlike_num（收到点踩数量）、collect_num（收到收藏数量）、visit_num（被游览数量）、res_long（备用长文本）、res_short（备用短文本）。
 
   - **接口地址：/update**
 
@@ -5094,7 +5237,7 @@
 
     **方法类型：PUT**
 
-    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。在Body 中，raw格式提供json包含name（用户名称）、email（邮箱）、blog（博客地址）、sex（bool类型，性别）、address（地址）、icon（头像）
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。在Body 中，raw格式提供json包含name（用户名称）、email（邮箱）、blog（博客地址）、sex（bool类型，性别）、address（地址）、icon（头像）、res_long（备用长文本）、res_short（备用短文本）
 
     返回值：更新成功后返回用户更新后的个人信息，否则返回错误原因。
 

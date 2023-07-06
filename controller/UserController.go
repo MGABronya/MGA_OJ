@@ -351,6 +351,8 @@ func (u UserController) Update(ctx *gin.Context) {
 	user.Email = requestUser.Email
 	user.Sex = requestUser.Sex
 	user.Icon = requestUser.Icon
+	user.ResLong = requestUser.ResLong
+	user.ResShort = requestUser.ResShort
 
 	// TODO 更新信息
 	u.DB.Where("id = (?)", user.ID).Updates(model.User{

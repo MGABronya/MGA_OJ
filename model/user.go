@@ -27,6 +27,8 @@ type User struct {
 	UnLikeNum  int       `json:"unlike_num" gorm:"type:int;not null"`                                          // 收到点踩数量
 	CollectNum int       `json:"collect_num" gorm:"type:int;not null"`                                         // 收到收藏数量
 	VisitNum   int       `json:"visit_num" gorm:"type:int;not null"`                                           // 被游览人次
+	ResLong    string    `json:"res_long" gorm:"type:text;index:search_idx,class:FULLTEXT"`                    // 备用长文本
+	ResShort   string    `json:"res_short" gorm:"type:text;index:search_idx,class:FULLTEXT"`                   // 备用短文本
 }
 
 // @title    BeforeCreate

@@ -176,14 +176,15 @@
 ​		使用接口：
 
 - /user/update 修改用户信息
-
 - /img/upload  上传图片
-
 - /user/label/:label 创建用户标签
-
-- /user//label/:label 删除用户标签
-
-  **注**：这里还需要做实名相关接口，用于给用户进行实名。
+- /user/label/:label 删除用户标签
+- /real/name/create 创建实名
+- /real/name/show/:id 查看实名
+- /real/name/update 修改实名
+- /real/name/delete 解除实名
+- /real/name/list 查看实名列表
+- /real/name/upload 上传实名表单文件
 
 (6)查看用户信息
 
@@ -498,6 +499,8 @@
 
 ​		功能描述：用户可以发布题解的回复、查看题解的回复、点赞题解的回复、查看题解的回复热度等。
 
+​		使用接口：
+
 - /thread/create/:id 创建回复
 - /thread/show/:id 查看回复
 - /thread/update/:id 更新回复
@@ -516,7 +519,11 @@
 
 ​		使用接口：
 
-​		**注**：待制作中。
+- /notice/board/create 公告发布
+- /notice/board/show/:id 查看公告
+- /notice/board/update/:id 更新公告
+- /notice/board/delete/:id 删除公告
+- /notice/board/list/:id 查看公告列表
 
 **3.题目相关**
 
@@ -566,24 +573,15 @@
 ​		使用接口：
 
 - /test/create（注意，该接口前缀与先前不同）
-
 - /record/create 创建提交
-
 - /record/show/:id 查看id指定提交状态
-
 - /record/list 查看某类特定提交列表
-
 - /record/list/case/:id 查看提交的测试通过情况
-
 - /record/case/:id 查看某个测试的情况
-
 - /record/publish/list 订阅提交列表
-
+- /record/publish/:id 订阅某个提交
 - /record/hack/:id 黑客指定提交
-
 - /hack/show/:id  查看黑客
-
-  ​	**注**：此处还需要设计一个用于提交后长连接的接口用于实时返回提交代码运行情况，同时提交后返回的信息也需要更加具体一点，其目的是为了引导用户更好的解题。
 
 (3)题单
 
@@ -625,74 +623,41 @@
 ​		使用接口：
 
 - /set/create 创建表单
-
 - /set/show/:id 查看表单
-
 - /set/update/:id 更新表单
-
 - /set/delete/:id 删除表单
-
 - /set/list 查看表单列表
-
 - /set/apply/:id 用户组组长申请加入某个表单
-
 - /set/applying/list/:id 用户组组长查看发出的表单的申请
-
 - /set/applied/list/:id 表单创建者查看用户组的申请
-
 - /set/consent/:id 表单创建者通过申请
-
 - /set/refuse/:id 表单创建者拒绝申请
-
 - /set/quit/:set/:group 用户组退出某个表单
-
 - /set/block/:set/:group 表单拉黑某用户组
-
 - /set/remove/black/:set/:group 移除某用户组的黑名单
-
 - /set/black/list/:id 查看黑名单
-
 - /set/like/:id 点赞或点踩
-
 - /set/cancle/like/:id 取消点赞或点踩
-
 - /set/like/number/:id 查看点赞点踩数量
-
 - /set/like/list/:id 查看点赞、点踩列表
-
 - /set/like/show/:id 查看用户当前点赞状态
-
 - /set/collect/:id 收藏
-
 - /set/cancel/collect/:id 取消收藏
-
 - /set/collect/show/:id 查看收藏状态
-
 - /set/collect/list/:id 查看收藏列表
-
 - /set/collect/number/:id 查看表单被收藏数量
-
 - /set/label/:id/:label 创建表单标签
-
 - /set/label/:id/:label 删除表单标签
-
 - /set/label/:id 查看表单标签
-
 - /set/search/:text 按文本搜索表单
-
 - /set/search/label 按标签搜索表单
-
 - /set/search/with/label/:text 按文本和标签交集搜索表单
-
 - /set/hot/rank 获取表单热度排行
-
 - /set/topic/list/:id 查看某一表单的主题列表
-
 - /set/group/list/:id 查看某一表单的用户组列表
-
 - /set/user/group/:user/:set 查看某用户在某表单在哪一组中
-
-  ​	**注**：此处还需要设计用于计算表单内用户排名的接口。
+- /set/rank/list/:id 查看表单内用户排行
+- /set/rank/update/:id 更新表单排行
 
 ## 4 其他需求
 

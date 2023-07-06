@@ -701,6 +701,15 @@ leep:
 	}
 }
 
+// @title    Publish
+// @description  订阅提交列表
+// @auth      MGAronya（张健）       2022-9-16 12:19
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (c CompetitionOIController) Publish(ctx *gin.Context) {
+
+}
+
 // @title    CaseList
 // @description   查看一篇提交的测试通过情况
 // @auth      MGAronya（张健）       2022-9-16 12:19

@@ -30,7 +30,7 @@ func ProgramRoutes(r *gin.Engine) *gin.Engine {
 
 	programRoutes.PUT("/update/:id", middleware.AuthMiddleware(), programController.Update)
 
-	programRoutes.DELETE("/delete/:id", middleware.AuthMiddleware(), programController.PageList)
+	programRoutes.DELETE("/delete/:id", middleware.AuthMiddleware(), programController.Delete)
 
 	programRoutes.GET("/list", middleware.AuthMiddleware(), programController.PageList)
 

@@ -14,4 +14,5 @@ type RecordInterface interface {
 	CaseList(ctx *gin.Context)        // 某次提交的具体测试通过情况
 	Case(ctx *gin.Context)            // 某个测试的具体情况
 	PublishPageList(ctx *gin.Context) // 订阅提交列表
+	Publish(ctx *gin.Context)         // 订阅某个提交
 }

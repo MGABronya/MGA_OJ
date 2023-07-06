@@ -1,5 +1,5 @@
 // @Title  NoticeController
-// @Description  该文件提供关于操作个人比赛的各种方法
+// @Description  该文件提供关于操作通告的各种方法
 // @Author  MGAronya（张健）
 // @Update  MGAronya（张健）  2022-9-16 0:33
 package controller
@@ -21,7 +21,7 @@ import (
 	"gorm.io/gorm"
 )
 
-// INoticeController			定义了个人比赛类接口
+// INoticeController			定义了通告类接口
 type INoticeController interface {
 	Create(ctx *gin.Context)   // 通告
 	Publish(ctx *gin.Context)  // 订阅通告
@@ -29,7 +29,7 @@ type INoticeController interface {
 	Show(ctx *gin.Context)     // 指定公告的内容
 }
 
-// NoticeController			定义了个人比赛工具类
+// NoticeController			定义了通告工具类
 type NoticeController struct {
 	DB       *gorm.DB            // 含有一个数据库指针
 	Redis    *redis.Client       // 含有一个redis指针
