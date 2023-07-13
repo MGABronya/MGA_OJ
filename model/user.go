@@ -29,6 +29,7 @@ type User struct {
 	VisitNum   int       `json:"visit_num" gorm:"type:int;not null"`                                           // 被游览人次
 	ResLong    string    `json:"res_long" gorm:"type:text;index:search_idx,class:FULLTEXT"`                    // 备用长文本
 	ResShort   string    `json:"res_short" gorm:"type:text;index:search_idx,class:FULLTEXT"`                   // 备用短文本
+	BadgeId    uuid.UUID `json:"badge_id" gorm:"type:char(36);index:idx_badgeId"`                              // 用户佩戴的徽章外键
 }
 
 // @title    BeforeCreate

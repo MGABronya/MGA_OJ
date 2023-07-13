@@ -126,7 +126,7 @@ leep:
 	r.Redis.Publish(ctx, "RecordChan", v)
 
 	// TODO 成功
-	response.Success(ctx, nil, "提交成功")
+	response.Success(ctx, gin.H{"record": record}, "提交成功")
 }
 
 // @title    ShowRecord
@@ -361,11 +361,46 @@ leep:
 // @return   void
 func (r RecordController) Case(ctx *gin.Context) {
 	// TODO 获取path中的id
+	cid := ctx.Params.ByName("cid")
 	id := ctx.Params.ByName("id")
 	var cas model.CaseCondition
 
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	var record model.Record
+
+	// TODO 先看redis中是否存在
+	if ok, _ := r.Redis.HExists(ctx, "Record", id).Result(); ok {
+		cate, _ := r.Redis.HGet(ctx, "Record", id).Result()
+		if json.Unmarshal([]byte(cate), &record) == nil {
+			// TODO 跳过数据库搜寻过程
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			r.Redis.HDel(ctx, "Record", id)
+		}
+	}
+
+	// TODO 查看提交是否在数据库中存在
+	if r.DB.Where("id = (?)", id).First(&record).Error != nil {
+		response.Fail(ctx, nil, "提交不存在")
+		return
+	}
+	{
+		// TODO 将提交存入redis供下次使用
+		v, _ := json.Marshal(record)
+		r.Redis.HSet(ctx, "Record", id, v)
+	}
+leep:
+	if user.ID != record.UserId {
+		response.Fail(ctx, nil, "非提交者无法查看")
+		return
+	}
+
 	// TODO 查找所有分页中可见的条目
-	if r.DB.Where("c_id = (?)", id).First(&cas).Error != nil {
+	if r.DB.Where("record_id = (?) and c_id = (?)", id, cid).First(&cas).Error != nil {
 		response.Fail(ctx, nil, "测试不存在")
 		return
 	}

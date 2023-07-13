@@ -13,17 +13,20 @@ import (
 	"MGA_OJ/vo"
 	"encoding/json"
 	"log"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v9"
+	uuid "github.com/satori/go.uuid"
 	"gorm.io/gorm"
 )
 
 // IBadgeController			定义了徽章类接口
 type IBadgeController interface {
-	Interface.RestInterface    // 包含增删查改功能
-	UserList(ctx *gin.Context) // 查看指定用户的徽章
+	Interface.RestInterface              // 包含增删查改功能
+	UserList(ctx *gin.Context)           // 查看指定用户的徽章
+	UserShow(ctx *gin.Context)           // 查看指定用户的指定徽章
+	EvaluateExpression(ctx *gin.Context) // 计算表达式
+	//Publish(ctx *gin.Context)            // 徽章长连接
 }
 
 // BadgeController			定义了徽章工具类
@@ -214,24 +217,15 @@ func (b BadgeController) Delete(ctx *gin.Context) {
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (b BadgeController) PageList(ctx *gin.Context) {
-	// TODO 获取分页参数
-	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
-	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
-
-	// TODO 获取path中的id
-	id := ctx.Params.ByName("id")
 
 	// TODO 分页
 	var badges []model.Badge
 
 	// TODO 查找所有分页中可见的条目
-	b.DB.Where("problem_id = (?)", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&badges)
-
-	var total int64
-	b.DB.Where("problem_id = (?)", id).Model(model.Badge{}).Count(&total)
+	b.DB.Order("created_at desc").Find(&badges)
 
 	// TODO 返回数据
-	response.Success(ctx, gin.H{"badges": badges, "total": total}, "成功")
+	response.Success(ctx, gin.H{"badges": badges}, "成功")
 }
 
 // @title    UserList
@@ -240,24 +234,93 @@ func (b BadgeController) PageList(ctx *gin.Context) {
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (b BadgeController) UserList(ctx *gin.Context) {
-	// TODO 获取分页参数
-	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
-	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
 
 	// TODO 获取path中的id
 	id := ctx.Params.ByName("id")
 
 	// TODO 分页
-	var badges []model.Badge
+	var userBadges []model.UserBadge
 
 	// TODO 查找所有分页中可见的条目
-	b.DB.Where("user_id = (?)", id).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&badges)
+	b.DB.Where("user_id = (?)", id).Order("updated_at desc").Find(&userBadges)
 
-	var total int64
-	b.DB.Where("user_id = (?)", id).Model(model.Badge{}).Count(&total)
+	// TODO 分出金银铜铁徽章
+	var goldBadges []model.UserBadge
+	var silverBadges []model.UserBadge
+	var copperBadges []model.UserBadge
+	var ironBadges []model.UserBadge
+
+	for _, v := range userBadges {
+		var badge model.Badge
+		id := v.BadgeId.String()
+		// TODO 先看redis中是否存在
+		if ok, _ := b.Redis.HExists(ctx, "Badge", id).Result(); ok {
+			cate, _ := b.Redis.HGet(ctx, "Badge", id).Result()
+			json.Unmarshal([]byte(cate), &badge)
+		} else {
+			// TODO 查看徽章是否在数据库中存在
+			b.DB.Where("id = (?)", id).First(&badge)
+			// TODO 将徽章存入redis供下次使用
+			v, _ := json.Marshal(badge)
+			b.Redis.HSet(ctx, "Badge", id, v)
+		}
+		if v.MaxScore >= badge.Gold {
+			goldBadges = append(goldBadges, v)
+		} else if v.MaxScore >= badge.Silver {
+			silverBadges = append(silverBadges, v)
+		} else if v.MaxScore >= badge.Copper {
+			copperBadges = append(copperBadges, v)
+		} else if v.MaxScore >= badge.Iron {
+			ironBadges = append(ironBadges, v)
+		}
+	}
 
 	// TODO 返回数据
-	response.Success(ctx, gin.H{"badges": badges, "total": total}, "成功")
+	response.Success(ctx, gin.H{"goldBadges": goldBadges, "sliverBadges": silverBadges, "copperBadges": copperBadges, "ironBadges": ironBadges}, "成功")
+}
+
+// @title    UserShow
+// @description   获取指定用户的指定徽章
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (b BadgeController) UserShow(ctx *gin.Context) {
+
+	// TODO 获取path中的id
+	user_id := ctx.Params.ByName("user")
+
+	// TODO 获取path中的id
+	badge_id := ctx.Params.ByName("badge")
+
+	var badge model.UserBadge
+
+	// TODO 查看徽章是否在数据库中存在
+	if b.DB.Where("user_id = (?) and badge_id = (?)", user_id, badge_id).First(&badge).Error != nil {
+		response.Fail(ctx, nil, "徽章不存在")
+		return
+	}
+
+	response.Success(ctx, gin.H{"badge": badge}, "成功")
+}
+
+// @title    EvaluateExpression
+// @description   获取指定用户的表达式得分
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (b BadgeController) EvaluateExpression(ctx *gin.Context) {
+
+	// TODO 获取path中的id
+	user_id := ctx.Params.ByName("user")
+
+	// TODO 获取path中的id
+	expression := ctx.Params.ByName("expression")
+
+	id, _ := uuid.FromString(user_id)
+
+	score, err := util.EvaluateExpression(expression, id)
+
+	response.Success(ctx, gin.H{"score": score, "err": err}, "成功")
 }
 
 // @title    NewBadgeController
@@ -268,5 +331,6 @@ func (b BadgeController) UserList(ctx *gin.Context) {
 func NewBadgeController() IBadgeController {
 	db := common.GetDB()
 	db.AutoMigrate(model.Badge{})
+	db.AutoMigrate(model.UserBadge{})
 	return BadgeController{DB: db}
 }

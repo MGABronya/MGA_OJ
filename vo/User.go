@@ -12,25 +12,24 @@ import (
 
 // user			定义用户
 type UserRequest struct {
-	Name     string `json:"name"`      // 用户名称
-	Email    string `json:"email"`     // 邮箱
-	Password string `json:"password"`  // 密码
-	Verify   string `json:"verify"`    // 验证码
-	ResLong  string `json:"res_long"`  // 备用长文本
-	ResShort string `json:"res_short"` // 备用短文本
+	Name     string `json:"name"`     // 用户名称
+	Email    string `json:"email"`    // 邮箱
+	Password string `json:"password"` // 密码
+	Verify   string `json:"verify"`   // 验证码
 }
 
 // user 		定义用户更新信息
 type UserUpdate struct {
-	Name     string `json:"name"`      // 用户名称
-	Email    string `json:"email"`     // 邮箱
-	Blog     string `json:"blog"`      // 博客地址
-	Sex      bool   `json:"sex"`       // 性别
-	Address  string `json:"address"`   // 地址
-	Verify   string `json:"verify"`    // 验证码
-	Icon     string `json:"icon"`      // 头像
-	ResLong  string `json:"res_long"`  // 备用长文本
-	ResShort string `json:"res_short"` // 备用短文本
+	Name     string    `json:"name"`      // 用户名称
+	Email    string    `json:"email"`     // 邮箱
+	Blog     string    `json:"blog"`      // 博客地址
+	Sex      bool      `json:"sex"`       // 性别
+	Address  string    `json:"address"`   // 地址
+	Verify   string    `json:"verify"`    // 验证码
+	Icon     string    `json:"icon"`      // 头像
+	ResLong  string    `json:"res_long"`  // 备用长文本
+	ResShort string    `json:"res_short"` // 备用短文本
+	BadgeId  uuid.UUID `json:"badge_id"`  // 用户佩戴的徽章外键
 }
 
 // UserDto			定义了用户的基本信息
@@ -50,6 +49,7 @@ type UserDto struct {
 	VisitNum   int       `json:"visit_num"`   // 被游览数量
 	ResLong    string    `json:"res_long"`    // 备用长文本
 	ResShort   string    `json:"res_short"`   // 备用短文本
+	BadgeId    uuid.UUID `json:"badge_id"`    // 用户佩戴的徽章外键
 }
 
 // @title    ToUserDto
@@ -74,5 +74,6 @@ func ToUserDto(user model.User) UserDto {
 		VisitNum:   user.VisitNum,
 		ResLong:    user.ResLong,
 		ResShort:   user.ResShort,
+		BadgeId:    user.BadgeId,
 	}
 }

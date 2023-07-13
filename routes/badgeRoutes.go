@@ -37,25 +37,19 @@ func BadgeRoutes(r *gin.Engine) *gin.Engine {
 	badgeRoutes.DELETE("/delete/:id", middleware.AuthMiddleware(), badgeController.Show)
 
 	// TODO 查看徽章列表
-	badgeRoutes.GET("/list", middleware.AuthMiddleware(), badgeController.PageList)
+	badgeRoutes.GET("/list", badgeController.PageList)
 
 	// TODO 查看用户徽章
-	//badgeRoutes.GET("/user/list/:id", badgeController.UserShow)
+	badgeRoutes.GET("/user/show/:user/:badge", badgeController.UserShow)
 
-	// TODO 查看徽章列表
+	// TODO 查看用户徽章列表
 	badgeRoutes.GET("/user/list/:id", badgeController.UserList)
-
-	// TODO 用户更换佩戴勋章
-	//badgeRoutes.PUT("/user/udpate", middleware.AuthMiddleware(), badgeController.UserUpdate)
 
 	// TODO 用户连接
 	//badgeRoutes.GET("/publish", middleware.AuthMiddleware(), badgeController.Publish)
 
-	// TODO 查看行为列表
-	//badgeRoutes.GET("/behavior/list", badgeController.BehaviorList)
-
 	// TODO 查看某用户的某行为统计
-	//badgeRoutes.GET("/behavior/:user/:behavior", badgeController.BehaviorShow)
+	badgeRoutes.GET("/evaluate/expression/:user/:expression", badgeController.EvaluateExpression)
 
 	return r
 }

@@ -9,15 +9,24 @@ import (
 	Handle "MGA_OJ/Language"
 	"MGA_OJ/common"
 	"MGA_OJ/model"
+	"MGA_OJ/vo"
 	"encoding/csv"
+	"encoding/json"
+	"encoding/xml"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"math"
 	"math/rand"
+	"net/http"
 	"net/smtp"
+	"net/url"
 	"os"
 	"path"
 	"regexp"
+	"sort"
+	"strconv"
+	"strings"
 	"time"
 	"unicode"
 
@@ -62,6 +71,25 @@ var LanguageMap map[string]Interface.CmdInterface = map[string]Interface.CmdInte
 	"Ruby":       Handle.NewRuby(),
 	"Rust":       Handle.NewRust(),
 	"Swift":      Handle.NewSwift(),
+}
+
+// Tags			定义自动标签
+var Tags []string = []string{
+	"基本算法", "基础", "简单", "练习", "编程",
+	"搜索", "计算几何", "数学", "数论", "图论", "动态规划", "数据结构",
+	"枚举", "贪心", "递归", "分治", "递推", "构造", "模拟",
+	"深度优先搜索", "宽度优先搜索", "广度优先搜索", "双向搜索", "启发式搜索", "记忆化搜索",
+	"几何公式", "叉积", "点积", "多边形", "凸包", "扫描线", "内核", "几何工具", "平面交线", "可视图", "点集最小圆覆盖", "对踵点",
+	"组合数学", "排列组合", "容斥原理", "抽屉原理", "置换群", "Polya定理", "母函数", "MoBius反演", "偏序关系理论",
+	"素数", "整除", "进制", "模运算", "高斯消元", "概率", "欧几里得", "扩展欧几里得",
+	"博弈论", "Nim", "极大过程", "极小过程",
+	"拓扑排序", "最小生成树", "最短路", "二分图", "匈牙利算法", "KM算法",
+	"网络流", "最小费用最大流", "最小费用流", "最小割", "网络流规约", "差分约束", "双连通分量", "强连通分支", "割边", "割点",
+	"背包问题", "01背包", "完全背包", "多维背包", "多重背包", "区间dp", "环形dp", "判定性dp", "棋盘分割", "最长公共子序列", "最长上升子序列",
+	"二分判定型dp", "树型动态规划", "最大独立集", "状态压缩dp", "哈密顿路径", "四边形不等式", "单调队列", "单调栈",
+	"串", "KMP", "排序", "快排", "快速排序", "归并排序", "逆序数", "堆排序",
+	"哈希表", "二分", "并查集", "霍夫曼树", "哈夫曼树", "堆", "线段树", "二叉树", "树状数组", "RMQ",
+	"社招", "校招", "面经",
 }
 
 // MgaronyaString			mgaronya字符串
@@ -578,17 +606,17 @@ func RemoveWhiteSpace(str string) string {
 }
 
 // behaviors	    定义了用户行为映射表
-var behaviors map[string]func(string) float64 = map[string]func(string) float64{
+var behaviors map[string]func(uuid.UUID) (float64, string) = map[string]func(uuid.UUID) (float64, string){
 	"aaa": a,
 	"bbb": b,
 }
 
-func a(string) float64 {
-	return 1
+func a(uuid.UUID) (float64, string) {
+	return 1, ""
 }
 
-func b(string) float64 {
-	return 2
+func b(uuid.UUID) (float64, string) {
+	return 2, ""
 }
 
 // @title    checkExpression
@@ -618,6 +646,17 @@ func checkExpression(expr []byte) (bool, string) {
 			}
 			for i+1 < len(expr) && expr[i+1] == '#' {
 				i++
+			}
+		} else if expr[i] > '0' && expr[i] <= '9' {
+			if (cp & 1) == 1 {
+				return false, "变量位置错误"
+			}
+			for i+1 < len(expr) && expr[i] >= '0' && expr[i] <= '9' {
+				i++
+			}
+		} else if expr[i] == '0' {
+			if (cp & 1) == 1 {
+				return false, "变量位置错误"
 			}
 		} else if expr[i] != '+' && expr[i] != '-' && expr[i] != '*' && expr[i] != '/' {
 			if (cp & 1) == 0 {
@@ -681,4 +720,266 @@ func CheckExpression(expr []byte) (bool, string) {
 	}
 
 	return true, ""
+}
+
+// @title    EvaluateExpression
+// @description  函数接收一个表达式，计算表达式的值
+// @auth      MGAronya（张健）             2022-9-16 10:29
+// @param     expr string		表达式
+// @return    int, string		计算表达式的值
+func EvaluateExpression(expression string, userId uuid.UUID) (int, string) {
+	// TODO 运算数栈
+	stack := make([]string, 0)
+	// TODO 运算符栈
+	operators := make([]string, 0)
+
+	// TODO 去除表达式中的空格
+	expression = strings.ReplaceAll(expression, " ", "")
+
+	for i := 0; i < len(expression); i++ {
+		char := expression[i]
+		// TODO 处理数字
+		if char >= '0' && char <= '9' {
+			numStr := string(char)
+
+			// TODO 找到数字结束位置
+			for j := i + 1; j < len(expression); j++ {
+				nextChar := expression[j]
+				if nextChar >= '0' && nextChar <= '9' {
+					numStr += string(nextChar)
+				} else {
+					break
+				}
+			}
+
+			// TODO 将数字压入栈中
+			stack = append(stack, numStr)
+			// TODO 更新索引位置
+			i += len(numStr) - 1
+		} else if char >= 'a' && char <= 'z' {
+			// TODO 处理变量
+			varName := string(char)
+
+			// TODO 找到变量结束位置
+			for j := i + 1; j < len(expression); j++ {
+				nextChar := expression[j]
+				if nextChar >= 'a' && nextChar <= 'z' {
+					varName += string(nextChar)
+				} else {
+					break
+				}
+			}
+
+			value, err := behaviors[varName](userId)
+			if err != "" {
+				return 0, err
+			}
+
+			// TODO 将变量值压入栈中
+			stack = append(stack, strconv.Itoa(int(value)))
+			// TODO 更新索引位置
+			i += len(varName) - 1
+		} else if char == '(' {
+			// TODO 处理左括号
+			operators = append(operators, string(char))
+		} else if char == ')' {
+			// TODO 处理右括号
+			for len(operators) > 0 && operators[len(operators)-1] != "(" {
+				topOperator := operators[len(operators)-1]
+				operators = operators[:len(operators)-1]
+
+				if len(stack) < 2 {
+					return 0, "invalid expression"
+				}
+
+				num2, _ := strconv.Atoi(stack[len(stack)-1])
+				stack = stack[:len(stack)-1]
+				num1, _ := strconv.Atoi(stack[len(stack)-1])
+				stack = stack[:len(stack)-1]
+
+				result := 0
+				switch topOperator {
+				case "+":
+					result = num1 + num2
+				case "-":
+					result = num1 - num2
+				case "*":
+					result = num1 * num2
+				case "/":
+					result = num1 / num2
+				}
+				// TODO 将计算结果压入栈中
+				stack = append(stack, strconv.Itoa(result))
+			}
+
+			if len(operators) > 0 && operators[len(operators)-1] == "(" {
+				operators = operators[:len(operators)-1]
+			} else {
+				return 0, "invalid expression"
+			}
+		} else if char == '+' || char == '-' || char == '*' || char == '/' {
+			// TODO 处理运算符
+			for len(operators) > 0 && (operators[len(operators)-1] == "*" || operators[len(operators)-1] == "/") {
+				topOperator := operators[len(operators)-1]
+				operators = operators[:len(operators)-1]
+
+				if len(stack) < 2 {
+					return 0, "invalid expression"
+				}
+
+				num2, _ := strconv.Atoi(stack[len(stack)-1])
+				stack = stack[:len(stack)-1]
+				num1, _ := strconv.Atoi(stack[len(stack)-1])
+				stack = stack[:len(stack)-1]
+
+				result := 0
+				switch topOperator {
+				case "*":
+					result = num1 * num2
+				case "/":
+					if num2 == 0 {
+						return 0, "division by zero"
+					}
+					result = num1 / num2
+				}
+				// TODO 将计算结果压入栈中
+				stack = append(stack, strconv.Itoa(result))
+			}
+
+			operators = append(operators, string(char))
+		} else {
+			return 0, fmt.Sprintf("invalid character %c", char)
+		}
+	}
+
+	for len(operators) > 0 {
+		topOperator := operators[len(operators)-1]
+		operators = operators[:len(operators)-1]
+
+		if len(stack) < 2 {
+			return 0, "invalid expression"
+		}
+
+		num2, _ := strconv.Atoi(stack[len(stack)-1])
+		stack = stack[:len(stack)-1]
+		num1, _ := strconv.Atoi(stack[len(stack)-1])
+		stack = stack[:len(stack)-1]
+
+		result := 0
+		switch topOperator {
+		case "+":
+			result = num1 + num2
+		case "-":
+			result = num1 - num2
+		}
+		// TODO 将计算结果压入栈中
+		stack = append(stack, strconv.Itoa(result))
+	}
+
+	if len(stack) != 1 {
+		return 0, "invalid expression"
+	}
+	// TODO 将结果转换为整数
+	value, err := strconv.Atoi(stack[0])
+	if err != nil {
+		return 0, "invalid expression"
+	}
+
+	return value, ""
+}
+
+// @title    Search
+// @description  调用bing搜索api进行搜索
+// @auth      MGAronya（张健）             2022-9-16 10:29
+// @param     query string			api-key,终结点,搜索内容
+// @return    []SearchResult, error				搜索结果,报错信息
+func Search(query string) ([]vo.SearchResult, error) {
+
+	// TODO 构建搜索请求的URI
+	params := url.Values{}
+	params.Set("q", query)
+	requestURL := common.Endpoint + "?" + params.Encode()
+
+	// TODO 发送HTTP请求并获取响应
+	client := &http.Client{}
+	req, err := http.NewRequest("GET", requestURL, nil)
+	if err != nil {
+		return nil, err
+	}
+	req.Header.Set("Ocp-Apim-Subscription-Key", common.SubscriptionKey)
+	resp, err := client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	// TODO 读取响应体
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	// TODO 解析JSON响应体到结构体数组
+	var parsedJson struct {
+		WebPages struct {
+			Value []vo.SearchResult `json:"value"`
+		} `json:"webPages"`
+	}
+	err = json.Unmarshal(body, &parsedJson)
+	if err != nil {
+		return nil, err
+	}
+
+	return parsedJson.WebPages.Value, nil
+}
+
+// @title    CountTags
+// @description  记录搜索结果中的标签出现次数
+// @auth      MGAronya（张健）             2022-9-16 10:29
+// @param     query string			api-key,终结点,搜索内容
+// @return    []SearchResult, error				搜索结果,报错信息
+func CountTags(searchResults []vo.SearchResult, tags ...string) []vo.TagCount {
+	// TODO 创建一个空的切片，用于存储每个标签字符串出现的次数
+	counts := make([]vo.TagCount, 0)
+
+	// TODO 遍历每个标签字符串
+	for _, tag := range tags {
+		// TODO 将标签字符串转换为小写
+		lowerTag := strings.ToLower(tag)
+
+		count := 0
+		for _, searchResult := range searchResults {
+			// TDOO 使用strings.Count函数计算标签字符串在输入字符串中出现的次数
+			count += strings.Count(strings.ToLower(searchResult.Name), lowerTag)
+			count += strings.Count(strings.ToLower(searchResult.Snippet), lowerTag)
+		}
+
+		// TODO 如果次数大于0，则将标签和次数存储到切片中
+		if count > 0 {
+			tagCount := vo.TagCount{tag, count}
+			counts = append(counts, tagCount)
+		}
+	}
+
+	// TODO 按次数从大到小排序
+	sort.SliceStable(counts, func(i, j int) bool {
+		return counts[i].Count > counts[j].Count
+	})
+
+	return counts
+}
+
+// @title    GetInfoFromXML
+// @description  将题目从xml格式中读取出来
+// @auth      MGAronya（张健）             2022-9-16 10:29
+// @param     xmlString string			xml格式题目
+// @return    vo.Item, error				题目信息,报错信息
+func GetInfoFromXML(xmlString string) (vo.Item, error) {
+	var result vo.Fps
+
+	err := xml.Unmarshal([]byte(xmlString), &result)
+	if err != nil {
+		return result.Item, err
+	}
+	return result.Item, nil
 }

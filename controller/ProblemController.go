@@ -13,7 +13,9 @@ import (
 	"MGA_OJ/util"
 	"MGA_OJ/vo"
 	"encoding/json"
+	"io/ioutil"
 	"log"
+	"path"
 	"strconv"
 	"strings"
 
@@ -25,15 +27,17 @@ import (
 
 // IProblemController			定义了题目类接口
 type IProblemController interface {
-	Interface.RestInterface    // 包含增删查改功能
-	Interface.LikeInterface    // 包含点赞功能
-	Interface.CollectInterface // 包含收藏功能
-	Interface.VisitInterface   // 包含游览功能
-	Interface.LabelInterface   // 包含标签功能
-	Interface.SearchInterface  // 包含搜索功能
-	Interface.HotInterface     // 包含热度功能
-	UserList(ctx *gin.Context) // 查看指定用户上传的题目列表
-	TestNum(ctx *gin.Context)  // 查看指定题目的用例数量
+	Interface.RestInterface        // 包含增删查改功能
+	Interface.LikeInterface        // 包含点赞功能
+	Interface.CollectInterface     // 包含收藏功能
+	Interface.VisitInterface       // 包含游览功能
+	Interface.LabelInterface       // 包含标签功能
+	Interface.SearchInterface      // 包含搜索功能
+	Interface.HotInterface         // 包含热度功能
+	UserList(ctx *gin.Context)     // 查看指定用户上传的题目列表
+	TestNum(ctx *gin.Context)      // 查看指定题目的用例数量
+	CreateByFile(ctx *gin.Context) // 通过xml文件创建题目
+	CreateByText(ctx *gin.Context) // 通过xml文本创建题目
 }
 
 // ProblemController			定义了题目工具类
@@ -179,6 +183,321 @@ func (p ProblemController) Create(ctx *gin.Context) {
 			ProblemId: problem.ID,
 			Input:     requestProblem.TestCase[i].Input,
 			Output:    requestProblem.TestCase[i].Output,
+			CID:       uint(i + 1),
+		}
+		// TODO 插入数据
+		if err := p.DB.Create(&cas).Error; err != nil {
+			response.Fail(ctx, nil, "题目用例上传出错，数据验证有误")
+			return
+		}
+	}
+
+	// TODO 成功
+	response.Success(ctx, gin.H{"problem": problem}, "创建成功")
+}
+
+// @title    CreateByText
+// @description   通过xml文本创建一篇题目
+// @auth      MGAronya（张健）       2022-9-16 12:15
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (p ProblemController) CreateByText(ctx *gin.Context) {
+	// TODO 查找对应题目
+	text := ctx.Params.ByName("text")
+	// TODO 数据验证
+	item, err := util.GetInfoFromXML(text)
+	if err != nil {
+		log.Print(err.Error())
+		response.Fail(ctx, nil, "数据验证错误")
+		return
+	}
+
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 取出用户权限
+	if user.Level < 2 {
+		response.Fail(ctx, nil, "用户权限不足")
+		return
+	}
+
+	// TODO 创建题目
+	problem := model.Problem{
+		Title:       item.Title,
+		Description: item.Description,
+		Input:       item.Input,
+		Output:      item.Output,
+		Hint:        item.Hint,
+		Source:      item.Source,
+		UserId:      user.ID,
+	}
+
+	timeunits, err := strconv.Atoi(item.TimeLimit)
+	if err != nil {
+		response.Fail(ctx, nil, "时间限制有误")
+		return
+	}
+	memoryunits, err := strconv.Atoi(item.MemoryLimit)
+	if err != nil {
+		response.Fail(ctx, nil, "空间限制有误")
+		return
+	}
+
+	problem.TimeLimit = uint(timeunits * 1000)
+	problem.MemoryLimit = uint(memoryunits * 1024)
+
+	// TODO 查看时间限制是否合理
+	if problem.TimeLimit < 50 || problem.TimeLimit > 10000 {
+		response.Fail(ctx, nil, "时间限制不合理")
+		return
+	}
+
+	// TODO 查看空间限制是否合理
+	if problem.MemoryLimit < 1 || problem.MemoryLimit > 1024*1024*1 {
+		response.Fail(ctx, nil, "空间限制不合理")
+		return
+	}
+
+	// TODO 如果来源为空，为其设置默认值
+	if problem.Source == "" {
+		problem.Source = "用户" + user.Name + "上传"
+	}
+
+	if len(item.Solutions) != 0 {
+		// TODO 上传标准程序
+		program := model.Program{
+			Language: item.Solutions[0].Language,
+			Code:     item.Solutions[0].Code,
+			UserId:   user.ID,
+		}
+		// TODO 插入数据
+		if err := p.DB.Create(&program).Error; err != nil {
+			response.Fail(ctx, nil, "程序上传出错，数据验证有误")
+			return
+		}
+		problem.Standard = problem.ID
+		// TODO 查看标准程序是否通过
+		for i := range item.TestInput {
+			if condition, output := TQ.JudgeRun(program.Language, program.Code, item.TestInput[i], problem.MemoryLimit*2, problem.TimeLimit*2); condition != "ok" || output != string(item.Output[i]) {
+				response.Fail(ctx, nil, "标准程序未通过")
+				return
+			}
+		}
+	}
+
+	// TODO 插入数据
+	if err := p.DB.Create(&problem).Error; err != nil {
+		response.Fail(ctx, nil, "题目上传出错，数据验证有误")
+		return
+	}
+	// TODO 检验输入输出
+	if len(item.SampleInput) != len(item.SampleOutput) {
+		response.Fail(ctx, nil, "样例输入输出数量不一致")
+		return
+	}
+	if len(item.TestInput) != len(item.TestOutput) {
+		response.Fail(ctx, nil, "用例输入输出数量不一致")
+		return
+	}
+	// TODO 存储测试样例
+	for i := range item.SampleInput {
+		// TODO 尝试存入数据库
+		cas := model.CaseSample{
+			ProblemId: problem.ID,
+			Input:     item.SampleInput[i],
+			Output:    item.SampleOutput[i],
+			CID:       uint(i + 1),
+		}
+		// TODO 插入数据
+		if err := p.DB.Create(&cas).Error; err != nil {
+			response.Fail(ctx, nil, "题目用例上传出错，数据验证有误")
+			return
+		}
+	}
+
+	// TODO 存储测试用例
+	for i := range item.TestInput {
+		// TODO 尝试存入数据库
+		cas := model.Case{
+			ProblemId: problem.ID,
+			Input:     item.TestInput[i],
+			Output:    item.TestOutput[i],
+			CID:       uint(i + 1),
+		}
+		// TODO 插入数据
+		if err := p.DB.Create(&cas).Error; err != nil {
+			response.Fail(ctx, nil, "题目用例上传出错，数据验证有误")
+			return
+		}
+	}
+
+	// TODO 成功
+	response.Success(ctx, gin.H{"problem": problem}, "创建成功")
+}
+
+// @title    CreateByFile
+// @description   通过xml文件创建一篇题目
+// @auth      MGAronya（张健）       2022-9-16 12:15
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (p ProblemController) CreateByFile(ctx *gin.Context) {
+	file, err := ctx.FormFile("file")
+
+	//TODO 数据验证
+	if err != nil {
+		log.Print(err.Error())
+		response.Fail(ctx, nil, "数据验证错误")
+		return
+	}
+
+	// TODO 验证文件格式
+	extName := path.Ext(file.Filename)
+	allowExtMap := map[string]bool{
+		".xml": true,
+	}
+
+	// TODO 格式验证
+	if _, ok := allowExtMap[extName]; !ok {
+		response.Fail(ctx, nil, "文件后缀有误")
+		return
+	}
+
+	// 读取文件内容
+	reader, err := file.Open()
+	if err != nil {
+		log.Print(err.Error())
+		response.Fail(ctx, nil, "文件打开失败")
+		return
+	}
+	defer reader.Close()
+
+	text, err := ioutil.ReadAll(reader)
+	if err != nil {
+		log.Print(err.Error())
+		response.Fail(ctx, nil, "文件读取失败")
+		return
+	}
+
+	// TODO 数据验证
+	item, err := util.GetInfoFromXML(string(text))
+	if err != nil {
+		log.Print(err.Error())
+		response.Fail(ctx, nil, "数据验证错误")
+		return
+	}
+
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 取出用户权限
+	if user.Level < 2 {
+		response.Fail(ctx, nil, "用户权限不足")
+		return
+	}
+
+	// TODO 创建题目
+	problem := model.Problem{
+		Title:       item.Title,
+		Description: item.Description,
+		Input:       item.Input,
+		Output:      item.Output,
+		Hint:        item.Hint,
+		Source:      item.Source,
+		UserId:      user.ID,
+	}
+
+	timeunits, err := strconv.Atoi(item.TimeLimit)
+	if err != nil {
+		response.Fail(ctx, nil, "时间限制有误")
+		return
+	}
+	memoryunits, err := strconv.Atoi(item.MemoryLimit)
+	if err != nil {
+		response.Fail(ctx, nil, "空间限制有误")
+		return
+	}
+
+	problem.TimeLimit = uint(timeunits * 1000)
+	problem.MemoryLimit = uint(memoryunits * 1024)
+
+	// TODO 查看时间限制是否合理
+	if problem.TimeLimit < 50 || problem.TimeLimit > 10000 {
+		response.Fail(ctx, nil, "时间限制不合理")
+		return
+	}
+
+	// TODO 查看空间限制是否合理
+	if problem.MemoryLimit < 1 || problem.MemoryLimit > 1024*1024*1 {
+		response.Fail(ctx, nil, "空间限制不合理")
+		return
+	}
+
+	// TODO 如果来源为空，为其设置默认值
+	if problem.Source == "" {
+		problem.Source = "用户" + user.Name + "上传"
+	}
+
+	if len(item.Solutions) != 0 {
+		// TODO 上传标准程序
+		program := model.Program{
+			Language: item.Solutions[0].Language,
+			Code:     item.Solutions[0].Code,
+			UserId:   user.ID,
+		}
+		// TODO 插入数据
+		if err := p.DB.Create(&program).Error; err != nil {
+			response.Fail(ctx, nil, "程序上传出错，数据验证有误")
+			return
+		}
+		problem.Standard = problem.ID
+		// TODO 查看标准程序是否通过
+		for i := range item.TestInput {
+			if condition, output := TQ.JudgeRun(program.Language, program.Code, item.TestInput[i], problem.MemoryLimit*2, problem.TimeLimit*2); condition != "ok" || output != string(item.Output[i]) {
+				response.Fail(ctx, nil, "标准程序未通过")
+				return
+			}
+		}
+	}
+
+	// TODO 插入数据
+	if err := p.DB.Create(&problem).Error; err != nil {
+		response.Fail(ctx, nil, "题目上传出错，数据验证有误")
+		return
+	}
+	// TODO 检验输入输出
+	if len(item.SampleInput) != len(item.SampleOutput) {
+		response.Fail(ctx, nil, "样例输入输出数量不一致")
+		return
+	}
+	if len(item.TestInput) != len(item.TestOutput) {
+		response.Fail(ctx, nil, "用例输入输出数量不一致")
+		return
+	}
+	// TODO 存储测试样例
+	for i := range item.SampleInput {
+		// TODO 尝试存入数据库
+		cas := model.CaseSample{
+			ProblemId: problem.ID,
+			Input:     item.SampleInput[i],
+			Output:    item.SampleOutput[i],
+			CID:       uint(i + 1),
+		}
+		// TODO 插入数据
+		if err := p.DB.Create(&cas).Error; err != nil {
+			response.Fail(ctx, nil, "题目用例上传出错，数据验证有误")
+			return
+		}
+	}
+
+	// TODO 存储测试用例
+	for i := range item.TestInput {
+		// TODO 尝试存入数据库
+		cas := model.Case{
+			ProblemId: problem.ID,
+			Input:     item.TestInput[i],
+			Output:    item.TestOutput[i],
 			CID:       uint(i + 1),
 		}
 		// TODO 插入数据

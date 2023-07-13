@@ -43,7 +43,7 @@ func RecordRoutes(r *gin.Engine) *gin.Engine {
 	recordRoutes.GET("/list/case/:id", middleware.AuthMiddleware(), recordController.CaseList)
 
 	// TODO 查看某个测试的情况
-	recordRoutes.GET("/case/:id", recordController.Case)
+	recordRoutes.GET("/case/:id/:cid", middleware.AuthMiddleware(), recordController.Case)
 
 	// TODO 黑客指定提交
 	recordRoutes.POST("/hack/:id", middleware.AuthMiddleware(), recordController.Hack)

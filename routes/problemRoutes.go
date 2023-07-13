@@ -27,6 +27,12 @@ func ProblemRoutes(r *gin.Engine) *gin.Engine {
 	// TODO 创建题目
 	problemRoutes.POST("/create", middleware.AuthMiddleware(), problemController.Create)
 
+	// TODO 通过xml文本创建题目
+	problemRoutes.POST("/create/by/text/:text", middleware.AuthMiddleware(), problemController.CreateByText)
+
+	// TODO 通过xml文件创建题目
+	problemRoutes.POST("/create/by/file", middleware.AuthMiddleware(), problemController.CreateByFile)
+
 	// TODO 查看题目
 	problemRoutes.GET("/show/:id", problemController.Show)
 

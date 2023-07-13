@@ -66,6 +66,9 @@ func (j Judge) Handel(msg string) {
 	}
 
 feep:
+	// TODO 提交订阅
+	var recordCase vo.RecordCase
+	recordCase.CaseId = 0
 	// TODO 发布订阅用于提交列表
 	recordList := vo.RecordList{
 		RecordId: record.ID,
@@ -78,6 +81,12 @@ feep:
 		// TODO 将record存入redis
 		v, _ = json.Marshal(record)
 		j.Redis.HSet(j.ctx, "Record", fmt.Sprint(record.ID), v)
+		// TODO 提交长连接
+		{
+			recordCase.Condition = record.Condition
+			v, _ := json.Marshal(recordCase)
+			j.Redis.Publish(j.ctx, "RecordChan"+record.ID.String(), v)
+		}
 		// TODO 将record存入mysql
 		j.DB.Save(&record)
 		os.RemoveAll("./user-code")
@@ -110,6 +119,12 @@ feep:
 		// TODO 将record存入redis
 		v, _ = json.Marshal(record)
 		j.Redis.HSet(j.ctx, "Record", fmt.Sprint(record.ID), v)
+		// TODO 提交长连接
+		{
+			recordCase.Condition = "Preparing"
+			v, _ := json.Marshal(recordCase)
+			j.Redis.Publish(j.ctx, "RecordChan"+record.ID.String(), v)
+		}
 	}
 	// TODO 查看代码是否为空
 	if record.Code == "" {
@@ -190,6 +205,12 @@ feep:
 			// TODO 将record存入redis
 			v, _ = json.Marshal(record)
 			j.Redis.HSet(j.ctx, "Record", fmt.Sprint(record.ID), v)
+			// TODO 提交长连接
+			{
+				recordCase.Condition = "Compiling"
+				v, _ := json.Marshal(recordCase)
+				j.Redis.Publish(j.ctx, "RecordChan"+record.ID.String(), v)
+			}
 		}
 
 		// TODO defer延迟调用 关闭文件，释放资源
@@ -273,6 +294,12 @@ feep:
 			// TODO 将record存入redis
 			v, _ = json.Marshal(record)
 			j.Redis.HSet(j.ctx, "Record", fmt.Sprint(record.ID), v)
+			// TODO 提交长连接
+			{
+				recordCase.Condition = "Running"
+				v, _ := json.Marshal(recordCase)
+				j.Redis.Publish(j.ctx, "RecordChan"+record.ID.String(), v)
+			}
 		}
 
 		// TODO 最终将所有用例填入cases
@@ -400,9 +427,7 @@ feep:
 			// TODO 通过数量+1
 			record.Pass++
 			// TODO 长连接返回实时通过用例情况
-			recordCase := vo.RecordCase{
-				CaseId: cases[i].CID,
-			}
+			recordCase.CaseId++
 			// TODO 将recordlist打包
 			v, _ := json.Marshal(recordCase)
 			j.Redis.Publish(j.ctx, "RecordChan"+id, v)
