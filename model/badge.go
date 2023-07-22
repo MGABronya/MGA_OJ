@@ -12,7 +12,7 @@ import (
 // Badge			定义徽章
 type Badge struct {
 	ID          uuid.UUID `json:"id" gorm:"type:char(36);primary_key"`                    // 徽章的id
-	Name        string    `json:"name" gorm:"type:char(50);not null;"`                    // 名称
+	Name        string    `json:"name" gorm:"type:char(50);not null;unique"`              // 名称
 	Description string    `json:"description" gorm:"type:text;not null;"`                 // 描述
 	ResLong     string    `json:"res_long" gorm:"type:text;"`                             // 备用长文本
 	ResShort    string    `json:"res_short" gorm:"type:text;"`                            // 备用短文本
@@ -21,6 +21,7 @@ type Badge struct {
 	Copper      int       `json:"copper" gorm:"type:int;not null;"`                       // 铜
 	Silver      int       `json:"sliver" gorm:"type:int;not null;"`                       // 银
 	Gold        int       `json:"gold" gorm:"type:int;not null;"`                         // 金
+	File        string    `json:"file" grom:"type:text;not null;"`                        // 文件
 	UserId      uuid.UUID `json:"user_id" gorm:"type:char(36);index:idx_userId;not null"` // 用户外键
 	CreatedAt   Time      `json:"created_at" gorm:"type:timestamp"`                       // 徽章的创建日期
 	UpdatedAt   Time      `json:"updated_at" gorm:"type:timestamp"`                       // 徽章的更新日期
@@ -46,6 +47,9 @@ func (b *Badge) BeforDelete(tx *gorm.DB) (err error) {
 
 	// TODO 删除用户勋章
 	tx.Delete(&UserBadge{})
+
+	// TODO 删除勋章行为映射
+	tx.Delete(&BadgeBehavior{})
 
 	return
 }

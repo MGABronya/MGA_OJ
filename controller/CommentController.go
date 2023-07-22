@@ -5,6 +5,7 @@
 package controller
 
 import (
+	Handle "MGA_OJ/Behavior"
 	"MGA_OJ/Interface"
 	"MGA_OJ/common"
 	"MGA_OJ/model"
@@ -388,6 +389,7 @@ leep:
 		c.Redis.ZIncrBy(ctx, "UserUnLike", 1, comment.UserId.String())
 	}
 
+	Handle.Behaviors["Likes"].PublishBehavior(1, comment.UserId)
 	response.Success(ctx, nil, "点赞成功")
 }
 
@@ -447,6 +449,7 @@ leep:
 
 	// TODO 取消点赞或者点踩
 	c.DB.Where("user_id = (?) and comment_id = (?)", user.ID, id).Delete(&model.CommentLike{})
+	Handle.Behaviors["Likes"].PublishBehavior(-1, comment.UserId)
 	response.Success(ctx, nil, "取消成功")
 }
 

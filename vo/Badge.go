@@ -15,4 +15,5 @@ type BadgeRequest struct {
 	Copper      int    `json:"copper"`      // 铜
 	Silver      int    `json:"sliver"`      // 银
 	Gold        int    `json:"gold"`        // 金
+	File        string `json:"file"`        // 文件
 }

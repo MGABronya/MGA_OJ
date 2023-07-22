@@ -264,6 +264,10 @@
 
 **Tag**(自动生成标签)
 
+### 文件服务
+
+**File**（上传与下载文件）
+
 ## 路由们
 
 ### 模型：Article
@@ -589,6 +593,128 @@
     请求参数： 在接口地址中给出指定分类的id（即:id部分） 。在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少游览信息，默认值为20）。
 
     返回值：成功时，以json格式返回两个数组articles，articles返回了相应列表的文章信息（按照创建时间排序，越新创建排序越前），如果失败则返回失败原因。
+
+### 模型：Badge
+
+定义：徽章
+
+**基础路由：/badge**
+
+实现的接口类型：
+
+- **RestInterface**
+
+  - **接口地址：/create**
+
+    **功能：徽章发布**
+
+    **方法类型：POST**
+
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含name、description、res_long(可选)、res_short（可选）、condition、iron、copper、silver、gold、file，其中name表示徽章名称，description表示徽章描述，res_long表示长文本备用键值，res_short表示短文本备用键值，condition表示徽章获取条件，要求为表达式，可用()*/+-，iron、copper、silver、gold为整型，分别表示铁、铜、银、金的获取数值。file为字符串，表示文件名。
+
+    返回值：成功时返回创建成功相关信息和徽章信息badge，否则给出失败原因
+
+  - **接口地址：/show/:id**
+
+    **功能：徽章查看**
+
+    **方法类型：GET**
+
+    请求参数：徽章的uuid（在接口地址的id处）。
+
+    返回值：成功找到徽章时，将会以json格式给出badge，badge中包含id、user_id、name、description、res_long(可选)、res_short（可选）、condition、iron、copper、silver、gold、file、created_at、updated_at。如果失败则返回失败原因。
+
+  - **接口地址：/update/:id**
+
+    **功能：更新徽章**
+
+    **方法类型：PUT**
+
+    请求参数：文章的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含name、description、res_long(可选)、res_short（可选）、condition、iron、copper、silver、gold、file，其中name表示徽章名称，description表示徽章描述，res_long表示长文本备用键值，res_short表示短文本备用键值，condition表示徽章获取条件，要求为表达式，可用()*/+-以及内置变量。iron、copper、silver、gold为整型，分别表示铁、铜、银、金的获取数值。file为字符串，表示文件名。
+
+    返回值：成功时返回更新成功相关信息和徽章信息badge，否则给出失败原因
+
+  - **接口地址：/delete/:id**
+
+    **功能：删除徽章**
+
+    **方法类型：DELETE**
+
+    请求参数：徽章的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token。
+
+    返回值：成功删除徽章时，返回删除成功消息。如果失败则返回失败原因。
+
+  - **接口地址：/list**
+
+    **功能：查看徽章列表**
+
+    **方法类型：GET**
+
+    请求参数：无。
+
+    返回值：成功时，以json格式返回一个数组badges，badges返回了相应列表的徽章信息（按照创建时间排序，越新创建排序越前），如果失败则返回失败原因。
+
+- **其它**
+
+  - **接口地址：/user/show/:user/:badge**
+
+    **功能：查看指定用户的指定徽章**
+
+    **方法类型：GET**
+
+    请求参数： 在接口地址中给出指定用户的id（即:user部分） 。在接口地址中给出指定徽章的id（即:badge部分） 。
+
+    返回值：成功时，以json格式返回一个badge，badge中包含badge_id、user_id、max_score、created_at、updated_at，分别表示徽章id，用户id，最大分值，创建时间，更新时间。
+
+  - **接口地址：/user/list/:id**
+
+    **功能：查看用户的徽章列表**
+
+    **方法类型：GET**
+
+    请求参数： 在接口地址中给出指定user的id（即:id部分） 。
+
+    返回值：成功时，以json格式返回四个数组，分别为goldBadges、sliverBadges、copperBadges、ironBadges，分别表示金、银、铜、铁的userBadge，userBadge中包含badge_id、user_id、max_score、created_at、updated_at，分别表示徽章id，用户id，最大分值，创建时间，更新时间。
+
+  - **接口地址：/behavior/list**
+
+    **功能：查看变量列表**
+
+    **方法类型：GET**
+
+    请求参数：无。
+
+    返回值：成功时，以json格式返回数组keys，为string数组，表示各个变量名。
+
+  - **接口地址：/behavior/description/:id**
+
+    **功能：查看变量描述**
+
+    **方法类型：GET**
+
+    请求参数：在接口地址中给出指定变量的id（即:id部分） 。
+
+    返回值：成功时，以json格式返回description，表示变量描述。
+
+  - **接口地址：/publish**
+
+    **功能：用户连接**
+
+    **方法类型：GET**
+
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token 。
+
+    返回值：连接成功时，以json格式持续返回badgePublish，badgePublish包含name和level，分别表示徽章名称和徽章等级。
+
+  - **接口地址：/evaluate/expression/:user/:expression**
+
+    **功能：查看某用户的某行为统计**
+
+    **方法类型：GET**
+
+    请求参数：在接口地址中给出指定用户的id（即:user部分） 。在接口地址中给出指定表达式（即:expression部分）， 可用()*/+-以及内置便令。
+
+    返回值：以json格式返回表达式的计算值，其为浮点类型。
 
 ### 模型：Category
 
@@ -1828,6 +1954,36 @@
     请求参数：在id处给出要查询的测试id，在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少篇文章，默认值为20）。Authorization中的Bearer Token中提供注册、登录时给出的token。
 
     返回值：成功时，以json格式返回一个数组examScores和total，examScores返回了相应列表的分数信息（按照分数排序，分数越高排序越前），total表示分数总量，如果失败则返回失败原因。
+
+### 模型：File
+
+定义：文件服务
+
+**基础路由：/file**
+
+实现的接口类型：
+
+- 其它
+
+  - **接口地址：/upload**
+
+    **功能：查看指定用户创建的回复列表**
+
+    **方法类型：POST**
+
+    请求参数：   Header中需要包含Content-Type，指名为multipart/form-data。在Body中给用form-data格式给出file（文件类型）。
+
+    返回值：返回文件名。
+
+  - **接口地址：/download/:id**
+
+    **功能：查看指定用户创建的回复列表**
+
+    **方法类型：POST**
+
+    请求参数：  在id处给出文件名。
+
+    返回值：返回文件。
 
 ### 模型：Friend
 
@@ -3629,13 +3785,13 @@
 
   - **接口地址：/test/num/:id**
 
-    **功能：查看题目测试样例数量**
+    **功能：查看题目测试用例数量**
 
     **方法类型：GET**
 
     请求参数：  在接口地址中给出指定题目的id（即:id部分）  。
 
-    返回值：成功时，以json格式返回一个total，total表示测试样例数量，如果失败则返回失败原因。
+    返回值：成功时，以json格式返回一个total，total表示测试用例数量，如果失败则返回失败原因。
 
   - **接口地址：/quote/:competition_id/:problem_id/:score**（需要二级权限）
 
@@ -4201,7 +4357,7 @@
 
     **方法类型：POST**
 
-    请求参数：   Header中需要包含Content-Type，指名为multipart/form-data。在Body中给用form-data格式给出file（文件类型）。uthorization中的Bearer Token中提供注册、登录时给出的token。  
+    请求参数：   Header中需要包含Content-Type，指名为multipart/form-data。在Body中给用form-data格式给出file（文件类型）。
 
     返回值：返回文件名。
 
@@ -5465,3 +5621,4 @@
   
     返回值：返回rank为排名。
 
+****

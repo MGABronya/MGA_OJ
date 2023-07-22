@@ -1,6 +1,7 @@
 package consumer
 
 import (
+	Handle "MGA_OJ/Behavior"
 	"MGA_OJ/Interface"
 	TQ "MGA_OJ/Test-request"
 	"MGA_OJ/common"
@@ -307,7 +308,7 @@ feep:
 
 		defer func() {
 			for i := range caseConditions {
-				j.DB.Create(caseConditions[i])
+				j.DB.Create(&caseConditions[i])
 			}
 		}()
 
@@ -316,6 +317,7 @@ feep:
 			cas := model.CaseCondition{
 				RecordId: record.ID,
 				Input:    cases[i].Input,
+				Output:   cases[i].Output,
 				CID:      uint(i + 1),
 			}
 			caseConditions = append(caseConditions, cas)
@@ -436,6 +438,15 @@ feep:
 		// TODO 如果提交通过
 		if flag {
 			record.Condition = "Accepted"
+			// TODO 检查是否是今日首次通过
+			if j.DB.Where("condition = Accepted and to_days(created_at) = to_days(now())").First(&model.Record{}).Error != nil {
+				Handle.Behaviors["Accepts"].PublishBehavior(1, record.UserId)
+			}
+			// TODO 检查该题目是否是首次通过
+			if j.DB.Where("condition = Accepted and problem_id = ?", record.ProblemId).First(&model.Record{}).Error != nil {
+				Handle.Behaviors["Days"].PublishBehavior(1, record.UserId)
+			}
+
 		}
 	} else {
 		record.Condition = "Language Error"

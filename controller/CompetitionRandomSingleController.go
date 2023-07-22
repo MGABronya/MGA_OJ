@@ -11,6 +11,7 @@ import (
 	"MGA_OJ/response"
 	"context"
 	"encoding/json"
+	"log"
 	"net/http"
 	"strconv"
 	"time"
@@ -89,8 +90,10 @@ func (c CompetitionRandomSingleController) EnterPublish(ctx *gin.Context) {
 	// TODO 升级get请求为webSocket协议
 	ws, err := c.UpGrader.Upgrade(ctx.Writer, ctx.Request, nil)
 	if err != nil {
+		log.Println(err.Error())
 		return
 	}
+
 	defer ws.Close()
 	// TODO 监听消息
 	for msg := range ch {

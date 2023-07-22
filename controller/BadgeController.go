@@ -5,17 +5,20 @@
 package controller
 
 import (
+	Handle "MGA_OJ/Behavior"
 	"MGA_OJ/Interface"
 	"MGA_OJ/common"
 	"MGA_OJ/model"
 	"MGA_OJ/response"
-	"MGA_OJ/util"
 	"MGA_OJ/vo"
 	"encoding/json"
 	"log"
+	"net/http"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v9"
+	"github.com/gorilla/websocket"
 	uuid "github.com/satori/go.uuid"
 	"gorm.io/gorm"
 )
@@ -26,13 +29,16 @@ type IBadgeController interface {
 	UserList(ctx *gin.Context)           // 查看指定用户的徽章
 	UserShow(ctx *gin.Context)           // 查看指定用户的指定徽章
 	EvaluateExpression(ctx *gin.Context) // 计算表达式
-	//Publish(ctx *gin.Context)            // 徽章长连接
+	BehaviorList(ctx *gin.Context)       // 查看所有变量
+	BehaviorShow(ctx *gin.Context)       // 查看指定变量描述
+	Publish(ctx *gin.Context)            // 徽章长连接
 }
 
 // BadgeController			定义了徽章工具类
 type BadgeController struct {
-	DB    *gorm.DB      // 含有一个数据库指针
-	Redis *redis.Client // 含有一个redis指针
+	DB       *gorm.DB            // 含有一个数据库指针
+	Redis    *redis.Client       // 含有一个redis指针
+	UpGrader *websocket.Upgrader // 用于持久化连接
 }
 
 // @title    Create
@@ -60,7 +66,7 @@ func (b BadgeController) Create(ctx *gin.Context) {
 	}
 
 	// TODO 查看徽章参数是否合法
-	if ok, err := util.CheckExpression([]byte(requestBadge.Condition)); !ok {
+	if ok, err := Handle.CheckExpression([]byte(requestBadge.Condition)); !ok {
 		response.Fail(ctx, nil, err)
 		return
 	}
@@ -77,12 +83,26 @@ func (b BadgeController) Create(ctx *gin.Context) {
 		Copper:      requestBadge.Copper,
 		Silver:      requestBadge.Silver,
 		Gold:        requestBadge.Gold,
+		File:        requestBadge.File,
 	}
 
 	// TODO 插入数据
 	if err := b.DB.Create(&badge).Error; err != nil {
 		response.Fail(ctx, nil, "徽章上传出错，数据库存储错误")
 		return
+	}
+
+	// TODO 为勋章插入行为
+	for k := range Handle.Behaviors {
+		// TODO 如果字符串中包含了当前字符串数组元素
+		if strings.Contains(badge.Condition, k) {
+			// TODO 将该元素添加到订阅列表中
+			badgeBehavior := model.BadgeBehavior{
+				Name:    k,
+				BadgeId: badge.ID,
+			}
+			b.DB.Create(&badgeBehavior)
+		}
 	}
 
 	// TODO 成功
@@ -124,13 +144,29 @@ func (b BadgeController) Update(ctx *gin.Context) {
 	}
 
 	// TODO 查看徽章参数是否合法
-	if ok, err := util.CheckExpression([]byte(requestBadge.Condition)); !ok {
+	if ok, err := Handle.CheckExpression([]byte(requestBadge.Condition)); !ok {
 		response.Fail(ctx, nil, err)
 		return
 	}
 
 	// TODO 更新徽章内容
 	b.DB.Where("id = (?)", id).Updates(requestBadge)
+
+	// TODO 删除原先的徽章行为映射
+	b.DB.Where("badge_id = ?", badge.ID).Delete(&model.BadgeBehavior{})
+
+	// TODO 为勋章插入行为
+	for k := range Handle.Behaviors {
+		// TODO 如果字符串中包含了当前字符串数组元素
+		if strings.Contains(badge.Condition, k) {
+			// TODO 将该元素添加到订阅列表中
+			badgeBehavior := model.BadgeBehavior{
+				Name:    k,
+				BadgeId: badge.ID,
+			}
+			b.DB.Create(&badgeBehavior)
+		}
+	}
 
 	// TODO 移除损坏数据
 	b.Redis.HDel(ctx, "Badge", id)
@@ -303,6 +339,39 @@ func (b BadgeController) UserShow(ctx *gin.Context) {
 	response.Success(ctx, gin.H{"badge": badge}, "成功")
 }
 
+// @title    BehaviorList
+// @description   查看变量列表
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (b BadgeController) BehaviorList(ctx *gin.Context) {
+	keys := make([]string, len(Handle.Behaviors))
+	j := 0
+	for k := range Handle.Behaviors {
+		keys[j] = k
+		j++
+	}
+
+	response.Success(ctx, gin.H{"keys": keys}, "成功")
+}
+
+// @title    BehaviorShow
+// @description   查看变量描述
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (b BadgeController) BehaviorShow(ctx *gin.Context) {
+	// TODO 获取path中的id
+	id := ctx.Params.ByName("id")
+	description, ok := Handle.Behaviors[id]
+
+	if !ok {
+		response.Fail(ctx, nil, "变量不存在")
+		return
+	}
+	response.Success(ctx, gin.H{"description": description}, "成功")
+}
+
 // @title    EvaluateExpression
 // @description   获取指定用户的表达式得分
 // @auth      MGAronya（张健）       2022-9-16 12:20
@@ -318,9 +387,43 @@ func (b BadgeController) EvaluateExpression(ctx *gin.Context) {
 
 	id, _ := uuid.FromString(user_id)
 
-	score, err := util.EvaluateExpression(expression, id)
+	score, err := Handle.EvaluateExpression(expression, id)
 
 	response.Success(ctx, gin.H{"score": score, "err": err}, "成功")
+}
+
+// @title    Publish
+// @description   用户连接
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (b BadgeController) Publish(ctx *gin.Context) {
+
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 订阅消息
+	pubSub := b.Redis.Subscribe(ctx, "BadgePublish"+user.ID.String())
+	defer pubSub.Close()
+	// TODO 获得消息管道
+	ch := pubSub.Channel()
+
+	// TODO 升级get请求为webSocket协议
+	ws, err := b.UpGrader.Upgrade(ctx.Writer, ctx.Request, nil)
+	if err != nil {
+		return
+	}
+	defer ws.Close()
+	// TODO 监听消息
+	for msg := range ch {
+		var badgePublish vo.BadgePublish
+		json.Unmarshal([]byte(msg.Payload), &badgePublish)
+		// TODO 断开连接
+		if err := ws.WriteJSON(badgePublish); err != nil {
+			break
+		}
+	}
 }
 
 // @title    NewBadgeController
@@ -332,5 +435,13 @@ func NewBadgeController() IBadgeController {
 	db := common.GetDB()
 	db.AutoMigrate(model.Badge{})
 	db.AutoMigrate(model.UserBadge{})
-	return BadgeController{DB: db}
+	db.AutoMigrate(model.Behavior{})
+	db.AutoMigrate(model.BadgeBehavior{})
+	redis := common.GetRedisClient(0)
+	upGrader := &websocket.Upgrader{
+		CheckOrigin: func(r *http.Request) bool {
+			return true
+		},
+	}
+	return BadgeController{DB: db, Redis: redis, UpGrader: upGrader}
 }

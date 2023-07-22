@@ -5,6 +5,7 @@
 package controller
 
 import (
+	Handle "MGA_OJ/Behavior"
 	"MGA_OJ/Interface"
 	"MGA_OJ/common"
 	"MGA_OJ/model"
@@ -410,6 +411,7 @@ leep:
 		p.Redis.ZIncrBy(ctx, "UserUnLike", 1, post.UserId.String())
 	}
 
+	Handle.Behaviors["Likes"].PublishBehavior(1, post.UserId)
 	response.Success(ctx, nil, "点赞成功")
 }
 
@@ -470,6 +472,7 @@ leep:
 	// TODO 取消点赞或者点踩
 	p.DB.Where("user_id = (?) and post_id = (?)", user.ID, id).Delete(&model.PostLike{})
 
+	Handle.Behaviors["Likes"].PublishBehavior(-1, post.UserId)
 	response.Success(ctx, nil, "取消成功")
 }
 
@@ -640,6 +643,8 @@ leep:
 
 	p.Redis.ZIncrBy(ctx, "PostHot"+post.ProblemId.String(), 50.0, post.ID.String())
 
+	Handle.Behaviors["Collects"].PublishBehavior(1, post.UserId)
+
 	response.Success(ctx, nil, "收藏成功")
 }
 
@@ -690,6 +695,7 @@ leep:
 		p.Redis.ZIncrBy(ctx, "PostHot"+post.ProblemId.String(), -50.0, post.ID.String())
 		// TODO 删除存储入库
 		p.Redis.ZIncrBy(ctx, "UserCollect", -1, post.UserId.String())
+		Handle.Behaviors["Collects"].PublishBehavior(-1, post.UserId)
 		response.Success(ctx, nil, "取消收藏成功")
 	}
 }

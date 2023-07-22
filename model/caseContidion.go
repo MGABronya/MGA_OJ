@@ -13,4 +13,5 @@ type CaseCondition struct {
 	Time     uint      `json:"time" gorm:"type:uint;not null"`                             // 表示测试使用时间
 	Memory   uint      `json:"memory" gorm:"type:uint;not null"`                           // 表示测试使用空间
 	Input    string    `json:"input" gorm:"type:text;"`                                    // 输入
+	Output   string    `json:"output" gorm:"type:text;"`                                   // 输出
 }
