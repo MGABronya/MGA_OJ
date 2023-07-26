@@ -10,7 +10,9 @@ import (
 )
 
 // Java			定义了Java文件类
-type Java struct{}
+type Java struct {
+	Interface.CmdInterface
+}
 
 // @title    Compile
 // @description   获得编译指令

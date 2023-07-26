@@ -10,7 +10,9 @@ import (
 )
 
 // PHP			定义了PHP文件类
-type PHP struct{}
+type PHP struct {
+	Interface.CmdInterface
+}
 
 // @title    Compile
 // @description   获得编译指令

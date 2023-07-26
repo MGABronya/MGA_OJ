@@ -443,5 +443,11 @@ func NewBadgeController() IBadgeController {
 			return true
 		},
 	}
+	Handle.Behaviors = map[string]Interface.BehaviorInterface{
+		"Accepts":  Handle.NewAccepts(),
+		"Days":     Handle.NewDays(),
+		"Likes":    Handle.NewLikes(),
+		"Collects": Handle.NewCollects(),
+	}
 	return BadgeController{DB: db, Redis: redis, UpGrader: upGrader}
 }

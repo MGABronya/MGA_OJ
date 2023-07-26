@@ -14,7 +14,7 @@ type ProblemLabel struct {
 	ID        uuid.UUID `json:"id" gorm:"type:char(36);primary_key"`                           // id
 	CreatedAt Time      `json:"created_at" gorm:"type:timestamp"`                              // 创建日期
 	UpdatedAt Time      `json:"updated_at" gorm:"type:timestamp"`                              // 更新日期
-	Label     string    `json:"label" gorm:"type:char(36);index:label;not null"`               // 标签
+	Label     string    `json:"label" gorm:"type:char(36);index:label;not null;"`              // 标签
 	ProblemId uuid.UUID `json:"problem_id" gorm:"type:char(36);index:idx_problem=Id;not null"` // 题目外键
 }
 

@@ -32,7 +32,7 @@ type Likes struct {
 // @return   void
 func (l Likes) UserBehavior(userId uuid.UUID) (float64, error) {
 	var behavior model.Behavior
-	if l.DB.Where("name = ? and user_id = ?", "Likes", userId).First(&behavior).Error != nil {
+	if l.DB.Where("name = ? and user_id = ?", "Days", userId).First(&behavior).Error != nil {
 		return 0, nil
 	}
 	return behavior.Score, nil
@@ -46,7 +46,7 @@ func (l Likes) UserBehavior(userId uuid.UUID) (float64, error) {
 func (l Likes) PublishBehavior(score float64, userId uuid.UUID) error {
 	var behavior model.Behavior
 	// TODO 如果没有，直接创建
-	if l.DB.Where("name = ? and user_id = ?", "Likes", userId).First(&behavior).Error != nil {
+	if l.DB.Where("name = ? and user_id = ?", "Days", userId).First(&behavior).Error != nil {
 		behavior.Name = "Likes"
 		behavior.UserId = userId
 		behavior.Score = 0
@@ -54,9 +54,9 @@ func (l Likes) PublishBehavior(score float64, userId uuid.UUID) error {
 	}
 	behavior.Score += score
 	// TODO 更新值
-	l.DB.Save(&behavior)
+	l.DB.Where("name = ? and user_id = ?", "Days", userId).Save(&behavior)
 	var badgeBehaviors []model.BadgeBehavior
-	l.DB.Where("namd = ?", "Likes").Find(&badgeBehaviors)
+	l.DB.Where("name = ?", "Likes").Find(&badgeBehaviors)
 	// TODO 遍历映射关系，并检查是否更新
 	for i := range badgeBehaviors {
 		var badge model.Badge

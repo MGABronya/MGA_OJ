@@ -7,6 +7,7 @@ package middleware
 import (
 	"MGA_OJ/response"
 	"fmt"
+	"log"
 
 	"github.com/gin-gonic/gin"
 )
@@ -22,6 +23,7 @@ func RecoveryMiddleware() gin.HandlerFunc {
 			// TODO recover用于“拦截”运行时恐慌的内建函数,防止程序崩溃
 			if err := recover(); err != nil {
 				response.Fail(ctx, nil, fmt.Sprint(err))
+				log.Println(err)
 			}
 		}()
 		ctx.Next()

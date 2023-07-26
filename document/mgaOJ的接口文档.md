@@ -3720,6 +3720,16 @@
     请求参数：Header中需要包含Content-Type，指名为multipart/form-data。在Body中给用form-data格式给出file（文件类型）。Authorization中的Bearer Token中提供注册、登录时给出的token。  
   
     返回值：成功时返回创建成功相关信息和题目信息problem，否则给出失败原因
+    
+  - **接口地址：/create/vjudge**（需要二级权限）
+  
+    **功能：上传站外题目**
+  
+    **方法类型：POST**
+  
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含oj、problem_id、title、 description 、res_long(可选)、res_short（可选）、 time_limit 、 time_unit 、 memory_limit 、 memory_unit 、 input 、 output 、 sample_case 、hint、 source ,oj表示题目的来源平台，problem_id表示题目在该平台上的id号，title表示题目标题，description表示题目描述，res_long表示长文本备用键值，res_short表示短文本备用键值，time_limit 为uint类型，表示时间限制，time_uint表示时间单位，可为"s"或"ms"，memory_limit为uint类型，表示空间限制， memory_uint表示空间单位，可为"mb"或"kb"或"gb"，input表示输入格式，output表示输出格式、sample_case表示输入输出示例数组，每个元素包含input和output，均为string类型、hint表示提示，source 表示来源。
+  
+    返回值：成功时返回创建成功相关信息和题目信息problem，否则给出失败原因
 
 ### 模型：ProblemNew
 

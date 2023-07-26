@@ -718,7 +718,7 @@ func (s SetController) LikeNumber(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	s.DB.Where("set_id = (?) and `like` is (?)", id, like).Model(model.SetLike{}).Count(&total)
+	s.DB.Where("set_id = (?) and `like` = ?", id, like).Model(model.SetLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"total": total}, "查看成功")
 }
@@ -745,9 +745,9 @@ func (s SetController) LikeList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	s.DB.Where("set_id = (?) and `like` is (?)", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setLikes)
+	s.DB.Where("set_id = (?) and `like` = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setLikes)
 
-	s.DB.Where("set_id = (?) and `like` is (?)", id, like).Model(model.SetLike{}).Count(&total)
+	s.DB.Where("set_id = (?) and `like` = ?", id, like).Model(model.SetLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"setLikes": setLikes, "total": total}, "查看成功")
 }
@@ -804,9 +804,9 @@ func (s SetController) Likes(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	s.DB.Where("user_id = (?) and `like` is (?)", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setLikes)
+	s.DB.Where("user_id = (?) and `like` = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setLikes)
 
-	s.DB.Where("user_id = (?) and `like` is (?)", id, like).Model(model.SetLike{}).Count(&total)
+	s.DB.Where("user_id = (?) and `like` = ?", id, like).Model(model.SetLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"setLikes": setLikes, "total": total}, "查看成功")
 }
@@ -2126,21 +2126,25 @@ func (s SetController) SearchLabel(ctx *gin.Context) {
 	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
 
 	// TODO 通过标签寻找
-	var setIds []struct {
-		SetId uuid.UUID `json:"set_id"` // 题目外键
-	}
+	var setLabels []model.SetLabel
 
 	// TODO 进行标签匹配
-	s.DB.Distinct("set_id").Where("label in ((?))", requestLabels.Labels).Model(model.SetLabel{}).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setIds)
+	s.DB.Distinct("set_id").Where("label in (?)", requestLabels.Labels).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&setLabels)
 
 	// TODO 查看查询总数
 	var total int64
-	s.DB.Distinct("set_id").Where("label in ((?))", requestLabels.Labels).Model(model.SetLabel{}).Count(&total)
+	s.DB.Distinct("set_id").Where("label in (?)", requestLabels.Labels).Model(model.SetLabel{}).Count(&total)
 
 	// TODO 查找对应表单
 	var sets []model.Set
 
-	s.DB.Where("id in ((?))", setIds).Find(&sets)
+	var setIds []string
+
+	for i := range setLabels {
+		setIds = append(setIds, setLabels[i].SetId.String())
+	}
+
+	s.DB.Where("id in (?)", setIds).Find(&sets)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"sets": sets, "total": total}, "成功")
@@ -2170,22 +2174,26 @@ func (s SetController) SearchWithLabel(ctx *gin.Context) {
 	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
 
 	// TODO 通过标签寻找
-	var setIds []struct {
-		SetId uuid.UUID `json:"set_id"` // 题目外键
-	}
+	var setLabels []model.SetLabel
 
 	// TODO 进行标签匹配
-	s.DB.Distinct("set_id").Where("label in ((?))", requestLabels.Labels).Model(model.SetLabel{}).Find(&setIds)
+	s.DB.Distinct("set_id").Where("label in (?)", requestLabels.Labels).Find(&setLabels)
 
 	// TODO 查找对应表单
 	var sets []model.Set
 
+	var setIds []string
+
+	for i := range setLabels {
+		setIds = append(setIds, setLabels[i].SetId.String())
+	}
+
 	// TODO 模糊匹配
-	s.DB.Where("id in ((?)) and match(title,content,res_long,res_short) against((?) in boolean mode)", setIds, text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&sets)
+	s.DB.Where("id in (?) and match(title,content,res_long,res_short) against((?) in boolean mode)", setIds, text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&sets)
 
 	// TODO 查看查询总数
 	var total int64
-	s.DB.Where("id in ((?)) and match(title,content,res_long,res_short) against((?) in boolean mode)", setIds, text+"*").Model(model.Set{}).Count(&total)
+	s.DB.Where("id in (?) and match(title,content,res_long,res_short) against((?) in boolean mode)", setIds, text+"*").Model(model.Set{}).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"sets": sets, "total": total}, "成功")

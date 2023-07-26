@@ -54,9 +54,9 @@ func (c Collects) PublishBehavior(score float64, userId uuid.UUID) error {
 	}
 	behavior.Score += score
 	// TODO 更新值
-	c.DB.Save(&behavior)
+	c.DB.Where("name = ? and user_id = ?", "Collects", userId).Save(&behavior)
 	var badgeBehaviors []model.BadgeBehavior
-	c.DB.Where("namd = ?", "Collects").Find(&badgeBehaviors)
+	c.DB.Where("name = ?", "Collects").Find(&badgeBehaviors)
 	// TODO 遍历映射关系，并检查是否更新
 	for i := range badgeBehaviors {
 		var badge model.Badge

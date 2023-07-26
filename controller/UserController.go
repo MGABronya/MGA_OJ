@@ -732,21 +732,25 @@ func (u UserController) SearchLabel(ctx *gin.Context) {
 	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
 
 	// TODO 通过标签寻找
-	var userIds []struct {
-		UserId uuid.UUID `json:"user_id"` // 用户外键
-	}
+	var userLabels []model.UserLabel
 
 	// TODO 进行标签匹配
-	u.DB.Distinct("user_id").Where("label in ((?))", requestLabels.Labels).Model(model.UserLabel{}).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&userIds)
+	u.DB.Distinct("user_id").Where("label in (?)", requestLabels.Labels).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&userLabels)
 
 	// TODO 查看查询总数
 	var total int64
-	u.DB.Distinct("user_id").Where("label in ((?))", requestLabels.Labels).Model(model.UserLabel{}).Count(&total)
+	u.DB.Distinct("user_id").Where("label in (?)", requestLabels.Labels).Model(model.UserLabel{}).Count(&total)
 
 	// TODO 查找对应用户
 	var users []model.User
 
-	u.DB.Where("id in ((?))", userIds).Find(&users)
+	var userIds []string
+
+	for i := range userLabels {
+		userIds = append(userIds, userLabels[i].UserId.String())
+	}
+
+	u.DB.Where("id in (?)", userIds).Find(&users)
 
 	var dtoUsers []vo.UserDto
 
@@ -782,22 +786,26 @@ func (u UserController) SearchWithLabel(ctx *gin.Context) {
 	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
 
 	// TODO 通过标签寻找
-	var userIds []struct {
-		UserId uuid.UUID `json:"user_id"` // 题目外键
-	}
+	var userLabels []model.UserLabel
 
 	// TODO 进行标签匹配
-	u.DB.Distinct("user_id").Where("label in ((?))", requestLabels.Labels).Model(model.UserLabel{}).Find(&userIds)
+	u.DB.Distinct("user_id").Where("label in (?)", requestLabels.Labels).Find(&userLabels)
 
 	// TODO 查找对应用户
 	var users []model.User
 
+	var userIds []string
+
+	for i := range userLabels {
+		userIds = append(userIds, userLabels[i].UserId.String())
+	}
+
 	// TODO 模糊匹配
-	u.DB.Where("id in ((?)) and match(name) against((?) in boolean mode)", userIds, text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&users)
+	u.DB.Where("id in (?) and match(name) against((?) in boolean mode)", userIds, text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&users)
 
 	// TODO 查看查询总数
 	var total int64
-	u.DB.Where("id in ((?)) and match(name) against((?) in boolean mode)", userIds, text+"*").Model(model.User{}).Count(&total)
+	u.DB.Where("id in (?) and match(name) against((?) in boolean mode)", userIds, text+"*").Model(model.User{}).Count(&total)
 
 	var dtoUsers []vo.UserDto
 

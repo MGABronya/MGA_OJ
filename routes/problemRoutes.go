@@ -33,6 +33,9 @@ func ProblemRoutes(r *gin.Engine) *gin.Engine {
 	// TODO 通过xml文件创建题目
 	problemRoutes.POST("/create/by/file", middleware.AuthMiddleware(), problemController.CreateByFile)
 
+	// TODO 上传外站题目
+	problemRoutes.POST("/create/vjudge", middleware.AuthMiddleware(), problemController.CreateVjudge)
+
 	// TODO 查看题目
 	problemRoutes.GET("/show/:id", problemController.Show)
 

@@ -36,7 +36,9 @@ type Problem struct {
 // @param     scope *gorm.Scope
 // @return    error
 func (problem *Problem) BeforeCreate(scope *gorm.DB) error {
-	problem.ID = uuid.NewV4()
+	if problem.ID == uuid.Nil {
+		problem.ID = uuid.NewV4()
+	}
 	return nil
 }
 

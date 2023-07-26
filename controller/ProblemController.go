@@ -22,7 +22,6 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v9"
-	uuid "github.com/satori/go.uuid"
 	"gorm.io/gorm"
 )
 
@@ -39,6 +38,7 @@ type IProblemController interface {
 	TestNum(ctx *gin.Context)      // 查看指定题目的用例数量
 	CreateByFile(ctx *gin.Context) // 通过xml文件创建题目
 	CreateByText(ctx *gin.Context) // 通过xml文本创建题目
+	CreateVjudge(ctx *gin.Context) // 上传外站题目
 }
 
 // ProblemController			定义了题目工具类
@@ -184,6 +184,113 @@ func (p ProblemController) Create(ctx *gin.Context) {
 			ProblemId: problem.ID,
 			Input:     requestProblem.TestCase[i].Input,
 			Output:    requestProblem.TestCase[i].Output,
+			CID:       uint(i + 1),
+		}
+		// TODO 插入数据
+		if err := p.DB.Create(&cas).Error; err != nil {
+			response.Fail(ctx, nil, "题目用例上传出错，数据验证有误")
+			return
+		}
+	}
+
+	// TODO 成功
+	response.Success(ctx, gin.H{"problem": problem}, "创建成功")
+}
+
+// @title    CreateVjudge
+// @description   创建一篇站外题目
+// @auth      MGAronya（张健）       2022-9-16 12:15
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (p ProblemController) CreateVjudge(ctx *gin.Context) {
+	var requestVjudge vo.Vjudge
+	// TODO 数据验证
+	if err := ctx.ShouldBind(&requestVjudge); err != nil {
+		log.Print(err.Error())
+		response.Fail(ctx, nil, "数据验证错误")
+		return
+	}
+
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 取出用户权限
+	if user.Level < 2 {
+		response.Fail(ctx, nil, "用户权限不足")
+		return
+	}
+
+	// TODO 尝试取出单位
+	timeunits, ok := util.Units[strings.ToLower(requestVjudge.TimeUnits)]
+
+	if !ok {
+		response.Fail(ctx, nil, "时间单位错误")
+		return
+	}
+
+	memoryunits, ok := util.Units[strings.ToLower(requestVjudge.MemoryUnits)]
+
+	if !ok {
+		response.Fail(ctx, nil, "内存单位错误")
+		return
+	}
+
+	requestVjudge.TimeLimit *= timeunits
+	requestVjudge.MemoryLimit *= memoryunits
+
+	// TODO 如果来源为空，为其设置默认值
+	if requestVjudge.Source == "" {
+		requestVjudge.Source = "用户" + user.Name + "上传"
+	}
+
+	id, err := util.EncodeUUID(requestVjudge.ProblemId, requestVjudge.OJ)
+
+	if err != nil {
+		response.Fail(ctx, nil, err.Error())
+		return
+	}
+
+	// TODO 创建题目
+	problem := model.Problem{
+		ID:          id,
+		Title:       requestVjudge.Title,
+		TimeLimit:   requestVjudge.TimeLimit,
+		MemoryLimit: requestVjudge.MemoryLimit,
+		Description: requestVjudge.Description,
+		ResLong:     requestVjudge.ResLong,
+		ResShort:    requestVjudge.ResShort,
+		Input:       requestVjudge.Input,
+		Output:      requestVjudge.Output,
+		Hint:        requestVjudge.Hint,
+		Source:      requestVjudge.Source,
+		UserId:      user.ID,
+	}
+
+	// TODO 插入数据
+	if err := p.DB.Create(&problem).Error; err != nil {
+		response.Fail(ctx, nil, "题目上传出错，数据验证有误")
+		return
+	}
+
+	// TODO 为其创建两个标签
+	p.DB.Create(&model.ProblemLabel{
+		ProblemId: problem.ID,
+		Label:     requestVjudge.OJ,
+	})
+
+	p.DB.Create(&model.ProblemLabel{
+		ProblemId: problem.ID,
+		Label:     requestVjudge.OJ + requestVjudge.ProblemId,
+	})
+
+	// TODO 存储测试样例
+	for i := range requestVjudge.SampleCase {
+		// TODO 尝试存入数据库
+		cas := model.CaseSample{
+			ProblemId: problem.ID,
+			Input:     requestVjudge.SampleCase[i].Input,
+			Output:    requestVjudge.SampleCase[i].Output,
 			CID:       uint(i + 1),
 		}
 		// TODO 插入数据
@@ -1076,7 +1183,7 @@ func (p ProblemController) LikeNumber(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	p.DB.Where("problem_id = (?) and `like` is (?)", id, like).Model(model.ProblemLike{}).Count(&total)
+	p.DB.Where("problem_id = (?) and `like` = ?", id, like).Model(model.ProblemLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"total": total}, "查看成功")
 }
@@ -1103,9 +1210,9 @@ func (p ProblemController) LikeList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	p.DB.Where("problem_id = (?) and `like` is (?)", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemLikes)
+	p.DB.Where("problem_id = (?) and `like` = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemLikes)
 
-	p.DB.Where("problem_id = (?) and `like` is (?)", id, like).Model(model.ProblemLike{}).Count(&total)
+	p.DB.Where("problem_id = (?) and `like` = ?", id, like).Model(model.ProblemLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"problemLikes": problemLikes, "total": total}, "查看成功")
 }
@@ -1162,9 +1269,9 @@ func (p ProblemController) Likes(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	p.DB.Where("user_id = (?) and `like` is (?)", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemLikes)
+	p.DB.Where("user_id = (?) and `like` = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemLikes)
 
-	p.DB.Where("user_id = (?) and `like` is (?)", id, like).Model(model.ProblemLike{}).Count(&total)
+	p.DB.Where("user_id = (?) and `like` = ?", id, like).Model(model.ProblemLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"problemLikes": problemLikes, "total": total}, "查看成功")
 }
@@ -1733,21 +1840,25 @@ func (p ProblemController) SearchLabel(ctx *gin.Context) {
 	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
 
 	// TODO 通过标签寻找
-	var problemIds []struct {
-		ProblemId uuid.UUID `json:"problem_id"` // 题目外键
-	}
+	var problemLabels []model.ProblemLabel
 
 	// TODO 进行标签匹配
-	p.DB.Distinct("problem_id").Where("label in ((?))", requestLabels.Labels).Model(model.ProblemLabel{}).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemIds)
+	p.DB.Distinct("problem_id").Where("label in (?)", requestLabels.Labels).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemLabels)
 
 	// TODO 查看查询总数
 	var total int64
-	p.DB.Distinct("problem_id").Where("label in ((?))", requestLabels.Labels).Model(model.ProblemLabel{}).Count(&total)
+	p.DB.Distinct("problem_id").Where("label in (?)", requestLabels.Labels).Model(model.ProblemLabel{}).Count(&total)
 
 	// TODO 查找对应题目
 	var problems []model.Problem
 
-	p.DB.Where("id in ((?))", problemIds).Find(&problems)
+	var problemIds []string
+
+	for i := range problemLabels {
+		problemIds = append(problemIds, problemLabels[i].ProblemId.String())
+	}
+
+	p.DB.Where("id in (?)", problemIds).Find(&problems)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"problems": problems, "total": total}, "成功")
@@ -1777,22 +1888,26 @@ func (p ProblemController) SearchWithLabel(ctx *gin.Context) {
 	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
 
 	// TODO 通过标签寻找
-	var problemIds []struct {
-		ProblemId uuid.UUID `json:"problem_id"` // 题目外键
-	}
+	var problemLabels []model.ProblemLabel
 
 	// TODO 进行标签匹配
-	p.DB.Distinct("problem_id").Where("label in ((?))", requestLabels.Labels).Model(model.ProblemLabel{}).Find(&problemIds)
+	p.DB.Distinct("problem_id").Where("label in (?)", requestLabels.Labels).Model(model.ProblemLabel{}).Find(&problemLabels)
 
 	// TODO 查找对应题目
 	var problems []model.Problem
 
+	var problemIds []string
+
+	for i := range problemLabels {
+		problemIds = append(problemIds, problemLabels[i].ProblemId.String())
+	}
+
 	// TODO 模糊匹配
-	p.DB.Where("id in ((?)) and match(title,description,res_long,res_short) against((?) in boolean mode)", problemIds, text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problems)
+	p.DB.Where("id in (?) and match(title,description,res_long,res_short) against((?) in boolean mode)", problemIds, text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problems)
 
 	// TODO 查看查询总数
 	var total int64
-	p.DB.Where("id in ((?)) and match(title,description,res_long,res_short) against((?) in boolean mode)", problemIds, text+"*").Model(model.Problem{}).Count(&total)
+	p.DB.Where("id in (?) and match(title,description,res_long,res_short) against((?) in boolean mode)", problemIds, text+"*").Model(model.Problem{}).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"problems": problems, "total": total}, "成功")

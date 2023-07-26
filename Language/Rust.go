@@ -10,7 +10,9 @@ import (
 )
 
 // Rust			定义了Rust文件类
-type Rust struct{}
+type Rust struct {
+	Interface.CmdInterface
+}
 
 // @title    Compile
 // @description   获得编译指令

@@ -10,7 +10,9 @@ import (
 )
 
 // Python			定义了python文件类
-type Python struct{}
+type Python struct {
+	Interface.CmdInterface
+}
 
 // @title    Compile
 // @description   获得编译指令

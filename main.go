@@ -27,6 +27,7 @@ func main() {
 	client0 := common.InitRedis(0)
 	defer client0.Close()
 	common.InitRabbitmq()
+	common.InitVjudge()
 	r := gin.Default()
 	r = CollectRoute(r)
 	port := viper.GetString("server.port")
@@ -35,6 +36,8 @@ func main() {
 	go timer.TimedTask("Form ranking calculation...", timer.SetRank, 4, 0, 0)
 	// TODO 比赛计时器
 	go timer.CompetitionStart()
+	// TODO 转发器
+	go controller.Transponder()
 	// TODO 及时单人匹配比赛
 	go controller.CompetitionRandomSingleGo()
 	// TODO 及时小组匹配比赛

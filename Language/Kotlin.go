@@ -10,7 +10,9 @@ import (
 )
 
 // kotlin			定义了kotlin文件类
-type Kotlin struct{}
+type Kotlin struct {
+	Interface.CmdInterface
+}
 
 // @title    Compile
 // @description   获得编译指令

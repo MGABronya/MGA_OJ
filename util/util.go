@@ -25,6 +25,7 @@ import (
 	"path"
 	"regexp"
 	"sort"
+	"strconv"
 	"strings"
 	"time"
 	"unicode"
@@ -46,6 +47,8 @@ var Units = map[string]uint{
 	"ms": 1,
 	"s":  1000,
 }
+
+var searchIndex int = 0
 
 var Max_run int = 4
 
@@ -89,6 +92,20 @@ var Tags []string = []string{
 	"串", "KMP", "排序", "快排", "快速排序", "归并排序", "逆序数", "堆排序",
 	"哈希表", "二分", "并查集", "霍夫曼树", "哈夫曼树", "堆", "线段树", "二叉树", "树状数组", "RMQ",
 	"社招", "校招", "面经",
+}
+
+// OJMap			支持的oj
+var OJMap map[string]string = map[string]string{
+	"POJ":  "00000001",
+	"HDU":  "00000002",
+	"SPOJ": "00000003",
+}
+
+// JOMap			支持的oj，但反向映射
+var JOMap map[string]string = map[string]string{
+	"00000001": "POJ",
+	"00000002": "HDU",
+	"00000003": "SPOJ",
 }
 
 // MgaronyaString			mgaronya字符串
@@ -614,7 +631,7 @@ func Search(query string) ([]vo.SearchResult, error) {
 	// TODO 构建搜索请求的URI
 	params := url.Values{}
 	params.Set("q", query)
-	requestURL := common.Endpoint + "?" + params.Encode()
+	requestURL := "https://api.bing.microsoft.com/v7.0/search?" + params.Encode()
 
 	// TODO 发送HTTP请求并获取响应
 	client := &http.Client{}
@@ -622,7 +639,7 @@ func Search(query string) ([]vo.SearchResult, error) {
 	if err != nil {
 		return nil, err
 	}
-	req.Header.Set("Ocp-Apim-Subscription-Key", common.SubscriptionKey)
+	req.Header.Set("Ocp-Apim-Subscription-Key", common.SubscriptionKey[searchIndex%len(common.SubscriptionKey)])
 	resp, err := client.Do(req)
 	if err != nil {
 		return nil, err
@@ -644,6 +661,10 @@ func Search(query string) ([]vo.SearchResult, error) {
 	err = json.Unmarshal(body, &parsedJson)
 	if err != nil {
 		return nil, err
+	}
+
+	if parsedJson.WebPages.Value == nil || len(parsedJson.WebPages.Value) == 0 {
+		searchIndex++
 	}
 
 	return parsedJson.WebPages.Value, nil
@@ -698,4 +719,101 @@ func GetInfoFromXML(xmlString string) (vo.Item, error) {
 		return result.Item, err
 	}
 	return result.Item, nil
+}
+
+// @title    PadZero
+// @description  为字符串添加前导零
+// @auth      MGAronya（张健）             2022-9-16 10:29
+// @param     str string				需要添加前导零的字符串
+// @return    string				    添加前导零后的字符串
+func PadZero(str string) string {
+	str = strings.TrimLeft(str, "0")
+	return fmt.Sprintf("%032s", str)
+}
+
+// @title    EncodeUUID
+// @description  将string类型编码为uuid类型
+// @auth      MGAronya（张健）             2022-9-16 10:29
+// @param     proid, source string				用于编码的题目id字符串以及题目来源平台
+// @return    uuid.UUID, error				    编码后的uuid以及可能的报错信息
+func EncodeUUID(proid, source string) (uuid.UUID, error) {
+	// TODO 尝试将题目转为16进制
+	proid, err := SixtyTwoToSixteen(proid)
+	if err != nil {
+		return uuid.Nil, err
+	}
+	// TODO 填充前导零
+	paddedString := PadZero(proid)
+	// TODO 添加来源标记
+	if s, ok := OJMap[source]; !ok {
+		return uuid.Nil, fmt.Errorf("不支持的平台")
+	} else {
+		paddedString = s + paddedString[8:]
+		uuidValue, err := uuid.FromString(strings.ReplaceAll(paddedString, "-", ""))
+		return uuidValue, err
+	}
+}
+
+// @title    DeCodeUUID
+// @description  将uuid类型解码为string类型
+// @auth      MGAronya（张健）             2022-9-16 10:29
+// @param     uuidValue uuid.UUID				待解码的uuid
+// @return    string, string				    解码后的string
+func DeCodeUUID(uuidValue uuid.UUID) (proid string, source string, err error) {
+	uuidString := strings.TrimLeft(uuidValue.String(), "{-}")
+	source = uuidString[:8]
+	// TODO 查看source是否合法
+	if s, ok := JOMap[source]; !ok {
+		return "", "", fmt.Errorf("前缀不合法")
+	} else {
+		uuidString = uuidString[8:]
+		// TODO 将uuid类型还原为原先的字符串
+		proid = strings.TrimLeft(uuidString, "0-")
+		// TODO 将proid转化为62进制
+		proid, err = SixteenToSixtyTwo(proid)
+		return proid, s, err
+	}
+}
+
+// @title    SixtyTwoToSixteen
+// @description  将62进制转化为16进制
+// @auth      MGAronya（张健）             2022-9-16 10:29
+// @param     str string				62进制字符串
+// @return    string,error				16进制以及可能的错误
+func SixtyTwoToSixteen(str string) (string, error) {
+	var res int64
+	for i := 0; i < len(str); i++ {
+		res *= 62
+		if unicode.IsNumber(rune(str[i])) {
+			res += int64(rune(str[i]) - '0')
+		} else if unicode.IsLower(rune(str[i])) {
+			res += int64(rune(str[i]) - 'a' + 10)
+		} else if unicode.IsUpper(rune(str[i])) {
+			res += int64(rune(str[i]) - 'A' + 36)
+		} else {
+			return "0", fmt.Errorf("错误字符", rune(str[i]))
+		}
+	}
+	return strconv.FormatInt(res, 16), nil
+}
+
+// @title    SixteenToSixtyTwo
+// @description  将16进制转化为62进制
+// @auth      MGAronya（张健）             2022-9-16 10:29
+// @param     str string				16进制字符串
+// @return    string,error				64进制以及可能的错误
+func SixteenToSixtyTwo(res string) (string, error) {
+	fmt.Println(res)
+	r, err := strconv.ParseUint(res, 16, 64)
+	if err != nil {
+		return "", err
+	}
+	str := ""
+	var base62Chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	for r != 0 {
+		t := r % 62
+		r /= 62
+		str = string(base62Chars[t]) + str
+	}
+	return str, nil
 }

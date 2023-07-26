@@ -567,6 +567,7 @@
 - /record/list 查看提交列表，可以使用这些信息做一个信息整理，如提交数量、各提交状态占比。
 - /problem/create/by/text 通过xml文本创建题目
 - /problem/createby/file 通过xml文件创建题目
+- /problem/create/vjudge 创建来自其它平台的题目
 - /tag/auto 自动生成标签
 - /tag/create/:tag 创建自动标签
 - /tag/delete/:tag 删除自动标签

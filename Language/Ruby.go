@@ -10,7 +10,9 @@ import (
 )
 
 // Ruby			定义了ruby文件类
-type Ruby struct{}
+type Ruby struct {
+	Interface.CmdInterface
+}
 
 // @title    Compile
 // @description   获得编译指令

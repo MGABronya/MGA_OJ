@@ -726,7 +726,7 @@ func (g GroupController) LikeNumber(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	g.DB.Where("group_id = (?) and `like` is (?)", id, like).Model(model.GroupLike{}).Count(&total)
+	g.DB.Where("group_id = (?) and `like` = ?", id, like).Model(model.GroupLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"total": total}, "查看成功")
 }
@@ -753,9 +753,9 @@ func (g GroupController) LikeList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	g.DB.Where("group_id = (?) and `like` is (?)", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groupLikes)
+	g.DB.Where("group_id = (?) and `like` = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groupLikes)
 
-	g.DB.Where("group_id = (?) and `like` is (?)", id, like).Model(model.GroupLike{}).Count(&total)
+	g.DB.Where("group_id = (?) and `like` = ?", id, like).Model(model.GroupLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"groupLikes": groupLikes, "total": total}, "查看成功")
 }
@@ -812,9 +812,9 @@ func (g GroupController) Likes(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	g.DB.Where("user_id = (?) and `like` is (?)", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groupLikes)
+	g.DB.Where("user_id = (?) and `like` = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groupLikes)
 
-	g.DB.Where("user_id = (?) and `like` is (?)", id, like).Model(model.GroupLike{}).Count(&total)
+	g.DB.Where("user_id = (?) and `like` = ?", id, like).Model(model.GroupLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"groupLikes": groupLikes, "total": total}, "查看成功")
 }
@@ -1825,21 +1825,25 @@ func (g GroupController) SearchLabel(ctx *gin.Context) {
 	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
 
 	// TODO 通过标签寻找
-	var groupIds []struct {
-		GroupId uuid.UUID `json:"group_id"` // 用户组外键
-	}
+	var groupLabels []model.GroupLabel
 
 	// TODO 进行标签匹配
-	g.DB.Distinct("group_id").Where("label in ((?))", requestLabels.Labels).Model(model.GroupLabel{}).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groupIds)
+	g.DB.Distinct("group_id").Where("label in (?)", requestLabels.Labels).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groupLabels)
 
 	// TODO 查看查询总数
 	var total int64
-	g.DB.Distinct("group_id").Where("label in ((?))", requestLabels.Labels).Model(model.GroupLabel{}).Count(&total)
+	g.DB.Distinct("group_id").Where("label in (?)", requestLabels.Labels).Model(model.GroupLabel{}).Count(&total)
 
 	// TODO 查找对应用户组
 	var groups []model.Group
 
-	g.DB.Where("id in ((?))", groupIds).Find(&groups)
+	var groupIds []string
+
+	for i := range groupLabels {
+		groupIds = append(groupIds, groupLabels[i].GroupId.String())
+	}
+
+	g.DB.Where("id in (?)", groupIds).Find(&groups)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"groups": groups, "total": total}, "成功")
@@ -1869,22 +1873,26 @@ func (g GroupController) SearchWithLabel(ctx *gin.Context) {
 	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
 
 	// TODO 通过标签寻找
-	var groupIds []struct {
-		GroupId uuid.UUID `json:"group_id"` // 用户组外键
-	}
+	var groupLabels []model.GroupLabel
 
 	// TODO 进行标签匹配
-	g.DB.Distinct("group_id").Where("label in ((?))", requestLabels.Labels).Model(model.GroupLabel{}).Find(&groupIds)
+	g.DB.Distinct("group_id").Where("label in (?)", requestLabels.Labels).Find(&groupLabels)
 
 	// TODO 查找对应用户组
 	var groups []model.Group
 
+	var groupIds []string
+
+	for i := range groupLabels {
+		groupIds = append(groupIds, groupLabels[i].GroupId.String())
+	}
+
 	// TODO 模糊匹配
-	g.DB.Where("id in ((?)) and match(title,content,res_long,res_short) against((?) in boolean mode)", groupIds, text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groups)
+	g.DB.Where("id in (?) and match(title,content,res_long,res_short) against((?) in boolean mode)", groupIds, text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&groups)
 
 	// TODO 查看查询总数
 	var total int64
-	g.DB.Where("id in ((?)) and match(title,content,res_long,res_short) against((?) in boolean mode)", groupIds, text+"*").Model(model.Group{}).Count(&total)
+	g.DB.Where("id in (?) and match(title,content,res_long,res_short) against((?) in boolean mode)", groupIds, text+"*").Model(model.Group{}).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"groups": groups, "total": total}, "成功")

@@ -10,7 +10,9 @@ import (
 )
 
 // Pascal			定义了Pascal文件类
-type Pascal struct{}
+type Pascal struct {
+	Interface.CmdInterface
+}
 
 // @title    Compile
 // @description   获得编译指令

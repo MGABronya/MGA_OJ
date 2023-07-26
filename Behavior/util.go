@@ -14,12 +14,7 @@ import (
 )
 
 // behaviors	    定义了用户行为映射表
-var Behaviors map[string]Interface.BehaviorInterface = map[string]Interface.BehaviorInterface{
-	"Accepts":  NewAccepts(),
-	"Days":     NewDays(),
-	"Likes":    NewLikes(),
-	"Collects": NewCollects(),
-}
+var Behaviors map[string]Interface.BehaviorInterface = map[string]Interface.BehaviorInterface{}
 
 // @title    checkExpression
 // @description  函数接收一个不带括号的表达式，查看表达式是否正确

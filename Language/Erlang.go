@@ -10,7 +10,9 @@ import (
 )
 
 // Erlang			定义了Erlang文件类
-type Erlang struct{}
+type Erlang struct {
+	Interface.CmdInterface
+}
 
 // @title    Compile
 // @description   获得编译指令

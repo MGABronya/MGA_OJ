@@ -10,7 +10,9 @@ import (
 )
 
 // C			定义了c文件类
-type C struct{}
+type C struct {
+	Interface.CmdInterface
+}
 
 // @title    Compile
 // @description   获得编译指令

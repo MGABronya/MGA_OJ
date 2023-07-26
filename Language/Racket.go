@@ -10,7 +10,9 @@ import (
 )
 
 // Racket			定义了Racket文件类
-type Racket struct{}
+type Racket struct {
+	Interface.CmdInterface
+}
 
 // @title    Compile
 // @description   获得编译指令

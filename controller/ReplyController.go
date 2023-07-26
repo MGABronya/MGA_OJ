@@ -474,7 +474,7 @@ func (r ReplyController) LikeNumber(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	r.DB.Where("reply_id = (?) and `like` is (?)", id, like).Model(model.ReplyLike{}).Count(&total)
+	r.DB.Where("reply_id = (?) and `like` = ?", id, like).Model(model.ReplyLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"total": total}, "查看成功")
 }
@@ -501,9 +501,9 @@ func (r ReplyController) LikeList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	r.DB.Where("reply_id = (?) and `like` is (?)", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&replyLikes)
+	r.DB.Where("reply_id = (?) and `like` = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&replyLikes)
 
-	r.DB.Where("reply_id = (?) and `like` is (?)", id, like).Model(model.ReplyLike{}).Count(&total)
+	r.DB.Where("reply_id = (?) and `like` = ?", id, like).Model(model.ReplyLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"replyLikes": replyLikes, "total": total}, "查看成功")
 }
@@ -560,9 +560,9 @@ func (r ReplyController) Likes(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	r.DB.Where("user_id = (?) and `like` is (?)", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&replyLikes)
+	r.DB.Where("user_id = (?) and `like` = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&replyLikes)
 
-	r.DB.Where("user_id = (?) and `like` is (?)", id, like).Model(model.ReplyLike{}).Count(&total)
+	r.DB.Where("user_id = (?) and `like` = ?", id, like).Model(model.ReplyLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"replyLikes": replyLikes, "total": total}, "查看成功")
 }

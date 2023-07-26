@@ -10,7 +10,9 @@ import (
 )
 
 // CppPlusPlus11			定义了c++文件类
-type CppPlusPlus11 struct{}
+type CppPlusPlus11 struct {
+	Interface.CmdInterface
+}
 
 // @title    Compile
 // @description   获得编译指令

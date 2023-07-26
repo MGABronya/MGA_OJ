@@ -10,7 +10,9 @@ import (
 	"MGA_OJ/common"
 	"MGA_OJ/model"
 	"MGA_OJ/response"
+	"MGA_OJ/util"
 	"MGA_OJ/vo"
+	"context"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -110,11 +112,17 @@ leep:
 		r.Redis.HSet(ctx, "Record", fmt.Sprint(record.ID), v)
 	}
 
-	// TODO 加入消息队列
 	v, _ := json.Marshal(recordRaabbit)
-	if err := r.Rabbitmq.PublishSimple(string(v)); err != nil {
-		response.Fail(ctx, nil, "消息队列出错")
-		return
+	// TODO 查看提交题目能否被解析为外站题目
+	if _, _, err := util.DeCodeUUID(record.ProblemId); err != nil {
+		// TODO 加入消息队列用于本地消费
+		if err := r.Rabbitmq.PublishSimple(string(v)); err != nil {
+			response.Fail(ctx, nil, "消息队列出错")
+			return
+		}
+	} else {
+		// TODO 如果存在指定平台，交由转发机处理
+		r.Redis.Publish(ctx, "Vjudge", v)
 	}
 
 	// TODO 发布订阅用于提交列表
@@ -636,4 +644,116 @@ func NewRecordController() IRecordController {
 	db.AutoMigrate(model.Record{})
 	db.AutoMigrate(model.CaseCondition{})
 	return RecordController{DB: db, Redis: redis, Rabbitmq: rabbitmq, UpGrader: upGrader}
+}
+
+// @title    Transponder
+// @description   转发器，用于转发提交
+// @auth      MGAronya（张健）       2022-9-16 12:23
+// @param    void
+// @return   void
+func Transponder() {
+	redis := common.GetRedisClient(0)
+	db := common.GetDB()
+	ctx := context.Background()
+	// TODO 订阅消息
+	pubSub := redis.Subscribe(ctx, "Vjudge")
+	defer pubSub.Close()
+	// TODO 获得消息管道
+	ch := pubSub.Channel()
+	// TODO 监听消息
+	for msg := range ch {
+		var recordRaabbit vo.RecordRabbit
+		json.Unmarshal([]byte(msg.Payload), &recordRaabbit)
+		// TODO 尝试在redis中取出该提交
+		var record model.Record
+		// TODO 先看redis中是否存在
+		if ok, _ := redis.HExists(ctx, "Record", recordRaabbit.RecordId.String()).Result(); ok {
+			cate, _ := redis.HGet(ctx, "Record", recordRaabbit.RecordId.String()).Result()
+			// TODO 移除损坏数据
+			redis.HDel(ctx, "Record", recordRaabbit.RecordId.String())
+			if json.Unmarshal([]byte(cate), &record) == nil {
+				// TODO 跳过数据库搜寻过程
+				goto feep
+			}
+		}
+
+		// TODO 未能找到提交记录
+		if db.Where("id = (?)", recordRaabbit.RecordId).First(&record).Error != nil {
+			log.Printf("%s Record Disappear!!\n", recordRaabbit.RecordId.String())
+			return
+		}
+	feep:
+		// TODO 尝试将该提交转发至指定平台
+		if proid, source, err := util.DeCodeUUID(record.ProblemId); err == nil {
+			// TODO 提交至指定平台
+			runid, err := common.VjudgeMap[source].Submit(record.Code, proid, record.Language)
+			if err != nil {
+				log.Println("转发失败\n", err, record)
+				continue
+			}
+			// TODO 跟踪指定提交
+			go TrackRecord(source, runid, proid, record)
+		} else {
+			log.Println("错误的目标平台\n", record)
+			continue
+		}
+	}
+}
+
+// @title    TrackRecord
+// @description   跟踪指定提交
+// @auth      MGAronya（张健）       2022-9-16 12:23
+// @param    void
+// @return   void
+func TrackRecord(source string, runid string, proid string, record model.Record) {
+	channel := make(chan map[string]string)
+	go common.VjudgeMap[source].GetStatus(runid, proid, channel)
+	redis := common.GetRedisClient(0)
+	db := common.GetDB()
+	ctx := context.Background()
+	// TODO 发布订阅用于提交列表
+	recordList := vo.RecordList{
+		RecordId: record.ID,
+	}
+	// TODO 提交订阅
+	var recordCase vo.RecordCase
+	recordCase.CaseId = 0
+	var result map[string]string
+	for result = range channel {
+		if result["Result"] != record.Condition {
+			// TODO 更新状态
+			record.Condition = result["Result"]
+			// TODO 将recordlist打包
+			v, _ := json.Marshal(recordList)
+			redis.Publish(ctx, "RecordChan", v)
+			// TODO 将record存入redis
+			v, _ = json.Marshal(record)
+			redis.HSet(ctx, "Record", fmt.Sprint(record.ID), v)
+			// TODO 提交长连接
+			{
+				recordCase.Condition = result["Result"]
+				v, _ := json.Marshal(recordCase)
+				redis.Publish(ctx, "RecordChan"+record.ID.String(), v)
+			}
+		}
+	}
+	// TODO 将record存入数据库
+	db.Save(&record)
+	// TODO 将其花费的时间与空间存入数据库
+	t, err := strconv.Atoi(result["Time"])
+	if err != nil {
+		t = 0
+	}
+	m, err := strconv.Atoi(result["Memory"])
+	if err != nil {
+		m = 0
+	}
+	// TODO 将其作为第一个用例的结果存入数据库
+	cas := model.CaseCondition{
+		RecordId: record.ID,
+		CID:      1,
+		Time:     uint(t),
+		Memory:   uint(m),
+	}
+	db.Create(&cas)
 }

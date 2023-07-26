@@ -765,22 +765,26 @@ func (c CompetitionController) SearchLabel(ctx *gin.Context) {
 	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
 	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
 
-	// TODO 通过标签寻找
-	var competitionIds []struct {
-		CompetitionId uuid.UUID `json:"competition_id"` // 竞赛外键
-	}
+	var competitionLabels []model.CompetitionLabel
 
 	// TODO 进行标签匹配
-	c.DB.Distinct("competition_id").Where("label in ((?))", requestLabels.Labels).Model(model.CompetitionLabel{}).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&competitionIds)
+	c.DB.Distinct("competition_id").Where("label in (?)", requestLabels.Labels).Model(model.CompetitionLabel{}).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&competitionLabels)
 
 	// TODO 查看查询总数
 	var total int64
-	c.DB.Distinct("competition_id").Where("label in ((?))", requestLabels.Labels).Model(model.CompetitionLabel{}).Count(&total)
+	c.DB.Distinct("competition_id").Where("label in (?)", requestLabels.Labels).Model(model.CompetitionLabel{}).Count(&total)
 
 	// TODO 查找对应表单
 	var competitions []model.Competition
 
-	c.DB.Where("id in ((?))", competitionIds).Find(&competitions)
+	// TODO 将所有id取出
+	var competitionIds []string
+
+	for i := range competitionLabels {
+		competitionIds = append(competitionIds, competitionLabels[i].CompetitionId.String())
+	}
+
+	c.DB.Where("id in (?)", competitionIds).Find(&competitions)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"competitions": competitions, "total": total}, "成功")
@@ -809,23 +813,27 @@ func (c CompetitionController) SearchWithLabel(ctx *gin.Context) {
 	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
 	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
 
-	// TODO 通过标签寻找
-	var competitionIds []struct {
-		CompetitionId uuid.UUID `json:"competition_id"` // 竞赛外键
-	}
+	var competitionLabels []model.CompetitionLabel
 
 	// TODO 进行标签匹配
-	c.DB.Distinct("competition_id").Where("label in ((?))", requestLabels.Labels).Model(model.CompetitionLabel{}).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&competitionIds)
+	c.DB.Distinct("competition_id").Where("label in (?)", requestLabels.Labels).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&competitionLabels)
 
 	// TODO 查找对应表单
 	var competitions []model.Competition
 
+	// TODO 将所有id取出
+	var competitionIds []string
+
+	for i := range competitionLabels {
+		competitionIds = append(competitionIds, competitionLabels[i].CompetitionId.String())
+	}
+
 	// TODO 模糊匹配
-	c.DB.Where("id in ((?)) and match(title,content,res_long,res_short) against((?) in boolean mode)", competitionIds, text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&competitions)
+	c.DB.Where("id in (?) and match(title,content,res_long,res_short) against((?) in boolean mode)", competitionIds, text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&competitions)
 
 	// TODO 查看查询总数
 	var total int64
-	c.DB.Where("id in ((?)) and match(title,content,res_long,res_short) against((?) in boolean mode)", competitionIds, text+"*").Model(model.Competition{}).Count(&total)
+	c.DB.Where("id in (?) and match(title,content,res_long,res_short) against((?) in boolean mode)", competitionIds, text+"*").Model(model.Competition{}).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"competitions": competitions, "total": total}, "成功")

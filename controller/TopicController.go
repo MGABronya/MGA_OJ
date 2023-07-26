@@ -19,7 +19,6 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v9"
-	uuid "github.com/satori/go.uuid"
 	"gorm.io/gorm"
 )
 
@@ -566,7 +565,7 @@ func (t TopicController) LikeNumber(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	t.DB.Where("topic_id = (?) and `like` is (?)", id, like).Model(model.TopicLike{}).Count(&total)
+	t.DB.Where("topic_id = (?) and `like` = ?", id, like).Model(model.TopicLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"total": total}, "查看成功")
 }
@@ -593,9 +592,9 @@ func (t TopicController) LikeList(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	t.DB.Where("topic_id = (?) and `like` is (?)", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&topicLikes)
+	t.DB.Where("topic_id = (?) and `like` = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&topicLikes)
 
-	t.DB.Where("topic_id = (?) and `like` is (?)", id, like).Model(model.TopicLike{}).Count(&total)
+	t.DB.Where("topic_id = (?) and `like` = ?", id, like).Model(model.TopicLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"topicLikes": topicLikes, "total": total}, "查看成功")
 }
@@ -651,9 +650,9 @@ func (t TopicController) Likes(ctx *gin.Context) {
 	var total int64
 
 	// TODO 查看点赞或者点踩的数量
-	t.DB.Where("user_id = (?) and `like` is (?)", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&topicLikes)
+	t.DB.Where("user_id = (?) and `like` = ?", id, like).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&topicLikes)
 
-	t.DB.Where("user_id = (?) and `like` is (?)", id, like).Model(model.TopicLike{}).Count(&total)
+	t.DB.Where("user_id = (?) and `like` = ?", id, like).Model(model.TopicLike{}).Count(&total)
 
 	response.Success(ctx, gin.H{"topicLikes": topicLikes, "total": total}, "查看成功")
 }
@@ -1219,21 +1218,25 @@ func (t TopicController) SearchLabel(ctx *gin.Context) {
 	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
 
 	// TODO 通过标签寻找
-	var topicIds []struct {
-		TopicId uuid.UUID `json:"topic_id"` // 题目外键
-	}
+	var topicLabels []model.TopicLabel
 
 	// TODO 进行标签匹配
-	t.DB.Distinct("topic_id").Where("label in ((?))", requestLabels.Labels).Model(model.TopicLabel{}).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&topicIds)
+	t.DB.Distinct("topic_id").Where("label in (?)", requestLabels.Labels).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&topicLabels)
 
 	// TODO 查看查询总数
 	var total int64
-	t.DB.Distinct("topic_id").Where("label in ((?))", requestLabels.Labels).Model(model.TopicLabel{}).Count(&total)
+	t.DB.Distinct("topic_id").Where("label in (?)", requestLabels.Labels).Model(model.TopicLabel{}).Count(&total)
 
 	// TODO 查找对应主题
 	var topics []model.Topic
 
-	t.DB.Where("id in ((?))", topicIds).Find(&topics)
+	var topicIds []string
+
+	for i := range topicLabels {
+		topicIds = append(topicIds, topicLabels[i].TopicId.String())
+	}
+
+	t.DB.Where("id in (?)", topicIds).Find(&topics)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"topics": topics, "total": total}, "成功")
@@ -1263,22 +1266,26 @@ func (t TopicController) SearchWithLabel(ctx *gin.Context) {
 	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
 
 	// TODO 通过标签寻找
-	var topicIds []struct {
-		TopicId uuid.UUID `json:"topic_id"` // 题目外键
-	}
+	var topicLabels []model.TopicLabel
 
 	// TODO 进行标签匹配
-	t.DB.Distinct("topic_id").Where("label in ((?))", requestLabels.Labels).Model(model.TopicLabel{}).Find(&topicIds)
+	t.DB.Distinct("topic_id").Where("label in (?)", requestLabels.Labels).Find(&topicLabels)
 
 	// TODO 查找对应主题
 	var topics []model.Topic
 
+	var topicIds []string
+
+	for i := range topicLabels {
+		topicIds = append(topicIds, topicLabels[i].TopicId.String())
+	}
+
 	// TODO 模糊匹配
-	t.DB.Where("id in ((?)) and match(title,content,res_long,res_short) against((?) in boolean mode)", topicIds, text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&topics)
+	t.DB.Where("id in (?) and match(title,content,res_long,res_short) against((?) in boolean mode)", topicIds, text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&topics)
 
 	// TODO 查看查询总数
 	var total int64
-	t.DB.Where("id in ((?)) and match(title,content,res_long,res_short) against((?) in boolean mode)", topicIds, text+"*").Model(model.Topic{}).Count(&total)
+	t.DB.Where("id in (?) and match(title,content,res_long,res_short) against((?) in boolean mode)", topicIds, text+"*").Model(model.Topic{}).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"topics": topics, "total": total}, "成功")

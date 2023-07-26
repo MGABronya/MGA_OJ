@@ -8,8 +8,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-var SubscriptionKey string
-var Endpoint string
+var SubscriptionKey []string
 
 // @title    InitSearch
 // @description   从配置文件中读取bing搜索api相关参数
@@ -17,6 +16,6 @@ var Endpoint string
 // @param     void        void         没有入参
 // @return    void        void         没有返回值
 func InitSearch() {
-	SubscriptionKey = viper.GetString("search.subscriptionKey")
-	Endpoint = viper.GetString("search.endpoint")
+	SubscriptionKey = append(SubscriptionKey, viper.GetString("search.subscriptionKey1"))
+	SubscriptionKey = append(SubscriptionKey, viper.GetString("search.subscriptionKey2"))
 }

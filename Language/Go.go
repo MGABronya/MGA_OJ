@@ -10,7 +10,9 @@ import (
 )
 
 // Go			定义了go文件类
-type Go struct{}
+type Go struct {
+	Interface.CmdInterface
+}
 
 // @title    Compile
 // @description   获得编译指令

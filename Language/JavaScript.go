@@ -10,7 +10,9 @@ import (
 )
 
 // JavaScript			定义了javascript文件类
-type JavaScript struct{}
+type JavaScript struct {
+	Interface.CmdInterface
+}
 
 // @title    Compile
 // @description   获得编译指令

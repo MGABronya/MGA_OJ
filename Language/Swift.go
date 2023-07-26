@@ -10,7 +10,9 @@ import (
 )
 
 // Swift			定义了Swift文件类
-type Swift struct{}
+type Swift struct {
+	Interface.CmdInterface
+}
 
 // @title    Compile
 // @description   获得编译指令
