@@ -21,6 +21,8 @@ var VjudgeMap map[string]Interface.VjudgeInterface = map[string]Interface.Vjudge
 // @return    void        void         没有回参
 func InitVjudge() {
 	VjudgeMap["POJ"] = Vjudge.NewPOJ(viper.GetString("poj.user"), viper.GetString("poj.password"))
-	VjudgeMap["HDU"] = Vjudge.NewPOJ(viper.GetString("hdu.user"), viper.GetString("hdu.password"))
-	VjudgeMap["SPOJ"] = Vjudge.NewPOJ(viper.GetString("spoj.user"), viper.GetString("spoj.password"))
+	VjudgeMap["HDU"] = Vjudge.NewHDU(viper.GetString("hdu.user"), viper.GetString("hdu.password"))
+	VjudgeMap["SPOJ"] = Vjudge.NewSPOJ(viper.GetString("spoj.user"), viper.GetString("spoj.password"))
+	VjudgeMap["VIJOS"] = Vjudge.NewVIJOS(viper.GetString("vijos.user"), viper.GetString("vijos.password"))
+	VjudgeMap["CF"] = Vjudge.NewCF(viper.GetString("cf.user"), viper.GetString("cf.password"))
 }

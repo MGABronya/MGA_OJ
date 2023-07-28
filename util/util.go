@@ -61,6 +61,8 @@ var LanguageMap map[string]Interface.CmdInterface = map[string]Interface.CmdInte
 	"C#":         Handle.NewCs(),
 	"C++":        Handle.NewCppPlusPlus(),
 	"C++11":      Handle.NewCppPlusPlus11(),
+	"C++14":      Handle.NewCppPlusPlus14(),
+	"C++17":      Handle.NewCppPlusPlus17(),
 	"Erlang":     Handle.NewErlang(),
 	"Go":         Handle.NewGo(),
 	"Java":       Handle.NewJava(),
@@ -96,9 +98,11 @@ var Tags []string = []string{
 
 // OJMap			支持的oj
 var OJMap map[string]string = map[string]string{
-	"POJ":  "00000001",
-	"HDU":  "00000002",
-	"SPOJ": "00000003",
+	"POJ":   "00000001",
+	"HDU":   "00000002",
+	"SPOJ":  "00000003",
+	"VIJOS": "00000004",
+	"CF":    "00000005",
 }
 
 // JOMap			支持的oj，但反向映射
@@ -106,6 +110,8 @@ var JOMap map[string]string = map[string]string{
 	"00000001": "POJ",
 	"00000002": "HDU",
 	"00000003": "SPOJ",
+	"00000004": "VIJOS",
+	"00000005": "CF",
 }
 
 // MgaronyaString			mgaronya字符串
@@ -738,7 +744,7 @@ func PadZero(str string) string {
 // @return    uuid.UUID, error				    编码后的uuid以及可能的报错信息
 func EncodeUUID(proid, source string) (uuid.UUID, error) {
 	// TODO 尝试将题目转为16进制
-	proid, err := SixtyTwoToSixteen(proid)
+	proid, err := SixtyFourToSixteen(proid)
 	if err != nil {
 		return uuid.Nil, err
 	}
@@ -770,17 +776,17 @@ func DeCodeUUID(uuidValue uuid.UUID) (proid string, source string, err error) {
 		// TODO 将uuid类型还原为原先的字符串
 		proid = strings.TrimLeft(uuidString, "0-")
 		// TODO 将proid转化为62进制
-		proid, err = SixteenToSixtyTwo(proid)
+		proid, err = SixteenToSixtyFour(proid)
 		return proid, s, err
 	}
 }
 
-// @title    SixtyTwoToSixteen
-// @description  将62进制转化为16进制
+// @title    SixtyFourToSixteen
+// @description  将64进制转化为16进制
 // @auth      MGAronya（张健）             2022-9-16 10:29
 // @param     str string				62进制字符串
 // @return    string,error				16进制以及可能的错误
-func SixtyTwoToSixteen(str string) (string, error) {
+func SixtyFourToSixteen(str string) (string, error) {
 	var res int64
 	for i := 0; i < len(str); i++ {
 		res *= 62
@@ -790,6 +796,10 @@ func SixtyTwoToSixteen(str string) (string, error) {
 			res += int64(rune(str[i]) - 'a' + 10)
 		} else if unicode.IsUpper(rune(str[i])) {
 			res += int64(rune(str[i]) - 'A' + 36)
+		} else if str[i] == '-' {
+			res += 62
+		} else if str[i] == '_' {
+			res += 63
 		} else {
 			return "0", fmt.Errorf("错误字符", rune(str[i]))
 		}
@@ -797,23 +807,87 @@ func SixtyTwoToSixteen(str string) (string, error) {
 	return strconv.FormatInt(res, 16), nil
 }
 
-// @title    SixteenToSixtyTwo
-// @description  将16进制转化为62进制
+// @title    SixteenToSixtyFour
+// @description  将16进制转化为64进制
 // @auth      MGAronya（张健）             2022-9-16 10:29
 // @param     str string				16进制字符串
 // @return    string,error				64进制以及可能的错误
-func SixteenToSixtyTwo(res string) (string, error) {
-	fmt.Println(res)
+func SixteenToSixtyFour(res string) (string, error) {
 	r, err := strconv.ParseUint(res, 16, 64)
 	if err != nil {
 		return "", err
 	}
 	str := ""
-	var base62Chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	var base62Chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_"
 	for r != 0 {
-		t := r % 62
-		r /= 62
+		t := r % 64
+		r /= 64
 		str = string(base62Chars[t]) + str
 	}
 	return str, nil
+}
+
+// @title    StateCorrection
+// @description  矫正状态
+// @auth      MGAronya（张健）             2022-9-16 10:29
+// @param     str string				待矫正的状态
+// @return    string				矫正后的状态
+func StateCorrection(condition string) string {
+	if condition == "" {
+		return "Waiting"
+	}
+	short := strings.ToLower(condition)
+	if regexp.MustCompile(`^ac.*`).MatchString(short) {
+		return "Accepted"
+	}
+	if regexp.MustCompile(`^wait.*`).MatchString(short) {
+		return "Waiting"
+	}
+	if regexp.MustCompile(`^r.*e.*`).MatchString(short) {
+		return "Runtime Error"
+	}
+	if regexp.MustCompile(`^run.*`).MatchString(short) {
+		return "Running"
+	}
+	if regexp.MustCompile(`^c.*e.*`).MatchString(short) {
+		return "Compile Error"
+	}
+	if regexp.MustCompile(`^compil.*`).MatchString(short) {
+		return "Compiling"
+	}
+	if regexp.MustCompile(`^p.*e.*`).MatchString(short) {
+		return "Presentation Error"
+	}
+	if regexp.MustCompile(`^w.*a.*`).MatchString(short) {
+		return "Wrong Answer"
+	}
+	if regexp.MustCompile(`^t.*l.*e.*`).MatchString(short) {
+		return "Time Limit Exceeded"
+	}
+	if regexp.MustCompile(`^m.*l.*e.*`).MatchString(short) {
+		return "Memory Limit Exceeded"
+	}
+	return condition
+}
+
+// @title    RemoveDuplicates
+// @description  字符串去重
+// @auth      MGAronya（张健）             2022-9-16 10:29
+// @param     arr []string				去重前的字符串数组
+// @return    []string				去重后的字符串数组
+func RemoveDuplicates(arr []string) []string {
+	// TODO 创建一个空的 map 用于记录已经出现过的字符串
+	m := make(map[string]bool)
+	result := []string{}
+
+	// TODO 遍历数组中的每个字符串
+	for _, str := range arr {
+		// TODO 如果该字符串不在 map 中，说明是第一次出现，将其添加到结果数组中，并在 map 中标记为已出现
+		if !m[str] {
+			result = append(result, str)
+			m[str] = true
+		}
+	}
+
+	return result
 }

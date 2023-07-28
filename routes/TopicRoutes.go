@@ -111,6 +111,15 @@ func TopicRoutes(r *gin.Engine) *gin.Engine {
 	// TODO 按文本和标签交集搜索主题
 	topicRoutes.GET("/search/with/label/:text", topicController.SearchWithLabel)
 
+	// TODO 按文本搜索主题
+	topicRoutes.GET("/search/in/topic/:text/:id", topicController.SearchInTopic)
+
+	// TODO 按标签搜索主题
+	topicRoutes.GET("/search/label/in/topic/:id", topicController.SearchLabelInTopic)
+
+	// TODO 按文本和标签交集搜索主题
+	topicRoutes.GET("/search/with/label/in/topic/:text/:id", topicController.SearchWithLabelInTopic)
+
 	// TODO 获取主题热度排行
 	topicRoutes.GET("/hot/rank", topicController.HotRanking)
 

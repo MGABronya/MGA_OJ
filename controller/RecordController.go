@@ -720,6 +720,8 @@ func TrackRecord(source string, runid string, proid string, record model.Record)
 	recordCase.CaseId = 0
 	var result map[string]string
 	for result = range channel {
+		// TODO 先矫正一波
+		result["Result"] = util.StateCorrection(result["Result"])
 		if result["Result"] != record.Condition {
 			// TODO 更新状态
 			record.Condition = result["Result"]

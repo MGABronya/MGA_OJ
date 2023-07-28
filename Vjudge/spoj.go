@@ -166,7 +166,7 @@ func (fp *SPOJ) GetStatus(RunId string, ProbId string, channel chan map[string]s
 	results := make(map[string]string)
 	// TODO 持续请求提交状态
 	// TODO 请求次数
-	for i := 0; !matchesRegex(results["Result"]) && i < 200; i++ {
+	for i := 0; !spojmatchesRegex(results["Result"]) && i < 200; i++ {
 		// TODO 逐步扩大请求间隔
 		time.Sleep(time.Duration(i*i) * time.Second)
 		statusURL := fmt.Sprintf("%s/status/%s,%s/all/start=%d", fp.MainURL, ProbId, fp.UserID, page)
@@ -249,8 +249,8 @@ func SPOJextractLatestSubmission(html, runid string) map[string]string {
 // @auth      MGAronya（张健）       2022-9-16 12:15
 // @param    str string 			状态字符串
 // @return   bool 					是否达到终态
-func matchesRegex(str string) bool {
-	re := regexp.MustCompile(`^accepted|^wrong|^time|^compilation|^runtime|^\d+`)
+func spojmatchesRegex(str string) bool {
+	re := regexp.MustCompile(`^accepted|^memory|^wrong|^time|^compilation|^runtime|^\d+`)
 	return re.MatchString(str)
 }
 

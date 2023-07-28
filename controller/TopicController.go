@@ -24,15 +24,18 @@ import (
 
 // ITopicController			定义了主题类接口
 type ITopicController interface {
-	Interface.RestInterface       // 包含增删查改功能
-	Interface.LikeInterface       // 包含点赞功能
-	Interface.CollectInterface    // 包含收藏功能
-	Interface.VisitInterface      // 包含游览功能
-	Interface.LabelInterface      // 包含标签功能
-	Interface.SearchInterface     // 包含搜索功能
-	Interface.HotInterface        // 包含热度功能
-	UserList(ctx *gin.Context)    // 查看用户的主题
-	ProblemList(ctx *gin.Context) // 查看主题的题目列表
+	Interface.RestInterface                  // 包含增删查改功能
+	Interface.LikeInterface                  // 包含点赞功能
+	Interface.CollectInterface               // 包含收藏功能
+	Interface.VisitInterface                 // 包含游览功能
+	Interface.LabelInterface                 // 包含标签功能
+	Interface.SearchInterface                // 包含搜索功能
+	Interface.HotInterface                   // 包含热度功能
+	UserList(ctx *gin.Context)               // 查看用户的主题
+	ProblemList(ctx *gin.Context)            // 查看主题的题目列表
+	SearchInTopic(ctx *gin.Context)          // 在题单内进行文本搜索
+	SearchLabelInTopic(ctx *gin.Context)     // 在题单内进行标签搜索
+	SearchWithLabelInTopic(ctx *gin.Context) // 在题单内进行带标签搜索
 }
 
 // TopicController			定义了主题工具类
@@ -375,7 +378,7 @@ func (t TopicController) ProblemList(ctx *gin.Context) {
 	t.DB.Where("topic_id = (?)", id).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemLists)
 
 	var total int64
-	t.DB.Model(model.Topic{}).Where("topic_id = (?)", id).Count(&total)
+	t.DB.Model(model.Problem{}).Where("topic_id = (?)", id).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"problemLists": problemLists, "total": total}, "成功")
@@ -1289,6 +1292,168 @@ func (t TopicController) SearchWithLabel(ctx *gin.Context) {
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"topics": topics, "total": total}, "成功")
+}
+
+// @title    SearchInTopic
+// @description   在题单内文本搜索
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (t TopicController) SearchInTopic(ctx *gin.Context) {
+	// TODO 获取文本
+	text := ctx.Params.ByName("text")
+
+	// TODO 获取topic的id
+	id := ctx.Params.ByName("id")
+
+	var problemLists []model.ProblemList
+
+	// TODO 查找所有分页中可见的条目
+	t.DB.Where("topic_id = (?)", id).Find(&problemLists)
+
+	var problemIds []string
+
+	for i := range problemLists {
+		problemIds = append(problemIds, problemLists[i].ProblemId.String())
+	}
+
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
+
+	var problems []model.Problem
+
+	// TODO 模糊匹配
+	t.DB.Where("id in (?) and match(title,description,res_long,res_short) against((?) in boolean mode)", problemIds, text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problems)
+
+	// TODO 查看查询总数
+	var total int64
+	t.DB.Where("id in (?) and match(title,description,res_long,res_short) against((?) in boolean mode)", problemIds, text+"*").Model(model.Problem{}).Count(&total)
+
+	// TODO 返回数据
+	response.Success(ctx, gin.H{"problems": problems, "total": total}, "成功")
+}
+
+// @title    SearchLabel
+// @description   指定标签的搜索
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (t TopicController) SearchLabelInTopic(ctx *gin.Context) {
+
+	var requestLabels vo.LabelsRequest
+
+	// TODO 获取标签
+	if err := ctx.ShouldBind(&requestLabels); err != nil {
+		log.Print(err.Error())
+		response.Fail(ctx, nil, "数据验证错误")
+		return
+	}
+
+	// TODO 获取topic的id
+	id := ctx.Params.ByName("id")
+
+	var problemLists []model.ProblemList
+
+	// TODO 查找所有分页中可见的条目
+	t.DB.Where("topic_id = (?)", id).Find(&problemLists)
+
+	var problemIds []string
+
+	for i := range problemLists {
+		problemIds = append(problemIds, problemLists[i].ProblemId.String())
+	}
+
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
+
+	// TODO 通过标签寻找
+	var problemLabels []model.ProblemLabel
+
+	// TODO 进行标签匹配
+	t.DB.Distinct("problem_id").Where("problem_id in (?) and label in (?)", problemIds, requestLabels.Labels).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemLabels)
+
+	// TODO 查看查询总数
+	var total int64
+	t.DB.Distinct("problem_id").Where("problem_id in (?) and label in (?)", problemIds, requestLabels.Labels).Model(model.ProblemLabel{}).Count(&total)
+
+	problemIds = []string{}
+
+	for i := range problemLabels {
+		problemIds = append(problemIds, problemLabels[i].ProblemId.String())
+	}
+
+	// TODO 查找对应题目
+	var problems []model.Problem
+
+	t.DB.Where("id in (?)", problemIds).Find(&problems)
+
+	// TODO 返回数据
+	response.Success(ctx, gin.H{"problems": problems, "total": total}, "成功")
+}
+
+// @title    SearchWithLabelInTopic
+// @description   题单内指定标签与文本的搜索
+// @auth      MGAronya（张健）       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (t TopicController) SearchWithLabelInTopic(ctx *gin.Context) {
+
+	// TODO 获取文本
+	text := ctx.Params.ByName("text")
+
+	var requestLabels vo.LabelsRequest
+
+	// TODO 获取标签
+	if err := ctx.ShouldBind(&requestLabels); err != nil {
+		log.Print(err.Error())
+		response.Fail(ctx, nil, "数据验证错误")
+		return
+	}
+
+	// TODO 获取topic的id
+	id := ctx.Params.ByName("id")
+
+	var problemLists []model.ProblemList
+
+	// TODO 查找所有分页中可见的条目
+	t.DB.Where("topic_id = (?)", id).Find(&problemLists)
+
+	var problemIds []string
+
+	for i := range problemLists {
+		problemIds = append(problemIds, problemLists[i].ProblemId.String())
+	}
+
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
+
+	// TODO 通过标签寻找
+	var problemLabels []model.ProblemLabel
+
+	// TODO 进行标签匹配
+	t.DB.Distinct("problem_id").Where("problem_id in (?) and label in (?)", problemIds, requestLabels.Labels).Model(model.ProblemLabel{}).Find(&problemLabels)
+
+	// TODO 查找对应题目
+	var problems []model.Problem
+
+	problemIds = []string{}
+
+	for i := range problemLabels {
+		problemIds = append(problemIds, problemLabels[i].ProblemId.String())
+	}
+
+	// TODO 模糊匹配
+	t.DB.Where("id in (?) and match(title,description,res_long,res_short) against((?) in boolean mode)", problemIds, text+"*").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problems)
+
+	// TODO 查看查询总数
+	var total int64
+	t.DB.Where("id in (?) and match(title,description,res_long,res_short) against((?) in boolean mode)", problemIds, text+"*").Model(model.Problem{}).Count(&total)
+
+	// TODO 返回数据
+	response.Success(ctx, gin.H{"problems": problems, "total": total}, "成功")
 }
 
 // @title    NewTopicController

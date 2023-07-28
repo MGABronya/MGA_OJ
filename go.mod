@@ -13,6 +13,7 @@ require (
 require (
 	git.sr.ht/~sbinet/gg v0.3.1 // indirect
 	github.com/ajstarks/svgo v0.0.0-20211024235047-1546f124cd8b // indirect
+	github.com/andybalholm/cascadia v1.3.1 // indirect
 	github.com/extrame/ole2 v0.0.0-20160812065207-d69429661ad7 // indirect
 	github.com/go-enry/go-enry/v2 v2.8.4 // indirect
 	github.com/go-enry/go-oniguruma v1.2.1 // indirect
@@ -29,6 +30,7 @@ require (
 )
 
 require (
+	github.com/PuerkitoBio/goquery v1.8.1
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/elastic/go-seccomp-bpf v1.3.0
@@ -48,9 +50,9 @@ require (
 	github.com/satori/go.uuid v1.2.0
 	github.com/tealeg/xlsx v1.0.5
 	github.com/ugorji/go/codec v1.2.7 // indirect
-	golang.org/x/net v0.2.0 // indirect
+	golang.org/x/net v0.7.0 // indirect
 	golang.org/x/sys v0.7.0 // indirect
-	golang.org/x/text v0.4.0 // indirect
+	golang.org/x/text v0.7.0 // indirect
 	gonum.org/v1/plot v0.12.0
 	google.golang.org/protobuf v1.28.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect

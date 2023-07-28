@@ -3727,7 +3727,7 @@
   
     **方法类型：POST**
   
-    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含oj、problem_id、title、 description 、res_long(可选)、res_short（可选）、 time_limit 、 time_unit 、 memory_limit 、 memory_unit 、 input 、 output 、 sample_case 、hint、 source ,oj表示题目的来源平台，problem_id表示题目在该平台上的id号，title表示题目标题，description表示题目描述，res_long表示长文本备用键值，res_short表示短文本备用键值，time_limit 为uint类型，表示时间限制，time_uint表示时间单位，可为"s"或"ms"，memory_limit为uint类型，表示空间限制， memory_uint表示空间单位，可为"mb"或"kb"或"gb"，input表示输入格式，output表示输出格式、sample_case表示输入输出示例数组，每个元素包含input和output，均为string类型、hint表示提示，source 表示来源。
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含oj、problem_id、title、 description 、res_long(可选)、res_short（可选）、 time_limit 、 time_unit 、 memory_limit 、 memory_unit 、 input 、 output 、 sample_case 、hint、 source ,oj表示题目的来源平台，目前支持POJ、SPOJ、HDU、VIJOS、CF、ATCODER，problem_id表示题目在该平台上的id号，title表示题目标题，description表示题目描述，res_long表示长文本备用键值，res_short表示短文本备用键值，time_limit 为uint类型，表示时间限制，time_uint表示时间单位，可为"s"或"ms"，memory_limit为uint类型，表示空间限制， memory_uint表示空间单位，可为"mb"或"kb"或"gb"，input表示输入格式，output表示输出格式、sample_case表示输入输出示例数组，每个元素包含input和output，均为string类型、hint表示提示，source 表示来源。
   
     返回值：成功时返回创建成功相关信息和题目信息problem，否则给出失败原因
 
@@ -3983,7 +3983,7 @@
 
     **方法类型：POST**
 
-    请求参数：  Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含language、code、problem_id ,其中language表示语言，code表示提交的代码，problem_id表示题目id。这里的language支持如下："C"、"C#"、"C++"、"C++11"、"Erlang"、"Go"、"Java"、"JavaScript"、"Kotlin"、"Pascal"、"PHP"、"Python"、"Racket"、"Ruby"、"Rust"、""、 "Swift"
+    请求参数：  Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含language、code、problem_id ,其中language表示语言，code表示提交的代码，problem_id表示题目id。这里的language支持如下："C"、"C#"、"C++"、"C++、"C++11"、"C++14"、"C++17"、"Erlang"、"Go"、"Java"、"JavaScript"、"Kotlin"、"Pascal"、"PHP"、"Python"、"Racket"、"Ruby"、"Rust"、 "Swift"
 
     返回值：成功时，返回成功消息，如果失败则返回失败原因。
 
@@ -3995,7 +3995,7 @@
 
     请求参数：  Authorization中的Bearer Token中提供注册、登录时给出的token。 在接口地址中给出指定提交的id（即:id部分）  。
 
-    返回值：成功时，以json格式返回一个record，record包含language、code、problem_id、 created_at 、updated_at、 user_id 、condition、pass、hack_id，其中condition表示提交状态，提交状态包含Waiting（等待）、Running（正在运行）、Input Doesn't Exist（输入在数据库中不存在）、Output Doesn't Exist（输入在数据库中不存在）、System Error 1（服务器问题：创建文件失败）、System Error 2（服务器问题：编译指令执行失败）、Compile Time Out（编译超时）、Compile Error（编译错误）、System Error 3（服务器问题：消息管道创建失败）、System Error 4（服务器问题：运行指令执行失败）、Time Limit Exceeded（超出时间限制）、Runtime Error（运行时错误）、Memory Limit Exceeded（超出空间限制）、Wrong Answer（错误答案）、System error 5（服务器问题：数据库插入数据失败）、Accepted（提交通过）、Language Error（语言错误）、Presentation Error（答案格式出错）,pass表示用例通过数量，hack_id表示该提交被hack的id。如果失败则返回失败原因.
+    返回值：成功时，以json格式返回一个record，record包含language、code、problem_id、 created_at 、updated_at、 user_id 、condition、pass、hack_id，其中condition表示提交状态，提交状态包含Waiting（等待）、Compiling（正在编译）、Running（正在运行）、Input Doesn't Exist（输入在数据库中不存在）、Output Doesn't Exist（输入在数据库中不存在）、System Error 1（服务器问题：创建文件失败）、System Error 2（服务器问题：编译指令执行失败）、Compile Time Out（编译超时）、Compile Error（编译错误）、System Error 3（服务器问题：消息管道创建失败）、System Error 4（服务器问题：运行指令执行失败）、Time Limit Exceeded（超出时间限制）、Runtime Error（运行时错误）、Memory Limit Exceeded（超出空间限制）、Wrong Answer（错误答案）、System error 5（服务器问题：数据库插入数据失败）、Accepted（提交通过）、Language Error（语言错误）、Presentation Error（答案格式出错）,pass表示用例通过数量，hack_id表示该提交被hack的id。如果失败则返回失败原因.
 
   - **接口地址：/list**
 
@@ -5336,6 +5336,36 @@
     请求参数： 在接口地址中给出指定主题的id（即:id部分） 。在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少游览信息，默认值为20）。
 
     返回值：成功时，以json格式返回problemLists和total，problemLists为problemList数组，含有topic_id表示主题的id和problem_id表示题目的id，total表示总量，如果失败则返回失败原因。
+    
+  - **接口地址：/search/in/topic/:text/:id**
+  
+    **功能：在主题内按文本搜索题目**
+  
+    **方法类型：GET**
+  
+    请求参数： 在接口地址中给出需要搜索的主题id（即:id部分）。在接口地址中给出需要搜索的字符串（即:text部分） 。在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少篇题目，默认值为20）。
+  
+    返回值：返回problems和total，total表示搜索到的题目总量。problems为problem的数组
+  
+  - **接口地址：/search/label/in/topic/:id**
+  
+    **功能：在主题内按标签搜索题目**
+  
+    **方法类型：GET**
+  
+    请求参数： 在接口地址中给出需要搜索的主题id（即:id部分）。在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少篇题目，默认值为20），labels数组，labels表示搜索包含的标签。
+  
+    返回值：返回problems和total，total表示搜索到的题目总量。problems为problem的数组
+  
+  - **接口地址：/search/with/label/in/topic/:text/:id**
+  
+    **功能：在主题内按文本和标签交集搜索题目**
+  
+    **方法类型：GET**
+  
+    请求参数： 在接口地址中给出需要搜索的主题id（即:id部分）。在接口地址中给出需要搜索的字符串（即:text部分） 。在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少篇题目，默认值为20），labels数组，labels表示搜索包含的标签。
+  
+    返回值：返回problems和total，total表示搜索到的题目总量。problems为problem的数组
 
 ### 模型：User
 
