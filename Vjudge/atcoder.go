@@ -213,6 +213,8 @@ func (fp *ATCODER) GetStatus(RunId string, ProbId string, channel chan map[strin
 func ATCODERextractLatestSubmission(html string) (submission map[string]string) {
 	submission = make(map[string]string)
 
+	submission["Html"] = html
+
 	// TODO Extracting Time
 	timeRe := regexp.MustCompile(`<tr>\s*<th>Exec Time</th>\s*<td class="text-center">(\d+) ms</td>\s*</tr>`)
 	Times := timeRe.FindStringSubmatch(html)

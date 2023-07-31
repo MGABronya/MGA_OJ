@@ -224,6 +224,7 @@ func (fp *CF) GetStatus(RunId string, ProbId string, channel chan map[string]str
 // @return   map[string]string 表单信息
 func CFextractLatestSubmission(html string) (submission map[string]string) {
 	submission = make(map[string]string)
+	submission["Html"] = html
 
 	// TODO Extracting Time
 	timeRe := regexp.MustCompile(`(\d+).*?ms`)

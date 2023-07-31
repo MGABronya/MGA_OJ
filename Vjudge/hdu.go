@@ -169,6 +169,7 @@ func (fp *HDU) GetStatus(RunId string, ProbId string, channel chan map[string]st
 // @return   string, error 表示提交id、报错消息
 func HDUextractLatestSubmission(html string) map[string]string {
 	submission := make(map[string]string)
+	submission["Html"] = html
 
 	// TODO Extracting Run ID
 	runIDRe := regexp.MustCompile(`<td height=22px>(\d*?)</td>`)

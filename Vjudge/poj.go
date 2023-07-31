@@ -173,6 +173,7 @@ func (fp *POJ) GetStatus(RunId string, ProbId string, channel chan map[string]st
 // @return   string, error 表示提交id、报错消息
 func POJextractLatestSubmission(html string) map[string]string {
 	submission := make(map[string]string)
+	submission["Html"] = html
 
 	// TODO Extracting Run ID
 	runIDRe := regexp.MustCompile(`<tr align=center><td>(\d*?)</td>`)

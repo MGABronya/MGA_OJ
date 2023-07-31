@@ -21,6 +21,7 @@ type Record struct {
 	Condition string    `json:"condition" gorm:"type:varchar(64);not null"`                   // 记录状态
 	Pass      uint      `json:"pass" gorm:"type:uint;not null"`                               // 测试通过数量
 	HackId    uuid.UUID `json:"hack_id" gorm:"type:varchar(64);"`                             // hack外键
+	Html      string    `json:"html" gorm:"type:text"`                                        // 专用于站外提交的详细情况
 }
 
 // @title    BeforeCreate

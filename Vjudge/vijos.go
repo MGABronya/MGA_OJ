@@ -154,6 +154,7 @@ func (fp *VIJOS) GetStatus(RunId string, ProbId string, channel chan map[string]
 // @return   map[string]string 表单信息
 func VIJOSextractLatestSubmission(html string) (submission map[string]string, end bool) {
 	submission = make(map[string]string)
+	submission["Html"] = html
 	end = false
 
 	// TODO Extracting Result

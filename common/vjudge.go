@@ -25,4 +25,9 @@ func InitVjudge() {
 	VjudgeMap["SPOJ"] = Vjudge.NewSPOJ(viper.GetString("spoj.user"), viper.GetString("spoj.password"))
 	VjudgeMap["VIJOS"] = Vjudge.NewVIJOS(viper.GetString("vijos.user"), viper.GetString("vijos.password"))
 	VjudgeMap["CF"] = Vjudge.NewCF(viper.GetString("cf.user"), viper.GetString("cf.password"))
+	VjudgeMap["ATCODER"] = Vjudge.NewATCODER(viper.GetString("atcoder.user"), viper.GetString("atcoder.password"))
+	VjudgeMap["UVA"] = Vjudge.NewUVA(viper.GetString("uva.user"), viper.GetString("uva.password"))
+	VjudgeMap["UOJ"] = Vjudge.NewUOJ(viper.GetString("uoj.user"), viper.GetString("uoj.password"))
+	VjudgeMap["URAL"] = Vjudge.NewURAL(viper.GetString("ural.user"), viper.GetString("ural.password"))
+	VjudgeMap["HACKERRANK"] = Vjudge.NewHACKERRANK(viper.GetString("hackerrank.user"), viper.GetString("hackerrank.password"))
 }

@@ -202,6 +202,7 @@ func (fp *SPOJ) GetStatus(RunId string, ProbId string, channel chan map[string]s
 // @return   map[string]string 表单信息
 func SPOJextractLatestSubmission(html, runid string) map[string]string {
 	result := make(map[string]string)
+	result["Html"] = html
 	// TODO Extracting Result
 	str := fmt.Sprintf(`(?s)<td class="statusres text-center" id="statusres_%s" status="\d*?" final="\d*?" manual="\d*?">\s*(.*?)\s*<span class="small">`, runid)
 	re := regexp.MustCompile(str)

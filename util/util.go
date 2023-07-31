@@ -63,6 +63,7 @@ var LanguageMap map[string]Interface.CmdInterface = map[string]Interface.CmdInte
 	"C++11":      Handle.NewCppPlusPlus11(),
 	"C++14":      Handle.NewCppPlusPlus14(),
 	"C++17":      Handle.NewCppPlusPlus17(),
+	"C++20":      Handle.NewCppPlusPlus20(),
 	"Erlang":     Handle.NewErlang(),
 	"Go":         Handle.NewGo(),
 	"Java":       Handle.NewJava(),
@@ -98,11 +99,16 @@ var Tags []string = []string{
 
 // OJMap			支持的oj
 var OJMap map[string]string = map[string]string{
-	"POJ":   "00000001",
-	"HDU":   "00000002",
-	"SPOJ":  "00000003",
-	"VIJOS": "00000004",
-	"CF":    "00000005",
+	"POJ":        "00000001",
+	"HDU":        "00000002",
+	"SPOJ":       "00000003",
+	"VIJOS":      "00000004",
+	"CF":         "00000005",
+	"UVA":        "00000006",
+	"UOJ":        "00000007",
+	"URAL":       "00000008",
+	"HACKERRANK": "00000009",
+	"ATCODER":    "0000000a",
 }
 
 // JOMap			支持的oj，但反向映射
@@ -112,6 +118,11 @@ var JOMap map[string]string = map[string]string{
 	"00000003": "SPOJ",
 	"00000004": "VIJOS",
 	"00000005": "CF",
+	"00000006": "UVA",
+	"00000007": "UOJ",
+	"00000008": "URAL",
+	"00000009": "HACKERRANK",
+	"0000000a": "ATCODER",
 }
 
 // MgaronyaString			mgaronya字符串
@@ -843,22 +854,22 @@ func StateCorrection(condition string) string {
 	if regexp.MustCompile(`^wait.*`).MatchString(short) {
 		return "Waiting"
 	}
-	if regexp.MustCompile(`^r.*e.*`).MatchString(short) {
+	if regexp.MustCompile(`^ru.*er.*`).MatchString(short) {
 		return "Runtime Error"
 	}
 	if regexp.MustCompile(`^run.*`).MatchString(short) {
 		return "Running"
 	}
-	if regexp.MustCompile(`^c.*e.*`).MatchString(short) {
+	if regexp.MustCompile(`^co.*er.*`).MatchString(short) {
 		return "Compile Error"
 	}
 	if regexp.MustCompile(`^compil.*`).MatchString(short) {
 		return "Compiling"
 	}
-	if regexp.MustCompile(`^p.*e.*`).MatchString(short) {
+	if regexp.MustCompile(`^pr.*er.*`).MatchString(short) {
 		return "Presentation Error"
 	}
-	if regexp.MustCompile(`^w.*a.*`).MatchString(short) {
+	if regexp.MustCompile(`^wr.*an.*`).MatchString(short) {
 		return "Wrong Answer"
 	}
 	if regexp.MustCompile(`^t.*l.*e.*`).MatchString(short) {

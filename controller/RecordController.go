@@ -725,6 +725,7 @@ func TrackRecord(source string, runid string, proid string, record model.Record)
 		if result["Result"] != record.Condition {
 			// TODO 更新状态
 			record.Condition = result["Result"]
+			record.Html = result["Html"]
 			// TODO 将recordlist打包
 			v, _ := json.Marshal(recordList)
 			redis.Publish(ctx, "RecordChan", v)

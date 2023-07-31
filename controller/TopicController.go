@@ -378,7 +378,7 @@ func (t TopicController) ProblemList(ctx *gin.Context) {
 	t.DB.Where("topic_id = (?)", id).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&problemLists)
 
 	var total int64
-	t.DB.Model(model.Problem{}).Where("topic_id = (?)", id).Count(&total)
+	t.DB.Model(model.ProblemList{}).Where("topic_id = (?)", id).Count(&total)
 
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"problemLists": problemLists, "total": total}, "成功")
