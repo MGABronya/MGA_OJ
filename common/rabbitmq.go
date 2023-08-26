@@ -1,7 +1,7 @@
 // @Title  rabbitmq
 // @Description  该文件用于初始化rabbitmq连接，以及包装一个向外提供rabbitmq连接的功能
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-9-16 0:33
+// @Author  MGAronya
+// @Update  MGAronya  2022-9-16 0:33
 package common
 
 import (
@@ -30,7 +30,7 @@ var rabbitmq *RabbitMQ
 
 // @title    Destory
 // @description  断开channel 和 connection
-// @auth      MGAronya（张健）       2022-11-25 12:20
+// @auth      MGAronya       2022-11-25 12:20
 // @param    void			没有参数
 // @return   void			没有返回值
 func (r *RabbitMQ) Destory() {
@@ -40,7 +40,7 @@ func (r *RabbitMQ) Destory() {
 
 // @title    failOnErr
 // @description  错误处理函数
-// @auth      MGAronya（张健）       2022-11-25 12:20
+// @auth      MGAronya       2022-11-25 12:20
 // @param    err error, message string			错误信息
 // @return   void								没有返回值
 func (r *RabbitMQ) failOnErr(err error, message string) {
@@ -52,7 +52,7 @@ func (r *RabbitMQ) failOnErr(err error, message string) {
 
 // @title    PublishSimple
 // @description  直接模式队列生产
-// @auth      MGAronya（张健）       2022-11-25 12:20
+// @auth      MGAronya       2022-11-25 12:20
 // @param    message string			信息
 // @return   void					没有返回值
 func (r *RabbitMQ) PublishSimple(message string) error {
@@ -83,7 +83,7 @@ func (r *RabbitMQ) PublishSimple(message string) error {
 
 // @title    ConsumeSimple
 // @description  simple 模式下消费者
-// @auth      MGAronya（张健）       2022-11-25 12:20
+// @auth      MGAronya       2022-11-25 12:20
 // @param    void					没有参数
 // @return   void					没有返回值
 func (r *RabbitMQ) ConsumeSimple() {
@@ -133,7 +133,7 @@ func (r *RabbitMQ) ConsumeSimple() {
 
 // @title    InitRabbitmq
 // @description   从配置文件中读取rabbitmq相关信息后，完成rabbitmq初始化
-// @auth      MGAronya（张健）             2022-9-16 10:07
+// @auth      MGAronya             2022-9-16 10:07
 // @param     void        void         没有入参
 // @return    db        *Rabbit         将返回一个初始化后的rabbitmq指针
 func InitRabbitmq() *RabbitMQ {
@@ -162,7 +162,7 @@ func InitRabbitmq() *RabbitMQ {
 
 // @title    GetRabbitMq
 // @description   返回rabbitmq的指针
-// @auth      MGAronya（张健）             2022-9-16 10:08
+// @auth      MGAronya             2022-9-16 10:08
 // @param     void        void         没有入参
 // @return    rabbitmq        *RabbitMQ         将返回一个初始化后的RabbitMQ指针
 func GetRabbitMq() *RabbitMQ {

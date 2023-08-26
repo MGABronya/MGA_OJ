@@ -1,7 +1,7 @@
 // @Title  spoj
 // @Description  用于操作spoj相关提交
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-9-16 0:47
+// @Author  MGAronya
+// @Update  MGAronya  2022-9-16 0:47
 package Vjudge
 
 import (
@@ -29,7 +29,7 @@ type SPOJ struct {
 
 // @title    Login
 // @description   获得登录状态
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    password string       接收一个密码
 // @return   bool	返回是否登录成功
 func (fp *SPOJ) Login() bool {
@@ -58,7 +58,7 @@ func (fp *SPOJ) Login() bool {
 
 // @title    Submit
 // @description   提交
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    code, probID, lang string 代码，题目id，语言
 // @return   string, error 表示提交id、报错消息
 func (fp *SPOJ) Submit(code, probID, lang string) (string, error) {
@@ -124,6 +124,10 @@ func (fp *SPOJ) Submit(code, probID, lang string) (string, error) {
 		"PDF":        "60",
 	}
 
+	if _, ok := MapLanguage[lang]; !ok {
+		return "", fmt.Errorf("language error")
+	}
+
 	submitData := url.Values{}
 	submitData.Set("file", code)
 	submitData.Set("lang", MapLanguage[lang])
@@ -157,7 +161,7 @@ func (fp *SPOJ) Submit(code, probID, lang string) (string, error) {
 
 // @title    GetStatus
 // @description   跟踪提交状态
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    RunId, channel 提交id, 管道
 // @return   string, error 表示提交id、报错消息
 func (fp *SPOJ) GetStatus(RunId string, ProbId string, channel chan map[string]string) {
@@ -197,7 +201,7 @@ func (fp *SPOJ) GetStatus(RunId string, ProbId string, channel chan map[string]s
 
 // @title    SPOJextractLatestSubmission
 // @description   分析SPOJ提交表单
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    html, runid string html以及运行id
 // @return   map[string]string 表单信息
 func SPOJextractLatestSubmission(html, runid string) map[string]string {
@@ -247,7 +251,7 @@ func SPOJextractLatestSubmission(html, runid string) map[string]string {
 
 // @title    matchesRegex
 // @description   查看是否达到终态
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    str string 			状态字符串
 // @return   bool 					是否达到终态
 func spojmatchesRegex(str string) bool {

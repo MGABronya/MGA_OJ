@@ -1,7 +1,7 @@
 // @Title  CategoryController
 // @Description  该文件提供关于操作分类的各种方法
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-9-16 0:33
+// @Author  MGAronya
+// @Update  MGAronya  2022-9-16 0:33
 package controller
 
 import (
@@ -32,7 +32,7 @@ type CategoryController struct {
 
 // @title    Create
 // @description   创建一篇分类
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CategoryController) Create(ctx *gin.Context) {
@@ -66,7 +66,7 @@ func (c CategoryController) Create(ctx *gin.Context) {
 
 // @title    Update
 // @description   更新一篇分类的内容
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CategoryController) Update(ctx *gin.Context) {
@@ -108,7 +108,7 @@ func (c CategoryController) Update(ctx *gin.Context) {
 
 // @title    Show
 // @description   查看一篇分类的内容
-// @auth      MGAronya（张健）       2022-9-16 12:19
+// @auth      MGAronya       2022-9-16 12:19
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CategoryController) Show(ctx *gin.Context) {
@@ -143,7 +143,7 @@ func (c CategoryController) Show(ctx *gin.Context) {
 
 // @title    Delete
 // @description   删除一篇分类
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CategoryController) Delete(ctx *gin.Context) {
@@ -180,7 +180,7 @@ func (c CategoryController) Delete(ctx *gin.Context) {
 
 // @title    PageList
 // @description   获取多篇分类
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CategoryController) PageList(ctx *gin.Context) {
@@ -203,7 +203,7 @@ func (c CategoryController) PageList(ctx *gin.Context) {
 
 // @title    NewCategoryController
 // @description   新建一个ICategoryController
-// @auth      MGAronya（张健）       2022-9-16 12:23
+// @auth      MGAronya       2022-9-16 12:23
 // @param    void
 // @return   ICategoryController		返回一个ICategoryController用于调用各种函数
 func NewCategoryController() ICategoryController {

@@ -1,7 +1,7 @@
 // @Title  Exam
 // @Description  定义测试
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-11-16 0:46
+// @Author  MGAronya
+// @Update  MGAronya  2022-11-16 0:46
 package model
 
 import (
@@ -27,7 +27,7 @@ type Exam struct {
 
 // @title    BeforeCreate
 // @description   计算出一个uuid
-// @auth      MGAronya（张健）             2022-9-16 10:19
+// @auth      MGAronya             2022-9-16 10:19
 // @param     scope *gorm.Scope
 // @return    error
 func (exam *Exam) BeforeCreate(scope *gorm.DB) error {
@@ -37,7 +37,7 @@ func (exam *Exam) BeforeCreate(scope *gorm.DB) error {
 
 // @title    BeforDelete
 // @description   关于测试删除的一些级联操作
-// @auth      MGAronya（张健）       2022-9-16 12:19
+// @auth      MGAronya       2022-9-16 12:19
 // @param    tx *gorm.DB       接收一个数据库指针
 // @return   err error		   返回一个错误信息
 func (e *Exam) BeforDelete(tx *gorm.DB) (err error) {

@@ -1,7 +1,7 @@
 // @Title  NoticeController
 // @Description  该文件提供关于操作通告的各种方法
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-9-16 0:33
+// @Author  MGAronya
+// @Update  MGAronya  2022-9-16 0:33
 package controller
 
 import (
@@ -38,7 +38,7 @@ type NoticeController struct {
 
 // @title    Create
 // @description  发布通知
-// @auth      MGAronya（张健）       2022-9-16 12:19
+// @auth      MGAronya       2022-9-16 12:19
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (n NoticeController) Create(ctx *gin.Context) {
@@ -119,7 +119,7 @@ leep:
 
 // @title    Publish
 // @description  订阅通知
-// @auth      MGAronya（张健）       2022-9-16 12:19
+// @auth      MGAronya       2022-9-16 12:19
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (n NoticeController) Publish(ctx *gin.Context) {
@@ -185,7 +185,7 @@ leep:
 
 // @title    Show
 // @description  查看通告
-// @auth      MGAronya（张健）       2022-9-16 12:19
+// @auth      MGAronya       2022-9-16 12:19
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (n NoticeController) Show(ctx *gin.Context) {
@@ -225,7 +225,7 @@ leep:
 
 // @title    PageList
 // @description  通知列表
-// @auth      MGAronya（张健）       2022-9-16 12:19
+// @auth      MGAronya       2022-9-16 12:19
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (n NoticeController) PageList(ctx *gin.Context) {
@@ -249,7 +249,7 @@ func (n NoticeController) PageList(ctx *gin.Context) {
 
 // @title    NewCompetitionController
 // @description   新建一个INoticeController
-// @auth      MGAronya（张健）       2022-9-16 12:23
+// @auth      MGAronya       2022-9-16 12:23
 // @param    void
 // @return   INoticeController		返回一个INoticeController用于调用各种函数
 func NewNoticeController() INoticeController {

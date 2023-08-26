@@ -1,7 +1,7 @@
 // @Title  UserController
 // @Description  该文件用于提供操作用户的各种方法
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-9-16 0:33
+// @Author  MGAronya
+// @Update  MGAronya  2022-9-16 0:33
 package controller
 
 import (
@@ -62,7 +62,7 @@ type UserController struct {
 
 // @title    Register
 // @description   用户注册
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (u UserController) Register(ctx *gin.Context) {
@@ -138,7 +138,7 @@ func (u UserController) Register(ctx *gin.Context) {
 
 // @title    Login
 // @description   用户登录
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (u UserController) Login(ctx *gin.Context) {
@@ -174,7 +174,7 @@ func (u UserController) Login(ctx *gin.Context) {
 
 // @title    Security
 // @description   进行密码找回的函数
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (u UserController) Security(ctx *gin.Context) {
@@ -205,7 +205,7 @@ func (u UserController) Security(ctx *gin.Context) {
 
 // @title    VerifyEmail
 // @description   进行邮箱验证码发送的函数
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (u UserController) VerifyEmail(ctx *gin.Context) {
@@ -229,7 +229,7 @@ func (u UserController) VerifyEmail(ctx *gin.Context) {
 
 // @title    UpdatePass
 // @description   进行密码修改的函数
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (u UserController) UpdatePass(ctx *gin.Context) {
@@ -268,7 +268,7 @@ func (u UserController) UpdatePass(ctx *gin.Context) {
 
 // @title    Info
 // @description   解析上下文中的token并返回user
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (u UserController) Info(ctx *gin.Context) {
@@ -278,7 +278,7 @@ func (u UserController) Info(ctx *gin.Context) {
 
 // @title    Show
 // @description   查看某个用户的信息
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (u UserController) Show(ctx *gin.Context) {
@@ -313,7 +313,7 @@ func (u UserController) Show(ctx *gin.Context) {
 
 // @title    Update
 // @description   修改用户的个人信息
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (u UserController) Update(ctx *gin.Context) {
@@ -365,7 +365,7 @@ func (u UserController) Update(ctx *gin.Context) {
 
 // @title    UpdateLevel
 // @description   修改用户的权限等级
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (u UserController) UpdateLevel(ctx *gin.Context) {
@@ -430,7 +430,7 @@ leap:
 
 // @title    AcceptNum
 // @description   查看用户ac题目的数量
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (u UserController) AcceptNum(ctx *gin.Context) {
@@ -446,7 +446,7 @@ func (u UserController) AcceptNum(ctx *gin.Context) {
 
 // @title    AcceptRankList
 // @description   查看用户ac题目的数量排行列表
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (u UserController) AcceptRankList(ctx *gin.Context) {
@@ -471,7 +471,7 @@ func (u UserController) AcceptRankList(ctx *gin.Context) {
 
 // @title    AcceptRank
 // @description   查看用户ac题目的数量排行
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (u UserController) AcceptRank(ctx *gin.Context) {
@@ -487,7 +487,7 @@ func (u UserController) AcceptRank(ctx *gin.Context) {
 
 // @title    ScoreRankList
 // @description   查看用户竞赛分数排行列表
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (u UserController) ScoreRankList(ctx *gin.Context) {
@@ -515,7 +515,7 @@ func (u UserController) ScoreRankList(ctx *gin.Context) {
 
 // @title    ScoreRank
 // @description   查看用户竞赛分数的数量排行
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (u UserController) ScoreRank(ctx *gin.Context) {
@@ -532,7 +532,7 @@ func (u UserController) ScoreRank(ctx *gin.Context) {
 
 // @title    HotRankList
 // @description   查看用户热度排行列表
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (u UserController) HotRankList(ctx *gin.Context) {
@@ -560,7 +560,7 @@ func (u UserController) HotRankList(ctx *gin.Context) {
 
 // @title    HotRank
 // @description   查看用户热度的排行
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (u UserController) HotRank(ctx *gin.Context) {
@@ -577,7 +577,7 @@ func (u UserController) HotRank(ctx *gin.Context) {
 
 // @title    LabelCreate
 // @description   标签创建
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (u UserController) LabelCreate(ctx *gin.Context) {
@@ -612,7 +612,7 @@ func (u UserController) LabelCreate(ctx *gin.Context) {
 
 // @title    LabelDelete
 // @description   标签删除
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (u UserController) LabelDelete(ctx *gin.Context) {
@@ -651,7 +651,7 @@ func (u UserController) LabelDelete(ctx *gin.Context) {
 
 // @title    LabelShow
 // @description   标签查看
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (u UserController) LabelShow(ctx *gin.Context) {
@@ -687,7 +687,7 @@ leap:
 
 // @title    Search
 // @description   文本搜索
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (u UserController) Search(ctx *gin.Context) {
@@ -713,7 +713,7 @@ func (u UserController) Search(ctx *gin.Context) {
 
 // @title    SearchLabel
 // @description   指定标签的搜索
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (u UserController) SearchLabel(ctx *gin.Context) {
@@ -764,7 +764,7 @@ func (u UserController) SearchLabel(ctx *gin.Context) {
 
 // @title    SearchWithLabel
 // @description   指定标签与文本的搜索
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (u UserController) SearchWithLabel(ctx *gin.Context) {
@@ -819,7 +819,7 @@ func (u UserController) SearchWithLabel(ctx *gin.Context) {
 
 // @title    ScoreChange
 // @description   指定用户的分数变化
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (u UserController) ScoreChange(ctx *gin.Context) {
@@ -846,7 +846,7 @@ func (u UserController) ScoreChange(ctx *gin.Context) {
 
 // @title    Hot
 // @description   指定用户的今日热度数据
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (u UserController) Hot(ctx *gin.Context) {
@@ -865,7 +865,7 @@ func (u UserController) Hot(ctx *gin.Context) {
 
 // @title    LikeRank
 // @description   用户的今日收到点赞排行
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (u UserController) LikeRank(ctx *gin.Context) {
@@ -882,7 +882,7 @@ func (u UserController) LikeRank(ctx *gin.Context) {
 
 // @title    UnLikeRank
 // @description   用户的今日收到点踩排行
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (u UserController) UnLikeRank(ctx *gin.Context) {
@@ -900,7 +900,7 @@ func (u UserController) UnLikeRank(ctx *gin.Context) {
 
 // @title    CollectRank
 // @description   用户的今日收到收藏排行
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (u UserController) CollectRank(ctx *gin.Context) {
@@ -918,7 +918,7 @@ func (u UserController) CollectRank(ctx *gin.Context) {
 
 // @title    VisitRank
 // @description   用户的今日收到游览排行
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (u UserController) VisitRank(ctx *gin.Context) {
@@ -936,7 +936,7 @@ func (u UserController) VisitRank(ctx *gin.Context) {
 
 // @title    NewUserController
 // @description   新建一个IUserController
-// @auth      MGAronya（张健）       2022-9-16 12:23
+// @auth      MGAronya       2022-9-16 12:23
 // @param    void
 // @return   IUserController		返回一个IUserController用于调用各种函数
 func NewUserController() IUserController {

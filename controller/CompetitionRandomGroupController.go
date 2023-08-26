@@ -1,7 +1,7 @@
 // @Title  CompetitionRandomGroupController
 // @Description  该文件提供关于操作个人比赛的各种方法
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-9-16 0:33
+// @Author  MGAronya
+// @Update  MGAronya  2022-9-16 0:33
 package controller
 
 import (
@@ -43,7 +43,7 @@ type CompetitionRandomGroupController struct {
 
 // @title    Enter
 // @description   报名一篇比赛
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CompetitionRandomGroupController) Enter(ctx *gin.Context) {
@@ -78,7 +78,7 @@ func (c CompetitionRandomGroupController) Enter(ctx *gin.Context) {
 
 // @title    EnterPublish
 // @description   实时报告情况
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CompetitionRandomGroupController) EnterPublish(ctx *gin.Context) {
@@ -108,7 +108,7 @@ func (c CompetitionRandomGroupController) EnterPublish(ctx *gin.Context) {
 
 // @title    EnterCondition
 // @description   查看报名状态
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CompetitionRandomGroupController) EnterCondition(ctx *gin.Context) {
@@ -129,7 +129,7 @@ func (c CompetitionRandomGroupController) EnterCondition(ctx *gin.Context) {
 
 // @title    CancelEnter
 // @description   取消报名一篇比赛
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CompetitionRandomGroupController) CancelEnter(ctx *gin.Context) {
@@ -161,7 +161,7 @@ func (c CompetitionRandomGroupController) CancelEnter(ctx *gin.Context) {
 
 // @title    EnterPage
 // @description   查看报名列表
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CompetitionRandomGroupController) EnterPage(ctx *gin.Context) {
@@ -181,7 +181,7 @@ func (c CompetitionRandomGroupController) EnterPage(ctx *gin.Context) {
 
 // @title    NewCompetitionRandomGroupController
 // @description   新建一个ICompetitionRandomGroupController
-// @auth      MGAronya（张健）       2022-9-16 12:23
+// @auth      MGAronya       2022-9-16 12:23
 // @param    void
 // @return   ICompetitionRandomGroupController		返回一个ICompetitionRandomGroupController用于调用各种函数
 func NewCompetitionRandomGroupController() ICompetitionRandomGroupController {

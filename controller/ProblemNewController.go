@@ -1,7 +1,7 @@
 // @Title  ProblemNewController
 // @Description  该文件提供关于操作比赛题目的各种方法
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-9-16 0:33
+// @Author  MGAronya
+// @Update  MGAronya  2022-9-16 0:33
 package controller
 
 import (
@@ -41,7 +41,7 @@ type ProblemNewController struct {
 
 // @title    Create
 // @description   创建一篇题目
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemNewController) Create(ctx *gin.Context) {
@@ -237,7 +237,7 @@ leap:
 
 // @title    Quote
 // @description   引用一篇题目
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemNewController) Quote(ctx *gin.Context) {
@@ -426,7 +426,7 @@ Case:
 
 // @title    Rematch
 // @description   重现赛内题
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemNewController) Rematch(ctx *gin.Context) {
@@ -640,7 +640,7 @@ Case:
 
 // @title    Submit
 // @description   将比赛题目提交到题库
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemNewController) Submit(ctx *gin.Context) {
@@ -782,7 +782,7 @@ Case:
 
 // @title    Update
 // @description   更新一篇题目的内容
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemNewController) Update(ctx *gin.Context) {
@@ -969,7 +969,7 @@ func (p ProblemNewController) Update(ctx *gin.Context) {
 
 // @title    Show
 // @description   查看一篇题目的内容
-// @auth      MGAronya（张健）       2022-9-16 12:19
+// @auth      MGAronya       2022-9-16 12:19
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemNewController) Show(ctx *gin.Context) {
@@ -1077,7 +1077,7 @@ levp:
 
 // @title    TestNum
 // @description   查看一篇题目的测试样例数量
-// @auth      MGAronya（张健）       2022-9-16 12:19
+// @auth      MGAronya       2022-9-16 12:19
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemNewController) TestNum(ctx *gin.Context) {
@@ -1118,7 +1118,7 @@ leep:
 
 // @title    Delete
 // @description   删除一篇题目
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemNewController) Delete(ctx *gin.Context) {
@@ -1186,7 +1186,7 @@ leap:
 
 // @title    PageList
 // @description   获取多篇题目
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemNewController) PageList(ctx *gin.Context) {
@@ -1218,7 +1218,7 @@ func (p ProblemNewController) PageList(ctx *gin.Context) {
 
 // @title    NewProblemNewController
 // @description   新建一个IProblemNewController
-// @auth      MGAronya（张健）       2022-9-16 12:23
+// @auth      MGAronya       2022-9-16 12:23
 // @param    void
 // @return   IProblemNewController		返回一个IProblemNewController用于调用各种函数
 func NewProblemNewController() IProblemNewController {

@@ -1,7 +1,7 @@
 // @Title  RecordController
 // @Description  该文件提供关于操作提交的各种方法
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-9-16 0:33
+// @Author  MGAronya
+// @Update  MGAronya  2022-9-16 0:33
 package controller
 
 import (
@@ -42,7 +42,7 @@ type RecordController struct {
 
 // @title    Submit
 // @description   用户进行提交操作
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (r RecordController) Submit(ctx *gin.Context) {
@@ -139,7 +139,7 @@ leep:
 
 // @title    ShowRecord
 // @description   查看一篇提交的内容
-// @auth      MGAronya（张健）       2022-9-16 12:19
+// @auth      MGAronya       2022-9-16 12:19
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (r RecordController) ShowRecord(ctx *gin.Context) {
@@ -176,7 +176,7 @@ leep:
 
 // @title    SearchList
 // @description   获取多篇提交
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (r RecordController) SearchList(ctx *gin.Context) {
@@ -243,7 +243,7 @@ func (r RecordController) SearchList(ctx *gin.Context) {
 
 // @title    PublishPageList
 // @description  订阅提交列表
-// @auth      MGAronya（张健）       2022-9-16 12:19
+// @auth      MGAronya       2022-9-16 12:19
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (r RecordController) PublishPageList(ctx *gin.Context) {
@@ -273,7 +273,7 @@ func (r RecordController) PublishPageList(ctx *gin.Context) {
 
 // @title    Publish
 // @description  订阅提交
-// @auth      MGAronya（张健）       2022-9-16 12:19
+// @auth      MGAronya       2022-9-16 12:19
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (r RecordController) Publish(ctx *gin.Context) {
@@ -306,7 +306,7 @@ func (r RecordController) Publish(ctx *gin.Context) {
 
 // @title    CaseList
 // @description   查看一篇提交的测试通过情况
-// @auth      MGAronya（张健）       2022-9-16 12:19
+// @auth      MGAronya       2022-9-16 12:19
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (r RecordController) CaseList(ctx *gin.Context) {
@@ -364,7 +364,7 @@ leep:
 
 // @title    Case
 // @description   查看一篇测试通过情况
-// @auth      MGAronya（张健）       2022-9-16 12:19
+// @auth      MGAronya       2022-9-16 12:19
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (r RecordController) Case(ctx *gin.Context) {
@@ -418,7 +418,7 @@ leep:
 
 // @title    Hack
 // @description   Hack功能
-// @auth      MGAronya（张健）       2022-9-16 12:19
+// @auth      MGAronya       2022-9-16 12:19
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (r RecordController) Hack(ctx *gin.Context) {
@@ -629,7 +629,7 @@ success:
 
 // @title    NewRecordController
 // @description   新建一个IRecordController
-// @auth      MGAronya（张健）       2022-9-16 12:23
+// @auth      MGAronya       2022-9-16 12:23
 // @param    void
 // @return   IRecordController		返回一个IRecordController用于调用各种函数
 func NewRecordController() IRecordController {
@@ -648,7 +648,7 @@ func NewRecordController() IRecordController {
 
 // @title    Transponder
 // @description   转发器，用于转发提交
-// @auth      MGAronya（张健）       2022-9-16 12:23
+// @auth      MGAronya       2022-9-16 12:23
 // @param    void
 // @return   void
 func Transponder() {
@@ -702,7 +702,7 @@ func Transponder() {
 
 // @title    TrackRecord
 // @description   跟踪指定提交
-// @auth      MGAronya（张健）       2022-9-16 12:23
+// @auth      MGAronya       2022-9-16 12:23
 // @param    void
 // @return   void
 func TrackRecord(source string, runid string, proid string, record model.Record) {

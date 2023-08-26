@@ -1,7 +1,7 @@
 // @Title  ProblemFileController
 // @Description  该文件提供关于操作文件题的各种方法
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-9-16 0:33
+// @Author  MGAronya
+// @Update  MGAronya  2022-9-16 0:33
 package controller
 
 import (
@@ -37,7 +37,7 @@ type ProblemFileController struct {
 
 // @title    Create
 // @description   创建一篇文件题
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemFileController) Create(ctx *gin.Context) {
@@ -135,7 +135,7 @@ levp:
 
 // @title    Update
 // @description   更新一篇文件题的内容
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemFileController) Update(ctx *gin.Context) {
@@ -237,7 +237,7 @@ levp:
 
 // @title    Show
 // @description   查看一篇文件题的内容
-// @auth      MGAronya（张健）       2022-9-16 12:19
+// @auth      MGAronya       2022-9-16 12:19
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemFileController) Show(ctx *gin.Context) {
@@ -335,7 +335,7 @@ letp:
 
 // @title    Delete
 // @description   删除一篇文件题
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemFileController) Delete(ctx *gin.Context) {
@@ -415,7 +415,7 @@ letp:
 
 // @title    PageList
 // @description   获取多篇文件题
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemFileController) PageList(ctx *gin.Context) {
@@ -503,7 +503,7 @@ letp:
 
 // @title    Submit
 // @description   测试提交
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemFileController) Submit(ctx *gin.Context) {
@@ -639,7 +639,7 @@ letp:
 
 // @title    ShowSubmit
 // @description   获取提交情况
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemFileController) ShowSubmit(ctx *gin.Context) {
@@ -743,7 +743,7 @@ letp:
 
 // @title    SubmitList
 // @description   获取提交情况
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemFileController) SubmitList(ctx *gin.Context) {
@@ -849,7 +849,7 @@ letp:
 
 // @title    NewProblemFileController
 // @description   新建一个IProblemFileController
-// @auth      MGAronya（张健）       2022-9-16 12:23
+// @auth      MGAronya       2022-9-16 12:23
 // @param    void
 // @return   IProblemFileController		返回一个IProblemFileController用于调用各种函数
 func NewProblemFileController() IProblemFileController {

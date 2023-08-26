@@ -1,7 +1,7 @@
 // @Title  AuthMiddleware
 // @Description  中间件，用于解析token
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-9-16 0:33
+// @Author  MGAronya
+// @Update  MGAronya  2022-9-16 0:33
 package middleware
 
 import (
@@ -16,7 +16,7 @@ import (
 
 // @title    AuthMiddleware
 // @description   中间件，用于解析token
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    void
 // @return   gin.HandlerFunc	将token解析完毕后传回上下文
 func AuthMiddleware() gin.HandlerFunc {

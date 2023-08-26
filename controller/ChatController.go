@@ -1,7 +1,7 @@
 // @Title  ChatController
 // @Description  该文件提供关于操作群聊的各种方法
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-9-16 0:33
+// @Author  MGAronya
+// @Update  MGAronya  2022-9-16 0:33
 package controller
 
 import (
@@ -36,7 +36,7 @@ type ChatController struct {
 
 // @title    Send
 // @description   发送一条群聊
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c ChatController) Send(ctx *gin.Context) {
@@ -146,7 +146,7 @@ userlist:
 
 // @title    LinkList
 // @description   获取多篇连接
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c ChatController) LinkList(ctx *gin.Context) {
@@ -174,7 +174,7 @@ func (c ChatController) LinkList(ctx *gin.Context) {
 
 // @title    ChatList
 // @description   列出聊天列表
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c ChatController) ChatList(ctx *gin.Context) {
@@ -235,7 +235,7 @@ leep:
 
 // @title    RemoveLink
 // @description   移除指定连接
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c ChatController) RemoveLink(ctx *gin.Context) {
@@ -281,7 +281,7 @@ leep:
 
 // @title    Receive
 // @description   创建接收通信
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c ChatController) Receive(ctx *gin.Context) {
@@ -352,7 +352,7 @@ leep:
 
 // @title    ReceiveLink
 // @description   创建接收连接
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c ChatController) ReceiveLink(ctx *gin.Context) {
@@ -387,7 +387,7 @@ func (c ChatController) ReceiveLink(ctx *gin.Context) {
 
 // @title    NewChatController
 // @description   新建一个INewChatController
-// @auth      MGAronya（张健）       2022-9-16 12:23
+// @auth      MGAronya       2022-9-16 12:23
 // @param    void
 // @return   IChatController		返回一个IChatController用于调用各种函数
 func NewChatController() IChatController {

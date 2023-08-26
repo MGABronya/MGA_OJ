@@ -1,7 +1,7 @@
 // @Title  ProblemController
 // @Description  该文件提供关于操作题目的各种方法
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-9-16 0:33
+// @Author  MGAronya
+// @Update  MGAronya  2022-9-16 0:33
 package controller
 
 import (
@@ -49,7 +49,7 @@ type ProblemController struct {
 
 // @title    Create
 // @description   创建一篇题目
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemController) Create(ctx *gin.Context) {
@@ -199,7 +199,7 @@ func (p ProblemController) Create(ctx *gin.Context) {
 
 // @title    CreateVjudge
 // @description   创建一篇站外题目
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemController) CreateVjudge(ctx *gin.Context) {
@@ -306,7 +306,7 @@ func (p ProblemController) CreateVjudge(ctx *gin.Context) {
 
 // @title    CreateByText
 // @description   通过xml文本创建一篇题目
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemController) CreateByText(ctx *gin.Context) {
@@ -446,7 +446,7 @@ func (p ProblemController) CreateByText(ctx *gin.Context) {
 
 // @title    CreateByFile
 // @description   通过xml文件创建一篇题目
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemController) CreateByFile(ctx *gin.Context) {
@@ -621,7 +621,7 @@ func (p ProblemController) CreateByFile(ctx *gin.Context) {
 
 // @title    Update
 // @description   更新一篇题目的内容
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemController) Update(ctx *gin.Context) {
@@ -794,7 +794,7 @@ func (p ProblemController) Update(ctx *gin.Context) {
 
 // @title    Show
 // @description   查看一篇题目的内容
-// @auth      MGAronya（张健）       2022-9-16 12:19
+// @auth      MGAronya       2022-9-16 12:19
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemController) Show(ctx *gin.Context) {
@@ -852,7 +852,7 @@ leap:
 
 // @title    TestNum
 // @description   查看一篇题目的测试样例数量
-// @auth      MGAronya（张健）       2022-9-16 12:19
+// @auth      MGAronya       2022-9-16 12:19
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemController) TestNum(ctx *gin.Context) {
@@ -893,7 +893,7 @@ leep:
 
 // @title    Delete
 // @description   删除一篇题目
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemController) Delete(ctx *gin.Context) {
@@ -953,7 +953,7 @@ func (p ProblemController) Delete(ctx *gin.Context) {
 
 // @title    PageList
 // @description   获取多篇题目
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemController) PageList(ctx *gin.Context) {
@@ -976,7 +976,7 @@ func (p ProblemController) PageList(ctx *gin.Context) {
 
 // @title    UserList
 // @description   获取指定用户的多篇题目
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemController) UserList(ctx *gin.Context) {
@@ -1002,7 +1002,7 @@ func (p ProblemController) UserList(ctx *gin.Context) {
 
 // @title    HotRanking
 // @description   根据热度排行获取多篇题目
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemController) HotRanking(ctx *gin.Context) {
@@ -1026,7 +1026,7 @@ func (p ProblemController) HotRanking(ctx *gin.Context) {
 
 // @title    Like
 // @description   点赞或点踩
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemController) Like(ctx *gin.Context) {
@@ -1106,7 +1106,7 @@ leep:
 
 // @title    CancelLike
 // @description   取消点赞或者点踩
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemController) CancelLike(ctx *gin.Context) {
@@ -1170,7 +1170,7 @@ leep:
 
 // @title    LikeNumber
 // @description   点赞或点踩的数量
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemController) LikeNumber(ctx *gin.Context) {
@@ -1190,7 +1190,7 @@ func (p ProblemController) LikeNumber(ctx *gin.Context) {
 
 // @title    LikeList
 // @description   点赞或点踩的列表
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemController) LikeList(ctx *gin.Context) {
@@ -1219,7 +1219,7 @@ func (p ProblemController) LikeList(ctx *gin.Context) {
 
 // @title    LikeShow
 // @description   查看用户点赞状态
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemController) LikeShow(ctx *gin.Context) {
@@ -1248,7 +1248,7 @@ func (p ProblemController) LikeShow(ctx *gin.Context) {
 
 // @title    Likes
 // @description   查看用户点赞状态
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemController) Likes(ctx *gin.Context) {
@@ -1278,7 +1278,7 @@ func (p ProblemController) Likes(ctx *gin.Context) {
 
 // @title    Collect
 // @description   收藏
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemController) Collect(ctx *gin.Context) {
@@ -1345,7 +1345,7 @@ leep:
 
 // @title    CancelCollect
 // @description   取消收藏
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemController) CancelCollect(ctx *gin.Context) {
@@ -1399,7 +1399,7 @@ leep:
 
 // @title    CollectShow
 // @description   查看收藏状态
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemController) CollectShow(ctx *gin.Context) {
@@ -1422,7 +1422,7 @@ func (p ProblemController) CollectShow(ctx *gin.Context) {
 
 // @title    CollectList
 // @description   查看收藏用户列表
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemController) CollectList(ctx *gin.Context) {
@@ -1448,7 +1448,7 @@ func (p ProblemController) CollectList(ctx *gin.Context) {
 
 // @title    CollectNumber
 // @description   查看收藏用户数量
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemController) CollectNumber(ctx *gin.Context) {
@@ -1465,7 +1465,7 @@ func (p ProblemController) CollectNumber(ctx *gin.Context) {
 
 // @title    Collects
 // @description   查看用户收藏夹
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemController) Collects(ctx *gin.Context) {
@@ -1491,7 +1491,7 @@ func (p ProblemController) Collects(ctx *gin.Context) {
 
 // @title    Visit
 // @description   游览题目
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemController) Visit(ctx *gin.Context) {
@@ -1561,7 +1561,7 @@ leep:
 
 // @title    VisitNumber
 // @description   游览题目数量
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemController) VisitNumber(ctx *gin.Context) {
@@ -1576,7 +1576,7 @@ func (p ProblemController) VisitNumber(ctx *gin.Context) {
 
 // @title    VisitList
 // @description   游览题目列表
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemController) VisitList(ctx *gin.Context) {
@@ -1602,7 +1602,7 @@ func (p ProblemController) VisitList(ctx *gin.Context) {
 
 // @title    Visits
 // @description   游览题目列表
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemController) Visits(ctx *gin.Context) {
@@ -1629,7 +1629,7 @@ func (p ProblemController) Visits(ctx *gin.Context) {
 
 // @title    LabelCreate
 // @description   标签创建
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemController) LabelCreate(ctx *gin.Context) {
@@ -1696,7 +1696,7 @@ leep:
 
 // @title    LabelDelete
 // @description   标签删除
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemController) LabelDelete(ctx *gin.Context) {
@@ -1759,7 +1759,7 @@ leep:
 
 // @title    LabelShow
 // @description   标签查看
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemController) LabelShow(ctx *gin.Context) {
@@ -1795,7 +1795,7 @@ leap:
 
 // @title    Search
 // @description   文本搜索
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemController) Search(ctx *gin.Context) {
@@ -1821,7 +1821,7 @@ func (p ProblemController) Search(ctx *gin.Context) {
 
 // @title    SearchLabel
 // @description   指定标签的搜索
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemController) SearchLabel(ctx *gin.Context) {
@@ -1866,7 +1866,7 @@ func (p ProblemController) SearchLabel(ctx *gin.Context) {
 
 // @title    SearchWithLabel
 // @description   指定标签与文本的搜索
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemController) SearchWithLabel(ctx *gin.Context) {
@@ -1915,7 +1915,7 @@ func (p ProblemController) SearchWithLabel(ctx *gin.Context) {
 
 // @title    NewProblemController
 // @description   新建一个IProblemController
-// @auth      MGAronya（张健）       2022-9-16 12:23
+// @auth      MGAronya       2022-9-16 12:23
 // @param    void
 // @return   IProblemController		返回一个IProblemController用于调用各种函数
 func NewProblemController() IProblemController {

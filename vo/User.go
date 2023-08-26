@@ -1,7 +1,7 @@
 // @Title  user
 // @Description  定义用户
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-9-16 0:46
+// @Author  MGAronya
+// @Update  MGAronya  2022-9-16 0:46
 package vo
 
 import (
@@ -54,7 +54,7 @@ type UserDto struct {
 
 // @title    ToUserDto
 // @description   用户信息封装
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    user model.User       接收一个用户类
 // @return   UserDto			   返回一个用户的基本信息类
 func ToUserDto(user model.User) UserDto {

@@ -1,7 +1,7 @@
 // @Title  CompetitionMatchController
 // @Description  该文件提供关于操作个人比赛的各种方法
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-9-16 0:33
+// @Author  MGAronya
+// @Update  MGAronya  2022-9-16 0:33
 package controller
 
 import (
@@ -41,7 +41,7 @@ type CompetitionMatchController struct {
 
 // @title    Enter
 // @description   报名一篇比赛
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CompetitionMatchController) Enter(ctx *gin.Context) {
@@ -132,7 +132,7 @@ leap:
 
 // @title    EnterCondition
 // @description   查看报名状态
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CompetitionMatchController) EnterCondition(ctx *gin.Context) {
@@ -198,7 +198,7 @@ leap:
 
 // @title    CancelEnter
 // @description   取消报名一篇比赛
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CompetitionMatchController) CancelEnter(ctx *gin.Context) {
@@ -261,7 +261,7 @@ leap:
 
 // @title    EnterPage
 // @description   查看报名列表
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CompetitionMatchController) EnterPage(ctx *gin.Context) {
@@ -313,7 +313,7 @@ leap:
 
 // @title    NewCompetitionController
 // @description   新建一个ICompetitionMatchController
-// @auth      MGAronya（张健）       2022-9-16 12:23
+// @auth      MGAronya       2022-9-16 12:23
 // @param    void
 // @return   ICompetitionMatchController		返回一个ICompetitionMatchController用于调用各种函数
 func NewCompetitionMatchController() ICompetitionMatchController {

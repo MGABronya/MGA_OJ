@@ -1,7 +1,7 @@
 // @Title  FriendController
 // @Description  该文件提供关于操作好友的各种方法
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-9-16 0:33
+// @Author  MGAronya
+// @Update  MGAronya  2022-9-16 0:33
 package controller
 
 import (
@@ -30,7 +30,7 @@ type FriendController struct {
 
 // @title    Apply
 // @description   用户申请添加某个好友
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (f FriendController) Apply(ctx *gin.Context) {
@@ -99,7 +99,7 @@ func (f FriendController) Apply(ctx *gin.Context) {
 
 // @title    Consent
 // @description   通过申请
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (f FriendController) Consent(ctx *gin.Context) {
@@ -151,7 +151,7 @@ func (f FriendController) Consent(ctx *gin.Context) {
 
 // @title    ApplyingList
 // @description   查看用户发出申请列表
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (f FriendController) ApplyingList(ctx *gin.Context) {
@@ -179,7 +179,7 @@ func (f FriendController) ApplyingList(ctx *gin.Context) {
 
 // @title    AppliedList
 // @description   查看用户接收申请列表
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (f FriendController) AppliedList(ctx *gin.Context) {
@@ -207,7 +207,7 @@ func (f FriendController) AppliedList(ctx *gin.Context) {
 
 // @title    Quit
 // @description   删除好友
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (f FriendController) Quit(ctx *gin.Context) {
@@ -235,7 +235,7 @@ func (f FriendController) Quit(ctx *gin.Context) {
 
 // @title    Refuse
 // @description   拒绝申请
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (f FriendController) Refuse(ctx *gin.Context) {
@@ -272,7 +272,7 @@ func (f FriendController) Refuse(ctx *gin.Context) {
 
 // @title    Block
 // @description   拉黑某用户
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (f FriendController) Block(ctx *gin.Context) {
@@ -314,7 +314,7 @@ func (f FriendController) Block(ctx *gin.Context) {
 
 // @title    RemoveBlack
 // @description   移除某用户的黑名单
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (f FriendController) RemoveBlack(ctx *gin.Context) {
@@ -350,7 +350,7 @@ func (f FriendController) RemoveBlack(ctx *gin.Context) {
 
 // @title    BlackList
 // @description   查看黑名单
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (f FriendController) BlackList(ctx *gin.Context) {
@@ -378,7 +378,7 @@ func (f FriendController) BlackList(ctx *gin.Context) {
 
 // @title    NewFriendController
 // @description   新建一个IFriendController
-// @auth      MGAronya（张健）       2022-9-16 12:23
+// @auth      MGAronya       2022-9-16 12:23
 // @param    void
 // @return   IFriendController		返回一个IFriendController用于调用各种函数
 func NewFriendController() IFriendController {

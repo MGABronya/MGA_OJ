@@ -1,7 +1,7 @@
 // @Title  FileController
 // @Description  该文件提供关于操作文件的各种方法
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-9-16 0:33
+// @Author  MGAronya
+// @Update  MGAronya  2022-9-16 0:33
 package controller
 
 import (
@@ -26,7 +26,7 @@ type FileController struct {
 
 // @title    Upload
 // @description   上传文件
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (f FileController) Upload(ctx *gin.Context) {
@@ -51,7 +51,7 @@ func (f FileController) Upload(ctx *gin.Context) {
 
 // @title    Download
 // @description   下载文件
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (f FileController) Download(ctx *gin.Context) {
@@ -66,7 +66,7 @@ func (f FileController) Download(ctx *gin.Context) {
 
 // @title    NewFileController
 // @description   新建一个IFileController
-// @auth      MGAronya（张健）       2022-9-16 12:23
+// @auth      MGAronya       2022-9-16 12:23
 // @param    void
 // @return   IFileController		返回一个IFileController用于调用各种函数
 func NewFileController() IFileController {

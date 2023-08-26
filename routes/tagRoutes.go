@@ -1,7 +1,7 @@
 // @Title  tagRoutes
 // @Description  程序的自动标签管理相关路由均集中在这个文件里
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-9-16 0:50
+// @Author  MGAronya
+// @Update  MGAronya  2022-9-16 0:50
 package routes
 
 import (
@@ -12,7 +12,7 @@ import (
 
 // @title    TagRoutes
 // @description   给gin引擎挂上自动标签相关的路由监听
-// @auth      MGAronya（张健）             2022-9-16 10:52
+// @auth      MGAronya             2022-9-16 10:52
 // @param     r *gin.Engine			gin引擎
 // @return    r *gin.Engine			gin引擎
 func TagRoutes(r *gin.Engine) *gin.Engine {
@@ -36,7 +36,7 @@ func TagRoutes(r *gin.Engine) *gin.Engine {
 	tagRoutes.GET("/list", tagController.PageList)
 
 	// TODO 生成自动标签
-	tagRoutes.GET("/auto", tagController.Auto)
+	tagRoutes.GET("/auto/:translate", tagController.Auto)
 
 	return r
 }

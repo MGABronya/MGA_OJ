@@ -1,7 +1,7 @@
 // @Title  Erlang
 // @Description  该文件提供关于Erlang文件的各种方法
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-9-16 0:33
+// @Author  MGAronya
+// @Update  MGAronya  2022-9-16 0:33
 package Handle
 
 import (
@@ -16,7 +16,7 @@ type Erlang struct {
 
 // @title    Compile
 // @description   获得编译指令
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (e Erlang) Compile(path string, ID string) *exec.Cmd {
@@ -25,7 +25,7 @@ func (e Erlang) Compile(path string, ID string) *exec.Cmd {
 
 // @title    Chmod
 // @description   获得权限
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (e Erlang) Chmod(path string, ID string) *exec.Cmd {
@@ -34,7 +34,7 @@ func (e Erlang) Chmod(path string, ID string) *exec.Cmd {
 
 // @title    Run
 // @description   获得运行指令
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (e Erlang) Run(path string, ID string) *exec.Cmd {
@@ -43,7 +43,7 @@ func (e Erlang) Run(path string, ID string) *exec.Cmd {
 
 // @title    Suffix
 // @description   获得文件后缀
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (e Erlang) Suffix() string {
@@ -52,7 +52,7 @@ func (e Erlang) Suffix() string {
 
 // @title    TimeMultiplier
 // @description   运行时间倍率
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (e Erlang) TimeMultiplier() uint {
@@ -61,7 +61,7 @@ func (e Erlang) TimeMultiplier() uint {
 
 // @title    MemoryMultiplier
 // @description   运行内存倍率
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (e Erlang) MemoryMultiplier() uint {
@@ -70,7 +70,7 @@ func (e Erlang) MemoryMultiplier() uint {
 
 // @title    RunUpTime
 // @description   运行启动时间
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (e Erlang) RunUpTime() uint {
@@ -79,7 +79,7 @@ func (e Erlang) RunUpTime() uint {
 
 // @title    Name
 // @description   获得文件名
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (e Erlang) Name() string {
@@ -88,7 +88,7 @@ func (e Erlang) Name() string {
 
 // @title    NewErlang
 // @description   新建一个CmdInterface
-// @auth      MGAronya（张健）       2022-9-16 12:23
+// @auth      MGAronya       2022-9-16 12:23
 // @param    void
 // @return   CmdInterface		返回一个CmdInterface用于调用各种函数
 func NewErlang() Interface.CmdInterface {

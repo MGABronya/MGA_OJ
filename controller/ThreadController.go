@@ -1,7 +1,7 @@
 // @Title  ThreadController
 // @Description  该文件提供关于操作题解的回复的各种方法
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-9-16 0:33
+// @Author  MGAronya
+// @Update  MGAronya  2022-9-16 0:33
 package controller
 
 import (
@@ -37,7 +37,7 @@ type ThreadController struct {
 
 // @title    Create
 // @description   创建一篇题解的回复
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (t ThreadController) Create(ctx *gin.Context) {
@@ -106,7 +106,7 @@ leep:
 
 // @title    Update
 // @description   更新一篇题解的回复的内容
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (t ThreadController) Update(ctx *gin.Context) {
@@ -156,7 +156,7 @@ func (t ThreadController) Update(ctx *gin.Context) {
 
 // @title    Show
 // @description   查看一篇题解的回复的内容
-// @auth      MGAronya（张健）       2022-9-16 12:19
+// @auth      MGAronya       2022-9-16 12:19
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (t ThreadController) Show(ctx *gin.Context) {
@@ -191,7 +191,7 @@ func (t ThreadController) Show(ctx *gin.Context) {
 
 // @title    Delete
 // @description   删除一篇题解的回复
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (t ThreadController) Delete(ctx *gin.Context) {
@@ -241,7 +241,7 @@ func (t ThreadController) Delete(ctx *gin.Context) {
 
 // @title    PageList
 // @description   获取多篇题解的回复
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (t ThreadController) PageList(ctx *gin.Context) {
@@ -267,7 +267,7 @@ func (t ThreadController) PageList(ctx *gin.Context) {
 
 // @title    UserList
 // @description   获取多篇指定用户的题解的回复
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (t ThreadController) UserList(ctx *gin.Context) {
@@ -293,7 +293,7 @@ func (t ThreadController) UserList(ctx *gin.Context) {
 
 // @title    HotRanking
 // @description   根据热度排行获取多篇讨论
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (t ThreadController) HotRanking(ctx *gin.Context) {
@@ -323,7 +323,7 @@ func (t ThreadController) HotRanking(ctx *gin.Context) {
 
 // @title    Like
 // @description   点赞或点踩
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (t ThreadController) Like(ctx *gin.Context) {
@@ -402,7 +402,7 @@ leep:
 
 // @title    CancelLike
 // @description   取消点赞或者点踩
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (t ThreadController) CancelLike(ctx *gin.Context) {
@@ -462,7 +462,7 @@ leep:
 
 // @title    LikeNumber
 // @description   点赞或点踩的数量
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (t ThreadController) LikeNumber(ctx *gin.Context) {
@@ -482,7 +482,7 @@ func (t ThreadController) LikeNumber(ctx *gin.Context) {
 
 // @title    LikeList
 // @description   点赞或点踩的列表
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (t ThreadController) LikeList(ctx *gin.Context) {
@@ -511,7 +511,7 @@ func (t ThreadController) LikeList(ctx *gin.Context) {
 
 // @title    LikeShow
 // @description   查看用户点赞状态
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (t ThreadController) LikeShow(ctx *gin.Context) {
@@ -540,7 +540,7 @@ func (t ThreadController) LikeShow(ctx *gin.Context) {
 
 // @title    Likes
 // @description   查看用户点赞列表
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (t ThreadController) Likes(ctx *gin.Context) {
@@ -570,7 +570,7 @@ func (t ThreadController) Likes(ctx *gin.Context) {
 
 // @title    NewThreadController
 // @description   新建一个IThreadController
-// @auth      MGAronya（张健）       2022-9-16 12:23
+// @auth      MGAronya       2022-9-16 12:23
 // @param    void
 // @return   IThreadController		返回一个IThreadController用于调用各种函数
 func NewThreadController() IThreadController {

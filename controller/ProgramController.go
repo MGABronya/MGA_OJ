@@ -1,7 +1,7 @@
 // @Title  ProgramController
 // @Description  该文件提供关于操作程序的各种方法
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-9-16 0:33
+// @Author  MGAronya
+// @Update  MGAronya  2022-9-16 0:33
 package controller
 
 import (
@@ -33,7 +33,7 @@ type ProgramController struct {
 
 // @title    Create
 // @description   创建一个程序
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProgramController) Create(ctx *gin.Context) {
@@ -72,7 +72,7 @@ func (p ProgramController) Create(ctx *gin.Context) {
 
 // @title    Update
 // @description   更新一篇程序的内容
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProgramController) Update(ctx *gin.Context) {
@@ -125,7 +125,7 @@ func (p ProgramController) Update(ctx *gin.Context) {
 
 // @title    Show
 // @description   查看一篇程序的内容
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProgramController) Show(ctx *gin.Context) {
@@ -182,7 +182,7 @@ leep:
 
 // @title    Delete
 // @description   删除一篇程序的内容
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProgramController) Delete(ctx *gin.Context) {
@@ -224,7 +224,7 @@ func (p ProgramController) Delete(ctx *gin.Context) {
 
 // @title    PageList
 // @description   查看一页程序的内容
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProgramController) PageList(ctx *gin.Context) {
@@ -258,7 +258,7 @@ func (p ProgramController) PageList(ctx *gin.Context) {
 
 // @title    NewProgramController
 // @description   新建一个IProgramController
-// @auth      MGAronya（张健）       2022-9-16 12:23
+// @auth      MGAronya       2022-9-16 12:23
 // @param    void
 // @return   IProgramController		返回一个IProgramController用于调用各种函数
 func NewProgramController() IProgramController {

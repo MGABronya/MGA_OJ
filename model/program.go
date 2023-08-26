@@ -1,7 +1,7 @@
 // @Title  Program
 // @Description  定义程序
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-9-16 0:46
+// @Author  MGAronya
+// @Update  MGAronya  2022-9-16 0:46
 package model
 
 import (
@@ -21,7 +21,7 @@ type Program struct {
 
 // @title    BeforeCreate
 // @description   计算出一个uuid
-// @auth      MGAronya（张健）             2022-9-16 10:19
+// @auth      MGAronya             2022-9-16 10:19
 // @param     scope *gorm.Scope
 // @return    error
 func (program *Program) BeforeCreate(scope *gorm.DB) error {

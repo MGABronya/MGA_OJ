@@ -1,7 +1,7 @@
 // @Title  TestController
 // @Description  该文件提供关于提交测试的各种方法
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-9-16 0:33
+// @Author  MGAronya
+// @Update  MGAronya  2022-9-16 0:33
 package controller
 
 import (
@@ -33,7 +33,7 @@ type TestController struct {
 
 // @title    Create
 // @description   创建一篇测试
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (t TestController) Create(ctx *gin.Context) {
@@ -64,7 +64,7 @@ func (t TestController) Create(ctx *gin.Context) {
 
 // @title    NewTestController
 // @description   新建一个ITestController
-// @auth      MGAronya（张健）       2022-9-16 12:23
+// @auth      MGAronya       2022-9-16 12:23
 // @param    void
 // @return   ITestController		返回一个ITestController用于调用各种函数
 func NewTestController() ITestController {
@@ -73,7 +73,7 @@ func NewTestController() ITestController {
 
 // @title    Test
 // @description   查看测试输出情况
-// @auth      MGAronya（张健）             2022-9-16 10:49
+// @auth      MGAronya             2022-9-16 10:49
 // @param     record model.Record, cmdI Interface.CmdInterface			提交记录以及判题方法
 // @return    void			没有回参
 func Test(requestTest vo.TestRequest) (output string, condition string, memory uint64, spand int64) {

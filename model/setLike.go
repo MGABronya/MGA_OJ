@@ -1,7 +1,7 @@
 // @Title  setLike
 // @Description  定义表单的点赞
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-11-16 0:46
+// @Author  MGAronya
+// @Update  MGAronya  2022-11-16 0:46
 package model
 
 import (
@@ -21,7 +21,7 @@ type SetLike struct {
 
 // @title    BeforeCreate
 // @description   计算出一个uuid
-// @auth      MGAronya（张健）             2022-9-16 10:19
+// @auth      MGAronya             2022-9-16 10:19
 // @param     scope *gorm.Scope
 // @return    error
 func (setLike *SetLike) BeforeCreate(scope *gorm.DB) error {

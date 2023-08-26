@@ -1,7 +1,7 @@
 // @Title  Accepts
 // @Description  该文件提供关于Accepts行为的各种方法
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-9-16 0:33
+// @Author  MGAronya
+// @Update  MGAronya  2022-9-16 0:33
 package Handle
 
 import (
@@ -27,7 +27,7 @@ type Accepts struct {
 
 // @title    UserBehavior
 // @description   查看用户做题ac次数
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (a Accepts) UserBehavior(userId uuid.UUID) (float64, error) {
@@ -40,7 +40,7 @@ func (a Accepts) UserBehavior(userId uuid.UUID) (float64, error) {
 
 // @title    PublishBehavior
 // @description   更新行为统计，并按情况通报
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (a Accepts) PublishBehavior(score float64, userId uuid.UUID) error {
@@ -116,7 +116,7 @@ func (a Accepts) PublishBehavior(score float64, userId uuid.UUID) error {
 
 // @title    Description
 // @description   返回行为描述
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (a Accepts) Description() string {
@@ -125,7 +125,7 @@ func (a Accepts) Description() string {
 
 // @title    NewAccepts
 // @description   新建一个BeahviorInterface
-// @auth      MGAronya（张健）       2022-9-16 12:23
+// @auth      MGAronya       2022-9-16 12:23
 // @param    void
 // @return   BeahviorInterface 		返回一个BeahviorInterface用于调用各种函数
 func NewAccepts() Interface.BehaviorInterface {

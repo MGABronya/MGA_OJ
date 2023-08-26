@@ -1,7 +1,7 @@
 // @Title  util
 // @Description  收集各种需要使用的工具函数
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-9-16 0:47
+// @Author  MGAronya
+// @Update  MGAronya  2022-9-16 0:47
 package util
 
 import (
@@ -49,6 +49,7 @@ var Units = map[string]uint{
 }
 
 var searchIndex int = 0
+var translateIndex int = 0
 
 var Max_run int = 4
 
@@ -85,15 +86,15 @@ var Tags []string = []string{
 	"枚举", "贪心", "递归", "分治", "递推", "构造", "模拟",
 	"深度优先搜索", "宽度优先搜索", "广度优先搜索", "双向搜索", "启发式搜索", "记忆化搜索",
 	"几何公式", "叉积", "点积", "多边形", "凸包", "扫描线", "内核", "几何工具", "平面交线", "可视图", "点集最小圆覆盖", "对踵点",
-	"组合数学", "排列组合", "容斥原理", "抽屉原理", "置换群", "Polya定理", "母函数", "MoBius反演", "偏序关系理论",
+	"组合数学", "排列组合", "容斥原理", "抽屉原理", "置换群", "Polya", "母函数", "MoBius", "偏序关系理论",
 	"素数", "整除", "进制", "模运算", "高斯消元", "概率", "欧几里得", "扩展欧几里得",
 	"博弈论", "Nim", "极大过程", "极小过程",
-	"拓扑排序", "最小生成树", "最短路", "二分图", "匈牙利算法", "KM算法",
+	"拓扑排序", "最小生成树", "最短路", "二分图", "匈牙利算法", "KM算法", "仙人掌",
 	"网络流", "最小费用最大流", "最小费用流", "最小割", "网络流规约", "差分约束", "双连通分量", "强连通分支", "割边", "割点",
 	"背包问题", "01背包", "完全背包", "多维背包", "多重背包", "区间dp", "环形dp", "判定性dp", "棋盘分割", "最长公共子序列", "最长上升子序列",
 	"二分判定型dp", "树型动态规划", "最大独立集", "状态压缩dp", "哈密顿路径", "四边形不等式", "单调队列", "单调栈",
 	"串", "KMP", "排序", "快排", "快速排序", "归并排序", "逆序数", "堆排序",
-	"哈希表", "二分", "并查集", "霍夫曼树", "哈夫曼树", "堆", "线段树", "二叉树", "树状数组", "RMQ",
+	"哈希表", "二分", "并查集", "霍夫曼树", "哈夫曼树", "堆", "线段树", "二叉树", "树状数组", "RMQ", "阿朵莉树",
 	"社招", "校招", "面经",
 }
 
@@ -288,7 +289,7 @@ _\/\\\\\\________/\\\\\\_        ___/\\\//////////__        ___/\\\\\\\\\\\\\__ 
 
 // @title    MgaronyaPrint
 // @description   打印一段随机的mgaronya字符串
-// @auth      MGAronya（张健）             2022-9-16 10:29
+// @auth      MGAronya             2022-9-16 10:29
 // @param     无
 // @return    无
 func MgaronyaPrint() {
@@ -297,7 +298,7 @@ func MgaronyaPrint() {
 
 // @title    FileExit
 // @description   查看某一文件是否存在
-// @auth      MGAronya（张健）             2022-9-16 10:29
+// @auth      MGAronya             2022-9-16 10:29
 // @param     path string		文件以及路径
 // @return    bool				表示是否存在文件
 func FileExit(path string) bool {
@@ -307,7 +308,7 @@ func FileExit(path string) bool {
 
 // @title    RandomString
 // @description   生成一段随机的字符串
-// @auth      MGAronya（张健）             2022-9-16 10:29
+// @auth      MGAronya             2022-9-16 10:29
 // @param     n int		字符串的长度
 // @return    string    一串随机的字符串
 func RandomString(n int) string {
@@ -323,7 +324,7 @@ func RandomString(n int) string {
 
 // @title    VerifyEmailFormat
 // @description   用于验证邮箱格式是否正确的工具函数
-// @auth      MGAronya（张健）             2022-9-16 10:29
+// @auth      MGAronya             2022-9-16 10:29
 // @param     email string		一串字符串，表示邮箱
 // @return    bool    返回是否合法
 func VerifyEmailFormat(email string) bool {
@@ -335,7 +336,7 @@ func VerifyEmailFormat(email string) bool {
 
 // @title    VerifyMobileFormat
 // @description   用于验证手机号格式是否正确的工具函数
-// @auth      MGAronya（张健）             2022-9-16 10:29
+// @auth      MGAronya             2022-9-16 10:29
 // @param     mobileNum string		一串字符串，表示手机号
 // @return    bool    返回是否合法
 func VerifyMobileFormat(mobileNum string) bool {
@@ -347,7 +348,7 @@ func VerifyMobileFormat(mobileNum string) bool {
 
 // @title    VerifyQQFormat
 // @description   用于验证QQ号格式是否正确的工具函数
-// @auth      MGAronya（张健）             2022-9-16 10:29
+// @auth      MGAronya             2022-9-16 10:29
 // @param     QQNum string		一串字符串，表示QQ
 // @return    bool    返回是否合法
 func VerifyQQFormat(QQNum string) bool {
@@ -359,7 +360,7 @@ func VerifyQQFormat(QQNum string) bool {
 
 // @title    VerifyQQFormat
 // @description  用于验证Icon是否为默认图片的工具函数
-// @auth      MGAronya（张健）             2022-9-16 10:29
+// @auth      MGAronya             2022-9-16 10:29
 // @param     Icon string		一串字符串，表示图像名称
 // @return    bool    返回是否合法
 func VerifyIconFormat(Icon string) bool {
@@ -371,7 +372,7 @@ func VerifyIconFormat(Icon string) bool {
 
 // @title    isEmailExist
 // @description   查看email是否在数据库中存在
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func IsEmailExist(db *gorm.DB, email string) bool {
@@ -382,7 +383,7 @@ func IsEmailExist(db *gorm.DB, email string) bool {
 
 // @title    isNameExist
 // @description   查看name是否在数据库中存在
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func IsNameExist(db *gorm.DB, name string) bool {
@@ -393,7 +394,7 @@ func IsNameExist(db *gorm.DB, name string) bool {
 
 // @title    SendEmailValidate
 // @description   发送验证邮件
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    em []string       接收一个邮箱字符串
 // @return   string, error     返回验证码和error值
 func SendEmailValidate(em []string) (string, error) {
@@ -418,9 +419,33 @@ func SendEmailValidate(em []string) (string, error) {
 	return vCode, err
 }
 
+// @title    SendEmail
+// @description   发送验证邮件
+// @auth      MGAronya       2022-9-16 12:15
+// @param    em []string, ex       接收一个邮箱字符串以及邮件内容
+// @return   string, error     返回验证码和error值
+func SendEmail(em []string, tx string) error {
+	mod := `
+	尊敬的%s，您好！
+
+	这是一封来自DOJ的来信，如有打扰，还望海涵，以下为来信内容。
+
+	%s
+`
+	e := email.NewEmail()
+	e.From = "mgAronya <2829214609@qq.com>"
+	e.To = em
+	// TODO 设置文件发送的内容
+	content := fmt.Sprintf(mod, em[0], tx)
+	e.Text = []byte(content)
+	// TODO 设置服务器相关的配置
+	err := e.Send("smtp.qq.com:25", smtp.PlainAuth("", "2829214609@qq.com", "qzinvmfkpsmvdgig", "smtp.qq.com"))
+	return err
+}
+
 // @title    SendEmailPass
 // @description   发送密码邮件
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    em []string       接收一个邮箱字符串
 // @return   string, error     返回验证码和error值
 func SendEmailPass(em []string) string {
@@ -471,7 +496,7 @@ func SendEmailPass(em []string) string {
 
 // @title    IsEmailPass
 // @description   验证邮箱是否通过
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    em []string       接收一个邮箱字符串
 // @return   string, error     返回验证码和error值
 func IsEmailPass(ctx *gin.Context, email string, vertify string) bool {
@@ -485,7 +510,7 @@ func IsEmailPass(ctx *gin.Context, email string, vertify string) bool {
 
 // @title    SetRedisEmail
 // @description   设置验证码，并令其存活五分钟
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    email string, v string       接收一个邮箱和一个验证码
 // @return   void
 func SetRedisEmail(ctx *gin.Context, email string, v string) {
@@ -496,7 +521,7 @@ func SetRedisEmail(ctx *gin.Context, email string, v string) {
 
 // @title    ScoreChange
 // @description   用于计算分数变化
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    email string, v string       接收一个邮箱和一个验证码
 // @return   void
 func ScoreChange(fre float64, sum float64, del float64, total float64) float64 {
@@ -505,7 +530,7 @@ func ScoreChange(fre float64, sum float64, del float64, total float64) float64 {
 
 // @title    StringMerge
 // @description   用于字符串的合并
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    a string, b string       接收两个字符串
 // @return   string			返回合并结果
 func StringMerge(a string, b string) string {
@@ -518,7 +543,7 @@ func StringMerge(a string, b string) string {
 
 // @title    Read
 // @description   读取文件内容
-// @auth      MGAronya（张健）             2022-9-16 10:29
+// @auth      MGAronya             2022-9-16 10:29
 // @param     file_path string		文件位置
 // @return    res [][]string, err error		res为读出的内容，err为可能出现的错误
 func Read(file_path string) (res [][]string, err error) {
@@ -537,7 +562,7 @@ func Read(file_path string) (res [][]string, err error) {
 
 // @title    ReadCsv
 // @description   读取Csv文件内容
-// @auth      MGAronya（张健）             2022-9-16 10:29
+// @auth      MGAronya             2022-9-16 10:29
 // @param     file_path string		文件位置
 // @return    res [][]string, err error		res为读出的内容，err为可能出现的错误
 func ReadCsv(file_path string) (res [][]string, err error) {
@@ -562,7 +587,7 @@ func ReadCsv(file_path string) (res [][]string, err error) {
 
 // @title    ReadXls
 // @description   读取Xls文件内容
-// @auth      MGAronya（张健）             2022-9-16 10:29
+// @auth      MGAronya             2022-9-16 10:29
 // @param     file_path string		文件位置
 // @return    res [][]string, err error		res为读出的内容，err为可能出现的错误
 func ReadXls(file_path string) (res [][]string, err error) {
@@ -593,7 +618,7 @@ func ReadXls(file_path string) (res [][]string, err error) {
 
 // @title    ReadXlsx
 // @description   读取Xlsx文件内容
-// @auth      MGAronya（张健）             2022-9-16 10:29
+// @auth      MGAronya             2022-9-16 10:29
 // @param     file_path string		文件位置
 // @return    res [][]string, err error		res为读出的内容，err为可能出现的错误
 func ReadXlsx(file_path string) (res [][]string, err error) {
@@ -620,7 +645,7 @@ func ReadXlsx(file_path string) (res [][]string, err error) {
 
 // @title    RemoveWhiteSpace
 // @description  函数接收一个字符串，返回一个去掉空白字符的新字符串
-// @auth      MGAronya（张健）             2022-9-16 10:29
+// @auth      MGAronya             2022-9-16 10:29
 // @param     str string		目标字符
 // @return    string		去掉空白字符的新字符串
 func RemoveWhiteSpace(str string) string {
@@ -640,7 +665,7 @@ func RemoveWhiteSpace(str string) string {
 
 // @title    Search
 // @description  调用bing搜索api进行搜索
-// @auth      MGAronya（张健）             2022-9-16 10:29
+// @auth      MGAronya             2022-9-16 10:29
 // @param     query string			api-key,终结点,搜索内容
 // @return    []SearchResult, error				搜索结果,报错信息
 func Search(query string) ([]vo.SearchResult, error) {
@@ -656,7 +681,7 @@ func Search(query string) ([]vo.SearchResult, error) {
 	if err != nil {
 		return nil, err
 	}
-	req.Header.Set("Ocp-Apim-Subscription-Key", common.SubscriptionKey[searchIndex%len(common.SubscriptionKey)])
+	req.Header.Set("Ocp-Apim-Subscription-Key", common.SearchSubscriptionKey[searchIndex%len(common.SearchSubscriptionKey)])
 	resp, err := client.Do(req)
 	if err != nil {
 		return nil, err
@@ -687,9 +712,56 @@ func Search(query string) ([]vo.SearchResult, error) {
 	return parsedJson.WebPages.Value, nil
 }
 
+// @title    Translator
+// @description  调用bing翻译api进行翻译
+// @auth      MGAronya             2022-9-16 10:29
+// @param     query string			翻译内容
+// @return    string, error				翻译结果,报错信息
+func Translator(query string) (string, error) {
+	requestBody := []vo.TranslationRequest{
+		{
+			Text: query,
+		},
+	}
+	jsonData, err := json.Marshal(requestBody)
+	if err != nil {
+		return "", err
+	}
+
+	req, err := http.NewRequest("POST", "https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=zh-Hans", strings.NewReader(string(jsonData)))
+	if err != nil {
+		return "", err
+	}
+	req.Header.Add("Ocp-Apim-Subscription-Key", common.TraslationSubscriptionKey[translateIndex%len(common.TraslationSubscriptionKey)])
+	req.Header.Add("Ocp-Apim-Subscription-Region", "eastasia")
+	req.Header.Add("Content-Type", "application/json")
+
+	res, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return "", err
+	}
+	defer res.Body.Close()
+
+	responseBody, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		return "", err
+	}
+
+	// TODO 解析响应
+	var translationResponse []vo.TranslationResponse
+	json.Unmarshal(responseBody, &translationResponse)
+
+	if len(translationResponse) == 0 || len(translationResponse[0].Translations) == 0 {
+		return "", nil
+	}
+
+	// TODO 返回翻译结果
+	return translationResponse[0].Translations[0].Text, nil
+}
+
 // @title    CountTags
 // @description  记录搜索结果中的标签出现次数
-// @auth      MGAronya（张健）             2022-9-16 10:29
+// @auth      MGAronya             2022-9-16 10:29
 // @param     query string			api-key,终结点,搜索内容
 // @return    []SearchResult, error				搜索结果,报错信息
 func CountTags(searchResults []vo.SearchResult, tags ...string) []vo.TagCount {
@@ -725,7 +797,7 @@ func CountTags(searchResults []vo.SearchResult, tags ...string) []vo.TagCount {
 
 // @title    GetInfoFromXML
 // @description  将题目从xml格式中读取出来
-// @auth      MGAronya（张健）             2022-9-16 10:29
+// @auth      MGAronya             2022-9-16 10:29
 // @param     xmlString string			xml格式题目
 // @return    vo.Item, error				题目信息,报错信息
 func GetInfoFromXML(xmlString string) (vo.Item, error) {
@@ -740,7 +812,7 @@ func GetInfoFromXML(xmlString string) (vo.Item, error) {
 
 // @title    PadZero
 // @description  为字符串添加前导零
-// @auth      MGAronya（张健）             2022-9-16 10:29
+// @auth      MGAronya             2022-9-16 10:29
 // @param     str string				需要添加前导零的字符串
 // @return    string				    添加前导零后的字符串
 func PadZero(str string) string {
@@ -750,7 +822,7 @@ func PadZero(str string) string {
 
 // @title    EncodeUUID
 // @description  将string类型编码为uuid类型
-// @auth      MGAronya（张健）             2022-9-16 10:29
+// @auth      MGAronya             2022-9-16 10:29
 // @param     proid, source string				用于编码的题目id字符串以及题目来源平台
 // @return    uuid.UUID, error				    编码后的uuid以及可能的报错信息
 func EncodeUUID(proid, source string) (uuid.UUID, error) {
@@ -773,7 +845,7 @@ func EncodeUUID(proid, source string) (uuid.UUID, error) {
 
 // @title    DeCodeUUID
 // @description  将uuid类型解码为string类型
-// @auth      MGAronya（张健）             2022-9-16 10:29
+// @auth      MGAronya             2022-9-16 10:29
 // @param     uuidValue uuid.UUID				待解码的uuid
 // @return    string, string				    解码后的string
 func DeCodeUUID(uuidValue uuid.UUID) (proid string, source string, err error) {
@@ -794,7 +866,7 @@ func DeCodeUUID(uuidValue uuid.UUID) (proid string, source string, err error) {
 
 // @title    SixtyFourToSixteen
 // @description  将64进制转化为16进制
-// @auth      MGAronya（张健）             2022-9-16 10:29
+// @auth      MGAronya             2022-9-16 10:29
 // @param     str string				62进制字符串
 // @return    string,error				16进制以及可能的错误
 func SixtyFourToSixteen(str string) (string, error) {
@@ -820,7 +892,7 @@ func SixtyFourToSixteen(str string) (string, error) {
 
 // @title    SixteenToSixtyFour
 // @description  将16进制转化为64进制
-// @auth      MGAronya（张健）             2022-9-16 10:29
+// @auth      MGAronya             2022-9-16 10:29
 // @param     str string				16进制字符串
 // @return    string,error				64进制以及可能的错误
 func SixteenToSixtyFour(res string) (string, error) {
@@ -840,7 +912,7 @@ func SixteenToSixtyFour(res string) (string, error) {
 
 // @title    StateCorrection
 // @description  矫正状态
-// @auth      MGAronya（张健）             2022-9-16 10:29
+// @auth      MGAronya             2022-9-16 10:29
 // @param     str string				待矫正的状态
 // @return    string				矫正后的状态
 func StateCorrection(condition string) string {
@@ -883,7 +955,7 @@ func StateCorrection(condition string) string {
 
 // @title    RemoveDuplicates
 // @description  字符串去重
-// @auth      MGAronya（张健）             2022-9-16 10:29
+// @auth      MGAronya             2022-9-16 10:29
 // @param     arr []string				去重前的字符串数组
 // @return    []string				去重后的字符串数组
 func RemoveDuplicates(arr []string) []string {

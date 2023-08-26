@@ -1,7 +1,7 @@
 // @Title  CompetitionController
 // @Description  该文件提供关于操作比赛的各种方法
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-9-16 0:33
+// @Author  MGAronya
+// @Update  MGAronya  2022-9-16 0:33
 package controller
 
 import (
@@ -57,7 +57,7 @@ var FinishCompetition = map[string]func(ctx context.Context, redis *redis.Client
 
 // @title    CreatePasswd
 // @description   为某个比赛创建密码
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CompetitionController) CreatePasswd(ctx *gin.Context) {
@@ -145,7 +145,7 @@ leap:
 
 // @title    DeletePasswd
 // @description   为某个比赛删除密码
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CompetitionController) DeletePasswd(ctx *gin.Context) {
@@ -205,7 +205,7 @@ leap:
 
 // @title    Create
 // @description   创建一篇比赛
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CompetitionController) Create(ctx *gin.Context) {
@@ -312,7 +312,7 @@ func (c CompetitionController) Create(ctx *gin.Context) {
 
 // @title    Update
 // @description   更新一篇比赛的内容
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CompetitionController) Update(ctx *gin.Context) {
@@ -445,7 +445,7 @@ func (c CompetitionController) Update(ctx *gin.Context) {
 
 // @title    Show
 // @description   查看一篇比赛的内容
-// @auth      MGAronya（张健）       2022-9-16 12:19
+// @auth      MGAronya       2022-9-16 12:19
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CompetitionController) Show(ctx *gin.Context) {
@@ -480,7 +480,7 @@ func (c CompetitionController) Show(ctx *gin.Context) {
 
 // @title    Delete
 // @description   删除一篇比赛
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CompetitionController) Delete(ctx *gin.Context) {
@@ -532,7 +532,7 @@ leep:
 
 // @title    PageList
 // @description   获取多篇比赛
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CompetitionController) PageList(ctx *gin.Context) {
@@ -555,7 +555,7 @@ func (c CompetitionController) PageList(ctx *gin.Context) {
 
 // @title    LabelCreate
 // @description   标签创建
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CompetitionController) LabelCreate(ctx *gin.Context) {
@@ -622,7 +622,7 @@ leep:
 
 // @title    LabelDelete
 // @description   标签删除
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CompetitionController) LabelDelete(ctx *gin.Context) {
@@ -685,7 +685,7 @@ leep:
 
 // @title    LabelShow
 // @description   标签查看
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CompetitionController) LabelShow(ctx *gin.Context) {
@@ -721,7 +721,7 @@ leap:
 
 // @title    Search
 // @description   文本搜索
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CompetitionController) Search(ctx *gin.Context) {
@@ -747,7 +747,7 @@ func (c CompetitionController) Search(ctx *gin.Context) {
 
 // @title    SearchLabel
 // @description   指定标签的搜索
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CompetitionController) SearchLabel(ctx *gin.Context) {
@@ -792,7 +792,7 @@ func (c CompetitionController) SearchLabel(ctx *gin.Context) {
 
 // @title    SearchWithLabel
 // @description   指定标签与文本的搜索
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CompetitionController) SearchWithLabel(ctx *gin.Context) {
@@ -841,7 +841,7 @@ func (c CompetitionController) SearchWithLabel(ctx *gin.Context) {
 
 // @title    RankList
 // @description   获取当前比赛排名，包含ac题目数量和罚时
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CompetitionController) RankList(ctx *gin.Context) {
@@ -882,7 +882,7 @@ func (c CompetitionController) RankList(ctx *gin.Context) {
 
 // @title    RankMember
 // @description   获取当前某成员的比赛排名信息
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CompetitionController) RankMember(ctx *gin.Context) {
@@ -908,7 +908,7 @@ func (c CompetitionController) RankMember(ctx *gin.Context) {
 
 // @title    RollingList
 // @description   监听滚榜
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CompetitionController) RollingList(ctx *gin.Context) {
@@ -982,7 +982,7 @@ leep:
 
 // @title    MemberShow
 // @description   获取某成员每道题的罚时情况
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CompetitionController) MemberShow(ctx *gin.Context) {
@@ -1010,7 +1010,7 @@ func (c CompetitionController) MemberShow(ctx *gin.Context) {
 
 // @title    Rejudge
 // @description   进行重判
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CompetitionController) Rejudge(ctx *gin.Context) {
@@ -1133,7 +1133,7 @@ leep:
 
 // @title    CompetitionDataDelete
 // @description   对比赛结果清空
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CompetitionController) CompetitionDataDelete(ctx *gin.Context) {
@@ -1239,7 +1239,7 @@ leep:
 
 // @title    NewCompetitionController
 // @description   新建一个ICompetitionController
-// @auth      MGAronya（张健）       2022-9-16 12:23
+// @auth      MGAronya       2022-9-16 12:23
 // @param    void
 // @return   ICompetitionController		返回一个ICompetitionController用于调用各种函数
 func NewCompetitionController() ICompetitionController {
@@ -1262,7 +1262,7 @@ func NewCompetitionController() ICompetitionController {
 
 // @title    CompetitionFinish
 // @description   整理比赛结果
-// @auth      MGAronya（张健）       2022-9-16 12:23
+// @auth      MGAronya       2022-9-16 12:23
 // @param    competition 		对应比赛
 // @return   void
 func CompetitionFinish(ctx context.Context, redis *redis.Client, db *gorm.DB, competition model.Competition) {

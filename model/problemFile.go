@@ -1,7 +1,7 @@
 // @Title  problemFile
 // @Description  定义了文件题
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-10-17 21:07
+// @Author  MGAronya
+// @Update  MGAronya  2022-10-17 21:07
 package model
 
 import (
@@ -24,7 +24,7 @@ type ProblemFile struct {
 
 // @title    BeforeCreate
 // @description   计算出一个uuid
-// @auth      MGAronya（张健）             2022-9-16 10:19
+// @auth      MGAronya             2022-9-16 10:19
 // @param     scope *gorm.Scope
 // @return    error
 func (problemFile *ProblemFile) BeforeCreate(scope *gorm.DB) error {
@@ -34,7 +34,7 @@ func (problemFile *ProblemFile) BeforeCreate(scope *gorm.DB) error {
 
 // @title    BeforDelete
 // @description   关于题目删除的一些级联操作
-// @auth      MGAronya（张健）       2022-9-16 12:19
+// @auth      MGAronya       2022-9-16 12:19
 // @param    tx *gorm.DB       接收一个数据库指针
 // @return   err error		   返回一个错误信息
 func (p *ProblemFile) BeforDelete(tx *gorm.DB) (err error) {

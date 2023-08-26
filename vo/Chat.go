@@ -1,7 +1,7 @@
 // @Title  chat
 // @Description  定义群聊消息
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-9-16 0:46
+// @Author  MGAronya
+// @Update  MGAronya  2022-9-16 0:46
 package vo
 
 // ChatRequest			定义私信

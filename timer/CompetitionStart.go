@@ -14,7 +14,7 @@ import (
 
 // @title    StartTimer
 // @description   建立一个比赛开始定时器
-// @auth      MGAronya（张健）       2022-9-16 12:23
+// @auth      MGAronya       2022-9-16 12:23
 // @param    competitionId uuid.UUID	比赛id
 // @return   void
 func CompetitionStart() {
@@ -28,7 +28,7 @@ func CompetitionStart() {
 
 // @title    StartTimer
 // @description   建立一个比赛开始定时器
-// @auth      MGAronya（张健）       2022-9-16 12:23
+// @auth      MGAronya       2022-9-16 12:23
 // @param    competitionId uuid.UUID	比赛id
 // @return   void
 func StartTimer(ctx context.Context, redis *redis.Client, db *gorm.DB, competition model.Competition) {

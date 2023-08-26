@@ -1,7 +1,7 @@
 // @Title  ProblemMCQsController
 // @Description  该文件提供关于操作选择题的各种方法
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-9-16 0:33
+// @Author  MGAronya
+// @Update  MGAronya  2022-9-16 0:33
 package controller
 
 import (
@@ -39,7 +39,7 @@ type ProblemMCQsController struct {
 
 // @title    Create
 // @description   创建一篇选择题
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemMCQsController) Create(ctx *gin.Context) {
@@ -138,7 +138,7 @@ levp:
 
 // @title    Update
 // @description   更新一篇选择题的内容
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemMCQsController) Update(ctx *gin.Context) {
@@ -241,7 +241,7 @@ levp:
 
 // @title    Show
 // @description   查看一篇选择题的内容
-// @auth      MGAronya（张健）       2022-9-16 12:19
+// @auth      MGAronya       2022-9-16 12:19
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemMCQsController) Show(ctx *gin.Context) {
@@ -344,7 +344,7 @@ letp:
 
 // @title    Delete
 // @description   删除一篇选择题
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemMCQsController) Delete(ctx *gin.Context) {
@@ -424,7 +424,7 @@ letp:
 
 // @title    PageList
 // @description   获取多篇选择题
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemMCQsController) PageList(ctx *gin.Context) {
@@ -519,7 +519,7 @@ letp:
 
 // @title    Submit
 // @description   测试提交
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemMCQsController) Submit(ctx *gin.Context) {
@@ -658,7 +658,7 @@ letp:
 
 // @title    ShowSubmit
 // @description   获取提交情况
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemMCQsController) ShowSubmit(ctx *gin.Context) {
@@ -762,7 +762,7 @@ letp:
 
 // @title    SubmitList
 // @description   获取提交情况
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (p ProblemMCQsController) SubmitList(ctx *gin.Context) {
@@ -868,7 +868,7 @@ letp:
 
 // @title    NewProblemMCQsController
 // @description   新建一个IProblemMCQsController
-// @auth      MGAronya（张健）       2022-9-16 12:23
+// @auth      MGAronya       2022-9-16 12:23
 // @param    void
 // @return   IProblemMCQsController		返回一个IProblemMCQsController用于调用各种函数
 func NewProblemMCQsController() IProblemMCQsController {
@@ -881,7 +881,7 @@ func NewProblemMCQsController() IProblemMCQsController {
 
 // @title    ProblemMCQsJudge
 // @description   检查提交答案是否正确
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func ProblemMCQsJudge(source string, submit string) bool {

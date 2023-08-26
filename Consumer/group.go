@@ -40,7 +40,7 @@ type Group struct {
 
 // @title    Handle
 // @description   创建一篇判断
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (g Group) Handel(msg string) {
@@ -547,7 +547,7 @@ leap:
 
 // @title    NewGroup
 // @description   新建一Group
-// @auth      MGAronya（张健）      2022-9-16 12:23
+// @auth      MGAronya      2022-9-16 12:23
 // @param    void
 // @return   IJude		返回一个IGroup用于调用各种函数
 func NewGroup(rw *sync.RWMutex) IGroup {

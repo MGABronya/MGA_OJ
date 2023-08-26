@@ -1,7 +1,7 @@
 // @Title  MessageController
 // @Description  该文件提供关于操作留言板的各种方法
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-9-16 0:33
+// @Author  MGAronya
+// @Update  MGAronya  2022-9-16 0:33
 package controller
 
 import (
@@ -30,7 +30,7 @@ type MessageController struct {
 
 // @title    Create
 // @description   创建一条留言
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (m MessageController) Create(ctx *gin.Context) {
@@ -76,7 +76,7 @@ func (m MessageController) Create(ctx *gin.Context) {
 
 // @title    Delete
 // @description   删除一条留言
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (m MessageController) Delete(ctx *gin.Context) {
@@ -110,7 +110,7 @@ func (m MessageController) Delete(ctx *gin.Context) {
 
 // @title    PageList
 // @description   获取多篇留言
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (m MessageController) PageList(ctx *gin.Context) {
@@ -135,7 +135,7 @@ func (m MessageController) PageList(ctx *gin.Context) {
 
 // @title    NewMessageController
 // @description   新建一个IMessageController
-// @auth      MGAronya（张健）       2022-9-16 12:23
+// @auth      MGAronya       2022-9-16 12:23
 // @param    void
 // @return   IMessageController		返回一个IMessageController用于调用各种函数
 func NewMessageController() IMessageController {

@@ -1,7 +1,7 @@
 // @Title  problemMCQsSubmit
 // @Description  定义了选择题的提交
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-10-17 21:07
+// @Author  MGAronya
+// @Update  MGAronya  2022-10-17 21:07
 package model
 
 import (
@@ -22,7 +22,7 @@ type ProblemMCQsSubmit struct {
 
 // @title    BeforeCreate
 // @description   计算出一个uuid
-// @auth      MGAronya（张健）             2022-9-16 10:19
+// @auth      MGAronya             2022-9-16 10:19
 // @param     scope *gorm.Scope
 // @return    error
 func (problemMCQs *ProblemMCQsSubmit) BeforeCreate(scope *gorm.DB) error {

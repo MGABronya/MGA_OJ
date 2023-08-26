@@ -1,7 +1,7 @@
 // @Title  PairString
 // @Description  一对字符
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-9-16 0:46
+// @Author  MGAronya
+// @Update  MGAronya  2022-9-16 0:46
 package vo
 
 // PairString			定义字符串

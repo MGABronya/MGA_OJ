@@ -1,7 +1,7 @@
 // @Title  TagController
 // @Description  该文件提供关于操作标签的各种方法
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-9-16 0:33
+// @Author  MGAronya
+// @Update  MGAronya  2022-9-16 0:33
 package controller
 
 import (
@@ -9,6 +9,8 @@ import (
 	"MGA_OJ/model"
 	"MGA_OJ/response"
 	"MGA_OJ/util"
+	"MGA_OJ/vo"
+	"log"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -31,7 +33,7 @@ type TagController struct {
 
 // @title    Create
 // @description   创建一个标签
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (t TagController) Create(ctx *gin.Context) {
@@ -53,7 +55,7 @@ func (t TagController) Create(ctx *gin.Context) {
 
 // @title    Show
 // @description   查看一篇标签的内容
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (t TagController) Show(ctx *gin.Context) {
@@ -75,7 +77,7 @@ func (t TagController) Show(ctx *gin.Context) {
 
 // @title    Delete
 // @description   删除一篇标签的内容
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (t TagController) Delete(ctx *gin.Context) {
@@ -99,7 +101,7 @@ func (t TagController) Delete(ctx *gin.Context) {
 
 // @title    PageList
 // @description   查看一页标签的内容
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (t TagController) PageList(ctx *gin.Context) {
@@ -123,10 +125,14 @@ func (t TagController) PageList(ctx *gin.Context) {
 
 // @title    Auto
 // @description   生成自动标签
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (t TagController) Auto(ctx *gin.Context) {
+
+	translate := ctx.Params.ByName("translate")
+
+	tran, _ := strconv.ParseBool(translate)
 
 	text := ctx.Query("text")
 
@@ -145,6 +151,26 @@ func (t TagController) Auto(ctx *gin.Context) {
 		ts = append(ts, tag.Tag)
 	}
 
+	// TODO 是否需要翻译
+	if tran {
+		var tsearchResult []vo.SearchResult
+		for i := range searchResult {
+			var searchTranslate vo.SearchResult
+			searchTranslate.Name, err = util.Translator(searchResult[i].Name)
+			if err != nil {
+				log.Println(err)
+				continue
+			}
+			searchTranslate.Snippet, err = util.Translator(searchResult[i].Snippet)
+			if err != nil {
+				log.Println(err)
+				continue
+			}
+			tsearchResult = append(tsearchResult, searchTranslate)
+		}
+		searchResult = append(searchResult, tsearchResult...)
+	}
+
 	tagCount := util.CountTags(searchResult, ts...)
 	// TODO 成功
 	response.Success(ctx, gin.H{"tagCount": tagCount}, "生成成功")
@@ -152,7 +178,7 @@ func (t TagController) Auto(ctx *gin.Context) {
 
 // @title    NewTagController
 // @description   新建一个ITagController
-// @auth      MGAronya（张健）       2022-9-16 12:23
+// @auth      MGAronya       2022-9-16 12:23
 // @param    void
 // @return   ITagController		返回一个ITagController用于调用各种函数
 func NewTagController() ITagController {

@@ -1,7 +1,7 @@
 // @Title  uoj
 // @Description  用于操作uoj相关提交
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-9-16 0:47
+// @Author  MGAronya
+// @Update  MGAronya  2022-9-16 0:47
 package Vjudge
 
 import (
@@ -31,7 +31,7 @@ type UOJ struct {
 
 // @title    Login
 // @description   获得登录状态
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    password string       接收一个密码
 // @return   bool	返回是否登录成功
 func (fp *UOJ) Login() bool {
@@ -73,7 +73,7 @@ func (fp *UOJ) Login() bool {
 
 // @title    Submit
 // @description   提交
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    code, probID, lang string 代码，题目id，语言
 // @return   string, error 表示提交id、报错消息
 func (fp *UOJ) Submit(code, probID, lang string) (string, error) {
@@ -100,6 +100,10 @@ func (fp *UOJ) Submit(code, probID, lang string) (string, error) {
 		"Pascal":    true,
 	}
 
+	if _, ok := MapLanguage[lang]; !ok {
+		return "", fmt.Errorf("language error")
+	}
+
 	if !MapLanguage[lang] {
 		return "", fmt.Errorf("language error")
 	}
@@ -107,7 +111,7 @@ func (fp *UOJ) Submit(code, probID, lang string) (string, error) {
 	// TODO 构建提交表单数据
 	formData := url.Values{
 		"_token":                    {fp.Token},
-		"answer_answer_language":    {"C++17"},
+		"answer_answer_language":    {lang},
 		"answer_answer_upload_type": {"editor"},
 		"answer_answer_editor":      {code},
 		"submit-answer":             {"answer"},
@@ -148,7 +152,7 @@ func (fp *UOJ) Submit(code, probID, lang string) (string, error) {
 
 // @title    GetStatus
 // @description   跟踪提交状态
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    RunId, channel 提交id, 管道
 // @return   string, error 表示提交id、报错消息
 func (fp *UOJ) GetStatus(RunId string, ProbId string, channel chan map[string]string) {
@@ -180,7 +184,7 @@ func (fp *UOJ) GetStatus(RunId string, ProbId string, channel chan map[string]st
 
 // @title    UOJextractLatestSubmission
 // @description   分析UOJ提交表单
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    code, probID, lang string 代码，题目id，语言
 // @return   string, error 表示提交id、报错消息
 func UOJextractLatestSubmission(runid, html string) map[string]string {

@@ -1,7 +1,7 @@
 // @Title  Labels
 // @Description  接收一组标签
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-9-16 0:47
+// @Author  MGAronya
+// @Update  MGAronya  2022-9-16 0:47
 package vo
 
 // LabelsRequest			接收一组标签

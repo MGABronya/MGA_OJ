@@ -1,7 +1,7 @@
 // @Title  RealNameController
 // @Description  该文件提供关于操作实名的各种方法
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-9-16 0:33
+// @Author  MGAronya
+// @Update  MGAronya  2022-9-16 0:33
 package controller
 
 import (
@@ -36,7 +36,7 @@ type RealNameController struct {
 
 // @title    Create
 // @description   创建一个实名
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (r RealNameController) Create(ctx *gin.Context) {
@@ -90,7 +90,7 @@ func (r RealNameController) Create(ctx *gin.Context) {
 
 // @title    Update
 // @description   更新一篇实名的内容
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (r RealNameController) Update(ctx *gin.Context) {
@@ -150,7 +150,7 @@ func (r RealNameController) Update(ctx *gin.Context) {
 
 // @title    Show
 // @description   查看一篇实名的内容
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (r RealNameController) Show(ctx *gin.Context) {
@@ -191,7 +191,7 @@ leep:
 
 // @title    Delete
 // @description   删除一篇实名的内容
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (r RealNameController) Delete(ctx *gin.Context) {
@@ -218,7 +218,7 @@ func (r RealNameController) Delete(ctx *gin.Context) {
 
 // @title    PageList
 // @description   查看一页实名的内容
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (r RealNameController) PageList(ctx *gin.Context) {
@@ -252,7 +252,7 @@ func (r RealNameController) PageList(ctx *gin.Context) {
 
 // @title    Upload
 // @description   上传表单
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (r RealNameController) Upload(ctx *gin.Context) {
@@ -326,7 +326,7 @@ func (r RealNameController) Upload(ctx *gin.Context) {
 
 // @title    NewRealNameController
 // @description   新建一个IRealNameController
-// @auth      MGAronya（张健）       2022-9-16 12:23
+// @auth      MGAronya       2022-9-16 12:23
 // @param    void
 // @return   IRealNameController		返回一个IRealNameController用于调用各种函数
 func NewRealNameController() IRealNameController {

@@ -1,7 +1,7 @@
 // @Title  problemClozeRoutes
 // @Description  程序的填空题管理相关路由均集中在这个文件里
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-9-16 0:50
+// @Author  MGAronya
+// @Update  MGAronya  2022-9-16 0:50
 package routes
 
 import (
@@ -13,7 +13,7 @@ import (
 
 // @title    problemClozeRoutes
 // @description   给gin引擎挂上填空题相关的路由监听
-// @auth      MGAronya（张健）             2022-9-16 10:52
+// @auth      MGAronya             2022-9-16 10:52
 // @param     r *gin.Engine			gin引擎
 // @return    r *gin.Engine			gin引擎
 func ProblemClozeRoutes(r *gin.Engine) *gin.Engine {

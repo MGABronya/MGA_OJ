@@ -1,7 +1,7 @@
 // @Title  notice
 // @Description  定义通告
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-9-16 0:46
+// @Author  MGAronya
+// @Update  MGAronya  2022-9-16 0:46
 package model
 
 import (
@@ -24,7 +24,7 @@ type Notice struct {
 
 // @title    BeforeCreate
 // @description   计算出一个uuid
-// @auth      MGAronya（张健）             2022-9-16 10:19
+// @auth      MGAronya             2022-9-16 10:19
 // @param     scope *gorm.Scope
 // @return    error
 func (notice *Notice) BeforeCreate(scope *gorm.DB) error {

@@ -1,7 +1,7 @@
 // @Title  problem
 // @Description  题目的基本信息
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-9-16 0:47
+// @Author  MGAronya
+// @Update  MGAronya  2022-9-16 0:47
 package vo
 
 import (

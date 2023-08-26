@@ -1,7 +1,7 @@
 // @Title  util
 // @Description  该文件提供行为映射以及各种方法
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-9-16 0:33
+// @Author  MGAronya
+// @Update  MGAronya  2022-9-16 0:33
 package Handle
 
 import (
@@ -18,7 +18,7 @@ var Behaviors map[string]Interface.BehaviorInterface = map[string]Interface.Beha
 
 // @title    checkExpression
 // @description  函数接收一个不带括号的表达式，查看表达式是否正确
-// @auth      MGAronya（张健）             2022-9-16 10:29
+// @auth      MGAronya             2022-9-16 10:29
 // @param     expr []byte		简单表达式
 // @return    bool, string		表示表达式是否正确，并给出错误原因
 func checkExpression(expr []byte) (bool, string) {
@@ -72,7 +72,7 @@ func checkExpression(expr []byte) (bool, string) {
 
 // @title    CheckExpression
 // @description  函数接收一个表达式，查看表达式是否正确
-// @auth      MGAronya（张健）             2022-9-16 10:29
+// @auth      MGAronya             2022-9-16 10:29
 // @param     expr []byte		表达式
 // @return    bool, string		表示表达式是否正确，并给出错误原因
 func CheckExpression(expr []byte) (bool, string) {
@@ -121,7 +121,7 @@ func CheckExpression(expr []byte) (bool, string) {
 
 // @title    EvaluateExpression
 // @description  函数接收一个表达式，计算表达式的值
-// @auth      MGAronya（张健）             2022-9-16 10:29
+// @auth      MGAronya             2022-9-16 10:29
 // @param     expr string		表达式
 // @return    int, string		计算表达式的值
 func EvaluateExpression(expression string, userId uuid.UUID) (int, error) {

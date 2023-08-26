@@ -1,7 +1,7 @@
 // @Title  BadgeController
 // @Description  该文件提供关于操作徽章的各种方法
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-9-16 0:33
+// @Author  MGAronya
+// @Update  MGAronya  2022-9-16 0:33
 package controller
 
 import (
@@ -43,7 +43,7 @@ type BadgeController struct {
 
 // @title    Create
 // @description   创建一篇徽章
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (b BadgeController) Create(ctx *gin.Context) {
@@ -111,7 +111,7 @@ func (b BadgeController) Create(ctx *gin.Context) {
 
 // @title    Update
 // @description   更新一篇徽章的内容
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (b BadgeController) Update(ctx *gin.Context) {
@@ -177,7 +177,7 @@ func (b BadgeController) Update(ctx *gin.Context) {
 
 // @title    Show
 // @description   查看一篇徽章的内容
-// @auth      MGAronya（张健）       2022-9-16 12:19
+// @auth      MGAronya       2022-9-16 12:19
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (b BadgeController) Show(ctx *gin.Context) {
@@ -212,7 +212,7 @@ func (b BadgeController) Show(ctx *gin.Context) {
 
 // @title    Delete
 // @description   删除一篇徽章
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (b BadgeController) Delete(ctx *gin.Context) {
@@ -249,7 +249,7 @@ func (b BadgeController) Delete(ctx *gin.Context) {
 
 // @title    PageList
 // @description   获取多篇徽章
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (b BadgeController) PageList(ctx *gin.Context) {
@@ -266,7 +266,7 @@ func (b BadgeController) PageList(ctx *gin.Context) {
 
 // @title    UserList
 // @description   获取指定用户的多篇徽章
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (b BadgeController) UserList(ctx *gin.Context) {
@@ -317,7 +317,7 @@ func (b BadgeController) UserList(ctx *gin.Context) {
 
 // @title    UserShow
 // @description   获取指定用户的指定徽章
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (b BadgeController) UserShow(ctx *gin.Context) {
@@ -341,7 +341,7 @@ func (b BadgeController) UserShow(ctx *gin.Context) {
 
 // @title    BehaviorList
 // @description   查看变量列表
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (b BadgeController) BehaviorList(ctx *gin.Context) {
@@ -357,7 +357,7 @@ func (b BadgeController) BehaviorList(ctx *gin.Context) {
 
 // @title    BehaviorShow
 // @description   查看变量描述
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (b BadgeController) BehaviorShow(ctx *gin.Context) {
@@ -374,7 +374,7 @@ func (b BadgeController) BehaviorShow(ctx *gin.Context) {
 
 // @title    EvaluateExpression
 // @description   获取指定用户的表达式得分
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (b BadgeController) EvaluateExpression(ctx *gin.Context) {
@@ -394,7 +394,7 @@ func (b BadgeController) EvaluateExpression(ctx *gin.Context) {
 
 // @title    Publish
 // @description   用户连接
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (b BadgeController) Publish(ctx *gin.Context) {
@@ -411,6 +411,7 @@ func (b BadgeController) Publish(ctx *gin.Context) {
 
 	// TODO 升级get请求为webSocket协议
 	ws, err := b.UpGrader.Upgrade(ctx.Writer, ctx.Request, nil)
+
 	if err != nil {
 		return
 	}
@@ -428,7 +429,7 @@ func (b BadgeController) Publish(ctx *gin.Context) {
 
 // @title    NewBadgeController
 // @description   新建一个IBadgeController
-// @auth      MGAronya（张健）       2022-9-16 12:23
+// @auth      MGAronya       2022-9-16 12:23
 // @param    void
 // @return   IBadgeController		返回一个IBadgeController用于调用各种函数
 func NewBadgeController() IBadgeController {

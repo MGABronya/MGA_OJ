@@ -1,7 +1,7 @@
 // @Title  CompetitionOIController
 // @Description  该文件提供关于操作个人比赛的各种方法
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-9-16 0:33
+// @Author  MGAronya
+// @Update  MGAronya  2022-9-16 0:33
 package controller
 
 import (
@@ -42,7 +42,7 @@ type CompetitionOIController struct {
 
 // @title    Enter
 // @description   报名一篇比赛
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CompetitionOIController) Enter(ctx *gin.Context) {
@@ -139,7 +139,7 @@ leap:
 
 // @title    EnterCondition
 // @description   查看报名状态
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CompetitionOIController) EnterCondition(ctx *gin.Context) {
@@ -204,7 +204,7 @@ leap:
 
 // @title    CancelEnter
 // @description   取消报名一篇比赛
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CompetitionOIController) CancelEnter(ctx *gin.Context) {
@@ -267,7 +267,7 @@ leap:
 
 // @title    EnterPage
 // @description   查看报名列表
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CompetitionOIController) EnterPage(ctx *gin.Context) {
@@ -319,7 +319,7 @@ leap:
 
 // @title    Submit
 // @description   用户进行提交操作
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CompetitionOIController) Submit(ctx *gin.Context) {
@@ -447,7 +447,7 @@ leap:
 
 // @title    ShowRecord
 // @description   查看一篇提交的内容
-// @auth      MGAronya（张健）       2022-9-16 12:19
+// @auth      MGAronya       2022-9-16 12:19
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CompetitionOIController) ShowRecord(ctx *gin.Context) {
@@ -518,7 +518,7 @@ leap:
 
 // @title    SearchList
 // @description   获取多篇提交
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CompetitionOIController) SearchList(ctx *gin.Context) {
@@ -630,7 +630,7 @@ leep:
 
 // @title    PublishPageList
 // @description  订阅提交列表
-// @auth      MGAronya（张健）       2022-9-16 12:19
+// @auth      MGAronya       2022-9-16 12:19
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CompetitionOIController) PublishPageList(ctx *gin.Context) {
@@ -703,7 +703,7 @@ leep:
 
 // @title    Publish
 // @description  订阅提交列表
-// @auth      MGAronya（张健）       2022-9-16 12:19
+// @auth      MGAronya       2022-9-16 12:19
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CompetitionOIController) Publish(ctx *gin.Context) {
@@ -712,7 +712,7 @@ func (c CompetitionOIController) Publish(ctx *gin.Context) {
 
 // @title    CaseList
 // @description   查看一篇提交的测试通过情况
-// @auth      MGAronya（张健）       2022-9-16 12:19
+// @auth      MGAronya       2022-9-16 12:19
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CompetitionOIController) CaseList(ctx *gin.Context) {
@@ -762,7 +762,7 @@ leep:
 
 // @title    Case
 // @description   查看一篇测试通过情况
-// @auth      MGAronya（张健）       2022-9-16 12:19
+// @auth      MGAronya       2022-9-16 12:19
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CompetitionOIController) Case(ctx *gin.Context) {
@@ -781,7 +781,7 @@ func (c CompetitionOIController) Case(ctx *gin.Context) {
 
 // @title    NewCompetitionController
 // @description   新建一个ICompetitionOIController
-// @auth      MGAronya（张健）       2022-9-16 12:23
+// @auth      MGAronya       2022-9-16 12:23
 // @param    void
 // @return   ICompetitionOIController		返回一个ICompetitionOIController用于调用各种函数
 func NewCompetitionOIController() ICompetitionOIController {

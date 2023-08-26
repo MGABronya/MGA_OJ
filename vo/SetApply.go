@@ -1,7 +1,7 @@
 // @Title  SetApply
 // @Description  表单申请
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-9-16 0:46
+// @Author  MGAronya
+// @Update  MGAronya  2022-9-16 0:46
 package vo
 
 import (

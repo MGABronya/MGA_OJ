@@ -1,7 +1,7 @@
 // @Title  jwt
 // @Description  该文件用于提供加密为token和解析token的函数
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-9-16 0:33
+// @Author  MGAronya
+// @Update  MGAronya  2022-9-16 0:33
 package common
 
 import (
@@ -17,12 +17,12 @@ var jwtKey = []byte("a_secret_crect")
 // Claims			定义了user的token
 type Claims struct {
 	UserId             uuid.UUID // 用户的id
-	jwt.StandardClaims      // usertoken
+	jwt.StandardClaims           // usertoken
 }
 
 // @title    ReleaseToken
 // @description   生成用户的token
-// @auth      MGAronya（张健）       2022-9-16 12:07
+// @auth      MGAronya       2022-9-16 12:07
 // @param     user model.User       接收一个用户
 // @return    string, error         返回该用户的token，或者返回error
 func ReleaseToken(user model.User) (string, error) {
@@ -48,7 +48,7 @@ func ReleaseToken(user model.User) (string, error) {
 
 // @title    ParseToken
 // @description   对token进行解析
-// @auth      MGAronya（张健）       2022-9-16 12:07
+// @auth      MGAronya       2022-9-16 12:07
 // @param    tokenString string       接收一个token
 // @return   *jwt.Token, *Claims, error         返回token中包含的信息
 func ParseToken(tokenString string) (*jwt.Token, *Claims, error) {

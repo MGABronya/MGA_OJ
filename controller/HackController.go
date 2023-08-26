@@ -1,7 +1,7 @@
 // @Title  HackController
 // @Description  该文件提供关于操作hack的各种方法
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-9-16 0:33
+// @Author  MGAronya
+// @Update  MGAronya  2022-9-16 0:33
 package controller
 
 import (
@@ -31,7 +31,7 @@ type HackController struct {
 
 // @title    ShowNum
 // @description  查看某个比赛中某用户的hack数量
-// @auth      MGAronya（张健）       2022-9-16 12:19
+// @auth      MGAronya       2022-9-16 12:19
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (h HackController) ShowNum(ctx *gin.Context) {
@@ -68,7 +68,7 @@ leap:
 
 // @title    Show
 // @description   查看Hack功能
-// @auth      MGAronya（张健）       2022-9-16 12:19
+// @auth      MGAronya       2022-9-16 12:19
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (h HackController) Show(ctx *gin.Context) {
@@ -104,7 +104,7 @@ leap:
 
 // @title    NewHackController
 // @description   新建一个IHackController
-// @auth      MGAronya（张健）       2022-9-16 12:23
+// @auth      MGAronya       2022-9-16 12:23
 // @param    void
 // @return   IHackController		返回一个IHackController用于调用各种函数
 func NewHackController() IHackController {

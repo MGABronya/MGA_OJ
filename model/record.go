@@ -1,7 +1,7 @@
 // @Title  record
 // @Description  定义提交记录
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-9-16 0:46
+// @Author  MGAronya
+// @Update  MGAronya  2022-9-16 0:46
 package model
 
 import (
@@ -26,7 +26,7 @@ type Record struct {
 
 // @title    BeforeCreate
 // @description   计算出一个uuid
-// @auth      MGAronya（张健）             2022-9-16 10:19
+// @auth      MGAronya             2022-9-16 10:19
 // @param     scope *gorm.Scope
 // @return    error
 func (record *Record) BeforeCreate(scope *gorm.DB) error {
@@ -36,7 +36,7 @@ func (record *Record) BeforeCreate(scope *gorm.DB) error {
 
 // @title    BeforDelete
 // @description   关于提交记录删除的一些级联操作
-// @auth      MGAronya（张健）       2022-9-16 12:19
+// @auth      MGAronya       2022-9-16 12:19
 // @param    tx *gorm.DB       接收一个数据库指针
 // @return   err error		   返回一个错误信息
 func (r *Record) BeforDelete(tx *gorm.DB) (err error) {

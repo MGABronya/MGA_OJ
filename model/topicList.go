@@ -1,7 +1,7 @@
 // @Title  topicList
 // @Description  定义主题列表
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-11-16 0:46
+// @Author  MGAronya
+// @Update  MGAronya  2022-11-16 0:46
 package model
 
 import uuid "github.com/satori/go.uuid"

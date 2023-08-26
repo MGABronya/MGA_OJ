@@ -1,7 +1,7 @@
 // @Title  problemFile
 // @Description  定义了文件题
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-10-17 21:07
+// @Author  MGAronya
+// @Update  MGAronya  2022-10-17 21:07
 package vo
 
 // ProblemFileRequest			定义了文件题的各种元素

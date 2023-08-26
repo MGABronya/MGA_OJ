@@ -1,7 +1,7 @@
 // @Title  NoticeBoardController
 // @Description  该文件提供关于操作公告栏的各种方法
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-9-16 0:33
+// @Author  MGAronya
+// @Update  MGAronya  2022-9-16 0:33
 package controller
 
 import (
@@ -32,7 +32,7 @@ type NoticeBoardController struct {
 
 // @title    Create
 // @description  发布通知
-// @auth      MGAronya（张健）       2022-9-16 12:19
+// @auth      MGAronya       2022-9-16 12:19
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (n NoticeBoardController) Create(ctx *gin.Context) {
@@ -72,7 +72,7 @@ func (n NoticeBoardController) Create(ctx *gin.Context) {
 
 // @title    Show
 // @description  查看通告
-// @auth      MGAronya（张健）       2022-9-16 12:19
+// @auth      MGAronya       2022-9-16 12:19
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (n NoticeBoardController) Show(ctx *gin.Context) {
@@ -112,7 +112,7 @@ leep:
 
 // @title    Update
 // @description   更新一篇公告的内容
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (n NoticeBoardController) Update(ctx *gin.Context) {
@@ -164,7 +164,7 @@ func (n NoticeBoardController) Update(ctx *gin.Context) {
 
 // @title    Delete
 // @description   删除一篇公告
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (n NoticeBoardController) Delete(ctx *gin.Context) {
@@ -201,7 +201,7 @@ func (n NoticeBoardController) Delete(ctx *gin.Context) {
 
 // @title    PageList
 // @description  通知列表
-// @auth      MGAronya（张健）       2022-9-16 12:19
+// @auth      MGAronya       2022-9-16 12:19
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (n NoticeBoardController) PageList(ctx *gin.Context) {
@@ -222,7 +222,7 @@ func (n NoticeBoardController) PageList(ctx *gin.Context) {
 
 // @title    NewCompetitionController
 // @description   新建一个INoticeBoardController
-// @auth      MGAronya（张健）       2022-9-16 12:23
+// @auth      MGAronya       2022-9-16 12:23
 // @param    void
 // @return   INoticeBoardController		返回一个INoticeBoardController用于调用各种函数
 func NewNoticeBoardController() INoticeBoardController {

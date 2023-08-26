@@ -14,7 +14,7 @@ import (
 
 // @title    main
 // @description   程序入口，完成一些初始化工作后将开始监听
-// @auth      MGAronya（张健）             2022-9-16 10:49
+// @auth      MGAronya             2022-9-16 10:49
 // @param     void			没有入参
 // @return    void			没有回参
 func main() {
@@ -51,7 +51,7 @@ func main() {
 
 // @title    InitConfig
 // @description   读取配置文件并完成初始化
-// @auth      MGAronya（张健）             2022-9-16 10:49
+// @auth      MGAronya             2022-9-16 10:49
 // @param     void			没有入参
 // @return    void			没有回参
 func InitConfig() {

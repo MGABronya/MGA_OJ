@@ -1,7 +1,7 @@
 // @Title  database
 // @Description  该文件用于初始化mysql数据库，以及包装一个向外提供数据库的功能
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-9-16 0:33
+// @Author  MGAronya
+// @Update  MGAronya  2022-9-16 0:33
 package common
 
 import (
@@ -17,7 +17,7 @@ var DB *gorm.DB
 
 // @title    InitDB
 // @description   从配置文件中读取数据库相关信息后，完成数据库初始化
-// @auth      MGAronya（张健）             2022-9-16 10:07
+// @auth      MGAronya             2022-9-16 10:07
 // @param     void        void         没有入参
 // @return    db        *gorm.DB         将返回一个初始化后的数据库指针
 func InitDB() *gorm.DB {
@@ -49,7 +49,7 @@ func InitDB() *gorm.DB {
 
 // @title    GetDB
 // @description   返回数据库的指针
-// @auth      MGAronya（张健）             2022-9-16 10:08
+// @auth      MGAronya             2022-9-16 10:08
 // @param     void        void         没有入参
 // @return    db        *gorm.DB         将返回一个初始化后的数据库指针
 func GetDB() *gorm.DB {

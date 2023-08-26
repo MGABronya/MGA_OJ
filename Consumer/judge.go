@@ -40,7 +40,7 @@ type Judge struct {
 
 // @title    Handle
 // @description   创建一篇判断
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (j Judge) Handel(msg string) {
@@ -455,7 +455,7 @@ feep:
 
 // @title    NewJudge
 // @description   新建一Judge
-// @auth      MGAronya（张健）      2022-9-16 12:23
+// @auth      MGAronya      2022-9-16 12:23
 // @param    void
 // @return   IJude		返回一个IJudge用于调用各种函数
 func NewJudge(rw *sync.RWMutex) IJudge {

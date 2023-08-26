@@ -1,7 +1,7 @@
 // @Title  ExamController
 // @Description  该文件提供关于操作测试的各种方法
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-9-16 0:33
+// @Author  MGAronya
+// @Update  MGAronya  2022-9-16 0:33
 package controller
 
 import (
@@ -39,7 +39,7 @@ type ExamController struct {
 
 // @title    Create
 // @description   创建一篇测试
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (e ExamController) Create(ctx *gin.Context) {
@@ -138,7 +138,7 @@ levp:
 
 // @title    Update
 // @description   更新一篇测试的内容
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (e ExamController) Update(ctx *gin.Context) {
@@ -242,7 +242,7 @@ levp:
 
 // @title    Show
 // @description   查看一篇测试的内容
-// @auth      MGAronya（张健）       2022-9-16 12:19
+// @auth      MGAronya       2022-9-16 12:19
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (e ExamController) Show(ctx *gin.Context) {
@@ -287,7 +287,7 @@ leap:
 
 // @title    Delete
 // @description   删除一篇测试
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (e ExamController) Delete(ctx *gin.Context) {
@@ -350,7 +350,7 @@ levp:
 
 // @title    PageList
 // @description   获取多篇测试
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (e ExamController) PageList(ctx *gin.Context) {
@@ -412,7 +412,7 @@ levp:
 
 // @title    ScoreShow
 // @description   查看分数
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (e ExamController) ScoreShow(ctx *gin.Context) {
@@ -493,7 +493,7 @@ levp:
 
 // @title    ScoreUpdate
 // @description   修改分数
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (e ExamController) ScoreUpdate(ctx *gin.Context) {
@@ -580,7 +580,7 @@ levp:
 
 // @title    ScoreList
 // @description   分数列表
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (e ExamController) ScoreList(ctx *gin.Context) {
@@ -677,7 +677,7 @@ levp:
 
 // @title    NewExamController
 // @description   新建一个IExamController
-// @auth      MGAronya（张健）       2022-9-16 12:23
+// @auth      MGAronya       2022-9-16 12:23
 // @param    void
 // @return   IExamController		返回一个IExamController用于调用各种函数
 func NewExamController() IExamController {
@@ -690,7 +690,7 @@ func NewExamController() IExamController {
 
 // @title    ExamTimer
 // @description   建立一个测试开始定时器
-// @auth      MGAronya（张健）       2022-9-16 12:23
+// @auth      MGAronya       2022-9-16 12:23
 // @param    competitionId uuid.UUID	比赛id
 // @return   void
 func ExamTimer(ctx *gin.Context, redis *redis.Client, db *gorm.DB, exam model.Exam) {

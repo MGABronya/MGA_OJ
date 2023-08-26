@@ -1,7 +1,7 @@
 // @Title  ImgController
 // @Description  该文件提供关于操作图片的各种方法
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-9-16 0:33
+// @Author  MGAronya
+// @Update  MGAronya  2022-9-16 0:33
 package controller
 
 import (
@@ -24,7 +24,7 @@ type ImgController struct {
 
 // @title    Upload
 // @description   上传一张图片
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (i ImgController) Upload(ctx *gin.Context) {
@@ -61,7 +61,7 @@ func (i ImgController) Upload(ctx *gin.Context) {
 
 // @title    NewImgController
 // @description   新建一个ImgController
-// @auth      MGAronya（张健）       2022-9-16 12:23
+// @auth      MGAronya       2022-9-16 12:23
 // @param    void
 // @return   ImgController		返回一个ImgController用于调用各种函数
 func NewImgController() ImgController {

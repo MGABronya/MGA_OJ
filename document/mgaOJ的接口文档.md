@@ -264,6 +264,10 @@
 
 **Tag**(自动生成标签)
 
+### 翻译服务
+
+**Translate**(翻译)
+
 ### 文件服务
 
 **File**（上传与下载文件）
@@ -702,7 +706,7 @@
 
     **方法类型：GET**
 
-    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token 。
+    请求参数：在Params处提供token。注意，该调用为长连接。
 
     返回值：连接成功时，以json格式持续返回badgePublish，badgePublish包含name和level，分别表示徽章名称和徽章等级。
 
@@ -834,7 +838,7 @@
 
     **方法类型：GET**
 
-    请求参数：用户组的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token。注意，该请求为websocket长连接。
+    请求参数：用户组的uuid（在接口地址的id处）。在Params处提供token。注意，该请求为websocket长连接。
 
     返回值：成功时，将持续实时返回指定组的chat，每个chat包含created_at表示创建时间，group_id表示用户组，author_id表示作者id，content、res_long(可选)、res_short（可选）表示内容，如果失败则返回失败原因。
 
@@ -844,7 +848,7 @@
 
     **方法类型：GET**
 
-    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。注意，该请求为websocket长连接。
+    请求参数：在Params处提供token。注意，该请求为websocket长连接。
 
     返回值：成功时，将持续实时返回包含该用户的用户组的chat作为用户组的连接请求，每个chat包含created_at表示创建时间，group_id表示用户组，author_id表示作者id，content、res_long(可选)、res_short（可选）表示内容，如果失败则返回失败原因。
 
@@ -1863,6 +1867,35 @@
 
     返回值：成功时，返回userStandards，其为userStandard数组，每个元素包含email、password、cid，其中cid表示标准用户所在的比赛。
 
+### 模型：Email
+
+定义：邮件
+
+**基础路由：/email**
+
+- **其它**
+
+  - **接口地址：/send/:id**
+
+    **功能：发送邮件**
+
+    **方法类型：POST**
+
+    请求参数：在id处给出要发送的邮箱地址，邮箱地址必须为数据库中存在的邮箱。Authorization中的Bearer Token中提供注册、登录时给出的token。需要2级以上权限。在Body，raw格式给出json类型数据包含 Text表示邮件内容。
+
+    返回值：成功时，返回成功消息。
+
+  - **接口地址：/receive**
+
+    **功能：接收邮件**
+
+    **方法类型：POST**
+
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含 Text表示邮件内容。
+
+    返回值：成功时，返回成功消息，如果失败则返回失败原因。
+
+
 ### 模型：Exam
 
 定义：测试
@@ -2579,7 +2612,7 @@
 
     **方法类型：GET**
 
-    请求参数：用户的uuid（在接口地址的id处）。Authorization中的Bearer Token中提供注册、登录时给出的token。注意，该请求为websocket长连接。
+    请求参数：用户的uuid（在接口地址的id处）。在Params处提供token。注意，该请求为websocket长连接。
 
     返回值：成功时，将持续实时返回指定用户的letter，每个letter包含created_at表示创建时间，user_id表示接收消息的用户id，author_id表示作者id，content、res_long(可选)、res_short（可选）表示内容，如果失败则返回失败原因。
 
@@ -2589,7 +2622,7 @@
 
     **方法类型：GET**
 
-    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。注意，该请求为websocket长连接。
+    请求参数：在Params处提供token。注意，该请求为websocket长连接。
 
     返回值：成功时，将持续实时返回包含该用户所有接收到的letter，每个letter包含created_at表示创建时间，user_id表示接收消息的用户id，author_id表示作者id，content、res_long(可选)、res_short（可选）表示内容，如果失败则返回失败原因。
 
@@ -4837,15 +4870,35 @@
 
     返回值：成功时，以json格式返回一个数组tags和total，tags返回了相应列表的标签信息（按照创建时间排序，越新创建排序越前），total表示标签总量，如果失败则返回失败原因。
 
-  - **接口地址：/Auto**
+  - **接口地址：/Auto/:translate**
 
     **功能：自动生成标签**
 
     **方法类型：GET**
 
-    请求参数：在Params处提供text（表示文本）。
+    请求参数：在Params处提供text（表示文本）,bool值表示是否需要过翻译之后的版本（即:translate部分）。
 
     返回值：成功时，返回结构体数组tagCount，tagCount返回了标签内容以及文本在被搜索时的标签出现次数（按照出现次数排序，出现越多排序越前），如果失败则返回失败原因。
+
+### 模型：Translate
+
+定义：翻译
+
+**基础路由：/translator**
+
+实现的接口类型：
+
+- 其它
+
+  - **接口地址：/translate**
+
+    **功能：翻译**
+
+    **方法类型：POST**
+
+    请求参数：在Body，raw格式给出json类型数据包含 Text表示等待翻译的字符。
+
+    返回值：成功时返回字符串text。
 
 ### 模型：Test
 
@@ -5517,7 +5570,7 @@
 
     **方法类型：PUT**
 
-    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。在Body 中，raw格式提供json包含name（用户名称）、email（邮箱）、blog（博客地址）、sex（bool类型，性别）、address（地址）、icon（头像）、res_long（备用长文本）、res_short（备用短文本）
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。在Body 中，raw格式提供json包含name（用户名称）、email（邮箱）、blog（博客地址）、sex（bool类型，性别）、address（地址）、icon（头像）、res_long（备用长文本）、res_short（备用短文本）、verify（验证码）
 
     返回值：更新成功后返回用户更新后的个人信息，否则返回错误原因。
 

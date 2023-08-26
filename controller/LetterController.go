@@ -1,7 +1,7 @@
 // @Title  LetterController
 // @Description  该文件提供关于操作私信的各种方法
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-9-16 0:33
+// @Author  MGAronya
+// @Update  MGAronya  2022-9-16 0:33
 package controller
 
 import (
@@ -40,7 +40,7 @@ type LetterController struct {
 
 // @title    Send
 // @description   发送一条私信
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (l LetterController) Send(ctx *gin.Context) {
@@ -125,7 +125,7 @@ leap:
 
 // @title    LinkList
 // @description   获取多篇连接
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (l LetterController) LinkList(ctx *gin.Context) {
@@ -154,7 +154,7 @@ func (l LetterController) LinkList(ctx *gin.Context) {
 
 // @title    ChatList
 // @description   列出聊天列表
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (l LetterController) ChatList(ctx *gin.Context) {
@@ -208,7 +208,7 @@ leap:
 
 // @title    RemoveLink
 // @description   移除指定连接
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (l LetterController) RemoveLink(ctx *gin.Context) {
@@ -252,7 +252,7 @@ leap:
 
 // @title    Receive
 // @description   创建接收通信
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (l LetterController) Receive(ctx *gin.Context) {
@@ -315,7 +315,7 @@ leap:
 
 // @title    ReceiveLink
 // @description   创建接收连接
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (l LetterController) ReceiveLink(ctx *gin.Context) {
@@ -350,7 +350,7 @@ func (l LetterController) ReceiveLink(ctx *gin.Context) {
 
 // @title    Read
 // @description   已读
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (l LetterController) Read(ctx *gin.Context) {
@@ -387,7 +387,7 @@ func (l LetterController) Read(ctx *gin.Context) {
 
 // @title    Block
 // @description   拉黑某用户
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (l LetterController) Block(ctx *gin.Context) {
@@ -446,7 +446,7 @@ leap:
 
 // @title    RemoveBlack
 // @description   移除某用户的黑名单
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (l LetterController) RemoveBlack(ctx *gin.Context) {
@@ -499,7 +499,7 @@ leap:
 
 // @title    BlackList
 // @description   查看黑名单
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (l LetterController) BlackList(ctx *gin.Context) {
@@ -527,7 +527,7 @@ func (l LetterController) BlackList(ctx *gin.Context) {
 
 // @title    NewLetterController
 // @description   新建一个INewLetterController
-// @auth      MGAronya（张健）       2022-9-16 12:23
+// @auth      MGAronya       2022-9-16 12:23
 // @param    void
 // @return   ILetterController		返回一个ILetterController用于调用各种函数
 func NewLetterController() ILetterController {

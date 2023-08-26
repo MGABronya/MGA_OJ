@@ -1,7 +1,7 @@
 // @Title  CommentController
 // @Description  该文件提供关于操作讨论的各种方法
-// @Author  MGAronya（张健）
-// @Update  MGAronya（张健）  2022-9-16 0:33
+// @Author  MGAronya
+// @Update  MGAronya  2022-9-16 0:33
 package controller
 
 import (
@@ -37,7 +37,7 @@ type CommentController struct {
 
 // @title    Create
 // @description   创建一篇讨论
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CommentController) Create(ctx *gin.Context) {
@@ -105,7 +105,7 @@ leep:
 
 // @title    Update
 // @description   更新一篇讨论的内容
-// @auth      MGAronya（张健）       2022-9-16 12:15
+// @auth      MGAronya       2022-9-16 12:15
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CommentController) Update(ctx *gin.Context) {
@@ -149,7 +149,7 @@ func (c CommentController) Update(ctx *gin.Context) {
 
 // @title    Show
 // @description   查看一篇讨论的内容
-// @auth      MGAronya（张健）       2022-9-16 12:19
+// @auth      MGAronya       2022-9-16 12:19
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CommentController) Show(ctx *gin.Context) {
@@ -184,7 +184,7 @@ func (c CommentController) Show(ctx *gin.Context) {
 
 // @title    Delete
 // @description   删除一篇讨论
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CommentController) Delete(ctx *gin.Context) {
@@ -234,7 +234,7 @@ func (c CommentController) Delete(ctx *gin.Context) {
 
 // @title    PageList
 // @description   获取多篇讨论
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CommentController) PageList(ctx *gin.Context) {
@@ -260,7 +260,7 @@ func (c CommentController) PageList(ctx *gin.Context) {
 
 // @title    HotRanking
 // @description   根据热度排行获取多篇讨论
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CommentController) HotRanking(ctx *gin.Context) {
@@ -290,7 +290,7 @@ func (c CommentController) HotRanking(ctx *gin.Context) {
 
 // @title    UserList
 // @description   获取指定用户的多篇讨论
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CommentController) UserList(ctx *gin.Context) {
@@ -316,7 +316,7 @@ func (c CommentController) UserList(ctx *gin.Context) {
 
 // @title    Like
 // @description   点赞或点踩
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CommentController) Like(ctx *gin.Context) {
@@ -395,7 +395,7 @@ leep:
 
 // @title    CancelLike
 // @description   取消点赞或者点踩
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CommentController) CancelLike(ctx *gin.Context) {
@@ -455,7 +455,7 @@ leep:
 
 // @title    LikeNumber
 // @description   点赞或点踩的数量
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CommentController) LikeNumber(ctx *gin.Context) {
@@ -475,7 +475,7 @@ func (c CommentController) LikeNumber(ctx *gin.Context) {
 
 // @title    LikeList
 // @description   点赞或点踩的列表
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CommentController) LikeList(ctx *gin.Context) {
@@ -504,7 +504,7 @@ func (c CommentController) LikeList(ctx *gin.Context) {
 
 // @title    LikeShow
 // @description   查看用户点赞状态
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CommentController) LikeShow(ctx *gin.Context) {
@@ -533,7 +533,7 @@ func (c CommentController) LikeShow(ctx *gin.Context) {
 
 // @title    Likes
 // @description   查看用户点赞状态
-// @auth      MGAronya（张健）       2022-9-16 12:20
+// @auth      MGAronya       2022-9-16 12:20
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (c CommentController) Likes(ctx *gin.Context) {
@@ -563,7 +563,7 @@ func (c CommentController) Likes(ctx *gin.Context) {
 
 // @title    NewCommentController
 // @description   新建一个ICommentController
-// @auth      MGAronya（张健）       2022-9-16 12:23
+// @auth      MGAronya       2022-9-16 12:23
 // @param    void
 // @return   ICommentController		返回一个ICommentController用于调用各种函数
 func NewCommentController() ICommentController {
