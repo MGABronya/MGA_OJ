@@ -116,7 +116,7 @@ func (fp *ATCODER) Submit(code, probID, lang string) (string, error) {
 		"C++ (GCC 9.2.1)":              "4003",
 		"Python (3.8.2)":               "4006",
 		"Haskell (GHC 8.8.3)":          "4027",
-		"Haxe (4.0.3); Java":           "4029",
+		"Java":                         "4029",
 		"Julia (1.4.0)":                "4031",
 		"Lua (Lua 5.3.5)":              "4033",
 		"Dash (0.5.8)":                 "4035",

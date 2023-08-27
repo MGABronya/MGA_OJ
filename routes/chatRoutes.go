@@ -37,10 +37,10 @@ func ChatRoutes(r *gin.Engine) *gin.Engine {
 	chatRoutes.DELETE("/remove/link/:id", middleware.AuthMiddleware(), chatController.RemoveLink)
 
 	// TODO 建立实时接收
-	chatRoutes.GET("/receive/:id", middleware.AuthMiddleware(), chatController.Receive)
+	chatRoutes.GET("/receive/:id", middleware.WsAuthMiddleware(), chatController.Receive)
 
 	// TODO 建立连接实时接收
-	chatRoutes.GET("/receivelink", middleware.AuthMiddleware(), chatController.ReceiveLink)
+	chatRoutes.GET("/receivelink", middleware.WsAuthMiddleware(), chatController.ReceiveLink)
 
 	return r
 }

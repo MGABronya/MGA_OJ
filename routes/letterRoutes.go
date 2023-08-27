@@ -40,10 +40,10 @@ func LetterRoutes(r *gin.Engine) *gin.Engine {
 	letterRoutes.PUT("/read/:id", middleware.AuthMiddleware(), letterController.Read)
 
 	// TODO 订阅私信
-	letterRoutes.GET("/receive/:id", middleware.AuthMiddleware(), letterController.Receive)
+	letterRoutes.GET("/receive/:id", middleware.WsAuthMiddleware(), letterController.Receive)
 
 	// TODO 订阅连接
-	letterRoutes.GET("/receivelink", middleware.AuthMiddleware(), letterController.ReceiveLink)
+	letterRoutes.GET("/receivelink", middleware.WsAuthMiddleware(), letterController.ReceiveLink)
 
 	// TODO 用户私信拉黑某用户
 	letterRoutes.POST("/block/:id", middleware.AuthMiddleware(), letterController.Block)

@@ -52,7 +52,7 @@ func BadgeRoutes(r *gin.Engine) *gin.Engine {
 	badgeRoutes.GET("/behavior/description/:id", badgeController.BehaviorShow)
 
 	// TODO 用户连接
-	badgeRoutes.GET("/publish", middleware.AuthMiddleware(), badgeController.Publish)
+	badgeRoutes.GET("/publish", middleware.WsAuthMiddleware(), badgeController.Publish)
 
 	// TODO 查看某用户的某行为统计
 	badgeRoutes.GET("/evaluate/expression/:user/:expression", badgeController.EvaluateExpression)

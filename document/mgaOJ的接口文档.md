@@ -3762,7 +3762,237 @@
   
     请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含oj、problem_id、title、 description 、res_long(可选)、res_short（可选）、 time_limit 、 time_unit 、 memory_limit 、 memory_unit 、 input 、 output 、 sample_case 、hint、 source ,oj表示题目的来源平台，目前支持POJ、SPOJ、HDU、VIJOS、CF、ATCODER，problem_id表示题目在该平台上的id号，title表示题目标题，description表示题目描述，res_long表示长文本备用键值，res_short表示短文本备用键值，time_limit 为uint类型，表示时间限制，time_uint表示时间单位，可为"s"或"ms"，memory_limit为uint类型，表示空间限制， memory_uint表示空间单位，可为"mb"或"kb"或"gb"，input表示输入格式，output表示输出格式、sample_case表示输入输出示例数组，每个元素包含input和output，均为string类型、hint表示提示，source 表示来源。
   
-    返回值：成功时返回创建成功相关信息和题目信息problem，否则给出失败原因
+    返回值：成功时返回创建成功相关信息和题目信息problem，否则给出失败原因。
+    
+    目前支持的外站以及支持的语言：
+    
+    ````
+    ATCODER
+    {
+    		"C (GCC 9.2.1)",
+    		"C++ (GCC 9.2.1)",
+    		"Python (3.8.2)",
+    		"Haskell (GHC 8.8.3)",
+    		"Haxe (4.0.3); Java",
+    		"Julia (1.4.0)",
+    		"Lua (Lua 5.3.5)",
+    		"Dash (0.5.8)",
+    		"Ruby (2.7.1)",
+    		"Standard ML (MLton 20130715)",
+    		"Text (cat 8.28)",
+    		"Unlambda (2.0.0)",
+    		"Sed (4.4)",
+    }
+    
+    CF
+    {
+    		"Delphi",
+    		"FPC",
+    		"PHP",
+    		"Python 2",
+    		"Mono C#",
+    		"Haskell",
+    		"Perl",
+    		"Ocaml",
+    		"D",
+    		"Python 3",
+    		"Go",
+    		"JavaScript",
+    		"PyPy 2",
+    		"PyPy 3",
+    		"GNU C11",
+    		"GNU C++14",
+    		"PascalABC.NET",
+    		"Clang++17 Diagnostics",
+    		"GNU C++17",
+    		"Node.js",
+    		"MS C++ 2017",
+    		"GNU C++17 (64)",
+    		"C# 8",
+    		"Ruby 3",
+    		"PyPy 3-64",
+    		"GNU C++20 (64)",
+    		"Rust 2021",
+    		"Kotlin 1.6",
+    		"C# 10",
+    		"Clang++20 Diagnostics",
+    		"Kotlin 1.7",
+    }
+    
+    HACKERRANK
+    {
+    		"C",
+    		"Clojure",
+    		"C++11",
+    		"C++14",
+    		"C++20",
+    		"Erlang",
+    		"Go",
+    		"Haskell",
+    		"Java7",
+    		"Java8",
+    		"Java15",
+    		"Julia",
+    		"Kotlin",
+    		"Lua",
+    		"Perl"",
+    		"PHP",
+    		"Pypy3",
+    		"Python3",
+    		"R",
+    		"Ruby",
+    		"Rust",
+    		"Scala",
+    		"Swift",
+    		"TypeScript",
+    }
+    
+    HDU
+    {
+    		"G++",
+    		"GCC",
+    		"C++",
+    		"C",
+    		"Pascal",
+    		"Java",
+    		"C#",
+    }
+    
+    POJ
+    {
+    		"G++",
+    		"GCC",
+    		"Java",
+    		"Pascal",
+    		"C++",
+    		"C",
+    		"Fortran",
+    }
+    
+    SPOJ
+    {
+    		"CPP",
+    		"PAS-GPC",
+    		"PERL",
+    		"PYTHON",
+    		"FORTRAN",
+    		"WHITESPACE",
+    		"ADA95",
+    		"OCAML",
+    		"ICK",
+    		"JAVA",
+    		"C",
+    		"BF",
+    		"ASM32",
+    		"CLPS",
+    		"PRLG-swi",
+    		"ICON",
+    		"RUBY",
+    		"SCM qobi",
+    		"PIKE",
+    		"D",
+    		"HASK",
+    		"PAS-FPC",
+    		"ST",
+    		"JAR",
+    		"NICE",
+    		"LUA",
+    		"CSHARP",
+    		"BASH",
+    		"PHP",
+    		"NEM",
+    		"LISP sbcl",
+    		"LISP clisp",
+    		"SCM guile",
+    		"C99",
+    		"JS-RHINO",
+    		"ERL",
+    		"TCL",
+    		"SCALA",
+    		"SQLITE",
+    		"C++ 4.3.2",
+    		"ASM64",
+    		"OBJC",
+    		"CPP14",
+    		"ASM32-GCC",
+    		"SED",
+    		"KTLN",
+    		"DART",
+    		"VB.NET",
+    		"PERL6",
+    		"NODEJS",
+    		"DOC",
+    		"PDF",
+    }
+    
+    UOJ
+    {
+    		"C++",
+    		"C++03",
+    		"C++11",
+    		"C++14",
+    		"C++17",
+    		"C++20",
+    		"C",
+    		"Python3",
+    		"Python2.7",
+    		"Java8",
+    		"Java11",
+    		"Java17",
+    		"Pascal",
+    }
+    
+    URAL
+    {
+    		"Ruby 1.9",
+    		"Haskell 7.6",
+    		"FreePascal 2.6",
+    		"Java 1.8",
+    		"Scala 2.11",
+    		"Python 3.8 x64",
+    		"Go 1.14 x64",
+    		"Kotlin 1.4.0",
+    		"Visual C# 2019",
+    		"Visual C 2019",
+    		"Visual C++ 2019",
+    		"Visual C 2019 x64",
+    		"Visual C++ 2019 x64",
+    		"GCC 9.2 x64",
+    		"G++ 9.2 x64",
+    		"Clang++ 10 x64",
+    		"PyPy 3.8 x64",
+    		"Rust 1.58 x64",
+    }
+    
+    UVA
+    {
+    		"ANSI C",
+    		"JAVA",
+    		"C++",
+    		"PASCAL",
+    		"C++11",
+    		"PYTH3",
+    }
+    
+    VIJOS
+    {
+    		"C",
+    		"C++",
+    		"C#",
+    		"Pascal",
+    		"Java",
+    		"Python",
+    		"Python 3",
+    		"PHP",
+    		"Rust",
+    		"Haskell",
+    		"JavaScript",
+    		"Go",
+    		"Ruby",
+    }
+    ````
+    
+    
 
 ### 模型：ProblemNew
 
