@@ -5,6 +5,7 @@
 package controller
 
 import (
+	Handle "MGA_OJ/Behavior"
 	"MGA_OJ/Interface"
 	TQ "MGA_OJ/Test-request"
 	"MGA_OJ/common"
@@ -18,6 +19,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v9"
@@ -615,6 +617,9 @@ success:
 		RecordId: record.ID,
 	}
 
+	// 用户hack行为统计
+	Handle.Behaviors["Hack"].PublishBehavior(1, user.ID)
+
 	// TODO 插入数据
 	if err := r.DB.Create(&hack).Error; err != nil {
 		response.Fail(ctx, nil, "记录上传出错，数据验证有误")
@@ -692,7 +697,7 @@ func Transponder() {
 				continue
 			}
 			// TODO 跟踪指定提交
-			go TrackRecord(source, runid, proid, record)
+			go TrackerMap[recordRaabbit.Type](source, runid, proid, record)
 		} else {
 			log.Println("错误的目标平台\n", record)
 			continue
@@ -700,12 +705,21 @@ func Transponder() {
 	}
 }
 
-// @title    TrackRecord
+// TrackerMap		跟踪器映射表
+var TrackerMap map[string]func(source string, runid string, proid string, record model.Record) = map[string]func(source string, runid string, proid string, record model.Record){
+	"Group":  GroupTracker,
+	"Match":  GroupTracker,
+	"Normal": NormalTracker,
+	"Single": SingleTracker,
+	"OI":     SingleTracker,
+}
+
+// @title    NormalTracker
 // @description   跟踪指定提交
 // @auth      MGAronya       2022-9-16 12:23
 // @param    void
 // @return   void
-func TrackRecord(source string, runid string, proid string, record model.Record) {
+func NormalTracker(source string, runid string, proid string, record model.Record) {
 	channel := make(chan map[string]string)
 	go common.VjudgeMap[source].GetStatus(runid, proid, channel)
 	redis := common.GetRedisClient(0)
@@ -742,6 +756,16 @@ func TrackRecord(source string, runid string, proid string, record model.Record)
 	}
 	// TODO 将record存入数据库
 	db.Save(&record)
+	if record.Condition == "Accepted" {
+		// TODO 检查是否是今日首次通过
+		if db.Where("condition = Accepted and to_days(created_at) = to_days(now())").First(&model.Record{}).Error != nil {
+			Handle.Behaviors["Accepts"].PublishBehavior(1, record.UserId)
+		}
+		// TODO 检查该题目是否是首次通过
+		if db.Where("condition = Accepted and problem_id = ?", record.ProblemId).First(&model.Record{}).Error != nil {
+			Handle.Behaviors["Days"].PublishBehavior(1, record.UserId)
+		}
+	}
 	// TODO 将其花费的时间与空间存入数据库
 	t, err := strconv.Atoi(result["Time"])
 	if err != nil {
@@ -759,4 +783,412 @@ func TrackRecord(source string, runid string, proid string, record model.Record)
 		Memory:   uint(m),
 	}
 	db.Create(&cas)
+}
+
+// @title    SingleTracker
+// @description   跟踪指定提交
+// @auth      MGAronya       2022-9-16 12:23
+// @param    void
+// @return   void
+func SingleTracker(source string, runid string, proid string, record model.Record) {
+	redix := common.GetRedisClient(0)
+	db := common.GetDB()
+	ctx := context.Background()
+	var problem model.ProblemNew
+	// TODO 先看redis中是否存在
+	id := fmt.Sprint(record.ProblemId)
+	if ok, _ := redix.HExists(ctx, "ProblemNew", id).Result(); ok {
+		cate, _ := redix.HGet(ctx, "ProblemNew", id).Result()
+		if json.Unmarshal([]byte(cate), &problem) == nil {
+			// TODO 跳过数据库搜寻problem过程
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			redix.HDel(ctx, "ProblemNew", id)
+		}
+	}
+	// TODO 查看题目是否在数据库中存在
+	if db.Where("id = (?)", id).First(&problem).Error != nil {
+		record.Condition = "Problem Doesn't Exist"
+		// TODO 将record存入redis
+		v, _ := json.Marshal(record)
+		redix.HSet(ctx, "RecordCompetition", fmt.Sprint(record.ID), v)
+		// TODO 将record存入mysql
+		db.Save(&record)
+		return
+	}
+	// TODO 将题目存入redis供下次使用
+	{
+		v, _ := json.Marshal(problem)
+		redix.HSet(ctx, "Problem", id, v)
+	}
+leep:
+	var competition model.Competition
+	// TODO 先看redis中是否存在
+	if ok, _ := redix.HExists(ctx, "Competition", problem.CompetitionId.String()).Result(); ok {
+		cate, _ := redix.HGet(ctx, "Competition", problem.CompetitionId.String()).Result()
+		if json.Unmarshal([]byte(cate), &competition) == nil {
+			// TODO 跳过数据库搜寻competition过程
+			goto leap
+		} else {
+			// TODO 移除损坏数据
+			redix.HDel(ctx, "Competition", problem.CompetitionId.String())
+		}
+	}
+	// TODO 查看比赛是否在数据库中存在
+	if db.Where("id = (?)", problem.CompetitionId.String()).First(&competition).Error != nil {
+		record.Condition = "Competition Doesn't Exist"
+		// TODO 将record存入redis
+		v, _ := json.Marshal(record)
+		redix.HSet(ctx, "RecordCompetition", fmt.Sprint(record.ID), v)
+		// TODO 将record存入mysql
+		db.Save(&record)
+		return
+	}
+	// TODO 将题目存入redis供下次使用
+	{
+		v, _ := json.Marshal(competition)
+		redix.HSet(ctx, "Competition", problem.CompetitionId.String(), v)
+	}
+leap:
+	channel := make(chan map[string]string)
+	go common.VjudgeMap[source].GetStatus(runid, proid, channel)
+	// TODO 发布订阅用于提交列表
+	recordList := vo.RecordList{
+		RecordId: record.ID,
+	}
+	// TODO 提交订阅
+	var recordCase vo.RecordCase
+	recordCase.CaseId = 0
+	var result map[string]string
+	for result = range channel {
+		// TODO 先矫正一波
+		result["Result"] = util.StateCorrection(result["Result"])
+		if result["Result"] != record.Condition {
+			// TODO 更新状态
+			record.Condition = result["Result"]
+			// TODO 将recordlist打包
+			v, _ := json.Marshal(recordList)
+			redix.Publish(ctx, "RecordChan", v)
+			// TODO 将record存入redis
+			v, _ = json.Marshal(record)
+			redix.HSet(ctx, "Record", fmt.Sprint(record.ID), v)
+			// TODO 提交长连接
+			{
+				recordCase.Condition = result["Result"]
+				v, _ := json.Marshal(recordCase)
+				redix.Publish(ctx, "RecordChan"+record.ID.String(), v)
+			}
+		}
+	}
+	// TODO 将record存入数据库
+	db.Save(&record)
+	if record.Condition == "Accepted" {
+		// TODO 检查是否是今日首次通过
+		if db.Where("user_id = ? and condition = Accepted and to_days(created_at) = to_days(now())", record.UserId).First(&model.Record{}).Error != nil {
+			Handle.Behaviors["Accepts"].PublishBehavior(1, record.UserId)
+		}
+		// TODO 检查该题目是否是首次通过
+		if db.Where("user_id = ? and condition = Accepted and problem_id = ?", record.UserId, record.ProblemId).First(&model.Record{}).Error != nil {
+			Handle.Behaviors["Days"].PublishBehavior(1, record.UserId)
+		}
+	}
+	// TODO 将其花费的时间与空间存入数据库
+	t, err := strconv.Atoi(result["Time"])
+	if err != nil {
+		t = 0
+	}
+	m, err := strconv.Atoi(result["Memory"])
+	if err != nil {
+		m = 0
+	}
+	// TODO 将其作为第一个用例的结果存入数据库
+	cas := model.CaseCondition{
+		RecordId: record.ID,
+		CID:      1,
+		Time:     uint(t),
+		Memory:   uint(m),
+	}
+	db.Create(&cas)
+
+	if record.CreatedAt.After(competition.StartTime) && record.CreatedAt.Before(competition.EndTime) {
+		var competitionMembers []model.CompetitionMember
+		// TODO 在redis中取出成员罚时具体数据
+		cM, err := redix.HGet(ctx, "Competition"+competition.ID.String(), record.UserId.String()).Result()
+		if err == nil {
+			json.Unmarshal([]byte(cM), &competitionMembers)
+		}
+		// TODO 找出数组中对应的题目
+		k := -1
+		for i := range competitionMembers {
+			if competitionMembers[i].ProblemId == record.ProblemId {
+				k = i
+				break
+			}
+		}
+		if k == -1 {
+			k = len(competitionMembers)
+			competitionMembers = append(competitionMembers, model.CompetitionMember{
+				ID:            uuid.NewV4(),
+				MemberId:      record.UserId,
+				CompetitionId: competition.ID,
+				ProblemId:     record.ProblemId,
+				Pass:          0,
+				Penalties:     0,
+			})
+		}
+		// TODO 在redis中取出通过、罚时情况
+		cR, err := redix.ZScore(ctx, "CompetitionR"+competition.ID.String(), record.UserId.String()).Result()
+		if err != nil {
+			cR = 0
+		}
+		// TODO 先前没有通过
+		if competitionMembers[k].Condition != "Accepted" {
+			// TODO 记录罚时
+			competitionMembers[k].Penalties += time.Time(record.CreatedAt).Sub(time.Time(competition.StartTime))
+			competitionMembers[k].Condition = record.Condition
+			// TODO 通过样例数量增加
+			if record.Condition == "Accepted" {
+				// TODO 获取用例通过分数
+				score := int(problem.Score)
+				// TODO 如果分数上升
+				if score > 0 {
+					// TODO 记入罚时
+					cR -= float64(competitionMembers[k].Penalties) / 10000000000
+					cR += float64(score)
+					// TODO 存入redis供下次使用
+					v, _ := json.Marshal(competitionMembers)
+					redix.HSet(ctx, "Competition"+competition.ID.String(), record.UserId.String(), v)
+					redix.ZAdd(ctx, "CompetitionR"+competition.ID.String(), redis.Z{Score: cR, Member: record.UserId.String()})
+					// TODO 发布订阅用于滚榜
+					rankList := vo.RankList{
+						MemberId: record.UserId,
+					}
+					// TODO 将ranklist打包
+					v, _ = json.Marshal(rankList)
+					redix.Publish(ctx, "CompetitionChan"+competition.ID.String(), v)
+				}
+			}
+		}
+	}
+}
+
+// @title    GroupTracker
+// @description   跟踪指定提交
+// @auth      MGAronya       2022-9-16 12:23
+// @param    void
+// @return   void
+func GroupTracker(source string, runid string, proid string, record model.Record) {
+	redix := common.GetRedisClient(0)
+	db := common.GetDB()
+	ctx := context.Background()
+	var problem model.ProblemNew
+	// TODO 先看redis中是否存在
+	id := fmt.Sprint(record.ProblemId)
+	if ok, _ := redix.HExists(ctx, "ProblemNew", id).Result(); ok {
+		cate, _ := redix.HGet(ctx, "ProblemNew", id).Result()
+		if json.Unmarshal([]byte(cate), &problem) == nil {
+			// TODO 跳过数据库搜寻problem过程
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			redix.HDel(ctx, "ProblemNew", id)
+		}
+	}
+	// TODO 查看题目是否在数据库中存在
+	if db.Where("id = (?)", id).First(&problem).Error != nil {
+		record.Condition = "Problem Doesn't Exist"
+		// TODO 将record存入redis
+		v, _ := json.Marshal(record)
+		redix.HSet(ctx, "RecordCompetition", fmt.Sprint(record.ID), v)
+		// TODO 将record存入mysql
+		db.Save(&record)
+		return
+	}
+	// TODO 将题目存入redis供下次使用
+	{
+		v, _ := json.Marshal(problem)
+		redix.HSet(ctx, "Problem", id, v)
+	}
+leep:
+	var competition model.Competition
+	// TODO 先看redis中是否存在
+	if ok, _ := redix.HExists(ctx, "Competition", problem.CompetitionId.String()).Result(); ok {
+		cate, _ := redix.HGet(ctx, "Competition", problem.CompetitionId.String()).Result()
+		if json.Unmarshal([]byte(cate), &competition) == nil {
+			// TODO 跳过数据库搜寻competition过程
+			goto leap
+		} else {
+			// TODO 移除损坏数据
+			redix.HDel(ctx, "Competition", problem.CompetitionId.String())
+		}
+	}
+	// TODO 查看比赛是否在数据库中存在
+	if db.Where("id = (?)", problem.CompetitionId.String()).First(&competition).Error != nil {
+		record.Condition = "Competition Doesn't Exist"
+		// TODO 将record存入redis
+		v, _ := json.Marshal(record)
+		redix.HSet(ctx, "RecordCompetition", fmt.Sprint(record.ID), v)
+		// TODO 将record存入mysql
+		db.Save(&record)
+		return
+	}
+	// TODO 将题目存入redis供下次使用
+	{
+		v, _ := json.Marshal(competition)
+		redix.HSet(ctx, "Competition", problem.CompetitionId.String(), v)
+	}
+leap:
+	channel := make(chan map[string]string)
+	go common.VjudgeMap[source].GetStatus(runid, proid, channel)
+	// TODO 发布订阅用于提交列表
+	recordList := vo.RecordList{
+		RecordId: record.ID,
+	}
+	// TODO 提交订阅
+	var recordCase vo.RecordCase
+	recordCase.CaseId = 0
+	var result map[string]string
+	for result = range channel {
+		// TODO 先矫正一波
+		result["Result"] = util.StateCorrection(result["Result"])
+		if result["Result"] != record.Condition {
+			// TODO 更新状态
+			record.Condition = result["Result"]
+			// TODO 将recordlist打包
+			v, _ := json.Marshal(recordList)
+			redix.Publish(ctx, "RecordChan", v)
+			// TODO 将record存入redis
+			v, _ = json.Marshal(record)
+			redix.HSet(ctx, "Record", fmt.Sprint(record.ID), v)
+			// TODO 提交长连接
+			{
+				recordCase.Condition = result["Result"]
+				v, _ := json.Marshal(recordCase)
+				redix.Publish(ctx, "RecordChan"+record.ID.String(), v)
+			}
+		}
+	}
+	// TODO 将record存入数据库
+	db.Save(&record)
+	if record.Condition == "Accepted" {
+		// TODO 检查是否是今日首次通过
+		if db.Where("user_id = ? and condition = Accepted and to_days(created_at) = to_days(now())", record.UserId).First(&model.Record{}).Error != nil {
+			Handle.Behaviors["Days"].PublishBehavior(1, record.UserId)
+		}
+		// TODO 检查该题目是否是首次通过
+		if db.Where("user_id = ? and condition = Accepted and problem_id = ?", record.UserId, record.ProblemId).First(&model.Record{}).Error != nil {
+			Handle.Behaviors["Accepts"].PublishBehavior(1, record.UserId)
+			categoryMap := util.ProblemCategory(problem.ID)
+			for category := range categoryMap {
+				Handle.Behaviors[category].PublishBehavior(1, record.UserId)
+			}
+		}
+	}
+	// TODO 将其花费的时间与空间存入数据库
+	t, err := strconv.Atoi(result["Time"])
+	if err != nil {
+		t = 0
+	}
+	m, err := strconv.Atoi(result["Memory"])
+	if err != nil {
+		m = 0
+	}
+	// TODO 将其作为第一个用例的结果存入数据库
+	cas := model.CaseCondition{
+		RecordId: record.ID,
+		CID:      1,
+		Time:     uint(t),
+		Memory:   uint(m),
+	}
+	db.Create(&cas)
+
+	if record.CreatedAt.After(competition.StartTime) && record.CreatedAt.Before(competition.EndTime) {
+		groups, _ := redix.ZRange(ctx, "CompetitionR"+competition.ID.String(), 0, -1).Result()
+		// TODO 查找组
+		var group model.Group
+		for i := range groups {
+
+			// TODO 先看redis中是否存在
+			if ok, _ := redix.HExists(ctx, "Group", groups[i]).Result(); ok {
+				cate, _ := redix.HGet(ctx, "Group", groups[i]).Result()
+				if json.Unmarshal([]byte(cate), &group) == nil {
+					goto levp
+				} else {
+					// TODO 移除损坏数据
+					redix.HDel(ctx, "Group", groups[i])
+				}
+			}
+
+			// TODO 查看用户组是否在数据库中存在
+			db.Where("id = (?)", groups[i]).First(&group)
+			{
+				// TODO 将用户组存入redis供下次使用
+				v, _ := json.Marshal(group)
+				redix.HSet(ctx, "Group", groups[i], v)
+			}
+		levp:
+			if db.Where("group_id = (?) and user_id = (?)", group.ID, record.UserId).First(&model.UserList{}).Error == nil {
+				break
+			}
+		}
+		var competitionMembers []model.CompetitionMember
+		// TODO 在redis中取出成员罚时具体数据
+		cM, err := redix.HGet(ctx, "Competition"+competition.ID.String(), record.UserId.String()).Result()
+		if err == nil {
+			json.Unmarshal([]byte(cM), &competitionMembers)
+		}
+		// TODO 找出数组中对应的题目
+		k := -1
+		for i := range competitionMembers {
+			if competitionMembers[i].ProblemId == record.ProblemId {
+				k = i
+				break
+			}
+		}
+		if k == -1 {
+			k = len(competitionMembers)
+			competitionMembers = append(competitionMembers, model.CompetitionMember{
+				ID:            uuid.NewV4(),
+				MemberId:      group.ID,
+				CompetitionId: competition.ID,
+				ProblemId:     record.ProblemId,
+				Pass:          0,
+				Penalties:     0,
+			})
+		}
+		// TODO 在redis中取出通过、罚时情况
+		cR, err := redix.ZScore(ctx, "CompetitionR"+competition.ID.String(), group.ID.String()).Result()
+		if err != nil {
+			cR = 0
+		}
+		// TODO 先前没有通过
+		if competitionMembers[k].Condition != "Accepted" {
+			// TODO 记录罚时
+			competitionMembers[k].Penalties += time.Time(record.CreatedAt).Sub(time.Time(competition.StartTime))
+			competitionMembers[k].Condition = record.Condition
+			// TODO 通过样例数量增加
+			if record.Condition == "Accepted" {
+				// TODO 获取用例通过分数
+				score := int(problem.Score)
+				// TODO 如果分数上升
+				if score > 0 {
+					// TODO 记入罚时
+					cR -= float64(competitionMembers[k].Penalties) / 10000000000
+					cR += float64(score)
+					// TODO 存入redis供下次使用
+					v, _ := json.Marshal(competitionMembers)
+					redix.HSet(ctx, "Competition"+competition.ID.String(), group.ID.String(), v)
+					redix.ZAdd(ctx, "CompetitionR"+competition.ID.String(), redis.Z{Score: cR, Member: group.ID.String()})
+					// TODO 发布订阅用于滚榜
+					rankList := vo.RankList{
+						MemberId: group.ID,
+					}
+					// TODO 将ranklist打包
+					v, _ = json.Marshal(rankList)
+					redix.Publish(ctx, "CompetitionChan"+competition.ID.String(), v)
+				}
+			}
+		}
+	}
 }

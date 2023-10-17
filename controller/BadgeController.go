@@ -445,10 +445,24 @@ func NewBadgeController() IBadgeController {
 		},
 	}
 	Handle.Behaviors = map[string]Interface.BehaviorInterface{
-		"Accepts":  Handle.NewAccepts(),
-		"Days":     Handle.NewDays(),
-		"Likes":    Handle.NewLikes(),
-		"Collects": Handle.NewCollects(),
+		"Accepts":               Handle.NewAccepts(),
+		"Days":                  Handle.NewDays(),
+		"Likes":                 Handle.NewLikes(),
+		"Collects":              Handle.NewCollects(),
+		"AK":                    Handle.NewAK(),
+		"BasicAlgorithm":        Handle.NewBasicAlgorithm(),
+		"ComputationalGeometry": Handle.NewComputationalGeometry(),
+		"DataStructure":         Handle.NewDataStructure(),
+		"DynamicProgramming":    Handle.NewDynamicProgramming(),
+		"GraphTheory":           Handle.NewGraphTheory(),
+		"NumberTheory":          Handle.NewNumberTheory(),
+		"Search":                Handle.NewSearch(),
+		"Explore":               Handle.NewExplore(),
+		"Hack":                  Handle.NewHack(),
+		"Group":                 Handle.NewGroup(),
+		"Single":                Handle.NewSingle(),
+		"Match":                 Handle.NewMatch(),
+		"OI":                    Handle.NewOI(),
 	}
 	return BadgeController{DB: db, Redis: redis, UpGrader: upGrader}
 }

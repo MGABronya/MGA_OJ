@@ -168,6 +168,7 @@ func (u UserController) Login(ctx *gin.Context) {
 		log.Printf("token generate error: %v", err)
 		return
 	}
+	log.Printf("token: %v", token)
 	// TODO 返回结果
 	response.Success(ctx, gin.H{"token": token}, "登录成功")
 }

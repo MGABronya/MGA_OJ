@@ -439,12 +439,16 @@ feep:
 		if flag {
 			record.Condition = "Accepted"
 			// TODO 检查是否是今日首次通过
-			if j.DB.Where("condition = Accepted and to_days(created_at) = to_days(now())").First(&model.Record{}).Error != nil {
-				Handle.Behaviors["Accepts"].PublishBehavior(1, record.UserId)
+			if j.DB.Where("user_id = ? and condition = Accepted and to_days(created_at) = to_days(now())", record.UserId).First(&model.Record{}).Error != nil {
+				Handle.Behaviors["Days"].PublishBehavior(1, record.UserId)
 			}
 			// TODO 检查该题目是否是首次通过
-			if j.DB.Where("condition = Accepted and problem_id = ?", record.ProblemId).First(&model.Record{}).Error != nil {
-				Handle.Behaviors["Days"].PublishBehavior(1, record.UserId)
+			if j.DB.Where("user_id = ? and condition = Accepted and problem_id = ?", record.UserId, record.ProblemId).First(&model.Record{}).Error != nil {
+				Handle.Behaviors["Accepts"].PublishBehavior(1, record.UserId)
+				categoryMap := util.ProblemCategory(problem.ID)
+				for category := range categoryMap {
+					Handle.Behaviors[category].PublishBehavior(1, record.UserId)
+				}
 			}
 
 		}

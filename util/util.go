@@ -10,6 +10,7 @@ import (
 	"MGA_OJ/common"
 	"MGA_OJ/model"
 	"MGA_OJ/vo"
+	"context"
 	"encoding/csv"
 	"encoding/json"
 	"encoding/xml"
@@ -41,11 +42,13 @@ import (
 
 // Units		定义了单位换算
 var Units = map[string]uint{
-	"mb": 1024,
-	"kb": 1,
-	"gb": 1024 * 1024,
-	"ms": 1,
-	"s":  1000,
+	"mb":  1024,
+	"mib": 1024,
+	"kb":  1,
+	"kib": 1,
+	"gb":  1024 * 1024,
+	"ms":  1,
+	"s":   1000,
 }
 
 var searchIndex int = 0
@@ -96,6 +99,48 @@ var Tags []string = []string{
 	"串", "KMP", "排序", "快排", "快速排序", "归并排序", "逆序数", "堆排序",
 	"哈希表", "二分", "并查集", "霍夫曼树", "哈夫曼树", "堆", "线段树", "二叉树", "树状数组", "RMQ", "阿朵莉树",
 	"社招", "校招", "面经",
+}
+
+// BasicAlgorithmMap			定义基础算法映射表
+var BasicAlgorithmMap map[string]bool = map[string]bool{
+	"基本算法": true, "基础": true, "简单": true, "练习": true, "编程": true, "枚举": true, "贪心": true, "递归": true, "分治": true, "递推": true, "构造": true, "模拟": true,
+}
+
+// SearchMap			定义搜索映射表
+var SearchMap map[string]bool = map[string]bool{
+	"搜索": true, "深度优先搜索": true, "宽度优先搜索": true, "广度优先搜索": true, "双向搜索": true, "启发式搜索": true, "记忆化搜索": true,
+}
+
+// ComputationalGeometryMap			定义计算几何映射表
+var ComputationalGeometryMap map[string]bool = map[string]bool{
+	"计算几何": true, "几何公式": true, "叉积": true, "点积": true, "多边形": true, "凸包": true, "扫描线": true, "内核": true,
+	"几何工具": true, "平面交线": true, "可视图": true, "点集最小圆覆盖": true, "对踵点": true,
+}
+
+// NumberTheoryMap			定义数论映射表
+var NumberTheoryMap map[string]bool = map[string]bool{
+	"数学": true, "数论": true, "组合数学": true, "排列组合": true, "容斥原理": true, "抽屉原理": true, "置换群": true, "Polya": true, "母函数": true, "MoBius": true, "偏序关系理论": true,
+	"素数": true, "整除": true, "进制": true, "模运算": true, "高斯消元": true, "概率": true, "欧几里得": true, "扩展欧几里得": true,
+	"博弈论": true, "Nim": true, "极大过程": true, "极小过程": true,
+}
+
+// GraphTheoryMap			定义图论映射表
+var GraphTheoryMap map[string]bool = map[string]bool{
+	"图论": true, "拓扑排序": true, "最小生成树": true, "最短路": true, "二分图": true, "匈牙利算法": true, "KM算法": true, "仙人掌": true,
+	"网络流": true, "最小费用最大流": true, "最小费用流": true, "最小割": true, "网络流规约": true, "差分约束": true, "双连通分量": true, "强连通分支": true, "割边": true, "割点": true,
+}
+
+// DynamicProgrammingMap			定义动态规划映射表
+var DynamicProgrammingMap map[string]bool = map[string]bool{
+	"动态规划": true, "背包问题": true, "01背包": true, "完全背包": true, "多维背包": true, "多重背包": true, "区间dp": true, "环形dp": true, "判定性dp": true, "棋盘分割": true,
+	"最长公共子序列": true, "最长上升子序列": true,
+	"二分判定型dp": true, "树型动态规划": true, "最大独立集": true, "状态压缩dp": true, "哈密顿路径": true, "四边形不等式": true, "单调队列": true, "单调栈": true,
+}
+
+// DataStructureMap			定义数据结构映射表
+var DataStructureMap map[string]bool = map[string]bool{
+	"数据结构": true, "串": true, "KMP": true, "排序": true, "快排": true, "快速排序": true, "归并排序": true, "逆序数": true, "堆排序": true,
+	"哈希表": true, "二分": true, "并查集": true, "霍夫曼树": true, "哈夫曼树": true, "堆": true, "线段树": true, "二叉树": true, "树状数组": true, "RMQ": true, "阿朵莉树": true,
 }
 
 // OJMap			支持的oj
@@ -910,6 +955,40 @@ func SixteenToSixtyFour(res string) (string, error) {
 	return str, nil
 }
 
+// @title    SixRandUUID
+// @description  用随机数替换uuid的前六位
+// @auth      MGAronya             2022-9-16 10:29
+// @param     uuidValue uuid.UUID				代替换的uuid
+// @return    uuid.UUID,error				结果uuid以及可能的错误
+func SixRandUUID(uuidValue uuid.UUID) (uuid.UUID, error) {
+	uuidString := uuidValue.String()
+	// TODO 设置随机数种子
+	rand.Seed(time.Now().UnixNano())
+
+	// TODO 生成6位的随机数
+	randomNumber := rand.Intn(0xffffff)
+
+	// TODO 将随机数转换为16进制
+	hexNumber := fmt.Sprintf("%06x", randomNumber)
+
+	uuidString = hexNumber + uuidString[6:]
+
+	return uuid.FromString(uuidString)
+}
+
+// @title    SixZeroUUID
+// @description  用0替换uuid的前六位
+// @auth      MGAronya             2022-9-16 10:29
+// @param     uuidValue uuid.UUID				代替换的uuid
+// @return    uuid.UUID,error				结果uuid以及可能的错误
+func SixZeroUUID(uuidValue uuid.UUID) (uuid.UUID, error) {
+	uuidString := uuidValue.String()
+
+	uuidString = "000000" + uuidString[6:]
+
+	return uuid.FromString(uuidString)
+}
+
 // @title    StateCorrection
 // @description  矫正状态
 // @auth      MGAronya             2022-9-16 10:29
@@ -973,4 +1052,61 @@ func RemoveDuplicates(arr []string) []string {
 	}
 
 	return result
+}
+
+// @title    ProblemCategory
+// @description  题目分类
+// @auth      MGAronya             2022-9-16 10:29
+// @param     ProblemId uuid.UUID				题目id
+// @return    map[string]bool				分类结果
+func ProblemCategory(ProblemId uuid.UUID) map[string]bool {
+	str := make(map[string]bool)
+	redix := common.GetRedisClient(0)
+	db := common.GetDB()
+	ctx := context.Background()
+
+	// TODO 查找数据
+	var problemLabels []model.ProblemLabel
+	// TODO 先尝试在redis中寻找
+	if ok, _ := redix.HExists(ctx, "ProblemLabel", ProblemId.String()).Result(); ok {
+		art, _ := redix.HGet(ctx, "ProblemLabel", ProblemId.String()).Result()
+		if json.Unmarshal([]byte(art), &problemLabels) == nil {
+			goto leap
+		} else {
+			// TODO 解码失败，删除字段
+			redix.HDel(ctx, "ProblemLabel", ProblemId.String())
+		}
+	}
+
+	// TODO 在数据库中查找
+	if db.Where("problem_id = (?)", ProblemId).Find(&problemLabels).Error != nil {
+		return str
+	}
+	{
+		// TODO 将题目标签存入redis供下次使用
+		v, _ := json.Marshal(problemLabels)
+		redix.HSet(ctx, "ProblemLabel", ProblemId, v)
+	}
+
+leap:
+
+	// TODO 查看标签类型进行分类
+	for i := range problemLabels {
+		if BasicAlgorithmMap[problemLabels[i].Label] {
+			str["BasicAlgorithm"] = true
+		} else if ComputationalGeometryMap[problemLabels[i].Label] {
+			str["ComputationalGeometry"] = true
+		} else if DataStructureMap[problemLabels[i].Label] {
+			str["DataStructure"] = true
+		} else if DynamicProgrammingMap[problemLabels[i].Label] {
+			str["DynamicProgramming"] = true
+		} else if GraphTheoryMap[problemLabels[i].Label] {
+			str["GraphTheory"] = true
+		} else if NumberTheoryMap[problemLabels[i].Label] {
+			str["NumberTheory"] = true
+		} else if SearchMap[problemLabels[i].Label] {
+			str["Search"] = true
+		}
+	}
+	return str
 }

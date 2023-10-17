@@ -46,10 +46,10 @@ func CompetitionRoutes(r *gin.Engine) *gin.Engine {
 	competitionRoutes.DELETE("/passwd/delete/:id", middleware.AuthMiddleware(), competitionController.DeletePasswd)
 
 	// TODO 创建比赛标签
-	competitionRoutes.POST("/label/:id/:label", middleware.AuthMiddleware(), competitionController.LabelCreate)
+	competitionRoutes.POST("/label/create/:id/:label", middleware.AuthMiddleware(), competitionController.LabelCreate)
 
 	// TODO 删除比赛标签
-	competitionRoutes.DELETE("/label/:id/:label", middleware.AuthMiddleware(), competitionController.LabelDelete)
+	competitionRoutes.DELETE("/label/delete/:id/:label", middleware.AuthMiddleware(), competitionController.LabelDelete)
 
 	// TODO 查看比赛标签
 	competitionRoutes.GET("/label/:id", competitionController.LabelShow)

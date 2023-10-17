@@ -52,6 +52,10 @@ func (d Days) PublishBehavior(score float64, userId uuid.UUID) error {
 		behavior.Score = 0
 		d.DB.Create(&behavior)
 	}
+	// TODO 查看昨天是否有提交通过
+	if d.DB.Where("condition = Accepted and to_days(now()) - to_days(created_at) = 1").First(&model.Record{}).Error != nil {
+		behavior.Score = 0
+	}
 	behavior.Score += score
 	// TODO 更新值
 	d.DB.Where("name = ? and user_id = ?", "Days", userId).Save(&behavior)

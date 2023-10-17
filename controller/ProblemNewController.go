@@ -314,6 +314,45 @@ levp:
 	}
 
 leep:
+	// TODO 查看等待引用题目能否被解析为外站题目
+	if _, _, err := util.DeCodeUUID(problem.ID); err == nil {
+		// TODO 创建题目
+		problemNew := model.ProblemNew{
+			Title:         problem.Title,
+			TimeLimit:     problem.TimeLimit,
+			MemoryLimit:   problem.MemoryLimit,
+			Description:   problem.Description,
+			ResLong:       problem.ResLong,
+			ResShort:      problem.ResShort,
+			Input:         problem.Input,
+			Output:        problem.Output,
+			Hint:          problem.Hint,
+			Source:        problem.Source,
+			UserId:        problem.UserId,
+			SpecialJudge:  problem.SpecialJudge,
+			Standard:      problem.Standard,
+			InputCheck:    problem.InputCheck,
+			CompetitionId: competition.ID,
+			Score:         uint(score),
+		}
+
+		// TODO 计算题目的uuid
+		problemNew.ID, err = util.SixRandUUID(problem.ID)
+
+		if err != nil {
+			response.Fail(ctx, nil, "题目上传出错，uuid生成错误")
+			return
+		}
+
+		// TODO 插入数据
+		if err := p.DB.Create(&problemNew).Error; err != nil {
+			response.Fail(ctx, nil, "题目上传出错，数据验证有误")
+			return
+		}
+		// TODO 成功
+		response.Success(ctx, nil, "创建成功")
+		return
+	}
 	var caseSamples []model.CaseSample
 	// TODO 先看redis中是否存在
 	if ok, _ := p.Redis.HExists(ctx, "CaseSample", problem_id).Result(); ok {
@@ -531,6 +570,46 @@ levp:
 		return
 	}
 
+	// TODO 查看是否为站内题目
+	uid, _ := util.SixZeroUUID(problem.ID)
+	if _, _, err := util.DeCodeUUID(uid); err == nil {
+		// TODO 创建题目
+		problemNew := model.ProblemNew{
+			Title:         problem.Title,
+			TimeLimit:     problem.TimeLimit,
+			MemoryLimit:   problem.MemoryLimit,
+			Description:   problem.Description,
+			ResLong:       problem.ResLong,
+			ResShort:      problem.ResShort,
+			Input:         problem.Input,
+			Output:        problem.Output,
+			Hint:          problem.Hint,
+			Source:        problem.Source,
+			UserId:        problem.UserId,
+			SpecialJudge:  problem.SpecialJudge,
+			Standard:      problem.Standard,
+			InputCheck:    problem.InputCheck,
+			CompetitionId: competition.ID,
+			Score:         problem.Score,
+		}
+
+		// TODO 计算题目的uuid
+		problemNew.ID, err = util.SixRandUUID(problem.ID)
+
+		if err != nil {
+			response.Fail(ctx, nil, "题目上传出错，uuid生成错误")
+			return
+		}
+
+		// TODO 插入数据
+		if err := p.DB.Create(&problemNew).Error; err != nil {
+			response.Fail(ctx, nil, "题目上传出错，数据验证有误")
+			return
+		}
+		// TODO 成功
+		response.Success(ctx, nil, "创建成功")
+		return
+	}
 	var caseSamples []model.CaseSample
 	// TODO 先看redis中是否存在
 	if ok, _ := p.Redis.HExists(ctx, "CaseSample", problem_id).Result(); ok {

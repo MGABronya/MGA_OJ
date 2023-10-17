@@ -132,8 +132,5 @@ func CollectRoute(r *gin.Engine) *gin.Engine {
 	// TODO 徽章
 	r = routes.BadgeRoutes(r)
 
-	// TODO 邮件
-	r = routes.EmailRoutes(r)
-
 	return r
 }

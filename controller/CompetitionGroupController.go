@@ -5,6 +5,7 @@
 package controller
 
 import (
+	Handle "MGA_OJ/Behavior"
 	"MGA_OJ/Interface"
 	TQ "MGA_OJ/Test-request"
 	"MGA_OJ/common"
@@ -579,9 +580,17 @@ leap:
 		Type:     competition.Type,
 	}
 	v, _ := json.Marshal(recordRabbit)
-	if err := c.RabbitMq.PublishSimple(string(v)); err != nil {
-		response.Fail(ctx, nil, "消息队列出错")
-		return
+	// TODO 查看提交题目能否被解析为外站题目
+	uid, _ := util.SixZeroUUID(record.ProblemId)
+	if _, _, err := util.DeCodeUUID(uid); err != nil {
+		// TODO 加入消息队列用于本地消费
+		if err := c.RabbitMq.PublishSimple(string(v)); err != nil {
+			response.Fail(ctx, nil, "消息队列出错")
+			return
+		}
+	} else {
+		// TODO 如果存在指定平台，交由转发机处理
+		c.Redis.Publish(ctx, "Vjudge", v)
 	}
 	// TODO 发布订阅用于提交列表
 	recordList := vo.RecordList{
@@ -1291,6 +1300,9 @@ success:
 		RecordId: record.ID,
 	}
 
+	// 用户hack行为统计
+	Handle.Behaviors["Hack"].PublishBehavior(1, user.ID)
+
 	// TODO 插入数据
 	if err := c.DB.Create(&hack).Error; err != nil {
 		response.Fail(ctx, nil, "记录上传出错，数据验证有误")
@@ -1597,11 +1609,12 @@ func initGroupCompetition(ctx context.Context, redis *redis.Client, db *gorm.DB,
 }
 
 func finishGroupCompetition(ctx context.Context, redis *redis.Client, db *gorm.DB, competition model.Competition) {
-	if competition.Type != "Single" {
+	if competition.Type != "Group" {
 		log.Println("group competition's type is error!")
 	} else {
 		log.Println("group competition finish!", competition)
 	}
+
 	CompetitionFinish(ctx, redis, db, competition)
 }
 

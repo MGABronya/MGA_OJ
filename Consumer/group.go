@@ -1,6 +1,7 @@
 package consumer
 
 import (
+	Handle "MGA_OJ/Behavior"
 	"MGA_OJ/Interface"
 	TQ "MGA_OJ/Test-request"
 	"MGA_OJ/common"
@@ -447,6 +448,18 @@ leap:
 		// TODO 如果提交通过
 		if flag {
 			record.Condition = "Accepted"
+			// TODO 检查是否是今日首次通过
+			if g.DB.Where("user_id = ? and condition = Accepted and to_days(created_at) = to_days(now())", record.UserId).First(&model.Record{}).Error != nil {
+				Handle.Behaviors["Days"].PublishBehavior(1, record.UserId)
+			}
+			// TODO 检查该题目是否是首次通过
+			if g.DB.Where("user_id = ? and condition = Accepted and problem_id = ?", record.UserId, record.ProblemId).First(&model.Record{}).Error != nil {
+				Handle.Behaviors["Accepts"].PublishBehavior(1, record.UserId)
+				categoryMap := util.ProblemCategory(problem.ID)
+				for category := range categoryMap {
+					Handle.Behaviors[category].PublishBehavior(1, record.UserId)
+				}
+			}
 		}
 		// TODO 查看是否为比赛提交,且比赛已经开始
 		if record.CreatedAt.After(competition.StartTime) && record.CreatedAt.Before(competition.EndTime) {
@@ -528,7 +541,7 @@ leap:
 						// TODO 存入redis供下次使用
 						v, _ := json.Marshal(competitionMembers)
 						g.Redis.HSet(g.ctx, "Competition"+competition.ID.String(), group.ID.String(), v)
-						g.Redis.ZAdd(g.ctx, "CompetitionR"+competition.ID.String(), redis.Z{Score: cR, Member: record.UserId.String()})
+						g.Redis.ZAdd(g.ctx, "CompetitionR"+competition.ID.String(), redis.Z{Score: cR, Member: group.ID.String()})
 						// TODO 发布订阅用于滚榜
 						rankList := vo.RankList{
 							MemberId: group.ID,

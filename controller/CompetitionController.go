@@ -5,6 +5,7 @@
 package controller
 
 import (
+	Handle "MGA_OJ/Behavior"
 	"MGA_OJ/Interface"
 	"MGA_OJ/common"
 	"MGA_OJ/model"
@@ -1270,12 +1271,26 @@ func CompetitionFinish(ctx context.Context, redis *redis.Client, db *gorm.DB, co
 	competitionMemberMap, _ := redis.HGetAll(ctx, "Competition"+competition.ID.String()).Result()
 	competitionRankrs, _ := redis.ZRevRangeWithScores(ctx, "CompetitionR"+competition.ID.String(), 0, -1).Result()
 
+	// MemberProblem	    定义了成员题目映射表
+	var MemberProblem map[uuid.UUID](map[uuid.UUID]bool) = map[uuid.UUID](map[uuid.UUID]bool){}
+
+	var problemNews []model.ProblemNew
+	// TODO 查看题目总数
+	db.Where("competition_id = (?)", competition.ID).Find(&problemNews)
+
 	// TODO 将具体罚时信息全部读出并存入数据库
 	for i := range competitionMemberMap {
 		var competitionMember []model.CompetitionMember
 		json.Unmarshal([]byte(competitionMemberMap[i]), &competitionMember)
 		for j := range competitionMember {
 			db.Create(&competitionMember[j])
+			// TODO 此处记录成员完成题目情况
+			if competitionMember[j].Condition == "Accepted" {
+				if MemberProblem[competitionMember[j].MemberId] == nil {
+					MemberProblem[competitionMember[j].MemberId] = map[uuid.UUID]bool{}
+				}
+				MemberProblem[competitionMember[j].MemberId][competitionMember[j].ProblemId] = true
+			}
 		}
 	}
 	// TODO 将排名信息读出并存入数据库
@@ -1284,7 +1299,30 @@ func CompetitionFinish(ctx context.Context, redis *redis.Client, db *gorm.DB, co
 			Score:     uint(math.Ceil(competitionRankrs[i].Score)),
 			Penalties: time.Duration((float64(uint(math.Ceil(competitionRankrs[i].Score))) - competitionRankrs[i].Score) * 10000000000),
 		}
-		db.Where("member_id = (?)", competitionRankrs[i].Member).Updates(competitionRank)
+		db.Where("member_id = (?)", competitionRankrs[i].Member).Updates(competitionRank).First(&competitionRank)
+		// TODO 此处用于判断比赛是否为小组比赛
+		if competition.Type == "Group" || competition.Type == "Match" {
+			var groupuser []model.UserList
+			db.Where("group_id = (?)", competitionRank.MemberId).Find(&groupuser)
+			// TODO 如果题目全部通过
+			if len(MemberProblem[competitionRank.MemberId]) == len(problemNews) {
+				for j := range groupuser {
+					Handle.Behaviors["AK"].PublishBehavior(1, groupuser[j].UserId)
+				}
+			}
+			// TODO 此处记录排名百分比
+			for j := range groupuser {
+				Handle.Behaviors[competition.Type].PublishBehavior((float64(i+1) / float64(len(competitionRankrs))), groupuser[j].UserId)
+			}
+		} else {
+			// TODO 如果题目全部通过
+			if len(MemberProblem[competitionRank.MemberId]) == len(problemNews) {
+				Handle.Behaviors["AK"].PublishBehavior(1, competitionRank.MemberId)
+			}
+			// TODO 此处记录排名百分比
+			Handle.Behaviors[competition.Type].PublishBehavior((float64(i+1) / float64(len(competitionRankrs))), competitionRank.MemberId)
+		}
+
 	}
 
 }

@@ -9,6 +9,7 @@ import (
 	"MGA_OJ/common"
 	"MGA_OJ/model"
 	"MGA_OJ/response"
+	"MGA_OJ/util"
 	"MGA_OJ/vo"
 	"context"
 	"encoding/json"
@@ -810,7 +811,7 @@ func initOICompetition(ctx context.Context, redis *redis.Client, db *gorm.DB, co
 func finishOICompetition(ctx context.Context, redis *redis.Client, db *gorm.DB, competition model.Competition) {
 	if competition.Type != "Single" {
 		log.Println("single competition's type is error!")
-	} else {
+	} else {        
 		log.Println("single competition finish!", competition)
 	}
 	RabbitMq := common.GetRabbitMq()
@@ -823,9 +824,14 @@ func finishOICompetition(ctx context.Context, redis *redis.Client, db *gorm.DB, 
 			Type:     competition.Type,
 		}
 		v, _ := json.Marshal(recordRabbit)
-		if err := RabbitMq.PublishSimple(string(v)); err != nil {
-			log.Println(err)
-			return
+		// TODO 查看提交题目能否被解析为外站题目
+		uid, _ := util.SixZeroUUID(records[i].ProblemId)
+		if _, _, err := util.DeCodeUUID(uid); err != nil {
+			// TODO 加入消息队列用于本地消费
+			RabbitMq.PublishSimple(string(v))
+		} else {
+			// TODO 如果存在指定平台，交由转发机处理
+			redis.Publish(ctx, "Vjudge", v)
 		}
 		// TODO 发布订阅用于提交列表
 		recordList := vo.RecordList{
