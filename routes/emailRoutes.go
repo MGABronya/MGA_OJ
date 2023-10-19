@@ -6,7 +6,6 @@ package routes
 
 import (
 	"MGA_OJ/controller"
-	"MGA_OJ/middleware"
 
 	"github.com/gin-gonic/gin"
 )
@@ -25,10 +24,10 @@ func EmailRoutes(r *gin.Engine) *gin.Engine {
 	emailController := controller.NewEmailController()
 
 	// TODO 发送邮件
-	emailRoutes.POST("/send/:id", middleware.AuthMiddleware(), emailController.Send)
+	emailRoutes.POST("/send/:id", emailController.Send)
 
 	// TODO 接收邮件
-	emailRoutes.POST("/receive", middleware.AuthMiddleware(), emailController.Receive)
+	emailRoutes.POST("/receive", emailController.Receive)
 
 	return r
 }

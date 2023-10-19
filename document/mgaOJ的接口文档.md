@@ -288,6 +288,10 @@
 
 **Email**（邮件收发）
 
+### 文本相似度服务
+
+**Ngram**（文本相似度）
+
 ## 路由们
 
 ### 模型：Article
@@ -1202,7 +1206,7 @@
 
     请求参数：竞赛的uuid（在接口地址的competition处）以及成员的uuid（在接口地址的member处）。
 
-    返回值：成功时，以json格式返回一个competitionMembers，其为competitionMember数组，每个元素包含了created_at、updated_at、member_id、competition_id、problem_id、penalties、condition，其中penalties为具体罚时，condition为当前题目状态。
+    返回值：成功时，以json格式返回一个competitionMembers，其为competitionMember数组，每个元素包含了created_at、updated_at、member_id、competition_id、problem_id、penalties、condition、record_id，其中penalties为具体罚时，condition为当前题目状态，record_id为最新一次（或最早通过）的提交情况。
 
   - **接口地址：/rank/list/:id**
 
@@ -1897,7 +1901,7 @@
 
     **方法类型：POST**
 
-    请求参数：在id处给出要发送的邮箱地址，邮箱地址必须为数据库中存在的邮箱。Authorization中的Bearer Token中提供注册、登录时给出的token。需要2级以上权限。在Body，raw格式给出json类型数据包含 Text表示邮件内容。
+    请求参数：在id处给出要发送的邮箱地址。在Body，raw格式给出json类型数据包含 Text表示邮件内容。
 
     返回值：成功时，返回成功消息。
 
@@ -1907,7 +1911,7 @@
 
     **方法类型：POST**
 
-    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含 Text表示邮件内容。
+    请求参数：在Body，raw格式给出json类型数据包含 Text表示邮件内容。
 
     返回值：成功时，返回成功消息，如果失败则返回失败原因。
 
@@ -2725,6 +2729,27 @@
     请求参数：指定用户的uuid（在接口地址的id处）。在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少篇文章，默认值为20）。
 
     返回值：成功时，以json格式返回一个数组messages和total，messages返回了相应列表的留言信息（按照创建时间排序，越新创建排序越前），total表示留言总量，如果失败则返回失败原因。
+
+### 模型：Ngram
+
+定义：文本相似度
+
+**基础路由：/ngram**
+
+实现的接口类型：
+
+- **其它**
+
+  - **接口地址：/similarity**
+
+    **功能：计算文本相似度**
+
+    **方法类型：POST**
+
+    请求参数：在Body，raw格式给出json类型数据包含texts，其为string数组，表示要进行计算相似度的所有代码。
+
+    返回值：成功时，以json格式返回一个二维数组similarity，similarity\[i\]\[j\]表示第i个代码和第j个代码的相似度（i、j均从0开始）。
+
 
 ### 模型：Notice
 

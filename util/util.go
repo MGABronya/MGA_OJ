@@ -1110,3 +1110,110 @@ leap:
 	}
 	return str
 }
+
+// @title    RemoveComments
+// @description  移除注释函数
+// @auth      MGAronya             2022-9-16 10:29
+// @param     text string					代码文本
+// @return    string						移除注释后的代码文本
+func RemoveComments(text string) string {
+	pattern := `\/\/.*|\/\*[\s\S]*?\*\/`
+	re := regexp.MustCompile(pattern)
+	return re.ReplaceAllString(text, "")
+}
+
+// @title    RemoveComments
+// @description  移除头文件
+// @auth      MGAronya             2022-9-16 10:29
+// @param     text string					代码文本
+// @return    string						移除头文件后的代码文本
+func RemoveHeads(text string) string {
+	pattern := `#.*`
+	re := regexp.MustCompile(pattern)
+	return re.ReplaceAllString(text, "")
+}
+
+// @title    RemoveSpaces
+// @description  移除空格、换行符、制表符等函数
+// @auth      MGAronya             2022-9-16 10:29
+// @param     text string					代码文本
+// @return    string						移除空格、换行符、制表符等函数后的代码文本
+func RemoveSpaces(text string) string {
+	pattern := `\s+`
+	re := regexp.MustCompile(pattern)
+	return re.ReplaceAllString(text, "")
+}
+
+// @title    ToLowerCase
+// @description  小写化函数
+// @auth      MGAronya             2022-9-16 10:29
+// @param     text string					代码文本
+// @return    string						小写化函数后的代码文本
+func ToLowerCase(text string) string {
+	return strings.ToLower(text)
+}
+
+// @title    ComputeNgramFreq
+// @description  计算n-gram词频函数
+// @auth      MGAronya             2022-9-16 10:29
+// @param     text string					代码文本
+// @return    map[string]int				n-gram词频
+func ComputeNgramFreq(text string, n int) map[string]int {
+	// 移除注释
+	text = RemoveComments(text)
+	// 移除头文件
+	text = RemoveHeads(text)
+	// 移除空格、换行符、制表符等
+	text = RemoveSpaces(text)
+	// 小写化
+	text = ToLowerCase(text)
+	// 移除变量名
+	//text = remove_variables(text)
+	// 将文本按照n-gram分割成子串
+	sub_strings := make([]string, 0)
+	for i := 0; i <= len(text)-n; i++ {
+		sub_strings = append(sub_strings, text[i:i+n])
+	}
+	// 统计每个子串出现的次数
+	freq := make(map[string]int)
+	for _, subString := range sub_strings {
+		freq[subString]++
+	}
+
+	return freq
+}
+
+// @title    ComputeSimilarity
+// @description  计算两个文本的n-gram词频相似度函数
+// @auth      MGAronya             2022-9-16 10:29
+// @param     text1 string, text2 string, n int					代码文本
+// @return    float64											相似度
+func ComputeSimilarity(text1 string, text2 string, n int) float64 {
+	// 计算n-gram词频
+	freq1 := ComputeNgramFreq(text1, n)
+	freq2 := ComputeNgramFreq(text2, n)
+	// 计算相似度
+	common_keys := make(map[string]bool)
+	for key := range freq1 {
+		common_keys[key] = true
+	}
+	for key := range freq2 {
+		common_keys[key] = true
+	}
+
+	numerator := 0
+	for key := range common_keys {
+		numerator += freq1[key] * freq2[key]
+	}
+
+	denominator := 0
+	for _, freq := range freq1 {
+		denominator += freq * freq
+	}
+	denominator *= 0
+	for _, freq := range freq2 {
+		denominator += freq * freq
+	}
+
+	return float64(numerator) / float64(denominator)
+}

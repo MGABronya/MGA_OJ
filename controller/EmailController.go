@@ -5,14 +5,12 @@
 package controller
 
 import (
-	"MGA_OJ/model"
 	"MGA_OJ/response"
 	"MGA_OJ/util"
 	"MGA_OJ/vo"
 	"log"
 
 	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
 )
 
 // IEmailController			定义了邮件类接口
@@ -23,7 +21,6 @@ type IEmailController interface {
 
 // EmailController			定义了邮件工具类
 type EmailController struct {
-	DB *gorm.DB // 含有一个数据库指针
 }
 
 // @title    Send
@@ -32,9 +29,6 @@ type EmailController struct {
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (e EmailController) Send(ctx *gin.Context) {
-	// TODO 获取登录用户
-	tuser, _ := ctx.Get("user")
-	user := tuser.(model.User)
 
 	// TODO 查找对应文本
 	var requestTest vo.TextRequest
@@ -44,21 +38,10 @@ func (e EmailController) Send(ctx *gin.Context) {
 		response.Fail(ctx, nil, "数据验证错误")
 		return
 	}
-
-	// TODO 取出用户权限
-	if user.Level < 2 {
-		response.Fail(ctx, nil, "用户权限不足")
-		return
-	}
-
 	// TODO 指定邮箱
 	email := ctx.Params.ByName("id")
 
-	if !util.IsEmailExist(e.DB, email) {
-		response.Fail(ctx, nil, "邮箱不存在")
-		return
-	}
-	err := util.SendEmail([]string{user.Email}, requestTest.Text)
+	err := util.SendEmail([]string{email}, requestTest.Text)
 
 	// TODO 返回结果
 	response.Success(ctx, nil, err.Error())
@@ -71,9 +54,6 @@ func (e EmailController) Send(ctx *gin.Context) {
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (e EmailController) Receive(ctx *gin.Context) {
-	// TODO 获取登录用户
-	tuser, _ := ctx.Get("user")
-	user := tuser.(model.User)
 
 	// TODO 查找对应文本
 	var requestTest vo.TextRequest
@@ -84,7 +64,7 @@ func (e EmailController) Receive(ctx *gin.Context) {
 		return
 	}
 
-	err := util.SendEmail([]string{"20jzhang@stu.edu.cn"}, user.Email+":\n"+requestTest.Text)
+	err := util.SendEmail([]string{"20jzhang@stu.edu.cn"}, requestTest.Text)
 
 	// TODO 返回结果
 	response.Success(ctx, nil, err.Error())

@@ -708,7 +708,6 @@ leep:
 			response.Fail(ctx, nil, "比赛未开始")
 			return
 		}
-
 	}
 	// TODO 订阅消息
 	pubSub := c.Redis.Subscribe(ctx, "RecordCompetitionChan"+id)

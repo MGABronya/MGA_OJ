@@ -503,6 +503,7 @@ leap:
 					}
 					// TODO 如果分数上升
 					if score > 0 {
+						competitionMembers[k].RecordId = record.ID
 						// TODO 记入罚时
 						cR -= float64(competitionMembers[k].Penalties) / 10000000000
 						cR += float64(score)

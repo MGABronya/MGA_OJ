@@ -21,7 +21,7 @@ func CollectRoute(r *gin.Engine) *gin.Engine {
 	// TODO 添加中间件
 	r.Use(middleware.CORSMiddleware(), middleware.RecoveryMiddleware())
 
-	// TODO 挂上文件路由
+	// TODO 挂上邮件路由
 	r = routes.EmailRoutes(r)
 
 	return r

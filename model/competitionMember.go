@@ -22,6 +22,7 @@ type CompetitionMember struct {
 	Penalties     time.Duration `json:"penalties" gorm:"type:timestamp;not null"`                             // 罚时
 	Condition     string        `json:"condition" gorm:"type:varchar(64);not null"`                           // 记录状态
 	Pass          uint          `json:"pass" gorm:"type:uint;not null"`                                       // 通过用例数量
+	RecordId      uuid.UUID     `json:"record_id" gorm:"char(36);index:idx_recordId;not null"`                // 提交外键
 }
 
 // @title    BeforeCreate
