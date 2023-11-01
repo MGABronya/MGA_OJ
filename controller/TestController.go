@@ -5,11 +5,14 @@
 package controller
 
 import (
+	"MGA_OJ/common"
+	"MGA_OJ/model"
 	"MGA_OJ/response"
 	"MGA_OJ/util"
 	"MGA_OJ/vo"
 	"bufio"
 	"bytes"
+	"encoding/json"
 	"log"
 	"math"
 	"os"
@@ -19,6 +22,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-redis/redis/v9"
 )
 
 // ITestController			定义了测试类接口
@@ -28,8 +32,11 @@ type ITestController interface {
 
 // TestController			定义了测试工具类
 type TestController struct {
-	rw *sync.RWMutex
+	rw    *sync.RWMutex
+	Redis *redis.Client // 含有一个redis指针
 }
+
+var HeartRW *sync.RWMutex
 
 // @title    Create
 // @description   创建一篇测试
@@ -39,6 +46,16 @@ type TestController struct {
 func (t TestController) Create(ctx *gin.Context) {
 	// TODO 单核处理，此处上锁
 	t.rw.Lock()
+	// TODO 发出忙碌心跳
+	heart := model.Heart{DockerId: common.DockerId, Condition: "Running", TimesTamp: model.Time(time.Now())}
+	v, _ := json.Marshal(heart)
+	t.Redis.Publish(ctx, "heart", v)
+	defer func() {
+		// TODO 发出完成心跳
+		heart := model.Heart{DockerId: common.DockerId, Condition: "Finish", TimesTamp: model.Time(time.Now())}
+		v, _ := json.Marshal(heart)
+		t.Redis.Publish(ctx, "heart", v)
+	}()
 	// TODO 此处确保资源归还
 	defer t.rw.Unlock()
 	var requestTest vo.TestRequest
@@ -68,7 +85,9 @@ func (t TestController) Create(ctx *gin.Context) {
 // @param    void
 // @return   ITestController		返回一个ITestController用于调用各种函数
 func NewTestController() ITestController {
-	return TestController{rw: &sync.RWMutex{}}
+	redis := common.GetRedisClient(0)
+
+	return TestController{Redis: redis, rw: HeartRW}
 }
 
 // @title    Test

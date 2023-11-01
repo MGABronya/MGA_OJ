@@ -17,6 +17,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"math/rand"
 	"net/http"
 	"strconv"
 	"time"
@@ -118,7 +119,10 @@ leep:
 	// TODO 查看提交题目能否被解析为外站题目
 	if _, _, err := util.DeCodeUUID(record.ProblemId); err != nil {
 		// TODO 加入消息队列用于本地消费
-		if err := r.Rabbitmq.PublishSimple(string(v)); err != nil {
+		if SubmitCheck() {
+			// TODO 如果需要转发到云端，交由转发机处理
+			r.Redis.Publish(ctx, "Cloud", v)
+		} else if err := r.Rabbitmq.PublishSimple(string(v)); err != nil {
 			response.Fail(ctx, nil, "消息队列出错")
 			return
 		}
@@ -705,6 +709,48 @@ func Transponder() {
 	}
 }
 
+// @title    Clouder
+// @description   云转发器，用于转发提交
+// @auth      MGAronya       2022-9-16 12:23
+// @param    void
+// @return   void
+func Clouder() {
+	redis := common.GetRedisClient(0)
+	db := common.GetDB()
+	ctx := context.Background()
+	// TODO 订阅消息
+	pubSub := redis.Subscribe(ctx, "Cloud")
+	defer pubSub.Close()
+	// TODO 获得消息管道
+	ch := pubSub.Channel()
+	// TODO 监听消息
+	for msg := range ch {
+		var recordRaabbit vo.RecordRabbit
+		json.Unmarshal([]byte(msg.Payload), &recordRaabbit)
+		// TODO 尝试在redis中取出该提交
+		var record model.Record
+		// TODO 先看redis中是否存在
+		if ok, _ := redis.HExists(ctx, "Record", recordRaabbit.RecordId.String()).Result(); ok {
+			cate, _ := redis.HGet(ctx, "Record", recordRaabbit.RecordId.String()).Result()
+			// TODO 移除损坏数据
+			redis.HDel(ctx, "Record", recordRaabbit.RecordId.String())
+			if json.Unmarshal([]byte(cate), &record) == nil {
+				// TODO 跳过数据库搜寻过程
+				goto feep
+			}
+		}
+
+		// TODO 未能找到提交记录
+		if db.Where("id = (?)", recordRaabbit.RecordId).First(&record).Error != nil {
+			log.Printf("%s Record Disappear!!\n", recordRaabbit.RecordId.String())
+			return
+		}
+	feep:
+		// TODO 尝试将该提交转发至云端
+		go ClouderMap[recordRaabbit.Type](record)
+	}
+}
+
 // TrackerMap		跟踪器映射表
 var TrackerMap map[string]func(source string, runid string, proid string, record model.Record) = map[string]func(source string, runid string, proid string, record model.Record){
 	"Group":  GroupTracker,
@@ -712,6 +758,15 @@ var TrackerMap map[string]func(source string, runid string, proid string, record
 	"Normal": NormalTracker,
 	"Single": SingleTracker,
 	"OI":     SingleTracker,
+}
+
+// ClouderMap		云端映射表
+var ClouderMap map[string]func(record model.Record) = map[string]func(record model.Record){
+	"Group":  GroupClouder,
+	"Match":  GroupClouder,
+	"Normal": NormalClouder,
+	"Single": SingleClouder,
+	"OI":     SingleClouder,
 }
 
 // @title    NormalTracker
@@ -783,6 +838,258 @@ func NormalTracker(source string, runid string, proid string, record model.Recor
 		Memory:   uint(m),
 	}
 	db.Create(&cas)
+}
+
+// @title    NormalClouder
+// @description   普通提交到云端
+// @auth      MGAronya       2022-9-16 12:23
+// @param    void
+// @return   void
+func NormalClouder(record model.Record) {
+	redis := common.GetRedisClient(0)
+	db := common.GetDB()
+	ctx := context.Background()
+	// TODO 提交订阅
+	var recordCase vo.RecordCase
+	recordCase.CaseId = 0
+	// TODO 发布订阅用于提交列表
+	recordList := vo.RecordList{
+		RecordId: record.ID,
+	}
+	// TODO 确保信息进入频道
+	defer func() {
+		// TODO 将recordlist打包
+		v, _ := json.Marshal(recordList)
+		redis.Publish(ctx, "RecordChan", v)
+		// TODO 将record存入redis
+		v, _ = json.Marshal(record)
+		redis.HSet(ctx, "Record", fmt.Sprint(record.ID), v)
+		// TODO 提交长连接
+		{
+			recordCase.Condition = record.Condition
+			v, _ := json.Marshal(recordCase)
+			redis.Publish(ctx, "RecordChan"+record.ID.String(), v)
+		}
+		// TODO 将record存入mysql
+		db.Save(&record)
+	}()
+
+	// TODO 一些准备工作
+	{
+		record.Condition = "Preparing"
+		// TODO 将recordlist打包
+		v, _ := json.Marshal(recordList)
+		redis.Publish(ctx, "RecordChan", v)
+		// TODO 将record存入redis
+		v, _ = json.Marshal(record)
+		redis.HSet(ctx, "Record", fmt.Sprint(record.ID), v)
+		// TODO 提交长连接
+		{
+			recordCase.Condition = "Preparing"
+			v, _ := json.Marshal(recordCase)
+			redis.Publish(ctx, "RecordChan"+record.ID.String(), v)
+		}
+	}
+	// TODO 查看代码是否为空
+	if record.Code == "" {
+		record.Condition = "Code is empty"
+		return
+	}
+	// TODO 找到提交记录后，开始判题逻辑
+	if cmdI, ok := util.LanguageMap[record.Language]; ok {
+		// TODO 从数据库中读出输入输出
+		var cases []model.Case
+		var problem model.Problem
+		// TODO 先看redis中是否存在
+		id := fmt.Sprint(record.ProblemId)
+		if ok, _ := redis.HExists(ctx, "Problem", id).Result(); ok {
+			cate, _ := redis.HGet(ctx, "Problem", id).Result()
+			if json.Unmarshal([]byte(cate), &problem) == nil {
+				// TODO 跳过数据库搜寻problem过程
+				goto leep
+			} else {
+				// TODO 移除损坏数据
+				redis.HDel(ctx, "Problem", id)
+			}
+		}
+
+		// TODO 查看题目是否在数据库中存在
+		if db.Where("id = (?)", id).First(&problem).Error != nil {
+			record.Condition = "Problem Doesn't Exist"
+			return
+		}
+		// TODO 将题目存入redis供下次使用
+		{
+			v, _ := json.Marshal(problem)
+			redis.HSet(ctx, "Problem", id, v)
+		}
+
+	leep:
+
+		// TODO 查找用例
+		if ok, _ := redis.HExists(ctx, "Case", id).Result(); ok {
+			cate, _ := redis.HGet(ctx, "Case", id).Result()
+			if json.Unmarshal([]byte(cate), &cases) == nil {
+				// TODO 跳过数据库搜寻testInputs过程
+				goto Case
+			} else {
+				// TODO 移除损坏数据
+				redis.HDel(ctx, "Case", id)
+			}
+		}
+
+		// TODO 查看题目是否在数据库中存在
+		if db.Where("problem_id = (?)", id).Find(&cases).Error != nil {
+			record.Condition = "Input Doesn't Exist"
+			return
+		}
+		// TODO 将题目存入redis供下次使用
+		{
+			v, _ := json.Marshal(cases)
+			redis.HSet(ctx, "Case", id, v)
+		}
+	Case:
+
+		// TODO 记录是否通过
+		flag := true
+
+		// TODO 开始运行工作
+		{
+			record.Condition = "Running"
+			// TODO 将recordlist打包
+			v, _ := json.Marshal(recordList)
+			redis.Publish(ctx, "RecordChan", v)
+			// TODO 将record存入redis
+			v, _ = json.Marshal(record)
+			redis.HSet(ctx, "Record", fmt.Sprint(record.ID), v)
+			// TODO 提交长连接
+			{
+				recordCase.Condition = "Running"
+				v, _ := json.Marshal(recordCase)
+				redis.Publish(ctx, "RecordChan"+record.ID.String(), v)
+			}
+		}
+
+		// TODO 最终将所有用例填入cases
+		caseConditions := make([]model.CaseCondition, 0)
+
+		defer func() {
+			for i := range caseConditions {
+				db.Create(&caseConditions[i])
+			}
+		}()
+
+		for i := 0; i < len(cases); i++ {
+			// TODO 将用例添加至最终数组
+			cas := model.CaseCondition{
+				RecordId: record.ID,
+				Input:    cases[i].Input,
+				Output:   cases[i].Output,
+				CID:      uint(i + 1),
+			}
+			caseConditions = append(caseConditions, cas)
+
+			// TODO 提交到云端
+			condition, output, time, memory := TQ.CloudRun(record.Language, record.Code, cases[i].Input, problem.MemoryLimit*3, problem.TimeLimit*3)
+			if condition != "ok" {
+				record.Condition = condition
+				flag = false
+				goto final
+			}
+
+			// TODO 更新用例通过情况
+			caseConditions[i].Time = uint(time)
+			caseConditions[i].Memory = uint(memory)
+			// TODO 超时
+			if caseConditions[i].Time > problem.TimeLimit*cmdI.TimeMultiplier() {
+				record.Condition = "Time Limit Exceeded"
+				flag = false
+				goto final
+			}
+			// TODO 超出内存限制
+			if caseConditions[i].Memory > problem.MemoryLimit*cmdI.MemoryMultiplier() {
+				record.Condition = "Memory Limit Exceeded"
+				flag = false
+				goto final
+			}
+			// TODO 答案错误
+			var specalJudge model.Program
+			// TODO 查看题目是否有标准程序
+
+			// TODO 先看redis中是否存在
+			if ok, _ := redis.HExists(ctx, "Program", problem.SpecialJudge.String()).Result(); ok {
+				cate, _ := redis.HGet(ctx, "Program", problem.SpecialJudge.String()).Result()
+				if json.Unmarshal([]byte(cate), &specalJudge) == nil {
+					// TODO 跳过数据库搜寻program过程
+					goto special
+				} else {
+					// TODO 移除损坏数据
+					redis.HDel(ctx, "Program", problem.SpecialJudge.String())
+				}
+			}
+
+			// TODO 查看程序是否在数据库中存在
+			if db.Where("id = (?)", problem.SpecialJudge.String()).First(&specalJudge).Error != nil {
+				goto outPut
+			}
+			// TODO 将题目存入redis供下次使用
+			{
+				v, _ := json.Marshal(specalJudge)
+				redis.HSet(ctx, "Program", problem.SpecialJudge.String(), v)
+			}
+		special:
+			// TODO 进行特判
+			{
+				if condition, output := TQ.JudgeRun(specalJudge.Language, specalJudge.Code, cases[i].Input+"\n"+output, problem.MemoryLimit*3, problem.TimeLimit*3); condition != "ok" || output != "ok" {
+					record.Condition = condition
+					flag = false
+					goto final
+				}
+				goto pass
+			}
+		outPut:
+			// TODO 正常判断
+			if output != cases[i].Output {
+				// TODO 去除格式后查看是否正确
+				if util.RemoveWhiteSpace(output) == util.RemoveWhiteSpace(cases[i].Output) {
+					record.Condition = "Presentation Error"
+					flag = false
+					goto final
+				}
+				record.Condition = "Wrong Answer"
+				flag = false
+				goto final
+			}
+		pass:
+			// TODO 通过数量+1
+			record.Pass++
+			// TODO 长连接返回实时通过用例情况
+			recordCase.CaseId++
+			// TODO 将recordlist打包
+			v, _ := json.Marshal(recordCase)
+			redis.Publish(ctx, "RecordChan"+id, v)
+		}
+	final:
+		// TODO 如果提交通过
+		if flag {
+			record.Condition = "Accepted"
+			// TODO 检查是否是今日首次通过
+			if db.Where("user_id = ? and condition = Accepted and to_days(created_at) = to_days(now())", record.UserId).First(&model.Record{}).Error != nil {
+				Handle.Behaviors["Days"].PublishBehavior(1, record.UserId)
+			}
+			// TODO 检查该题目是否是首次通过
+			if db.Where("user_id = ? and condition = Accepted and problem_id = ?", record.UserId, record.ProblemId).First(&model.Record{}).Error != nil {
+				Handle.Behaviors["Accepts"].PublishBehavior(1, record.UserId)
+				categoryMap := util.ProblemCategory(problem.ID)
+				for category := range categoryMap {
+					Handle.Behaviors[category].PublishBehavior(1, record.UserId)
+				}
+			}
+
+		}
+	} else {
+		record.Condition = "Language Error"
+	}
 }
 
 // @title    SingleTracker
@@ -971,6 +1278,333 @@ leap:
 				}
 			}
 		}
+	}
+}
+
+// @title    SingleClouder
+// @description   单人赛提交到云端
+// @auth      MGAronya       2022-9-16 12:23
+// @param    void
+// @return   void
+func SingleClouder(record model.Record) {
+	redix := common.GetRedisClient(0)
+	db := common.GetDB()
+	ctx := context.Background()
+	log.Println("Single work for record")
+
+	var problem model.ProblemNew
+	// TODO 先看redis中是否存在
+	id := fmt.Sprint(record.ProblemId)
+	if ok, _ := redix.HExists(ctx, "ProblemNew", id).Result(); ok {
+		cate, _ := redix.HGet(ctx, "ProblemNew", id).Result()
+		if json.Unmarshal([]byte(cate), &problem) == nil {
+			// TODO 跳过数据库搜寻problem过程
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			redix.HDel(ctx, "ProblemNew", id)
+		}
+	}
+	// TODO 查看题目是否在数据库中存在
+	if db.Where("id = (?)", id).First(&problem).Error != nil {
+		record.Condition = "Problem Doesn't Exist"
+		// TODO 将record存入redis
+		v, _ := json.Marshal(record)
+		redix.HSet(ctx, "RecordCompetition", fmt.Sprint(record.ID), v)
+		// TODO 将record存入mysql
+		db.Save(&record)
+		return
+	}
+	// TODO 将题目存入redis供下次使用
+	{
+		v, _ := json.Marshal(problem)
+		redix.HSet(ctx, "Problem", id, v)
+	}
+leep:
+	var competition model.Competition
+	// TODO 先看redis中是否存在
+	if ok, _ := redix.HExists(ctx, "Competition", problem.CompetitionId.String()).Result(); ok {
+		cate, _ := redix.HGet(ctx, "Competition", problem.CompetitionId.String()).Result()
+		if json.Unmarshal([]byte(cate), &competition) == nil {
+			// TODO 跳过数据库搜寻competition过程
+			goto leap
+		} else {
+			// TODO 移除损坏数据
+			redix.HDel(ctx, "Competition", problem.CompetitionId.String())
+		}
+	}
+	// TODO 查看比赛是否在数据库中存在
+	if db.Where("id = (?)", problem.CompetitionId.String()).First(&competition).Error != nil {
+		record.Condition = "Competition Doesn't Exist"
+		// TODO 将record存入redis
+		v, _ := json.Marshal(record)
+		redix.HSet(ctx, "RecordCompetition", fmt.Sprint(record.ID), v)
+		// TODO 将record存入mysql
+		db.Save(&record)
+		return
+	}
+	// TODO 将题目存入redis供下次使用
+	{
+		v, _ := json.Marshal(competition)
+		redix.HSet(ctx, "Competition", problem.CompetitionId.String(), v)
+	}
+leap:
+	// TODO 发布订阅用于提交列表
+	recordList := vo.RecordList{
+		RecordId: record.ID,
+	}
+	// TODO 确保信息进入频道
+	defer func() {
+		// TODO 将recordlist打包
+		v, _ := json.Marshal(recordList)
+		redix.Publish(ctx, "RecordCompetitionChan"+problem.CompetitionId.String(), v)
+		// TODO 将record存入redis
+		v, _ = json.Marshal(record)
+		redix.HSet(ctx, "RecordCompetition", fmt.Sprint(record.ID), v)
+		// TODO 将record存入mysql
+		db.Save(&record)
+		log.Println("Record Save", record)
+	}()
+	// TODO 一些准备工作
+	{
+		record.Condition = "Preparing"
+		// TODO 将recordlist打包
+		v, _ := json.Marshal(recordList)
+		redix.Publish(ctx, "RecordCompetitionChan"+problem.CompetitionId.String(), v)
+		// TODO 将record存入redis
+		v, _ = json.Marshal(record)
+		redix.HSet(ctx, "RecordCompetition", fmt.Sprint(record.ID), v)
+	}
+	// TODO 查看代码是否为空
+	if record.Code == "" {
+		record.Condition = "Code is empty"
+		return
+	}
+	// TODO 找到提交记录后，开始判题逻辑
+	if cmdI, ok := util.LanguageMap[record.Language]; ok {
+		// TODO 从数据库中读出输入输出
+		var cases []model.Case
+
+		// TODO 查找用例
+		if ok, _ := redix.HExists(ctx, "Case", id).Result(); ok {
+			cate, _ := redix.HGet(ctx, "Case", id).Result()
+			if json.Unmarshal([]byte(cate), &cases) == nil {
+				// TODO 跳过数据库搜寻testInputs过程
+				goto Case
+			} else {
+				// TODO 移除损坏数据
+				redix.HDel(ctx, "Case", id)
+			}
+		}
+
+		// TODO 查看题目是否在数据库中存在
+		if db.Where("problem_id = (?)", id).Find(&cases).Error != nil {
+			record.Condition = "Input Doesn't Exist"
+			return
+		}
+		// TODO 将题目存入redis供下次使用
+		{
+			v, _ := json.Marshal(cases)
+			redix.HSet(ctx, "Case", id, v)
+		}
+	Case:
+
+		// TODO 记录是否通过
+		flag := true
+
+		// TODO 开始运行工作
+		{
+			record.Condition = "Runing"
+			// TODO 将recordlist打包
+			v, _ := json.Marshal(recordList)
+			redix.Publish(ctx, "RecordCompetitionChan"+problem.CompetitionId.String(), v)
+			// TODO 将record存入redis
+			v, _ = json.Marshal(record)
+			redix.HSet(ctx, "RecordCompetition", fmt.Sprint(record.ID), v)
+		}
+
+		// TODO 最终将所有用例填入cases
+		caseConditions := make([]model.CaseCondition, 0)
+
+		defer func() {
+			for i := range caseConditions {
+				db.Create(caseConditions[i])
+			}
+		}()
+
+		for i := 0; i < len(cases); i++ {
+			// TODO 将用例添加至最终数组
+			cas := model.CaseCondition{
+				RecordId: record.ID,
+				Input:    cases[i].Input,
+				CID:      uint(i + 1),
+			}
+			caseConditions = append(caseConditions, cas)
+
+			// TODO 提交到云端
+			condition, output, time, memory := TQ.CloudRun(record.Language, record.Code, cases[i].Input, problem.MemoryLimit*3, problem.TimeLimit*3)
+			if condition != "ok" {
+				record.Condition = condition
+				flag = false
+				goto final
+			}
+			// TODO 更新用例通过情况
+			caseConditions[i].Time = uint(time)
+			caseConditions[i].Memory = uint(memory)
+			// TODO 超时
+			if caseConditions[i].Time > problem.TimeLimit*cmdI.TimeMultiplier() {
+				record.Condition = "Time Limit Exceeded"
+				flag = false
+				goto final
+			}
+			// TODO 超出内存限制
+			if caseConditions[i].Memory > problem.MemoryLimit*cmdI.MemoryMultiplier() {
+				record.Condition = "Memory Limit Exceeded"
+				flag = false
+				goto final
+			}
+			// TODO 答案错误
+			var specalJudge model.Program
+			// TODO 查看题目是否有标准程序
+
+			// TODO 先看redis中是否存在
+			if ok, _ := redix.HExists(ctx, "Program", problem.SpecialJudge.String()).Result(); ok {
+				cate, _ := redix.HGet(ctx, "Program", problem.SpecialJudge.String()).Result()
+				if json.Unmarshal([]byte(cate), &specalJudge) == nil {
+					// TODO 跳过数据库搜寻program过程
+					goto special
+				} else {
+					// TODO 移除损坏数据
+					redix.HDel(ctx, "Program", problem.SpecialJudge.String())
+				}
+			}
+
+			// TODO 查看程序是否在数据库中存在
+			if db.Where("id = (?)", problem.SpecialJudge.String()).First(&specalJudge).Error != nil {
+				goto outPut
+			}
+			// TODO 将题目存入redis供下次使用
+			{
+				v, _ := json.Marshal(specalJudge)
+				redix.HSet(ctx, "Program", problem.SpecialJudge.String(), v)
+			}
+		special:
+			// TODO 进行特判
+			{
+				if condition, output := TQ.JudgeRun(specalJudge.Language, specalJudge.Code, cases[i].Input+"\n"+output, problem.MemoryLimit*3, problem.TimeLimit*3); condition != "ok" || output != "ok" {
+					record.Condition = condition
+					flag = false
+					goto final
+				}
+				goto pass
+			}
+		outPut:
+			// TODO 正常判断
+			if output != cases[i].Output {
+				// TODO 去除格式后查看是否正确
+				if util.RemoveWhiteSpace(output) == util.RemoveWhiteSpace(cases[i].Output) {
+					record.Condition = " Presentation Error"
+					flag = false
+					goto final
+				}
+				record.Condition = "Wrong Answer"
+				flag = false
+				goto final
+			}
+		pass:
+			// TODO 通过数量+1
+			record.Pass++
+
+			// TODO 数据库插入数据错误
+			if db.Create(&cas).Error != nil {
+				record.Condition = "System error 5"
+				return
+			}
+		}
+	final:
+		// TODO 如果提交通过
+		if flag {
+			record.Condition = "Accepted"
+			// TODO 检查是否是今日首次通过
+			if db.Where("user_id = ? and condition = Accepted and to_days(created_at) = to_days(now())", record.UserId).First(&model.Record{}).Error != nil {
+				Handle.Behaviors["Days"].PublishBehavior(1, record.UserId)
+			}
+			// TODO 检查该题目是否是首次通过
+			if db.Where("user_id = ? and condition = Accepted and problem_id = ?", record.UserId, record.ProblemId).First(&model.Record{}).Error != nil {
+				Handle.Behaviors["Accepts"].PublishBehavior(1, record.UserId)
+				categoryMap := util.ProblemCategory(problem.ID)
+				for category := range categoryMap {
+					Handle.Behaviors[category].PublishBehavior(1, record.UserId)
+				}
+			}
+		}
+		// TODO 查看是否为比赛提交,且比赛已经开始
+		if record.CreatedAt.After(competition.StartTime) && record.CreatedAt.Before(competition.EndTime) {
+			var competitionMembers []model.CompetitionMember
+			// TODO 在redis中取出成员罚时具体数据
+			cM, err := redix.HGet(ctx, "Competition"+competition.ID.String(), record.UserId.String()).Result()
+			if err == nil {
+				json.Unmarshal([]byte(cM), &competitionMembers)
+			}
+			// TODO 找出数组中对应的题目
+			k := -1
+			for i := range competitionMembers {
+				if competitionMembers[i].ProblemId == record.ProblemId {
+					k = i
+					break
+				}
+			}
+			if k == -1 {
+				k = len(competitionMembers)
+				competitionMembers = append(competitionMembers, model.CompetitionMember{
+					ID:            uuid.NewV4(),
+					MemberId:      record.UserId,
+					CompetitionId: competition.ID,
+					ProblemId:     record.ProblemId,
+					Pass:          0,
+					Penalties:     0,
+				})
+			}
+			// TODO 在redis中取出通过、罚时情况
+			cR, err := redix.ZScore(ctx, "CompetitionR"+competition.ID.String(), record.UserId.String()).Result()
+			if err != nil {
+				cR = 0
+			}
+			// TODO 先前没有通过
+			if competitionMembers[k].Condition != "Accepted" {
+				// TODO 记录罚时
+				competitionMembers[k].Penalties += time.Time(record.CreatedAt).Sub(time.Time(competition.StartTime))
+				// TODO 通过样例数量增加
+				if competitionMembers[k].Pass < record.Pass {
+					competitionMembers[k].Condition = record.Condition
+					// TODO 获取用例通过分数
+					score := 0
+					for i := competitionMembers[k].Pass + 1; i <= record.Pass; i++ {
+						score += int(cases[i].Score)
+					}
+					// TODO 如果分数上升
+					if score > 0 {
+						competitionMembers[k].RecordId = record.ID
+						// TODO 记入罚时
+						cR -= float64(competitionMembers[k].Penalties) / 10000000000
+						cR += float64(score)
+						// TODO 存入redis供下次使用
+						v, _ := json.Marshal(competitionMembers)
+						redix.HSet(ctx, "Competition"+competition.ID.String(), record.UserId.String(), v)
+						redix.ZAdd(ctx, "CompetitionR"+competition.ID.String(), redis.Z{Score: cR, Member: record.UserId.String()})
+						// TODO 发布订阅用于滚榜
+						rankList := vo.RankList{
+							MemberId: record.UserId,
+						}
+						// TODO 将ranklist打包
+						v, _ = json.Marshal(rankList)
+						redix.Publish(ctx, "CompetitionChan"+competition.ID.String(), v)
+					}
+				}
+			}
+		}
+	} else {
+		record.Condition = "Language Error"
 	}
 }
 
@@ -1193,4 +1827,389 @@ leap:
 			}
 		}
 	}
+}
+
+// @title    GroupClouder
+// @description   组队赛提交到云端
+// @auth      MGAronya       2022-9-16 12:23
+// @param    void
+// @return   void
+func GroupClouder(record model.Record) {
+	redix := common.GetRedisClient(0)
+	db := common.GetDB()
+	ctx := context.Background()
+	log.Println("Single work for record")
+
+	var problem model.ProblemNew
+	// TODO 先看redis中是否存在
+	id := fmt.Sprint(record.ProblemId)
+	if ok, _ := redix.HExists(ctx, "ProblemNew", id).Result(); ok {
+		cate, _ := redix.HGet(ctx, "ProblemNew", id).Result()
+		if json.Unmarshal([]byte(cate), &problem) == nil {
+			// TODO 跳过数据库搜寻problem过程
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			redix.HDel(ctx, "ProblemNew", id)
+		}
+	}
+
+	// TODO 查看题目是否在数据库中存在
+	if db.Where("id = (?)", id).First(&problem).Error != nil {
+		record.Condition = "Problem Doesn't Exist"
+		// TODO 将record存入redis
+		v, _ := json.Marshal(record)
+		redix.HSet(ctx, "RecordCompetition", fmt.Sprint(record.ID), v)
+		// TODO 将record存入mysql
+		db.Save(&record)
+		return
+	}
+	// TODO 将题目存入redis供下次使用
+	{
+		v, _ := json.Marshal(problem)
+		redix.HSet(ctx, "Problem", id, v)
+	}
+
+leep:
+	var competition model.Competition
+	// TODO 先看redis中是否存在
+	if ok, _ := redix.HExists(ctx, "Competition", problem.CompetitionId.String()).Result(); ok {
+		cate, _ := redix.HGet(ctx, "Competition", problem.CompetitionId.String()).Result()
+		if json.Unmarshal([]byte(cate), &competition) == nil {
+			// TODO 跳过数据库搜寻competition过程
+			goto leap
+		} else {
+			// TODO 移除损坏数据
+			redix.HDel(ctx, "Competition", problem.CompetitionId.String())
+		}
+	}
+
+	// TODO 查看比赛是否在数据库中存在
+	if db.Where("id = (?)", problem.CompetitionId.String()).First(&competition).Error != nil {
+		record.Condition = "Competition Doesn't Exist"
+		// TODO 将record存入redis
+		v, _ := json.Marshal(record)
+		redix.HSet(ctx, "RecordCompetition", fmt.Sprint(record.ID), v)
+		// TODO 将record存入mysql
+		db.Save(&record)
+		return
+	}
+	// TODO 将题目存入redis供下次使用
+	{
+		v, _ := json.Marshal(competition)
+		redix.HSet(ctx, "Competition", problem.CompetitionId.String(), v)
+	}
+
+leap:
+
+	// TODO 发布订阅用于提交列表
+	recordList := vo.RecordList{
+		RecordId: record.ID,
+	}
+	// TODO 确保信息进入频道
+	defer func() {
+		// TODO 将recordlist打包
+		v, _ := json.Marshal(recordList)
+		redix.Publish(ctx, "RecordCompetitionChan"+problem.CompetitionId.String(), v)
+		// TODO 将record存入redis
+		v, _ = json.Marshal(record)
+		redix.HSet(ctx, "RecordCompetition", fmt.Sprint(record.ID), v)
+		// TODO 将record存入mysql
+		db.Save(&record)
+	}()
+
+	// TODO 一些准备工作
+	{
+		record.Condition = "Preparing"
+		// TODO 将recordlist打包
+		v, _ := json.Marshal(recordList)
+		redix.Publish(ctx, "RecordCompetitionChan"+problem.CompetitionId.String(), v)
+		// TODO 将record存入redis
+		v, _ = json.Marshal(record)
+		redix.HSet(ctx, "RecordCompetition", fmt.Sprint(record.ID), v)
+	}
+	// TODO 查看代码是否为空
+	if record.Code == "" {
+		record.Condition = "Code is empty"
+		return
+	}
+	// TODO 找到提交记录后，开始判题逻辑
+	if cmdI, ok := util.LanguageMap[record.Language]; ok {
+		// TODO 从数据库中读出输入输出
+		var cases []model.Case
+
+		// TODO 查找用例
+		if ok, _ := redix.HExists(ctx, "Case", id).Result(); ok {
+			cate, _ := redix.HGet(ctx, "Case", id).Result()
+			if json.Unmarshal([]byte(cate), &cases) == nil {
+				// TODO 跳过数据库搜寻testInputs过程
+				goto Case
+			} else {
+				// TODO 移除损坏数据
+				redix.HDel(ctx, "Case", id)
+			}
+		}
+
+		// TODO 查看题目是否在数据库中存在
+		if db.Where("problem_id = (?)", id).Find(&cases).Error != nil {
+			record.Condition = "Input Doesn't Exist"
+			return
+		}
+		// TODO 将题目存入redis供下次使用
+		{
+			v, _ := json.Marshal(cases)
+			redix.HSet(ctx, "Case", id, v)
+		}
+	Case:
+
+		// TODO 记录是否通过
+		flag := true
+
+		// TODO 开始运行工作
+		{
+			record.Condition = "Runing"
+			// TODO 将recordlist打包
+			v, _ := json.Marshal(recordList)
+			redix.Publish(ctx, "RecordCompetitionChan"+problem.CompetitionId.String(), v)
+			// TODO 将record存入redis
+			v, _ = json.Marshal(record)
+			redix.HSet(ctx, "RecordCompetition", fmt.Sprint(record.ID), v)
+		}
+
+		// TODO 最终将所有用例填入cases
+		caseConditions := make([]model.CaseCondition, 0)
+
+		defer func() {
+			for i := range caseConditions {
+				db.Create(caseConditions[i])
+			}
+		}()
+
+		for i := 0; i < len(cases); i++ {
+			// TODO 将用例添加至最终数组
+			cas := model.CaseCondition{
+				RecordId: record.ID,
+				CID:      uint(i + 1),
+			}
+			caseConditions = append(caseConditions, cas)
+
+			// TODO 提交到云端
+			condition, output, time, memory := TQ.CloudRun(record.Language, record.Code, cases[i].Input, problem.MemoryLimit*3, problem.TimeLimit*3)
+			if condition != "ok" {
+				record.Condition = condition
+				flag = false
+				goto final
+			}
+
+			// TODO 更新用例通过情况
+			caseConditions[i].Time = uint(time)
+			caseConditions[i].Memory = uint(memory)
+			// TODO 超时
+			if caseConditions[i].Time > problem.TimeLimit*cmdI.TimeMultiplier() {
+				record.Condition = "Time Limit Exceeded"
+				flag = false
+				goto final
+			}
+			// TODO 超出内存限制
+			if caseConditions[i].Memory > problem.MemoryLimit*cmdI.MemoryMultiplier() {
+				record.Condition = "Memory Limit Exceeded"
+				flag = false
+				goto final
+			}
+			// TODO 答案错误
+			var specalJudge model.Program
+			// TODO 查看题目是否有标准程序
+
+			// TODO 先看redis中是否存在
+			if ok, _ := redix.HExists(ctx, "Program", problem.SpecialJudge.String()).Result(); ok {
+				cate, _ := redix.HGet(ctx, "Program", problem.SpecialJudge.String()).Result()
+				if json.Unmarshal([]byte(cate), &specalJudge) == nil {
+					// TODO 跳过数据库搜寻program过程
+					goto special
+				} else {
+					// TODO 移除损坏数据
+					redix.HDel(ctx, "Program", problem.SpecialJudge.String())
+				}
+			}
+
+			// TODO 查看程序是否在数据库中存在
+			if db.Where("id = (?)", problem.SpecialJudge.String()).First(&specalJudge).Error != nil {
+				goto outPut
+			}
+			// TODO 将题目存入redis供下次使用
+			{
+				v, _ := json.Marshal(specalJudge)
+				redix.HSet(ctx, "Program", problem.SpecialJudge.String(), v)
+			}
+		special:
+			// TODO 进行特判
+			{
+				if condition, output := TQ.JudgeRun(specalJudge.Language, specalJudge.Code, cases[i].Input+"\n"+output, problem.MemoryLimit*3, problem.TimeLimit*3); condition != "ok" || output != "ok" {
+					record.Condition = condition
+					flag = false
+					goto final
+				}
+				goto pass
+			}
+		outPut:
+			// TODO 正常判断
+			if output != cases[i].Output {
+				// TODO 去除格式后查看是否正确
+				if util.RemoveWhiteSpace(output) == util.RemoveWhiteSpace(cases[i].Output) {
+					record.Condition = " Presentation Error"
+					flag = false
+					goto final
+				}
+				record.Condition = "Wrong Answer"
+				flag = false
+				goto final
+			}
+		pass:
+			// TODO 通过数量+1
+			record.Pass++
+
+			// TODO 数据库插入数据错误
+			if db.Create(&cas).Error != nil {
+				record.Condition = "System error 5"
+				return
+			}
+		}
+	final:
+		// TODO 如果提交通过
+		if flag {
+			record.Condition = "Accepted"
+			// TODO 检查是否是今日首次通过
+			if db.Where("user_id = ? and condition = Accepted and to_days(created_at) = to_days(now())", record.UserId).First(&model.Record{}).Error != nil {
+				Handle.Behaviors["Days"].PublishBehavior(1, record.UserId)
+			}
+			// TODO 检查该题目是否是首次通过
+			if db.Where("user_id = ? and condition = Accepted and problem_id = ?", record.UserId, record.ProblemId).First(&model.Record{}).Error != nil {
+				Handle.Behaviors["Accepts"].PublishBehavior(1, record.UserId)
+				categoryMap := util.ProblemCategory(problem.ID)
+				for category := range categoryMap {
+					Handle.Behaviors[category].PublishBehavior(1, record.UserId)
+				}
+			}
+		}
+		// TODO 查看是否为比赛提交,且比赛已经开始
+		if record.CreatedAt.After(competition.StartTime) && record.CreatedAt.Before(competition.EndTime) {
+			groups, _ := redix.ZRange(ctx, "CompetitionR"+competition.ID.String(), 0, -1).Result()
+			// TODO 查找组
+			var group model.Group
+			for i := range groups {
+
+				// TODO 先看redis中是否存在
+				if ok, _ := redix.HExists(ctx, "Group", groups[i]).Result(); ok {
+					cate, _ := redix.HGet(ctx, "Group", groups[i]).Result()
+					if json.Unmarshal([]byte(cate), &group) == nil {
+						goto levp
+					} else {
+						// TODO 移除损坏数据
+						redix.HDel(ctx, "Group", groups[i])
+					}
+				}
+
+				// TODO 查看用户组是否在数据库中存在
+				db.Where("id = (?)", groups[i]).First(&group)
+				{
+					// TODO 将用户组存入redis供下次使用
+					v, _ := json.Marshal(group)
+					redix.HSet(ctx, "Group", groups[i], v)
+				}
+			levp:
+				if db.Where("group_id = (?) and user_id = (?)", group.ID, record.UserId).First(&model.UserList{}).Error == nil {
+					break
+				}
+			}
+			var competitionMembers []model.CompetitionMember
+			// TODO 在redis中取出成员罚时具体数据
+			cM, err := redix.HGet(ctx, "Competition"+competition.ID.String(), group.ID.String()).Result()
+			if err == nil {
+				json.Unmarshal([]byte(cM), &competitionMembers)
+			}
+			// TODO 找出数组中对应的题目
+			k := -1
+			for i := range competitionMembers {
+				if competitionMembers[i].ProblemId == record.ProblemId {
+					k = i
+					break
+				}
+			}
+			if k == -1 {
+				k = len(competitionMembers)
+				competitionMembers = append(competitionMembers, model.CompetitionMember{
+					ID:            uuid.NewV4(),
+					MemberId:      group.ID,
+					CompetitionId: competition.ID,
+					ProblemId:     record.ProblemId,
+					Pass:          0,
+					Penalties:     0,
+				})
+			}
+			// TODO 在redis中取出通过、罚时情况
+			cR, err := redix.ZScore(ctx, "CompetitionR"+competition.ID.String(), group.ID.String()).Result()
+			if err != nil {
+				cR = 0
+			}
+			// TODO 先前没有通过
+			if competitionMembers[k].Condition != "Accepted" {
+				// TODO 记录罚时
+				competitionMembers[k].Penalties += time.Time(record.CreatedAt).Sub(time.Time(competition.StartTime))
+				// TODO 通过样例数量增加
+				if competitionMembers[k].Pass < record.Pass {
+					competitionMembers[k].Condition = record.Condition
+					// TODO 获取用例通过分数
+					score := 0
+					for i := competitionMembers[k].Pass + 1; i <= record.Pass; i++ {
+						score += int(cases[i].Score)
+					}
+					// TODO 如果分数上升
+					if score > 0 {
+						competitionMembers[k].RecordId = record.ID
+						// TODO 记入罚时
+						cR -= float64(competitionMembers[k].Penalties) / 10000000000
+						cR += float64(score)
+						// TODO 存入redis供下次使用
+						v, _ := json.Marshal(competitionMembers)
+						redix.HSet(ctx, "Competition"+competition.ID.String(), group.ID.String(), v)
+						redix.ZAdd(ctx, "CompetitionR"+competition.ID.String(), redis.Z{Score: cR, Member: group.ID.String()})
+						// TODO 发布订阅用于滚榜
+						rankList := vo.RankList{
+							MemberId: group.ID,
+						}
+						// TODO 将ranklist打包
+						v, _ = json.Marshal(rankList)
+						redix.Publish(ctx, "CompetitionChan"+competition.ID.String(), v)
+					}
+				}
+			}
+		}
+	} else {
+		record.Condition = "Language Error"
+	}
+}
+
+// @title    判断是否应该转发至云端
+// @description   提交中间件
+// @auth      MGAronya       2022-9-16 12:23
+// @param    void
+// @return   void
+func SubmitCheck() bool {
+	var Min float64 = 1.0
+	// TODO 找出当前最小百分比
+	for i := range HeartPercentageMap {
+		if HeartPercentageMap[i] < Min {
+			Min = HeartPercentageMap[i]
+		}
+	}
+	// TODO 计算转发几率
+	var p float64 = 0.0
+	if Min > 0.5 {
+		p = (Min - 0.5) * 2
+	}
+	// TODO 使用系统时间的不确定性来进行初始化
+	rand.Seed(time.Now().Unix())
+	pt := float64(rand.Intn(10000))
+	// TODO 是否触发转发
+	return pt < (p)*10000
 }

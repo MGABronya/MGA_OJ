@@ -105,32 +105,35 @@ func CollectRoute(r *gin.Engine) *gin.Engine {
 	// TODO 匹配比赛路由
 	r = routes.CompetitionMatchRoutes(r)
 
-	// TODO 标准赛制个人赛
+	// TODO 标准赛制个人赛路由
 	r = routes.CompetitionStandardSingleRoutes(r)
 
-	// TODO 标准赛制团队赛
+	// TODO 标准赛制团队赛路由
 	r = routes.CompetitionStandardGroupRoutes(r)
 
-	// TODO 选择题
+	// TODO 选择题路由
 	r = routes.ProblemMCQsRoutes(r)
 
-	// TODO 填空题
+	// TODO 填空题路由
 	r = routes.ProblemClozeRoutes(r)
 
-	// TODO 文件题
+	// TODO 文件题路由
 	r = routes.ProblemFileRoutes(r)
 
-	// TODO 测试布置
+	// TODO 测试布置路由
 	r = routes.ExamRoutes(r)
 
-	// TODO 公告栏
+	// TODO 公告栏路由
 	r = routes.NoticeBoardRoutes(r)
 
-	// TODO 实名
+	// TODO 实名路由
 	r = routes.RealNameRoutes(r)
 
-	// TODO 徽章
+	// TODO 徽章路由
 	r = routes.BadgeRoutes(r)
+
+	// TODO 心跳路由
+	r = routes.HeartRoutes(r)
 
 	return r
 }

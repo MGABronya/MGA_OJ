@@ -98,6 +98,14 @@ leap:
 		return
 	}
 
+	// TODO 查看是否需要实名
+	if competition.RealName {
+		if c.DB.Where("user_id = (?)", user.ID).First(&model.RealName{}).Error != nil {
+			response.Fail(ctx, nil, "用户未实名")
+			return
+		}
+	}
+
 	// TODO 查看比赛是否需要密码
 	var passwd model.Passwd
 	if c.DB.Where("id = (?)", competition.PasswdId).First(&passwd).Error == nil {

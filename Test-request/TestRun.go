@@ -16,7 +16,7 @@ type Data struct {
 	Condition string `json:"condition"`
 	Memory    uint64 `json:"memory"`
 	Output    string `json:"output"`
-	Time      int64  `json:"time"`
+	Time      uint64 `json:"time"`
 }
 
 type Result struct {
@@ -319,6 +319,32 @@ func JudgeRun(language string, code string, input string, memorylimit uint, time
 		return result.Data.Condition, ""
 	}
 	return "ok", result.Data.Output
+}
+
+func CloudRun(language string, code string, input string, memorylimit uint, timelimit uint) (condition string, output string, time uint64, memory uint64) {
+	data := make(map[string]interface{})
+	var body []byte
+	data["language"] = language
+	data["code"] = code
+	data["input"] = input
+	data["memory_limit"] = memorylimit
+	data["time_limit"] = timelimit
+	bytesData, _ := json.Marshal(data)
+	resp, err := http.Post(url, "application/json", bytes.NewReader(bytesData))
+	if err != nil {
+		return "TestMachine no response", "", 0, 0
+	}
+	body, err = ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return "TestMachine Error", "", 0, 0
+	}
+	var result Result
+	json.Unmarshal(body, &result)
+
+	if result.Data.Condition != "ok" {
+		return result.Data.Condition, "", 0, 0
+	}
+	return "ok", result.Data.Output, result.Data.Time, result.Data.Memory
 }
 
 /*

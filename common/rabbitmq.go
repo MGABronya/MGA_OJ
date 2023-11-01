@@ -6,6 +6,10 @@ package common
 
 import (
 	"MGA_OJ/Interface"
+	"MGA_OJ/model"
+	"context"
+	"sync"
+	"time"
 
 	"MGA_OJ/vo"
 	"encoding/json"
@@ -115,6 +119,24 @@ func (r *RabbitMQ) ConsumeSimple() {
 		fmt.Println(err)
 	}
 
+	// TODO 此处为心跳声明锁
+	var rw *sync.RWMutex = &sync.RWMutex{}
+	redis := GetRedisClient(0)
+	ctx := context.Background()
+
+	// TODO 发送闲置状态心跳
+	go func() {
+		for {
+			time.Sleep(1 * time.Second)
+			// TODO 发出心跳
+			rw.Lock()
+			heart := model.Heart{DockerId: DockerId, Condition: "Waiting", TimesTamp: model.Time(time.Now())}
+			v, _ := json.Marshal(heart)
+			redis.Publish(ctx, "heart", v)
+			rw.Unlock()
+		}
+	}()
+
 	for d := range msgs {
 		log.Println("consumer:", d.Body)
 		// TODO 进行消费
@@ -127,7 +149,17 @@ func (r *RabbitMQ) ConsumeSimple() {
 			log.Println("Error Record Type:", recordRabbit.Type)
 			continue
 		}
+		// TODO 心跳检测，开始忙碌
+		rw.Lock()
+		heart := model.Heart{DockerId: DockerId, Condition: "Running", TimesTamp: model.Time(time.Now())}
+		v, _ := json.Marshal(heart)
+		redis.Publish(ctx, "heart", v)
 		Interface.ComsumerMap[recordRabbit.Type].Handel(recordRabbit.RecordId.String())
+		// TODO 心跳检测，忙碌完成
+		heart = model.Heart{DockerId: DockerId, Condition: "Finish", TimesTamp: model.Time(time.Now())}
+		v, _ = json.Marshal(heart)
+		redis.Publish(ctx, "heart", v)
+		rw.Unlock()
 	}
 }
 

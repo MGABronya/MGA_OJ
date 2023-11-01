@@ -24,5 +24,8 @@ func CollectRoute(r *gin.Engine) *gin.Engine {
 	// TODO 挂上测试路由
 	r = routes.TestRoutes(r)
 
+	// TODO 挂上心跳路由
+	r = routes.HeartRoutes(r)
+
 	return r
 }

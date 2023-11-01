@@ -22,6 +22,7 @@ type CompetitionRequest struct {
 	HackScore uint       `json:"hack_score"` // hack分数
 	HackNum   uint       `json:"hack_num"`   // hack分数封顶
 	GroupId   uuid.UUID  `json:"group_id"`   // 用户组
+	RealName  bool       `json:"real_name"`  // 是否需要实名
 	Type      string     `json:"type"`       // 类型
 	LessNum   uint       `json:"less_num"`   // 最低小组人数
 	UpNum     uint       `json:"up_num"`     // 最高小组人数

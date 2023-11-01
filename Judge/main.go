@@ -26,6 +26,7 @@ func main() {
 	common.InitDB()
 	client0 := common.InitRedis(0)
 	defer client0.Close()
+	common.InitDocker()
 	rw := &sync.RWMutex{}
 	consumer.NewGroup(rw)
 	consumer.NewSingle(rw)

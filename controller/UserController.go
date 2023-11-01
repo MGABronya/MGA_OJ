@@ -348,15 +348,19 @@ func (u UserController) Update(ctx *gin.Context) {
 
 	// TODO 更新信息
 	u.DB.Where("id = (?)", user.ID).Updates(model.User{
-		Address:  requestUser.Address,
-		Blog:     requestUser.Blog,
-		Name:     requestUser.Name,
-		Email:    requestUser.Email,
-		Sex:      requestUser.Sex,
-		Icon:     requestUser.Icon,
-		ResLong:  requestUser.ResLong,
-		ResShort: requestUser.ResShort,
-		BadgeId:  requestUser.BadgeId,
+		Address:     requestUser.Address,
+		Blog:        requestUser.Blog,
+		Name:        requestUser.Name,
+		Email:       requestUser.Email,
+		Sex:         requestUser.Sex,
+		Icon:        requestUser.Icon,
+		ResLong:     requestUser.ResLong,
+		ResShort:    requestUser.ResShort,
+		BadgeId:     requestUser.BadgeId,
+		Theme:       requestUser.Theme,
+		Monaco:      requestUser.Monaco,
+		Language:    requestUser.Language,
+		MonacoTheme: requestUser.MonacoTheme,
 	})
 
 	// TODO 移除损坏数据

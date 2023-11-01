@@ -93,6 +93,18 @@
 
 - HotRanking			热度排行
 
+### HeartInterface
+
+定义：心跳
+
+描述：实现了该接口的模型将拥有查看心跳的方法
+
+该接口包含的具体方法：
+
+- Publish			 	订阅心跳长连接
+- Show                    查看最近心跳情况
+- Percentage          最近10s的心跳忙碌占比
+
 ### LabelInterface
 
 定义：标签
@@ -1034,7 +1046,7 @@
 
     **方法类型：POST**
 
-    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含 start_time 、 end_time、type、title、content、res_long（可选）、res_short（可选）、hack_time、hack_score（可选）、hack_num（可选）、group_id（可选）、less_num（可选）、up_num（可选），其中type仅可为"Single"，"Group"，"Match","OI"，表示为单人赛、组队赛、匹配赛和OI赛制，hack_time表示黑客时间，其应该在end_time之后，如果该比赛不需要黑客机制，你可以将hack时间设置在end_time之前。hack_score表示黑客成功后的奖励分数，hack_num表示最多可以获得分数的黑客次数，group_id表示比赛管理组的id，less_num表示为组队比赛时的小组人数上限，up_num表示小组人数下限。
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含 start_time 、 end_time、type、title、content、res_long（可选）、res_short（可选）、hack_time、hack_score（可选）、hack_num（可选）、group_id（可选）、less_num（可选）、up_num（可选）、real_name，其中type仅可为"Single"，"Group"，"Match","OI"，表示为单人赛、组队赛、匹配赛和OI赛制，hack_time表示黑客时间，其应该在end_time之后，如果该比赛不需要黑客机制，你可以将hack时间设置在end_time之前。hack_score表示黑客成功后的奖励分数，hack_num表示最多可以获得分数的黑客次数，group_id表示比赛管理组的id，less_num表示为组队比赛时的小组人数上限，up_num表示小组人数下限，real_name为boolean表示是否需要实名才能报名。
 
     返回值：成功时返回创建成功相关信息和比赛信息competition，否则给出失败原因
 
@@ -2575,6 +2587,46 @@
     请求参数：在接口地址中给出用户或小组的id（即:member_id部分） 。在接口地址中给出比赛的id（即:competition_id部分） 。
 
     返回值：成功时返回hackNum,其包含competition_id、member_id、num、score，分别表示比赛id，用户或者小组的id，hack数量，通过hack获得的分数，否则给出失败原因
+
+### 模型：Heart
+
+定义：心跳（此接口同时适用于主服务与test服务）
+
+**基础路由：/hack**
+
+实现的接口类型：
+
+- **其它**
+
+  - **接口地址：/show/:id/:start/:end**
+
+    **功能：查看指定时间段的心跳情况**
+
+    **方法类型：GET**
+
+    请求参数：在接口地址中给出所需要查看心跳的容器的id（即:id部分），给出时间段[start，end]，（即:start，:end部分） 。
+
+    返回值：成功时返回hearts数组，每个heart包含docker_id表示容器id，condititon表示当前状态，times_tamp表示时间戳。否则给出失败原因。
+
+  - **接口地址：/publish/:id**
+
+    **功能：订阅心跳长连接**
+
+    **方法类型：GET**
+
+    请求参数：在接口地址中给出所需要查看心跳的容器的id（即:id部分） 。
+
+    返回值：成功时，将持续实时返回包含该用户所有接收到的heart，每个heart包含包含docker_id表示容器id，condititon表示当前状态，times_tamp表示时间戳，如果失败则返回失败原因。
+
+  - **接口地址：/percentage**
+
+    **功能：查看近10s内的心跳忙碌占比**
+
+    **方法类型：GET**
+
+    请求参数：无 。
+
+    返回值：成功时返回HeartPercentageMap,其中包含了每个docker_id的最近十秒内的心跳忙碌占比（以小数形式给出）。在十秒内未响应的容器不在其列。
 
 ### 模型：Letter
 
@@ -5709,7 +5761,7 @@
 
     请求参数： 在接口地址中给出需要搜索的字符串（即:text部分） 。在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少用户，默认值为20）。
 
-    返回值：返回users和total，total表示搜索到的用户总量。users为user的数组，每个user含有name（名称）、email（邮箱地址）、blog（博客地址）、sex（bool类型，性别）、icon（头像的url）、level（权限等级）、score（竞赛分数）、like_num（不算今日的点赞数量）、unlike_num（不算今日的点踩数量）、collect_num（不算今日的收藏数量）、visit_num（不算今日的游览数量）
+    返回值：返回users和total，total表示搜索到的用户总量。users为user的数组，每个user含有name（名称）、email（邮箱地址）、blog（博客地址）、sex（bool类型，性别）、icon（头像的url）、level（权限等级）、score（竞赛分数）、like_num（不算今日的点赞数量）、unlike_num（不算今日的点踩数量）、collect_num（不算今日的收藏数量）、visit_num（不算今日的游览数量）、monaca（代码编辑器选项）、theme（主题）、language（常用语言）、monaco_theme（代码编辑器主题）
 
   - **接口地址：/search/label**
 
@@ -5719,7 +5771,7 @@
 
     请求参数： 在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少用户，默认值为20），labels数组，labels表示搜索包含的标签。
 
-    返回值：返回users和total，total表示搜索到的用户总量。users为user的数组，每个user含有name（名称）、email（邮箱地址）、blog（博客地址）、sex（bool类型，性别）、icon（头像的url）、level（权限等级）、score（竞赛分数）、like_num（不算今日的点赞数量）、unlike_num（不算今日的点踩数量）、collect_num（不算今日的收藏数量）、visit_num（不算今日的游览数量）
+    返回值：返回users和total，total表示搜索到的用户总量。users为user的数组，每个user含有name（名称）、email（邮箱地址）、blog（博客地址）、sex（bool类型，性别）、icon（头像的url）、level（权限等级）、score（竞赛分数）、like_num（不算今日的点赞数量）、unlike_num（不算今日的点踩数量）、collect_num（不算今日的收藏数量）、visit_num（不算今日的游览数量）、monaca（代码编辑器选项）、theme（主题）、language（常用语言）、monaco_theme（代码编辑器主题）
 
   - **接口地址：/search/with/label/:text**
 
@@ -5729,7 +5781,7 @@
 
     请求参数： 在接口地址中给出需要搜索的字符串（即:text部分） 。在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少用户，默认值为20），labels数组，labels表示搜索包含的标签。
 
-    返回值：返回users和total，total表示搜索到的用户总量。users为user的数组，每个user含有name（名称）、email（邮箱地址）、blog（博客地址）、sex（bool类型，性别）、icon（头像的url）、level（权限等级）、score（竞赛分数）、like_num（不算今日的点赞数量）、unlike_num（不算今日的点踩数量）、collect_num（不算今日的收藏数量）、visit_num（不算今日的游览数量）
+    返回值：返回users和total，total表示搜索到的用户总量。users为user的数组，每个user含有name（名称）、email（邮箱地址）、blog（博客地址）、sex（bool类型，性别）、icon（头像的url）、level（权限等级）、score（竞赛分数）、like_num（不算今日的点赞数量）、unlike_num（不算今日的点踩数量）、collect_num（不算今日的收藏数量）、visit_num（不算今日的游览数量）、monaca（代码编辑器选项）、theme（主题）、language（常用语言）、monaco_theme（代码编辑器主题）
 
 - **LabelInterface**
 
@@ -5823,7 +5875,7 @@
 
     请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。 
 
-    返回值：返回用户的一些个人信息，格式为json包含name（用户名称）、email（邮箱）、blog（博客地址）、sex（bool类型，性别）、address（地址）、icon（头像）、level(权限等级)、score(竞赛分数)、like_num(收到点赞数量)、unlike_num（收到点踩数量）、collect_num（收到收藏数量）、visit_num（被游览数量）、res_long（备用长文本）、res_short（备用短文本）
+    返回值：返回用户的一些个人信息，格式为json包含name（用户名称）、email（邮箱）、blog（博客地址）、sex（bool类型，性别）、address（地址）、icon（头像）、level(权限等级)、score(竞赛分数)、like_num(收到点赞数量)、unlike_num（收到点踩数量）、collect_num（收到收藏数量）、visit_num（被游览数量）、res_long（备用长文本）、res_short（备用短文本）、monaca（代码编辑器选项）、theme（主题）、language（常用语言）、monaco_theme（代码编辑器主题）
 
   - **接口地址：/show/:id**
 
@@ -5833,7 +5885,7 @@
 
     请求参数：  在接口地址中给出指定用户的id（即:id部分）  。
 
-    返回值：返回用户的一些个人信息，格式为json包含name（用户名称）、email（邮箱）、blog（博客地址）、sex（bool类型，性别）、address（地址）、icon（头像）、level(权限等级)、score(竞赛分数)、like_num(收到点赞数量)、unlike_num（收到点踩数量）、collect_num（收到收藏数量）、visit_num（被游览数量）、res_long（备用长文本）、res_short（备用短文本）。
+    返回值：返回用户的一些个人信息，格式为json包含name（用户名称）、email（邮箱）、blog（博客地址）、sex（bool类型，性别）、address（地址）、icon（头像）、level(权限等级)、score(竞赛分数)、like_num(收到点赞数量)、unlike_num（收到点踩数量）、collect_num（收到收藏数量）、visit_num（被游览数量）、res_long（备用长文本）、res_short（备用短文本）、monaca（代码编辑器选项）、theme（主题）、language（常用语言）、monaco_theme（代码编辑器主题）。
 
   - **接口地址：/update**
 
@@ -5841,7 +5893,7 @@
 
     **方法类型：PUT**
 
-    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。在Body 中，raw格式提供json包含name（用户名称）、email（邮箱）、blog（博客地址）、sex（bool类型，性别）、address（地址）、icon（头像）、res_long（备用长文本）、res_short（备用短文本）、verify（验证码）
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。在Body 中，raw格式提供json包含name（用户名称）、email（邮箱）、blog（博客地址）、sex（bool类型，性别）、address（地址）、icon（头像）、res_long（备用长文本）、res_short（备用短文本）、verify（验证码）、monaca（代码编辑器选项）、theme（主题）、language（常用语言）、monaco_theme（代码编辑器主题）
 
     返回值：更新成功后返回用户更新后的个人信息，否则返回错误原因。
 

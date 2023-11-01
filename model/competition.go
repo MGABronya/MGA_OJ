@@ -23,6 +23,7 @@ type Competition struct {
 	ResLong   string    `json:"res_long" gorm:"type:text;index:search_idx,class:FULLTEXT"`           // 备用长文本
 	ResShort  string    `json:"res_short" gorm:"type:text;index:search_idx,class:FULLTEXT"`          // 备用短文本
 	PasswdId  uuid.UUID `json:"passwd_id" gorm:"type:char(36)"`                                      // 密码id
+	RealName  bool      `json:"real_name" gorm:"type:boolean;not null"`                              // 是否需要实名
 	HackTime  Time      `json:"hack_time" gorm:"type:timestamp"`                                     // hack时间
 	HackScore uint      `json:"hack_score" gorm:"type:uint"`                                         // hack分数
 	HackNum   uint      `json:"hack_num" gorm:"type:uint"`                                           // hack分数封顶

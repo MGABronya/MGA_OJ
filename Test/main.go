@@ -1,9 +1,16 @@
 package main
 
 import (
+	"MGA_OJ/common"
+	"MGA_OJ/controller"
+	"MGA_OJ/model"
 	"MGA_OJ/selfInspection"
 	"MGA_OJ/util"
+	"context"
+	"encoding/json"
 	"os"
+	"sync"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
@@ -20,12 +27,36 @@ func main() {
 	// TODO 自检程序启动
 	selfInspection.TestInspection()
 	InitConfig()
+	common.InitDB()
+	client0 := common.InitRedis(0)
+	defer client0.Close()
+	common.InitDocker()
+	// TODO 生成公用锁
+	rw := &sync.RWMutex{}
+	// TODO 将锁赋予心跳控制器
+	controller.HeartRW = rw
 	r := gin.Default()
 	r = CollectRoute(r)
 	port := viper.GetString("server.port")
 	if port != "" {
 		panic(r.Run(":" + port))
 	}
+	// TODO 发送闲置状态心跳
+	go func() {
+		redis := common.GetRedisClient(0)
+		ctx := context.Background()
+		for {
+			time.Sleep(1 * time.Second)
+			// TODO 发出心跳
+			rw.Lock()
+			heart := model.Heart{DockerId: common.DockerId, Condition: "Waiting", TimesTamp: model.Time(time.Now())}
+			v, _ := json.Marshal(heart)
+			redis.Publish(ctx, "heart", v)
+			rw.Unlock()
+		}
+	}()
+	// TODO 心跳检测员
+	go controller.HeartCount()
 	panic(r.Run())
 }
 

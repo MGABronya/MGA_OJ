@@ -295,6 +295,7 @@ func (c CompetitionController) Create(ctx *gin.Context) {
 		GroupId:   competitionRequest.GroupId,
 		LessNum:   competitionRequest.LessNum,
 		UpNum:     competitionRequest.UpNum,
+		RealName:  competitionRequest.RealName,
 	}
 
 	// TODO 插入数据
@@ -415,6 +416,7 @@ func (c CompetitionController) Update(ctx *gin.Context) {
 		GroupId:   competitionRequest.GroupId,
 		LessNum:   competitionRequest.LessNum,
 		UpNum:     competitionRequest.UpNum,
+		RealName:  competitionRequest.RealName,
 	}
 
 	// TODO 更新比赛内容

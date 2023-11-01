@@ -199,6 +199,16 @@ userlist:
 		}
 	}
 
+	// TODO 查看是否需要实名
+	if competition.RealName {
+		for i := range userLists {
+			if c.DB.Where("user_id = (?)", userLists[i].UserId).First(&model.RealName{}).Error != nil {
+				response.Fail(ctx, nil, "用户未实名")
+				return
+			}
+		}
+	}
+
 	competitionRank.CompetitionId = competition.ID
 	competitionRank.MemberId = group.ID
 	competitionRank.Score = 0
@@ -584,7 +594,10 @@ leap:
 	uid, _ := util.SixZeroUUID(record.ProblemId)
 	if _, _, err := util.DeCodeUUID(uid); err != nil {
 		// TODO 加入消息队列用于本地消费
-		if err := c.RabbitMq.PublishSimple(string(v)); err != nil {
+		if SubmitCheck() {
+			// TODO 如果需要转发到云端，交由转发机处理
+			c.Redis.Publish(ctx, "Cloud", v)
+		} else if err := c.RabbitMq.PublishSimple(string(v)); err != nil {
 			response.Fail(ctx, nil, "消息队列出错")
 			return
 		}

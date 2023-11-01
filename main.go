@@ -42,6 +42,10 @@ func main() {
 	go controller.CompetitionRandomSingleGo()
 	// TODO 及时小组匹配比赛
 	go controller.CompetitionRandomGroupGo()
+	// TODO 心跳检测员
+	go controller.HeartCount()
+	// TODO 云端转发器
+	go controller.Clouder()
 
 	if port != "" {
 		panic(r.Run(":" + port))

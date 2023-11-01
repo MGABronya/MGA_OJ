@@ -123,6 +123,14 @@ leap:
 		}
 	}
 
+	// TODO 查看是否需要实名
+	if competition.RealName {
+		if c.DB.Where("user_id = (?)", user.ID).First(&model.RealName{}).Error != nil {
+			response.Fail(ctx, nil, "用户未实名")
+			return
+		}
+	}
+
 	competitionRank.CompetitionId = competition.ID
 	competitionRank.MemberId = user.ID
 	competitionRank.Score = 0
@@ -811,7 +819,7 @@ func initOICompetition(ctx context.Context, redis *redis.Client, db *gorm.DB, co
 func finishOICompetition(ctx context.Context, redis *redis.Client, db *gorm.DB, competition model.Competition) {
 	if competition.Type != "Single" {
 		log.Println("single competition's type is error!")
-	} else {        
+	} else {
 		log.Println("single competition finish!", competition)
 	}
 	RabbitMq := common.GetRabbitMq()
@@ -828,7 +836,12 @@ func finishOICompetition(ctx context.Context, redis *redis.Client, db *gorm.DB, 
 		uid, _ := util.SixZeroUUID(records[i].ProblemId)
 		if _, _, err := util.DeCodeUUID(uid); err != nil {
 			// TODO 加入消息队列用于本地消费
-			RabbitMq.PublishSimple(string(v))
+			if SubmitCheck() {
+				// TODO 如果需要转发到云端，交由转发机处理
+				redis.Publish(ctx, "Cloud", v)
+			} else {
+				RabbitMq.PublishSimple(string(v))
+			}
 		} else {
 			// TODO 如果存在指定平台，交由转发机处理
 			redis.Publish(ctx, "Vjudge", v)
