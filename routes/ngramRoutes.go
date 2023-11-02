@@ -26,5 +26,8 @@ func NgramRoutes(r *gin.Engine) *gin.Engine {
 	// TODO 计算文本相似度
 	ngramRoutes.POST("/similarity", ngramController.ComputeSimilarity)
 
+	// TODO 计算矩阵图连通块
+	ngramRoutes.POST("/judge/:judge", ngramController.JudgeSimilarity)
+
 	return r
 }

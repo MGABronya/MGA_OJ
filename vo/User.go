@@ -20,44 +20,44 @@ type UserRequest struct {
 
 // user 		定义用户更新信息
 type UserUpdate struct {
-	Name        string    `json:"name"`      // 用户名称
-	Email       string    `json:"email"`     // 邮箱
-	Blog        string    `json:"blog"`      // 博客地址
-	Sex         bool      `json:"sex"`       // 性别
-	Address     string    `json:"address"`   // 地址
-	Verify      string    `json:"verify"`    // 验证码
-	Icon        string    `json:"icon"`      // 头像
-	ResLong     string    `json:"res_long"`  // 备用长文本
-	ResShort    string    `json:"res_short"` // 备用短文本
-	BadgeId     uuid.UUID `json:"badge_id"`  // 用户佩戴的徽章外键
-	Theme       string    `json:"theme"`
-	Monaco      string    `json:"manaco"`
-	Language    string    `json:"language"`
-	MonacoTheme string    `json:"monaco_theme"`
+	Name          string    `json:"name"`      // 用户名称
+	Email         string    `json:"email"`     // 邮箱
+	Blog          string    `json:"blog"`      // 博客地址
+	Sex           bool      `json:"sex"`       // 性别
+	Address       string    `json:"address"`   // 地址
+	Verify        string    `json:"verify"`    // 验证码
+	Icon          string    `json:"icon"`      // 头像
+	ResLong       string    `json:"res_long"`  // 备用长文本
+	ResShort      string    `json:"res_short"` // 备用短文本
+	BadgeId       uuid.UUID `json:"badge_id"`  // 用户佩戴的徽章外键
+	Theme         string    `json:"theme"`
+	MonacoOptions string    `json:"monaco_options"`
+	Language      string    `json:"language"`
+	MonacoTheme   string    `json:"monaco_theme"`
 }
 
 // UserDto			定义了用户的基本信息
 type UserDto struct {
-	ID          uuid.UUID `json:"id"`          // 用户id
-	Name        string    `json:"name"`        // 用户名称
-	Email       string    `json:"email"`       // 邮箱
-	Blog        string    `json:"blog"`        // 博客地址
-	Sex         bool      `json:"sex"`         // 性别
-	Address     string    `json:"address"`     // 地址
-	Icon        string    `json:"icon"`        // 这里的Icon存储的是图像文件的地址
-	Level       int       `json:"level"`       // 权限等级
-	Score       float64   `json:"score"`       // 竞赛分数
-	LikeNum     int       `json:"like_num"`    // 收到点赞数量
-	UnLikeNum   int       `json:"unlike_num"`  // 收到点踩数量
-	CollectNum  int       `json:"collect_num"` // 收到收藏数量
-	VisitNum    int       `json:"visit_num"`   // 被游览数量
-	ResLong     string    `json:"res_long"`    // 备用长文本
-	ResShort    string    `json:"res_short"`   // 备用短文本
-	BadgeId     uuid.UUID `json:"badge_id"`    // 用户佩戴的徽章外键
-	Theme       string    `json:"theme"`
-	Monaco      string    `json:"manaco"`
-	Language    string    `json:"language"`
-	MonacoTheme string    `json:"monaco_theme"`
+	ID            uuid.UUID `json:"id"`          // 用户id
+	Name          string    `json:"name"`        // 用户名称
+	Email         string    `json:"email"`       // 邮箱
+	Blog          string    `json:"blog"`        // 博客地址
+	Sex           bool      `json:"sex"`         // 性别
+	Address       string    `json:"address"`     // 地址
+	Icon          string    `json:"icon"`        // 这里的Icon存储的是图像文件的地址
+	Level         int       `json:"level"`       // 权限等级
+	Score         float64   `json:"score"`       // 竞赛分数
+	LikeNum       int       `json:"like_num"`    // 收到点赞数量
+	UnLikeNum     int       `json:"unlike_num"`  // 收到点踩数量
+	CollectNum    int       `json:"collect_num"` // 收到收藏数量
+	VisitNum      int       `json:"visit_num"`   // 被游览数量
+	ResLong       string    `json:"res_long"`    // 备用长文本
+	ResShort      string    `json:"res_short"`   // 备用短文本
+	BadgeId       uuid.UUID `json:"badge_id"`    // 用户佩戴的徽章外键
+	Theme         string    `json:"theme"`
+	MonacoOptions string    `json:"monaco_options"`
+	Language      string    `json:"language"`
+	MonacoTheme   string    `json:"monaco_theme"`
 }
 
 // @title    ToUserDto
@@ -67,25 +67,25 @@ type UserDto struct {
 // @return   UserDto			   返回一个用户的基本信息类
 func ToUserDto(user model.User) UserDto {
 	return UserDto{
-		ID:          user.ID,
-		Name:        user.Name,
-		Email:       user.Email,
-		Blog:        user.Blog,
-		Sex:         user.Sex,
-		Address:     user.Address,
-		Icon:        user.Icon,
-		Level:       user.Level,
-		Score:       user.Score,
-		LikeNum:     user.LikeNum,
-		UnLikeNum:   user.UnLikeNum,
-		CollectNum:  user.CollectNum,
-		VisitNum:    user.VisitNum,
-		ResLong:     user.ResLong,
-		ResShort:    user.ResShort,
-		BadgeId:     user.BadgeId,
-		Theme:       user.Theme,
-		Monaco:      user.Monaco,
-		Language:    user.Language,
-		MonacoTheme: user.MonacoTheme,
+		ID:            user.ID,
+		Name:          user.Name,
+		Email:         user.Email,
+		Blog:          user.Blog,
+		Sex:           user.Sex,
+		Address:       user.Address,
+		Icon:          user.Icon,
+		Level:         user.Level,
+		Score:         user.Score,
+		LikeNum:       user.LikeNum,
+		UnLikeNum:     user.UnLikeNum,
+		CollectNum:    user.CollectNum,
+		VisitNum:      user.VisitNum,
+		ResLong:       user.ResLong,
+		ResShort:      user.ResShort,
+		BadgeId:       user.BadgeId,
+		Theme:         user.Theme,
+		MonacoOptions: user.MonacoOptions,
+		Language:      user.Language,
+		MonacoTheme:   user.MonacoTheme,
 	}
 }

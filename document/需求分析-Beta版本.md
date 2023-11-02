@@ -234,6 +234,25 @@
 - /file/upload 上传文件
 - /file/friend 下载指定文件
 
+#### 3.1.4 相似度查询
+
+​	功能描述：用户可以查看多组代码的相似度
+
+​	使用接口：
+
+- /ngram/similarity 计算文本相似度
+- /ngram/judge/:judge 计算矩阵图连通块
+
+#### 3.1.5 心跳相关
+
+​	功能描述：用户可以查看各个容器的心跳情况
+
+​	使用接口：
+
+- /heart/show/:id/:start/:end 查看指定时间段的心跳情况
+- /heart/publish/:id 订阅心跳长连接
+- /heart/percentage 查看近10s内的心跳忙碌占比
+
 ## 4 其他需求
 
 ### 4.1 验收标准

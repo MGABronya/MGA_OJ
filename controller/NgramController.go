@@ -9,6 +9,7 @@ import (
 	"MGA_OJ/util"
 	"MGA_OJ/vo"
 	"log"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -16,6 +17,7 @@ import (
 // INgramController			定义了文本相似类接口
 type INgramController interface {
 	ComputeSimilarity(ctx *gin.Context) // 判断文本相似度
+	JudgeSimilarity(ctx *gin.Context)   // 获得文本相似度连通块
 }
 
 // NgramController			定义了文本相似工具类
@@ -51,6 +53,38 @@ func (n NgramController) ComputeSimilarity(ctx *gin.Context) {
 	}
 	// TODO 返回数据
 	response.Success(ctx, gin.H{"similarity": similarity}, "成功")
+}
+
+// @title    JudgeSimilarity
+// @description  获得文本相似度连通块
+// @auth      MGAronya       2022-9-16 12:19
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (n NgramController) JudgeSimilarity(ctx *gin.Context) {
+	// TODO 获取judge值
+	judge, err := strconv.ParseFloat(ctx.Params.ByName("judge"), 64)
+	if err != nil {
+		response.Fail(ctx, nil, "judge数据错误")
+		return
+	}
+	var arrsRequest vo.ArrsRequest
+	// TODO 数据验证
+	if err := ctx.ShouldBind(&arrsRequest); err != nil {
+		log.Print(err.Error())
+		response.Fail(ctx, nil, "数据验证错误")
+		return
+	}
+
+	// TODO 查找所有的连通块
+	arrs, err := util.SimilarityJudge(arrsRequest.Arrs, judge)
+
+	if err != nil {
+		response.Fail(ctx, nil, err.Error())
+		return
+	}
+
+	// TODO 返回数据
+	response.Success(ctx, gin.H{"arrs": arrs}, "成功")
 }
 
 // @title    NewNgramController

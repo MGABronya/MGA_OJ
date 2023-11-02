@@ -1217,3 +1217,56 @@ func ComputeSimilarity(text1 string, text2 string, n int) float64 {
 
 	return float64(numerator) / float64(denominator)
 }
+
+// @title    SimilarityJudge
+// @description  计算并给出矩阵图中的连通块
+// @auth      MGAronya             2022-9-16 10:29
+// @param     arr [][]float64, stValue float64					代码文本
+// @return    float64
+func SimilarityJudge(arr [][]float64, stValue float64) ([][]int, error) {
+	var n int = len(arr)
+	p := make([]int, n)
+
+	// TODO 参数校验
+	if n == 0 {
+		fmt.Printf("arr参数不能为空")
+		return nil, fmt.Errorf("arr参数不能为空")
+	}
+	if stValue < 0 || stValue > 1 {
+		return nil, fmt.Errorf("stValue参数超出范围")
+	}
+
+	// TODO 寻根函数
+	var find func(x int) int
+	find = func(x int) int {
+		if x != p[x] {
+			p[x] = find(p[x])
+		}
+		return p[x]
+	}
+
+	// TODO 相似度判断
+	for i := 0; i < n; i++ {
+		p[i] = i
+	}
+	for i := 0; i < len(arr); i++ {
+		for j := i + 1; j < len(arr[i]); j++ {
+			if arr[i][j] >= stValue {
+				p[find(i)] = find(j)
+			}
+		}
+	}
+
+	// TODO 联通块分组
+	groups := make(map[int][]int)
+	for i := 0; i < n; i++ {
+		groups[find(i)] = append(groups[find(i)], i)
+	}
+
+	con := make([][]int, 0)
+	for _, group := range groups {
+		con = append(con, group)
+	}
+
+	return con, nil
+}

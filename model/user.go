@@ -11,29 +11,29 @@ import (
 
 // user			定义用户
 type User struct {
-	ID          uuid.UUID `json:"id" gorm:"type:char(36);primary_key"`                                          // id
-	CreatedAt   Time      `json:"created_at" gorm:"type:timestamp"`                                             // 创建日期
-	UpdatedAt   Time      `json:"updated_at" gorm:"type:timestamp"`                                             // 更新日期
-	Name        string    `json:"name" gorm:"type:varchar(20);not null;unique;index:search_idx,class:FULLTEXT"` // 用户名称
-	Email       string    `json:"email" gorm:"type:varchar(50);not null;unique"`                                // 邮箱
-	Password    string    `json:"password" gorm:"size:255;not null"`                                            // 密码
-	Icon        string    `json:"icon" gorm:"type:varchar(50)"`                                                 // 这里的Icon存储的是图像文件的url后缀
-	Blog        string    `json:"blog" gorm:"type:varchar(25)"`                                                 // 博客
-	Sex         bool      `json:"sex" gorm:"type:boolean"`                                                      // 性别
-	Address     string    `json:"address" gorm:"type:varchar(20)"`                                              // 地址
-	Level       int       `json:"level" gorm:"type:int;not null"`                                               // 用户管理等级
-	Score       float64   `json:"score" gorm:"type:double;not null"`                                            // 竞赛分
-	LikeNum     int       `json:"like_num" gorm:"type:int;not null"`                                            // 收到点赞数量
-	UnLikeNum   int       `json:"unlike_num" gorm:"type:int;not null"`                                          // 收到点踩数量
-	CollectNum  int       `json:"collect_num" gorm:"type:int;not null"`                                         // 收到收藏数量
-	VisitNum    int       `json:"visit_num" gorm:"type:int;not null"`                                           // 被游览人次
-	ResLong     string    `json:"res_long" gorm:"type:text;index:search_idx,class:FULLTEXT"`                    // 备用长文本
-	ResShort    string    `json:"res_short" gorm:"type:text;index:search_idx,class:FULLTEXT"`                   // 备用短文本
-	BadgeId     uuid.UUID `json:"badge_id" gorm:"type:char(36);index:idx_badgeId"`                              // 用户佩戴的徽章外键
-	Theme       string    `json:"theme" gorm:"type:varchar(50);"`
-	Monaco      string    `json:"monaco" gorm:"type:varchar(50);"`
-	Language    string    `json:"language" gorm:"type:varchar(50);"`
-	MonacoTheme string    `json:"monaco_theme" gorm:"type:text;"`
+	ID            uuid.UUID `json:"id" gorm:"type:char(36);primary_key"`                                          // id
+	CreatedAt     Time      `json:"created_at" gorm:"type:timestamp"`                                             // 创建日期
+	UpdatedAt     Time      `json:"updated_at" gorm:"type:timestamp"`                                             // 更新日期
+	Name          string    `json:"name" gorm:"type:varchar(20);not null;unique;index:search_idx,class:FULLTEXT"` // 用户名称
+	Email         string    `json:"email" gorm:"type:varchar(50);not null;unique"`                                // 邮箱
+	Password      string    `json:"password" gorm:"size:255;not null"`                                            // 密码
+	Icon          string    `json:"icon" gorm:"type:varchar(50)"`                                                 // 这里的Icon存储的是图像文件的url后缀
+	Blog          string    `json:"blog" gorm:"type:varchar(25)"`                                                 // 博客
+	Sex           bool      `json:"sex" gorm:"type:boolean"`                                                      // 性别
+	Address       string    `json:"address" gorm:"type:varchar(20)"`                                              // 地址
+	Level         int       `json:"level" gorm:"type:int;not null"`                                               // 用户管理等级
+	Score         float64   `json:"score" gorm:"type:double;not null"`                                            // 竞赛分
+	LikeNum       int       `json:"like_num" gorm:"type:int;not null"`                                            // 收到点赞数量
+	UnLikeNum     int       `json:"unlike_num" gorm:"type:int;not null"`                                          // 收到点踩数量
+	CollectNum    int       `json:"collect_num" gorm:"type:int;not null"`                                         // 收到收藏数量
+	VisitNum      int       `json:"visit_num" gorm:"type:int;not null"`                                           // 被游览人次
+	ResLong       string    `json:"res_long" gorm:"type:text;index:search_idx,class:FULLTEXT"`                    // 备用长文本
+	ResShort      string    `json:"res_short" gorm:"type:text;index:search_idx,class:FULLTEXT"`                   // 备用短文本
+	BadgeId       uuid.UUID `json:"badge_id" gorm:"type:char(36);index:idx_badgeId"`                              // 用户佩戴的徽章外键
+	Theme         string    `json:"theme" gorm:"type:varchar(300);"`
+	MonacoOptions string    `json:"monaco_options" gorm:"type:varchar(300);"`
+	Language      string    `json:"language" gorm:"type:varchar(50);"`
+	MonacoTheme   string    `json:"monaco_theme" gorm:"type:varchar(50);"`
 }
 
 // @title    BeforeCreate
