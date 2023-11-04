@@ -28,6 +28,7 @@ func main() {
 	defer client0.Close()
 	common.InitRabbitmq()
 	common.InitVjudge()
+	common.InitChatGPT()
 	r := gin.Default()
 	r = CollectRoute(r)
 	port := viper.GetString("server.port")

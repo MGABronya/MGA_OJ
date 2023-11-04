@@ -25,8 +25,10 @@ require (
 	github.com/jessevdk/go-flags v1.5.0 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
+	github.com/pkg/errors v0.9.1 // indirect
 	github.com/streadway/amqp v1.0.0 // indirect
 	golang.org/x/image v0.0.0-20220902085622-e7cb96979f69 // indirect
+	moul.io/http2curl v1.0.0 // indirect
 )
 
 require (
@@ -46,6 +48,7 @@ require (
 	github.com/mattn/go-isatty v0.0.14 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180228061459-e0a39a4cb421 // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
+	github.com/parnurzeal/gorequest v0.2.16
 	github.com/pelletier/go-toml/v2 v2.0.1 // indirect
 	github.com/satori/go.uuid v1.2.0
 	github.com/tealeg/xlsx v1.0.5

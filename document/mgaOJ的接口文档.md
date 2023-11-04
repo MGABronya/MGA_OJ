@@ -304,6 +304,10 @@
 
 **Ngram**（文本相似度）
 
+### ChatGPT服务
+
+**ChatGPT**（提供chatgpt衍生服务）
+
 ## 路由们
 
 ### 模型：Article
@@ -883,6 +887,56 @@
     请求参数：在Params处提供token。注意，该请求为websocket长连接。
 
     返回值：成功时，将持续实时返回包含该用户的用户组的chat作为用户组的连接请求，每个chat包含created_at表示创建时间，group_id表示用户组，author_id表示作者id，content、res_long(可选)、res_short（可选）表示内容，如果失败则返回失败原因。
+
+### 模型：ChatGPT
+
+定义：chatgpt衍生服务
+
+**基础路由：/chatgpt**
+
+实现的接口类型：
+
+- **其它**
+
+  - **接口地址：/generate/code/:language**
+
+    **功能：按照注释生成代码**
+
+    **方法类型：POST**
+
+    请求参数：代码语言（在接口地址的language处）。在Body，raw格式给出json类型数据包含 Text （string类型，表示代码）。
+
+    返回值：返回res，为string类型表示生成的代码。
+
+  - **接口地址：/generate/note/:language**
+
+    **功能：根据代码生成注释**
+
+    **方法类型：POST**
+
+    请求参数：代码语言（在接口地址的language处）。在Body，raw格式给出json类型数据包含 Text （string类型，表示代码）。
+
+    返回值：返回res，为string类型表示生成的代码。
+
+  - **接口地址：/change/:language1/:language2**
+
+    **功能：根据代码生成其它语言的代码**
+
+    **方法类型：POST**
+
+    请求参数：代码语言（在接口地址的language1处），要转换为的代码语言（在接口地址的language2处）。在Body，raw格式给出json类型数据包含 Text （string类型，表示代码）。
+
+    返回值：返回res，为string类型表示生成的代码。
+
+  - **接口地址：/opinion/:language**
+
+    **功能：代码修改意见**
+
+    **方法类型：POST**
+
+    请求参数：代码语言（在接口地址的language处）。在Body，raw格式给出json类型数据包含 code（string类型，表示代码），problem，problem中包含 description 、 time_limit 、 time_unit 、 memory_limit 、 memory_unit 、 input 、 output 、 sample_case ,description表示题目描述，time_limit 为uint类型，表示时间限制，time_uint表示时间单位，可为"s"或"ms"，memory_limit为uint类型，表示空间限制， memory_uint表示空间单位，可为"mb"或"kb"或"gb"，input表示输入格式，output表示输出格式、sample_case表示输入输出示例数组，每个元素包含input和output，均为string类型。
+
+    返回值：返回res，表示chatgpt判断的执行结果，description表示具体分析原因。
 
 ### 模型：Comment
 
@@ -2781,6 +2835,46 @@
     请求参数：指定用户的uuid（在接口地址的id处）。在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少篇文章，默认值为20）。
 
     返回值：成功时，以json格式返回一个数组messages和total，messages返回了相应列表的留言信息（按照创建时间排序，越新创建排序越前），total表示留言总量，如果失败则返回失败原因。
+    
+  - **接口地址：/ai/create**
+  
+    **功能：设置留言板为AI回复**
+  
+    **方法类型：POST**
+  
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含characters表示人设， reply表示是否回复自己（其为bool类型）， prologue表示开场白 。
+  
+    返回值：成功时返回创建成功相关信息，否则给出失败原因
+  
+  - **接口地址：/ai/delete**
+  
+    **功能：删除ai回复模板**
+  
+    **方法类型：DELETE**
+  
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。
+  
+    返回值：成功时返回删除成功相关信息，否则给出失败原因
+  
+  - **接口地址：/ai/show**
+  
+    **功能：查看AI回复模板**
+  
+    **方法类型：GET**
+  
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。
+  
+    返回值：成功时返回ai，包含characters、reply、prologue、user_id，分别表示人设、是否回复自己、开场白、用户id，否则给出失败原因
+  
+  - **接口地址：/ai/update**
+  
+    **功能：更新AI回复模板**
+  
+    **方法类型：PUT**
+  
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。在Body，raw格式给出json类型数据包含characters表示人设， reply表示是否回复自己（其为bool类型）， prologue表示开场白 。
+  
+    返回值：成功时返回更新成功相关信息，否则给出失败原因
 
 ### 模型：Ngram
 

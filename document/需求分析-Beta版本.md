@@ -253,6 +253,21 @@
 - /heart/publish/:id 订阅心跳长连接
 - /heart/percentage 查看近10s内的心跳忙碌占比
 
+#### 3.1.6 chatgpt相关
+
+​	功能描述：用户可以使用chatgpt的衍生功能
+
+​	使用接口：
+
+- /chatgpt/generate/code/:language 按照注释生成代码
+- /chatgpt/generate/note/:language 根据代码生成注释
+- /chatgpt/change/:language1/:language2 代码转换
+- /chatgpt/opinion/:language 代码修改意见
+- /message/ai/create 设置留言板为AI回复
+- /message/ai/delete 删除ai回复模板
+- /message/ai/show 查看AI回复模板
+- /message/ai/update 更新AI回复模板
+
 ## 4 其他需求
 
 ### 4.1 验收标准

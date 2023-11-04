@@ -34,6 +34,7 @@ import (
 	"github.com/extrame/xls"
 	"github.com/gin-gonic/gin"
 	"github.com/jordan-wright/email"
+	"github.com/parnurzeal/gorequest"
 	uuid "github.com/satori/go.uuid"
 	"github.com/tealeg/xlsx"
 	"golang.org/x/crypto/bcrypt"
@@ -1269,4 +1270,66 @@ func SimilarityJudge(arr [][]float64, stValue float64) ([][]int, error) {
 	}
 
 	return con, nil
+}
+
+// @title    ChatGPT
+// @description  调用ChatGPT的api输入text后回应
+// @auth      MGAronya             2022-9-16 10:29
+// @param     text					chatgpt的输入
+// @return    vo.Response, error					chatgpt应答，以及可能发生的错误
+func ChatGPT(text []string, model string) (vo.Response, error) {
+	authHeader := fmt.Sprintf("Bearer %s", common.ChatGPTKey)
+
+	var messages []vo.Message
+
+	for i := range text {
+		messages = append(messages, vo.Message{Role: "system", Content: text[i]})
+	}
+	// 构建请求数据
+	reqData := vo.Request{
+		Model:    model,
+		Messages: messages,
+	}
+
+	// 发送POST请求
+	request := gorequest.New()
+	resp, _, errs := request.Post(common.ChatGPTUrl).Set("Authorization", authHeader).Send(reqData).End()
+	if errs != nil {
+		fmt.Println("请求出错:", errs[0])
+		return vo.Response{}, errs[0]
+	}
+
+	// 读取响应数据
+	respBody, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println("响应数据读取错误:", err)
+		return vo.Response{}, err
+	}
+
+	// 响应解析
+	if resp.StatusCode == 200 {
+		// 解析响应数据
+		var respData vo.Response
+		err = json.Unmarshal(respBody, &respData)
+		if err != nil {
+			fmt.Println("响应数据解析错误:", err)
+			return vo.Response{}, err
+		}
+		return respData, nil
+	} else {
+		return vo.Response{}, fmt.Errorf("请求失败:" + resp.Status)
+	}
+}
+
+// @title    RemoveFirstAndLastLine
+// @description  除去字符串的第一行和最后一行
+// @auth      MGAronya             2022-9-16 10:29
+// @param     str string					输入字符串
+// @return    string					除去字符串的第一行和最后一行后的字符串
+func RemoveFirstAndLastLine(str string) string {
+	lines := strings.Split(str, "\n")
+	if len(lines) < 3 {
+		return ""
+	}
+	return strings.Join(lines[1:len(lines)-1], "\n")
 }

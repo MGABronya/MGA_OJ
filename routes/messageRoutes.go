@@ -33,5 +33,17 @@ func MessageRoutes(r *gin.Engine) *gin.Engine {
 	// TODO 查看留言列表
 	messageRoutes.GET("/list/:id", messageController.PageList)
 
+	// TODO 设置留言板为AI回复
+	messageRoutes.POST("/ai/create", middleware.AuthMiddleware(), messageController.AICreate)
+
+	// TODO 删除ai回复模板
+	messageRoutes.DELETE("/ai/delete", middleware.AuthMiddleware(), messageController.AIDelete)
+
+	// TODO 查看AI回复模板
+	messageRoutes.GET("/ai/show", middleware.AuthMiddleware(), messageController.AIShow)
+
+	// TODO 更新AI回复模板
+	messageRoutes.PUT("/ai/update", middleware.AuthMiddleware(), messageController.AIUpdate)
+
 	return r
 }
