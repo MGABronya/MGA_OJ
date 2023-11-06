@@ -8,7 +8,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-var DockerId string
+var DockerId, Run, Type, PostMap, CPU string
 
 // @title    InitDocker
 // @description   从配置文件中读取docker相关参数
@@ -17,4 +17,8 @@ var DockerId string
 // @return    void        void         没有返回值
 func InitDocker() {
 	DockerId = viper.GetString("docker.id")
+	Run = viper.GetString("run")
+	Type = viper.GetString("type")
+	PostMap = viper.GetString("postmap")
+	CPU = viper.GetString("cpu")
 }
