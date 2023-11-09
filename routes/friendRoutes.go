@@ -51,5 +51,8 @@ func FriendRoutes(r *gin.Engine) *gin.Engine {
 	// TODO 用户删除某个好友
 	friendRoutes.DELETE("/quit/:id", middleware.AuthMiddleware(), friendController.Quit)
 
+	// TODO 查看好友列表
+	friendRoutes.GET("/list", middleware.AuthMiddleware(), friendController.List)
+
 	return r
 }

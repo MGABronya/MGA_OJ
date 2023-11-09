@@ -11,6 +11,7 @@ import (
 	"MGA_OJ/response"
 	"MGA_OJ/vo"
 	"log"
+	"sort"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -21,6 +22,7 @@ import (
 type IFriendController interface {
 	Interface.ApplyInterface // 包含请求相关功能
 	Interface.BlockInterface // 包含黑名单相关功能
+	List(ctx *gin.Context)   // 查看好友列表
 }
 
 // FriendController			定义了好友工具类
@@ -374,6 +376,41 @@ func (f FriendController) BlackList(ctx *gin.Context) {
 	f.DB.Where("owner_id = (?)", user.ID).Model(model.FriendBlock{}).Count(&total)
 
 	response.Success(ctx, gin.H{"friendBlocks": friendBlocks, "total": total}, "查看成功")
+}
+
+// @title    List
+// @description   查看好友列表
+// @auth      MGAronya       2022-9-16 12:20
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (f FriendController) List(ctx *gin.Context) {
+
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	var friends []model.Friend
+
+	// TODO 查看好友名单
+	f.DB.Where("user_id = (?)", user.ID).Find(&friends)
+
+	// TODO 按昵称排序
+	var users []vo.UserDto
+
+	// TODO 查找所有指定用户
+	for i := range friends {
+		var user model.User
+		if f.DB.Where("id = (?)", friends[i].FriendId).First(&user).Error == nil {
+			users = append(users, vo.ToUserDto(user))
+		}
+	}
+
+	// TODO 排序
+	sort.Slice(users, func(i, j int) bool {
+		return users[i].Name < users[j].Name
+	})
+
+	response.Success(ctx, gin.H{"friends": users}, "查看成功")
 }
 
 // @title    NewFriendController

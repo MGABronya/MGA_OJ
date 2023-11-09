@@ -24,8 +24,9 @@ import (
 
 // IRealNameController			定义了实名类接口
 type IRealNameController interface {
-	Interface.RestInterface  // 包含了增删查改功能
-	Upload(ctx *gin.Context) // 上传实名表单
+	Interface.RestInterface       // 包含了增删查改功能
+	Upload(ctx *gin.Context)      // 上传实名表单
+	StudentList(ctx *gin.Context) // 查看已上传的实名表单
 }
 
 // RealNameController			定义了实名工具类
@@ -247,7 +248,41 @@ func (r RealNameController) PageList(ctx *gin.Context) {
 	r.DB.Model(model.RealName{}).Count(&total)
 
 	// TODO 成功
-	response.Success(ctx, gin.H{"realNames": realNames}, "查看成功")
+	response.Success(ctx, gin.H{"realNames": realNames, "total": total}, "查看成功")
+}
+
+// @title    StudentList
+// @description   查看已上传的实名列表
+// @auth      MGAronya       2022-9-16 12:15
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (r RealNameController) StudentList(ctx *gin.Context) {
+
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 取出用户权限
+	if user.Level < 4 {
+		response.Fail(ctx, nil, "用户权限不足")
+		return
+	}
+
+	var students []model.Student
+
+	// TODO 获取分页参数
+	pageNum, _ := strconv.Atoi(ctx.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "20"))
+
+	var total int64
+
+	// TODO 查找所有分页中可见的条目
+	r.DB.Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&students)
+
+	r.DB.Model(model.Student{}).Count(&total)
+
+	// TODO 成功
+	response.Success(ctx, gin.H{"students": students, "total": total}, "查看成功")
 }
 
 // @title    Upload
@@ -310,6 +345,9 @@ func (r RealNameController) Upload(ctx *gin.Context) {
 
 	// TODO 读入文件
 	for i := 1; i < len(res); i++ {
+		if len(res[i]) < 5 {
+			break
+		}
 		student := model.Student{
 			StudentId: res[i][0],
 			Name:      res[i][1],

@@ -41,6 +41,7 @@ type IGroupController interface {
 	LeaderList(ctx *gin.Context)     // 查询指定用户领导的用户组
 	MemberList(ctx *gin.Context)     // 查询指定用户参加的用户组
 	UserList(ctx *gin.Context)       // 查询指定用户组的用户列表
+	MemberShow(ctx *gin.Context)     // 查询自己是否在用户组内
 }
 
 // GroupController			定义了用户组工具类
@@ -357,6 +358,7 @@ func (g GroupController) Update(ctx *gin.Context) {
 func (g GroupController) Show(ctx *gin.Context) {
 	// TODO 获取path中的id
 	id := ctx.Params.ByName("id")
+
 	var group model.Group
 
 	// TODO 先看redis中是否存在
@@ -382,6 +384,51 @@ func (g GroupController) Show(ctx *gin.Context) {
 	// TODO 将用户组存入redis供下次使用
 	v, _ := json.Marshal(group)
 	g.Redis.HSet(ctx, "Group", id, v)
+}
+
+// @title    MemberShow
+// @description   查看自己是否在某用户内
+// @auth      MGAronya       2022-9-16 12:19
+// @param    ctx *gin.Context       接收一个上下文
+// @return   void
+func (g GroupController) MemberShow(ctx *gin.Context) {
+	// TODO 获取path中的id
+	id := ctx.Params.ByName("id")
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	var group model.Group
+
+	// TODO 先看redis中是否存在
+	if ok, _ := g.Redis.HExists(ctx, "Group", id).Result(); ok {
+		cate, _ := g.Redis.HGet(ctx, "Group", id).Result()
+		if json.Unmarshal([]byte(cate), &group) == nil {
+			goto leep
+		} else {
+			// TODO 移除损坏数据
+			g.Redis.HDel(ctx, "Group", id)
+		}
+	}
+	// TODO 查看用户组是否在数据库中存在
+	if g.DB.Where("id = (?)", id).First(&group).Error != nil {
+		response.Fail(ctx, nil, "用户组不存在")
+		return
+	}
+	// TODO 将用户组存入redis供下次使用
+	{
+		v, _ := json.Marshal(group)
+		g.Redis.HSet(ctx, "Group", id, v)
+	}
+
+leep:
+	// TODO 查看用户组是否在数据库中存在
+	if g.DB.Where("group_id = (?) and user_id = (?)", group.ID, user.ID).First(&model.UserList{}).Error != nil {
+		response.Success(ctx, gin.H{"member": false}, "不在用户组")
+		return
+	}
+
+	response.Success(ctx, gin.H{"member": true}, "已加入用户组")
 }
 
 // @title    Delete

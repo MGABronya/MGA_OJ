@@ -130,14 +130,14 @@ leep:
 userlist:
 
 	for i := range userLists {
+		// TODO 将chat放入连接库
+		c.Redis.HSet(ctx, "ChatLink"+userLists[i].UserId.String(), group.ID.String(), v)
 		// TODO 跳过自己
 		if user.ID == userLists[i].UserId {
 			continue
 		}
 		// TODO 将连接请求放入频道
 		c.Redis.Publish(ctx, "ChatLinkChan"+userLists[i].UserId.String(), v)
-		// TODO 将chat放入连接库
-		c.Redis.HSet(ctx, "ChatLink"+userLists[i].UserId.String(), group.ID.String(), v)
 	}
 
 	// TODO 成功
@@ -343,7 +343,12 @@ leep:
 		json.Unmarshal([]byte(msg.Payload), &chat)
 		// TODO 写入ws数据
 		// TODO 断开连接
-		if err := ws.WriteJSON(chat); err != nil {
+		var chatWithuser vo.ChatWithUser
+		chatWithuser.Chat = chat
+		var user model.User
+		c.DB.Where("id = (?)", chat.Author).First(&user)
+		chatWithuser.User = vo.ToUserDto(user)
+		if err := ws.WriteJSON(chatWithuser); err != nil {
 			break
 		}
 	}
@@ -378,7 +383,12 @@ func (c ChatController) ReceiveLink(ctx *gin.Context) {
 		var chat model.Chat
 		json.Unmarshal([]byte(msg.Payload), &chat)
 		// TODO 断开连接
-		if err := ws.WriteJSON(chat); err != nil {
+		var chatWithuser vo.ChatWithUser
+		chatWithuser.Chat = chat
+		var user model.User
+		c.DB.Where("id = (?)", chat.Author).First(&user)
+		chatWithuser.User = vo.ToUserDto(user)
+		if err := ws.WriteJSON(chatWithuser); err != nil {
 			break
 		}
 	}

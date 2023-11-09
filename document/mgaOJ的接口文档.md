@@ -876,7 +876,7 @@
 
     请求参数：用户组的uuid（在接口地址的id处）。在Params处提供token。注意，该请求为websocket长连接。
 
-    返回值：成功时，将持续实时返回指定组的chat，每个chat包含created_at表示创建时间，group_id表示用户组，author_id表示作者id，content、res_long(可选)、res_short（可选）表示内容，如果失败则返回失败原因。
+    返回值：成功时，将持续实时返回指定组的chatWithuser，每个chatWithuser包含chat和user，chat包含created_at表示创建时间，group_id表示用户组，author_id表示作者id，content、res_long(可选)、res_short（可选）表示内容，如果失败则返回失败原因。
 
   - **接口地址：/receivelink**
 
@@ -886,7 +886,7 @@
 
     请求参数：在Params处提供token。注意，该请求为websocket长连接。
 
-    返回值：成功时，将持续实时返回包含该用户的用户组的chat作为用户组的连接请求，每个chat包含created_at表示创建时间，group_id表示用户组，author_id表示作者id，content、res_long(可选)、res_short（可选）表示内容，如果失败则返回失败原因。
+    返回值：成功时，将持续实时返回包含该用户的用户组的chatWithuser，每个chatWithuser包含chat和user，chat作为用户组的连接请求，每个chat包含created_at表示创建时间，group_id表示用户组，author_id表示作者id，content、res_long(可选)、res_short（可选）表示内容，如果失败则返回失败原因。
 
 ### 模型：ChatGPT
 
@@ -2205,6 +2205,26 @@
     请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。
 
     返回值：成功时，以json格式返回一个friendBlocks，其为friendBlock数组，每个元素包含了id、create_at、updated_at、user_id、owner_id。其中user_id为被拉黑者的id，owner_id为黑名单持有者id。
+    
+  - **接口地址：/black/list**
+  
+    **功能：查看黑名单**
+  
+    **方法类型：GET**
+  
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。
+  
+    返回值：成功时，以json格式返回一个friendBlocks，其为friendBlock数组，每个元素包含了id、create_at、updated_at、user_id、owner_id。其中user_id为被拉黑者的id，owner_id为黑名单持有者id。
+  
+  - **接口地址：/list**
+  
+    **功能：查看好友列表**
+  
+    **方法类型：GET**
+  
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。
+  
+    返回值：成功时，以json格式返回一个friends，其为friend数组，其按Name进行排序。
 
 ### 模型：Group
 
@@ -2582,14 +2602,24 @@
 
     返回值：成功时，以json格式返回一个数组groups和total，groups返回了相应列表的用户组信息（按照创建时间排序，越新创建排序越前），total表示用户组总量，如果失败则返回失败原因。
 
-  - **接口地址：/user/list/:id**
+  - **接口地址：/member/:id**
 
-    **功能：看某一用户组的用户列表**
+    **功能：查看用户是否加入了指定用户组**
 
     **方法类型：GET**
 
-    请求参数：在接口地址中给出用户组的id（即:id部分） 。在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少个用户组，默认值为20）。
+    请求参数： Authorization中的Bearer Token中提供注册、登录时给出的token。 在接口地址中给出用户组的id（即:id部分） 。
 
+    返回值：成功时，以json格式返回一个member，其为bool类型，true表示已加入，false表示未加入，如果失败则返回失败原因。
+  
+  - **接口地址：/user/list/:id**
+  
+    **功能：看某一用户组的用户列表**
+  
+    **方法类型：GET**
+  
+    请求参数：在接口地址中给出用户组的id（即:id部分） 。在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少个用户组，默认值为20）。
+  
     返回值：成功时，以json格式返回一个数组groups和total，groups返回了相应列表的用户组信息（按照创建时间排序，越新创建排序越前），total表示用户组总量，如果失败则返回失败原因。
     
   - **接口地址：/standard/create/:id/:num**（需要四级权限）
@@ -2740,7 +2770,7 @@
 
     请求参数：用户的uuid（在接口地址的id处）。在Params处提供token。注意，该请求为websocket长连接。
 
-    返回值：成功时，将持续实时返回指定用户的letter，每个letter包含created_at表示创建时间，user_id表示接收消息的用户id，author_id表示作者id，content、res_long(可选)、res_short（可选）表示内容，如果失败则返回失败原因。
+    返回值：成功时，将持续实时返回指定用户的letterWithuser，每个letterWithuser包含letter和user，letter包含created_at表示创建时间，user_id表示接收消息的用户id，author_id表示作者id，content、res_long(可选)、res_short（可选）表示内容，如果失败则返回失败原因。
 
   - **接口地址：/receivelink**
 
@@ -2750,7 +2780,7 @@
 
     请求参数：在Params处提供token。注意，该请求为websocket长连接。
 
-    返回值：成功时，将持续实时返回包含该用户所有接收到的letter，每个letter包含created_at表示创建时间，user_id表示接收消息的用户id，author_id表示作者id，content、res_long(可选)、res_short（可选）表示内容，如果失败则返回失败原因。
+    返回值：成功时，将持续实时返回包含该用户所有接收到的letterWithuser，每个letterWithuser包含letter和user，letter包含created_at表示创建时间，user_id表示接收消息的用户id，author_id表示作者id，content、res_long(可选)、res_short（可选）表示内容，如果失败则返回失败原因。
 
 - **BlockInterface**
 
@@ -4426,6 +4456,16 @@
     返回值：返回上传成功信息
 
     返回值：成功时，返回成功信息，否则返回失败原因。
+    
+  - **接口地址：/student/list**
+  
+    **功能：查看已上传的实名列表**
+  
+    **方法类型：GET**
+  
+    请求参数：  在Params处提供pageNum（表示第几页，默认值为1）和pageSize（表示一页多少篇提交，默认值为20）。Authorization中的Bearer Token中提供注册、登录时给出的token。
+  
+    返回值：成功时，以json格式返回students和total，如果失败则返回失败原因。
 
 ### 模型：Record
 
@@ -6140,5 +6180,3 @@
     请求参数：在接口地址中给出指定用户的id（即:id部分）  。
   
     返回值：返回rank为排名。
-
-****

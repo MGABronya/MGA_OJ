@@ -37,10 +37,13 @@ func RealNameRoutes(r *gin.Engine) *gin.Engine {
 	realNameRoutes.DELETE("/delete", middleware.AuthMiddleware(), realNameController.Delete)
 
 	// TODO 查看实名列表
-	realNameRoutes.DELETE("/list", middleware.AuthMiddleware(), realNameController.PageList)
+	realNameRoutes.GET("/list", middleware.AuthMiddleware(), realNameController.PageList)
 
 	// TODO 上传实名
 	realNameRoutes.PUT("/upload", middleware.AuthMiddleware(), realNameController.Upload)
+
+	// TODO 查看已上传的实名列表
+	realNameRoutes.GET("/student/list", middleware.AuthMiddleware(), realNameController.StudentList)
 
 	return r
 }

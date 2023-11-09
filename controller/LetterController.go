@@ -115,6 +115,7 @@ leap:
 
 	// TODO 将letter放入连接库
 	l.Redis.HSet(ctx, "LetterLink"+userb.ID.String(), user.ID.String(), letter.ID.String())
+	l.Redis.HSet(ctx, "LetterLink"+user.ID.String(), user.ID.String(), letter.ID.String())
 
 	// TODO 将连接请求放入频道
 	l.Redis.Publish(ctx, "LetterLinkChan"+userb.ID.String(), letter.ID.String())
@@ -307,7 +308,12 @@ leap:
 		v, _ := l.Redis.HGet(ctx, "Letters", msg.Payload).Result()
 		json.Unmarshal([]byte(v), &letter)
 		// TODO 写入ws数据
-		if err := ws.WriteJSON(letter); err != nil {
+		var letterWithuser vo.LetterWithUser
+		letterWithuser.Letter = letter
+		var user model.User
+		l.DB.Where("id = (?)", letter.Author).First(&user)
+		letterWithuser.User = vo.ToUserDto(user)
+		if err := ws.WriteJSON(letterWithuser); err != nil {
 			break
 		}
 	}
@@ -342,7 +348,12 @@ func (l LetterController) ReceiveLink(ctx *gin.Context) {
 		v, _ := l.Redis.HGet(ctx, "Letters", msg.Payload).Result()
 		json.Unmarshal([]byte(v), &letter)
 		// TODO 写入ws数据
-		if err := ws.WriteJSON(letter); err != nil {
+		var letterWithuser vo.LetterWithUser
+		letterWithuser.Letter = letter
+		var user model.User
+		l.DB.Where("id = (?)", letter.Author).First(&user)
+		letterWithuser.User = vo.ToUserDto(user)
+		if err := ws.WriteJSON(letterWithuser); err != nil {
 			break
 		}
 	}

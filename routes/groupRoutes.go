@@ -36,6 +36,9 @@ func GroupRoutes(r *gin.Engine) *gin.Engine {
 	// TODO 查看用户组
 	groupRoutes.GET("/show/:id", groupController.Show)
 
+	// TODO 查看是否在用户组内
+	groupRoutes.GET("/member/:id", middleware.AuthMiddleware(), groupController.MemberShow)
+
 	// TODO 更新用户组
 	groupRoutes.PUT("/update/:id", middleware.AuthMiddleware(), groupController.Update)
 
