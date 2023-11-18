@@ -148,8 +148,10 @@ func (r ReplyController) Update(ctx *gin.Context) {
 	// TODO 移除损坏数据
 	r.Redis.HDel(ctx, "Reply", id)
 
+	r.DB.Where("id = (?)", id).First(&reply)
+
 	// TODO 成功
-	response.Success(ctx, nil, "更新成功")
+	response.Success(ctx, gin.H{"reply": reply}, "更新成功")
 }
 
 // @title    Show

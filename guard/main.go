@@ -1,4 +1,4 @@
-package guard
+package main
 
 import (
 	"MGA_OJ/common"

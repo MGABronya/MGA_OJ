@@ -12,7 +12,6 @@ import (
 	"MGA_OJ/util"
 	"MGA_OJ/vo"
 	"encoding/json"
-	"fmt"
 	"log"
 
 	"math/rand"
@@ -332,7 +331,7 @@ func (u UserController) Update(ctx *gin.Context) {
 	}
 
 	// TODO 查看email是否合法
-	if requestUser.Email != user.Email {
+	if requestUser.Email != "" && requestUser.Email != user.Email {
 		// TODO 判断email是否存在
 		if util.IsEmailExist(u.DB, requestUser.Email) {
 			response.Response(ctx, 201, 201, nil, "邮箱已绑定")
@@ -364,8 +363,9 @@ func (u UserController) Update(ctx *gin.Context) {
 	})
 
 	// TODO 移除损坏数据
-	u.Redis.HDel(ctx, "User", fmt.Sprint(user.ID))
-	response.Success(ctx, nil, "用户信息更新成功")
+	u.Redis.HDel(ctx, "User", user.ID.String())
+	u.DB.Where("id = (?)", user.ID).First(&user)
+	response.Success(ctx, gin.H{"user": vo.ToUserDto(user)}, "用户信息更新成功")
 }
 
 // @title    UpdateLevel

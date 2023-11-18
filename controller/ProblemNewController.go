@@ -1042,8 +1042,10 @@ func (p ProblemNewController) Update(ctx *gin.Context) {
 		}
 	}
 
+	p.DB.Where("id = (?)", id).First(&problem)
+
 	// TODO 成功
-	response.Success(ctx, nil, "更新成功")
+	response.Success(ctx, gin.H{"problem": problem}, "更新成功")
 }
 
 // @title    Show

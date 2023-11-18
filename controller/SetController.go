@@ -333,8 +333,10 @@ func (s SetController) Update(ctx *gin.Context) {
 		return
 	}
 
+	s.DB.Where("id = (?)", id).First(&set)
+
 	// TODO 成功
-	response.Success(ctx, nil, "更新成功")
+	response.Success(ctx, gin.H{"set": set}, "更新成功")
 }
 
 // @title    Show
@@ -1223,7 +1225,9 @@ leep:
 		return
 	}
 
-	response.Success(ctx, nil, "更新成功")
+	s.DB.Where("id = (?)", id).First(&set)
+
+	response.Success(ctx, gin.H{"set": set}, "更新成功")
 }
 
 // @title    Apply

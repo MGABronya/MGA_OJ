@@ -118,8 +118,10 @@ func (p ProgramController) Update(ctx *gin.Context) {
 	// TODO 更新特判内容
 	p.DB.Model(&program).Updates(programUpdate)
 
+	p.DB.Where("id = (?)", id).First(&program)
+
 	// TODO 成功
-	response.Success(ctx, nil, "更新成功")
+	response.Success(ctx, gin.H{"program": program}, "更新成功")
 	p.Redis.HDel(ctx, "Program", id)
 }
 

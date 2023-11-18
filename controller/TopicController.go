@@ -210,8 +210,10 @@ func (t TopicController) Update(ctx *gin.Context) {
 		}
 	}
 
+	t.DB.Where("id = (?)", id).First(&topic)
+
 	// TODO 成功
-	response.Success(ctx, nil, "更新成功")
+	response.Success(ctx, gin.H{"topic": topic}, "更新成功")
 }
 
 // @title    Show

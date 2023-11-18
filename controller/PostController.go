@@ -156,8 +156,10 @@ func (p PostController) Update(ctx *gin.Context) {
 	// TODO 移除损坏数据
 	p.Redis.HDel(ctx, "Post", id)
 
+	p.DB.Where("id = (?)", id).First(&post)
+
 	// TODO 成功
-	response.Success(ctx, nil, "更新成功")
+	response.Success(ctx, gin.H{"post": post}, "更新成功")
 }
 
 // @title    Show

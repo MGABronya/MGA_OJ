@@ -442,8 +442,10 @@ func (c CompetitionController) Update(ctx *gin.Context) {
 	// TODO 移除损坏数据
 	c.Redis.HDel(ctx, "Competition", id)
 
+	c.DB.Where("id = (?)", id).First(&competition)
+
 	// TODO 成功
-	response.Success(ctx, nil, "更新成功")
+	response.Success(ctx, gin.H{"competition": competition}, "更新成功")
 }
 
 // @title    Show

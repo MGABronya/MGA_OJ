@@ -24,10 +24,34 @@ func FileRoutes(r *gin.Engine) *gin.Engine {
 	fileController := controller.NewFileController()
 
 	// TODO 上传文件
-	fileRoutes.POST("/upload", fileController.Upload)
+	fileRoutes.POST("/upload/:path", fileController.Upload)
 
 	// TODO 下载文件
 	fileRoutes.GET("/download/:id", fileController.Download)
+
+	// TODO 解压某文件
+	fileRoutes.PUT("/unzip", fileController.Unzip)
+
+	// TODO 查看目录
+	fileRoutes.GET("/path/:id", fileController.ShowPath)
+
+	// TODO 创建目录
+	fileRoutes.PUT("/mkdir/:id", fileController.MkDir)
+
+	// TODO 复制
+	fileRoutes.PUT("/cp", fileController.CP)
+
+	// TODO 删除
+	fileRoutes.DELETE("/rm/:id", fileController.RM)
+
+	// TODO 重命名
+	fileRoutes.PUT("/rename", fileController.Rename)
+
+	// TODO 复制目录
+	fileRoutes.PUT("/all/cp", fileController.CPAll)
+
+	// TODO 删除目录
+	fileRoutes.DELETE("/all/rm/:id", fileController.RMAll)
 
 	return r
 }

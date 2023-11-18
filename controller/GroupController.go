@@ -346,8 +346,9 @@ func (g GroupController) Update(ctx *gin.Context) {
 		}
 	}
 
+	g.DB.Where("id = (?)", id).First(&group)
 	// TODO 成功
-	response.Success(ctx, nil, "更新成功")
+	response.Success(ctx, gin.H{"group": group}, "更新成功")
 }
 
 // @title    Show

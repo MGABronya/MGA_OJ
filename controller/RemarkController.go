@@ -149,8 +149,10 @@ func (r RemarkController) Update(ctx *gin.Context) {
 	// TODO 移除损坏数据
 	r.Redis.HDel(ctx, "Remark", id)
 
+	r.DB.Where("id = (?)", id).First(&remark)
+
 	// TODO 成功
-	response.Success(ctx, nil, "更新成功")
+	response.Success(ctx, gin.H{"remark": remark}, "更新成功")
 }
 
 // @title    Show

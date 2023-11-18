@@ -144,8 +144,10 @@ func (r RealNameController) Update(ctx *gin.Context) {
 	// TODO 更新实名内容
 	r.DB.Model(&realName).Updates(realNameUpdate)
 
+	r.DB.Where("user_id = (?)", user.ID).First(&realName)
+
 	// TODO 成功
-	response.Success(ctx, nil, "更新成功")
+	response.Success(ctx, gin.H{"realName": realName}, "更新成功")
 	r.Redis.HDel(ctx, "RealName", user.ID.String())
 }
 

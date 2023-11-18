@@ -158,8 +158,10 @@ func (n NoticeBoardController) Update(ctx *gin.Context) {
 	// TODO 解码失败，删除字段
 	n.Redis.HDel(ctx, "NoticeBoard", id)
 
+	n.DB.Where("id = (?)", id).First(&noticeBoard)
+
 	// TODO 成功
-	response.Success(ctx, nil, "更新成功")
+	response.Success(ctx, gin.H{"noticeBoard": noticeBoard}, "更新成功")
 }
 
 // @title    Delete

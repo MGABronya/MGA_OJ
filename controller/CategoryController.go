@@ -102,8 +102,10 @@ func (c CategoryController) Update(ctx *gin.Context) {
 	// TODO 移除损坏数据
 	c.Redis.HDel(ctx, "Category", id)
 
+	c.DB.Where("id = (?)", id).First(&category)
+
 	// TODO 成功
-	response.Success(ctx, nil, "更新成功")
+	response.Success(ctx, gin.H{"category": category}, "更新成功")
 }
 
 // @title    Show

@@ -130,8 +130,10 @@ func (a ArticleController) Update(ctx *gin.Context) {
 	// TODO 解码失败，删除字段
 	a.Redis.HDel(ctx, "Article", id)
 
+	a.DB.Where("id = (?)", id).First(&article)
+
 	// TODO 成功
-	response.Success(ctx, nil, "更新成功")
+	response.Success(ctx, gin.H{"article": article}, "更新成功")
 }
 
 // @title    Show

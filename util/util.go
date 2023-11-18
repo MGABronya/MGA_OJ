@@ -10,11 +10,13 @@ import (
 	"MGA_OJ/common"
 	"MGA_OJ/model"
 	"MGA_OJ/vo"
+	"archive/zip"
 	"context"
 	"encoding/csv"
 	"encoding/json"
 	"encoding/xml"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"log"
 	"math"
@@ -24,6 +26,7 @@ import (
 	"net/url"
 	"os"
 	"path"
+	"path/filepath"
 	"regexp"
 	"sort"
 	"strconv"
@@ -1332,4 +1335,329 @@ func RemoveFirstAndLastLine(str string) string {
 		return ""
 	}
 	return strings.Join(lines[1:len(lines)-1], "\n")
+}
+
+// @title    Unzip
+// @description  用于解压缩指定的 ZIP 文件到目标目录
+// @auth      MGAronya             2022-9-16 10:29
+// @param     zipfile, destDir string					指定的文件以及指定的路径
+// @return    error						可能的报错
+func Unzip(zipfile, destDir string) error {
+	// TODO 打开 ZIP 文件
+	r, err := zip.OpenReader(zipfile)
+	if err != nil {
+		return err
+	}
+	defer r.Close()
+
+	// TODO 创建目标目录
+	err = os.MkdirAll(destDir, 0755)
+	if err != nil {
+		return err
+	}
+
+	// TODO  遍历 ZIP 文件中的每个文件
+	for _, f := range r.File {
+		// TODO 解压缩单个文件
+		err := ExtractFile(f, destDir)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+// @title    ExtractFile
+// @description  用于解压缩指定的文件到目标目录
+// @auth      MGAronya             2022-9-16 10:29
+// @param     f *zip.File, destDir string					指定的文件以及指定的路径
+// @return    error						可能的报错
+func ExtractFile(f *zip.File, destDir string) error {
+	// TODO 打开 ZIP 文件中的文件
+	rc, err := f.Open()
+	if err != nil {
+		return err
+	}
+	defer rc.Close()
+
+	// TODO 构建解压缩后的文件路径
+	path := filepath.Join(destDir, f.Name)
+
+	// TODO 如果是目录，则创建
+	if f.FileInfo().IsDir() {
+		os.MkdirAll(path, f.Mode())
+	} else {
+		// TODO 确保目标目录存在
+		os.MkdirAll(filepath.Dir(path), f.Mode())
+
+		// TODO 创建目标文件
+		file, err := os.OpenFile(path, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, f.Mode())
+		if err != nil {
+			return err
+		}
+		defer file.Close()
+
+		// TODO 将 ZIP 文件中的数据复制到目标文件中
+		_, err = io.Copy(file, rc)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+// @title    GetFiles
+// @description   获取一个目录下的所有文件
+// @auth      MGAronya（张健）             2022-9-16 10:29
+// @param     folder string	指定目录
+// @return    []string    所有文件的文件名
+func GetFiles(folder string) ([]vo.File, error) {
+	files, err := ioutil.ReadDir(folder)
+	if err != nil {
+		return nil, err
+	}
+	res := make([]vo.File, 0)
+	for _, file := range files {
+		// TODO 尝试读出所有文件的相关信息
+		var f vo.File
+		f.Name = file.Name()
+		if folder[len(folder)-1] == '/' {
+			f.Path = folder + file.Name()
+		} else {
+			f.Path = folder + "/" + file.Name()
+		}
+		f.Size = file.Size()
+		f.LastWriteTime = file.ModTime()
+		if file.IsDir() {
+			f.Type = "Dir"
+		} else {
+			f.Type = path.Ext(file.Name())
+		}
+		res = append(res, f)
+	}
+	return res, nil
+}
+
+// @title    PathExists
+// @description   判断文件夹是否存在
+// @auth      MGAronya（张健）             2022-9-16 10:29
+// @param     path string	指定目录
+// @return    bool, error    查看文件夹是否存在
+func PathExists(path string) (bool, error) {
+	_, err := os.Stat(path)
+	if err == nil {
+		return true, nil
+	}
+	if os.IsNotExist(err) {
+		return false, nil
+	}
+	return false, err
+}
+
+// @title    Mkdir
+// @description   建立文件夹
+// @auth      MGAronya（张健）             2022-9-16 10:29
+// @param     path string	指定路径
+// @return   error    查看是否出错
+func Mkdir(dir string) error {
+	exist, err := PathExists(dir)
+	if err != nil {
+		return err
+	}
+
+	if !exist {
+		// TODO 创建文件夹
+		err := os.Mkdir(dir, os.ModePerm)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+// @title    CopyFile
+// @description   复制文件
+// @auth      MGAronya（张健）             2022-9-16 10:29
+// @param     sourceFilePath, destinationDir string	指定路径
+// @return   error    查看是否出错
+func CopyFile(sourceFilePath, destinationDir string) error {
+	// TODO 获取文件名
+	fileName := filepath.Base(sourceFilePath)
+
+	// TODO 拼接目标路径
+	destinationPath := filepath.Join(destinationDir, fileName)
+
+	// TODO 打开源文件
+	sourceFile, err := os.Open(sourceFilePath)
+	if err != nil {
+		return err
+	}
+	defer sourceFile.Close()
+
+	// TODO 创建目标目录
+	err = os.MkdirAll(destinationDir, os.ModePerm)
+	if err != nil {
+		return err
+	}
+
+	// TODO 创建目标文件
+	destinationFile, err := os.Create(destinationPath)
+	if err != nil {
+		return err
+	}
+	defer destinationFile.Close()
+
+	// TODO 拷贝源文件内容到目标文件
+	_, err = io.Copy(destinationFile, sourceFile)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// @title    RemoveFile
+// @description   函数用于删除指定文件
+// @auth      MGAronya（张健）             2022-9-16 10:29
+// @param     sfilePath	指定路径下的文件
+// @return   error    查看是否出错
+func RemoveFile(filePath string) error {
+	// TODO 检查文件是否存在
+	_, err := os.Stat(filePath)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return fmt.Errorf("File does not exist")
+		}
+		return err
+	}
+
+	// TODO 删除文件
+	err = os.Remove(filePath)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// @title    RenameFile
+// @description   函数用于将指定文件重命名为新的文件名
+// @auth      MGAronya（张健）             2022-9-16 10:29
+// @param     filePath, newName string		指定的文件和新名字
+// @return   error    查看是否出错
+func RenameFile(filePath, newName string) error {
+	// 检查文件是否存在
+	_, err := os.Stat(filePath)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return fmt.Errorf("File does not exist")
+		}
+		return err
+	}
+
+	// 重命名文件
+	err = os.Rename(filePath, newName)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// @title    CopyDir
+// @description   函数用于复制源目录及其内容到目标目录
+// @auth      MGAronya（张健）             2022-9-16 10:29
+// @param     filePath, newName string		指定的文件和复制的目标路径
+// @return   error    查看是否出错
+func CopyDir(sourceDir, destinationDir string) error {
+	// TODO 创建目标目录
+	err := os.MkdirAll(destinationDir, os.ModePerm)
+	if err != nil {
+		return err
+	}
+
+	// TODO 打开源目录
+	dir, err := os.Open(sourceDir)
+	if err != nil {
+		return err
+	}
+	defer dir.Close()
+
+	// TODO 读取源目录中的所有文件和子目录
+	fileInfos, err := dir.Readdir(-1)
+	if err != nil {
+		return err
+	}
+
+	// TODO 遍历源目录中的文件和子目录
+	for _, fileInfo := range fileInfos {
+		// TODO 构建文件/目录的源路径和目标路径
+		sourcePath := filepath.Join(sourceDir, fileInfo.Name())
+		destinationPath := filepath.Join(destinationDir, fileInfo.Name())
+
+		if fileInfo.IsDir() {
+			// TODO 如果是子目录，则递归调用 copyDir 函数复制子目录
+			err = CopyDir(sourcePath, destinationPath)
+			if err != nil {
+				return err
+			}
+		} else {
+			// TODO 如果是文件，则调用 copyFile 函数复制文件
+			err = CopyFile(sourcePath, destinationPath)
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+	return nil
+}
+
+// @title    RemoveDir
+// @description   删除指定目录及其子目录和文件
+// @auth      MGAronya（张健）             2022-9-16 10:29
+// @param     path string		需要删除的目录路径
+// @return   error    查看是否出错
+func RemoveDir(path string) error {
+	// TODO 打开目录
+	dir, err := os.Open(path)
+	if err != nil {
+		return err
+	}
+	defer dir.Close()
+
+	// TODO 读取目录下的所有文件和子目录
+	fileInfos, err := dir.Readdir(-1)
+	if err != nil {
+		return err
+	}
+
+	for _, fileInfo := range fileInfos {
+		// TODO 拼接文件路径
+		filePath := filepath.Join(path, fileInfo.Name())
+
+		if fileInfo.IsDir() {
+			// TODO 若是子目录，则递归调用删除子目录
+			err = RemoveDir(filePath)
+			if err != nil {
+				return err
+			}
+		} else {
+			// TODO 若是文件，则直接删除
+			err = os.Remove(filePath)
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+	// TODO 删除目录
+	err = os.Remove(path)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

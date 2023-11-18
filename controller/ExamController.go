@@ -236,8 +236,10 @@ levp:
 	// TODO 解码失败，删除字段
 	e.Redis.HDel(ctx, "Exam", id)
 
+	e.DB.Where("id = (?)", id).First(&exam)
+
 	// TODO 成功
-	response.Success(ctx, nil, "更新成功")
+	response.Success(ctx, gin.H{"exam": exam}, "更新成功")
 }
 
 // @title    Show

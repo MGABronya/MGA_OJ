@@ -171,8 +171,10 @@ func (b BadgeController) Update(ctx *gin.Context) {
 	// TODO 移除损坏数据
 	b.Redis.HDel(ctx, "Badge", id)
 
+	b.DB.Where("id = (?)", id).First(&badge)
+
 	// TODO 成功
-	response.Success(ctx, nil, "更新成功")
+	response.Success(ctx, gin.H{"badge": badge}, "更新成功")
 }
 
 // @title    Show

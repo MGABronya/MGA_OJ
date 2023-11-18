@@ -150,8 +150,10 @@ func (t ThreadController) Update(ctx *gin.Context) {
 	// TODO 移除损坏数据
 	t.Redis.HDel(ctx, "Thread", id)
 
+	t.DB.Where("id = (?)", id).First(&Thread)
+
 	// TODO 成功
-	response.Success(ctx, nil, "更新成功")
+	response.Success(ctx, gin.H{"thread": Thread}, "更新成功")
 }
 
 // @title    Show

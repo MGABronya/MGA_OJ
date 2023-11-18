@@ -143,8 +143,10 @@ func (c CommentController) Update(ctx *gin.Context) {
 	// TODO 移除损坏数据
 	c.Redis.HDel(ctx, "Comment", id)
 
+	c.DB.Where("id = (?)", id).First(&comment)
+
 	// TODO 成功
-	response.Success(ctx, nil, "更新成功")
+	response.Success(ctx, gin.H{"comment": comment}, "更新成功")
 }
 
 // @title    Show
