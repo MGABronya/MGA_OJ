@@ -32,12 +32,13 @@ func Guard() {
 	// TODO 获得消息管道
 	ch := pubSub.Channel()
 	// TODO 计时器
-	t := time.NewTimer(time.Second * 300)
+	t := time.NewTimer(time.Second * 30)
 	// TODO 如果300s内没有响应，重启容器
 	go func() {
 		for {
 			// TODO 时间到了
 			<-t.C
+			log.Println("容器失联")
 			// TODO 停止容器
 			cmd := docker.Stop(common.DockerId)
 			if err := cmd.Run(); err != nil {
@@ -55,6 +56,7 @@ func Guard() {
 			if err := cmd.Run(); err != nil {
 				log.Println("创建容器失败:" + err.Error())
 			}
+			log.Println("容器已重建")
 			// TODO 更新计时
 			t.Reset(time.Second * 300)
 		}

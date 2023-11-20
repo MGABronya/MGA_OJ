@@ -20,7 +20,7 @@ type Judge struct {
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (j Judge) Run(ID string, cpu string, postMap string) *exec.Cmd {
-	return exec.Command("docker", "run", "-itd", "--cpuset-cpus", cpu, "--name", ID, "mgaronya/judge:v1", "/bin/bash", "/autorun.sh")
+	return exec.Command("docker", "run", "-itd", "--cpuset-cpus", cpu, "--name", ID, "judge", "/bin/bash", "/autorun.sh")
 }
 
 // @title    RM

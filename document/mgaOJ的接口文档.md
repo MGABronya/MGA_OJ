@@ -292,10 +292,6 @@
 
 **Translate**(翻译)
 
-### 文件服务
-
-**File**（上传与下载文件）
-
 ### 邮件服务
 
 **Email**（邮件收发）
@@ -2084,103 +2080,103 @@
 
 - 其它
 
-  - **接口地址：/upload/:path**
+  - **接口地址：/upload/:path**（权限等级大于等于4）
 
     **功能：上传文件**
 
     **方法类型：POST**
 
-    请求参数：   文件上传的位置（在接口地址的path处）。Header中需要包含Content-Type，指名为multipart/form-data。在Body中给用form-data格式给出file（文件类型）。
+    请求参数：  Authorization中的Bearer Token中提供注册、登录时给出的token。 文件上传的位置（在接口地址的path处）。Header中需要包含Content-Type，指名为multipart/form-data。在Body中给用form-data格式给出file（文件类型）。
 
     返回值：返回文件名。
 
-  - **接口地址：/download/:id**
+  - **接口地址：/download/:id**（权限等级大于等于4）
 
     **功能：下载指定文件**
 
     **方法类型：GET**
 
-    请求参数：  在id处给出路径+文件名。
+    请求参数： Authorization中的Bearer Token中提供注册、登录时给出的token。 在id处给出路径+文件名。
 
     返回值：返回文件。
     
-  - **接口地址：/unzip**
+  - **接口地址：/unzip**（权限等级大于等于4）
   
     **功能：解压指定文件**
   
     **方法类型：PUT**
   
-    请求参数： Body部分，form-data类型，接收两个字符串分别为first，second。其中first为带解压文件路径+文件名，second为解压的目标路径。
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。 Body部分，form-data类型，接收两个字符串分别为first，second。其中first为带解压文件路径+文件名，second为解压的目标路径。
   
     返回值：返回解压成功消息。
   
-  - **接口地址：/path/:id**
+  - **接口地址：/path/:id**（权限等级大于等于4）
   
     **功能：查看指定目录下文件信息**
   
     **方法类型：PUT**
   
-    请求参数： 在id处给出路径+目录。
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。 在id处给出路径+目录。
   
     返回值：返回files，其为file数组，每个元素包含name、path、type、lastWriteTime、size，分别表示文件名称、文件所在路径、文件类型、最后修改时间、文件大小。
   
-  - **接口地址：/mkdir/:id**
+  - **接口地址：/mkdir/:id**（权限等级大于等于4）
   
     **功能：创建目录**
   
     **方法类型：PUT**
   
-    请求参数： 在id处给出路径+目录名。
+    请求参数：Authorization中的Bearer Token中提供注册、登录时给出的token。 在id处给出路径+目录名。
   
     返回值：返回创建成功消息。
   
-  - **接口地址：/cp**
+  - **接口地址：/cp**（权限等级大于等于4）
   
     **功能：复制指定文件到指定目录**
   
     **方法类型：PUT**
   
-    请求参数： Body部分，form-data类型，接收两个字符串分别为first，second。其中first为待复制文件路径+文件名，second为解压的目标路径。
+    请求参数： Authorization中的Bearer Token中提供注册、登录时给出的token。Body部分，form-data类型，接收两个字符串分别为first，second。其中first为待复制文件路径+文件名，second为解压的目标路径。
   
     返回值：返回复制成功消息。
   
-  - **接口地址：/rm/:id**
+  - **接口地址：/rm/:id**（权限等级大于等于4）
   
     **功能：删除指定文件**
   
     **方法类型：DELETE**
   
-    请求参数： 在id处给出路径+文件名。
+    请求参数： Authorization中的Bearer Token中提供注册、登录时给出的token。在id处给出路径+文件名。
   
     返回值：返回删除成功消息。
   
-  - **接口地址：/rename**
+  - **接口地址：/rename**（权限等级大于等于4）
   
     **功能：重命名**
   
     **方法类型：PUT**
   
-    请求参数： Body部分，form-data类型，接收两个字符串分别为first，second。其中first为待重命名文件路径+文件名，second为新名称。
+    请求参数： Authorization中的Bearer Token中提供注册、登录时给出的token。Body部分，form-data类型，接收两个字符串分别为first，second。其中first为待重命名文件路径+文件名，second为新名称。
   
     返回值：返回重命名成功消息。
   
-  - **接口地址：/all/cp**
+  - **接口地址：/all/cp**（权限等级大于等于4）
   
     **功能：复制指定目录**
   
     **方法类型：PUT**
   
-    请求参数： Body部分，form-data类型，接收两个字符串分别为first，second。其中first为待复制目录，second为复制到的目录路径。
+    请求参数： Authorization中的Bearer Token中提供注册、登录时给出的token。Body部分，form-data类型，接收两个字符串分别为first，second。其中first为待复制目录，second为复制到的目录路径。
   
     返回值：返回复制成功消息。
   
-  - **接口地址：/all/rm/:id**
+  - **接口地址：/all/rm/:id**（权限等级大于等于4）
   
     **功能：删除指定目录**
   
     **方法类型：DELETE**
   
-    请求参数： 在id处给出路径+目录名。
+    请求参数： Authorization中的Bearer Token中提供注册、登录时给出的token。在id处给出路径+目录名。
   
     返回值：返回删除成功消息。
 

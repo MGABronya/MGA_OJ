@@ -6,6 +6,7 @@ package routes
 
 import (
 	"MGA_OJ/controller"
+	"MGA_OJ/middleware"
 
 	"github.com/gin-gonic/gin"
 )
@@ -24,34 +25,34 @@ func FileRoutes(r *gin.Engine) *gin.Engine {
 	fileController := controller.NewFileController()
 
 	// TODO 上传文件
-	fileRoutes.POST("/upload/:path", fileController.Upload)
+	fileRoutes.POST("/upload/:path", middleware.AuthMiddleware(), fileController.Upload)
 
 	// TODO 下载文件
-	fileRoutes.GET("/download/:id", fileController.Download)
+	fileRoutes.GET("/download/:id", middleware.AuthMiddleware(), fileController.Download)
 
 	// TODO 解压某文件
-	fileRoutes.PUT("/unzip", fileController.Unzip)
+	fileRoutes.PUT("/unzip", middleware.AuthMiddleware(), fileController.Unzip)
 
 	// TODO 查看目录
-	fileRoutes.GET("/path/:id", fileController.ShowPath)
+	fileRoutes.GET("/path/:id", middleware.AuthMiddleware(), fileController.ShowPath)
 
 	// TODO 创建目录
-	fileRoutes.PUT("/mkdir/:id", fileController.MkDir)
+	fileRoutes.PUT("/mkdir/:id", middleware.AuthMiddleware(), fileController.MkDir)
 
 	// TODO 复制
-	fileRoutes.PUT("/cp", fileController.CP)
+	fileRoutes.PUT("/cp", middleware.AuthMiddleware(), fileController.CP)
 
 	// TODO 删除
-	fileRoutes.DELETE("/rm/:id", fileController.RM)
+	fileRoutes.DELETE("/rm/:id", middleware.AuthMiddleware(), fileController.RM)
 
 	// TODO 重命名
-	fileRoutes.PUT("/rename", fileController.Rename)
+	fileRoutes.PUT("/rename", middleware.AuthMiddleware(), fileController.Rename)
 
 	// TODO 复制目录
-	fileRoutes.PUT("/all/cp", fileController.CPAll)
+	fileRoutes.PUT("/all/cp", middleware.AuthMiddleware(), fileController.CPAll)
 
 	// TODO 删除目录
-	fileRoutes.DELETE("/all/rm/:id", fileController.RMAll)
+	fileRoutes.DELETE("/all/rm/:id", middleware.AuthMiddleware(), fileController.RMAll)
 
 	return r
 }

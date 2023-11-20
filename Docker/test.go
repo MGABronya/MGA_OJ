@@ -20,7 +20,7 @@ type Test struct {
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (t Test) Run(ID string, cpu string, postMap string) *exec.Cmd {
-	return exec.Command("docker", "run", "-itd", "--cpuset-cpus", cpu, "-p", postMap, "--name", ID, "mgaronya/test:v1", "/bin/bash", "/autorun.sh")
+	return exec.Command("docker", "run", "-itd", "--cpuset-cpus", cpu, "-p", postMap, "--name", ID, "test", "/bin/bash", "/autorun.sh")
 }
 
 // @title    RM

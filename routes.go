@@ -135,5 +135,8 @@ func CollectRoute(r *gin.Engine) *gin.Engine {
 	// TODO 心跳路由
 	r = routes.HeartRoutes(r)
 
+	// TODO 挂上文件路由
+	r = routes.FileRoutes(r)
+
 	return r
 }

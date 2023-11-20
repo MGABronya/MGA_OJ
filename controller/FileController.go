@@ -5,6 +5,7 @@
 package controller
 
 import (
+	"MGA_OJ/model"
 	"MGA_OJ/response"
 	"MGA_OJ/util"
 	"MGA_OJ/vo"
@@ -42,6 +43,16 @@ func (f FileController) Upload(ctx *gin.Context) {
 	filePath := ctx.Params.ByName("path")
 	file, err := ctx.FormFile("file")
 
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 查看是否有权使用文件系统
+	if user.Level < 4 {
+		response.Fail(ctx, nil, "权限不足")
+		return
+	}
+
 	//TODO 数据验证
 	if err != nil {
 		log.Print(err.Error())
@@ -61,6 +72,15 @@ func (f FileController) Upload(ctx *gin.Context) {
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (f FileController) Download(ctx *gin.Context) {
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 查看是否有权使用文件系统
+	if user.Level < 4 {
+		response.Fail(ctx, nil, "权限不足")
+		return
+	}
 	// 获取path中的id
 	id := ctx.Params.ByName("id")
 	fileName := id
@@ -76,6 +96,15 @@ func (f FileController) Download(ctx *gin.Context) {
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (f FileController) Unzip(ctx *gin.Context) {
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 查看是否有权使用文件系统
+	if user.Level < 4 {
+		response.Fail(ctx, nil, "权限不足")
+		return
+	}
 
 	var pairString vo.PairString
 	// TODO 数据验证
@@ -101,6 +130,15 @@ func (f FileController) Unzip(ctx *gin.Context) {
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (f FileController) ShowPath(ctx *gin.Context) {
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 查看是否有权使用文件系统
+	if user.Level < 4 {
+		response.Fail(ctx, nil, "权限不足")
+		return
+	}
 
 	// 获取path中的id
 	id := ctx.Params.ByName("id")
@@ -123,6 +161,15 @@ func (f FileController) ShowPath(ctx *gin.Context) {
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (f FileController) MkDir(ctx *gin.Context) {
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 查看是否有权使用文件系统
+	if user.Level < 4 {
+		response.Fail(ctx, nil, "权限不足")
+		return
+	}
 
 	// 获取path中的id
 	id := ctx.Params.ByName("id")
@@ -145,6 +192,15 @@ func (f FileController) MkDir(ctx *gin.Context) {
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (f FileController) RM(ctx *gin.Context) {
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 查看是否有权使用文件系统
+	if user.Level < 4 {
+		response.Fail(ctx, nil, "权限不足")
+		return
+	}
 	// 获取path中的id
 	id := ctx.Params.ByName("id")
 	filePath := "./file" + id
@@ -164,6 +220,15 @@ func (f FileController) RM(ctx *gin.Context) {
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (f FileController) CP(ctx *gin.Context) {
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 查看是否有权使用文件系统
+	if user.Level < 4 {
+		response.Fail(ctx, nil, "权限不足")
+		return
+	}
 	var pairString vo.PairString
 	// TODO 数据验证
 	if err := ctx.ShouldBind(&pairString); err != nil {
@@ -188,6 +253,15 @@ func (f FileController) CP(ctx *gin.Context) {
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (f FileController) Rename(ctx *gin.Context) {
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 查看是否有权使用文件系统
+	if user.Level < 4 {
+		response.Fail(ctx, nil, "权限不足")
+		return
+	}
 	var pairString vo.PairString
 	// TODO 数据验证
 	if err := ctx.ShouldBind(&pairString); err != nil {
@@ -213,6 +287,15 @@ func (f FileController) Rename(ctx *gin.Context) {
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (f FileController) RMAll(ctx *gin.Context) {
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 查看是否有权使用文件系统
+	if user.Level < 4 {
+		response.Fail(ctx, nil, "权限不足")
+		return
+	}
 	// 获取path中的id
 	id := ctx.Params.ByName("id")
 	filePath := "./file" + id
@@ -232,6 +315,15 @@ func (f FileController) RMAll(ctx *gin.Context) {
 // @param    ctx *gin.Context       接收一个上下文
 // @return   void
 func (f FileController) CPAll(ctx *gin.Context) {
+	// TODO 获取登录用户
+	tuser, _ := ctx.Get("user")
+	user := tuser.(model.User)
+
+	// TODO 查看是否有权使用文件系统
+	if user.Level < 4 {
+		response.Fail(ctx, nil, "权限不足")
+		return
+	}
 	var pairString vo.PairString
 	// TODO 数据验证
 	if err := ctx.ShouldBind(&pairString); err != nil {
